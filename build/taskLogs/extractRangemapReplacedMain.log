@@ -1,0 +1,9 @@
+Symbol range map extraction starting
+Processing 2 files
+startProcessing "de/teamlapen/vampirismaddonexample/EntityStrongVampire.java" md5: 17703958434f29487c91259f024a136b
+Cache Hit!
+endProcessing "de/teamlapen/vampirismaddonexample/EntityStrongVampire.java"
+
+startProcessing "de/teamlapen/vampirismaddonexample/VampirismAddonExampleMod.java" md5: 2a542f4c51bcd07e2735ec95ad0e840e
+endProcessing "de/teamlapen/vampirismaddonexample/VampirismAddonExampleMod.java"
+
