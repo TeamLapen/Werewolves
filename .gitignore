@@ -8,7 +8,7 @@ build.bat
 /bin
 Thumbs.db
 *.bak
-Vampirism.iml
+*.iml
 .settings
 .settings/*
 org.eclipse.jdt.core.prefs

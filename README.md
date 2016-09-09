@@ -8,5 +8,5 @@ This example mod always requires Vampirism to be installed. Check out the other 
 Vampirism is declared as dependency in the build.gradle file. Adjust it to use the latest version.
 It will be downloaded automatically when setting up your workspace.  
   
-## Setting up your workspace**  
+## Setting up your workspace
 Same as the MDK or most other mods. You can check out the guide in the Vampirism repository.
