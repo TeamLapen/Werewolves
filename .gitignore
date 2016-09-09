@@ -13,6 +13,7 @@ Vampirism.iml
 .settings/*
 org.eclipse.jdt.core.prefs
 
+
 #Minecraft run files. Incase someone configured it wrong or differently
 saves/
 logs/
