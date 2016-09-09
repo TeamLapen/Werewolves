@@ -1,0 +1,16 @@
+[
+{
+  "modid": "vampirism-addon-example",
+  "name": "Vampirism Addon Example",
+  "description": "Example addon mod for Vampirism",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["ExampleDude"],
+  "credits": "Maxanier",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
