@@ -72,7 +72,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //Depend on a decompiled version of Vampirism
-    deobfCompile 'de.teamlapen.vampirism:Vampirism:1.10.2-1.0.0-alpha+09-08-15-32'
+    deobfCompile 'de.teamlapen.vampirism:Vampirism:1.10.2-1.0.0'
     //Check https://maxanier.de/maven2/de/teamlapen/vampirism for latest version
 
 }
