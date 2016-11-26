@@ -9,41 +9,14 @@ This mapping 'snapshot_20160518' was designed for MC 1.9.4! Use at your own peri
          by: Searge, ProfMobius, Fesh0r,         
          R4wk, ZeuX, IngisKahn, bspkrs           
 #################################################
+:clean UP-TO-DATE
 :extractMcpMappings SKIPPED
 :deobfCompileDeobfDepTask0 SKIPPED
 :deobfCompileRemapDepSourcesTask1 SKIPPED
 :deobfCompileDummyTask
 :deobfProvidedDummyTask
-:sourceApiJava UP-TO-DATE
-:compileApiJava UP-TO-DATE
-:processApiResources UP-TO-DATE
-:apiClasses UP-TO-DATE
-:sourceMainJava
-:compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.7
-1 warning
-
-:processResources UP-TO-DATE
-:classes
-:jar
-:sourceTestJava UP-TO-DATE
-:compileTestJava UP-TO-DATE
-:processTestResources UP-TO-DATE
-:testClasses UP-TO-DATE
-:test UP-TO-DATE
-:extractMcpData SKIPPED
-:getVersionJson
-:extractUserdev UP-TO-DATE
-:genSrgs SKIPPED
-:reobfJar
-:extractRangemapReplacedMain
-/home/max/Dokumente/Programmieren/IntelliJ Minecraft/VampirismAddons/VampirismAddonExample/build/sources/main/java
-:retromapReplacedMain
-remapping source...
-:sourceJar
-:assemble
-:check UP-TO-DATE
-:build
+:ideaModule
 
 BUILD SUCCESSFUL
 
-Total time: 11.073 secs
+Total time: 13.871 secs
