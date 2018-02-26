@@ -8,24 +8,19 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-/*
-// for people who want stable - not yet functional for MC 1.8.8 - we require the forgegradle 2.1 snapshot
-plugins {
-    id "net.minecraftforge.gradle.forge" version "2.0.2"
-}
-*/
+
 version = "1.0"
 group = "de.teamlapen.vampirismaddonexample" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "vampirism-addon-example"
 
-sourceCompatibility = targetCompatibility = "1.7" // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.7"
+    sourceCompatibility = targetCompatibility = "1.8"
 }
 
 minecraft {
@@ -33,7 +28,7 @@ minecraft {
     runDir = "run"
 
 
-    mappings = "snapshot_20160518"
+    mappings = "snapshot_20161220"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
@@ -43,13 +38,17 @@ repositories {
         name = "maxanier"
         url = "https://maxanier.de/maven2"
     }
+    //JEI - TODO remove once Vampirism has fixed its dependency declaration
+    maven {
+        url "http://dvs1.progwml6.com/files/maven"
+    }
 }
 
 dependencies {
 
 
     //Depend on a decompiled version of Vampirism
-    deobfCompile "de.teamlapen.vampirism:Vampirism:${mc_version}-${vampirism_version}"
+    deobfCompile "de.teamlapen.vampirism:Vampirism:${vampirism_version}"
     //Check https://maxanier.de/maven2/de/teamlapen/vampirism for latest version
 
 }

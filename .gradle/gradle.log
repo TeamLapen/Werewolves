@@ -1,22 +1,7 @@
-This mapping 'snapshot_20160518' was designed for MC 1.9.4! Use at your own peril.This mapping 'snapshot_20160518' was designed for MC 1.9.4! Use at your own peril.
+This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril.This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril.
 
-#################################################
-         ForgeGradle 2.2-SNAPSHOT-c438b06        
-  https://github.com/MinecraftForge/ForgeGradle  
-#################################################
-               Powered by MCP unknown               
-             http://modcoderpack.com             
-         by: Searge, ProfMobius, Fesh0r,         
-         R4wk, ZeuX, IngisKahn, bspkrs           
-#################################################
-:clean UP-TO-DATE
-:extractMcpMappings SKIPPED
-:deobfCompileDeobfDepTask0 SKIPPED
-:deobfCompileRemapDepSourcesTask1 SKIPPED
-:deobfCompileDummyTask
-:deobfProvidedDummyTask
-:ideaModule
+:genIntellijRuns
 
 BUILD SUCCESSFUL
 
-Total time: 13.871 secs
+Total time: 1.085 secs

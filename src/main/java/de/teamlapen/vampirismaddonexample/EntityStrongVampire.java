@@ -36,7 +36,7 @@ public class EntityStrongVampire extends EntityVampireBase {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        if (worldObj.getDifficulty() == EnumDifficulty.HARD) {
+        if (getEntityWorld().getDifficulty() == EnumDifficulty.HARD) {
             //Only break doors on hard difficulty
             this.tasks.addTask(1, new EntityAIBreakDoor(this));
             ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
