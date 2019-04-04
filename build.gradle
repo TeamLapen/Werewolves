@@ -1,6 +1,6 @@
-// For those who want the bleeding edge
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
         maven {
             name = "forge"
@@ -11,64 +11,67 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.1.0'
+}
+
+
+configurations {
+    optionalRuntime
+    runtime.extendsFrom optionalRuntime // optionalRuntime dependencies are downloaded but not exported to POM
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 
+loadProperties()
 
-version = "1.0"
-group = "de.teamlapen.vampirismaddonexample" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "vampirism-addon-example"
+group = "de.teamlapen.vampirewerewolves"
+archivesBaseName = "Vampires-and-Werewolves"
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
-sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = "1.8"
-}
+def loadProperties() {
+    ext.configFile = file "build.properties"
 
-minecraft {
-    version = "${mc_version}-${forge_version}"
-    runDir = "run"
-
-
-    mappings = "snapshot_20161220"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-}
-
-repositories {
-    //Maven repo for Vampirism
-    maven {
-        name = "maxanier"
-        url = "https://maxanier.de/maven2"
+    configFile.withReader {
+        def prop = new Properties()
+        prop.load(it)
+        project.ext.config = new ConfigSlurper().parse prop
     }
-    //JEI - TODO remove once Vampirism has fixed its dependency declaration
-    maven {
-        url "http://dvs1.progwml6.com/files/maven"
-    }
+
+    ext.mod_version = "Test"
 }
 
-dependencies {
+apply from: 'gradle/forge.gradle'
+apply from: 'gradle/dev.gradle'
+apply from: 'gradle/deploy.gradle'
 
-
-    //Depend on a decompiled version of Vampirism
-    deobfCompile "de.teamlapen.vampirism:Vampirism:${vampirism_version}"
-    //Check https://maxanier.de/maven2/de/teamlapen/vampirism for latest version
-
-}
-
-processResources
+sourceSets
         {
-            // this will ensure that this task is redone when the versions change.
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
-
-            // replace stuff in mcmod.info, nothing else
-            from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
-
-                // replace version and mcversion
-                expand 'version': project.version, 'mcversion': project.minecraft.version
+            main {
+                java {
+                    srcDir "$projectDir/src/main/java"
+				}
+                resources {
+                    srcDir "$projectDir/src/main/resources"
+                }
+            }
+            api {
+                java {
+                    srcDir "$projectDir/src/api/java"
+                }
+                resources {
+                    srcDir "$projectDir/src/api/resources"
+                }
+            }
+            test {
+                java {
+                    srcDir "$projectDir/src/test/java"
+                }
+                resources {
+                    srcDir "$projectDir/src/test/resources"
+                }
             }
 
-            // copy everything else, thats not the mcmod.info
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
-            }
-        }
+}

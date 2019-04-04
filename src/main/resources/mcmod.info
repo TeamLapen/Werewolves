@@ -1,13 +1,13 @@
 [
 {
-  "modid": "vampirism-addon-example",
-  "name": "Vampirism Addon Example",
-  "description": "Example addon mod for Vampirism",
+  "modid": "vampirewerewolves",
+  "name": "Vampires & Werewolves",
+  "description": "An addon mod for Vampirism which add werewolves to the game",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
+  "authorList": ["Cheaterpaul"],
   "credits": "Maxanier",
   "logoFile": "",
   "screenshots": [],
