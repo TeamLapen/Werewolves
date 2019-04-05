@@ -1,6 +1,7 @@
 package de.teamlapen.vampirewerewolf.player.werewolf;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
+import de.teamlapen.vampirewerewolf.VampireWerewolfMod;
 import de.teamlapen.vampirewerewolf.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.vampirewerewolf.util.REFERENCE;
 import de.teamlapen.vampirewerewolf.util.ScoreboardUtil;
@@ -81,6 +82,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         actionHandler = new ActionHandler<>(this);
         skillHandler = new SkillHandler<>(this);
         specialAttributes = new WerewolfPlayerSpecialAttributes();
+    }
+
+    public WerewolfPlayerSpecialAttributes getSpecialAttributes() {
+        return specialAttributes;
     }
 
     @Override
@@ -203,6 +208,22 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         } else {
             if (level > 0) {
                 actionHandler.updateActions();
+            }
+        }
+        if (player.getEntityWorld().getWorldTime() % 40 == 0) {
+            if (player.isInWater()) {
+                if (this.getSpecialAttributes().werewolf) {
+                    player.attackEntityFrom(VampireWerewolfMod.AQUA, 3);
+                } else {
+                    player.attackEntityFrom(VampireWerewolfMod.AQUA, 1);
+                }
+            }
+            int heal = this.getSpecialAttributes().heals;
+            if (heal > 0) {
+                if (this.getSpecialAttributes().healing) {
+                    player.heal(heal / 2 < 1 ? 1 : heal / 2);
+                }
+                this.getSpecialAttributes().removeHeal(heal / 2 < 1 ? 1 : heal / 2);
             }
         }
         player.world.profiler.endSection();

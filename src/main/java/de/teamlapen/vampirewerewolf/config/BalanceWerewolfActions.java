@@ -17,6 +17,9 @@ public class BalanceWerewolfActions extends BalanceValues {
     @DefaultBoolean(value = true)
     public boolean WEREWOLF_ENABLED;
 
+    @DefaultInt(value = Integer.MAX_VALUE, minValue = 10, name = "werewolf_duration")
+    public int WEREWOLF_DURATION;
+
     /**
      * Creates a configuration for balance values
      *
