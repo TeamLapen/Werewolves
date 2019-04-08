@@ -44,25 +44,16 @@ def loadProperties() {
 }
 
 apply from: 'gradle/forge.gradle'
-apply from: 'gradle/dev.gradle'
-apply from: 'gradle/deploy.gradle'
+apply from: 'gradle/versioning.gradle'
 
 sourceSets
         {
             main {
                 java {
-                    srcDir "$projectDir/src/main/java"
+                    srcDirs  = ["$projectDir/src/main/java","$projectDir/src/api/java"]
 				}
                 resources {
                     srcDir "$projectDir/src/main/resources"
-                }
-            }
-            api {
-                java {
-                    srcDir "$projectDir/src/api/java"
-                }
-                resources {
-                    srcDir "$projectDir/src/api/resources"
                 }
             }
             test {

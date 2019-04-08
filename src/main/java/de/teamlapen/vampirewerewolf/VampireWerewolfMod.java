@@ -4,16 +4,17 @@ import de.teamlapen.lib.HelperRegistry;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.lib.lib.util.IInitListener.Step;
 import de.teamlapen.lib.lib.util.Logger;
+import de.teamlapen.vampirewerewolf.api.VReference;
 import de.teamlapen.vampirewerewolf.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.vampirewerewolf.api.entities.werewolf.IWerewolfMob;
 import de.teamlapen.vampirewerewolf.config.Balance;
+import de.teamlapen.vampirewerewolf.config.RawMeatLoader;
 import de.teamlapen.vampirewerewolf.core.RegistryManager;
 import de.teamlapen.vampirewerewolf.player.ModPlayerEventHandler;
 import de.teamlapen.vampirewerewolf.player.werewolf.WerewolfPlayer;
 import de.teamlapen.vampirewerewolf.proxy.IProxy;
 import de.teamlapen.vampirewerewolf.util.REFERENCE;
 import de.teamlapen.vampirewerewolf.util.ScoreboardUtil;
-import de.teamlapen.vampirewerewolf.util.VReference;
 import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import net.minecraft.block.material.Material;
@@ -73,6 +74,7 @@ public class VampireWerewolfMod {
         WerewolfPlayer.registerCapability();
         setupAPI2();
         Balance.init(new File(event.getModConfigurationDirectory(), REFERENCE.MODID), VampirismMod.inDev);
+        RawMeatLoader.init(new File(event.getModConfigurationDirectory(), REFERENCE.MODID));
 
         registryManager.onInitStep(Step.PRE_INIT, event);
         proxy.onInitStep(IInitListener.Step.PRE_INIT, event);

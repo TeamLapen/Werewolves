@@ -1,9 +1,11 @@
 package de.teamlapen.vampirewerewolf.core;
 
 import de.teamlapen.lib.lib.util.IInitListener;
+import de.teamlapen.vampirewerewolf.api.VReference;
+import de.teamlapen.vampirewerewolf.compat.OreDictionaryCompat;
 import de.teamlapen.vampirewerewolf.player.werewolf.actions.WerewolfActions;
 import de.teamlapen.vampirewerewolf.player.werewolf.skills.WerewolfSkills;
-import de.teamlapen.vampirewerewolf.util.VReference;
+import de.teamlapen.vampirewerewolf.world.gen.VampireWerewolfWorldGen;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.skills.SkillEvent;
@@ -13,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.ObjectHolderRegistry;
@@ -40,6 +43,9 @@ public class RegistryManager implements IInitListener {
     public void onInitStep(Step step, FMLStateEvent event) {
         switch (step) {
             case INIT:
+                ModItems.registerCraftingRecipes();
+                OreDictionaryCompat.registerOres();
+                GameRegistry.registerWorldGenerator(new VampireWerewolfWorldGen(), 0);
                 break;
             case PRE_INIT:
                 break;

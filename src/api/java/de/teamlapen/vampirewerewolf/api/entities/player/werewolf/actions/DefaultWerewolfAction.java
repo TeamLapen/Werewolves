@@ -1,7 +1,7 @@
 package de.teamlapen.vampirewerewolf.api.entities.player.werewolf.actions;
 
+import de.teamlapen.vampirewerewolf.api.VReference;
 import de.teamlapen.vampirewerewolf.api.entities.player.werewolf.IWerewolfPlayer;
-import de.teamlapen.vampirewerewolf.util.VReference;
 import de.teamlapen.vampirism.api.entity.player.actions.DefaultAction;
 import net.minecraft.util.ResourceLocation;
 

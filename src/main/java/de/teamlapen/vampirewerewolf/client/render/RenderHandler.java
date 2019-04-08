@@ -2,12 +2,14 @@ package de.teamlapen.vampirewerewolf.client.render;
 
 import de.teamlapen.vampirewerewolf.player.werewolf.WerewolfPlayer;
 import de.teamlapen.vampirewerewolf.player.werewolf.WerewolfPlayerSpecialAttributes;
+import de.teamlapen.vampirewerewolf.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class RenderHandler {
@@ -59,6 +61,17 @@ public class RenderHandler {
             double d4 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) parTick;
             double d5 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) parTick;
             mc.getRenderManager().renderEntity(entityWerewolf, d0 - d3, d1 - d4, d2 - d5, f1, event.getPartialRenderTick(), false);
+        }
+    }
+
+    @SubscribeEvent
+    public void onHandRendered(RenderSpecificHandEvent event) {
+        EntityPlayer player = Minecraft.getMinecraft().player;
+        if (Helper.isWerewolf(player)) {
+            WerewolfPlayer werewolf = WerewolfPlayer.get(player);
+            if (werewolf.getSpecialAttributes().werewolf && player.getHeldItemMainhand().isEmpty()) {
+                event.setCanceled(true);
+            }
         }
     }
 }

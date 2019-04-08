@@ -1,7 +1,7 @@
 package de.teamlapen.vampirewerewolf.player.skills;
 
+import de.teamlapen.vampirewerewolf.api.VReference;
 import de.teamlapen.vampirewerewolf.api.entities.player.werewolf.IWerewolfPlayer;
-import de.teamlapen.vampirewerewolf.util.VReference;
 import de.teamlapen.vampirism.player.skills.VampirismSkill;
 import net.minecraft.util.ResourceLocation;
 

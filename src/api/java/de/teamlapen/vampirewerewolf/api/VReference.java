@@ -1,4 +1,4 @@
-package de.teamlapen.vampirewerewolf.util;
+package de.teamlapen.vampirewerewolf.api;
 
 import de.teamlapen.vampirewerewolf.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;

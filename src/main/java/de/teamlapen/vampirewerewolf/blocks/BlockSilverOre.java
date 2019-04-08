@@ -13,5 +13,4 @@ public class BlockSilverOre extends VampireWerewolfBlock {
         this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 2);
     }
-
 }

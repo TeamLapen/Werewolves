@@ -7,10 +7,14 @@ import de.teamlapen.vampirewerewolf.util.Helper;
 import de.teamlapen.vampirewerewolf.util.REFERENCE;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemTool;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ModPlayerEventHandler {
@@ -30,9 +34,13 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void onDamageEvent(LivingDamageEvent event) {
         if (event.getEntityLiving() instanceof EntityPlayer) {
-            if (Helper.isWerewolf(event.getEntity()) && WerewolfPlayer.get((EntityPlayer) event.getEntity()).getSpecialAttributes().healing) {
-                WerewolfPlayer.get((EntityPlayer) event.getEntityLiving()).getSpecialAttributes().addHeal(event.getAmount() / 2);
-                VampireWerewolfMod.log.t("Health: %s, Damage: %s", WerewolfPlayer.get((EntityPlayer) event.getEntityLiving()).getSpecialAttributes().heals, event.getAmount());
+            if (Helper.isWerewolf(event.getEntity())) {
+                WerewolfPlayer werewolf = WerewolfPlayer.get((EntityPlayer) event.getEntity());
+                if (werewolf.getSpecialAttributes().healing) {
+                    if (event.getSource() instanceof EntityDamageSource) {
+                        WerewolfPlayer.get((EntityPlayer) event.getEntityLiving()).getSpecialAttributes().addHeal(event.getAmount());
+                    }
+                }
             }
         }
     }
@@ -42,10 +50,32 @@ public class ModPlayerEventHandler {
         if (event.getEntityLiving() instanceof EntityPlayer) {
             if (Helper.isWerewolf(event.getEntity()) && WerewolfPlayer.get((EntityPlayer) event.getEntity()).getSpecialAttributes().moreFoodFromRawMeat) {
                 if(event.getItem().getItem() instanceof ItemFood) {
-                    if(Helper.RAWMEAT.contains(event.getItem().getItem())) {
-                        ItemFood food = (ItemFood) event.getItem().getItem();
-                        ((EntityPlayer) event.getEntity()).getFoodStats().addStats(food.getHealAmount(event.getItem()) / 2, food.getSaturationModifier((event.getItem())) / 2);
-                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onBreakSpeed(PlayerEvent.BreakSpeed event) {
+        if (Helper.isWerewolf(event.getEntityPlayer())) {
+            WerewolfPlayer werewolf = WerewolfPlayer.get(event.getEntityPlayer());
+            if (werewolf.getSpecialAttributes().werewolf && !(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool)) {
+                if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) {
+                    if (event.getState().isFullBlock() || event.getState().getBlock().equals(Blocks.FARMLAND)) event.setCanceled(true);
+                } else {
+                    event.setNewSpeed(event.getOriginalSpeed() * werewolf.harvestSpeed);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onHarvestCheck(PlayerEvent.HarvestCheck event) {
+        if (Helper.isWerewolf(event.getEntity())) {
+            WerewolfPlayer werewolf = WerewolfPlayer.get(event.getEntityPlayer());
+            if (werewolf.getSpecialAttributes().werewolf) {
+                if (!(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) && event.getTargetBlock().getBlock().getHarvestLevel(event.getTargetBlock()) <= werewolf.harvestLevel) {
+                    event.setCanHarvest(true);
                 }
             }
         }

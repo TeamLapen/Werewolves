@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "type": {
+      "werewolf_wolfsbane": {
+        "model": "cross",
+        "textures": {
+          "cross": "vampirewerewolf:blocks/werewolf_wolfsbane"
+        }
+      }
+    }
+  }
+}

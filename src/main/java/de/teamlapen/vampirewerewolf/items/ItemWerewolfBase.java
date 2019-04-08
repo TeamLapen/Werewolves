@@ -2,15 +2,15 @@ package de.teamlapen.vampirewerewolf.items;
 
 import de.teamlapen.vampirewerewolf.VampireWerewolfMod;
 import de.teamlapen.vampirewerewolf.util.REFERENCE;
-import net.minecraft.item.ItemHoe;
+import net.minecraft.item.Item;
 
-public class ItemModHoe extends ItemHoe {
+public class ItemWerewolfBase extends Item {
+    private String regName;
 
-    public ItemModHoe(String regName, ToolMaterial material) {
-        super(material);
+    public ItemWerewolfBase(String name) {
+        regName = name;
         this.setCreativeTab(VampireWerewolfMod.creativeTab);
         this.setRegistryName(REFERENCE.MODID, regName);
         this.setUnlocalizedName(REFERENCE.MODID + "." + regName);
     }
-
 }

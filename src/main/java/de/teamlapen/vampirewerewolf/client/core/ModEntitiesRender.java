@@ -1,7 +1,7 @@
 package de.teamlapen.vampirewerewolf.client.core;
 
 import de.teamlapen.vampirewerewolf.client.render.RenderWerewolf;
-import de.teamlapen.vampirewerewolf.entities.EntityWerewolf;
+import de.teamlapen.vampirewerewolf.entity.EntityWerewolf;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

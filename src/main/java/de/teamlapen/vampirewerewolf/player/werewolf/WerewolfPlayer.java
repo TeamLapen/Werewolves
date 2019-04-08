@@ -2,10 +2,11 @@ package de.teamlapen.vampirewerewolf.player.werewolf;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 import de.teamlapen.vampirewerewolf.VampireWerewolfMod;
+import de.teamlapen.vampirewerewolf.api.VReference;
 import de.teamlapen.vampirewerewolf.api.entities.player.werewolf.IWerewolfPlayer;
+import de.teamlapen.vampirewerewolf.player.werewolf.actions.WerewolfActions;
 import de.teamlapen.vampirewerewolf.util.REFERENCE;
 import de.teamlapen.vampirewerewolf.util.ScoreboardUtil;
-import de.teamlapen.vampirewerewolf.util.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
@@ -76,6 +77,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final ActionHandler<IWerewolfPlayer> actionHandler;
     private final SkillHandler<IWerewolfPlayer> skillHandler;
     private final WerewolfPlayerSpecialAttributes specialAttributes;
+    public int harvestLevel = 0;
+    public float harvestSpeed = 1;
 
     public WerewolfPlayer(EntityPlayer player) {
         super(player);
@@ -114,7 +117,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public boolean isDisguised() {
-        return specialAttributes.disguised;
+        return !specialAttributes.werewolf;
     }
 
     @Override
@@ -129,6 +132,24 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             } else {
                 actionHandler.resetTimers();
                 skillHandler.disableAllSkills();
+            }
+            if (getSpecialAttributes().werewolf) {
+                WerewolfActions.werewolf_werewolf.onLevelChanged(newLevel, oldLevel, this);
+                int level = getLevel();
+                int harvestLevel = 0;
+                float harvestSpeed = 1;
+                if (level >= 14) {
+                    harvestLevel = 2;
+                    harvestSpeed = 6F;
+                } else if (level >= 10) {
+                    harvestLevel = 2;
+                    harvestSpeed = 4F;
+                } else if (level >= 5) {
+                    harvestLevel = 1;
+                    harvestSpeed = 2F;
+                }
+                this.harvestLevel = harvestLevel;
+                this.harvestSpeed = harvestSpeed;
             }
         } else {
             if (oldLevel == 0) {
@@ -219,11 +240,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 }
             }
             int heal = this.getSpecialAttributes().heals;
-            if (heal > 0) {
-                if (this.getSpecialAttributes().healing) {
-                    player.heal(heal / 2 < 1 ? 1 : heal / 2);
+            if (heal >= 1) {
+                int toHeal = heal / 2 < 1 ? 1 : heal / 2;
+                if (this.getSpecialAttributes().healing && this.getSpecialAttributes().werewolf) {
+                    player.heal(toHeal);
                 }
-                this.getSpecialAttributes().removeHeal(heal / 2 < 1 ? 1 : heal / 2);
+                this.getSpecialAttributes().removeHeal(toHeal);
             }
         }
         player.world.profiler.endSection();
@@ -246,22 +268,30 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     protected void loadUpdate(NBTTagCompound nbt) {
         actionHandler.readUpdateFromServer(nbt);
         skillHandler.readUpdateFromServer(nbt);
+        if (nbt.hasKey("harvestLevel")) this.harvestLevel = nbt.getInteger("harvestLevel");
+        if (nbt.hasKey("harvestSpeed")) this.harvestSpeed = nbt.getFloat("harvestSpeed");
     }
 
     @Override
     protected void writeFullUpdate(NBTTagCompound nbt) {
         actionHandler.writeUpdateForClient(nbt);
         skillHandler.writeUpdateForClient(nbt);
+        nbt.setInteger("harvestLevel", harvestLevel);
+        nbt.setFloat("harvestSpeed", harvestSpeed);
     }
 
     private void loadData(NBTTagCompound nbt) {
         actionHandler.loadFromNbt(nbt);
         skillHandler.loadFromNbt(nbt);
+        if (nbt.hasKey("harvestLevel")) this.harvestLevel = nbt.getInteger("harvestLevel");
+        if (nbt.hasKey("harvestSpeed")) this.harvestSpeed = nbt.getFloat("harvestSpeed");
     }
 
     private void saveData(NBTTagCompound nbt) {
         actionHandler.saveToNbt(nbt);
         skillHandler.saveToNbt(nbt);
+        nbt.setInteger("harvestLevel", harvestLevel);
+        nbt.setFloat("harvestSpeed", harvestSpeed);
     }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {

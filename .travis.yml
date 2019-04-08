@@ -1,0 +1,24 @@
+sudo: required
+dist: trusty
+
+language: java
+jdk:
+  - oraclejdk8
+
+cach:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+before_install: chmod +x gradlew
+install:
+  - ./gradlew setupCIWorkspace -S
+script:
+  - ./gradlew build
+
+notification:
+  email:
+    recipients:
+      - vampirism@paube.de
+    on_success: never
+    on_failure: change

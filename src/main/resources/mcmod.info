@@ -7,8 +7,8 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["Cheaterpaul"],
-  "credits": "Maxanier",
+  "authorList": ["Cheaterpaul,Maxanier"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

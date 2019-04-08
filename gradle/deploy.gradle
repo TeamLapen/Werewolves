@@ -7,7 +7,7 @@ curseforge {
         apiKey = "DUMMY"
     }
     project {
-        id = "233029"
+        id = ""
 
         if (config.type == "beta") {
             releaseType = 'beta'
@@ -21,12 +21,13 @@ curseforge {
         addGameVersion config.minecraft_version
 
         mainArtifact(jar) {
-            displayName = "Vampirism-${config.minecraft_version}-${project.mod_version}"
+            displayName = "Vampires & Werewolfes-${config.minecraft_version}-${project.mod_version}"
         }
 
         relations {
             optionalLibrary 'jei'
             optionalLibrary 'guide-api'
+			requiredLibrary 'vampirism'
         }
 
     }

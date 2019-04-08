@@ -92,8 +92,8 @@ jar {
         }
     }
 
-    manifest {
-      attributes 'FMLAT':'vampirism_at.cfg'
-    }
+    //manifest {
+    //  attributes 'FMLAT':'vampirewerewolf_at.cfg'
+    //}
 
 }

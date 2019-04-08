@@ -1,4 +1,4 @@
-package de.teamlapen.vampirewerewolf.entities;
+package de.teamlapen.vampirewerewolf.entity;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.world.World;

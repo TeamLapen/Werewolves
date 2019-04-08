@@ -1,7 +1,7 @@
 package de.teamlapen.vampirewerewolf.client.render;
 
 import de.teamlapen.vampirewerewolf.client.model.ModelWerewolf;
-import de.teamlapen.vampirewerewolf.entities.EntityWerewolf;
+import de.teamlapen.vampirewerewolf.entity.EntityWerewolf;
 import de.teamlapen.vampirewerewolf.util.REFERENCE;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;

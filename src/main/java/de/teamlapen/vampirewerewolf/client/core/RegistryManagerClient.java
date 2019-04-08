@@ -17,8 +17,12 @@ public class RegistryManagerClient implements IInitListener {
     public void onInitStep(Step step, FMLStateEvent event) {
         switch (step) {
             case PRE_INIT:
+                break;
             case INIT:
+                ModItemsRender.registerColors();
+                break;
             case POST_INIT:
+                break;
         }
     }
 
