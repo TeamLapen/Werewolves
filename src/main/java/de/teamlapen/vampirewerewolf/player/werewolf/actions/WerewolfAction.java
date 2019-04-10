@@ -4,12 +4,13 @@ import de.teamlapen.vampirewerewolf.api.entities.player.werewolf.IWerewolfPlayer
 import de.teamlapen.vampirewerewolf.api.entities.player.werewolf.actions.DefaultWerewolfAction;
 import de.teamlapen.vampirewerewolf.config.Balance;
 import de.teamlapen.vampirewerewolf.player.werewolf.WerewolfPlayer;
-import de.teamlapen.vampirewerewolf.util.REFERENCE;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
+
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
 import java.util.UUID;
 
 public class WerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
@@ -50,10 +51,11 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
     protected boolean activate(IWerewolfPlayer werewolf) {
         EntityPlayer player = werewolf.getRepresentingPlayer();
         for (ItemStack e : player.getArmorInventoryList()) {
-            if (!e.isEmpty()) return false;
+            if (!e.isEmpty()) player.dropItem(e, false);
         }
         ((WerewolfPlayer) werewolf).getSpecialAttributes().werewolf = true;
         applyModifier(werewolf);
+        player.refreshDisplayName();
         return true;
     }
 
@@ -78,6 +80,7 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
         EntityPlayer player = werewolf.getRepresentingPlayer();
         ((WerewolfPlayer) werewolf).getSpecialAttributes().werewolf = false;
         removeModifier(werewolf);
+        player.refreshDisplayName();
 
     }
 
@@ -96,16 +99,15 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
         EntityPlayer player = werewolf.getRepresentingPlayer();
         //TODO modify
         if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).getModifier(SPEED) == null) {
-            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier(SPEED, "werewolf_speed", getSpeedModifier(werewolf.getLevel()), 2));
+            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier(SPEED, "werewolf_speed", (float) Balance.wpa.WEREWOLF_SPEED_MAX / werewolf.getMaxLevel() * werewolf.getLevel(), 2));
         }
 
         if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).getModifier(ARMOR) == null) {
-            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier(ARMOR, "werewolf_armor", getArmorModifier(werewolf.getLevel()), 0));
+            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier(ARMOR, "werewolf_armor", (float) Balance.wpa.WEREWOLF_ARMOR_MAX / werewolf.getMaxLevel() * werewolf.getLevel(), 0));
         }
         if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).getModifier(ARMOR_TOUGHNESS) == null) {
-            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).applyModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_armor_toughness", getArmorToughnessModifier(werewolf.getLevel()), 0));
+            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).applyModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_armor_toughness", (float) Balance.wpa.WEREWOLF_ARMOR_THOUGNESS_MAX / werewolf.getMaxLevel() * werewolf.getLevel(), 0));
         }
-
     }
 
     private void removeModifier(IWerewolfPlayer werewolf) {
@@ -119,47 +121,5 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
     public void onLevelChanged(int newLevel, int oldLevel, IWerewolfPlayer werewolf) {
         removeModifier(werewolf);
         applyModifier(werewolf);
-    }
-
-    /**
-     * value is multiplicative
-     * 
-     * @param level
-     * @return speedModifier value
-     */
-    private float getSpeedModifier(int level) {
-        float value = 1;
-        if (level > 0) {
-            value += (1.0F * level) / REFERENCE.HIGHEST_WEREWOLF_LEVEL;
-        }
-        return value;
-    }
-
-    /**
-     * value is additive
-     * 
-     * @param level
-     * @return armorModifier value
-     */
-    private int getArmorModifier(int level) {
-        int value = 0;
-        if (level > 0) {
-            value += (10.0F * level) / REFERENCE.HIGHEST_WEREWOLF_LEVEL;
-        }
-        return value;
-    }
-
-    /**
-     * value is additive
-     * 
-     * @param level
-     * @return armortoughnessModifier value
-     */
-    private int getArmorToughnessModifier(int level) {
-        int value = 0;
-        if (level > 0) {
-            value += (5.0F * level) / REFERENCE.HIGHEST_WEREWOLF_LEVEL;
-        }
-        return value;
     }
 }

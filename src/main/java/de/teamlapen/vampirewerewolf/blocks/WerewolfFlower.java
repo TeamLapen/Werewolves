@@ -3,6 +3,7 @@ package de.teamlapen.vampirewerewolf.blocks;
 import de.teamlapen.lib.lib.item.ItemMetaBlock;
 import de.teamlapen.vampirewerewolf.VampireWerewolfMod;
 import de.teamlapen.vampirewerewolf.util.REFERENCE;
+
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -101,5 +102,4 @@ public class WerewolfFlower extends BlockBush implements ItemMetaBlock.IMetaItem
         }
 
     }
-
 }

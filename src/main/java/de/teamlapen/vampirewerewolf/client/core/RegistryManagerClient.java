@@ -1,6 +1,7 @@
 package de.teamlapen.vampirewerewolf.client.core;
 
 import de.teamlapen.lib.lib.util.IInitListener;
+
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

@@ -1,10 +1,12 @@
 package de.teamlapen.vampirewerewolf.player;
 
 import com.google.common.base.Throwables;
+
 import de.teamlapen.vampirewerewolf.VampireWerewolfMod;
 import de.teamlapen.vampirewerewolf.player.werewolf.WerewolfPlayer;
 import de.teamlapen.vampirewerewolf.util.Helper;
 import de.teamlapen.vampirewerewolf.util.REFERENCE;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -63,7 +65,7 @@ public class ModPlayerEventHandler {
                 if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) {
                     if (event.getState().isFullBlock() || event.getState().getBlock().equals(Blocks.FARMLAND)) event.setCanceled(true);
                 } else {
-                    event.setNewSpeed(event.getOriginalSpeed() * werewolf.harvestSpeed);
+                    event.setNewSpeed(event.getOriginalSpeed() * werewolf.getSpecialAttributes().harvestSpeed);
                 }
             }
         }
@@ -74,7 +76,7 @@ public class ModPlayerEventHandler {
         if (Helper.isWerewolf(event.getEntity())) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(event.getEntityPlayer());
             if (werewolf.getSpecialAttributes().werewolf) {
-                if (!(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) && event.getTargetBlock().getBlock().getHarvestLevel(event.getTargetBlock()) <= werewolf.harvestLevel) {
+                if (!(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) && event.getTargetBlock().getBlock().getHarvestLevel(event.getTargetBlock()) <= werewolf.getSpecialAttributes().harvestLevel) {
                     event.setCanHarvest(true);
                 }
             }

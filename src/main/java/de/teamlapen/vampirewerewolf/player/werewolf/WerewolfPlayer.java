@@ -1,7 +1,5 @@
 package de.teamlapen.vampirewerewolf.player.werewolf;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-import de.teamlapen.vampirewerewolf.VampireWerewolfMod;
 import de.teamlapen.vampirewerewolf.api.VReference;
 import de.teamlapen.vampirewerewolf.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.vampirewerewolf.player.werewolf.actions.WerewolfActions;
@@ -15,17 +13,25 @@ import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.player.VampirismPlayer;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+
 import javax.annotation.Nonnull;
+
 import java.util.function.Predicate;
+
+import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 /**
  * Main class for Werewolve Players.
@@ -77,8 +83,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final ActionHandler<IWerewolfPlayer> actionHandler;
     private final SkillHandler<IWerewolfPlayer> skillHandler;
     private final WerewolfPlayerSpecialAttributes specialAttributes;
-    public int harvestLevel = 0;
-    public float harvestSpeed = 1;
+    private int waterTime = 0;
 
     public WerewolfPlayer(EntityPlayer player) {
         super(player);
@@ -135,22 +140,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
             if (getSpecialAttributes().werewolf) {
                 WerewolfActions.werewolf_werewolf.onLevelChanged(newLevel, oldLevel, this);
-                int level = getLevel();
-                int harvestLevel = 0;
-                float harvestSpeed = 1;
-                if (level >= 14) {
-                    harvestLevel = 2;
-                    harvestSpeed = 6F;
-                } else if (level >= 10) {
-                    harvestLevel = 2;
-                    harvestSpeed = 4F;
-                } else if (level >= 5) {
-                    harvestLevel = 1;
-                    harvestSpeed = 2F;
-                }
-                this.harvestLevel = harvestLevel;
-                this.harvestSpeed = harvestSpeed;
             }
+            setValuesLevel(newLevel);
         } else {
             if (oldLevel == 0) {
 
@@ -158,6 +149,23 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 actionHandler.resetTimers();
             }
         }
+    }
+
+    public void setValuesLevel(int level) {
+        int harvestLevel = 0;
+        float harvestSpeed = 1F;
+        if (level >= 14) {
+            harvestLevel = 2;
+            harvestSpeed = 6F;
+        } else if (level >= 10) {
+            harvestLevel = 2;
+            harvestSpeed = 4F;
+        } else if (level >= 5) {
+            harvestLevel = 1;
+            harvestSpeed = 2F;
+        }
+        this.getSpecialAttributes().harvestLevel = harvestLevel;
+        this.getSpecialAttributes().harvestSpeed = harvestSpeed;
     }
 
     @Override
@@ -233,11 +241,16 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
         if (player.getEntityWorld().getWorldTime() % 40 == 0) {
             if (player.isInWater()) {
-                if (this.getSpecialAttributes().werewolf) {
-                    player.attackEntityFrom(VampireWerewolfMod.AQUA, 3);
-                } else {
-                    player.attackEntityFrom(VampireWerewolfMod.AQUA, 1);
+                waterTime++;
+                if (waterTime > 3 && this.getSpecialAttributes().werewolf) {
+                    player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 60));
+                    if (player.getEntityWorld().getBlockState(player.getPosition().up()).getBlock().equals(Blocks.WATER)) {
+                        player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 120));
+                        player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60));
+                    }
                 }
+            }else {
+                waterTime = Math.max(0, --waterTime);
             }
             int heal = this.getSpecialAttributes().heals;
             if (heal >= 1) {
@@ -268,30 +281,22 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     protected void loadUpdate(NBTTagCompound nbt) {
         actionHandler.readUpdateFromServer(nbt);
         skillHandler.readUpdateFromServer(nbt);
-        if (nbt.hasKey("harvestLevel")) this.harvestLevel = nbt.getInteger("harvestLevel");
-        if (nbt.hasKey("harvestSpeed")) this.harvestSpeed = nbt.getFloat("harvestSpeed");
     }
 
     @Override
     protected void writeFullUpdate(NBTTagCompound nbt) {
         actionHandler.writeUpdateForClient(nbt);
         skillHandler.writeUpdateForClient(nbt);
-        nbt.setInteger("harvestLevel", harvestLevel);
-        nbt.setFloat("harvestSpeed", harvestSpeed);
     }
 
     private void loadData(NBTTagCompound nbt) {
         actionHandler.loadFromNbt(nbt);
         skillHandler.loadFromNbt(nbt);
-        if (nbt.hasKey("harvestLevel")) this.harvestLevel = nbt.getInteger("harvestLevel");
-        if (nbt.hasKey("harvestSpeed")) this.harvestSpeed = nbt.getFloat("harvestSpeed");
     }
 
     private void saveData(NBTTagCompound nbt) {
         actionHandler.saveToNbt(nbt);
         skillHandler.saveToNbt(nbt);
-        nbt.setInteger("harvestLevel", harvestLevel);
-        nbt.setFloat("harvestSpeed", harvestSpeed);
     }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {

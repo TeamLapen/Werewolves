@@ -17,6 +17,7 @@ import de.teamlapen.vampirewerewolf.util.REFERENCE;
 import de.teamlapen.vampirewerewolf.util.ScoreboardUtil;
 import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.api.VampirismAPI;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
@@ -32,6 +33,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import java.awt.Color;
 import java.io.File;
 
 @Mod.EventBusSubscriber
@@ -102,8 +105,8 @@ public class VampireWerewolfMod {
     }
 
     private void setupAPI2() {
-        VReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction("Werewolf", IWerewolfPlayer.class, 0XFF646464, REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.CAP, REFERENCE.HIGHEST_WEREWOLF_LEVEL);
-        VReference.WEREWOLF_FACTION.setChatColor(TextFormatting.GRAY).setUnlocalizedName("text.vampirewerewolf.werewolf", "text.vampirewerewolf.werewolf");
+        VReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction("Werewolf", IWerewolfPlayer.class, Color.DARK_GRAY.getRGB(), REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.CAP, REFERENCE.HIGHEST_WEREWOLF_LEVEL);
+        VReference.WEREWOLF_FACTION.setChatColor(TextFormatting.DARK_GRAY).setUnlocalizedName("text.vampirewerewolf.werewolf", "text.vampirewerewolf.werewolf");
         VReference.WEREWOLF_CREATURE_TYPE = WEREWOLF_CREATURE_TYPE;
     }
 }

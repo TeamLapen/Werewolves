@@ -2,9 +2,10 @@ package de.teamlapen.vampirewerewolf.config;
 
 import de.teamlapen.lib.lib.config.BalanceValues;
 import de.teamlapen.vampirewerewolf.VampireWerewolfMod;
-import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.config.Configs;
+
 import javax.annotation.Nullable;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class Balance {
     }
 
     public static void onConfigurationChanged() {
-        VampirismMod.log.i(TAG, "Reloading changed balance configuration");
+        VampireWerewolfMod.log.i(TAG, "Reloading changed balance configuration");
         loadConfiguration();
     }
 

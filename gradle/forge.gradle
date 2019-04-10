@@ -84,14 +84,6 @@ jar {
     from sourceSets.main.output
     from sourceSets.api.output
 
-    dependsOn 'crowdin'
-    dependsOn 'renameLanguageFiles'
-    from{
-        fileTree('build/translations').matching{
-            exclude "**/en_US.lang"
-        }
-    }
-
     //manifest {
     //  attributes 'FMLAT':'vampirewerewolf_at.cfg'
     //}

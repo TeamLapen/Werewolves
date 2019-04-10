@@ -1,16 +1,21 @@
 [
-{
-  "modid": "vampirewerewolves",
-  "name": "Vampires & Werewolves",
-  "description": "An addon mod for Vampirism which add werewolves to the game",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Cheaterpaul,Maxanier"],
-  "credits": "",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+  {
+    "modid": "vampirewerewolf",
+    "name": "Vampires & Werewolfes",
+    "description": "An addon mod for Vampirism which add werewolfes to the game",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["Cheaterpaul,Maxanier"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+	"requiredMods": [
+	  "vampirism"
+	],
+    "dependencies": [
+	  "vampirism"
+	]
+  }
 ]
