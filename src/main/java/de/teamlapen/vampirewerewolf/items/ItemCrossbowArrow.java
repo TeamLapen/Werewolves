@@ -2,20 +2,25 @@ package de.teamlapen.vampirewerewolf.items;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirewerewolf.api.entities.werewolf.IWerewolfMob;
+import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
+import de.teamlapen.vampirism.api.items.IVampirismCrossbowArrow;
 import de.teamlapen.vampirism.config.Balance;
 import de.teamlapen.vampirism.entity.EntityCrossbowArrow;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import javax.annotation.Nonnull;
 
 // TODO IVampireCrossbowArrow interface
-public class ItemCrossbowArrow extends ItemWerewolfBase {
+public class ItemCrossbowArrow extends ItemWerewolfBase implements IVampirismCrossbowArrow<EntityCrossbowArrow> {
     private static final String regName = "crossbow_arrow";
 
     /**
@@ -110,7 +115,7 @@ public class ItemCrossbowArrow extends ItemWerewolfBase {
      * @param shootingEntity
      *            The shooting entity. Can be the arrow entity itself
      */
-    public void onHitBlock(ItemStack arrow, BlockPos blockPos, EntityCrossbowArrow arrowEntity, Entity shootingEntity) {
+    public void onHitBlock(ItemStack arrow, BlockPos blockPos, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
         EnumArrowType type = getType(arrow);
     }
 
@@ -126,13 +131,13 @@ public class ItemCrossbowArrow extends ItemWerewolfBase {
      * @param shootingEntity
      *            The shooting entity. Can be the arrow entity itself
      */
-    public void onHitEntity(ItemStack arrow, EntityLivingBase entity, EntityCrossbowArrow arrowEntity, Entity shootingEntity) {
+    public void onHitEntity(ItemStack arrow, EntityLivingBase entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
         EnumArrowType type = getType(arrow);
         if (type == EnumArrowType.SILVER) {
             if (entity instanceof IWerewolfMob) {
                 float max = entity.getMaxHealth();
                 if (max < Balance.general.ARROW_VAMPIRE_KILLER_MAX_HEALTH) {
-                    entity.attackEntityFrom(DamageSource.causeArrowDamage(arrowEntity, shootingEntity), max);
+                    entity.attackEntityFrom(DamageSource.causeArrowDamage((EntityArrow) arrowEntity, shootingEntity), max);
                 }
             }
         }
