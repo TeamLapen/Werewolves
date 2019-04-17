@@ -1,12 +1,13 @@
 package de.teamlapen.vampirewerewolf.client.render;
 
+import de.teamlapen.vampirewerewolf.entity.EntityWerewolf;
 import de.teamlapen.vampirewerewolf.player.werewolf.WerewolfPlayer;
 import de.teamlapen.vampirewerewolf.player.werewolf.WerewolfPlayerSpecialAttributes;
 import de.teamlapen.vampirewerewolf.util.Helper;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderSpecificHandEvent;
@@ -16,7 +17,7 @@ public class RenderHandler {
     private final Minecraft mc;
 
     //TODO Dummy Model
-    private EntityZombie entityWerewolf;
+    private EntityWerewolf entityWerewolf;
 
     private int displayHeight, displayWidth;
 
@@ -33,7 +34,7 @@ public class RenderHandler {
         if (werewolfAttributes.werewolf) {
             event.setCanceled(true);
             if (entityWerewolf == null) {
-                entityWerewolf = new EntityZombie(player.getEntityWorld());
+                entityWerewolf = new EntityWerewolf(player.getEntityWorld());
             }
 
             float parTick = event.getPartialRenderTick();

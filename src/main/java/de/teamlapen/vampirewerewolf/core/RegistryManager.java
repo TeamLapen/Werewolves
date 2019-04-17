@@ -16,6 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -86,5 +87,10 @@ public class RegistryManager implements IInitListener {
     public void onRegisterItems(RegistryEvent.Register<Item> event) {
         ModItems.registerItems(event.getRegistry());
         ModBlocks.registerItemBlocks(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterEntities(RegistryEvent.Register<EntityEntry> event) {
+        ModEntities.registerEntities(event.getRegistry());
     }
 }
