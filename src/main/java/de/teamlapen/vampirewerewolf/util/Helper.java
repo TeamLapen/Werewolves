@@ -2,7 +2,9 @@ package de.teamlapen.vampirewerewolf.util;
 
 import de.teamlapen.vampirewerewolf.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
+
 import net.minecraft.entity.Entity;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +21,7 @@ public class Helper {
     }
 
     public static void overrideRawMeat(Map<String, Float> override) {
-        // TODO Auto-generated method stub
+
 
     }
 }

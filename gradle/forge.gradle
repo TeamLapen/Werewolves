@@ -82,10 +82,5 @@ jar {
     includeEmptyDirs = false
 
     from sourceSets.main.output
-    from sourceSets.api.output
-
-    //manifest {
-    //  attributes 'FMLAT':'vampirewerewolf_at.cfg'
-    //}
 
 }

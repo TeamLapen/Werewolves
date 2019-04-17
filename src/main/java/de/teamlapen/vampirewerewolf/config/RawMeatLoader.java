@@ -4,7 +4,9 @@ import de.teamlapen.vampirewerewolf.VampireWerewolfMod;
 import de.teamlapen.vampirewerewolf.util.Helper;
 import de.teamlapen.vampirewerewolf.util.REFERENCE;
 import de.teamlapen.vampirism.config.BloodValueLoader;
-import org.codehaus.plexus.util.StringUtils;
+
+import net.minecraft.util.StringUtils;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +47,7 @@ public class RawMeatLoader {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("#")) continue;
-                if (StringUtils.isBlank(line)) continue;
+                if (StringUtils.isNullOrEmpty(line)) continue;
                 String[] p = line.split("=");
                 if (p.length != 2) {
                     VampireWerewolfMod.log.w("ReadRawMeat", "Line %s in %s is not formatted properly", line, file);
