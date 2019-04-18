@@ -26,8 +26,8 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 loadProperties()
 
-group = "de.teamlapen.vampirewerewolfe"
-archivesBaseName = "Vampires-and-Werewolfes"
+group = "de.teamlapen.werewolves"
+archivesBaseName = "Werewolves"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 

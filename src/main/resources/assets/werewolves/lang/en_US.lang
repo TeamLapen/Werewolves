@@ -1,0 +1,21 @@
+#Items
+item.werewolves.silver_sword.name=Silver Sword
+item.werewolves.silver_axe.name=Silver Axe
+item.werewolves.silver_pickaxe.name=Silver Pickaxe
+item.werewolves.silver_hoe.name=Silver Hoe
+item.werewolves.silver_shovel.name=Silver Shovel
+item.werewolves.silver_ingot.name=Silver Ingot
+item.werewolves.crossbow_arrow.silver.name=Silver Arrow
+
+#Blocks
+tile.werewolves.silver_ore.name=Silver Ore
+
+#Werewolf Skills
+
+#Werewolf Actions
+
+#Entities
+
+#etc
+itemGroup.werewolves=Werewolves
+text.werewolves.werewolf=Werewolf

@@ -62,7 +62,7 @@ uploadArchives {
             }
         } else {
             logger.info('Publishing to repo folder')
-            repository(url: 'file://localhost/' + project.file('~/.m2/repository').getAbsolutePath())
+            repository(url: '' + project.file('~/.m2/repository').getAbsolutePath())
         }
 
         pom {
@@ -73,24 +73,24 @@ uploadArchives {
         pom.project {
             name project.archivesBaseName
             packaging 'jar'
-            description 'An Minecraft mod that allows you to become a vampire'
-            url 'https://maxanier.de/projects/vampirism'
+            description ''
+            url ''
 
             scm {
-                url 'https://github.com/TeamLapen/Vampirism'
-                connection 'scm:git:git://github.com/TeamLapen/Vampirism.git'
-                developerConnection 'scm:git:git@github.com:TeamLapen/Vampirism.git'
+                url 'https://github.com/TeamLapen/Werewolves'
+                connection 'scm:git:git://github.com/TeamLapen/Werewolves.git'
+                developerConnection 'scm:git:git@github.com:TeamLapen/Werewolves.git'
             }
 
             issueManagement {
                 system 'github'
-                url 'https://github.com/TeamLapen/Vampirism/issues'
+                url 'https://github.com/TeamLapen/Werewolves/issues'
             }
 
             developers {
                 developer {
-                    id 'maxanier'
-                    name 'maxanier'
+                    id 'cheaterpaul'
+                    name 'cheaterpaul'
                     roles { role 'developer' }
                 }
             }

@@ -1,8 +1,8 @@
 [
   {
-    "modid": "vampirewerewolf",
-    "name": "Vampires & Werewolfes",
-    "description": "An addon mod for Vampirism which add werewolfes to the game",
+    "modid": "werewolves",
+    "name": "Werewolves",
+    "description": "An addon mod for Vampirism which add werewolves to the game",
     "version": "${m_version}",
     "mcversion": "${mc_version}",
     "url": "",
