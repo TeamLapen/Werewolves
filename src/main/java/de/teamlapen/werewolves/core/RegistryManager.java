@@ -12,6 +12,7 @@ import de.teamlapen.werewolves.world.gen.WerewolvesWorldGen;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLStateEvent;
@@ -92,5 +93,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterEntities(RegistryEvent.Register<EntityEntry> event) {
         ModEntities.registerEntities(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterBiomes(RegistryEvent.Register<Biome> event) {
+        ModBiomes.registerBiomes(event.getRegistry());
     }
 }
