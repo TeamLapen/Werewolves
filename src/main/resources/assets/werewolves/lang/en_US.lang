@@ -16,6 +16,9 @@ tile.werewolves.silver_ore.name=Silver Ore
 
 #Entities
 
+#Potions
+effect.werewolves.wolfsbite=Wolfs Bite
+
 #etc
 itemGroup.werewolves=Werewolves
 text.werewolves.werewolf=Werewolf

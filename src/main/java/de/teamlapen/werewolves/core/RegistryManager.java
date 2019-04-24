@@ -12,6 +12,7 @@ import de.teamlapen.werewolves.world.gen.WerewolvesWorldGen;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -98,5 +99,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterBiomes(RegistryEvent.Register<Biome> event) {
         ModBiomes.registerBiomes(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterPotions(RegistryEvent.Register<Potion> event) {
+        ModPotions.registerPotions(event.getRegistry());
     }
 }

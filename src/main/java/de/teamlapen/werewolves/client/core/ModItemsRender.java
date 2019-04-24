@@ -24,11 +24,10 @@ public class ModItemsRender {
         renderHelper.registerRender(ModItems.silver_hoe, "normal");
         renderHelper.registerRender(ModItems.silver_ingot, "normal");
         renderHelper.registerRender(ModItems.crossbow_arrow, "silver");
+        renderHelper.registerRender(ModItems.wolfs_pelt, "normal");
     }
 
     static void registerColors() {
-        System.out.println("" + Minecraft.getMinecraft());
-        System.out.println("" + Minecraft.getMinecraft().getItemColors());
         Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> {
             if (tintIndex == 1) {
                 return ItemCrossbowArrow.getType(stack).color;

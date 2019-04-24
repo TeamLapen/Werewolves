@@ -1,7 +1,5 @@
 package de.teamlapen.werewolves.core;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.inventory.HunterWeaponCraftingManager;
 import de.teamlapen.werewolves.items.*;
@@ -13,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import static de.teamlapen.lib.lib.util.UtilLib.getNull;
+
 @GameRegistry.ObjectHolder(REFERENCE.MODID)
 public class ModItems {
 
@@ -23,6 +23,7 @@ public class ModItems {
     public static final ItemSilverHoe silver_hoe = getNull();
     public static final ItemWerewolfBase silver_ingot = getNull();
     public static final ItemCrossbowArrow crossbow_arrow = getNull();
+    public static final ItemWerewolfBase wolfs_pelt = getNull();
 
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new ItemSilverSword());
@@ -32,6 +33,7 @@ public class ModItems {
         registry.register(new ItemSilverHoe());
         registry.register(new ItemWerewolfBase("silver_ingot"));
         registry.register(new ItemCrossbowArrow());
+        registry.register(new ItemWerewolfBase("wolfs_pelt"));
     }
 
     static void registerCraftingRecipes() {
