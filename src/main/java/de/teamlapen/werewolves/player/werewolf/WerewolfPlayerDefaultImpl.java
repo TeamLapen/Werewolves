@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -108,6 +109,14 @@ public class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     @Override
     public boolean isTheEntityAlive() {
         return false;
+    }
+
+    @Override
+    public void transformWerewolf() {
+    }
+
+    @Override
+    public void transformHuman() {
     }
 
 }

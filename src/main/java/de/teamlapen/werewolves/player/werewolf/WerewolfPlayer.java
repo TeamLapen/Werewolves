@@ -10,14 +10,17 @@ import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.werewolves.api.VReference;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
-import de.teamlapen.werewolves.player.werewolf.actions.WerewolfActions;
+import de.teamlapen.werewolves.config.Balance;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.ScoreboardUtil;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -29,6 +32,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 import javax.annotation.Nonnull;
 
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
@@ -79,6 +83,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         };
     }
+
+    private static final UUID SPEED = UUID.fromString("57ac98ff-35a1-4115-96ee-2479dc7e1460");
+    private static final UUID ARMOR = UUID.fromString("a16dfca7-98b1-44a1-8057-a9cb38fbfb19");
+    private static final UUID ARMOR_TOUGHNESS = UUID.fromString("c70fbf55-9f19-4679-8daa-919b29ed7104");
 
     private final ActionHandler<IWerewolfPlayer> actionHandler;
     private final SkillHandler<IWerewolfPlayer> skillHandler;
@@ -138,9 +146,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 actionHandler.resetTimers();
                 skillHandler.disableAllSkills();
             }
-            if (getSpecialAttributes().werewolf) {
-                WerewolfActions.werewolf_werewolf.onLevelChanged(newLevel, oldLevel, this);
-            }
             setValuesLevel(newLevel);
         } else {
             if (oldLevel == 0) {
@@ -166,6 +171,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
         this.getSpecialAttributes().harvestLevel = harvestLevel;
         this.getSpecialAttributes().harvestSpeed = harvestSpeed;
+        if (this.getSpecialAttributes().werewolf) {
+            this.removeModifier();
+            if (level != 0) {
+                this.applyModifier();
+            }
+        }
     }
 
     @Override
@@ -275,6 +286,48 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         oldWerewolve.saveData(nbt);
         this.loadData(nbt);
         return oldWerewolve;
+    }
+
+    public void transformWerewolf() {
+        specialAttributes.werewolf = true;
+        handleArmor();
+        applyModifier();
+        player.refreshDisplayName();
+    }
+
+    public void transformHuman() {
+        specialAttributes.werewolf = false;
+        removeModifier();
+        player.refreshDisplayName();
+    }
+
+    private void handleArmor() {
+        for (ItemStack e : player.getArmorInventoryList()) {
+            if (!e.isEmpty()) player.dropItem(e, false);
+        }
+    }
+
+    private void applyModifier() {
+        EntityPlayer player = getRepresentingPlayer();
+        //TODO modify
+        if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).getModifier(SPEED) == null) {
+            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier(SPEED, "werewolf_speed", (float) Balance.wpa.WEREWOLF_SPEED_MAX / getMaxLevel() * getLevel(), 2));
+        }
+
+        if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).getModifier(ARMOR) == null) {
+            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier(ARMOR, "werewolf_armor", (float) Balance.wpa.WEREWOLF_ARMOR_MAX / getMaxLevel() * getLevel(), 0));
+        }
+        if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).getModifier(ARMOR_TOUGHNESS) == null) {
+            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).applyModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_armor_toughness", (float) Balance.wpa.WEREWOLF_ARMOR_THOUGNESS_MAX / getMaxLevel() * getLevel(), 0));
+        }
+    }
+
+    private void removeModifier() {
+        EntityPlayer player = getRepresentingPlayer();
+
+        player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).removeModifier(SPEED);
+        player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).removeModifier(ARMOR);
+        player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).removeModifier(ARMOR_TOUGHNESS);
     }
 
     @Override

@@ -4,12 +4,8 @@ import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.player.werewolf.actions.DefaultWerewolfAction;
 import de.teamlapen.werewolves.config.Balance;
+import de.teamlapen.werewolves.core.ModPotions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
-
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 import java.util.UUID;
 
@@ -49,18 +45,19 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolf) {
-        EntityPlayer player = werewolf.getRepresentingPlayer();
-        for (ItemStack e : player.getArmorInventoryList()) {
-            if (!e.isEmpty()) player.dropItem(e, false);
+        if (((WerewolfPlayer) werewolf).getSpecialAttributes().werewolf) {
+            onDeactivated(werewolf);
+            return false;
         }
-        ((WerewolfPlayer) werewolf).getSpecialAttributes().werewolf = true;
-        applyModifier(werewolf);
-        player.refreshDisplayName();
+        werewolf.transformWerewolf();
         return true;
     }
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer werewolf) {
+        if (werewolf.getRepresentingPlayer().isPotionActive(ModPotions.true_form)) {
+            return false;
+        }
         return true;
     }
 
@@ -71,55 +68,22 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public void onActivatedClient(IWerewolfPlayer werewolf) {
-        ((WerewolfPlayer) werewolf).getSpecialAttributes().werewolf = true;
-        applyModifier(werewolf);
+        werewolf.transformWerewolf();
     }
 
     @Override
     public void onDeactivated(IWerewolfPlayer werewolf) {
-        EntityPlayer player = werewolf.getRepresentingPlayer();
-        ((WerewolfPlayer) werewolf).getSpecialAttributes().werewolf = false;
-        removeModifier(werewolf);
-        player.refreshDisplayName();
+        werewolf.transformHuman();
 
     }
 
     @Override
     public void onReActivated(IWerewolfPlayer werewolf) {
-        ((WerewolfPlayer) werewolf).getSpecialAttributes().werewolf = true;
-        applyModifier(werewolf);
+        werewolf.transformWerewolf();
     }
 
     @Override
     public boolean onUpdate(IWerewolfPlayer werewolf) {
         return false;
-    }
-
-    private void applyModifier(IWerewolfPlayer werewolf) {
-        EntityPlayer player = werewolf.getRepresentingPlayer();
-        //TODO modify
-        if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).getModifier(SPEED) == null) {
-            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier(SPEED, "werewolf_speed", (float) Balance.wpa.WEREWOLF_SPEED_MAX / werewolf.getMaxLevel() * werewolf.getLevel(), 2));
-        }
-
-        if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).getModifier(ARMOR) == null) {
-            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier(ARMOR, "werewolf_armor", (float) Balance.wpa.WEREWOLF_ARMOR_MAX / werewolf.getMaxLevel() * werewolf.getLevel(), 0));
-        }
-        if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).getModifier(ARMOR_TOUGHNESS) == null) {
-            player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).applyModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_armor_toughness", (float) Balance.wpa.WEREWOLF_ARMOR_THOUGNESS_MAX / werewolf.getMaxLevel() * werewolf.getLevel(), 0));
-        }
-    }
-
-    private void removeModifier(IWerewolfPlayer werewolf) {
-        EntityPlayer player = werewolf.getRepresentingPlayer();
-
-        player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).removeModifier(SPEED);
-        player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).removeModifier(ARMOR);
-        player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).removeModifier(ARMOR_TOUGHNESS);
-    }
-
-    public void onLevelChanged(int newLevel, int oldLevel, IWerewolfPlayer werewolf) {
-        removeModifier(werewolf);
-        applyModifier(werewolf);
     }
 }

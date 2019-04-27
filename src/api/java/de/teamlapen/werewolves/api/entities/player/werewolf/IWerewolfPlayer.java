@@ -10,4 +10,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
  */
 public interface IWerewolfPlayer extends IFactionPlayer<IWerewolfPlayer>, IWerewolf, IMinionLord {
 
+    void transformWerewolf();
+
+    void transformHuman();
 }
