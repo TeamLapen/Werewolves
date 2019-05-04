@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.gen.BiomeGenWerewolfHeaven;
-
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
@@ -16,6 +15,7 @@ public class ModBiomes {
         werewolfHeaven = new BiomeGenWerewolfHeaven().setRegistryName(REFERENCE.MODID, "werewolfHeaven");
         registry.register(werewolfHeaven);
         BiomeDictionary.addTypes(werewolfHeaven, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.SPOOKY);
+        // TODO Biome dense
         BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(werewolfHeaven, 99));
     }
 }

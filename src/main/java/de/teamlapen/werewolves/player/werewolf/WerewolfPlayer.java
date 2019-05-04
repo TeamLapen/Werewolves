@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.player.werewolf;
 
+import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
@@ -11,9 +12,9 @@ import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.werewolves.api.VReference;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.Balance;
+import de.teamlapen.werewolves.player.werewolf.actions.WerewolfActions;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.ScoreboardUtil;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -27,15 +28,15 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-
-import javax.annotation.Nonnull;
-
 import java.util.UUID;
 import java.util.function.Predicate;
-
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
+import javax.annotation.Nonnull;
 
 /**
  * Main class for Werewolve Players.
@@ -130,7 +131,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public boolean isDisguised() {
-        return !specialAttributes.werewolf;
+        return !(specialAttributes.werewolf > 0);
     }
 
     @Override
@@ -159,19 +160,16 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     public void setValuesLevel(int level) {
         int harvestLevel = 0;
         float harvestSpeed = 1F;
-        if (level >= 14) {
+        if (level >= 13) {
+            harvestLevel = 3;
+        } else if (level >= 19) {
             harvestLevel = 2;
-            harvestSpeed = 6F;
-        } else if (level >= 10) {
-            harvestLevel = 2;
-            harvestSpeed = 4F;
         } else if (level >= 5) {
             harvestLevel = 1;
-            harvestSpeed = 2F;
         }
         this.getSpecialAttributes().harvestLevel = harvestLevel;
-        this.getSpecialAttributes().harvestSpeed = harvestSpeed;
-        if (this.getSpecialAttributes().werewolf) {
+        this.getSpecialAttributes().harvestSpeed = (float) (Balance.wp.HARVESTSPEED_MAX * (level / getMaxLevel()));
+        if (this.getSpecialAttributes().werewolf > 0) {
             this.removeModifier();
             if (level != 0) {
                 this.applyModifier();
@@ -253,20 +251,20 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (player.getEntityWorld().getWorldTime() % 40 == 0) {
             if (player.isInWater()) {
                 waterTime++;
-                if (waterTime > 3 && this.getSpecialAttributes().werewolf) {
+                if (waterTime > 3 && this.getSpecialAttributes().werewolf > 0) {
                     player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 60));
                     if (player.getEntityWorld().getBlockState(player.getPosition().up()).getBlock().equals(Blocks.WATER)) {
                         player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 120));
                         player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60));
                     }
                 }
-            }else {
+            } else {
                 waterTime = Math.max(0, --waterTime);
             }
             int heal = this.getSpecialAttributes().heals;
             if (heal >= 1) {
                 int toHeal = heal / 2 < 1 ? 1 : heal / 2;
-                if (this.getSpecialAttributes().healing && this.getSpecialAttributes().werewolf) {
+                if (this.getSpecialAttributes().healing && this.getSpecialAttributes().werewolf > 0) {
                     player.heal(toHeal);
                 }
                 this.getSpecialAttributes().removeHeal(toHeal);
@@ -288,36 +286,42 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return oldWerewolve;
     }
 
-    public void transformWerewolf() {
-        specialAttributes.werewolf = true;
-        handleArmor();
+    // TODO add armor drop
+    public boolean transformWerewolf() {
+        if (!this.getActionHandler().isActionUnlocked(WerewolfActions.werewolf_werewolf))
+            return false;
+        specialAttributes.werewolf = 1;
+        // handleArmor();
         applyModifier();
         player.refreshDisplayName();
+        return true;
     }
 
     public void transformHuman() {
-        specialAttributes.werewolf = false;
+        if (specialAttributes.werewolf == 0)
+            return;
+        specialAttributes.werewolf = 0;
         removeModifier();
         player.refreshDisplayName();
     }
 
     private void handleArmor() {
         for (ItemStack e : player.getArmorInventoryList()) {
-            if (!e.isEmpty()) player.dropItem(e, false);
+            if (!e.isEmpty())
+                player.dropItem(e, false);
         }
     }
 
     private void applyModifier() {
         EntityPlayer player = getRepresentingPlayer();
-        //TODO modify
-        if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).getModifier(SPEED) == null) {
+        if (this.getSpecialAttributes().werewolf > 0 && player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).getModifier(SPEED) == null) {
             player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier(SPEED, "werewolf_speed", (float) Balance.wpa.WEREWOLF_SPEED_MAX / getMaxLevel() * getLevel(), 2));
         }
 
-        if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).getModifier(ARMOR) == null) {
+        if (this.getSpecialAttributes().werewolf > 1 && player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).getModifier(ARMOR) == null) {
             player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier(ARMOR, "werewolf_armor", (float) Balance.wpa.WEREWOLF_ARMOR_MAX / getMaxLevel() * getLevel(), 0));
         }
-        if (player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).getModifier(ARMOR_TOUGHNESS) == null) {
+        if (this.getSpecialAttributes().werewolf > 1 && player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).getModifier(ARMOR_TOUGHNESS) == null) {
             player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS).applyModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_armor_toughness", (float) Balance.wpa.WEREWOLF_ARMOR_THOUGNESS_MAX / getMaxLevel() * getLevel(), 0));
         }
     }

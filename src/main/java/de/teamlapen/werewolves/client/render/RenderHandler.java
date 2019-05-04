@@ -31,7 +31,7 @@ public class RenderHandler {
     public void onRenderPlayer(RenderPlayerEvent.Pre event) {
         EntityPlayer player = event.getEntityPlayer();
         WerewolfPlayerSpecialAttributes werewolfAttributes = WerewolfPlayer.get(player).getSpecialAttributes();
-        if (werewolfAttributes.werewolf) {
+        if (werewolfAttributes.werewolf > 2) {
             event.setCanceled(true);
             if (entityWerewolf == null) {
                 entityWerewolf = new EntityWerewolf(player.getEntityWorld());
@@ -70,7 +70,7 @@ public class RenderHandler {
         EntityPlayer player = Minecraft.getMinecraft().player;
         if (Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-            if (werewolf.getSpecialAttributes().werewolf && player.getHeldItemMainhand().isEmpty()) {
+            if (werewolf.getSpecialAttributes().werewolf > 0 && player.getHeldItemMainhand().isEmpty()) {
                 event.setCanceled(true);
             }
         }

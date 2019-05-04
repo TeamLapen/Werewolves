@@ -1,18 +1,14 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
+import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.player.werewolf.actions.DefaultWerewolfAction;
 import de.teamlapen.werewolves.config.Balance;
 import de.teamlapen.werewolves.core.ModPotions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 
-import java.util.UUID;
-
 public class WerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
-    private static final UUID SPEED = UUID.fromString("57ac98ff-35a1-4115-96ee-2479dc7e1460");
-    private static final UUID ARMOR = UUID.fromString("a16dfca7-98b1-44a1-8057-a9cb38fbfb19");
-    private static final UUID ARMOR_TOUGHNESS = UUID.fromString("c70fbf55-9f19-4679-8daa-919b29ed7104");
 
     public WerewolfAction() {
         super(null);
@@ -45,12 +41,12 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolf) {
-        if (((WerewolfPlayer) werewolf).getSpecialAttributes().werewolf) {
+        if (((WerewolfPlayer) werewolf).getSpecialAttributes().werewolf > 0) {
             onDeactivated(werewolf);
             return false;
         }
-        werewolf.transformWerewolf();
-        return true;
+        WerewolvesMod.log.t("num: %s", ((WerewolfPlayer) werewolf).getSpecialAttributes().werewolfLevel);
+        return werewolf.transformWerewolf();
     }
 
     @Override

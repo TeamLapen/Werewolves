@@ -5,7 +5,6 @@ import de.teamlapen.lib.lib.item.ItemMetaBlock;
 import de.teamlapen.werewolves.blocks.BlockSilverOre;
 import de.teamlapen.werewolves.blocks.WerewolfFlower;
 import de.teamlapen.werewolves.util.REFERENCE;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -20,6 +19,7 @@ import javax.annotation.Nonnull;
 public class ModBlocks {
 
     public static final BlockSilverOre silver_ore = getNull();
+    // TODO icon
     public static final WerewolfFlower werewolf_flower = getNull();
 
     static void registerItemBlocks(IForgeRegistry<Item> registry) {
@@ -29,7 +29,7 @@ public class ModBlocks {
 
     private static @Nonnull ItemBlock itemBlock(@Nonnull Block b) {
         ItemBlock item = new ItemBlock(b);
-        //noinspection ConstantConditions
+        // noinspection ConstantConditions
         item.setRegistryName(b.getRegistryName());
         return item;
     }

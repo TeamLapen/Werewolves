@@ -1,17 +1,21 @@
 package de.teamlapen.werewolves.core;
 
+import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.inventory.HunterWeaponCraftingManager;
-import de.teamlapen.werewolves.items.*;
+import de.teamlapen.werewolves.items.ItemCrossbowArrow;
+import de.teamlapen.werewolves.items.ItemSilverAxe;
+import de.teamlapen.werewolves.items.ItemSilverHoe;
+import de.teamlapen.werewolves.items.ItemSilverPickaxe;
+import de.teamlapen.werewolves.items.ItemSilverShovel;
+import de.teamlapen.werewolves.items.ItemSilverSword;
+import de.teamlapen.werewolves.items.ItemWerewolfBase;
 import de.teamlapen.werewolves.util.REFERENCE;
-
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @GameRegistry.ObjectHolder(REFERENCE.MODID)
 public class ModItems {
@@ -23,6 +27,7 @@ public class ModItems {
     public static final ItemSilverHoe silver_hoe = getNull();
     public static final ItemWerewolfBase silver_ingot = getNull();
     public static final ItemCrossbowArrow crossbow_arrow = getNull();
+    // TODO icon
     public static final ItemWerewolfBase wolfs_pelt = getNull();
 
     static void registerItems(IForgeRegistry<Item> registry) {

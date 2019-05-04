@@ -112,7 +112,8 @@ public class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     }
 
     @Override
-    public void transformWerewolf() {
+    public boolean transformWerewolf() {
+        return false;
     }
 
     @Override

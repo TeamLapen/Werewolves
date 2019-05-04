@@ -24,7 +24,7 @@ public class ModPotions {
         registry.register(new WerewolvesPotion("true_form", true, 0x6A0888) {
             @Override
             public void performEffect(net.minecraft.entity.EntityLivingBase entityLivingBaseIn, int amplifier) {
-                if (entityLivingBaseIn instanceof EntityPlayer && Helper.isWerewolf(entityLivingBaseIn) && !WerewolfPlayer.get((EntityPlayer) entityLivingBaseIn).getSpecialAttributes().werewolf && WerewolfPlayer.get((EntityPlayer) entityLivingBaseIn).getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf)) {
+                if (entityLivingBaseIn instanceof EntityPlayer && Helper.isWerewolf(entityLivingBaseIn) && !(WerewolfPlayer.get((EntityPlayer) entityLivingBaseIn).getSpecialAttributes().werewolf > 0) && WerewolfPlayer.get((EntityPlayer) entityLivingBaseIn).getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf)) {
                     WerewolfPlayer.get((EntityPlayer) entityLivingBaseIn).transformWerewolf();
                 }
             };
