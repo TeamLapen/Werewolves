@@ -110,14 +110,4 @@ public class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     public boolean isTheEntityAlive() {
         return false;
     }
-
-    @Override
-    public boolean transformWerewolf() {
-        return false;
-    }
-
-    @Override
-    public void transformHuman() {
-    }
-
 }

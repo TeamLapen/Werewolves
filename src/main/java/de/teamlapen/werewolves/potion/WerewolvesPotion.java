@@ -17,22 +17,24 @@ public class WerewolvesPotion extends Potion {
     private static final int ICON_TEXTURE_WIDTH = 144;
     @SideOnly(Side.CLIENT)
     private static final int ICON_TEXTURE_HEIGHT = 36;
+    private boolean statusIcon;
 
-    public WerewolvesPotion(String name, boolean isBadEffectIn, int liquidColorIn) {
+    public WerewolvesPotion(String name, boolean isBadEffectIn, int liquidColorIn, boolean statusIcon) {
         super(isBadEffectIn, liquidColorIn);
         this.setRegistryName(REFERENCE.MODID, name);
         this.setPotionName("effect.werewolves." + name);
+        this.statusIcon = statusIcon;
     }
 
     @Override
     public boolean hasStatusIcon() {
-        return true;
+        return this.statusIcon;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public void renderHUDEffect(int k, int l, PotionEffect effect, Minecraft mc, float alpha) {
-        int index = getStatusIconIndex();
+        int index = this.getStatusIconIndex();
         if (index >= 0) {
             mc.getTextureManager().bindTexture(ICONS);
             UtilLib.drawTexturedModalRect(0, k + 3, l + 3, index % 8 * 18, index / 8 * 18, 18, 18, ICON_TEXTURE_WIDTH, ICON_TEXTURE_HEIGHT);
@@ -44,7 +46,7 @@ public class WerewolvesPotion extends Potion {
     @SideOnly(Side.CLIENT)
     @Override
     public void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc) {
-        int index = getStatusIconIndex();
+        int index = this.getStatusIconIndex();
         if (index >= 0) {
             mc.getTextureManager().bindTexture(ICONS);
             UtilLib.drawTexturedModalRect(0, x + 6, y + 7, index % 8 * 18, index / 8 * 18, 18, 18, ICON_TEXTURE_WIDTH, ICON_TEXTURE_HEIGHT);
