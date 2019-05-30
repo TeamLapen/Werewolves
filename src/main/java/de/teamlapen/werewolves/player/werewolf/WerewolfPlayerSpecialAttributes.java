@@ -4,15 +4,20 @@ import de.teamlapen.vampirism.api.entity.factions.IFaction;
 
 public class WerewolfPlayerSpecialAttributes {
     public IFaction<?> disguisedAs = null;
+    /* active level of the werewolf form */
     public int werewolf = 0;
+    /* level of the werewolf form */
     public int werewolfLevel = 0;
+    /* if the werewolf form can switch his shape */
     public boolean transformable = true;
-    public int heals = 0;
+    /* healing action */
     public boolean healing = false;
+    /* heals of the healing action */
+    public int heals = 0;
     public boolean moreFoodFromRawMeat = false;
+    /* if the werewolf form can mine in werewolf form */
     public boolean werewolfharvest = false;
-    public int harvestLevel = 0;
-    public float harvestSpeed = 1;
+    /* animalhunter action */
     public boolean animalHunter = false;
     public boolean eatFlesh = false;
 

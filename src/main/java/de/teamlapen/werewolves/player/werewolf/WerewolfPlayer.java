@@ -13,16 +13,19 @@ import de.teamlapen.werewolves.api.VReference;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.Balance;
 import de.teamlapen.werewolves.core.ModPotions;
+import de.teamlapen.werewolves.items.ItemPelt;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfActions;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.ScoreboardUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -32,6 +35,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
@@ -45,6 +49,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @CapabilityInject(IWerewolfPlayer.class)
     public static final Capability<IWerewolfPlayer> CAP = getNull();
     private final static String TAG = "WerewolfPlayer";
+    private static final UUID HARVESTSPEED = UUID.fromString("aa6a303b-c860-40c0-9ff1-a1e3c9e29c50");
+    private static final UUID HARVESTLEVEL = UUID.fromString("d95b9235-4857-4268-a971-4d8b4b53da66");
 
     /**
      * Don't call before the construction event of the player entity is finished
@@ -89,7 +95,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final SkillHandler<IWerewolfPlayer> skillHandler;
     private final WerewolfPlayerSpecialAttributes specialAttributes;
     private int waterTime = 0;
-    private boolean transformable = true;
+    private int killedAnimal = 0;
 
     public WerewolfPlayer(EntityPlayer player) {
         super(player);
@@ -158,18 +164,16 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (this.getActionHandler().isActionActive(WerewolfActions.werewolf_werewolf)) {
             WerewolfActions.werewolf_werewolf.onLevelChanged(this);
         }
-        //TODO harvestspeed
-        //        int harvestLevel = 0;
-        //        float harvestSpeed = 1F;
-        //        if (level >= 13) {
-        //            harvestLevel = 3;
-        //        } else if (level >= 19) {
-        //            harvestLevel = 2;
-        //        } else if (level >= 5) {
-        //            harvestLevel = 1;
-        //        }
-        //        this.getSpecialAttributes().harvestLevel = harvestLevel;
-        //        this.getSpecialAttributes().harvestSpeed = (float) (Balance.wp.HARVESTSPEED_MAX * (level / this.getMaxLevel()));
+        this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestSpeed).removeModifier(HARVESTSPEED);
+        this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestSpeed).applyModifier(new AttributeModifier(HARVESTSPEED, "harvestspeed", Balance.wp.HARVESTSPEEDMAX * (level / REFERENCE.HIGHEST_WEREWOLF_LEVEL), 1));
+        this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).removeModifier(HARVESTLEVEL);
+        if (level >= 13) {
+            this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).applyModifier(new AttributeModifier(HARVESTLEVEL, "harvestlevel", 3, 0));
+        } else if (level >= 9) {
+            this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).applyModifier(new AttributeModifier(HARVESTLEVEL, "harvestlevel", 2, 0));
+        } else if (level >= 5) {
+            this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).applyModifier(new AttributeModifier(HARVESTLEVEL, "harvestlevel", 1, 0));
+        }
     }
 
     @Override
@@ -218,7 +222,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void onUpdate() {
-        this.player.getEntityWorld().profiler.startSection("vampirewerewolf_werewolfPlayer");
+        this.player.getEntityWorld().profiler.startSection("werewolves_werewolfPlayer");
         int level = this.getLevel();
         if (!this.isRemote()) {
             if (level > 0) {
@@ -264,16 +268,24 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 }
                 this.getSpecialAttributes().removeHeal(toHeal);
             }
-            if (this.specialAttributes.animalHunter) {
-                boolean animal = false;
+        }
+        if (this.specialAttributes.animalHunter) {
+            if (!this.player.isPotionActive(ModPotions.unvisible_speed) || this.player.world.getWorldTime() % 40 == 0) {
                 for (Entity e : WerewolvesMod.proxy.getRayTraceEntity()) {
                     if (e instanceof EntityAnimal) {
-                        animal = true;
+                        this.player.addPotionEffect(new PotionEffect(ModPotions.unvisible_speed, 80));
                         break;
                     }
                 }
-                if (animal) {
-                    this.player.addPotionEffect(new PotionEffect(ModPotions.unvisible_speed, 80));
+            }
+        }
+        if (this.getLevel() == 0) {
+            if (!this.player.isPotionActive(ModPotions.sleeping) && !this.player.world.isDaytime()) {
+                for (ItemStack e : this.player.getArmorInventoryList()) {
+                    if (e.getItem() instanceof ItemPelt) {
+                        this.player.addPotionEffect(new PotionEffect(ModPotions.sleeping));
+                        break;
+                    }
                 }
             }
         }
@@ -326,6 +338,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (!entity.isEntityUndead()) {
             this.eatFleshFrom(entity);
         }
+        if (entity.isDead) {
+            this.killedAnimal++;
+        }
     }
 
     /**
@@ -342,10 +357,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     private void applyEntityAttributes() {
         if (this.player.getAttributeMap().getAttributeInstance(VReference.biteDamage) == null) {
-            this.player.getAttributeMap().registerAttribute(VReference.biteDamage).setBaseValue(Balance.wp.BITE_DMG);
+            this.player.getAttributeMap().registerAttribute(VReference.biteDamage);
         }
         if (this.player.getAttributeMap().getAttributeInstance(VReference.harvestSpeed) == null) {
-            this.player.getAttributeMap().registerAttribute(VReference.harvestSpeed).setBaseValue(Balance.wp.HARVESTSPEED);
+            this.player.getAttributeMap().registerAttribute(VReference.harvestSpeed);
+        }
+        if (this.player.getAttributeMap().getAttributeInstance(VReference.harvestLevel) == null) {
+            this.player.getAttributeMap().registerAttribute(VReference.harvestLevel);
         }
     }
 
@@ -353,22 +371,26 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     protected void loadUpdate(NBTTagCompound nbt) {
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
+        this.killedAnimal = nbt.getInteger("bittenAnimal");
     }
 
     @Override
     protected void writeFullUpdate(NBTTagCompound nbt) {
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
+        nbt.setInteger("bittenAnimal", this.killedAnimal);
     }
 
     private void loadData(NBTTagCompound nbt) {
         this.actionHandler.loadFromNbt(nbt);
         this.skillHandler.loadFromNbt(nbt);
+        this.killedAnimal = nbt.getInteger("bittenEntity");
     }
 
     private void saveData(NBTTagCompound nbt) {
         this.actionHandler.saveToNbt(nbt);
         this.skillHandler.saveToNbt(nbt);
+        nbt.setInteger("bittenEntity", this.killedAnimal);
     }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {

@@ -1,7 +1,5 @@
 package de.teamlapen.werewolves.player.werewolf.skills;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
@@ -18,6 +16,8 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
+
+import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @GameRegistry.ObjectHolder(REFERENCE.MODID)
 public class WerewolfSkills {
@@ -114,14 +114,14 @@ public class WerewolfSkills {
 
     public static void buildSkillTree(SkillNode root) {
         ISkillManager skillManager = VampirismAPI.skillManager();
-        SkillNode skill1 = skillManager.createSkillNode(root, werewolf_better_raw_meat);
+        SkillNode skill1 = skillManager.createSkillNode(root, werewolf);
 
-        SkillNode skill2 = skillManager.createSkillNode(skill1, werewolf);
-        SkillNode skill3 = skillManager.createSkillNode(skill2, werewolf2);
-        SkillNode skill4 = skillManager.createSkillNode(skill3, werewolf3);
+        SkillNode skill2 = skillManager.createSkillNode(skill1, werewolf_better_raw_meat);
+        SkillNode skill3 = skillManager.createSkillNode(skill1, werewolf2);
+        SkillNode skill4 = skillManager.createSkillNode(skill1, animal_hunter);
 
-        SkillNode skill5 = skillManager.createSkillNode(skill1, werewolf_return_damage);
-        SkillNode skill6 = skillManager.createSkillNode(skill5, werewolf_mining);
-        SkillNode skill7 = skillManager.createSkillNode(skill6, animal_hunter);
+        SkillNode skill5 = skillManager.createSkillNode(skill3, werewolf_return_damage);
+        SkillNode skill6 = skillManager.createSkillNode(skill3, werewolf3);
+        SkillNode skill7 = skillManager.createSkillNode(skill3, werewolf_mining);
     }
 }

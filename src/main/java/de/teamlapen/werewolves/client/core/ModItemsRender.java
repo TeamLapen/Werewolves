@@ -29,9 +29,8 @@ public class ModItemsRender {
 
     static void registerColors() {
         Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> {
-            if (tintIndex == 1) {
+            if (tintIndex == 1)
                 return ItemCrossbowArrow.getType(stack).color;
-            }
             return 0xFFFFFF;
         }, ModItems.crossbow_arrow);
     }

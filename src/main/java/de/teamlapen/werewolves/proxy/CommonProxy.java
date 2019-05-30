@@ -10,12 +10,13 @@ import java.util.List;
  * and move larger code parts into dedicated classes.
  *
  */
-public class CommonProxy implements IProxy {
+public abstract class CommonProxy implements IProxy {
 
     @Override
     public void onInitStep(Step step, FMLStateEvent event) {
     }
 
+    @Override
     public List<Entity> getRayTraceEntity() {
         return null;
     }

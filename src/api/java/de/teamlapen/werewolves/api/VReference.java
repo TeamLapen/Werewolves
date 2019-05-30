@@ -16,7 +16,9 @@ public class VReference {
      */
     public static EnumCreatureType WEREWOLF_CREATURE_TYPE;
 
-    public final static IAttribute biteDamage = new RangedAttribute(null, "werewolves.bite_damage", 0.0, 0.0, 100);
+    public final static IAttribute biteDamage = new RangedAttribute((IAttribute) null, "werewolves.bite_damage", 2D, 0D, 100D);
 
-    public final static IAttribute harvestSpeed = new RangedAttribute(null, "werewolves.harvest_speed", 1.0D, 0.0D, 100D);
+    public final static IAttribute harvestSpeed = new RangedAttribute((IAttribute) null, "werewolves.harvest_speed", 1D, 0.0D, 100D);
+
+    public final static IAttribute harvestLevel = new RangedAttribute((IAttribute) null, "werewolves.harvest_level", 0D, 0D, 3D);
 }

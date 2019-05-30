@@ -14,8 +14,14 @@ public class BalanceWerewolfPlayer extends BalanceValues {
     @DefaultInt(value = 2)
     public int WEREWOLF_DISGUISED_SPEED_ADDITION;
 
-    @DefaultDouble(value = 1F, name = "werewolf_harvest_speed", minValue = 0)
-    public double HARVESTSPEED;
+    @DefaultDouble(value = 1D, name = "werewolf_harvest_speed_base", minValue = 0)
+    public double HARVESTSPEEDBASE;
+
+    @DefaultDouble(value = 10D, name = "werewolf_harvest_speed_max", minValue = 0)
+    public double HARVESTSPEEDMAX;
+
+    @DefaultDouble(value = 0D, name = "werewolf_harvest_level_base", minValue = 0, maxValue = 3)
+    public double HARVESTLEVELBASE;
 
     @DefaultInt(value = 6, name = "bite_damage", minValue = 0)
     public int BITE_DMG;

@@ -11,5 +11,6 @@ import java.util.List;
  */
 public interface IProxy extends IInitListener {
 
-    public List<Entity> getRayTraceEntity();
+    List<Entity> getRayTraceEntity();
+
 }
