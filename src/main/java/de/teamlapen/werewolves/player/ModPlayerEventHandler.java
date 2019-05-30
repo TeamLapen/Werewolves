@@ -1,12 +1,17 @@
 package de.teamlapen.werewolves.player;
 
 import com.google.common.base.Throwables;
+
 import de.teamlapen.werewolves.WerewolvesMod;
+import de.teamlapen.werewolves.api.VReference;
+import de.teamlapen.werewolves.core.ModPotions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayer.SleepResult;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemTool;
@@ -16,6 +21,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ModPlayerEventHandler {
@@ -76,10 +82,11 @@ public class ModPlayerEventHandler {
             // TODO werewolf level
             if (werewolf.getSpecialAttributes().werewolf > 1 && !(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool)) {
                 if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) {
-                    if (event.getState().isFullBlock() || event.getState().getBlock().equals(Blocks.FARMLAND))
+                    if (event.getState().isFullBlock() || event.getState().getBlock().equals(Blocks.FARMLAND)) {
                         event.setCanceled(true);
+                    }
                 } else {
-                    event.setNewSpeed(event.getOriginalSpeed() * werewolf.getSpecialAttributes().harvestSpeed);
+                    event.setNewSpeed((float) event.getEntityPlayer().getAttributeMap().getAttributeInstance(VReference.harvestSpeed).getAttributeValue());
                 }
             }
         }
@@ -91,10 +98,17 @@ public class ModPlayerEventHandler {
             WerewolfPlayer werewolf = WerewolfPlayer.get(event.getEntityPlayer());
             // TODO werewolf level
             if (werewolf.getSpecialAttributes().werewolf > 1) {
-                if (!(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) && event.getTargetBlock().getBlock().getHarvestLevel(event.getTargetBlock()) <= werewolf.getSpecialAttributes().harvestLevel) {
+                if (!(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) && event.getTargetBlock().getBlock().getHarvestLevel(event.getTargetBlock()) <= event.getEntityPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).getAttributeValue()) {
                     event.setCanHarvest(true);
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerSleep(PlayerSleepInBedEvent event) {
+        if (event.getEntityPlayer().isPotionActive(ModPotions.sleeping) && event.getEntity().world.getBlockState(event.getPos()) == Blocks.AIR.getDefaultState()) {
+            event.setResult(SleepResult.OK);
         }
     }
 }

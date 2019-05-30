@@ -32,7 +32,7 @@ public class AnimalHunterAction extends DefaultWerewolfAction implements ILastin
     @Override
     public String getUnlocalizedName() {
         // TODO
-        return null;
+        return "animal_hunter";
     }
 
     @Override
@@ -48,7 +48,8 @@ public class AnimalHunterAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public int getDuration(int level) {
-        return Balance.wpa.WEREWOLF_ANIMALHUNTER_DURATION;
+        // TODO
+        return Balance.wpa.WEREWOLF_ANIMALHUNTER_DURATION * 100;
     }
 
     @Override

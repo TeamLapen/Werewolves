@@ -15,10 +15,10 @@ public class BalanceWerewolfActions extends BalanceValues {
 
     @DefaultBoolean(value = true)
     public boolean WEREWOLF_ANIMALHUNTER = false;
-    
+
     @DefaultInt(value = 100)
     public int WEREWOLF_ANIMALHUNTER_COOLDOWN;
-    
+
     @DefaultInt(value = 100)
     public int WEREWOLF_ANIMALHUNTER_DURATION;
 
@@ -28,7 +28,10 @@ public class BalanceWerewolfActions extends BalanceValues {
     @DefaultBoolean(value = true)
     public boolean WEREWOLF_ENABLED;
 
-    @DefaultInt(value = Integer.MAX_VALUE, minValue = 10, name = "werewolf_duration")
+    @DefaultInt(value = Integer.MAX_VALUE, minValue = 10, name = "werewolf_duration_max")
+    public int WEREWOLF_DURATION_MAX;
+
+    @DefaultInt(value = 1200, minValue = 10, name = "werewolf_duration")
     public int WEREWOLF_DURATION;
 
     @DefaultDouble(value = 1.5D, minValue = 1, comment = "multiplier")
