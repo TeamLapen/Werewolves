@@ -22,7 +22,7 @@ public class WerewolvesPotion extends Potion {
     public WerewolvesPotion(String name, boolean isBadEffectIn, int liquidColorIn, boolean statusIcon) {
         super(isBadEffectIn, liquidColorIn);
         this.setRegistryName(REFERENCE.MODID, name);
-        this.setPotionName("effect.werewolves." + name);
+        this.setPotionName("effect." + REFERENCE.MODID + "." + name);
         this.statusIcon = statusIcon;
     }
 
@@ -57,6 +57,20 @@ public class WerewolvesPotion extends Potion {
     public WerewolvesPotion setIconIndex(int p_76399_1_, int p_76399_2_) {
         super.setIconIndex(p_76399_1_, p_76399_2_);
         return this;
+    }
+
+    @Override
+    public boolean shouldRenderHUD(PotionEffect effect) {
+        if (this.statusIcon)
+            return true;
+        return false;
+    }
+
+    @Override
+    public boolean shouldRender(PotionEffect effect) {
+        if (this.statusIcon)
+            return true;
+        return false;
     }
 
 }

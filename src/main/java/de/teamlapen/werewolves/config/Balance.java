@@ -4,11 +4,11 @@ import de.teamlapen.lib.lib.config.BalanceValues;
 import de.teamlapen.vampirism.config.Configs;
 import de.teamlapen.werewolves.WerewolvesMod;
 
-import javax.annotation.Nullable;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 /**
  * Main balance configuration handler
@@ -19,12 +19,14 @@ public class Balance {
     public static BalanceWerewolfPlayer wp;
     public static BalanceWerewolfSkills wps;
     public static BalanceWerewolfActions wpa;
+    public static BalanceGeneral ge;
 
     public static void init(File configDir, boolean inDev) {
         File balanceDir = new File(configDir, "balance");
         wp = addBalance(new BalanceWerewolfPlayer(balanceDir));
         wps = addBalance(new BalanceWerewolfSkills(balanceDir));
         wpa = addBalance(new BalanceWerewolfActions(balanceDir));
+        ge = addBalance(new BalanceGeneral(balanceDir));
         if (inDev && Configs.resetConfigurationInDev) {
             resetAndReload(null);
         } else {
@@ -50,11 +52,11 @@ public class Balance {
         loadConfiguration();
     }
 
-
     /**
      * Resets the matching balance category and reloads it
      *
-     * @param category False if category is not found
+     * @param category
+     *            False if category is not found
      * @return
      */
     public static boolean resetAndReload(@Nullable String category) {

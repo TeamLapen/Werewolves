@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import de.teamlapen.werewolves.client.core.ClientEventHandler;
 import de.teamlapen.werewolves.client.core.ModKeysWerewolves;
+import de.teamlapen.werewolves.client.core.WerewolvesHUDOverlay;
 import de.teamlapen.werewolves.client.render.RenderHandler;
 import de.teamlapen.werewolves.core.RegistryManager;
 
@@ -30,6 +31,7 @@ import javax.annotation.Nullable;
 public class ClientProxy extends CommonProxy {
 
     private ClientEventHandler clientEventHandler;
+    private WerewolvesHUDOverlay overlay;
 
     public ClientProxy() {
         RegistryManager.setupClientRegistryManager();
@@ -55,6 +57,8 @@ public class ClientProxy extends CommonProxy {
         this.clientEventHandler = new ClientEventHandler();
         MinecraftForge.EVENT_BUS.register(this.clientEventHandler);
         MinecraftForge.EVENT_BUS.register(new ModKeysWerewolves());
+        this.overlay = new WerewolvesHUDOverlay();
+        MinecraftForge.EVENT_BUS.register(this.overlay);
     }
 
     @Override

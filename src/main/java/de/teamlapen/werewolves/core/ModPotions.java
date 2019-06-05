@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfActions;
+import de.teamlapen.werewolves.potion.DrowsyPotion;
 import de.teamlapen.werewolves.potion.WerewolvesPotion;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -21,6 +22,7 @@ public class ModPotions {
     public static final WerewolvesPotion wolfsbite = getNull();
     public static final WerewolvesPotion true_form = getNull();
     public static final WerewolvesPotion unvisible_speed = getNull();
+    public static final DrowsyPotion drowsy = getNull();
 
     static void registerPotions(IForgeRegistry<Potion> registry) {
         registry.register(new WerewolvesPotion("wolfsbite", false, 0x6A0888, true).setIconIndex(2, 0));
@@ -55,6 +57,9 @@ public class ModPotions {
                 return false;
             }
         }.setIconIndex(2, 0));
-        registry.register(new WerewolvesPotion("unvisible_speed", false, 0x000000, false).registerPotionAttributeModifier(SharedMonsterAttributes.MOVEMENT_SPEED, "b52dc98e-5992-41af-a744-a32620c83692", 0.20000000298023224D, 2));
+        registry.register(new WerewolvesPotion("unvisible_speed", false, 0x000000, false) {
+
+        }.registerPotionAttributeModifier(SharedMonsterAttributes.MOVEMENT_SPEED, "b52dc98e-5992-41af-a744-a32620c83692", 0.20000000298023224D, 2));
+        registry.register(new DrowsyPotion());
     }
 }

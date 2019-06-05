@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.player;
 
 import com.google.common.base.Throwables;
 
+import de.teamlapen.vampirism.core.ModBlocks;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.VReference;
 import de.teamlapen.werewolves.core.ModPotions;
@@ -9,9 +10,9 @@ import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayer.SleepResult;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemTool;
@@ -21,8 +22,12 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
+import net.minecraftforge.event.entity.player.SleepingTimeCheckEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ModPlayerEventHandler {
 
@@ -106,9 +111,36 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerSleep(PlayerSleepInBedEvent event) {
-        if (event.getEntityPlayer().isPotionActive(ModPotions.sleeping) && event.getEntity().world.getBlockState(event.getPos()) == Blocks.AIR.getDefaultState()) {
-            event.setResult(SleepResult.OK);
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.player.isPlayerFullyAsleep()) {
+            IBlockState state = event.player.world.getBlockState(event.player.bedLocation);
+            if (state.getBlock().equals(Blocks.BED) || state.getBlock().equals(ModBlocks.block_coffin)) {
+                WerewolfPlayer.get(event.player).turnWerewolf();
+            } else if (event.player.world.isDaytime()) {
+                event.player.wakeUpPlayer(true, true, false);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onWakeUp(PlayerWakeUpEvent event) {
+        if (event.getEntityPlayer().isPotionActive(ModPotions.drowsy)) {
+            WerewolfPlayer.get(event.getEntityPlayer()).turnWerewolf();
+            event.getEntityPlayer().removeActivePotionEffect(ModPotions.drowsy);
+        }
+    }
+
+    @SubscribeEvent
+    public void onSleepTimeCheck(SleepingTimeCheckEvent event) {
+        if (event.getEntityPlayer().bedLocation == null || !(event.getEntity().world.getBlockState(event.getEntityPlayer().bedLocation).getBlock().equals(Blocks.BED) || event.getEntity().world.getBlockState(event.getEntityPlayer().bedLocation).getBlock().equals(ModBlocks.block_coffin))) {
+            event.setResult(Result.ALLOW);
+        }
+    }
+
+    @SubscribeEvent
+    public void onSleepLocationCheck(SleepingLocationCheckEvent event) {
+        if (event.getEntityPlayer().isPlayerSleeping()) {
+            event.setResult(Result.ALLOW);
         }
     }
 }

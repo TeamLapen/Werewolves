@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
+import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.player.VampirismPlayer;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
@@ -96,6 +97,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final WerewolfPlayerSpecialAttributes specialAttributes;
     private int waterTime = 0;
     private int killedAnimal = 0;
+    private boolean sleep = false;
 
     public WerewolfPlayer(EntityPlayer player) {
         super(player);
@@ -280,10 +282,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         }
         if (this.getLevel() == 0) {
-            if (!this.player.isPotionActive(ModPotions.sleeping) && !this.player.world.isDaytime()) {
+            if (!this.player.isPotionActive(ModPotions.drowsy) && !this.player.world.isDaytime()) {
                 for (ItemStack e : this.player.getArmorInventoryList()) {
                     if (e.getItem() instanceof ItemPelt) {
-                        this.player.addPotionEffect(new PotionEffect(ModPotions.sleeping));
+                        this.player.addPotionEffect(new PotionEffect(ModPotions.drowsy));
                         break;
                     }
                 }
@@ -372,6 +374,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
         this.killedAnimal = nbt.getInteger("bittenAnimal");
+        this.sleep = nbt.getBoolean("sleeping");
     }
 
     @Override
@@ -379,6 +382,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
         nbt.setInteger("bittenAnimal", this.killedAnimal);
+        nbt.setBoolean("sleeping", this.sleep);
     }
 
     private void loadData(NBTTagCompound nbt) {
@@ -415,5 +419,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public int getTheEntityID() {
         return this.player.getEntityId();
+    }
+
+    public void turnWerewolf() {
+        FactionPlayerHandler.get(this.player).joinFaction(this.getFaction());
     }
 }
