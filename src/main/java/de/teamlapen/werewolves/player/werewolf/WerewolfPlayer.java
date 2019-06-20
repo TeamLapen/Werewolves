@@ -10,7 +10,7 @@ import de.teamlapen.vampirism.player.VampirismPlayer;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.werewolves.WerewolvesMod;
-import de.teamlapen.werewolves.api.VReference;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.Balance;
 import de.teamlapen.werewolves.core.ModPotions;
@@ -18,7 +18,6 @@ import de.teamlapen.werewolves.items.ItemPelt;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfActions;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.ScoreboardUtil;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -36,10 +35,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
@@ -166,15 +164,15 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (this.getActionHandler().isActionActive(WerewolfActions.werewolf_werewolf)) {
             WerewolfActions.werewolf_werewolf.onLevelChanged(this);
         }
-        this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestSpeed).removeModifier(HARVESTSPEED);
-        this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestSpeed).applyModifier(new AttributeModifier(HARVESTSPEED, "harvestspeed", Balance.wp.HARVESTSPEEDMAX * (level / REFERENCE.HIGHEST_WEREWOLF_LEVEL), 1));
-        this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).removeModifier(HARVESTLEVEL);
+        this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(WReference.harvestSpeed).removeModifier(HARVESTSPEED);
+        this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(WReference.harvestSpeed).applyModifier(new AttributeModifier(HARVESTSPEED, "harvestspeed", Balance.wp.HARVESTSPEEDMAX * (level / REFERENCE.HIGHEST_WEREWOLF_LEVEL), 1));
+        this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(WReference.harvestLevel).removeModifier(HARVESTLEVEL);
         if (level >= 13) {
-            this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).applyModifier(new AttributeModifier(HARVESTLEVEL, "harvestlevel", 3, 0));
+            this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(WReference.harvestLevel).applyModifier(new AttributeModifier(HARVESTLEVEL, "harvestlevel", 3, 0));
         } else if (level >= 9) {
-            this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).applyModifier(new AttributeModifier(HARVESTLEVEL, "harvestlevel", 2, 0));
+            this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(WReference.harvestLevel).applyModifier(new AttributeModifier(HARVESTLEVEL, "harvestlevel", 2, 0));
         } else if (level >= 5) {
-            this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).applyModifier(new AttributeModifier(HARVESTLEVEL, "harvestlevel", 1, 0));
+            this.getRepresentingPlayer().getAttributeMap().getAttributeInstance(WReference.harvestLevel).applyModifier(new AttributeModifier(HARVESTLEVEL, "harvestlevel", 1, 0));
         }
     }
 
@@ -272,10 +270,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         }
         if (this.specialAttributes.animalHunter) {
-            if (!this.player.isPotionActive(ModPotions.unvisible_speed) || this.player.world.getWorldTime() % 40 == 0) {
+            if (!this.player.isPotionActive(ModPotions.invisible_speed) || this.player.world.getWorldTime() % 40 == 0) {
                 for (Entity e : WerewolvesMod.proxy.getRayTraceEntity()) {
                     if (e instanceof EntityAnimal) {
-                        this.player.addPotionEffect(new PotionEffect(ModPotions.unvisible_speed, 80));
+                        this.player.addPotionEffect(new PotionEffect(ModPotions.invisible_speed, 80));
                         break;
                     }
                 }
@@ -311,7 +309,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
      * Bite the entity with the given id.
      * Checks reach distance
      *
-     * @param entityId
+     * @param entityID
      *            The id of the entity to start biting
      */
     public void biteEntity(int entityID) {
@@ -335,7 +333,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
      */
     private void biteAttack(EntityLivingBase entity) {
         // TODO
-        float damage = (float) this.player.getEntityAttribute(VReference.biteDamage).getAttributeValue();
+        float damage = (float) this.player.getEntityAttribute(WReference.biteDamage).getAttributeValue();
         entity.attackEntityFrom(DamageSource.causePlayerDamage(this.player), damage);
         if (!entity.isEntityUndead()) {
             this.eatFleshFrom(entity);
@@ -358,14 +356,14 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     private void applyEntityAttributes() {
-        if (this.player.getAttributeMap().getAttributeInstance(VReference.biteDamage) == null) {
-            this.player.getAttributeMap().registerAttribute(VReference.biteDamage);
+        if (this.player.getAttributeMap().getAttributeInstance(WReference.biteDamage) == null) {
+            this.player.getAttributeMap().registerAttribute(WReference.biteDamage);
         }
-        if (this.player.getAttributeMap().getAttributeInstance(VReference.harvestSpeed) == null) {
-            this.player.getAttributeMap().registerAttribute(VReference.harvestSpeed);
+        if (this.player.getAttributeMap().getAttributeInstance(WReference.harvestSpeed) == null) {
+            this.player.getAttributeMap().registerAttribute(WReference.harvestSpeed);
         }
-        if (this.player.getAttributeMap().getAttributeInstance(VReference.harvestLevel) == null) {
-            this.player.getAttributeMap().registerAttribute(VReference.harvestLevel);
+        if (this.player.getAttributeMap().getAttributeInstance(WReference.harvestLevel) == null) {
+            this.player.getAttributeMap().registerAttribute(WReference.harvestLevel);
         }
     }
 
@@ -413,7 +411,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public IPlayableFaction<IWerewolfPlayer> getFaction() {
-        return VReference.WEREWOLF_FACTION;
+        return WReference.WEREWOLF_FACTION;
     }
 
     @Override

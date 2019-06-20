@@ -3,7 +3,6 @@ package de.teamlapen.werewolves.blocks;
 import de.teamlapen.lib.lib.item.ItemMetaBlock;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.util.REFERENCE;
-
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -37,10 +36,6 @@ public class WerewolfFlower extends BlockBush implements ItemMetaBlock.IMetaItem
     @Override
     public int getMetaFromState(IBlockState state) {
         return state.getValue(TYPE).getMeta();
-    }
-
-    public String getRegisteredName() {
-        return regName;
     }
 
     @Override

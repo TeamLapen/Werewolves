@@ -2,32 +2,21 @@ package de.teamlapen.werewolves.player;
 
 import com.google.common.base.Throwables;
 
-import de.teamlapen.vampirism.core.ModBlocks;
 import de.teamlapen.werewolves.WerewolvesMod;
-import de.teamlapen.werewolves.api.VReference;
-import de.teamlapen.werewolves.core.ModPotions;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
-
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
-import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
-import net.minecraftforge.event.entity.player.SleepingTimeCheckEvent;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ModPlayerEventHandler {
 
@@ -67,20 +56,6 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onItemUsed(LivingEntityUseItemEvent.Finish event) {
-        if (event.getEntityLiving() instanceof EntityPlayer) {
-            if (WerewolfPlayer.get((EntityPlayer) event.getEntityLiving()).getSpecialAttributes().moreFoodFromRawMeat) {
-                if (event.getItem().getItem() instanceof ItemFood) {
-                    ItemFood food = (ItemFood) event.getItem().getItem();
-                    if (Helper.RAWMEAT.containsKey(food.getRegistryName())) {
-                        ((EntityPlayer) event.getEntityLiving()).getFoodStats().addStats((int) (food.getHealAmount(event.getItem()) * Helper.RAWMEAT.get(food.getRegistryName())), food.getSaturationModifier(event.getItem()) * Helper.RAWMEAT.get(food.getRegistryName()));
-                    }
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
     public void onBreakSpeed(PlayerEvent.BreakSpeed event) {
         if (Helper.isWerewolf(event.getEntityPlayer())) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(event.getEntityPlayer());
@@ -91,7 +66,7 @@ public class ModPlayerEventHandler {
                         event.setCanceled(true);
                     }
                 } else {
-                    event.setNewSpeed((float) event.getEntityPlayer().getAttributeMap().getAttributeInstance(VReference.harvestSpeed).getAttributeValue());
+                    event.setNewSpeed((float) event.getEntityPlayer().getAttributeMap().getAttributeInstance(WReference.harvestSpeed).getAttributeValue());
                 }
             }
         }
@@ -103,44 +78,10 @@ public class ModPlayerEventHandler {
             WerewolfPlayer werewolf = WerewolfPlayer.get(event.getEntityPlayer());
             // TODO werewolf level
             if (werewolf.getSpecialAttributes().werewolf > 1) {
-                if (!(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) && event.getTargetBlock().getBlock().getHarvestLevel(event.getTargetBlock()) <= event.getEntityPlayer().getAttributeMap().getAttributeInstance(VReference.harvestLevel).getAttributeValue()) {
+                if (!(event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemTool) && event.getTargetBlock().getBlock().getHarvestLevel(event.getTargetBlock()) <= event.getEntityPlayer().getAttributeMap().getAttributeInstance(WReference.harvestLevel).getAttributeValue()) {
                     event.setCanHarvest(true);
                 }
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player.isPlayerFullyAsleep()) {
-            IBlockState state = event.player.world.getBlockState(event.player.bedLocation);
-            if (state.getBlock().equals(Blocks.BED) || state.getBlock().equals(ModBlocks.block_coffin)) {
-                WerewolfPlayer.get(event.player).turnWerewolf();
-            } else if (event.player.world.isDaytime()) {
-                event.player.wakeUpPlayer(true, true, false);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onWakeUp(PlayerWakeUpEvent event) {
-        if (event.getEntityPlayer().isPotionActive(ModPotions.drowsy)) {
-            WerewolfPlayer.get(event.getEntityPlayer()).turnWerewolf();
-            event.getEntityPlayer().removeActivePotionEffect(ModPotions.drowsy);
-        }
-    }
-
-    @SubscribeEvent
-    public void onSleepTimeCheck(SleepingTimeCheckEvent event) {
-        if (event.getEntityPlayer().bedLocation == null || !(event.getEntity().world.getBlockState(event.getEntityPlayer().bedLocation).getBlock().equals(Blocks.BED) || event.getEntity().world.getBlockState(event.getEntityPlayer().bedLocation).getBlock().equals(ModBlocks.block_coffin))) {
-            event.setResult(Result.ALLOW);
-        }
-    }
-
-    @SubscribeEvent
-    public void onSleepLocationCheck(SleepingLocationCheckEvent event) {
-        if (event.getEntityPlayer().isPlayerSleeping()) {
-            event.setResult(Result.ALLOW);
         }
     }
 }

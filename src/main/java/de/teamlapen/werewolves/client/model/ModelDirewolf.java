@@ -24,7 +24,7 @@ public class ModelDirewolf extends ModelBase {
     public ModelRenderer tail;
     public ModelRenderer head;
 
-    public ModelDirewolf() {
+    public ModelDirewolf() {//TODO better derewolf Model
         this.textureWidth = 64;
         this.textureHeight = 64;
         this.tail = new ModelRenderer(this, 13, 21);

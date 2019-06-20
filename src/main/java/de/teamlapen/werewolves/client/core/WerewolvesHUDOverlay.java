@@ -3,7 +3,6 @@ package de.teamlapen.werewolves.client.core;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
 import de.teamlapen.werewolves.config.Balance;
 import de.teamlapen.werewolves.core.ModPotions;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -14,17 +13,15 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class WerewolvesHUDOverlay extends ExtendedGui {
     private final Minecraft mc = Minecraft.getMinecraft();
-    //private int drowsyDuration = 0;
 
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event) {
-        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+        ScaledResolution scaledresolution = new ScaledResolution(mc);
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
         GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
@@ -35,11 +32,10 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         GlStateManager.loadIdentity();
         GlStateManager.pushMatrix();
         GL11.glDisable(GL11.GL_DEPTH_TEST);
-        if (this.mc.player.isPotionActive(ModPotions.drowsy)) {
-            if (this.mc.player.getActivePotionEffect(ModPotions.drowsy).getDuration() > 0) {
-                //this.drowsyDuration = Math.max(this.drowsyDuration, this.mc.player.getActivePotionEffect(ModPotions.drowsy).getDuration());
-                float s = (float) this.mc.player.getActivePotionEffect(ModPotions.drowsy).getDuration() / (float) Balance.ge.DROWSYTIME;
-                float a = (float) (1 - s * 0.8D > 0.8D ? 0.8D : 1 - s * 0.8D);
+        if (mc.player.isPotionActive(ModPotions.drowsy)) {
+            if (mc.player.getActivePotionEffect(ModPotions.drowsy).getDuration() > 0) {
+                float s = (float) mc.player.getActivePotionEffect(ModPotions.drowsy).getDuration() / (float) Balance.ge.DROWSYTIME;
+                float a = (float) (1 - s * 0.7D > 0.7D ? 0.7D : 1 - s * 0.7D);
 
                 GlStateManager.disableTexture2D();
                 GlStateManager.enableBlend();
@@ -49,10 +45,10 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder worldrenderer = tessellator.getBuffer();
                 worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                worldrenderer.pos(0, j, this.zLevel).color(0, 0, 0, a).endVertex();
-                worldrenderer.pos(i, j, this.zLevel).color(0, 0, 0, a).endVertex();
-                worldrenderer.pos(i, 0, this.zLevel).color(0, 0, 0, a).endVertex();
-                worldrenderer.pos(0, 0, this.zLevel).color(0, 0, 0, a).endVertex();
+                worldrenderer.pos(0, j, zLevel).color(0, 0, 0, a).endVertex();
+                worldrenderer.pos(i, j, zLevel).color(0, 0, 0, a).endVertex();
+                worldrenderer.pos(i, 0, zLevel).color(0, 0, 0, a).endVertex();
+                worldrenderer.pos(0, 0, zLevel).color(0, 0, 0, a).endVertex();
 
                 tessellator.draw();
                 GlStateManager.shadeModel(7424);

@@ -2,8 +2,7 @@ package de.teamlapen.werewolves.api.items;
 
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.items.IFactionSlayerItem;
-import de.teamlapen.werewolves.api.VReference;
-
+import de.teamlapen.werewolves.api.WReference;
 import net.minecraft.item.ItemStack;
 
 public interface ISilverFactionSlayerItem extends IFactionSlayerItem {
@@ -14,6 +13,6 @@ public interface ISilverFactionSlayerItem extends IFactionSlayerItem {
 
     @Override
     public default IFaction getSlayedFaction() {
-        return VReference.WEREWOLF_FACTION;
+        return WReference.WEREWOLF_FACTION;
     }
 }

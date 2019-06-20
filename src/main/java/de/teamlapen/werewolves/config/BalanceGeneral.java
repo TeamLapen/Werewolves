@@ -8,7 +8,7 @@ import java.io.File;
 
 public class BalanceGeneral extends BalanceValues {
 
-    @DefaultInt(value = 100, comment = "in ticks")
+    @DefaultInt(value = 10, comment = "in minutes")
     public int DROWSYTIME;
 
     public BalanceGeneral(File directory) {

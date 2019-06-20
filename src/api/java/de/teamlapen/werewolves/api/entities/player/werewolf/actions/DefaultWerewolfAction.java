@@ -1,9 +1,8 @@
 package de.teamlapen.werewolves.api.entities.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.DefaultAction;
-import de.teamlapen.werewolves.api.VReference;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
-
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -16,6 +15,6 @@ public abstract class DefaultWerewolfAction extends DefaultAction<IWerewolfPlaye
      *            If null Vampirism's default one will be used
      */
     public DefaultWerewolfAction(ResourceLocation icons) {
-        super(VReference.WEREWOLF_FACTION, icons);
+        super(WReference.WEREWOLF_FACTION, icons);
     }
 }

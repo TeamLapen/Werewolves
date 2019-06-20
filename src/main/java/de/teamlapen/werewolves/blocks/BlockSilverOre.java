@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
-public class BlockSilverOre extends VampireWerewolfBlock {
+public class BlockSilverOre extends WerewolvesBlock {
     private static final String name = "silver_ore";
 
     public BlockSilverOre() {

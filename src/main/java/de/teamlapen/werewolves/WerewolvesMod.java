@@ -7,11 +7,10 @@ import de.teamlapen.lib.lib.util.IInitListener.Step;
 import de.teamlapen.lib.lib.util.Logger;
 import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.werewolves.api.VReference;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfMob;
 import de.teamlapen.werewolves.config.Balance;
-import de.teamlapen.werewolves.config.RawMeatLoader;
 import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.player.ModPlayerEventHandler;
@@ -19,7 +18,7 @@ import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.proxy.IProxy;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.ScoreboardUtil;
-
+import de.teamlapen.werewolves.world.ModVillageEventHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
@@ -35,15 +34,15 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.File;
 
 @Mod.EventBusSubscriber
-@Mod(modid = REFERENCE.MODID, name = REFERENCE.NAME, version = REFERENCE.VERSION, acceptedMinecraftVersions = "[1.12.2,)", dependencies = "required-after:forge@[" + REFERENCE.FORGE_VERSION_MIN + ",);after:guideapi" + ";after:vampirism" + ";after:teamlapen-lib")
+@Mod(modid = REFERENCE.MODID, name = REFERENCE.NAME, version = REFERENCE.VERSION, acceptedMinecraftVersions = "[1.12.2,)", dependencies = "required-after:forge@[" + REFERENCE.FORGE_VERSION_MIN + ",);after:guideapi" + ";required-after:vampirism@[" + REFERENCE.VAMPIRISM_VERSION_MIN + ",);after:teamlapen-lib")
 public class WerewolvesMod {
     /**
      * Werewolve creatures are of this creature type. Use the instance in
-     * {@link VReference} instead of this one. This is only here to init it as early
+     * {@link WReference} instead of this one. This is only here to init it as early
      * as possible
      */
     private static final EnumCreatureType WEREWOLF_CREATURE_TYPE = EnumHelper.addCreatureType("WEREWOLVES_WEREWOLF", IWerewolfMob.class, 30, Material.AIR, false, false);
@@ -70,6 +69,7 @@ public class WerewolvesMod {
     public WerewolvesMod() {
         this.registryManager = new RegistryManager();
         MinecraftForge.EVENT_BUS.register(this.registryManager);
+        MinecraftForge.EVENT_BUS.register(new ModVillageEventHandler());
     }
 
     @Mod.EventHandler
@@ -78,7 +78,6 @@ public class WerewolvesMod {
         WerewolfPlayer.registerCapability();
         this.setupAPI2();
         Balance.init(new File(event.getModConfigurationDirectory(), REFERENCE.MODID), VampirismMod.inDev);
-        RawMeatLoader.init(new File(event.getModConfigurationDirectory(), REFERENCE.MODID));
 
         dispatcher.registerPackets();
         this.registryManager.onInitStep(Step.PRE_INIT, event);
@@ -107,8 +106,8 @@ public class WerewolvesMod {
     }
 
     private void setupAPI2() {
-        VReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction("Werewolf", IWerewolfPlayer.class, Color.DARK_GRAY.getRGB(), REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.CAP, REFERENCE.HIGHEST_WEREWOLF_LEVEL);
-        VReference.WEREWOLF_FACTION.setChatColor(TextFormatting.DARK_GRAY).setUnlocalizedName("text.werewolves.werewolf", "text.werewolves.werewolf");
-        VReference.WEREWOLF_CREATURE_TYPE = WEREWOLF_CREATURE_TYPE;
+        WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction("Werewolf", IWerewolfPlayer.class, Color.DARK_GRAY.getRGB(), REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.CAP, REFERENCE.HIGHEST_WEREWOLF_LEVEL);
+        WReference.WEREWOLF_FACTION.setChatColor(TextFormatting.DARK_GRAY).setUnlocalizedName("text.werewolves.werewolf", "text.werewolves.werewolf");
+        WReference.WEREWOLF_CREATURE_TYPE = WEREWOLF_CREATURE_TYPE;
     }
 }

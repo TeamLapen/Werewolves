@@ -7,7 +7,7 @@ import net.minecraft.scoreboard.ScoreCriteriaReadOnly;
 import net.minecraft.scoreboard.ScoreObjective;
 
 public class ScoreboardUtil {
-    public final static IScoreCriteria WEREWOLF_LEVEL_CRITERIA = new ScoreCriteriaReadOnly("vampirism:werewolf");
+    public final static IScoreCriteria WEREWOLF_LEVEL_CRITERIA = new ScoreCriteriaReadOnly("werewolves:werewolf");
 
     private static boolean init = false;
 

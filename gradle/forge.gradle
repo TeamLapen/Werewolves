@@ -39,9 +39,7 @@ dependencies {
     //deobfCompile 'mcp.mobius.waila:Waila:' + config.waila_version
     //deobfCompile 'Waila:Waila:1.7.1_1.11.2' //Backup Waila on curseforge
     deobfCompile 'info.amerifrance.guideapi:Guide-API:' + config.guide_api_version
-	deobfCompile 'de.teamlapen.vampirism:Vampirism:' + config.vampirism_version
-
-
+    deobfCompile "de.teamlapen.vampirism:Vampirism:" + config.vampirism_version
 }
 
 minecraft {

@@ -1,9 +1,8 @@
 package de.teamlapen.werewolves.player.skills;
 
 import de.teamlapen.vampirism.player.skills.VampirismSkill;
-import de.teamlapen.werewolves.api.VReference;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
-
 import net.minecraft.util.ResourceLocation;
 
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
@@ -17,7 +16,7 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
      *            Enable description using the default unlocalized key
      */
     public SimpleWerewolfSkill(ResourceLocation id, int u, int v, boolean desc) {
-        super(VReference.WEREWOLF_FACTION);
+        super(WReference.WEREWOLF_FACTION);
         this.setRegistryName(id);
         this.u = u;
         this.v = v;

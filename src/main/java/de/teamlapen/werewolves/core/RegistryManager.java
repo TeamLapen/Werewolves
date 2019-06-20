@@ -1,15 +1,16 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.lib.lib.util.IInitListener;
+import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.skills.SkillEvent;
-import de.teamlapen.werewolves.api.VReference;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.compat.OreDictionaryCompat;
+import de.teamlapen.werewolves.entity.actions.werewolves.EntityActions;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfActions;
 import de.teamlapen.werewolves.player.werewolf.skills.WerewolfSkills;
 import de.teamlapen.werewolves.world.gen.WerewolvesWorldGen;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
@@ -74,10 +75,15 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onSkillNodeCreated(SkillEvent.CreatedNode event) {
         if (event.getNode().isRoot()) {
-            if (event.getNode().getFaction().equals(VReference.WEREWOLF_FACTION)) {
+            if (event.getNode().getFaction().equals(WReference.WEREWOLF_FACTION)) {
                 WerewolfSkills.buildSkillTree(event.getNode());
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onRegisterEntityActions(RegistryEvent.Register<IEntityAction> event) {
+        EntityActions.registerDefaultActions(event.getRegistry());
     }
 
     @SubscribeEvent

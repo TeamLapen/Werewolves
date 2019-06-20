@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.entity.EntityDirewolf;
 import de.teamlapen.werewolves.util.REFERENCE;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -16,8 +15,10 @@ import java.util.List;
 
 public class ModEntities {
     public static final String DIREWOLF = "direwolf";
+    public static final String WEREHUMAN = "werehuman";
 
     public static final List<String> spawnableEntityNames = new ArrayList<>();
+
     private static int modEntityId = 0;
 
     static void registerEntities(IForgeRegistry<EntityEntry> registry) {

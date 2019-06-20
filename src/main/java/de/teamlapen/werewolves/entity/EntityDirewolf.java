@@ -1,10 +1,9 @@
 package de.teamlapen.werewolves.entity;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.werewolves.api.VReference;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.core.ModPotions;
 import de.teamlapen.werewolves.world.loot.LootHandler;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.*;
@@ -31,8 +30,8 @@ public class EntityDirewolf extends EntityMob {
         this.tasks.addTask(10, new EntityAILookIdle(this));
 
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(VReference.WEREWOLF_FACTION, true, false, true, true, null)));
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityCreature.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(VReference.WEREWOLF_FACTION, false, true, false, false, null)));
+        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(WReference.WEREWOLF_FACTION, true, false, true, true, null)));
+        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityCreature.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(WReference.WEREWOLF_FACTION, false, true, false, false, null)));
     }
 
     @Override

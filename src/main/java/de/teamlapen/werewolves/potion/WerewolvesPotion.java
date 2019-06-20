@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.potion;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.werewolves.util.REFERENCE;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -12,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class WerewolvesPotion extends Potion {
 
-    private static final ResourceLocation ICONS = new ResourceLocation("vampirism", "textures/gui/potions.png");
+    private static final ResourceLocation ICONS = new ResourceLocation(REFERENCE.MODID, "textures/gui/potions.png");
     @SideOnly(Side.CLIENT)
     private static final int ICON_TEXTURE_WIDTH = 144;
     @SideOnly(Side.CLIENT)
@@ -40,7 +39,6 @@ public class WerewolvesPotion extends Potion {
             UtilLib.drawTexturedModalRect(0, k + 3, l + 3, index % 8 * 18, index / 8 * 18, 18, 18, ICON_TEXTURE_WIDTH, ICON_TEXTURE_HEIGHT);
 
         }
-
     }
 
     @SideOnly(Side.CLIENT)

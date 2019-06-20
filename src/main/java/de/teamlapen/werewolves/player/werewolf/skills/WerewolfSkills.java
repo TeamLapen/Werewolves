@@ -6,13 +6,12 @@ import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillManager;
 import de.teamlapen.vampirism.api.entity.player.skills.SkillNode;
 import de.teamlapen.vampirism.player.skills.ActionSkill;
-import de.teamlapen.werewolves.api.VReference;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.skills.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfActions;
 import de.teamlapen.werewolves.util.REFERENCE;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -32,7 +31,7 @@ public class WerewolfSkills {
 
     // TODO Skill Icons
     public static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
-        registry.register(new SimpleWerewolfSkill(VReference.WEREWOLF_FACTION.getKey(), 32, 0, false));
+        registry.register(new SimpleWerewolfSkill(WReference.WEREWOLF_FACTION.getKey(), 32, 0, false));
         registry.register(new ActionSkill<IWerewolfPlayer>(new ResourceLocation(REFERENCE.MODID, "werewolf"), WerewolfActions.werewolf_werewolf) {
             @Override
             public String getLocalizedDescription() {

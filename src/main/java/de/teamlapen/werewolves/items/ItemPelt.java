@@ -5,7 +5,6 @@ import de.teamlapen.werewolves.core.ModPotions;
 import de.teamlapen.werewolves.potion.DrowsyPotion;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -30,8 +29,8 @@ public class ItemPelt extends ItemArmor {
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if (!world.isDaytime() && world.getWorldTime() % 120 == 0) {
-            if (!(player.isPotionActive(ModPotions.drowsy) || Helper.isWerewolf(player))) {
+        if (!world.isDaytime() && world.getWorldTime() % 240 == 0) {
+            if (!(player.isPotionActive(ModPotions.drowsy) || Helper.isWerewolf(player) || player.isPlayerSleeping())) {
                 DrowsyPotion.addDrowsyPotion(player);
             }
         }
