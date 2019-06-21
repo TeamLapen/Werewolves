@@ -34,8 +34,9 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         if (mc.player.isPotionActive(ModPotions.drowsy)) {
             if (mc.player.getActivePotionEffect(ModPotions.drowsy).getDuration() > 0) {
-                float s = (float) mc.player.getActivePotionEffect(ModPotions.drowsy).getDuration() / (float) Balance.ge.DROWSYTIME;
+                float s = mc.player.getActivePotionEffect(ModPotions.drowsy).getDuration() / (Balance.ge.DROWSYTIME * 1200);
                 float a = (float) (1 - s * 0.7D > 0.7D ? 0.7D : 1 - s * 0.7D);
+                //WerewolvesMod.log.t("duration: %s, balance: %s, s: %s, a: %s", mc.player.getActivePotionEffect(ModPotions.drowsy).getDuration(),(float) Balance.ge.DROWSYTIME * 1200, s, a);
 
                 GlStateManager.disableTexture2D();
                 GlStateManager.enableBlend();

@@ -1,17 +1,20 @@
 package de.teamlapen.werewolves.world;
 
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
+import de.teamlapen.werewolves.api.WReference;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ModVillageEventHandler {
 
     @SubscribeEvent
     public void onCaptureInitilized(VampirismVillageEvent.InitiateCapture event) {
-
     }
 
     @SubscribeEvent
     public void onMakeAgressive(VampirismVillageEvent.MakeAggressive event) {
+        if (event.getVillage().getControllingFaction().equals(WReference.WEREWOLF_FACTION)) {
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent

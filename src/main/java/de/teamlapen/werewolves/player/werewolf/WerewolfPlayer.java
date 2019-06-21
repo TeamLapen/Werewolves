@@ -332,7 +332,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
      *            The entity to attack
      */
     private void biteAttack(EntityLivingBase entity) {
-        // TODO
         float damage = (float) this.player.getEntityAttribute(WReference.biteDamage).getAttributeValue();
         entity.attackEntityFrom(DamageSource.causePlayerDamage(this.player), damage);
         if (!entity.isEntityUndead()) {

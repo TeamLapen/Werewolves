@@ -1,6 +1,8 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.entity.EntityFactionVillager;
 import de.teamlapen.werewolves.entity.EntityDirewolf;
+import de.teamlapen.werewolves.entity.EntityWerewolf;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -10,19 +12,17 @@ import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ModEntities {
     public static final String DIREWOLF = "direwolf";
-    public static final String WEREHUMAN = "werehuman";
-
-    public static final List<String> spawnableEntityNames = new ArrayList<>();
+    public static final String WEREWOLF_FACTION_VILLAGER = "werewolf_faction_villager";
+    public static final String WEREWOLF = "werewolf";
 
     private static int modEntityId = 0;
 
     static void registerEntities(IForgeRegistry<EntityEntry> registry) {
         registry.register(prepareEntityEntry(EntityDirewolf.class, DIREWOLF, EntityLiving.SpawnPlacementType.ON_GROUND, true).build());
+        registry.register(prepareEntityEntry(EntityFactionVillager.class, WEREWOLF_FACTION_VILLAGER, EntityLiving.SpawnPlacementType.ON_GROUND, false).build());
+        registry.register(prepareEntityEntry(EntityWerewolf.class, WEREWOLF, EntityLiving.SpawnPlacementType.ON_GROUND, true).build());
     }
 
     private static <T extends Entity> EntityEntryBuilder<T> prepareEntityEntry(Class<T> clazz, String id, EntityLiving.SpawnPlacementType placementType, boolean egg) {
