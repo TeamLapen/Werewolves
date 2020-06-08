@@ -1,0 +1,178 @@
+repositories {
+    maven {
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
+    maven {
+        //Local repo for custom forge builds.
+        //Is not required to exist
+        name = "LocalForge"
+        url = "../../MinecraftForge/repo/"
+    }
+    maven {
+        url = "https://maxanier.de/maven2"
+    }
+    mavenCentral()
+    mavenLocal()
+}
+
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+    compileOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}:api") //API for compile
+    runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}") //Full for runtime
+    compile fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}")
+    compile fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
+}
+
+minecraft {
+    mappings channel: "${project.mcp_channel}".toString(), version: "${project.mcp_mappings}".toString()
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            taskName 'runClient'
+            main 'net.minecraftforge.userdev.LaunchTesting'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            workingDirectory project.file('run/client').canonicalPath
+            jvmArg '-ea:de.teamlapen...'
+
+            mods {
+                werewolves {
+                    source sourceSets.main
+                    source sourceSets.api
+                }
+            }
+
+        }
+        server {
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            workingDirectory project.file('run/server').canonicalPath
+            jvmArg '-ea:de.teamlapen...'
+
+            mods {
+                werewolves {
+                    source sourceSets.main
+                    source sourceSets.api
+                }
+
+
+            }
+        }
+        data {
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            workingDirectory project.file('run/data').canonicalPath
+            jvmArg '-ea:de.teamlapen...'
+            args '--mod', 'werewolves', '--all', '--output', file('src/generated/resources/')
+            mods {
+                werewolves {
+                    source sourceSets.api
+                }
+            }
+        }
+    }
+
+}
+
+//task downloadCrowdin() {
+//    ext {
+//        output = file('build/crowdin_raw.zip')
+//        update = file('build/crowdin.json')
+//        id = 'vampirism'
+//    }
+//    outputs.upToDateWhen { false }
+//    onlyIf {
+//        project.hasProperty('CROWDIN_KEY') && !project.gradle.startParameter.isOffline()
+//    }
+//    doLast {
+//        download {
+//            src "https://api.crowdin.com/api/project/${id}/export?key=${project.CROWDIN_KEY}&export_translated_only&json"
+//            dest update
+//            overwrite true
+//        }
+//        if (!update.text.contains('success')) {
+//            throw new RuntimeException("Crowdin export failed, see ${update} for more info")
+//        }
+//        download {
+//            src "https://api.crowdin.com/api/project/${id}/download/all.zip?key=${project.CROWDIN_KEY}"
+//            dest output
+//            overwrite true
+//        }
+//    }
+//}
+
+//task crowdin(type: Copy){
+//    dependsOn downloadCrowdin
+//    onlyIf {
+//        !downloadCrowdin.state.skipped
+//    }
+//    destinationDir = file('build/translations')
+//    from(zipTree(downloadCrowdin.output)){
+//        filter { String line ->
+//            line.indexOf("\"\"") != -1 ? null : line //Filter empty translations
+//        }
+//        filteringCharset = 'UTF-8'
+//        exclude { it.isDirectory() }
+//        rename { it.toLowerCase() }//Minecraft needs it lowercase.
+//        exclude '**/*.lang' //Pre-1.13 format
+//    }
+//}
+
+processResources {
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'META-INF/mods.toml'
+
+        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version
+    }
+
+
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'META-INF/mods.toml'
+    }
+    outputs.upToDateWhen { false }
+
+    exclude '**/Thumbs.db'
+}
+
+jar {
+//    dependsOn 'crowdin'
+
+    //Keep the jar as clean as possible
+    includeEmptyDirs = false
+
+    from sourceSets.main.output.classesDirs
+    from sourceSets.api.output.classesDirs
+    from sourceSets.main.output.resourcesDir
+    from sourceSets.api.output.resourcesDir
+
+    from{
+        fileTree('build/translations').matching{
+            exclude "**/en_us.json" //Don't override local source file
+        }
+    }
+
+
+
+    manifest {
+        attributes([
+                "FMLAT": "accesstransformer.cfg",
+                "Specification-Title": "werewolves",
+                "Specification-Vendor": "cheaterpaul",
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${mod_version}",
+                "Implementation-Vendor" :"cheaterpaul",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+
+}

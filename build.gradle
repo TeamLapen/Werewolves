@@ -1,0 +1,61 @@
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
+
+plugins {
+//    id 'com.matthewprenger.cursegradle' version '1.2.0'
+//    id 'de.undercouch.download' version '3.3.0'
+//    id 'com.wynprice.cursemaven' version '2.1.1'
+    id 'idea'
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+
+group = 'de.teamlapen.werewolves' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'Werewolves'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
+ext.mod_version="Test"
+ext.type="test"
+
+sourceSets {
+    api
+    main {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+    }
+    test {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+    }
+}
+
+apply from: 'gradle/versioning.gradle'
+apply from: 'gradle/forge.gradle'
+apply from: 'gradle/dev.gradle'
+apply from: 'gradle/deploy.gradle'
+
+
+configurations {
+    apiCompile.extendsFrom(compile)
+}
+
+idea {
+    module {
+        for (String excludeDirName in ["run", "out", "logs", "gradle"]) {
+            File excludeDir = new File(projectDir, excludeDirName)
+            excludeDirs.add(excludeDir)
+        }
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}

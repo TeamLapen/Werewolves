@@ -1,0 +1,33 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+issueTrackerURL="https://github.com/TeamLapen/Werewolves/issues"
+
+[[mods]]
+    modId="werewolves"
+    namespace="werewolves"
+    version="${version}"
+    displayName="Werewolves"
+    updateJSONURL="http://myurl.me/"
+    displayURL="https://vampirism.maxanier.de"
+    logoFile="examplemod.png"
+    credits="Thanks for this example mod goes to Java"
+    authors="Cheaterpaul"
+    [[dependencies.werewolves]]
+        modId="forge"
+        mandatory=true
+        versionRange="[28,)"
+        ordering="NONE"
+        side="BOTH"
+    [[dependencies.werewolves]]
+        modId="teamlapenlib"
+        mandatory=true
+        versionRange="[1.6.3,]"
+        ordering="AFTER"
+        side="BOTH"
+    [[dependencies.werewolves]]
+        modId="vampirism"
+        mandatory=true
+        versionRange="[1.6.3,]"
+        ordering="AFTER"
+        side="BOTH"
+
