@@ -1,11 +1,14 @@
 package de.teamlapen.werewolves;
 
+import de.teamlapen.lib.HelperRegistry;
 import de.teamlapen.lib.lib.network.AbstractPacketDispatcher;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.core.ModItems;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.data.ModTagsProvider;
+import de.teamlapen.werewolves.player.ModPlayerEvenHandler;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
@@ -13,6 +16,7 @@ import de.teamlapen.werewolves.proxy.Proxy;
 import de.teamlapen.werewolves.proxy.ServerProxy;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.RegistryManager;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.item.ItemGroup;
@@ -77,6 +81,7 @@ public class WerewolfvesMod {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
+        MinecraftForge.EVENT_BUS.register(new ModPlayerEvenHandler());
     }
 
     private void checkDevEnv() {
@@ -115,11 +120,15 @@ public class WerewolfvesMod {
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
-
+        HelperRegistry.registerPlayerEventReceivingCapability(WerewolfPlayer.CAP, WerewolfPlayer.class);
+        HelperRegistry.registerSyncablePlayerCapability(WerewolfPlayer.CAP, REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.class);
     }
 
     private void gatherData(final GatherDataEvent event) {
-
+        DataGenerator generator = event.getGenerator();
+        if(event.includeServer()) {
+            ModTagsProvider.addProvider(generator);
+        }
     }
 
     private void setUpClient(final FMLClientSetupEvent event) {

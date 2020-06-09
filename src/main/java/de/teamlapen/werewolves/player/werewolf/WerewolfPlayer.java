@@ -1,11 +1,17 @@
 package de.teamlapen.werewolves.player.werewolf;
 
+import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.player.VampirismPlayer;
+import de.teamlapen.vampirism.player.actions.ActionHandler;
+import de.teamlapen.vampirism.player.skills.SkillHandler;
+import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.entity.IWerewolf;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -14,9 +20,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
 import org.apache.logging.log4j.LogManager;
@@ -50,13 +54,45 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         CapabilityManager.INSTANCE.register(IWerewolfPlayer.class, new Storage(), WerewolfPlayerDefaultImpl::new);
     }
 
+    public static ICapabilityProvider createNewCapability(final PlayerEntity playerEntity) {
+        return new ICapabilitySerializable<CompoundNBT>() {
+
+            final IWerewolfPlayer inst = new WerewolfPlayer(playerEntity);
+            final LazyOptional<IWerewolfPlayer> opt = LazyOptional.of(()->inst);
+            @Nonnull
+            @Override
+            public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+                return CAP.orEmpty(cap,opt);
+            }
+
+            @Override
+            public CompoundNBT serializeNBT() {
+                return (CompoundNBT)CAP.getStorage().writeNBT(CAP,inst,null);
+            }
+
+            @Override
+            public void deserializeNBT(CompoundNBT nbt) {
+                CAP.getStorage().readNBT(CAP,inst,null,nbt);
+            }
+        };
+    }
+
+    private final ActionHandler<IWerewolfPlayer> actionHandler;
+    private final SkillHandler<IWerewolfPlayer> skillHandler;
+
     public WerewolfPlayer(PlayerEntity player) {
         super(player);
+        this.actionHandler = new ActionHandler<>(this);
+        this.skillHandler = new SkillHandler<>(this, WReference.WEREWOLF_FACTION);
     }
 
     @Override
     protected VampirismPlayer<?> copyFromPlayer(PlayerEntity playerEntity) {
-        return null;
+        WerewolfPlayer oldWerewolf = get(playerEntity);
+        CompoundNBT nbt = new CompoundNBT();
+        oldWerewolf.saveData(nbt);
+        this.loadData(nbt);
+        return oldWerewolf;
     }
 
     @Override
@@ -91,7 +127,32 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void onUpdate() {
+        this.player.getEntityWorld().getProfiler().startSection("werewolves_werewolfplayer");
+        if(!isRemote()) {
+            if(getLevel() > 0) {
+                boolean sync = false;
+                boolean syncToAll = false;
+                CompoundNBT syncPacket = new CompoundNBT();
 
+                if(this.actionHandler.updateActions()) {
+                    sync = true;
+                    syncToAll = true;
+                    this.actionHandler.writeUpdateForClient(syncPacket);
+                }
+                if(this.skillHandler.isDirty()) {
+                    sync = true;
+                    skillHandler.writeUpdateForClient(syncPacket);
+                }
+                if(sync) {
+                    sync(syncPacket, syncToAll);
+                }
+            }
+        }else {
+            if(getLevel() > 0) {
+                this.actionHandler.updateActions();
+            }
+        }
+        this.player.getEntityWorld().getProfiler().endSection();
     }
 
     @Override
@@ -101,33 +162,37 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public ResourceLocation getCapKey() {
-        return null;
+        return REFERENCE.WEREWOLF_PLAYER_KEY;
     }
 
     @Override
     public boolean canLeaveFaction() {
-        return false;
+        return true;
     }
 
     @Nullable
     @Override
     public IFaction<?> getDisguisedAs() {
-        return null;
+        return getFaction();
     }
 
     @Override
     public IPlayableFaction<IWerewolfPlayer> getFaction() {
-        return null;
+        return WReference.WEREWOLF_FACTION;
     }
 
     @Override
     public int getMaxLevel() {
-        return 0;
+        return REFERENCE.HIGHEST_WEREWOLF_LEVEL;
     }
 
     @Override
-    public Predicate<LivingEntity> getNonFriendlySelector(boolean b, boolean b1) {
-        return null;
+    public Predicate<LivingEntity> getNonFriendlySelector(boolean otherFactionPlayers, boolean ignoreDisguise) {
+        if (otherFactionPlayers) {
+            return entity -> true;
+        } else {
+            return VampirismAPI.factionRegistry().getPredicate(getFaction(), ignoreDisguise);
+        }
     }
 
     @Override
@@ -136,24 +201,42 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     @Override
-    public void onLevelChanged(int i, int i1) {
-
+    public void onLevelChanged(int newLevel, int oldLevel) {
+        if(!isRemote()) {
+            if(newLevel > 0){
+                if(oldLevel == 0) {
+                    this.skillHandler.enableRootSkill();
+                    int s = Math.max(2,6);
+                }
+            }else {
+                this.actionHandler.resetTimers();
+                this.skillHandler.disableAllSkills();
+            }
+        }else {
+            if(newLevel == 0){
+                this.actionHandler.resetTimers();
+            }
+        }
     }
 
     @Override
     public ISkillHandler<IWerewolfPlayer> getSkillHandler() {
-        return null;
+        return this.skillHandler;
     }
 
     @Override
     public IActionHandler<IWerewolfPlayer> getActionHandler() {
-        return null;
+        return this.actionHandler;
     }
 
-    public void saveData(CompoundNBT compound){
+    public void saveData(CompoundNBT compound) {
+        this.actionHandler.saveToNbt(compound);
+        this.skillHandler.saveToNbt(compound);
     }
 
     public void loadData(CompoundNBT compound) {
+        this.actionHandler.loadFromNbt(compound);
+        this.skillHandler.loadFromNbt(compound);
     }
 
 
