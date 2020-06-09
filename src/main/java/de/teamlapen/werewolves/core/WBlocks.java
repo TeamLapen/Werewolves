@@ -1,13 +1,14 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.werewolves.WerewolfvesMod;
+import de.teamlapen.werewolves.blocks.WFlowerBlock;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Block;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Effects;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -16,18 +17,21 @@ import javax.annotation.Nonnull;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class ModBlocks {
+public class WBlocks {
 
     public static final Block silver_ore = getNull();
+    public static final Block wolfsbane = getNull();
 
 
     public static void registerItemBlocks(IForgeRegistry<Item> registry) {
         registry.register(itemBlock(silver_ore));
+        registry.register(itemBlock(wolfsbane,new Item.Properties().group(WerewolfvesMod.creativeTab)));
     }
 
 
     public static void registerBlocks(IForgeRegistry<Block> registry) {
         registry.register(new OreBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 5.0F)).setRegistryName(REFERENCE.MODID, "silver_ore"));
+        registry.register(new WFlowerBlock(Effects.BLINDNESS,5).setRegistryName(REFERENCE.MODID,"wolfsbane"));
     }
 
 

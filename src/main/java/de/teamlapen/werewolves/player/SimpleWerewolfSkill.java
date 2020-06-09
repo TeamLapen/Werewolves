@@ -12,11 +12,6 @@ import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
-
-    private static final Supplier<IPlayableFaction<IWerewolfPlayer>> WEREWOLF_FACTION = () -> WReference.WEREWOLF_FACTION;
-
-    private final Supplier<IPlayableFaction<?>> faction;
-
     @Deprecated
     public SimpleWerewolfSkill(String id) {
         this(new ResourceLocation(REFERENCE.MODID, id), false);
@@ -32,8 +27,6 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     }
 
     public SimpleWerewolfSkill(ResourceLocation id, boolean desc) {
-        super(WEREWOLF_FACTION);
-        this.faction = ()-> WReference.WEREWOLF_FACTION;
         this.setRegistryName(id);
         if (desc) setHasDefaultDescription();
     }
@@ -41,6 +34,6 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     @Nonnull
     @Override
     public IPlayableFaction<?> getFaction() {
-        return faction.get();
+        return WReference.WEREWOLF_FACTION;
     }
 }

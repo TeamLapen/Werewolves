@@ -7,6 +7,8 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.core.ModItems;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.core.WItems;
+import de.teamlapen.werewolves.core.WTags;
 import de.teamlapen.werewolves.data.ModTagsProvider;
 import de.teamlapen.werewolves.player.ModPlayerEvenHandler;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
@@ -19,8 +21,11 @@ import de.teamlapen.werewolves.util.RegistryManager;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTier;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -53,6 +58,38 @@ public class WerewolfvesMod {
     public static final EntityClassification WEREWOLF_CREATUE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 20, false, false);
 
     public static final CreatureAttribute WEREWOLF_CREATURE_ATTRIBUTES = new CreatureAttribute();
+
+    public static final IItemTier SILVER_ITEM_TIER = new IItemTier() {
+        @Override
+        public int getMaxUses() {
+            return 250;
+        }
+
+        @Override
+        public float getEfficiency() {
+            return 6.0f;
+        }
+
+        @Override
+        public float getAttackDamage() {
+            return 2.0f;
+        }
+
+        @Override
+        public int getHarvestLevel() {
+            return 2;
+        }
+
+        @Override
+        public int getEnchantability() {
+            return 14;
+        }
+
+        @Override
+        public Ingredient getRepairMaterial() {
+            return Ingredient.fromTag(WTags.ItemTags.SILVER_INGOT);
+        }
+    };
 
     public static final Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
     public static WerewolfvesMod instance;

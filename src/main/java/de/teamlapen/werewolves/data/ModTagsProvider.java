@@ -1,7 +1,8 @@
 package de.teamlapen.werewolves.data;
 
-import de.teamlapen.werewolves.core.ModBlocks;
-import de.teamlapen.werewolves.core.ModTags;
+import de.teamlapen.werewolves.core.WBlocks;
+import de.teamlapen.werewolves.core.WItems;
+import de.teamlapen.werewolves.core.WTags;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
@@ -20,7 +21,7 @@ public class ModTagsProvider {
 
         @Override
         protected void registerTags() {
-            this.getBuilder(ModTags.BlockTags.SILVER).add(ModBlocks.silver_ore);
+            this.getBuilder(WTags.BlockTags.SILVER).add(WBlocks.silver_ore);
         }
     }
 
@@ -31,7 +32,8 @@ public class ModTagsProvider {
 
         @Override
         protected void registerTags() {
-            this.copy(ModTags.BlockTags.SILVER,ModTags.ItemTags.SILVER);
+            this.copy(WTags.BlockTags.SILVER, WTags.ItemTags.SILVER_BLOCK);
+            this.getBuilder(WTags.ItemTags.SILVER_INGOT).add(WItems.silver_ingot);
         }
     }
 }
