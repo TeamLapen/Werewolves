@@ -7,7 +7,10 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.data.BlockStateGenerator;
+import de.teamlapen.werewolves.data.ItemModelGenerator;
 import de.teamlapen.werewolves.data.ModTagsProvider;
+import de.teamlapen.werewolves.data.RecipeGenerator;
 import de.teamlapen.werewolves.player.ModPlayerEvenHandler;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.proxy.ClientProxy;
@@ -127,6 +130,11 @@ public class WerewolfvesMod {
         DataGenerator generator = event.getGenerator();
         if(event.includeServer()) {
             ModTagsProvider.addProvider(generator);
+            generator.addProvider(new RecipeGenerator(generator));
+        }
+        if(event.includeClient()) {
+            generator.addProvider(new ItemModelGenerator(generator, event.getExistingFileHelper()));
+            generator.addProvider(new BlockStateGenerator(generator, event.getExistingFileHelper()));
         }
     }
 
