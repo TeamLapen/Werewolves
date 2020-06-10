@@ -30,6 +30,10 @@ ext.type="test"
 sourceSets {
     api
     main {
+        resources {
+            srcDirs += 'src/generated/resources'
+            exclude '.cache'
+        }
         compileClasspath += sourceSets.api.output
         runtimeClasspath += sourceSets.api.output
     }

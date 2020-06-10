@@ -21,7 +21,7 @@ public class ModTagsProvider {
 
         @Override
         protected void registerTags() {
-            this.getBuilder(WTags.BlockTags.SILVER).add(WBlocks.silver_ore);
+            this.getBuilder(WTags.Blocks.SILVER_BLOCKS).add(WBlocks.silver_ore);
         }
     }
 
@@ -32,8 +32,9 @@ public class ModTagsProvider {
 
         @Override
         protected void registerTags() {
-            this.copy(WTags.BlockTags.SILVER, WTags.ItemTags.SILVER_BLOCK);
-            this.getBuilder(WTags.ItemTags.SILVER_INGOT).add(WItems.silver_ingot);
+            this.copy(WTags.Blocks.SILVER_BLOCKS, WTags.Items.SILVER_BLOCK);
+            this.getBuilder(WTags.Items.SILVER_INGOT).add(WItems.silver_ingot);
+            this.getBuilder(WTags.Items.RAWMEATS).add(net.minecraft.item.Items.BEEF, net.minecraft.item.Items.CHICKEN, net.minecraft.item.Items.MUTTON, net.minecraft.item.Items.PORKCHOP, net.minecraft.item.Items.RABBIT);
         }
     }
 }

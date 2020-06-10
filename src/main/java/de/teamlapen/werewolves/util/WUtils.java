@@ -44,7 +44,7 @@ public class WUtils {
 
         @Override
         public Ingredient getRepairMaterial() {
-            return Ingredient.fromTag(WTags.ItemTags.SILVER_INGOT);
+            return Ingredient.fromTag(WTags.Items.SILVER_INGOT);
         }
     };
 

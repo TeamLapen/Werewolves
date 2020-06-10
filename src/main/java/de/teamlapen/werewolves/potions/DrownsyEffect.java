@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.potions;
 
+import de.teamlapen.vampirism.entity.factions.Faction;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -19,16 +20,21 @@ public class DrownsyEffect extends WerewolvesEffect{
         super(REGNAME, EffectType.HARMFUL, 0xe012ef);
     }
 
+    public static int getPotionDuration() {
+        return WerewolvesConfig.BALANCE.DROWNSYTIME.get() * 1200;
+    }
+
     public static void addDrownsyPotion(PlayerEntity playerEntity) {
         if(FactionPlayerHandler.getOpt(playerEntity).map(player -> player.canJoin(WReference.WEREWOLF_FACTION)).orElse(false)) {
-            playerEntity.addPotionEffect(new EffectInstance(WEffects.drownsy, WerewolvesConfig.BALANCE.DROWNSYTIME.get() * 1200));
+            playerEntity.addPotionEffect(new EffectInstance(WEffects.drownsy, getPotionDuration()));
         }
     }
 
     @Override
     public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
         if(entityLivingBaseIn instanceof PlayerEntity) {
-            //TODO become werewolf
+            //TODO nice effect
+            FactionPlayerHandler.getOpt((PlayerEntity)entityLivingBaseIn).ifPresent(e->e.joinFaction(WReference.WEREWOLF_FACTION));
         }
     }
 
