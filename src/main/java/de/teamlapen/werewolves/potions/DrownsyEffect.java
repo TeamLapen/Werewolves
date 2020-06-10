@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.potions;
 
-import de.teamlapen.vampirism.entity.factions.Faction;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -21,7 +20,7 @@ public class DrownsyEffect extends WerewolvesEffect{
     }
 
     public static int getPotionDuration() {
-        return WerewolvesConfig.BALANCE.DROWNSYTIME.get() * 1200;
+        return WerewolvesConfig.BALANCE.drownsytime.get() * 1200;
     }
 
     public static void addDrownsyPotion(PlayerEntity playerEntity) {
