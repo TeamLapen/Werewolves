@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.werewolves.WerewolfvesMod;
 import de.teamlapen.werewolves.blocks.WFlowerBlock;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.material.Material;
@@ -23,13 +24,13 @@ public class WBlocks {
     public static final Block wolfsbane = getNull();
 
 
-    public static void registerItemBlocks(IForgeRegistry<Item> registry) {
+    static void registerItemBlocks(IForgeRegistry<Item> registry) {
         registry.register(itemBlock(silver_ore));
-        registry.register(itemBlock(wolfsbane,new Item.Properties().group(WerewolfvesMod.creativeTab)));
+        registry.register(itemBlock(wolfsbane,new Item.Properties().group(WUtils.creativeTab)));
     }
 
 
-    public static void registerBlocks(IForgeRegistry<Block> registry) {
+    static void registerBlocks(IForgeRegistry<Block> registry) {
         registry.register(new OreBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 5.0F)).setRegistryName(REFERENCE.MODID, "silver_ore"));
         registry.register(new WFlowerBlock(Effects.BLINDNESS,5).setRegistryName(REFERENCE.MODID,"wolfsbane"));
     }
@@ -37,9 +38,10 @@ public class WBlocks {
 
     @Nonnull
     private static BlockItem itemBlock(@Nonnull Block block) {
-        return itemBlock(block, new Item.Properties().group(WerewolfvesMod.creativeTab));
+        return itemBlock(block, new Item.Properties().group(WUtils.creativeTab));
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Nonnull
     private static BlockItem itemBlock(@Nonnull Block block, @Nonnull Item.Properties props) {
         assert block != null;

@@ -13,7 +13,7 @@ public class WBiomes {
 
     public static final Biome werewolf_heaven = getNull();
 
-    public static void registerBiomes(IForgeRegistry<Biome> registry) {
+    static void registerBiomes(IForgeRegistry<Biome> registry) {
         registry.register(new WerewolfHeaven().setRegistryName(REFERENCE.MODID,"werewolf_heaven"));
     }
 }

@@ -1,13 +1,10 @@
-package de.teamlapen.werewolves.util;
+package de.teamlapen.werewolves.core;
 
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
-import de.teamlapen.werewolves.core.WBiomes;
-import de.teamlapen.werewolves.core.WBlocks;
-import de.teamlapen.werewolves.core.WItems;
-import de.teamlapen.werewolves.core.WerewolfSkills;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Effect;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,5 +35,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterBiomes(RegistryEvent.Register<Biome> event) {
         WBiomes.registerBiomes(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterEffects(RegistryEvent.Register<Effect> event) {
+        WEffects.registerEffects(event.getRegistry());
     }
 }

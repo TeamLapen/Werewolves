@@ -7,7 +7,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class WerewolfSkills {
 
-    public static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
+    static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
     }
 }

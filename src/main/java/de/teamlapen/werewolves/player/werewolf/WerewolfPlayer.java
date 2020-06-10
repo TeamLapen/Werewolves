@@ -50,6 +50,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return opt;
     }
 
+    @SuppressWarnings("deprecation")
     public static void registerCapability() {
         CapabilityManager.INSTANCE.register(IWerewolfPlayer.class, new Storage(), WerewolfPlayerDefaultImpl::new);
     }
@@ -206,7 +207,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             if(newLevel > 0){
                 if(oldLevel == 0) {
                     this.skillHandler.enableRootSkill();
-                    int s = Math.max(2,6);
                 }
             }else {
                 this.actionHandler.resetTimers();
@@ -239,7 +239,17 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.skillHandler.loadFromNbt(compound);
     }
 
+    @Override
+    protected void writeFullUpdate(CompoundNBT nbt) {
+        this.actionHandler.writeUpdateForClient(nbt);
+        this.skillHandler.writeUpdateForClient(nbt);
+    }
 
+    @Override
+    protected void loadUpdate(CompoundNBT nbt) {
+        this.actionHandler.readUpdateFromServer(nbt);
+        this.skillHandler.readUpdateFromServer(nbt);
+    }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {
         @Nullable

@@ -18,5 +18,7 @@
   "item.werewolves.silver_shovel": "Silver Shovel",
   "item.werewolves.silver_sword": "Silver Sword",
   "__comment": "skills",
-  "skill.werewolves.werewolf": "Becoming a Werewolf"
+  "skill.werewolves.werewolf": "Becoming a Werewolf",
+  "__comment": "effects",
+  "effect.werewolves.drownsy": "Drownsy"
 }

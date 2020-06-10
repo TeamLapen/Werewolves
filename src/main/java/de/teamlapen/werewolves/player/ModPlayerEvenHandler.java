@@ -20,7 +20,7 @@ public class ModPlayerEvenHandler {
                 event.addCapability(REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.createNewCapability((PlayerEntity)event.getObject()));
             } catch (Exception e) {
                 LOGGER.error("Failed to attach capabilities to player. Player: {}", event.getObject());
-                Throwables.propagate(e);
+                throw e;
             }
         }
     }
