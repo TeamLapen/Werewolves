@@ -14,6 +14,7 @@ import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.proxy.Proxy;
 import de.teamlapen.werewolves.proxy.ServerProxy;
+import de.teamlapen.werewolves.util.Permissions;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.util.WUtils;
@@ -74,11 +75,12 @@ public class WerewolfvesMod {
         bus.addListener(this::setUpClient);
         bus.register(registryManager);
 
-        WerewolvesConfig.registerConfigs();
-
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
         MinecraftForge.EVENT_BUS.register(new ModPlayerEvenHandler());
+
+        WerewolvesConfig.registerConfigs();
+        Permissions.init();
     }
 
     private void checkDevEnv() {

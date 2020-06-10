@@ -9,7 +9,6 @@ import de.teamlapen.vampirism.player.VampirismPlayer;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.api.entity.IWerewolf;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.LivingEntity;
@@ -80,6 +79,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     private final ActionHandler<IWerewolfPlayer> actionHandler;
     private final SkillHandler<IWerewolfPlayer> skillHandler;
+    private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
 
     public WerewolfPlayer(PlayerEntity player) {
         super(player);
@@ -99,6 +99,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public void onChangedDimension(DimensionType dimensionType, DimensionType dimensionType1) {
 
+    }
+
+    @Nonnull
+    public WerewolfPlayerSpecialAttributes getSpecialAttributes() {
+        return specialAttributes;
     }
 
     @Override
