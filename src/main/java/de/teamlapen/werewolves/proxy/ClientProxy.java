@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.proxy;
 
 import de.teamlapen.werewolves.client.core.ClientEventHandler;
 import de.teamlapen.werewolves.client.core.WEntityRenderer;
+import de.teamlapen.werewolves.client.core.WItemRenderer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
 
@@ -14,6 +15,9 @@ public class ClientProxy extends CommonProxy{
             case CLIENT_SETUP:
                 WEntityRenderer.registerEntityRenderer();
                 MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+                break;
+            case LOAD_COMPLETE:
+                WItemRenderer.registerColors();
                 break;
         }
     }
