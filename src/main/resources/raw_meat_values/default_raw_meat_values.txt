@@ -1,3 +1,0 @@
-#vanilla minecraft raw meat items
-
-minecraft:porkchop=0.5
