@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.lib.lib.util.IInitListener;
+import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -10,6 +11,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
 
+@SuppressWarnings("unused")
 public class RegistryManager implements IInitListener {
     @Override
     public void onInitStep(Step step, ModLifecycleEvent event) {
@@ -40,5 +42,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterEffects(RegistryEvent.Register<Effect> event) {
         WEffects.registerEffects(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterActions(RegistryEvent.Register<IAction> event) {
+        WerewolfActions.registerActions(event.getRegistry());
     }
 }
