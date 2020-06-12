@@ -5,14 +5,23 @@ import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
+import de.teamlapen.vampirism.config.VampirismConfig;
+import de.teamlapen.vampirism.player.LevelAttributeModifier;
 import de.teamlapen.vampirism.player.VampirismPlayer;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
+import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.DamageSource;
@@ -27,12 +36,15 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements IWerewolfPlayer {
     private static final Logger LOGGER = LogManager.getLogger();
+
+    private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
 
     @CapabilityInject(IWerewolfPlayer.class)
     public static Capability<IWerewolfPlayer> CAP = getNull();
@@ -179,7 +191,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nullable
     @Override
     public IFaction<?> getDisguisedAs() {
-        return getFaction();
+        if(this.getSpecialAttributes().trueForm){
+            return WReference.WEREWOLF_FACTION;
+        }
+        return null;
     }
 
     @Override
@@ -201,6 +216,14 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
     }
 
+    public void activateWerewolfForm() {
+        this.specialAttributes.trueForm = true;
+    }
+
+    public void deactivateWerewolfForm() {
+        this.specialAttributes.trueForm = false;
+    }
+
     @Override
     public boolean isDisguised() {
         return false;
@@ -209,6 +232,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public void onLevelChanged(int newLevel, int oldLevel) {
         if(!isRemote()) {
+            ScoreboardUtil.updateScoreboard(this.player, WUtils.WEREWOLF_LEVEL_CRITERIA, newLevel);
+            LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.MOVEMENT_SPEED, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.werewolf_speed_amount.get(), 0.3, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
+            LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.ARMOR_TOUGHNESS, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.werewolf_speed_amount.get(), 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
+            LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.ATTACK_DAMAGE, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.werewolf_damage.get(), 0.5, AttributeModifier.Operation.ADDITION, false);
             if(newLevel > 0){
                 if(oldLevel == 0) {
                     this.skillHandler.enableRootSkill();
@@ -269,5 +296,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         public void readNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side, INBT compound) {
             ((WerewolfPlayer)instance).loadData((CompoundNBT)compound);
         }
+    }
+
+    static {
+        LevelAttributeModifier.registerModdedAttributeModifier(SharedMonsterAttributes.ARMOR_TOUGHNESS,ARMOR_TOUGHNESS);
     }
 }
