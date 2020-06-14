@@ -14,8 +14,11 @@ import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.player.werewolf.actions.WerewolfAction;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -92,9 +95,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final ActionHandler<IWerewolfPlayer> actionHandler;
     private final SkillHandler<IWerewolfPlayer> skillHandler;
     private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
+    private int killedAnimal = 0;
 
     public WerewolfPlayer(PlayerEntity player) {
         super(player);
+        this.applyEntityAttributes();
         this.actionHandler = new ActionHandler<>(this);
         this.skillHandler = new SkillHandler<>(this, WReference.WEREWOLF_FACTION);
     }
@@ -106,6 +111,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         oldWerewolf.saveData(nbt);
         this.loadData(nbt);
         return oldWerewolf;
+    }
+
+    private void applyEntityAttributes() {
+        if (this.player.getAttributes().getAttributeInstance(WReference.biteDamage) == null) {
+            this.player.getAttributes().registerAttribute(WReference.biteDamage);
+        }
     }
 
     @Override
@@ -120,7 +131,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void onDeath(DamageSource damageSource) {
-
+        this.actionHandler.deactivateAllActions();
     }
 
     @Override
@@ -130,7 +141,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void onJoinWorld() {
-
+        if(this.getLevel() > 0) {
+            this.actionHandler.onActionsReactivated();
+        }
     }
 
     @Override
@@ -176,6 +189,59 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public void onUpdatePlayer(TickEvent.Phase phase) {
 
+    }
+
+    public boolean canBite(Entity entity) {
+        return !this.player.isSpectator() && this.getLevel() > 0 && this.actionHandler.isActionActive(WerewolfActions.werewolf_form);
+    }
+
+    /**
+     * Bite the entity with the given id.
+     * Checks reach distance
+     *
+     * @param entityId
+     *            The id of the entity to start biting
+     */
+    public void biteEntity(int entityId) {
+        Entity e = this.player.getEntityWorld().getEntityByID(entityId);
+        if (this.player.isSpectator()) {
+            LOGGER.warn("Player can't bite in spectator mode");
+            return;
+        }
+        if (e instanceof LivingEntity) {
+            if (e.getDistance(this.player) <= this.player.getAttribute(PlayerEntity.REACH_DISTANCE).getValue() + 1) {
+                this.biteAttack((LivingEntity) e);
+            }
+        }
+    }
+
+    /**
+     * only execute in werewolf form
+     *
+     * @param entity The entity to attack
+     */
+    private void biteAttack(LivingEntity entity) {
+        float damage = (float) this.player.getAttribute(WReference.biteDamage).getValue();
+        entity.attackEntityFrom(DamageSource.causePlayerDamage(this.player), damage);
+        if (!entity.isEntityUndead()) {
+            this.eatFleshFrom(entity);
+        }
+        if (!entity.isAlive()) {
+            this.killedAnimal++;
+        }
+    }
+
+    /**
+     * feeds it self from bitten entities
+     *
+     * @param entity
+     *            The bitten entity
+     */
+    private void eatFleshFrom(LivingEntity entity) {
+        if (this.getSpecialAttributes().eatFlesh) {
+            int i = WerewolvesConfig.BALANCE.werewolf_form_duration.get() * 20;
+            this.getActionHandler().extendAction(WerewolfActions.werewolf_form, i / 4);
+        }
     }
 
     @Override

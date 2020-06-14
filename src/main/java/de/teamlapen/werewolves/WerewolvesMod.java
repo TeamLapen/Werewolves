@@ -41,7 +41,7 @@ import java.util.Optional;
 
 @SuppressWarnings("InstantiationOfUtilityClass")
 @Mod(REFERENCE.MODID)
-public class WerewolfvesMod {
+public class WerewolvesMod {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -53,12 +53,12 @@ public class WerewolfvesMod {
 
 
     public static final Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-    public static WerewolfvesMod instance;
+    public static WerewolvesMod instance;
     public final RegistryManager registryManager = new RegistryManager();
     public static boolean inDev = false;
 
-    public WerewolfvesMod() {
-        WerewolfvesMod.instance = this;
+    public WerewolvesMod() {
+        WerewolvesMod.instance = this;
         checkDevEnv();
         WUtils.init();
 
@@ -89,7 +89,7 @@ public class WerewolfvesMod {
     private void checkDevEnv() {
         String launchTarget = System.getenv().get("target");
         if (launchTarget != null && launchTarget.contains("dev")) {
-            WerewolfvesMod.inDev = true;
+            WerewolvesMod.inDev = true;
         }
     }
 
@@ -97,14 +97,15 @@ public class WerewolfvesMod {
         WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction(REFERENCE.WEREWOLF_PLAYER_KEY, IWerewolfPlayer.class, Color.GRAY, true, ()-> WerewolfPlayer.CAP,REFERENCE.HIGHEST_WEREWOLF_LEVEL);
         WReference.WEREWOLF_FACTION.setChatColor(TextFormatting.GRAY).setTranslationKeys("text.werewolves.werewolf","text.vampirism.werewolves");
 
-        WReference.WEREWOLF_CREATUE_TYPE = WerewolfvesMod.WEREWOLF_CREATUE_TYPE;
-        WReference.WEREWOLF_CREATURE_ATTRIBUTES = WerewolfvesMod.WEREWOLF_CREATURE_ATTRIBUTES;
+        WReference.WEREWOLF_CREATUE_TYPE = WerewolvesMod.WEREWOLF_CREATUE_TYPE;
+        WReference.WEREWOLF_CREATURE_ATTRIBUTES = WerewolvesMod.WEREWOLF_CREATURE_ATTRIBUTES;
     }
 
 
     private void setup(final FMLCommonSetupEvent event) {
         setupAPI();
 
+        dispatcher.registerPackets();
         registryManager.onInitStep(IInitListener.Step.COMMON_SETUP, event);
         proxy.onInitStep(IInitListener.Step.COMMON_SETUP, event);
 

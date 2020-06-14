@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.WerewolfvesMod;
 import de.teamlapen.werewolves.blocks.WFlowerBlock;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
