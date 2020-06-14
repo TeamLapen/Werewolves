@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
+import de.teamlapen.vampirism.core.ModBiomes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
@@ -15,7 +16,11 @@ import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
 public class RegistryManager implements IInitListener {
     @Override
     public void onInitStep(Step step, ModLifecycleEvent event) {
-
+        switch (step) {
+            case COMMON_SETUP:
+                WBiomes.addBiomes();
+                break;
+        }
     }
 
     @SubscribeEvent

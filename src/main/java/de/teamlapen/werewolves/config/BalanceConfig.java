@@ -6,6 +6,8 @@ public class BalanceConfig {
 
     public final ForgeConfigSpec.IntValue drownsytime;
 
+    public final ForgeConfigSpec.IntValue werewolfHeavenWeight;
+
     public final ForgeConfigSpec.DoubleValue werewolf_speed_amount;
     public final ForgeConfigSpec.DoubleValue werewolf_armor_toughness;
     public final ForgeConfigSpec.DoubleValue werewolf_damage;
@@ -29,6 +31,7 @@ public class BalanceConfig {
         werewolf_damage = builder.comment("In seconds").defineInRange("werewolf_form_duration", 1.0, 0, 10);
         werewolf_speed_amount = builder.defineInRange("werewolf_speed_amount", 0.5, 0, 5);
         werewolf_armor_toughness = builder.defineInRange("werewolf_armor_toughness", 5.0, 0, 10.0);
+        werewolfHeavenWeight = builder.defineInRange("werewolfHeavenWeight", 6, 1, Integer.MAX_VALUE);
 
         builder.push("werewolf form");
         werewolf_form_enabled = builder.define("werewolf_form_enabled",true);
