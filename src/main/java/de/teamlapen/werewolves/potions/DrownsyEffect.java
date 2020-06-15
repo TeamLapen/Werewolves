@@ -20,7 +20,7 @@ public class DrownsyEffect extends WerewolvesEffect{
     }
 
     public static int getPotionDuration() {
-        return WerewolvesConfig.BALANCE.drownsytime.get() * 1200;
+        return WerewolvesConfig.BALANCE.UTIL.drownsytime.get() * 1200;
     }
 
     public static void addDrownsyPotion(PlayerEntity playerEntity) {

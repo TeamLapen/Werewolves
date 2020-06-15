@@ -22,7 +22,7 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public boolean isEnabled() {
-        return WerewolvesConfig.BALANCE.werewolf_form_enabled.get();
+        return WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.enabled.get();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public int getDuration(int level) {
-        return MathHelper.clamp(WerewolvesConfig.BALANCE.werewolf_form_duration.get(), 10, Integer.MAX_VALUE / 20 - 1) * 20;
+        return MathHelper.clamp(WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.duration.get(), 10, Integer.MAX_VALUE / 20 - 1) * 20;
     }
 
     @Override
@@ -63,10 +63,10 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
         }
         if(activate) {
             if(armor.getModifier(ARMOR) == null){
-                armor.applyModifier(new AttributeModifier(ARMOR,"werewolf_form_armor",WerewolvesConfig.BALANCE.werewolf_form_armor.get(), AttributeModifier.Operation.ADDITION));
+                armor.applyModifier(new AttributeModifier(ARMOR,"werewolf_form_armor",WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.armor.get(), AttributeModifier.Operation.ADDITION));
             }
             if(armor_toughness.getModifier(ARMOR_TOUGHNESS) == null){
-                armor_toughness.applyModifier(new AttributeModifier(ARMOR_TOUGHNESS,"werewolf_form_armor_toughness",WerewolvesConfig.BALANCE.werewolf_form_armor.get(), AttributeModifier.Operation.ADDITION));
+                armor_toughness.applyModifier(new AttributeModifier(ARMOR_TOUGHNESS,"werewolf_form_armor_toughness",WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.armor.get(), AttributeModifier.Operation.ADDITION));
             }
         }else {
             armor.removeModifier(ARMOR);
@@ -81,6 +81,6 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public int getCooldown() {
-        return WerewolvesConfig.BALANCE.werewolf_form_cooldown.get() * 20 + 1;
+        return WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.cooldown.get() * 20 + 1;
     }
 }

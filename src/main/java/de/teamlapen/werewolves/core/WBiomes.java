@@ -23,7 +23,7 @@ public class WBiomes {
     static void addBiomes() {
         BiomeDictionary.addTypes(werewolf_heaven, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL);
         if (!WerewolvesConfig.SERVER.disableWerewolfHeaven.get()) {
-            BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(werewolf_heaven, WerewolvesConfig.BALANCE.werewolfHeavenWeight.get()));
+            BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(werewolf_heaven, WerewolvesConfig.BALANCE.UTIL.werewolfHeavenWeight.get()));
         }
     }
 }

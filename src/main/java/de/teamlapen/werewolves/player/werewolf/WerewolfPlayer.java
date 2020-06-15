@@ -239,7 +239,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
      */
     private void eatFleshFrom(LivingEntity entity) {
         if (this.getSpecialAttributes().eatFlesh) {
-            int i = WerewolvesConfig.BALANCE.werewolf_form_duration.get() * 20;
+            int i = WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.duration.get() * 20;
             this.getActionHandler().extendAction(WerewolfActions.werewolf_form, i / 4);
         }
     }
@@ -299,9 +299,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     public void onLevelChanged(int newLevel, int oldLevel) {
         if(!isRemote()) {
             ScoreboardUtil.updateScoreboard(this.player, WUtils.WEREWOLF_LEVEL_CRITERIA, newLevel);
-            LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.MOVEMENT_SPEED, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.werewolf_speed_amount.get(), 0.3, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
-            LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.ARMOR_TOUGHNESS, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.werewolf_speed_amount.get(), 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
-            LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.ATTACK_DAMAGE, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.werewolf_damage.get(), 0.5, AttributeModifier.Operation.ADDITION, false);
+            LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.MOVEMENT_SPEED, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.3, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
+            LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.ARMOR_TOUGHNESS, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
+            LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.ATTACK_DAMAGE, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_damage.get(), 0.5, AttributeModifier.Operation.ADDITION, false);
             if(newLevel > 0){
                 if(oldLevel == 0) {
                     this.skillHandler.enableRootSkill();
