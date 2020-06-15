@@ -3,7 +3,10 @@ package de.teamlapen.werewolves.client.core;
 import de.teamlapen.werewolves.core.WItems;
 import de.teamlapen.werewolves.items.CrossbowArrowItem;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class WItemRenderer {
 
     public static void registerColors() {

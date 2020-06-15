@@ -21,6 +21,8 @@
   "item.werewolves.crossbow_arrow_silver_bolt": "Silver Bolt",
   "__comment": "item desc",
   "item.werewolves.crossbow_arrow_silver_bolt.tooltip": "Deals more damage to werewolves",
+  "__comment": "entities",
+  "entity.werewolves.werewolf": "Werewolf",
   "__comment": "skills",
   "skill.werewolves.werewolf": "Becoming a Werewolf",
   "__comment": "effects",

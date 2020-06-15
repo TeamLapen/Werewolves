@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.core.ModBiomes;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
 import net.minecraft.world.biome.Biome;
@@ -19,6 +20,7 @@ public class RegistryManager implements IInitListener {
         switch (step) {
             case COMMON_SETUP:
                 WBiomes.addBiomes();
+                WEntities.registerSpawnEntries();
                 break;
         }
     }
@@ -52,5 +54,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterActions(RegistryEvent.Register<IAction> event) {
         WerewolfActions.registerActions(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterEntityTypes(RegistryEvent.Register<EntityType<?>> event) {
+        WEntities.registerEntities(event.getRegistry());
     }
 }

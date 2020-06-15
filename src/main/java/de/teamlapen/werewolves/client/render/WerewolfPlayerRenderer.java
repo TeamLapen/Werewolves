@@ -12,10 +12,13 @@ import net.minecraft.item.Items;
 import net.minecraft.item.UseAction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfModel<AbstractClientPlayerEntity>> {
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
