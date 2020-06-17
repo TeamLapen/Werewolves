@@ -1,5 +1,5 @@
-//apply plugin: 'maven'
-//
+apply plugin: 'maven'
+
 //curseforge {
 //    if (project.hasProperty("CURSEFORGE_API")) {
 //        apiKey = project.CURSEFORGE_API
@@ -35,67 +35,57 @@
 //
 //}
 //
-//configurations {
-//    deployerJars
-//}
-//
-//dependencies {
-//    deployerJars "org.apache.maven.wagon:wagon-ftp:2.9"
-//}
-//
-//uploadArchives {
-//    repositories {
-//        add getProject().repositories.mavenLocal()
-//    }
-//    repositories.mavenDeployer {
-//        configuration = configurations.deployerJars
-//
-//        if (!project.hasProperty("local")&& project.hasProperty("filesmaven_url")) {
-//            logger.info('Publishing to files server')
-//            repository(url: project.filesmaven_url) {
-//                authentication(userName: project.filesmaven_username, password: project.filesmaven_key)
-//            }
-//        } else if (!project.hasProperty("local")&&System.getenv().MAVEN_URL) {
-//            logger.info('Publishing to files server')
-//            repository(url: System.getenv().MAVEN_URL) {
-//                authentication(userName: System.getenv().MAVEN_USERNAME, password: System.getenv().MAVEN_KEY)
-//            }
-//        } else {
-//            logger.info('Publishing to repo folder')
-//            repository(url: 'file://localhost/' + project.file('../../../.m2/repository').getAbsolutePath())
-//        }
-//
-//        pom {
-//            groupId = project.group
-//            version = project.version
-//            artifactId = project.archivesBaseName
-//        }
-//        pom.project {
-//            name project.archivesBaseName
-//            packaging 'jar'
-//            description 'An Minecraft mod that allows you to become a vampire'
-//            url 'https://maxanier.de/projects/vampirism'
-//
-//            scm {
-//                url 'https://github.com/TeamLapen/Werewolves'
-//                connection 'scm:git:git://github.com/TeamLapen/Werewolves.git'
-//                developerConnection 'scm:git:git@github.com:TeamLapen/Werewolves.git'
-//            }
-//
-//            issueManagement {
-//                system 'github'
-//                url 'https://github.com/TeamLapen/Werewolves/issues'
-//            }
-//
-//            developers {
-//                developer {
-//                    id 'cheaterpaul'
-//                    name 'cheaterpaul'
-//                    roles { role 'developer' }
-//                }
-//            }
-//        }
-//
-//
-//    }
-//}
+configurations {
+    deployerJars
+}
+
+dependencies {
+    deployerJars "org.apache.maven.wagon:wagon-ftp:2.9"
+}
+
+uploadArchives {
+    repositories {
+        add getProject().repositories.mavenLocal()
+    }
+    repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+
+        logger.info('Publishing to files server')
+        repository(url: System.getenv("MAVEN_URL")) {
+            authentication(userName: System.getenv("MAVEN_USER"), password: System.getenv("MAVEN_TOKEN"))
+        }
+
+        pom {
+            groupId = project.group
+            version = project.version
+            artifactId = project.archivesBaseName
+        }
+        pom.project {
+            name project.archivesBaseName
+            packaging 'jar'
+            description 'An Minecraft mod that allows you to become a werewolf'
+            url 'https://cheaterpaul.de/projects/werewolves'
+
+            scm {
+                url 'https://github.com/TeamLapen/Werewolves'
+                connection 'scm:git:git://github.com/TeamLapen/Werewolves.git'
+                developerConnection 'scm:git:git@github.com:TeamLapen/Werewolves.git'
+            }
+
+            issueManagement {
+                system 'github'
+                url 'https://github.com/TeamLapen/Werewolves/issues'
+            }
+
+            developers {
+                developer {
+                    id 'cheaterpaul'
+                    name 'cheaterpaul'
+                    roles { role 'developer' }
+                }
+            }
+        }
+
+
+    }
+}

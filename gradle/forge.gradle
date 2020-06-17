@@ -25,7 +25,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
     compileOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}:api") //API for compile
     runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}") //Full for runtime
-    compile fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}")
+    compileOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}")
+    runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}")
 
     compile fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
 }
