@@ -1,10 +1,12 @@
 package de.teamlapen.werewolves.player;
 
 import de.teamlapen.werewolves.core.WTags;
+import de.teamlapen.werewolves.entities.ExtendedWerewolf;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -12,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ModPlayerEvenHandler {
+public class ModPlayerEventHandler {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent

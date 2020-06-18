@@ -22,7 +22,7 @@ public class WEntities {
 
 
     static void registerEntities(IForgeRegistry<EntityType<?>> registry) {
-        registry.register(prepareEntityType("werewolf",EntityType.Builder.create(WerewolfEntity::new,WReference.WEREWOLF_CREATUE_TYPE).size(0.7f,2f), true));
+        registry.register(prepareEntityType("werewolf",EntityType.Builder.create(WerewolfEntity::new, WReference.WEREWOLF_CREATUE_TYPE).size(0.7f,2f), true));
         registry.register(prepareEntityType("werewolf_imob",EntityType.Builder.create(WerewolfEntity.IMob::new,WReference.WEREWOLF_CREATUE_TYPE).size(0.7f,2f), false));
     }
 

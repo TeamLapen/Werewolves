@@ -20,13 +20,12 @@ import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.vampirism.entity.vampire.BasicVampireEntity;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.entity.IWerewolfMob;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.WEntities;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.monster.PatrollerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -40,22 +39,37 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structures;
+import net.minecraftforge.registries.ForgeRegistries;
+import sun.swing.SwingLazyValue;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEntity, IEntityActionUser {
+public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEntity, IEntityActionUser, IWerewolfMob {
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(VampirismEntity.class, DataSerializers.VARINT);
     private static final int MAX_LEVEL = 2;
 
+    private AbstractVillagerEntity villager;
+    private boolean isConverted;
 
-    public WerewolfEntity(EntityType<? extends VampirismEntity> type, World world) {
+    public WerewolfEntity(EntityType<? extends WerewolfEntity> type, World world) {
         super(type, world);
         entitytier = EntityActionTier.Medium;
         entityclass = EntityClassType.getRandomClass(this.getRNG());
         this.entityActionHandler = new ActionHandlerEntity<>(this);
+        //this.enableImobConversion();
+    }
+
+    public static WerewolfEntity createFromVillager(AbstractVillagerEntity villager) {
+        WerewolfEntity werewolf = WEntities.werewolf.create(villager.world);
+        werewolf.villager = villager;
+        werewolf.isConverted = true;
+        werewolf.copyLocationAndAnglesFrom(villager);
+        return werewolf;
     }
 
     @Override
@@ -74,6 +88,11 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         nbt.putInt("level",getLevel());
         nbt.putBoolean("attack",this.attack);
         nbt.putInt("entityclasstype", EntityClassType.getID(this.entityclass));
+        if(isConverted) {
+            nbt.putBoolean("isConverted", this.isConverted);
+            nbt.putString("type", this.villager.getType().getRegistryName().toString());
+            nbt.put("villager",this.villager.serializeNBT());
+        }
         this.entityActionHandler.write(nbt);
     }
 
@@ -86,7 +105,20 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         if (nbt.contains("attack")) {
             this.attack = nbt.getBoolean("attack");
         }
+        if(nbt.contains("isConverted")) {
+            this.isConverted = true;
+            EntityType<? extends AbstractVillagerEntity> type = (EntityType<? extends AbstractVillagerEntity>)ForgeRegistries.ENTITIES.getValue(new ResourceLocation(nbt.getString("type")));
+            this.villager = type.create(this.world);
+            this.villager.deserializeNBT(nbt.getCompound("villager"));
+        }
         this.entityActionHandler.read(nbt);
+    }
+
+    public void transformBack() {
+        this.villager.copyLocationAndAnglesFrom(this);
+        this.remove();
+        this.villager.revive();
+        this.world.addEntity(villager);
     }
 
     @Override

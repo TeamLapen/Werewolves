@@ -12,5 +12,6 @@ public class REFERENCE {
     public static final int HIGHEST_WEREWOLF_LEVEL = 14;
 
     public static final ResourceLocation WEREWOLF_PLAYER_KEY = new ResourceLocation(MODID, "werewolf");
+    public static final ResourceLocation EXTENDED_WEREWOLF_KEY = new ResourceLocation(MODID, "iextendedwerewolf");
 
 }

@@ -11,7 +11,9 @@ import de.teamlapen.werewolves.data.BlockStateGenerator;
 import de.teamlapen.werewolves.data.ItemModelGenerator;
 import de.teamlapen.werewolves.data.ModTagsProvider;
 import de.teamlapen.werewolves.data.RecipeGenerator;
-import de.teamlapen.werewolves.player.ModPlayerEvenHandler;
+import de.teamlapen.werewolves.entities.ExtendedWerewolf;
+import de.teamlapen.werewolves.entities.ModEntityEventHandler;
+import de.teamlapen.werewolves.player.ModPlayerEventHandler;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
@@ -80,7 +82,6 @@ public class WerewolvesMod {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
-        MinecraftForge.EVENT_BUS.register(new ModPlayerEvenHandler());
 
         WerewolvesConfig.registerConfigs();
         Permissions.init();
@@ -104,12 +105,15 @@ public class WerewolvesMod {
 
     private void setup(final FMLCommonSetupEvent event) {
         setupAPI();
+        ExtendedWerewolf.registerCapability();
+        WerewolfPlayer.registerCapability();
 
         dispatcher.registerPackets();
         registryManager.onInitStep(IInitListener.Step.COMMON_SETUP, event);
         proxy.onInitStep(IInitListener.Step.COMMON_SETUP, event);
 
-        WerewolfPlayer.registerCapability();
+        MinecraftForge.EVENT_BUS.register(new ModEntityEventHandler());
+        MinecraftForge.EVENT_BUS.register(new ModPlayerEventHandler());
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event){
