@@ -39,12 +39,12 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     private void setModelVisible(AbstractClientPlayerEntity clientPlayer){
         WerewolfModel<AbstractClientPlayerEntity> playermodel = this.getEntityModel();
         if (clientPlayer.isSpectator()) {
-            playermodel.setVisible(false);
+//            playermodel.setVisible(false);
         } else {
             ItemStack itemstack = clientPlayer.getHeldItemMainhand();
             ItemStack itemstack1 = clientPlayer.getHeldItemOffhand();
-            playermodel.setVisible(true);
-            playermodel.isSneak = clientPlayer.shouldRenderSneaking();
+//            playermodel.setVisible(true);
+//            playermodel.isSneak = clientPlayer.shouldRenderSneaking();
             BipedModel.ArmPose armPose = this.func_217766_a(clientPlayer, itemstack, itemstack1, Hand.MAIN_HAND);
             BipedModel.ArmPose armPose1 = this.func_217766_a(clientPlayer, itemstack, itemstack1, Hand.OFF_HAND);
         }
