@@ -16,7 +16,8 @@ This mod allows you to become a werewolf with all its benefits and drawbacks.
 
 #### Setup Gradle build script
 
-###Using Werewolves in another project is not yet possible
+#### !!Using Werewolves in another project is not yet possible!!
+
 You should be able to include it with the following in your `build.gradle`:
 ```gradle
 repositories {
