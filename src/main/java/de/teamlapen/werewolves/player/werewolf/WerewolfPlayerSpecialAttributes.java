@@ -6,4 +6,6 @@ public class WerewolfPlayerSpecialAttributes {
 
     public boolean trueForm;
     public boolean eatFlesh;
+
+    public boolean longerWerewolfForm;
 }

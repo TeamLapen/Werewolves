@@ -9,6 +9,8 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
@@ -35,5 +37,23 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     @Override
     public IPlayableFaction<?> getFaction() {
         return WReference.WEREWOLF_FACTION;
+    }
+
+    public static class ToggleWerewolfAction extends SimpleWerewolfSkill {
+        private final BiConsumer<IWerewolfPlayer,Boolean> toggler;
+        public ToggleWerewolfAction(String id, BiConsumer<IWerewolfPlayer,Boolean> toggler) {
+            super(id);
+            this.toggler = toggler;
+        }
+
+        @Override
+        protected void onEnabled(IWerewolfPlayer player) {
+            toggler.accept(player,true);
+        }
+
+        @Override
+        protected void onDisabled(IWerewolfPlayer player) {
+            toggler.accept(player,false);
+        }
     }
 }

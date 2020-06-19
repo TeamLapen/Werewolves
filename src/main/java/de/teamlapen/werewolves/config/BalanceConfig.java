@@ -57,6 +57,8 @@ public class BalanceConfig {
 
         public final WerewolfForm WEREWOLFFORM;
         public final Howling HOWLING;
+        public final TimeRegain TIME_REGAIN;
+        public final LongerWerewolfForm LONGER_FORM;
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -65,6 +67,13 @@ public class BalanceConfig {
             builder.push("howling");
             HOWLING = new Howling(builder);
             builder.pop();
+            builder.push("time_regain");
+            TIME_REGAIN = new TimeRegain(builder);
+            builder.pop();
+            builder.push("longer_werewolf_form");
+            LONGER_FORM = new LongerWerewolfForm(builder);
+            builder.pop();
+
         }
 
         public static class WerewolfForm {
@@ -98,6 +107,22 @@ public class BalanceConfig {
                 cooldown = builder.comment("Howling cooldown").defineInRange("howling_cooldown",10,1,Integer.MAX_VALUE);
                 duration = builder.comment("Howling duration").defineInRange("howling_duration",10,1,Integer.MAX_VALUE);
                 disabled_duration = builder.comment("Howling disabled duration").defineInRange("howling_disabled_duration",10,1,Integer.MAX_VALUE);
+            }
+        }
+
+        public static class TimeRegain {
+            public final ForgeConfigSpec.DoubleValue increase;
+
+            public TimeRegain(ForgeConfigSpec.Builder builder) {
+                increase = builder.defineInRange("increase",0.2,0,1);
+            }
+        }
+
+        public static class LongerWerewolfForm {
+            public final ForgeConfigSpec.IntValue time;
+
+            public LongerWerewolfForm(ForgeConfigSpec.Builder builder) {
+                time = builder.defineInRange("time",10,0,Integer.MAX_VALUE);
             }
         }
     }

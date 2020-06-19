@@ -8,7 +8,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.scoreboard.ScoreCriteria;
 
+import java.util.UUID;
+
 public class WUtils {
+    public static final UUID WEREWOLF_FORM_TIME = UUID.fromString("4af447d7-5aca-4ab1-b58f-a4a5f6e15746");
+
     public static final ScoreCriteria WEREWOLF_LEVEL_CRITERIA = new ScoreCriteria("werewolves:werewolf");
     public static final ItemGroup creativeTab = new ItemGroup(REFERENCE.MODID) {
         @Override

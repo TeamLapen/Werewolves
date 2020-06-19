@@ -120,6 +120,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (this.player.getAttributes().getAttributeInstance(WReference.biteDamage) == null) {
             this.player.getAttributes().registerAttribute(WReference.biteDamage);
         }
+        if (this.player.getAttributes().getAttributeInstance(WReference.werewolfFormTimeGain) == null) {
+            this.player.getAttributes().registerAttribute(WReference.werewolfFormTimeGain);
+        }
     }
 
     @Override
@@ -243,7 +246,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private void eatFleshFrom(LivingEntity entity) {
         if (this.getSpecialAttributes().eatFlesh) {
             int i = WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.duration.get() * 20;
-            this.getActionHandler().extendAction(WerewolfActions.werewolf_form, i / 4);
+            this.getActionHandler().extendAction(WerewolfActions.werewolf_form, (int)(i / 4 * this.player.getAttribute(WReference.werewolfFormTimeGain).getValue()));
         }
     }
 

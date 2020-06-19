@@ -1,8 +1,10 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
+import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -30,6 +32,11 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
         ((WerewolfPlayer)player).activateWerewolfForm();
         this.applyModifier(player.getRepresentingPlayer(),true);
         return true;
+    }
+
+    @Override
+    public <Q extends IFactionPlayer> int getDuration(Q player) {
+        return (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time)?WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get()*20:0)+getDuration(player.getLevel());
     }
 
     @Override

@@ -1,0 +1,7 @@
+{
+  "parent": "werewolves:werewolf/werewolf_form",
+  "skills": [
+    "werewolves:werewolf_form_time_regain",
+    "werewolves:werewolf_form_more_time"
+  ]
+}
