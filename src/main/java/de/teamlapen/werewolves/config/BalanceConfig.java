@@ -7,6 +7,7 @@ public class BalanceConfig {
     public final Player PLAYER;
     public final MobProps MOBPROPS;
     public final Skills SKILLS;
+    public final Potions POTIONS;
     public final Util UTIL;
 
     BalanceConfig(ForgeConfigSpec.Builder builder) {
@@ -19,6 +20,9 @@ public class BalanceConfig {
         builder.pop();
         builder.push("skills");
         SKILLS = new Skills(builder);
+        builder.pop();
+        builder.push("potions");
+        POTIONS = new Potions(builder);
         builder.pop();
         builder.push("util");
         UTIL = new Util(builder);
@@ -127,13 +131,25 @@ public class BalanceConfig {
         }
     }
 
+    public static class Potions {
+        public final ForgeConfigSpec.DoubleValue silverStatsReduction;
+
+        public Potions(ForgeConfigSpec.Builder builder) {
+            silverStatsReduction = builder.comment("How much a Werewolf should be weakened by a silver item").defineInRange("silverStatsReduction",-0.2,-1,0);
+        }
+    }
+
     public static class Util {
         public final ForgeConfigSpec.IntValue drownsytime;
         public final ForgeConfigSpec.IntValue werewolfHeavenWeight;
+        public final ForgeConfigSpec.IntValue silverBoltEffectDuration;
+        public final ForgeConfigSpec.IntValue silverItemEffectDuration;
 
         public Util(ForgeConfigSpec.Builder builder) {
             drownsytime = builder.comment("in minutes").defineInRange("drownsytime", 10, 1, Integer.MAX_VALUE);
             werewolfHeavenWeight = builder.defineInRange("werewolfHeavenWeight", 6, 1, Integer.MAX_VALUE);
+            silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 4, 1,Integer.MAX_VALUE);
+            silverItemEffectDuration = builder.comment("in ticks").defineInRange("silverItemEffectDuration", 10, 1,Integer.MAX_VALUE);
         }
     }
 }

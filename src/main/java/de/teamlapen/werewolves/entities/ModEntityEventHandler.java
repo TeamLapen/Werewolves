@@ -1,11 +1,17 @@
 package de.teamlapen.werewolves.entities;
 
+import de.teamlapen.werewolves.api.items.ISilverItem;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +41,15 @@ public class ModEntityEventHandler {
                 if (RNG.nextInt(15) == 0) {
                     ExtendedWerewolf.getSafe((AbstractVillagerEntity) event.getEntityLiving()).ifPresent(villager -> villager.setWerewolfFaction(true));
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onEntityAttacked(AttackEntityEvent event) {
+        if(event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
+            if(event.getPlayer().getHeldItemMainhand().getItem() instanceof ISilverItem) { //TODO maybe check for silver tag
+                ((LivingEntity) event.getTarget()).addPotionEffect(new EffectInstance(ModEffects.silver, WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
             }
         }
     }
