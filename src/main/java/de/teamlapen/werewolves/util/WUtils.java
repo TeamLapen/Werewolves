@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.util;
 
 import de.teamlapen.vampirism.core.ModItems;
-import de.teamlapen.werewolves.core.WTags;
+import de.teamlapen.werewolves.core.ModTags;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -48,7 +48,7 @@ public class WUtils {
 
         @Override
         public Ingredient getRepairMaterial() {
-            return Ingredient.fromTag(WTags.Items.SILVER_INGOT);
+            return Ingredient.fromTag(ModTags.Items.SILVER_INGOT);
         }
     };
 

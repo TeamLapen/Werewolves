@@ -3,7 +3,6 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
-import de.teamlapen.vampirism.core.ModBiomes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -19,8 +18,9 @@ public class RegistryManager implements IInitListener {
     public void onInitStep(Step step, ModLifecycleEvent event) {
         switch (step) {
             case COMMON_SETUP:
-                WBiomes.addBiomes();
-                WEntities.registerSpawnEntries();
+                ModBiomes.addBiomes();
+                ModBiomes.setUpOreGen();
+                ModEntities.registerSpawnEntries();
                 break;
         }
     }
@@ -32,23 +32,23 @@ public class RegistryManager implements IInitListener {
 
     @SubscribeEvent
     public void onRegisterBlocks(RegistryEvent.Register<Block> event) {
-        WBlocks.registerBlocks(event.getRegistry());
+        ModBlocks.registerBlocks(event.getRegistry());
     }
 
     @SubscribeEvent
     public void onRegisterItems(RegistryEvent.Register<Item> event) {
-        WItems.registerItems(event.getRegistry());
-        WBlocks.registerItemBlocks(event.getRegistry());
+        ModItems.registerItems(event.getRegistry());
+        ModBlocks.registerItemBlocks(event.getRegistry());
     }
 
     @SubscribeEvent
     public void onRegisterBiomes(RegistryEvent.Register<Biome> event) {
-        WBiomes.registerBiomes(event.getRegistry());
+        ModBiomes.registerBiomes(event.getRegistry());
     }
 
     @SubscribeEvent
     public void onRegisterEffects(RegistryEvent.Register<Effect> event) {
-        WEffects.registerEffects(event.getRegistry());
+        ModEffects.registerEffects(event.getRegistry());
     }
 
     @SubscribeEvent
@@ -58,6 +58,6 @@ public class RegistryManager implements IInitListener {
 
     @SubscribeEvent
     public void onRegisterEntityTypes(RegistryEvent.Register<EntityType<?>> event) {
-        WEntities.registerEntities(event.getRegistry());
+        ModEntities.registerEntities(event.getRegistry());
     }
 }

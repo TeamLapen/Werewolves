@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.data;
 
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.core.WBlocks;
-import de.teamlapen.werewolves.core.WItems;
+import de.teamlapen.werewolves.core.ModBlocks;
+import de.teamlapen.werewolves.core.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
@@ -25,17 +25,17 @@ public class ItemModelGenerator extends ItemModelProvider {
     @Override
     protected void registerModels() {
         Set<Block> blocks = new HashSet<Block>() {{
-            add(WBlocks.silver_ore);
-            add(WBlocks.silver_block);
-            add(WBlocks.wolfsbane);
+            add(ModBlocks.silver_ore);
+            add(ModBlocks.silver_block);
+            add(ModBlocks.wolfsbane);
         }};
         Set<Item> items = new HashSet<Item>() {{
-            add(WItems.silver_axe);
-            add(WItems.silver_pickaxe);
-            add(WItems.silver_sword);
-            add(WItems.silver_shovel);
-            add(WItems.silver_hoe);
-            add(WItems.silver_ingot);
+            add(ModItems.silver_axe);
+            add(ModItems.silver_pickaxe);
+            add(ModItems.silver_sword);
+            add(ModItems.silver_shovel);
+            add(ModItems.silver_hoe);
+            add(ModItems.silver_ingot);
         }};
 
         blocks.forEach(this::block);

@@ -8,9 +8,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 
-public class WTags {
+public class ModTags extends de.teamlapen.vampirism.core.ModTags{
 
-    public static class Blocks {
+    public static class Blocks extends de.teamlapen.vampirism.core.ModTags.Blocks {
         public static final Tag<Block> SILVER_BLOCKS = forge("ores/silver");
 
         private static Tag<Block> getTag(ResourceLocation id) {
@@ -26,7 +26,7 @@ public class WTags {
         }
     }
 
-    public static class Items {
+    public static class Items extends de.teamlapen.vampirism.core.ModTags.Items {
         public static final Tag<Item> SILVER_BLOCK = forge( "ores/silver");
         public static final Tag<Item> SILVER_INGOT =forge( "ingots/silver");
         public static final Tag<Item> RAWMEATS = forge("rawmeats");

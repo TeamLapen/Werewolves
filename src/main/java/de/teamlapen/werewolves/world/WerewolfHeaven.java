@@ -18,7 +18,13 @@ public class WerewolfHeaven extends Biome implements IFactionBiome {
 
     public WerewolfHeaven() {
         super(new Builder().surfaceBuilder(SurfaceBuilder.DEFAULT, werewolf_heaven_surface).category(Category.FOREST).depth(0.2f).scale(0.5f).waterColor(0x4CCCFF).waterFogColor(0x4CCCFF).precipitation(RainType.NONE).parent(null).downfall(0.0f).temperature(0.3f));
-
+        DefaultBiomeFeatures.addSedimentDisks(this);
+        DefaultBiomeFeatures.func_222283_Y(this);
+        DefaultBiomeFeatures.addStoneVariants(this);
+        DefaultBiomeFeatures.addMonsterRooms(this);
+        DefaultBiomeFeatures.addLakes(this);
+        DefaultBiomeFeatures.addCarvers(this);
+        DefaultBiomeFeatures.addOres(this);
         DefaultBiomeFeatures.addBirchTrees(this);
         DefaultBiomeFeatures.addDefaultFlowers(this);
         DefaultBiomeFeatures.addForestTrees(this);

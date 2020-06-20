@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class WEffects {
+public class ModEffects extends de.teamlapen.vampirism.core.ModEffects{
 
     public static final Effect drownsy = getNull();
     public static final Effect howling = getNull();

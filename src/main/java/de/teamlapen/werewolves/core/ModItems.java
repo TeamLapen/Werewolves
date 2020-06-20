@@ -20,7 +20,7 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @SuppressWarnings("unused")
 @ObjectHolder(REFERENCE.MODID)
-public class WItems {
+public class ModItems extends de.teamlapen.vampirism.core.ModItems{
 
     public static final Item silver_ingot = getNull();
     public static final Item silver_hoe = getNull();

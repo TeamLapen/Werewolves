@@ -1,8 +1,6 @@
 package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.Lists;
-import de.teamlapen.vampirism.api.VReference;
-import de.teamlapen.vampirism.core.ModEntities;
 import de.teamlapen.vampirism.tileentity.TotemTileEntity;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.entities.WerewolfEntity;
@@ -15,7 +13,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class WEntities {
+public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
 
     public static final EntityType<WerewolfEntity> werewolf = getNull();
     public static final EntityType<WerewolfEntity.IMob> werewolf_imob = getNull();
@@ -31,7 +29,7 @@ public class WEntities {
     }
 
     static void registerSpawnEntries() {
-        TotemTileEntity.registerCaptureEntities(WReference.WEREWOLF_FACTION, Lists.newArrayList(new TotemTileEntity.CaptureEntityEntry(WEntities.werewolf, 10)));
+        TotemTileEntity.registerCaptureEntities(WReference.WEREWOLF_FACTION, Lists.newArrayList(new TotemTileEntity.CaptureEntityEntry(ModEntities.werewolf, 10)));
     }
 
     private static <T extends Entity> EntityType<T> prepareEntityType(String id, EntityType.Builder<T> builder, boolean spawnable) {

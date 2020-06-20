@@ -8,9 +8,6 @@ import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.world.ICaptureAttributes;
-import de.teamlapen.vampirism.config.BalanceMobProps;
-import de.teamlapen.vampirism.core.ModEntities;
-import de.teamlapen.vampirism.core.ModLootTables;
 import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.vampirism.entity.action.ActionHandlerEntity;
 import de.teamlapen.vampirism.entity.goals.AttackMeleeNoSunGoal;
@@ -18,11 +15,10 @@ import de.teamlapen.vampirism.entity.goals.AttackVillageGoal;
 import de.teamlapen.vampirism.entity.goals.DefendVillageGoal;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
-import de.teamlapen.vampirism.entity.vampire.BasicVampireEntity;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.IWerewolfMob;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.WEntities;
+import de.teamlapen.werewolves.core.ModEntities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
@@ -39,12 +35,9 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structures;
 import net.minecraftforge.registries.ForgeRegistries;
-import sun.swing.SwingLazyValue;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -65,7 +58,7 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     }
 
     public static WerewolfEntity createFromVillager(AbstractVillagerEntity villager) {
-        WerewolfEntity werewolf = WEntities.werewolf.create(villager.world);
+        WerewolfEntity werewolf = ModEntities.werewolf.create(villager.world);
         werewolf.villager = villager;
         werewolf.isConverted = true;
         werewolf.copyLocationAndAnglesFrom(villager);
@@ -211,7 +204,7 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
 
     @Override
     protected EntityType<?> getIMobTypeOpt(boolean iMob) {
-        return iMob ? WEntities.werewolf_imob : WEntities.werewolf;
+        return iMob ? ModEntities.werewolf_imob : ModEntities.werewolf;
     }
 
     public static class IMob extends WerewolfEntity implements net.minecraft.entity.monster.IMob {
@@ -223,7 +216,7 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         @Nonnull
         @Override
         protected ResourceLocation getLootTable() {
-            return WEntities.werewolf.getLootTable();
+            return ModEntities.werewolf.getLootTable();
         }
     }
     //Entityactions ----------------------------------------------------------------------------------------------------

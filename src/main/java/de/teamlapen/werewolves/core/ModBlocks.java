@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.blocks.TotemTopBlock;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.blocks.WFlowerBlock;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
@@ -19,7 +18,7 @@ import javax.annotation.Nonnull;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class WBlocks {
+public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
 
     public static final OreBlock silver_ore = getNull();
     public static final WFlowerBlock wolfsbane = getNull();
