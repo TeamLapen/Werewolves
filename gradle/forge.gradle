@@ -16,6 +16,9 @@ repositories {
     maven {
         url = "https://maxanier.de/maven2"
     }
+    maven {
+        url = "https://maven.paube.de"
+    }
     mavenCentral()
     mavenLocal()
 }
