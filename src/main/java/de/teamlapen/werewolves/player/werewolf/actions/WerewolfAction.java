@@ -17,10 +17,9 @@ import org.apache.logging.log4j.Logger;
 import java.util.UUID;
 
 public class WerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     public static final UUID ARMOR = UUID.fromString("0b281a87-829f-4d98-9a3b-116549cfdd57");
     public static final UUID ARMOR_TOUGHNESS = UUID.fromString("f47e2130-39c4-496f-8d47-572abdc03920");
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public boolean isEnabled() {
@@ -29,14 +28,14 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     protected boolean activate(IWerewolfPlayer player) {
-        ((WerewolfPlayer)player).activateWerewolfForm();
-        this.applyModifier(player.getRepresentingPlayer(),true);
+        ((WerewolfPlayer) player).activateWerewolfForm();
+        this.applyModifier(player.getRepresentingPlayer(), true);
         return true;
     }
 
     @Override
     public <Q extends IFactionPlayer> int getDuration(Q player) {
-        return (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time)?WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get()*20:0)+getDuration(player.getLevel());
+        return (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0) + getDuration(player.getLevel());
     }
 
     @Override
@@ -46,36 +45,36 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public void onActivatedClient(IWerewolfPlayer player) {
-        ((WerewolfPlayer)player).getSpecialAttributes().trueForm = true;
+        ((WerewolfPlayer) player).getSpecialAttributes().trueForm = true;
     }
 
     @Override
     public void onDeactivated(IWerewolfPlayer player) {
-        ((WerewolfPlayer)player).deactivateWerewolfForm();
-        this.applyModifier(player.getRepresentingPlayer(),false);
+        ((WerewolfPlayer) player).deactivateWerewolfForm();
+        this.applyModifier(player.getRepresentingPlayer(), false);
     }
 
     @Override
     public void onReActivated(IWerewolfPlayer player) {
-        ((WerewolfPlayer)player).getSpecialAttributes().trueForm = true;
-        this.applyModifier(player.getRepresentingPlayer(),true);
+        ((WerewolfPlayer) player).getSpecialAttributes().trueForm = true;
+        this.applyModifier(player.getRepresentingPlayer(), true);
     }
 
     private void applyModifier(PlayerEntity player, boolean activate) {
         IAttributeInstance armor = player.getAttributes().getAttributeInstance(SharedMonsterAttributes.ARMOR);
         IAttributeInstance armor_toughness = player.getAttributes().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS);
-        if(armor == null|| armor_toughness == null) {
-            LOGGER.warn("Could not apply attribute modifier to entity: {}",player.getName());
+        if (armor == null || armor_toughness == null) {
+            LOGGER.warn("Could not apply attribute modifier to entity: {}", player.getName());
             return;
         }
-        if(activate) {
-            if(armor.getModifier(ARMOR) == null){
-                armor.applyModifier(new AttributeModifier(ARMOR,"werewolf_form_armor",WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.armor.get(), AttributeModifier.Operation.ADDITION));
+        if (activate) {
+            if (armor.getModifier(ARMOR) == null) {
+                armor.applyModifier(new AttributeModifier(ARMOR, "werewolf_form_armor", WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.armor.get(), AttributeModifier.Operation.ADDITION));
             }
-            if(armor_toughness.getModifier(ARMOR_TOUGHNESS) == null){
-                armor_toughness.applyModifier(new AttributeModifier(ARMOR_TOUGHNESS,"werewolf_form_armor_toughness",WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.armor.get(), AttributeModifier.Operation.ADDITION));
+            if (armor_toughness.getModifier(ARMOR_TOUGHNESS) == null) {
+                armor_toughness.applyModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_form_armor_toughness", WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.armor.get(), AttributeModifier.Operation.ADDITION));
             }
-        }else {
+        } else {
             armor.removeModifier(ARMOR);
             armor_toughness.removeModifier(ARMOR_TOUGHNESS);
         }

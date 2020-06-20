@@ -25,10 +25,10 @@ public class BlockStateGenerator extends BlockStateProvider {
 
         simpleBlock(ModBlocks.wolfsbane, cross("wolfsbane", modLoc("block/wolfsbane")));
         simpleBlock(ModBlocks.potted_wolfsbane, withExistingParent(modId("block/potted_wolfsbane"), "minecraft:block/flower_pot_cross").texture("plant", modId("block/wolfsbane")));
-        simpleBlock(ModBlocks.jacaranda_sapling, cross("jacaranda_sapling",modLoc("block/jacaranda_sapling")));
+        simpleBlock(ModBlocks.jacaranda_sapling, cross("jacaranda_sapling", modLoc("block/jacaranda_sapling")));
         simpleBlock(ModBlocks.jacaranda_leaves);
         logBlock(ModBlocks.jacaranda_log);
-        simpleBlock(ModBlocks.magic_sapling, cross("magic_sapling",modLoc("block/magic_sapling")));
+        simpleBlock(ModBlocks.magic_sapling, cross("magic_sapling", modLoc("block/magic_sapling")));
         simpleBlock(ModBlocks.magic_leaves);
         logBlock(ModBlocks.magic_log);
     }

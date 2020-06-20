@@ -2,8 +2,6 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.player.skills.ActionSkill;
-import de.teamlapen.vampirism.player.skills.VampirismSkill;
-import de.teamlapen.vampirism.player.vampire.VampirePlayer;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -29,14 +27,14 @@ public class WerewolfSkills {
 
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
-        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID,"werewolf_form"), WerewolfActions.werewolf_form));
+        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
-        registry.register(new SimpleWerewolfSkill.ToggleWerewolfAction("eat_flesh",((player, status) -> ((WerewolfPlayer)player).getSpecialAttributes().eatFlesh = status)));
+        registry.register(new SimpleWerewolfSkill.ToggleWerewolfAction("eat_flesh", ((player, status) -> ((WerewolfPlayer) player).getSpecialAttributes().eatFlesh = status)));
         registry.register(new SimpleWerewolfSkill("werewolf_form_more_time"));
         registry.register(new SimpleWerewolfSkill("werewolf_form_time_regain") {
             @Override
             protected void onEnabled(IWerewolfPlayer player) {
-                player.getRepresentingPlayer().getAttribute(WReference.werewolfFormTimeGain).applyModifier(new AttributeModifier(WUtils.WEREWOLF_FORM_TIME,"werewolf_form_regain_skill", WerewolvesConfig.BALANCE.SKILLS.TIME_REGAIN.increase.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
+                player.getRepresentingPlayer().getAttribute(WReference.werewolfFormTimeGain).applyModifier(new AttributeModifier(WUtils.WEREWOLF_FORM_TIME, "werewolf_form_regain_skill", WerewolvesConfig.BALANCE.SKILLS.TIME_REGAIN.increase.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
 
             @Override

@@ -4,7 +4,6 @@ import de.teamlapen.vampirism.client.core.ModKeys;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.network.InputEventPacket;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
@@ -25,19 +24,18 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
-    private static KeyBinding BITE = ModKeys.getKeyBinding(ModKeys.KEY.SUCK);
+    private static final KeyBinding BITE = ModKeys.getKeyBinding(ModKeys.KEY.SUCK);
     private boolean suck_down;
     private int zoomTime = 0;
     private double zoomAmount = 0;
 
 
-
     @SubscribeEvent
     public void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        AbstractClientPlayerEntity player = (AbstractClientPlayerEntity)event.getPlayer();
-        if(Helper.isWerewolf(player) && WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getSpecialAttributes).map(attributes ->attributes.trueForm).orElse(false)) {
+        AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getPlayer();
+        if (Helper.isWerewolf(player) && WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getSpecialAttributes).map(attributes -> attributes.trueForm).orElse(false)) {
             event.setCanceled(true);
-            WEntityRenderer.render.doRender(player,event.getX(),event.getY(),event.getZ(), MathHelper.lerp(event.getPartialRenderTick(), player.prevRotationYaw, player.rotationYaw),event.getPartialRenderTick());
+            WEntityRenderer.render.doRender(player, event.getX(), event.getY(), event.getZ(), MathHelper.lerp(event.getPartialRenderTick(), player.prevRotationYaw, player.rotationYaw), event.getPartialRenderTick());
         }
     }
 
@@ -51,15 +49,15 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void handleInputEvent(InputEvent event) {
-        if(!BITE.isKeyDown()) {
+        if (!BITE.isKeyDown()) {
             suck_down = true;
         }
         if (BITE.isKeyDown() && suck_down && !isZoomActive()) {
             suck_down = false;
             RayTraceResult mouseOver = Minecraft.getInstance().objectMouseOver;
             PlayerEntity player = Minecraft.getInstance().player;
-            if (mouseOver != null &&mouseOver.getType() == RayTraceResult.Type.ENTITY&& !player.isSpectator() && FactionPlayerHandler.get(player).isInFaction(WReference.WEREWOLF_FACTION) && WerewolfPlayer.get(player).canBite(((EntityRayTraceResult)mouseOver).getEntity())) {
-                WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult)mouseOver).getEntity().getEntityId()));
+            if (mouseOver != null && mouseOver.getType() == RayTraceResult.Type.ENTITY && !player.isSpectator() && FactionPlayerHandler.get(player).isInFaction(WReference.WEREWOLF_FACTION) && WerewolfPlayer.get(player).canBite(((EntityRayTraceResult) mouseOver).getEntity())) {
+                WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getEntityId()));
                 onZoomPressed();
             }
         }

@@ -36,7 +36,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         }
     }
 
-    private void setModelVisible(AbstractClientPlayerEntity clientPlayer){
+    private void setModelVisible(AbstractClientPlayerEntity clientPlayer) {
         WerewolfModel<AbstractClientPlayerEntity> playermodel = this.getEntityModel();
         if (clientPlayer.isSpectator()) {
 //            playermodel.setVisible(false);
@@ -87,6 +87,6 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
-        return new ResourceLocation(REFERENCE.MODID,"textures/entity/wolfbrown.png");
+        return new ResourceLocation(REFERENCE.MODID, "textures/entity/wolfbrown.png");
     }
 }

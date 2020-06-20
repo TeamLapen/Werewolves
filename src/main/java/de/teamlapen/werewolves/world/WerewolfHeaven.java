@@ -3,13 +3,10 @@ package de.teamlapen.werewolves.world;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.world.IFactionBiome;
 import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.core.ModBlocks;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

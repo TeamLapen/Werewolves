@@ -11,7 +11,7 @@ import net.minecraft.potion.EffectType;
 import javax.annotation.Nonnull;
 
 
-public class HowlingEffect extends WerewolvesEffect{
+public class HowlingEffect extends WerewolvesEffect {
 
     public static final String ATTACK_SPEED = "193a0552-7368-4759-8020-3285caaf12f6";
 
@@ -27,7 +27,7 @@ public class HowlingEffect extends WerewolvesEffect{
 
     @Override
     public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
-        this.removeAttributesModifiersFromEntity(entityLivingBaseIn, entityLivingBaseIn.getAttributes(),amplifier);
+        this.removeAttributesModifiersFromEntity(entityLivingBaseIn, entityLivingBaseIn.getAttributes(), amplifier);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class HowlingEffect extends WerewolvesEffect{
 
     @Override
     public void removeAttributesModifiersFromEntity(@Nonnull LivingEntity entityLivingBaseIn, @Nonnull AbstractAttributeMap attributeMapIn, int amplifier) {
-        if(Helper.isWerewolf(entityLivingBaseIn)) {
+        if (Helper.isWerewolf(entityLivingBaseIn)) {
             super.removeAttributesModifiersFromEntity(entityLivingBaseIn, attributeMapIn, amplifier);
         }
     }

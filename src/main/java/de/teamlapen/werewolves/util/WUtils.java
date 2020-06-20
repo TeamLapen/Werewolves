@@ -52,5 +52,6 @@ public class WUtils {
         }
     };
 
-    public static void init(){}
+    public static void init() {
+    }
 }

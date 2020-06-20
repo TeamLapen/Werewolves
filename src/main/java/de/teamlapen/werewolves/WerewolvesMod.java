@@ -7,21 +7,21 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.data.BlockStateGenerator;
 import de.teamlapen.werewolves.data.ItemModelGenerator;
 import de.teamlapen.werewolves.data.ModTagsProvider;
 import de.teamlapen.werewolves.data.RecipeGenerator;
 import de.teamlapen.werewolves.entities.ExtendedWerewolf;
 import de.teamlapen.werewolves.entities.ModEntityEventHandler;
+import de.teamlapen.werewolves.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.player.ModPlayerEventHandler;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.proxy.ClientProxy;
-import de.teamlapen.werewolves.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.proxy.Proxy;
 import de.teamlapen.werewolves.proxy.ServerProxy;
 import de.teamlapen.werewolves.util.Permissions;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.CreatureAttribute;
@@ -48,16 +48,12 @@ public class WerewolvesMod {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final AbstractPacketDispatcher dispatcher = new ModPacketDispatcher();
-
-    private static final EntityClassification WEREWOLF_CREATUE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 20, false, false);
-
-    private static final CreatureAttribute WEREWOLF_CREATURE_ATTRIBUTES = new CreatureAttribute();
-
-
     public static final Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    private static final EntityClassification WEREWOLF_CREATUE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 20, false, false);
+    private static final CreatureAttribute WEREWOLF_CREATURE_ATTRIBUTES = new CreatureAttribute();
     public static WerewolvesMod instance;
-    public final RegistryManager registryManager = new RegistryManager();
     public static boolean inDev = false;
+    public final RegistryManager registryManager = new RegistryManager();
 
     public WerewolvesMod() {
         WerewolvesMod.instance = this;
@@ -95,8 +91,8 @@ public class WerewolvesMod {
     }
 
     private void setupAPI() {
-        WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction(REFERENCE.WEREWOLF_PLAYER_KEY, IWerewolfPlayer.class, Color.GRAY, true, ()-> WerewolfPlayer.CAP,REFERENCE.HIGHEST_WEREWOLF_LEVEL);
-        WReference.WEREWOLF_FACTION.setChatColor(TextFormatting.GRAY).setTranslationKeys("text.werewolves.werewolf","text.vampirism.werewolves");
+        WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction(REFERENCE.WEREWOLF_PLAYER_KEY, IWerewolfPlayer.class, Color.GRAY, true, () -> WerewolfPlayer.CAP, REFERENCE.HIGHEST_WEREWOLF_LEVEL);
+        WReference.WEREWOLF_FACTION.setChatColor(TextFormatting.GRAY).setTranslationKeys("text.werewolves.werewolf", "text.vampirism.werewolves");
 
         WReference.WEREWOLF_CREATUE_TYPE = WerewolvesMod.WEREWOLF_CREATUE_TYPE;
         WReference.WEREWOLF_CREATURE_ATTRIBUTES = WerewolvesMod.WEREWOLF_CREATURE_ATTRIBUTES;
@@ -116,9 +112,9 @@ public class WerewolvesMod {
         MinecraftForge.EVENT_BUS.register(new ModPlayerEventHandler());
     }
 
-    private void loadComplete(final FMLLoadCompleteEvent event){
-        registryManager.onInitStep(IInitListener.Step.LOAD_COMPLETE,event);
-        proxy.onInitStep(IInitListener.Step.LOAD_COMPLETE,event);
+    private void loadComplete(final FMLLoadCompleteEvent event) {
+        registryManager.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
+        proxy.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
     }
 
     private void processIMC(final InterModProcessEvent event) {
@@ -133,11 +129,11 @@ public class WerewolvesMod {
 
     private void gatherData(final GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
-        if(event.includeServer()) {
+        if (event.includeServer()) {
             ModTagsProvider.addProvider(generator);
             generator.addProvider(new RecipeGenerator(generator));
         }
-        if(event.includeClient()) {
+        if (event.includeClient()) {
             generator.addProvider(new ItemModelGenerator(generator, event.getExistingFileHelper()));
             generator.addProvider(new BlockStateGenerator(generator, event.getExistingFileHelper()));
         }

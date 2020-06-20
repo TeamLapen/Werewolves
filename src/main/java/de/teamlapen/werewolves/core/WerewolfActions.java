@@ -16,7 +16,7 @@ public class WerewolfActions {
     public static final HowlingAction howling = getNull();
 
     static void registerActions(IForgeRegistry<IAction> registry) {
-        registry.register(new WerewolfAction().setRegistryName(REFERENCE.MODID,"werewolf_form"));
-        registry.register(new HowlingAction().setRegistryName(REFERENCE.MODID,"howling"));
+        registry.register(new WerewolfAction().setRegistryName(REFERENCE.MODID, "werewolf_form"));
+        registry.register(new HowlingAction().setRegistryName(REFERENCE.MODID, "howling"));
     }
 }

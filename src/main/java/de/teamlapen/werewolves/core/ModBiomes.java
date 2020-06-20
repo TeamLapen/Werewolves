@@ -21,7 +21,7 @@ import java.util.List;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes{
+public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
 
     public static final WerewolfHeaven werewolf_heaven = getNull();
 
@@ -41,7 +41,7 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes{
         List<Biome> noOreBiomes = Lists.newArrayList(vampire_forest, werewolf_heaven);
         oreBiomes.removeAll(noOreBiomes);
         oreBiomes.removeIf(biome -> biome.getCategory().equals(Biome.Category.THEEND) || biome.getCategory().equals(Biome.Category.NETHER));
-        for(Biome biome : oreBiomes) {
+        for (Biome biome : oreBiomes) {
             biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.silver_ore.getDefaultState(), 5), Placement.COUNT_RANGE, new CountRangeConfig(2, 0, 0, 45)));
         }
     }

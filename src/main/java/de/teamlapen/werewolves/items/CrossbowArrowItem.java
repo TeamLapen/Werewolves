@@ -38,7 +38,7 @@ public class CrossbowArrowItem extends WerewolvesItem implements IVampirismCross
 
     @Override
     public void addInformation(@Nonnull ItemStack stack, @Nullable World worldIn, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
-        if(this.type.hasToolTip) {
+        if (this.type.hasToolTip) {
             tooltip.add(new TranslationTextComponent(this.getTranslationKey() + ".tooltip"));
         }
     }

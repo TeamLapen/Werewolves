@@ -11,23 +11,16 @@ import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.api.entity.IExtendedWerewolf;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.entities.ExtendedWerewolf;
-import de.teamlapen.werewolves.entities.WerewolfEntity;
-import de.teamlapen.werewolves.player.werewolf.actions.WerewolfAction;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.DamageSource;
@@ -55,13 +48,28 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @CapabilityInject(IWerewolfPlayer.class)
     public static Capability<IWerewolfPlayer> CAP = getNull();
 
+    static {
+        LevelAttributeModifier.registerModdedAttributeModifier(SharedMonsterAttributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS);
+    }
+
+    private final ActionHandler<IWerewolfPlayer> actionHandler;
+    private final SkillHandler<IWerewolfPlayer> skillHandler;
+    private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
+    private int killedAnimal = 0;
+    public WerewolfPlayer(PlayerEntity player) {
+        super(player);
+        this.applyEntityAttributes();
+        this.actionHandler = new ActionHandler<>(this);
+        this.skillHandler = new SkillHandler<>(this, WReference.WEREWOLF_FACTION);
+    }
+
     public static WerewolfPlayer get(@Nonnull PlayerEntity playerEntity) {
-        return (WerewolfPlayer)playerEntity.getCapability(CAP).orElseThrow(() -> new IllegalStateException("Cannot get werewolf player capability from player" + playerEntity));
+        return (WerewolfPlayer) playerEntity.getCapability(CAP).orElseThrow(() -> new IllegalStateException("Cannot get werewolf player capability from player" + playerEntity));
     }
 
     public static LazyOptional<WerewolfPlayer> getOpt(@Nonnull PlayerEntity playerEntity) {
         LazyOptional<WerewolfPlayer> opt = playerEntity.getCapability(CAP).cast();
-        if(!opt.isPresent()) {
+        if (!opt.isPresent()) {
             LOGGER.warn("Cannot get Werewolf player capability. This might break mod functionality.", new Throwable().fillInStackTrace());
         }
         return opt;
@@ -76,35 +84,24 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return new ICapabilitySerializable<CompoundNBT>() {
 
             final IWerewolfPlayer inst = new WerewolfPlayer(playerEntity);
-            final LazyOptional<IWerewolfPlayer> opt = LazyOptional.of(()->inst);
+            final LazyOptional<IWerewolfPlayer> opt = LazyOptional.of(() -> inst);
+
             @Nonnull
             @Override
             public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-                return CAP.orEmpty(cap,opt);
+                return CAP.orEmpty(cap, opt);
             }
 
             @Override
             public CompoundNBT serializeNBT() {
-                return (CompoundNBT)CAP.getStorage().writeNBT(CAP,inst,null);
+                return (CompoundNBT) CAP.getStorage().writeNBT(CAP, inst, null);
             }
 
             @Override
             public void deserializeNBT(CompoundNBT nbt) {
-                CAP.getStorage().readNBT(CAP,inst,null,nbt);
+                CAP.getStorage().readNBT(CAP, inst, null, nbt);
             }
         };
-    }
-
-    private final ActionHandler<IWerewolfPlayer> actionHandler;
-    private final SkillHandler<IWerewolfPlayer> skillHandler;
-    private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
-    private int killedAnimal = 0;
-
-    public WerewolfPlayer(PlayerEntity player) {
-        super(player);
-        this.applyEntityAttributes();
-        this.actionHandler = new ActionHandler<>(this);
-        this.skillHandler = new SkillHandler<>(this, WReference.WEREWOLF_FACTION);
     }
 
     @Override
@@ -147,7 +144,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void onJoinWorld() {
-        if(this.getLevel() > 0) {
+        if (this.getLevel() > 0) {
             this.actionHandler.onActionsReactivated();
         }
     }
@@ -165,27 +162,27 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public void onUpdate() {
         this.player.getEntityWorld().getProfiler().startSection("werewolves_werewolfplayer");
-        if(!isRemote()) {
-            if(getLevel() > 0) {
+        if (!isRemote()) {
+            if (getLevel() > 0) {
                 boolean sync = false;
                 boolean syncToAll = false;
                 CompoundNBT syncPacket = new CompoundNBT();
 
-                if(this.actionHandler.updateActions()) {
+                if (this.actionHandler.updateActions()) {
                     sync = true;
                     syncToAll = true;
                     this.actionHandler.writeUpdateForClient(syncPacket);
                 }
-                if(this.skillHandler.isDirty()) {
+                if (this.skillHandler.isDirty()) {
                     sync = true;
                     skillHandler.writeUpdateForClient(syncPacket);
                 }
-                if(sync) {
+                if (sync) {
                     sync(syncPacket, syncToAll);
                 }
             }
-        }else {
-            if(getLevel() > 0) {
+        } else {
+            if (getLevel() > 0) {
                 this.actionHandler.updateActions();
             }
         }
@@ -205,8 +202,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
      * Bite the entity with the given id.
      * Checks reach distance
      *
-     * @param entityId
-     *            The id of the entity to start biting
+     * @param entityId The id of the entity to start biting
      */
     public void biteEntity(int entityId) {
         Entity e = this.player.getEntityWorld().getEntityByID(entityId);
@@ -240,13 +236,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     /**
      * feeds it self from bitten entities
      *
-     * @param entity
-     *            The bitten entity
+     * @param entity The bitten entity
      */
     private void eatFleshFrom(LivingEntity entity) {
         if (this.getSpecialAttributes().eatFlesh) {
             int i = WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.duration.get() * 20;
-            this.getActionHandler().extendAction(WerewolfActions.werewolf_form, (int)(i / 4 * this.player.getAttribute(WReference.werewolfFormTimeGain).getValue()));
+            this.getActionHandler().extendAction(WerewolfActions.werewolf_form, (int) (i / 4 * this.player.getAttribute(WReference.werewolfFormTimeGain).getValue()));
         }
     }
 
@@ -263,7 +258,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nullable
     @Override
     public IFaction<?> getDisguisedAs() {
-        if(this.getSpecialAttributes().trueForm){
+        if (this.getSpecialAttributes().trueForm) {
             return WReference.WEREWOLF_FACTION;
         }
         return null;
@@ -303,21 +298,21 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void onLevelChanged(int newLevel, int oldLevel) {
-        if(!isRemote()) {
+        if (!isRemote()) {
             ScoreboardUtil.updateScoreboard(this.player, WUtils.WEREWOLF_LEVEL_CRITERIA, newLevel);
             LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.MOVEMENT_SPEED, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.3, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
             LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.ARMOR_TOUGHNESS, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
             LevelAttributeModifier.applyModifier(player, SharedMonsterAttributes.ATTACK_DAMAGE, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_damage.get(), 0.5, AttributeModifier.Operation.ADDITION, false);
-            if(newLevel > 0){
-                if(oldLevel == 0) {
+            if (newLevel > 0) {
+                if (oldLevel == 0) {
                     this.skillHandler.enableRootSkill();
                 }
-            }else {
+            } else {
                 this.actionHandler.resetTimers();
                 this.skillHandler.disableAllSkills();
             }
-        }else {
-            if(newLevel == 0){
+        } else {
+            if (newLevel == 0) {
                 this.actionHandler.resetTimers();
             }
         }
@@ -360,17 +355,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         @Override
         public INBT writeNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side) {
             CompoundNBT compound = new CompoundNBT();
-            ((WerewolfPlayer)instance).saveData(compound);
+            ((WerewolfPlayer) instance).saveData(compound);
             return compound;
         }
 
         @Override
         public void readNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side, INBT compound) {
-            ((WerewolfPlayer)instance).loadData((CompoundNBT)compound);
+            ((WerewolfPlayer) instance).loadData((CompoundNBT) compound);
         }
-    }
-
-    static {
-        LevelAttributeModifier.registerModdedAttributeModifier(SharedMonsterAttributes.ARMOR_TOUGHNESS,ARMOR_TOUGHNESS);
     }
 }

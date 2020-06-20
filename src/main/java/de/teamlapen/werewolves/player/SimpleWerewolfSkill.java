@@ -3,15 +3,12 @@ package de.teamlapen.werewolves.player;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.player.skills.VampirismSkill;
 import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.api.entity.IWerewolf;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     @Deprecated
@@ -40,20 +37,21 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     }
 
     public static class ToggleWerewolfAction extends SimpleWerewolfSkill {
-        private final BiConsumer<IWerewolfPlayer,Boolean> toggler;
-        public ToggleWerewolfAction(String id, BiConsumer<IWerewolfPlayer,Boolean> toggler) {
+        private final BiConsumer<IWerewolfPlayer, Boolean> toggler;
+
+        public ToggleWerewolfAction(String id, BiConsumer<IWerewolfPlayer, Boolean> toggler) {
             super(id);
             this.toggler = toggler;
         }
 
         @Override
         protected void onEnabled(IWerewolfPlayer player) {
-            toggler.accept(player,true);
+            toggler.accept(player, true);
         }
 
         @Override
         protected void onDisabled(IWerewolfPlayer player) {
-            toggler.accept(player,false);
+            toggler.accept(player, false);
         }
     }
 }

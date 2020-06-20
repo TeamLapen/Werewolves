@@ -52,7 +52,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         GlStateManager.color4f(1f, 1f, 1f, 0.7F);
         blit(left, top, 27, 0, 16, 10);
         GlStateManager.color4f(r, g, b, 0.8F);
-        int percHeight = (int) (10 * 100);
+        int percHeight = 10 * 100;
         blit(left, top + (10 - percHeight), 27, 10 - percHeight, 16, percHeight);
         GlStateManager.color4f(1F, 1F, 1F, 1F);
         GL11.glDisable(GL11.GL_BLEND);

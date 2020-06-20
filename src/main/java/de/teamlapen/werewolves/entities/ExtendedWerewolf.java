@@ -20,7 +20,12 @@ public class ExtendedWerewolf<T extends AbstractVillagerEntity> implements ISync
 
     @CapabilityInject(IExtendedWerewolf.class)
     public static Capability<IExtendedWerewolf> CAP = getNull();
+    private final T villager;
+    private boolean hasWerewolfFaction;
 
+    public ExtendedWerewolf(T villager) {
+        this.villager = villager;
+    }
 
     public static LazyOptional<IExtendedWerewolf> getSafe(AbstractVillagerEntity mob) {
         return mob.getCapability(CAP);
@@ -54,13 +59,6 @@ public class ExtendedWerewolf<T extends AbstractVillagerEntity> implements ISync
         };
     }
 
-    private final T villager;
-    private boolean hasWerewolfFaction;
-
-    public ExtendedWerewolf(T villager) {
-        this.villager = villager;
-    }
-
     @Override
     public ResourceLocation getCapKey() {
         return REFERENCE.EXTENDED_WEREWOLF_KEY;
@@ -88,7 +86,7 @@ public class ExtendedWerewolf<T extends AbstractVillagerEntity> implements ISync
     }
 
     public void makeWerewolf() {
-        if(canBecomeWerewolf()) {
+        if (canBecomeWerewolf()) {
             WerewolfEntity werewolf = WerewolfEntity.createFromVillager(this.villager);
             this.villager.remove(true);
             this.villager.world.addEntity(werewolf);
@@ -119,13 +117,13 @@ public class ExtendedWerewolf<T extends AbstractVillagerEntity> implements ISync
         @Override
         public INBT writeNBT(Capability<IExtendedWerewolf> capability, IExtendedWerewolf instance, Direction side) {
             CompoundNBT compound = new CompoundNBT();
-            ((ExtendedWerewolf<?>)instance).saveData(compound);
+            ((ExtendedWerewolf<?>) instance).saveData(compound);
             return compound;
         }
 
         @Override
         public void readNBT(Capability<IExtendedWerewolf> capability, IExtendedWerewolf instance, Direction side, INBT compound) {
-            ((ExtendedWerewolf<?>)instance).loadData((CompoundNBT)compound);
+            ((ExtendedWerewolf<?>) instance).loadData((CompoundNBT) compound);
         }
     }
 }

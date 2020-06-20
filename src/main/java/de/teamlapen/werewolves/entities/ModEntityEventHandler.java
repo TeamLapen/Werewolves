@@ -18,9 +18,9 @@ public class ModEntityEventHandler {
 
     @SubscribeEvent
     public void onAttachCapability(AttachCapabilitiesEvent<Entity> event) {
-        if(event.getObject() instanceof AbstractVillagerEntity) {
+        if (event.getObject() instanceof AbstractVillagerEntity) {
             try {
-                event.addCapability(REFERENCE.EXTENDED_WEREWOLF_KEY, ExtendedWerewolf.createNewCapability((AbstractVillagerEntity)event.getObject()));
+                event.addCapability(REFERENCE.EXTENDED_WEREWOLF_KEY, ExtendedWerewolf.createNewCapability((AbstractVillagerEntity) event.getObject()));
             } catch (Exception e) {
                 LOGGER.error("Failed to attach capabilities to entity. Entity: {}", event.getObject());
                 throw e;
@@ -30,9 +30,9 @@ public class ModEntityEventHandler {
 
     @SubscribeEvent
     public void onEntitySpawn(LivingSpawnEvent event) {
-        if(event.getEntity() instanceof AbstractVillagerEntity) {
-            if(!(Helper.isHunter(event.getEntity()) || Helper.isVampire(event.getEntity()))) {
-                if(RNG.nextInt(15) == 0) {
+        if (event.getEntity() instanceof AbstractVillagerEntity) {
+            if (!(Helper.isHunter(event.getEntity()) || Helper.isVampire(event.getEntity()))) {
+                if (RNG.nextInt(15) == 0) {
                     ExtendedWerewolf.getSafe((AbstractVillagerEntity) event.getEntityLiving()).ifPresent(villager -> villager.setWerewolfFaction(true));
                 }
             }

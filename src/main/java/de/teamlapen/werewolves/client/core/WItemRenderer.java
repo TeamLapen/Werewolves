@@ -11,8 +11,8 @@ public class WItemRenderer {
 
     public static void registerColors() {
         Minecraft.getInstance().getItemColors().register((stack, tintIndex) -> {
-            if(tintIndex == 1) {
-                return ((CrossbowArrowItem)stack.getItem()).getType().color;
+            if (tintIndex == 1) {
+                return ((CrossbowArrowItem) stack.getItem()).getType().color;
             }
             return 0xFFFFFF;
         }, ModItems.crossbow_arrow_silver_bolt);

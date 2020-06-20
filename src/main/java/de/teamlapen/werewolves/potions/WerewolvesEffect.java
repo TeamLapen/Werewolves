@@ -8,6 +8,6 @@ import net.minecraft.potion.EffectType;
 public class WerewolvesEffect extends Effect {
     public WerewolvesEffect(String name, EffectType typeIn, int liquidColorIn) {
         super(typeIn, liquidColorIn);
-        this.setRegistryName(REFERENCE.MODID,name);
+        this.setRegistryName(REFERENCE.MODID, name);
     }
 }

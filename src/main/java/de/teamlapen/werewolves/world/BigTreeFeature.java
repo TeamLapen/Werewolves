@@ -19,7 +19,7 @@ public class BigTreeFeature extends net.minecraft.world.gen.feature.BigTreeFeatu
     private final BlockState leavesState;
 
     public BigTreeFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn, boolean doBlockNotifyIn) {
-        this(configFactoryIn, doBlockNotifyIn, Blocks.OAK_LOG.getDefaultState(),Blocks.OAK_LEAVES.getDefaultState());
+        this(configFactoryIn, doBlockNotifyIn, Blocks.OAK_LOG.getDefaultState(), Blocks.OAK_LEAVES.getDefaultState());
     }
 
     public BigTreeFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn, boolean doBlockNotifyIn, BlockState logState, BlockState leavesState) {
@@ -33,11 +33,11 @@ public class BigTreeFeature extends net.minecraft.world.gen.feature.BigTreeFeatu
      */
     @Override
     protected void crossSection(@Nonnull IWorldGenerationReader worldIn, @Nonnull BlockPos pos, float p_208529_3_, @Nonnull MutableBoundingBox p_208529_4_, @Nonnull Set<BlockPos> changedBlocks) {
-        int i = (int)((double)p_208529_3_ + 0.618D);
+        int i = (int) ((double) p_208529_3_ + 0.618D);
 
-        for(int j = -i; j <= i; ++j) {
-            for(int k = -i; k <= i; ++k) {
-                if (Math.pow((double)Math.abs(j) + 0.5D, 2.0D) + Math.pow((double)Math.abs(k) + 0.5D, 2.0D) <= (double)(p_208529_3_ * p_208529_3_)) {
+        for (int j = -i; j <= i; ++j) {
+            for (int k = -i; k <= i; ++k) {
+                if (Math.pow((double) Math.abs(j) + 0.5D, 2.0D) + Math.pow((double) Math.abs(k) + 0.5D, 2.0D) <= (double) (p_208529_3_ * p_208529_3_)) {
                     BlockPos blockpos = pos.add(j, 0, k);
                     if (isAirOrLeaves(worldIn, blockpos)) {
                         this.setLogState(changedBlocks, worldIn, blockpos, leavesState, p_208529_4_);
@@ -58,12 +58,12 @@ public class BigTreeFeature extends net.minecraft.world.gen.feature.BigTreeFeatu
         } else {
             BlockPos blockpos = p_208523_4_.add(-p_208523_3_.getX(), -p_208523_3_.getY(), -p_208523_3_.getZ());
             int i = this.getGreatestDistance(blockpos);
-            float f = (float)blockpos.getX() / (float)i;
-            float f1 = (float)blockpos.getY() / (float)i;
-            float f2 = (float)blockpos.getZ() / (float)i;
+            float f = (float) blockpos.getX() / (float) i;
+            float f1 = (float) blockpos.getY() / (float) i;
+            float f2 = (float) blockpos.getZ() / (float) i;
 
-            for(int j = 0; j <= i; ++j) {
-                BlockPos blockpos1 = p_208523_3_.add(0.5F + (float)j * f, 0.5F + (float)j * f1, 0.5F + (float)j * f2);
+            for (int j = 0; j <= i; ++j) {
+                BlockPos blockpos1 = p_208523_3_.add(0.5F + (float) j * f, 0.5F + (float) j * f1, 0.5F + (float) j * f2);
                 if (p_208523_5_) {
                     this.setLogState(p_208523_1_, worldIn, blockpos1, logState.with(LogBlock.AXIS, this.getLoxAxis(p_208523_3_, blockpos1)), p_208523_6_);
                 } else if (!func_214587_a(worldIn, blockpos1)) {

@@ -11,7 +11,7 @@ import net.minecraft.potion.EffectType;
 
 import javax.annotation.Nonnull;
 
-public class DrownsyEffect extends WerewolvesEffect{
+public class DrownsyEffect extends WerewolvesEffect {
 
     private static final String REGNAME = "drownsy";
 
@@ -24,16 +24,16 @@ public class DrownsyEffect extends WerewolvesEffect{
     }
 
     public static void addDrownsyPotion(PlayerEntity playerEntity) {
-        if(FactionPlayerHandler.getOpt(playerEntity).map(player -> player.canJoin(WReference.WEREWOLF_FACTION)).orElse(false)) {
+        if (FactionPlayerHandler.getOpt(playerEntity).map(player -> player.canJoin(WReference.WEREWOLF_FACTION)).orElse(false)) {
             playerEntity.addPotionEffect(new EffectInstance(ModEffects.drownsy, getPotionDuration()));
         }
     }
 
     @Override
     public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
-        if(entityLivingBaseIn instanceof PlayerEntity) {
+        if (entityLivingBaseIn instanceof PlayerEntity) {
             //TODO nice effect
-            FactionPlayerHandler.getOpt((PlayerEntity)entityLivingBaseIn).ifPresent(e->e.joinFaction(WReference.WEREWOLF_FACTION));
+            FactionPlayerHandler.getOpt((PlayerEntity) entityLivingBaseIn).ifPresent(e -> e.joinFaction(WReference.WEREWOLF_FACTION));
         }
     }
 

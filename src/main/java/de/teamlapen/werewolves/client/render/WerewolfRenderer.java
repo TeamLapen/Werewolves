@@ -19,7 +19,7 @@ public class WerewolfRenderer extends LivingRenderer<WerewolfEntity, WerewolfMod
         super(rendererManager, new WerewolfModel<>(), 0.7f);
     }
 
-    private ResourceLocation getWerewolfTexture(int entityId){
+    private ResourceLocation getWerewolfTexture(int entityId) {
         return WEntityRenderer.werewolfTextures[entityId % WEntityRenderer.werewolfTextures.length];
     }
 

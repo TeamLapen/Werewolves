@@ -19,7 +19,10 @@ import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.IWerewolfMob;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
-import net.minecraft.entity.*;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.monster.PatrollerEntity;
@@ -45,9 +48,18 @@ import javax.annotation.Nullable;
 public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEntity, IEntityActionUser, IWerewolfMob {
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(VampirismEntity.class, DataSerializers.VARINT);
     private static final int MAX_LEVEL = 2;
-
+    /**
+     * available actions for AI task & task
+     */
+    private final ActionHandlerEntity<?> entityActionHandler;
+    private final EntityClassType entityclass;
+    private final EntityActionTier entitytier;
     private AbstractVillagerEntity villager;
     private boolean isConverted;
+    //Village stuff-----------------------------------------------------------------------------------------------------
+    @Nullable
+    private ICaptureAttributes villageAttributes;
+    private boolean attack;
 
     public WerewolfEntity(EntityType<? extends WerewolfEntity> type, World world) {
         super(type, world);
@@ -78,13 +90,13 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     @Override
     public void writeAdditional(CompoundNBT nbt) {
         super.writeAdditional(nbt);
-        nbt.putInt("level",getLevel());
-        nbt.putBoolean("attack",this.attack);
+        nbt.putInt("level", getLevel());
+        nbt.putBoolean("attack", this.attack);
         nbt.putInt("entityclasstype", EntityClassType.getID(this.entityclass));
-        if(isConverted) {
+        if (isConverted) {
             nbt.putBoolean("isConverted", this.isConverted);
             nbt.putString("type", this.villager.getType().getRegistryName().toString());
-            nbt.put("villager",this.villager.serializeNBT());
+            nbt.put("villager", this.villager.serializeNBT());
         }
         this.entityActionHandler.write(nbt);
     }
@@ -98,9 +110,9 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         if (nbt.contains("attack")) {
             this.attack = nbt.getBoolean("attack");
         }
-        if(nbt.contains("isConverted")) {
+        if (nbt.contains("isConverted")) {
             this.isConverted = true;
-            EntityType<? extends AbstractVillagerEntity> type = (EntityType<? extends AbstractVillagerEntity>)ForgeRegistries.ENTITIES.getValue(new ResourceLocation(nbt.getString("type")));
+            EntityType<? extends AbstractVillagerEntity> type = (EntityType<? extends AbstractVillagerEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(nbt.getString("type")));
             this.villager = type.create(this.world);
             this.villager.deserializeNBT(nbt.getCompound("villager"));
         }
@@ -113,6 +125,8 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         this.villager.revive();
         this.world.addEntity(villager);
     }
+
+    //Leveling ---------------------------------------------------------------------------------------------------------
 
     @Override
     public void livingTick() {
@@ -128,7 +142,7 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     @Override
     protected void registerData() {
         super.registerData();
-        this.getDataManager().register(LEVEL,-1);
+        this.getDataManager().register(LEVEL, -1);
     }
 
     @Override
@@ -150,6 +164,8 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollerEntity.class, 5, true, true, (living) -> Structures.VILLAGE.isPositionInStructure(living.world, living.getPosition())));
     }
 
+    //IMob -------------------------------------------------------------------------------------------------------------
+
     protected void updateEntityAttributes() {
         int l = Math.max(getLevel(), 0);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(WerewolvesConfig.BALANCE.MOBPROPS.WEREWOLF_MAX_HEALTH.get() + WerewolvesConfig.BALANCE.MOBPROPS.WEREWOLF_MAX_HEALTH_PL.get() * l);
@@ -157,12 +173,11 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(WerewolvesConfig.BALANCE.MOBPROPS.WEREWOLF_SPEED.get());
     }
 
-    //Leveling ---------------------------------------------------------------------------------------------------------
-
     @Override
     public int getLevel() {
         return getDataManager().get(LEVEL);
     }
+    //Entityactions ----------------------------------------------------------------------------------------------------
 
     @Override
     public void setLevel(int level) {
@@ -200,32 +215,10 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         }
     }
 
-    //IMob -------------------------------------------------------------------------------------------------------------
-
     @Override
     protected EntityType<?> getIMobTypeOpt(boolean iMob) {
         return iMob ? ModEntities.werewolf_imob : ModEntities.werewolf;
     }
-
-    public static class IMob extends WerewolfEntity implements net.minecraft.entity.monster.IMob {
-
-        public IMob(EntityType<? extends WerewolfEntity> type, World world) {
-            super(type, world);
-        }
-
-        @Nonnull
-        @Override
-        protected ResourceLocation getLootTable() {
-            return ModEntities.werewolf.getLootTable();
-        }
-    }
-    //Entityactions ----------------------------------------------------------------------------------------------------
-    /**
-     * available actions for AI task & task
-     */
-    private final ActionHandlerEntity<?> entityActionHandler;
-    private final EntityClassType entityclass;
-    private final EntityActionTier entitytier;
 
     @Override
     public EntityClassType getEntityClass() {
@@ -241,11 +234,6 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     public ActionHandlerEntity getActionHandler() {
         return entityActionHandler;
     }
-
-    //Village stuff-----------------------------------------------------------------------------------------------------
-    @Nullable
-    private ICaptureAttributes villageAttributes;
-    private boolean attack;
 
     @Override
     public void attackVillage(ICaptureAttributes totem) {
@@ -285,5 +273,18 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     @Override
     public ICaptureAttributes getCaptureInfo() {
         return villageAttributes;
+    }
+
+    public static class IMob extends WerewolfEntity implements net.minecraft.entity.monster.IMob {
+
+        public IMob(EntityType<? extends WerewolfEntity> type, World world) {
+            super(type, world);
+        }
+
+        @Nonnull
+        @Override
+        protected ResourceLocation getLootTable() {
+            return ModEntities.werewolf.getLootTable();
+        }
     }
 }

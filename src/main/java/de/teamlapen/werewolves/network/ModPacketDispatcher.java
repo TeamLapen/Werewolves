@@ -10,11 +10,11 @@ public class ModPacketDispatcher extends AbstractPacketDispatcher {
     private static final String PROTOCOL_VERSION = Integer.toString(1);
 
     public ModPacketDispatcher() {
-        super(NetworkRegistry.ChannelBuilder.named(new ResourceLocation(REFERENCE.MODID, "main")).clientAcceptedVersions(PROTOCOL_VERSION::equals).serverAcceptedVersions(PROTOCOL_VERSION::equals).networkProtocolVersion(()->PROTOCOL_VERSION).simpleChannel());
+        super(NetworkRegistry.ChannelBuilder.named(new ResourceLocation(REFERENCE.MODID, "main")).clientAcceptedVersions(PROTOCOL_VERSION::equals).serverAcceptedVersions(PROTOCOL_VERSION::equals).networkProtocolVersion(() -> PROTOCOL_VERSION).simpleChannel());
     }
 
     @Override
     public void registerPackets() {
-        this.dispatcher.registerMessage(nextID(), InputEventPacket.class, InputEventPacket::encode, InputEventPacket::decode,InputEventPacket::handle);
+        this.dispatcher.registerMessage(nextID(), InputEventPacket.class, InputEventPacket::encode, InputEventPacket::decode, InputEventPacket::handle);
     }
 }

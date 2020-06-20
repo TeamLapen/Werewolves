@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.data;
 
-import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;

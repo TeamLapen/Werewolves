@@ -45,11 +45,11 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue WEREWOLF_SPEED;
 
         public MobProps(ForgeConfigSpec.Builder builder) {
-            WEREWOLF_ATTACK_DAMAGE = builder.defineInRange("werewolfAttackDamage",3,0,Double.MAX_VALUE);
-            WEREWOLF_ATTACK_DAMAGE_PL = builder.defineInRange("werewolfAttackDamagePl",1,0,Double.MAX_VALUE);
-            WEREWOLF_MAX_HEALTH = builder.defineInRange("werewolfMaxHealth",30.0,10,Double.MAX_VALUE);
-            WEREWOLF_MAX_HEALTH_PL = builder.defineInRange("werewolfMaxHealthPl",3,0,Double.MAX_VALUE);
-            WEREWOLF_SPEED = builder.defineInRange("werewolfSpeed",0.3,0.1,2);
+            WEREWOLF_ATTACK_DAMAGE = builder.defineInRange("werewolfAttackDamage", 3, 0, Double.MAX_VALUE);
+            WEREWOLF_ATTACK_DAMAGE_PL = builder.defineInRange("werewolfAttackDamagePl", 1, 0, Double.MAX_VALUE);
+            WEREWOLF_MAX_HEALTH = builder.defineInRange("werewolfMaxHealth", 30.0, 10, Double.MAX_VALUE);
+            WEREWOLF_MAX_HEALTH_PL = builder.defineInRange("werewolfMaxHealthPl", 3, 0, Double.MAX_VALUE);
+            WEREWOLF_SPEED = builder.defineInRange("werewolfSpeed", 0.3, 0.1, 2);
         }
     }
 
@@ -85,7 +85,7 @@ public class BalanceConfig {
             public final ForgeConfigSpec.DoubleValue armor_toughness;
 
             public WerewolfForm(ForgeConfigSpec.Builder builder) {
-                enabled = builder.define("werewolf_form_enabled",true);
+                enabled = builder.define("werewolf_form_enabled", true);
                 duration = builder.comment("In seconds").defineInRange("werewolf_form_duration", 10, 0, Integer.MAX_VALUE);
                 cooldown = builder.comment("In seconds").defineInRange("werewolf_form_cooldown", 0, 0, 10000);
                 speed_amount = builder.defineInRange("werewolf_form_speed_amount", 0.5, 0, 5);
@@ -103,10 +103,10 @@ public class BalanceConfig {
 
             public Howling(ForgeConfigSpec.Builder builder) {
                 enabled = builder.comment("Hownling Action enabled").define("howling_enabled", true);
-                attackspeed_amount = builder.comment("Hownling Attack speed multiplier").defineInRange("howling_attackspeed_amount",2.0,0.0,5.0);
-                cooldown = builder.comment("Howling cooldown").defineInRange("howling_cooldown",10,1,Integer.MAX_VALUE);
-                duration = builder.comment("Howling duration").defineInRange("howling_duration",10,1,Integer.MAX_VALUE);
-                disabled_duration = builder.comment("Howling disabled duration").defineInRange("howling_disabled_duration",10,1,Integer.MAX_VALUE);
+                attackspeed_amount = builder.comment("Hownling Attack speed multiplier").defineInRange("howling_attackspeed_amount", 2.0, 0.0, 5.0);
+                cooldown = builder.comment("Howling cooldown").defineInRange("howling_cooldown", 10, 1, Integer.MAX_VALUE);
+                duration = builder.comment("Howling duration").defineInRange("howling_duration", 10, 1, Integer.MAX_VALUE);
+                disabled_duration = builder.comment("Howling disabled duration").defineInRange("howling_disabled_duration", 10, 1, Integer.MAX_VALUE);
             }
         }
 
@@ -114,7 +114,7 @@ public class BalanceConfig {
             public final ForgeConfigSpec.DoubleValue increase;
 
             public TimeRegain(ForgeConfigSpec.Builder builder) {
-                increase = builder.defineInRange("increase",0.2,0,1);
+                increase = builder.defineInRange("increase", 0.2, 0, 1);
             }
         }
 
@@ -122,7 +122,7 @@ public class BalanceConfig {
             public final ForgeConfigSpec.IntValue time;
 
             public LongerWerewolfForm(ForgeConfigSpec.Builder builder) {
-                time = builder.defineInRange("time",10,0,Integer.MAX_VALUE);
+                time = builder.defineInRange("time", 10, 0, Integer.MAX_VALUE);
             }
         }
     }
@@ -132,7 +132,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.IntValue werewolfHeavenWeight;
 
         public Util(ForgeConfigSpec.Builder builder) {
-            drownsytime = builder.comment("in minutes").defineInRange("drownsytime",10,1, Integer.MAX_VALUE);
+            drownsytime = builder.comment("in minutes").defineInRange("drownsytime", 10, 1, Integer.MAX_VALUE);
             werewolfHeavenWeight = builder.defineInRange("werewolfHeavenWeight", 6, 1, Integer.MAX_VALUE);
         }
     }

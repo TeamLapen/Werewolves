@@ -17,9 +17,9 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onAttachCapability(AttachCapabilitiesEvent<Entity> event) {
-        if(event.getObject() instanceof PlayerEntity) {
+        if (event.getObject() instanceof PlayerEntity) {
             try {
-                event.addCapability(REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.createNewCapability((PlayerEntity)event.getObject()));
+                event.addCapability(REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.createNewCapability((PlayerEntity) event.getObject()));
             } catch (Exception e) {
                 LOGGER.error("Failed to attach capabilities to player. Player: {}", event.getObject());
                 throw e;
@@ -29,8 +29,8 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onFootEaten(LivingEntityUseItemEvent.Start event) {
-        if(event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity)event.getEntity())) {
-            if(event.getItem().isFood() && !ModTags.Items.RAWMEATS.contains(event.getItem().getItem())) {
+        if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) event.getEntity())) {
+            if (event.getItem().isFood() && !ModTags.Items.RAWMEATS.contains(event.getItem().getItem())) {
                 event.setCanceled(true);
             }
         }
@@ -38,9 +38,9 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onFootEaten(LivingEntityUseItemEvent.Finish event) {
-        if(event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity)event.getEntity())) {
-            if(event.getItem().isFood() && ModTags.Items.RAWMEATS.contains(event.getItem().getItem())) {
-                ((PlayerEntity)event.getEntityLiving()).getFoodStats().consume(event.getItem().getItem(),event.getItem());
+        if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) event.getEntity())) {
+            if (event.getItem().isFood() && ModTags.Items.RAWMEATS.contains(event.getItem().getItem())) {
+                ((PlayerEntity) event.getEntityLiving()).getFoodStats().consume(event.getItem().getItem(), event.getItem());
             }
         }
     }

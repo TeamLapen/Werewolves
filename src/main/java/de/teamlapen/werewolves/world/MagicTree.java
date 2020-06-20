@@ -13,6 +13,6 @@ public class MagicTree extends Tree {
     @Nullable
     @Override
     protected AbstractTreeFeature<NoFeatureConfig> getTreeFeature(@Nonnull Random random) {
-        return random.nextInt(10) == 0 ? ModFeatures.magic_tree_big: ModFeatures.magic_tree;
+        return random.nextInt(10) == 0 ? ModFeatures.magic_tree_big : ModFeatures.magic_tree;
     }
 }

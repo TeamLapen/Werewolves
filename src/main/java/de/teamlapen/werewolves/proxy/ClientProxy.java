@@ -10,7 +10,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
 
 @OnlyIn(Dist.CLIENT)
-public class ClientProxy extends CommonProxy{
+public class ClientProxy extends CommonProxy {
 
     @Override
     public void onInitStep(Step step, ModLifecycleEvent event) {
