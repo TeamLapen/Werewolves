@@ -28,6 +28,12 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModBlocks.silver_ore);
             add(ModBlocks.silver_block);
             add(ModBlocks.wolfsbane);
+            add(ModBlocks.jacaranda_leaves);
+            add(ModBlocks.jacaranda_log);
+            add(ModBlocks.jacaranda_sapling);
+            add(ModBlocks.magic_leaves);
+            add(ModBlocks.magic_log);
+            add(ModBlocks.magic_sapling);
         }};
         Set<Item> items = new HashSet<Item>() {{
             add(ModItems.silver_axe);

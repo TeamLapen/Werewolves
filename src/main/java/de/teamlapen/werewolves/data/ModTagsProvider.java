@@ -6,6 +6,8 @@ import de.teamlapen.werewolves.core.ModTags;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 
 public class ModTagsProvider {
 
@@ -22,6 +24,9 @@ public class ModTagsProvider {
         @Override
         protected void registerTags() {
             this.getBuilder(ModTags.Blocks.SILVER_BLOCKS).add(ModBlocks.silver_ore);
+            this.getBuilder(BlockTags.LOGS).add(ModBlocks.jacaranda_log,ModBlocks.magic_log);
+            this.getBuilder(BlockTags.SAPLINGS).add(ModBlocks.jacaranda_sapling,ModBlocks.magic_sapling);
+            this.getBuilder(BlockTags.LEAVES).add(ModBlocks.jacaranda_leaves,ModBlocks.magic_leaves);
         }
     }
 

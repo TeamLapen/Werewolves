@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
@@ -59,5 +60,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterEntityTypes(RegistryEvent.Register<EntityType<?>> event) {
         ModEntities.registerEntities(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterFeatures(RegistryEvent.Register<Feature<?>> event) {
+        ModFeatures.registerFeatures(event.getRegistry());
     }
 }

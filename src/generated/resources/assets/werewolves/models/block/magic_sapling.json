@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "werewolves:block/magic_sapling"
+  }
+}
