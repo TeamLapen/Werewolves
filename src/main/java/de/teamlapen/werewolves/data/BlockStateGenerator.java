@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.world.ModBiomeFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -20,6 +21,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         Set<Block> blocks = new HashSet<Block>() {{
             add(ModBlocks.silver_ore);
             add(ModBlocks.silver_block);
+            add(ModBlocks.magic_planks);
         }};
         blocks.forEach(this::simpleBlock);
 

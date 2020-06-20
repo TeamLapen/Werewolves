@@ -1,12 +1,14 @@
 package de.teamlapen.werewolves.data;
 
+import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModTags;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
-import net.minecraft.data.ShapedRecipeBuilder;
+import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.block.Blocks;
+import net.minecraft.data.*;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
@@ -24,5 +26,9 @@ public class RecipeGenerator extends RecipeProvider {
         ShapedRecipeBuilder.shapedRecipe(ModItems.silver_axe).key('#', Items.STICK).key('X', ModTags.Items.SILVER_INGOT).patternLine("XX").patternLine("X#").patternLine(" #").addCriterion("has_silver_ingot", this.hasItem(ModTags.Items.SILVER_INGOT)).build(consumer);
         ShapedRecipeBuilder.shapedRecipe(ModItems.silver_pickaxe).key('#', Items.STICK).key('X', ModTags.Items.SILVER_INGOT).patternLine("XXX").patternLine(" # ").patternLine(" # ").addCriterion("has_silver_ingot", this.hasItem(ModTags.Items.SILVER_INGOT)).build(consumer);
 
+        ShapelessRecipeBuilder.shapelessRecipe(ModBlocks.magic_planks, 4).addIngredient(ModBlocks.magic_log).addCriterion("has_magic_log", this.hasItem(ModBlocks.magic_log)).build(consumer, new ResourceLocation(REFERENCE.MODID, "magic_planks_from_magic_log"));
+        ShapelessRecipeBuilder.shapelessRecipe(Blocks.OAK_PLANKS, 4).addIngredient(ModBlocks.jacaranda_log).addCriterion("has_jacaranda_log", this.hasItem(ModBlocks.jacaranda_log)).build(consumer, new ResourceLocation(REFERENCE.MODID, "oak_planks_from_jacaranda_log"));
+
+        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromTag(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).addCriterion("has_silver_ore", this.hasItem(ModTags.Items.SILVER_ORE)).build(consumer, new ResourceLocation(REFERENCE.MODID, "silver_ingot_from_blasting"));
     }
 }

@@ -34,6 +34,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
     public static final SaplingBlock magic_sapling = getNull();
     public static final LeavesBlock magic_leaves = getNull();
     public static final LogBlock magic_log = getNull();
+    public static final Block magic_planks = getNull();
 
 
     static void registerItemBlocks(IForgeRegistry<Item> registry) {
@@ -46,6 +47,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
         registry.register(itemBlock(magic_sapling));
         registry.register(itemBlock(magic_leaves));
         registry.register(itemBlock(magic_log));
+        registry.register(itemBlock(magic_planks));
     }
 
 
@@ -62,6 +64,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
         registry.register(new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(REFERENCE.MODID, "magic_leaves"));
         registry.register(new ModSaplingBlock(new MagicTree()).setRegistryName(REFERENCE.MODID, "magic_sapling"));
         registry.register(new LogBlock(MaterialColor.BLUE, Block.Properties.create(Material.WOOD, MaterialColor.BLUE).hardnessAndResistance(2.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "magic_log"));
+        registry.register(new Block(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "magic_planks"));
     }
 
 

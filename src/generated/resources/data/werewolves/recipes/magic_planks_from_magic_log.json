@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "werewolves:magic_log"
+    }
+  ],
+  "result": {
+    "item": "werewolves:magic_planks",
+    "count": 4
+  }
+}

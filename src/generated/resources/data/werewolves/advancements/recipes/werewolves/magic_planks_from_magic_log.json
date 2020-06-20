@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "werewolves:magic_planks_from_magic_log"
+    ]
+  },
+  "criteria": {
+    "has_magic_log": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "werewolves:magic_log"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "werewolves:magic_planks_from_magic_log"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_magic_log",
+      "has_the_recipe"
+    ]
+  ]
+}

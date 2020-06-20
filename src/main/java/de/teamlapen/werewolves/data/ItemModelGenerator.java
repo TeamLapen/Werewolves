@@ -34,6 +34,7 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModBlocks.magic_leaves);
             add(ModBlocks.magic_log);
             add(ModBlocks.magic_sapling);
+            add(ModBlocks.magic_planks);
         }};
         Set<Item> items = new HashSet<Item>() {{
             add(ModItems.silver_axe);
