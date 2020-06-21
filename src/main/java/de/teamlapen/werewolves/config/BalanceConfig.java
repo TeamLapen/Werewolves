@@ -83,6 +83,7 @@ public class BalanceConfig {
         public static class WerewolfForm {
             public final ForgeConfigSpec.BooleanValue enabled;
             public final ForgeConfigSpec.IntValue duration;
+            public final ForgeConfigSpec.IntValue dayDuration;
             public final ForgeConfigSpec.IntValue cooldown;
             public final ForgeConfigSpec.DoubleValue speed_amount;
             public final ForgeConfigSpec.DoubleValue armor;
@@ -90,7 +91,8 @@ public class BalanceConfig {
 
             public WerewolfForm(ForgeConfigSpec.Builder builder) {
                 enabled = builder.define("werewolf_form_enabled", true);
-                duration = builder.comment("In seconds").defineInRange("werewolf_form_duration", 10, 0, Integer.MAX_VALUE);
+                duration = builder.comment("In seconds").defineInRange("werewolf_form_duration", 30, 0, Integer.MAX_VALUE);
+                dayDuration = builder.comment("In seconds").defineInRange("werewolf_form_day_duration", 10, 0, Integer.MAX_VALUE);
                 cooldown = builder.comment("In seconds").defineInRange("werewolf_form_cooldown", 0, 0, 10000);
                 speed_amount = builder.defineInRange("werewolf_form_speed_amount", 0.5, 0, 5);
                 armor = builder.defineInRange("werewolf_form_armor", 5.0, 0, 10.0);

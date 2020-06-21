@@ -6,7 +6,6 @@ import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.util.DamageSource;
 
 public class WReference {
     public static final IAttribute biteDamage = new RangedAttribute(null, "werewolves.bite_damage", 2D, 0D, 100D);

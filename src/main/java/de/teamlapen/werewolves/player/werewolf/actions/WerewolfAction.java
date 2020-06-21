@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -35,7 +36,20 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public <Q extends IFactionPlayer> int getDuration(Q player) {
-        return (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0) + getDuration(player.getLevel());
+        return (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0) + duration(player);
+    }
+
+    private <Q extends IFactionPlayer> int duration(Q player) {
+        float daytime = player.getRepresentingEntity().world.getDayTime();
+        if(daytime > 0 && daytime < 12000) {
+            return getDayDuration(player);
+        }else {
+            return getDuration(player.getLevel());
+        }
+    }
+
+    public <Q extends IFactionPlayer> int getDayDuration(Q level) {
+        return MathHelper.clamp(WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.dayDuration.get(), 10, Integer.MAX_VALUE / 20 - 1) * 20;
     }
 
     @Override
