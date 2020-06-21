@@ -29,7 +29,7 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
-        registry.register(new SimpleWerewolfSkill.ToggleWerewolfAction("eat_flesh", ((player, status) -> ((WerewolfPlayer) player).getSpecialAttributes().eatFlesh = status)));
+        registry.register(new SimpleWerewolfSkill.ToggleWerewolfAction("eat_flesh", ((player, status) -> ((WerewolfPlayer) player).getSpecialAttributes().eatFlesh = status))); //TODO cooldown before next use
         registry.register(new SimpleWerewolfSkill("werewolf_form_more_time"));
         registry.register(new SimpleWerewolfSkill("werewolf_form_time_regain") {
             @Override
