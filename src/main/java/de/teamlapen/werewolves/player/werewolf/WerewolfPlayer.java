@@ -57,6 +57,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final SkillHandler<IWerewolfPlayer> skillHandler;
     private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
     private int killedAnimal = 0;
+
     public WerewolfPlayer(PlayerEntity player) {
         super(player);
         this.applyEntityAttributes();

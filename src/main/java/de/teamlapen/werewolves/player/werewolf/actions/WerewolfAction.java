@@ -20,6 +20,7 @@ import java.util.UUID;
 public class WerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
     public static final UUID ARMOR = UUID.fromString("0b281a87-829f-4d98-9a3b-116549cfdd57");
     public static final UUID ARMOR_TOUGHNESS = UUID.fromString("f47e2130-39c4-496f-8d47-572abdc03920");
+    public static final UUID MOVEMENT_SPEED = UUID.fromString("e9748d20-a9a5-470c-99a4-44167df71aa5");
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
@@ -77,6 +78,7 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
     private void applyModifier(PlayerEntity player, boolean activate) {
         IAttributeInstance armor = player.getAttributes().getAttributeInstance(SharedMonsterAttributes.ARMOR);
         IAttributeInstance armor_toughness = player.getAttributes().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS);
+        IAttributeInstance movement_speed = player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (armor == null || armor_toughness == null) {
             LOGGER.warn("Could not apply attribute modifier to entity: {}", player.getName());
             return;
@@ -88,9 +90,13 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
             if (armor_toughness.getModifier(ARMOR_TOUGHNESS) == null) {
                 armor_toughness.applyModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_form_armor_toughness", WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.armor.get(), AttributeModifier.Operation.ADDITION));
             }
+            if (movement_speed.getModifier(MOVEMENT_SPEED) == null) {
+                movement_speed.applyModifier(new AttributeModifier(MOVEMENT_SPEED, "werewolf_form_movement_speed", WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.speed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
+            }
         } else {
             armor.removeModifier(ARMOR);
             armor_toughness.removeModifier(ARMOR_TOUGHNESS);
+            movement_speed.removeModifier(MOVEMENT_SPEED);
         }
     }
 

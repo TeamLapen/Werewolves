@@ -36,8 +36,8 @@ public class BalanceConfig {
 
         public Player(ForgeConfigSpec.Builder builder) {
             werewolf_damage = builder.comment("In seconds").defineInRange("werewolf_form_duration", 1.0, 0, 10);
-            werewolf_speed_amount = builder.defineInRange("werewolf_speed_amount", 0.5, 0, 5);
-            werewolf_armor_toughness = builder.defineInRange("werewolf_armor_toughness", 5.0, 0, 10.0);
+            werewolf_speed_amount = builder.defineInRange("werewolf_speed_amount", 0.2, 0, 5);
+            werewolf_armor_toughness = builder.defineInRange("werewolf_armor_toughness", 3.0, 0, 10.0);
         }
     }
 
