@@ -19,10 +19,7 @@ import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.IWerewolfMob;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.monster.PatrollerEntity;
@@ -38,12 +35,15 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structures;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEntity, IEntityActionUser, IWerewolfMob {
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(VampirismEntity.class, DataSerializers.VARINT);
@@ -56,7 +56,7 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     private final EntityActionTier entitytier;
     private AbstractVillagerEntity villager;
     private boolean isConverted;
-    //Village stuff-----------------------------------------------------------------------------------------------------
+
     @Nullable
     private ICaptureAttributes villageAttributes;
     private boolean attack;
@@ -75,6 +75,10 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         werewolf.isConverted = true;
         werewolf.copyLocationAndAnglesFrom(villager);
         return werewolf;
+    }
+
+    public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfEntity> entityType, IWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
+        return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random);
     }
 
     @Override
@@ -119,14 +123,20 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         this.entityActionHandler.read(nbt);
     }
 
+    @Override
+    public EntityClassification getClassification(boolean forSpawnCount) {
+        if (forSpawnCount) {
+            return EntityClassification.MONSTER;
+        }
+        return super.getClassification(forSpawnCount);
+    }
+
     public void transformBack() {
         this.villager.copyLocationAndAnglesFrom(this);
         this.remove();
         this.villager.revive();
         this.world.addEntity(villager);
     }
-
-    //Leveling ---------------------------------------------------------------------------------------------------------
 
     @Override
     public void livingTick() {
@@ -164,8 +174,6 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollerEntity.class, 5, true, true, (living) -> Structures.VILLAGE.isPositionInStructure(living.world, living.getPosition())));
     }
 
-    //IMob -------------------------------------------------------------------------------------------------------------
-
     protected void updateEntityAttributes() {
         int l = Math.max(getLevel(), 0);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(WerewolvesConfig.BALANCE.MOBPROPS.WEREWOLF_MAX_HEALTH.get() + WerewolvesConfig.BALANCE.MOBPROPS.WEREWOLF_MAX_HEALTH_PL.get() * l);
@@ -177,7 +185,6 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     public int getLevel() {
         return getDataManager().get(LEVEL);
     }
-    //Entityactions ----------------------------------------------------------------------------------------------------
 
     @Override
     public void setLevel(int level) {

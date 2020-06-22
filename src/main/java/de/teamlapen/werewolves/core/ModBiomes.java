@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.ModBiomeFeatures;
-import de.teamlapen.werewolves.world.WerewolfHeaven;
+import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
@@ -24,10 +24,10 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 @ObjectHolder(REFERENCE.MODID)
 public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
 
-    public static final WerewolfHeaven werewolf_heaven = getNull();
+    public static final WerewolfHeavenBiome werewolf_heaven = getNull();
 
     static void registerBiomes(IForgeRegistry<Biome> registry) {
-        registry.register(new WerewolfHeaven().setRegistryName(REFERENCE.MODID, "werewolf_heaven"));
+        registry.register(new WerewolfHeavenBiome().setRegistryName(REFERENCE.MODID, "werewolf_heaven"));
     }
 
     static void addBiomes() {

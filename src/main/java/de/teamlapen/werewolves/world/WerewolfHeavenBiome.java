@@ -3,6 +3,8 @@ package de.teamlapen.werewolves.world;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.world.IFactionBiome;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.core.ModEntities;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -12,9 +14,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-public class WerewolfHeaven extends Biome implements IFactionBiome {
+public class WerewolfHeavenBiome extends Biome implements IFactionBiome {
 
-    public WerewolfHeaven() {
+    public WerewolfHeavenBiome() {
         super(new Builder().surfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_DIRT_GRAVEL_CONFIG).category(Category.FOREST).depth(0.2f).scale(0.5f).waterColor(0x4CCCFF).waterFogColor(0x4CCCFF).precipitation(RainType.NONE).parent(null).downfall(0.0f).temperature(0.3f));
 
         DefaultBiomeFeatures.addCarvers(this);
@@ -32,6 +34,8 @@ public class WerewolfHeaven extends Biome implements IFactionBiome {
         DefaultBiomeFeatures.addOres(this);
         DefaultBiomeFeatures.addDefaultFlowers(this);
         DefaultBiomeFeatures.addBerryBushes(this);
+
+        addSpawn(EntityClassification.MONSTER, new SpawnListEntry(ModEntities.werewolf,10,1,2));
     }
 
     @OnlyIn(Dist.CLIENT)

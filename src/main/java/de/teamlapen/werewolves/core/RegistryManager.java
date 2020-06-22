@@ -23,6 +23,7 @@ public class RegistryManager implements IInitListener {
                 ModBiomes.addBiomes();
                 ModBiomes.addFeatures();
                 ModBiomes.setUpOreGen();
+                ModEntities.registerSpawns();
                 ModEntities.registerSpawnEntries();
                 break;
         }
