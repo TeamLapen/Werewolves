@@ -170,9 +170,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 boolean syncToAll = false;
                 CompoundNBT syncPacket = new CompoundNBT();
 
-                if(this.player.getEntityWorld().getDayTime() > 0 && this.player.getEntityWorld().getDayTime() < 12000 && this.getActionHandler().getPercentageForAction(WerewolfActions.werewolf_form) > 1) { //TODO search for a better way
-                    this.getActionHandler().extendAction(WerewolfActions.werewolf_form, -this.getActionHandler().getRemainingActionTime(WerewolfActions.werewolf_form)+WerewolfActions.werewolf_form.getDayDuration(this));
-                }
                 if (this.actionHandler.updateActions()) {
                     sync = true;
                     syncToAll = true;

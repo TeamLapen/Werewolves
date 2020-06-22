@@ -29,6 +29,11 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
+    public boolean canBeUsedBy(IWerewolfPlayer player) {
+        return player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 || player.getActionHandler().isActionActive(this);
+    }
+
+    @Override
     protected boolean activate(IWerewolfPlayer player) {
         ((WerewolfPlayer) player).activateWerewolfForm();
         this.applyModifier(player.getRepresentingPlayer(), true);
@@ -37,20 +42,7 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public <Q extends IFactionPlayer> int getDuration(Q player) {
-        return (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0) + duration(player);
-    }
-
-    private <Q extends IFactionPlayer> int duration(Q player) {
-        float daytime = player.getRepresentingEntity().world.getDayTime();
-        if(daytime > 0 && daytime < 12000) {
-            return getDayDuration(player);
-        }else {
-            return getDuration(player.getLevel());
-        }
-    }
-
-    public <Q extends IFactionPlayer> int getDayDuration(Q level) {
-        return MathHelper.clamp(WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.dayDuration.get(), 10, Integer.MAX_VALUE / 20 - 1) * 20;
+        return (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0) + getDuration(player.getLevel());
     }
 
     @Override
