@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.core;
 import com.google.common.collect.Lists;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.world.ModBiomeFeatures;
 import de.teamlapen.werewolves.world.WerewolfHeaven;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
@@ -33,6 +34,14 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
         BiomeDictionary.addTypes(werewolf_heaven, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL);
         if (!WerewolvesConfig.SERVER.disableWerewolfHeaven.get()) {
             BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(werewolf_heaven, WerewolvesConfig.BALANCE.UTIL.werewolfHeavenWeight.get()));
+        }
+    }
+
+    static void addFeatures() {
+        for(Biome biome: ForgeRegistries.BIOMES.getValues()) {
+            if(BiomeDictionary.getTypes(biome).contains(BiomeDictionary.Type.FOREST)) {
+                ModBiomeFeatures.addWerewolvesFlowers(biome);
+            }
         }
     }
 

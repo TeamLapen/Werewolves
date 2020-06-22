@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
+import de.teamlapen.werewolves.world.ModBiomeFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -20,6 +21,7 @@ public class RegistryManager implements IInitListener {
         switch (step) {
             case COMMON_SETUP:
                 ModBiomes.addBiomes();
+                ModBiomes.addFeatures();
                 ModBiomes.setUpOreGen();
                 ModEntities.registerSpawnEntries();
                 break;
