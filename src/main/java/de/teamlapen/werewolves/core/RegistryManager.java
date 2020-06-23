@@ -4,12 +4,16 @@ import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.world.ModBiomeFeatures;
+import de.teamlapen.werewolves.world.WWorldEventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
+import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
@@ -24,7 +28,6 @@ public class RegistryManager implements IInitListener {
                 ModBiomes.addFeatures();
                 ModBiomes.setUpOreGen();
                 ModEntities.registerSpawns();
-                ModEntities.registerSpawnEntries();
                 break;
         }
     }
@@ -68,5 +71,15 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterFeatures(RegistryEvent.Register<Feature<?>> event) {
         ModFeatures.registerFeatures(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterProfessions(RegistryEvent.Register<VillagerProfession> event) {
+        ModVillage.registerProfessions(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterPointOfInterests(RegistryEvent.Register<PointOfInterestType> event) {
+        ModVillage.registerPointOfInterestTypes(event.getRegistry());
     }
 }

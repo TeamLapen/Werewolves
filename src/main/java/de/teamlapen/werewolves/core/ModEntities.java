@@ -1,15 +1,11 @@
 package de.teamlapen.werewolves.core;
 
-import com.google.common.collect.Lists;
-import de.teamlapen.vampirism.tileentity.TotemTileEntity;
-import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.entities.WerewolfEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
@@ -30,10 +26,6 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
 
     static void registerSpawns() {
         EntitySpawnPlacementRegistry.register(werewolf, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, WerewolfEntity::spawnPredicateWerewolf);
-    }
-
-    static void registerSpawnEntries() {
-        TotemTileEntity.registerCaptureEntities(WReference.WEREWOLF_FACTION, Lists.newArrayList(new TotemTileEntity.CaptureEntityEntry(ModEntities.werewolf, 10)));
     }
 
     private static <T extends Entity> EntityType<T> prepareEntityType(String id, EntityType.Builder<T> builder, boolean spawnable) {

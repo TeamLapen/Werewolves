@@ -28,6 +28,7 @@
   "item.werewolves.crossbow_arrow_silver_bolt.tooltip": "Deals more damage to werewolves",
   "__comment": "entities",
   "entity.werewolves.werewolf": "Werewolf",
+  "entity.minecraft.villager.werewolves.werewolf_expert": "Werewolf Expert",
   "__comment": "actions",
   "action.werewolves.howling": "Howling",
   "action.werewolves.werewolf_form": "Werewolf form",

@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.entities;
 
+import de.teamlapen.werewolves.api.entity.IExtendedWerewolf;
 import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEffects;
@@ -10,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,9 +37,9 @@ public class ModEntityEventHandler {
     }
 
     @SubscribeEvent
-    public void onEntitySpawn(LivingSpawnEvent event) {
+    public void onEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
         if (event.getEntity() instanceof AbstractVillagerEntity) {
-            if (!(Helper.isHunter(event.getEntity()) || Helper.isVampire(event.getEntity()))) {
+            if (Helper.hasFaction(event.getEntity())) {
                 if (RNG.nextInt(15) == 0) {
                     ExtendedWerewolf.getSafe((AbstractVillagerEntity) event.getEntityLiving()).ifPresent(villager -> villager.setWerewolfFaction(true));
                 }
@@ -50,6 +52,15 @@ public class ModEntityEventHandler {
         if(event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
             if(event.getPlayer().getHeldItemMainhand().getItem() instanceof ISilverItem) { //TODO maybe check for silver tag
                 ((LivingEntity) event.getTarget()).addPotionEffect(new EffectInstance(ModEffects.silver, WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onEntityDamaged(LivingDamageEvent event) {
+        if(event.getEntityLiving() instanceof AbstractVillagerEntity) {
+            if(Helper.isWerewolf(event.getEntityLiving())) {
+                ExtendedWerewolf.getSafe((AbstractVillagerEntity) event.getEntityLiving()).ifPresent(IExtendedWerewolf::makeWerewolf);
             }
         }
     }

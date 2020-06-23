@@ -22,6 +22,7 @@ import de.teamlapen.werewolves.core.ModEntities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.PatrollerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -131,11 +132,12 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         return super.getClassification(forSpawnCount);
     }
 
-    public void transformBack() {
+    public AbstractVillagerEntity transformBack() {
         this.villager.copyLocationAndAnglesFrom(this);
         this.remove();
         this.villager.revive();
         this.world.addEntity(villager);
+        return villager;
     }
 
     @Override
@@ -280,6 +282,14 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     @Override
     public ICaptureAttributes getCaptureInfo() {
         return villageAttributes;
+    }
+
+    public boolean isConverted() {
+        return isConverted;
+    }
+
+    public AbstractVillagerEntity getVillager() {
+        return villager;
     }
 
     public static class IMob extends WerewolfEntity implements net.minecraft.entity.monster.IMob {

@@ -13,4 +13,9 @@ public class ExtendedWerewolfDefaultImpl implements IExtendedWerewolf {
     public boolean isWerewolf() {
         return false;
     }
+
+    @Override
+    public void makeWerewolf() {
+
+    }
 }

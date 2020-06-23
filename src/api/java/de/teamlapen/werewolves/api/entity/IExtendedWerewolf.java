@@ -5,4 +5,6 @@ public interface IExtendedWerewolf {
     void setWerewolfFaction(boolean werewolf);
 
     boolean isWerewolf();
+
+    void makeWerewolf();
 }
