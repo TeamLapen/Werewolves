@@ -22,7 +22,6 @@ import de.teamlapen.werewolves.core.ModEntities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.PatrollerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -44,6 +43,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 import java.util.Random;
 
 public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEntity, IEntityActionUser, IWerewolfMob {
@@ -53,10 +53,11 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
      * available actions for AI task & task
      */
     private final ActionHandlerEntity<?> entityActionHandler;
-    private final EntityClassType entityclass;
-    private final EntityActionTier entitytier;
+    private final EntityClassType entityClass;
+    private final EntityActionTier entityTier;
     private AbstractVillagerEntity villager;
     private boolean isConverted;
+    private int aggressionLevel;
 
     @Nullable
     private ICaptureAttributes villageAttributes;
@@ -64,17 +65,20 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
 
     public WerewolfEntity(EntityType<? extends WerewolfEntity> type, World world) {
         super(type, world);
-        entitytier = EntityActionTier.Medium;
-        entityclass = EntityClassType.getRandomClass(this.getRNG());
+        entityTier = EntityActionTier.Medium;
+        entityClass = EntityClassType.getRandomClass(this.getRNG());
         this.entityActionHandler = new ActionHandlerEntity<>(this);
         //this.enableImobConversion();
     }
 
     public static WerewolfEntity createFromVillager(AbstractVillagerEntity villager) {
         WerewolfEntity werewolf = ModEntities.werewolf.create(villager.world);
+        assert werewolf != null;
         werewolf.villager = villager;
         werewolf.isConverted = true;
         werewolf.copyLocationAndAnglesFrom(villager);
+        werewolf.aggressionLevel = 30;
+        villager.setMotion(0,0,0);
         return werewolf;
     }
 
@@ -97,10 +101,10 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         super.writeAdditional(nbt);
         nbt.putInt("level", getLevel());
         nbt.putBoolean("attack", this.attack);
-        nbt.putInt("entityclasstype", EntityClassType.getID(this.entityclass));
+        nbt.putInt("entityclasstype", EntityClassType.getID(this.entityClass));
         if (isConverted) {
             nbt.putBoolean("isConverted", this.isConverted);
-            nbt.putString("type", this.villager.getType().getRegistryName().toString());
+            nbt.putString("type", Objects.requireNonNull(this.villager.getType().getRegistryName()).toString());
             nbt.put("villager", this.villager.serializeNBT());
         }
         this.entityActionHandler.write(nbt);
@@ -117,8 +121,11 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
         }
         if (nbt.contains("isConverted")) {
             this.isConverted = true;
+            @SuppressWarnings("unchecked")
             EntityType<? extends AbstractVillagerEntity> type = (EntityType<? extends AbstractVillagerEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(nbt.getString("type")));
+            assert type != null;
             this.villager = type.create(this.world);
+            assert this.villager != null;
             this.villager.deserializeNBT(nbt.getCompound("villager"));
         }
         this.entityActionHandler.read(nbt);
@@ -144,6 +151,26 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     public void livingTick() {
         super.livingTick();
         this.entityActionHandler.handle();
+        if(this.isConverted) {
+            if (this.aggressionLevel > 0) {
+                if (this.world.getGameTime() % 20 == 0) {
+                    --this.aggressionLevel;
+                }
+            } else {
+                if (this.getRNG().nextInt(10) == 0) {
+                    this.transformBack();
+                } else {
+                    this.aggressionLevel += 5;
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void attackedEntityAsMob(LivingEntity entity) {
+        if(this.isConverted) {
+            this.aggressionLevel = Math.max(60, this.aggressionLevel+20);//TODO config option
+        }
     }
 
     @Override
@@ -231,12 +258,12 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
 
     @Override
     public EntityClassType getEntityClass() {
-        return entityclass;
+        return entityClass;
     }
 
     @Override
     public EntityActionTier getEntityTier() {
-        return entitytier;
+        return entityTier;
     }
 
     @Override
