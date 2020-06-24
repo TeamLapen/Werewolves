@@ -87,14 +87,16 @@ public class BalanceConfig {
             public final ForgeConfigSpec.DoubleValue speed_amount;
             public final ForgeConfigSpec.DoubleValue armor;
             public final ForgeConfigSpec.DoubleValue armor_toughness;
+            public final ForgeConfigSpec.LongValue time_limit;
 
             public WerewolfForm(ForgeConfigSpec.Builder builder) {
                 enabled = builder.define("werewolf_form_enabled", true);
-                duration = builder.comment("In seconds").defineInRange("werewolf_form_duration", 30, 0, Integer.MAX_VALUE);
+                duration = builder.comment("In seconds").defineInRange("werewolf_form_duration", Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
                 cooldown = builder.comment("In seconds").defineInRange("werewolf_form_cooldown", 0, 0, 10000);
                 speed_amount = builder.defineInRange("werewolf_form_speed_amount", 0.5, 0, 5);
                 armor = builder.defineInRange("werewolf_form_armor", 5.0, 0, 10.0);
                 armor_toughness = builder.defineInRange("werewolf_form_armor_toughness", 5.0, 0, 10.0);
+                time_limit = builder.comment("in Seconds").defineInRange("werewolf_form_time_limit",2,1,Long.MAX_VALUE);
             }
         }
 
@@ -126,7 +128,7 @@ public class BalanceConfig {
             public final ForgeConfigSpec.IntValue time;
 
             public LongerWerewolfForm(ForgeConfigSpec.Builder builder) {
-                time = builder.defineInRange("time", 10, 0, Integer.MAX_VALUE);
+                time = builder.comment("In seconds").defineInRange("time", 10, 0, Integer.MAX_VALUE);
             }
         }
     }

@@ -14,7 +14,7 @@ import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.player.werewolf.actions.WerewolfAction;
+import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.Entity;
@@ -22,10 +22,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.capabilities.*;
@@ -51,18 +53,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     static {
         LevelAttributeModifier.registerModdedAttributeModifier(SharedMonsterAttributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS);
-    }
-
-    private final ActionHandler<IWerewolfPlayer> actionHandler;
-    private final SkillHandler<IWerewolfPlayer> skillHandler;
-    private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
-    private int killedAnimal = 0;
-
-    public WerewolfPlayer(PlayerEntity player) {
-        super(player);
-        this.applyEntityAttributes();
-        this.actionHandler = new ActionHandler<>(this);
-        this.skillHandler = new SkillHandler<>(this, WReference.WEREWOLF_FACTION);
     }
 
     public static WerewolfPlayer get(@Nonnull PlayerEntity playerEntity) {
@@ -104,6 +94,19 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 CAP.getStorage().readNBT(CAP, inst, null, nbt);
             }
         };
+    }
+
+    private final ActionHandler<IWerewolfPlayer> actionHandler;
+    private final SkillHandler<IWerewolfPlayer> skillHandler;
+    private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
+    private int killedAnimal;
+    private final NonNullList<ItemStack> armorItems = NonNullList.withSize(4,ItemStack.EMPTY);
+
+    public WerewolfPlayer(PlayerEntity player) {
+        super(player);
+        this.applyEntityAttributes();
+        this.actionHandler = new ActionHandler<>(this);
+        this.skillHandler = new SkillHandler<>(this, WReference.WEREWOLF_FACTION);
     }
 
     @Override
@@ -169,7 +172,14 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 boolean sync = false;
                 boolean syncToAll = false;
                 CompoundNBT syncPacket = new CompoundNBT();
-
+                if(this.player.world.getGameTime() % 10 == 0) {
+                    if(this.specialAttributes.werewolfTime > 0 && !this.actionHandler.isActionActive(WerewolfActions.werewolf_form)) {
+                        this.specialAttributes.werewolfTime -= 10 * player.getAttribute(WReference.werewolfFormTimeGain).getValue();
+                        --this.specialAttributes.werewolfTime;
+                        sync = true;
+                        syncPacket.putLong("werewolfTime", this.specialAttributes.werewolfTime);
+                    }
+                }
                 if (this.actionHandler.updateActions()) {
                     sync = true;
                     syncToAll = true;
@@ -185,6 +195,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         } else {
             if (getLevel() > 0) {
+                if(this.player.world.getGameTime() % 10 == 0) {
+                    if (this.specialAttributes.werewolfTime > 0 && !this.actionHandler.isActionActive(WerewolfActions.werewolf_form)) {
+                        this.specialAttributes.werewolfTime -= 10 * player.getAttribute(WReference.werewolfFormTimeGain).getValue();
+                    }
+                }
                 this.actionHandler.updateActions();
             }
         }
@@ -260,7 +275,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nullable
     @Override
     public IFaction<?> getDisguisedAs() {
-        if (this.getSpecialAttributes().trueForm) {
+        if (this.getSpecialAttributes().werewolfForm) {
             return WReference.WEREWOLF_FACTION;
         }
         return null;
@@ -286,11 +301,19 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     public void activateWerewolfForm() {
-        this.specialAttributes.trueForm = true;
+        this.specialAttributes.werewolfForm = true;
+        for (int i = 0; i < player.inventory.armorInventory.size(); i++) {
+            this.armorItems.set(i,this.player.inventory.armorInventory.get(i));
+            this.player.inventory.armorInventory.set(i,ItemStack.EMPTY);
+        }
     }
 
     public void deactivateWerewolfForm() {
-        this.specialAttributes.trueForm = false;
+        this.specialAttributes.werewolfForm = false;
+        for (int i = 0; i < this.armorItems.size(); i++) {
+            this.player.inventory.armorInventory.set(i,this.armorItems.get(i));
+            this.armorItems.set(i,ItemStack.EMPTY);
+        }
     }
 
     @Override
@@ -333,23 +356,49 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     public void saveData(CompoundNBT compound) {
         this.actionHandler.saveToNbt(compound);
         this.skillHandler.saveToNbt(compound);
+        CompoundNBT armor = new CompoundNBT();
+        for (int i = 0; i < this.armorItems.size(); i++) {
+            armor.put(""+i,this.armorItems.get(i).serializeNBT());
+        }
+        compound.put("armor", armor);
+        compound.putLong("werewolfTime", this.specialAttributes.werewolfTime);
     }
 
     public void loadData(CompoundNBT compound) {
         this.actionHandler.loadFromNbt(compound);
         this.skillHandler.loadFromNbt(compound);
+        CompoundNBT armor = compound.getCompound("armor");
+        for (int i = 0; i < armor.size(); i++) {
+            this.armorItems.set(i,ItemStack.read(armor.getCompound(""+i)));
+        }
+        if(compound.contains("werewolfTime")) {
+            this.specialAttributes.werewolfTime = compound.getLong("werewolfTime");
+        }
     }
 
     @Override
     protected void writeFullUpdate(CompoundNBT nbt) {
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
+        CompoundNBT armor = new CompoundNBT();
+        for (int i = 0; i < this.armorItems.size(); i++) {
+            armor.put(""+i,this.armorItems.get(i).serializeNBT());
+        }
+        nbt.put("armor", armor);
+        nbt.putLong("werewolfTime", this.specialAttributes.werewolfTime);
     }
 
     @Override
     protected void loadUpdate(CompoundNBT nbt) {
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
+        CompoundNBT armor = nbt.getCompound("armor");
+        for (int i = 0; i < armor.size(); i++) {
+            this.armorItems.set(i,ItemStack.read(armor.getCompound(""+i)));
+        }
+        if(nbt.contains("werewolfTime")) {
+            this.specialAttributes.werewolfTime = nbt.getLong("werewolfTime");
+        }
     }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {

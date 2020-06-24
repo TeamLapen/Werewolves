@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -16,6 +17,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
@@ -33,7 +35,7 @@ public class ClientEventHandler {
     @SubscribeEvent
     public void onRenderPlayer(RenderPlayerEvent.Pre event) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getPlayer();
-        if (Helper.isWerewolf(player) && WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getSpecialAttributes).map(attributes -> attributes.trueForm).orElse(false)) {
+        if (Helper.isWerewolf(player) && WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getSpecialAttributes).map(attributes -> attributes.werewolfForm).orElse(false)) {
             event.setCanceled(true);
             WEntityRenderer.render.doRender(player, event.getX(), event.getY(), event.getZ(), MathHelper.lerp(event.getPartialRenderTick(), player.prevRotationYaw, player.rotationYaw), event.getPartialRenderTick());
         }
@@ -59,6 +61,18 @@ public class ClientEventHandler {
             if (mouseOver != null && mouseOver.getType() == RayTraceResult.Type.ENTITY && !player.isSpectator() && FactionPlayerHandler.get(player).isInFaction(WReference.WEREWOLF_FACTION) && WerewolfPlayer.get(player).canBite(((EntityRayTraceResult) mouseOver).getEntity())) {
                 WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getEntityId()));
                 onZoomPressed();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onGuiInitPre(GuiScreenEvent.InitGuiEvent.Pre event) {
+        if(event.getGui() instanceof InventoryScreen) {
+            if (Helper.isWerewolf(Minecraft.getInstance().player)) {
+                if (WerewolfPlayer.get(Minecraft.getInstance().player).getSpecialAttributes().werewolfForm) {
+                    event.setCanceled(true);
+                    Minecraft.getInstance().displayGuiScreen(null);
+                }
             }
         }
     }

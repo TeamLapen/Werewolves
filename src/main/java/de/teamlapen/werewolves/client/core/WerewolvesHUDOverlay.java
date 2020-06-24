@@ -5,6 +5,7 @@ import de.teamlapen.lib.lib.client.gui.ExtendedGui;
 import de.teamlapen.vampirism.util.REFERENCE;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.player.werewolf.actions.WerewolfAction;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -28,23 +29,25 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
 
     @SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Pre event) {
-
         if(mc.player == null || !mc.player.isAlive()) {
             return;
         }
-
         if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
             this.renderCrosshair(event);
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderGui(RenderGameOverlayEvent.Post event) {
+        if(mc.player == null || !mc.player.isAlive()) {
+            return;
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.EXPERIENCE) {
             this.renderExperienceBar(event);
         }
-
-
     }
 
     private void renderFangs(int width, int height) {//TODO replace texture
-
         float r = ((0xFFFFFF & 0xFF0000) >> 16) / 256f;
         float g = ((0xFFFFFF & 0xFF00) >> 8) / 256f;
         float b = (0xFFFFFF & 0xFF) / 256f;
@@ -75,13 +78,12 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void renderExperienceBar(RenderGameOverlayEvent.Pre event) {
+    private void renderExperienceBar(RenderGameOverlayEvent.Post event) {
         PlayerEntity player = mc.player;
         if(Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if(werewolf.getActionHandler().isActionActive(WerewolfActions.werewolf_form)) {
-                event.setCanceled(true);
-                float perc = werewolf.getActionHandler().getPercentageForAction(WerewolfActions.werewolf_form);
+                float perc = WerewolfAction.getDurationPercentage(werewolf);
                 renderExpBar(perc);
             }
         }

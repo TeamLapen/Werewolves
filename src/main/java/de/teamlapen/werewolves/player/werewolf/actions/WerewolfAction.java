@@ -4,7 +4,6 @@ import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,6 +22,14 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
     public static final UUID MOVEMENT_SPEED = UUID.fromString("e9748d20-a9a5-470c-99a4-44167df71aa5");
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * @return how much percentage is left
+     */
+    public static float getDurationPercentage(IWerewolfPlayer player) {
+        long durationMax = (WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.time_limit.get() *20+ (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0));
+        return 1 - (float)((WerewolfPlayer)player).getSpecialAttributes().werewolfTime/durationMax;
+    }
+
     @Override
     public boolean isEnabled() {
         return WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.enabled.get();
@@ -30,7 +37,7 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        return player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 || player.getActionHandler().isActionActive(this);
+        return player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 && getDurationPercentage(player) > 0.3;
     }
 
     @Override
@@ -41,18 +48,13 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
-    public <Q extends IFactionPlayer> int getDuration(Q player) {
-        return (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0) + getDuration(player.getLevel());
-    }
-
-    @Override
     public int getDuration(int level) {
         return MathHelper.clamp(WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.duration.get(), 10, Integer.MAX_VALUE / 20 - 1) * 20;
     }
 
     @Override
     public void onActivatedClient(IWerewolfPlayer player) {
-        ((WerewolfPlayer) player).getSpecialAttributes().trueForm = true;
+        ((WerewolfPlayer) player).getSpecialAttributes().werewolfForm = true;
     }
 
     @Override
@@ -63,7 +65,7 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public void onReActivated(IWerewolfPlayer player) {
-        ((WerewolfPlayer) player).getSpecialAttributes().trueForm = true;
+        ((WerewolfPlayer) player).getSpecialAttributes().werewolfForm = true;
         this.applyModifier(player.getRepresentingPlayer(), true);
     }
 
@@ -94,11 +96,11 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public boolean onUpdate(IWerewolfPlayer player) {
-        return false;
+        return ++((WerewolfPlayer) player).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.time_limit.get() *20+ (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0);
     }
 
     @Override
     public int getCooldown() {
-        return WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.cooldown.get() * 20 + 1;
+        return WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.cooldown.get() * 20;
     }
 }
