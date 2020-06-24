@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.Lists;
+import de.teamlapen.vampirism.api.world.IFactionBiome;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.ModBiomeFeatures;
@@ -40,6 +41,7 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
     static void addFeatures() {
         for(Biome biome: ForgeRegistries.BIOMES.getValues()) {
             if(BiomeDictionary.getTypes(biome).contains(BiomeDictionary.Type.FOREST)) {
+                if(biome instanceof IFactionBiome) continue;
                 ModBiomeFeatures.addWerewolvesFlowers(biome);
             }
         }
@@ -47,9 +49,7 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
 
     static void setUpOreGen() {
         List<Biome> oreBiomes = Lists.newArrayList(ForgeRegistries.BIOMES);
-        List<Biome> noOreBiomes = Lists.newArrayList(vampire_forest, werewolf_heaven);
-        oreBiomes.removeAll(noOreBiomes);
-        oreBiomes.removeIf(biome -> biome.getCategory().equals(Biome.Category.THEEND) || biome.getCategory().equals(Biome.Category.NETHER));
+        oreBiomes.removeIf(biome -> biome.getCategory().equals(Biome.Category.THEEND) || biome.getCategory().equals(Biome.Category.NETHER) || biome instanceof IFactionBiome);
         for (Biome biome : oreBiomes) {
             biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.silver_ore.getDefaultState(), 5), Placement.COUNT_RANGE, new CountRangeConfig(2, 0, 0, 45)));
         }

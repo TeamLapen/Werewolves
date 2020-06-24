@@ -15,7 +15,7 @@ import net.minecraft.world.gen.placement.Placement;
 public class ModBiomeFeatures extends VampirismBiomeFeatures {
 
     public static void addWerewolvesFlowers(Biome biomeIn) {
-        biomeIn.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(ModFeatures.wolfsbane, IFeatureConfig.NO_FEATURE_CONFIG, Placement.COUNT_CHANCE_HEIGHTMAP, new HeightWithChanceConfig(2,0.1f)));
+        biomeIn.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(ModFeatures.wolfsbane, IFeatureConfig.NO_FEATURE_CONFIG, Placement.COUNT_CHANCE_HEIGHTMAP, new HeightWithChanceConfig(1,0.01f)));
     }
 
     public static void addJacarandaTree(Biome biomeIn) {
