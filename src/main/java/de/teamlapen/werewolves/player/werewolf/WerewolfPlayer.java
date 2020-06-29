@@ -100,7 +100,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final SkillHandler<IWerewolfPlayer> skillHandler;
     private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
     private int killedAnimal;
-    private final NonNullList<ItemStack> armorItems = NonNullList.withSize(4,ItemStack.EMPTY);
+    private final NonNullList<ItemStack> armorItems = NonNullList.withSize(5,ItemStack.EMPTY);
 
     public WerewolfPlayer(PlayerEntity player) {
         super(player);
@@ -306,14 +306,18 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             this.armorItems.set(i,this.player.inventory.armorInventory.get(i));
             this.player.inventory.armorInventory.set(i,ItemStack.EMPTY);
         }
+        this.armorItems.set(this.armorItems.size()-1, this.player.inventory.offHandInventory.get(0));
+        this.player.inventory.offHandInventory.set(0,ItemStack.EMPTY);
     }
 
     public void deactivateWerewolfForm() {
         this.specialAttributes.werewolfForm = false;
-        for (int i = 0; i < this.armorItems.size(); i++) {
+        for (int i = 0; i < this.armorItems.size() - 1; i++) {
             this.player.inventory.armorInventory.set(i,this.armorItems.get(i));
             this.armorItems.set(i,ItemStack.EMPTY);
         }
+        this.player.inventory.offHandInventory.set(0,this.armorItems.get(this.armorItems.size()-1));
+        this.armorItems.set(this.armorItems.size()-1, ItemStack.EMPTY);
     }
 
     @Override

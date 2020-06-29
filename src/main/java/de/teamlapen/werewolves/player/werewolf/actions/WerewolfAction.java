@@ -37,7 +37,7 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        return player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 && getDurationPercentage(player) > 0.3;
+        return (player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 && getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
     }
 
     @Override
@@ -59,7 +59,11 @@ public class WerewolfAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public void onDeactivated(IWerewolfPlayer player) {
-        ((WerewolfPlayer) player).deactivateWerewolfForm();
+        if(player.getRepresentingPlayer().world.isRemote()){
+            ((WerewolfPlayer) player).getSpecialAttributes().werewolfForm = false;
+        }else {
+            ((WerewolfPlayer) player).deactivateWerewolfForm();
+        }
         this.applyModifier(player.getRepresentingPlayer(), false);
     }
 
