@@ -13,6 +13,7 @@ This mod allows you to become a werewolf with all its benefits and drawbacks.
 
 ## Special Thanks to
 - [maxanier](https://maxanier.de) _Vampirism_
+- [PixelEyeStudios](https://github.com/PixelEyeStudios) _Werewolf Model & Textures_
 
 #### Setup Gradle build script
 
