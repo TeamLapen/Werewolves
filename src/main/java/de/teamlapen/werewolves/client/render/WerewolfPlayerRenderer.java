@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.client.render;
 
-import de.teamlapen.werewolves.client.model.WerewolfModel;
+import de.teamlapen.werewolves.client.model.Werewolf4LModel;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -19,10 +19,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
-public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfModel<AbstractClientPlayerEntity>> {
+public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, Werewolf4LModel<AbstractClientPlayerEntity>> {
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
-        super(rendererManager, new WerewolfModel<>(), 1.3f);
+        super(rendererManager, new Werewolf4LModel<>(), 1.3f);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     private void setModelVisible(AbstractClientPlayerEntity clientPlayer) {
-        WerewolfModel<AbstractClientPlayerEntity> playermodel = this.getEntityModel();
+        Werewolf4LModel<AbstractClientPlayerEntity> playermodel = this.getEntityModel();
         if (clientPlayer.isSpectator()) {
 //            playermodel.setVisible(false);
         } else {
@@ -87,6 +87,6 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
-        return new ResourceLocation(REFERENCE.MODID, "textures/entity/wolfbrown.png");
+        return new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast_1.png");
     }
 }

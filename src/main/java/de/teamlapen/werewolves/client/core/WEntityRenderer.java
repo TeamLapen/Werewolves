@@ -13,12 +13,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 @OnlyIn(Dist.CLIENT)
 public class WEntityRenderer {
 
-    public static final ResourceLocation[] werewolfTextures;
     public static WerewolfPlayerRenderer render;
-
-    static {
-        werewolfTextures = Minecraft.getInstance().getResourceManager().getAllResourceLocations("textures/entity/werewolf", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).toArray(ResourceLocation[]::new);
-    }
 
     public static void registerEntityRenderer() {
         render = new WerewolfPlayerRenderer(Minecraft.getInstance().getRenderManager());
