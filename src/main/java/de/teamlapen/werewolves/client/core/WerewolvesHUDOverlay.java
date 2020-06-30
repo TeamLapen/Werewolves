@@ -2,14 +2,13 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
-import de.teamlapen.vampirism.util.REFERENCE;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfAction;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -25,15 +24,21 @@ import org.lwjgl.opengl.GL11;
 public class WerewolvesHUDOverlay extends ExtendedGui {
 
     private final Minecraft mc = Minecraft.getInstance();
-    private final ResourceLocation icons = new ResourceLocation(REFERENCE.MODID + ":textures/gui/icons.png");//TODO other icon
+    private final ResourceLocation icons = new ResourceLocation("vampirism" + ":textures/gui/icons.png");//TODO other icon
+    private final ResourceLocation FUR = new ResourceLocation(REFERENCE.MODID,"textures/gui/overlay/werewolf_fur_border.png");
 
     @SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Pre event) {
         if(mc.player == null || !mc.player.isAlive()) {
             return;
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
-            this.renderCrosshair(event);
+        switch (event.getType()){
+            case CROSSHAIRS:
+                this.renderCrosshair(event);
+                break;
+            case ALL:
+                this.renderFur(event);
+                break;
         }
     }
 
@@ -62,7 +67,15 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         blit(left, top + (10 - percHeight), 27, 10 - percHeight, 16, percHeight);
         GlStateManager.color4f(1F, 1F, 1F, 1F);
         GL11.glDisable(GL11.GL_BLEND);
+    }
 
+    private void renderFur(RenderGameOverlayEvent.Pre event) {
+        if(Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)).orElse(false)){
+            this.mc.getTextureManager().bindTexture(FUR);
+            GlStateManager.enableBlend();
+            blit(0, 0, this.blitOffset, 0, 0, this.mc.mainWindow.getWidth(), this.mc.mainWindow.getHeight(), this.mc.mainWindow.getScaledHeight(), this.mc.mainWindow.getScaledWidth());
+            GlStateManager.disableBlend();
+        }
     }
 
     private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
