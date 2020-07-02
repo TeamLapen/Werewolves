@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.client.render;
 
 import de.teamlapen.werewolves.client.model.Werewolf4LModel;
+import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -19,10 +20,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
-public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, Werewolf4LModel<AbstractClientPlayerEntity>> {
+public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBeastModel<AbstractClientPlayerEntity>> {
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
-        super(rendererManager, new Werewolf4LModel<>(), 1.3f);
+        super(rendererManager, new WerewolfBeastModel<>(), 1.3f);
     }
 
     @Override
@@ -37,16 +38,12 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     private void setModelVisible(AbstractClientPlayerEntity clientPlayer) {
-        Werewolf4LModel<AbstractClientPlayerEntity> playermodel = this.getEntityModel();
+        WerewolfBeastModel<AbstractClientPlayerEntity> playerModel = this.getEntityModel();
         if (clientPlayer.isSpectator()) {
-//            playermodel.setVisible(false);
+            playerModel.setVisible(false);
         } else {
-            ItemStack itemstack = clientPlayer.getHeldItemMainhand();
-            ItemStack itemstack1 = clientPlayer.getHeldItemOffhand();
-//            playermodel.setVisible(true);
-//            playermodel.isSneak = clientPlayer.shouldRenderSneaking();
-            BipedModel.ArmPose armPose = this.func_217766_a(clientPlayer, itemstack, itemstack1, Hand.MAIN_HAND);
-            BipedModel.ArmPose armPose1 = this.func_217766_a(clientPlayer, itemstack, itemstack1, Hand.OFF_HAND);
+            playerModel.setVisible(true);
+            playerModel.setSneak(clientPlayer.shouldRenderSneaking());
         }
     }
 

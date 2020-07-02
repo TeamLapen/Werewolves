@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.model;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -60,6 +61,10 @@ public class WerewolfBeastModel<T extends LivingEntity> extends EntityModel<T> {
     public RendererModel fingerRight3;
     public RendererModel fingerRight4;
     public RendererModel thumbRight;
+
+    public boolean isSneak;
+    public float swimAnimation;
+
 
     public WerewolfBeastModel() {
         this.textureWidth = 128;
@@ -299,7 +304,173 @@ public class WerewolfBeastModel<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void render(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        this.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         this.body.render(scale);
+    }
+
+    public void setRotationAngles(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        boolean flag1 = entityIn.isActualySwimming();
+        this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
+        if(this.swimAnimation > 0.0f ) {
+            if (flag1) {
+                this.head.rotateAngleX = this.func_205060_a(this.head.rotateAngleX, (-(float)Math.PI / 4F), this.swimAnimation);
+            } else {
+                this.head.rotateAngleX = this.func_205060_a(this.head.rotateAngleX, headPitch * ((float)Math.PI / 180F), this.swimAnimation);
+            }
+        }else {
+            this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+        }
+//
+        this.body.rotateAngleY = 0.0f;
+//        this.body.rotateAngleX = 0.5235987755982988F;
+        this.armRight.rotateAngleZ = 0.0f;
+        this.armRight.rotateAngleX = -0.2f;
+        this.armLeft.rotateAngleZ = 0.0f;
+        this.armLeft.rotateAngleX = 0.2f;
+        this.armLeft2.rotateAngleX = -1f;
+        this.armRight2.rotateAngleX = -1f;
+//
+        this.armRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.0F * limbSwingAmount * 0.5F ;
+        this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount * 0.5F ;
+        this.armRight.rotateAngleZ = 0.0F;
+        this.armLeft.rotateAngleZ = 0.0F;
+        this.legRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F * 0.7f) * 1.4F * limbSwingAmount - 0.4f;
+        this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F * 0.7f+ (float)Math.PI) * 1.4F * limbSwingAmount -0.4f;
+        this.legRight.rotateAngleY = 0.0F;
+        this.legLeft.rotateAngleY = 0.0F;
+        this.legLeft.rotateAngleZ = 0.0F;
+        this.legRight.rotateAngleZ = 0.0F;
+//
+//        if (this.isSitting) {
+//            this.armRight.rotateAngleX += (-(float)Math.PI / 5F);
+//            this.armLeft.rotateAngleX += (-(float)Math.PI / 5F);
+//            this.legRight.rotateAngleX = -1.4137167F;
+//            this.legRight.rotateAngleY = ((float)Math.PI / 10F);
+//            this.legRight.rotateAngleZ = 0.07853982F;
+//            this.legLeft.rotateAngleX = -1.4137167F;
+//            this.legLeft.rotateAngleY = (-(float)Math.PI / 10F);
+//            this.legLeft.rotateAngleZ = -0.07853982F;
+//        }
+//
+//        this.armRight.rotateAngleY = 0.0F;
+//        this.armRight.rotateAngleZ = 0.0F;
+//        this.armRight.rotateAngleY = 0.0F;
+//        this.armLeft.rotateAngleY = 0.0F;
+//
+        if (this.swingProgress > 0.0F) {
+//            HandSide handside = this.func_217147_a(entityIn);
+            RendererModel renderermodel = this.armRight;
+            float f1 = this.swingProgress;
+//            this.body.rotateAngleY = MathHelper.sin(MathHelper.sqrt(f1) * ((float)Math.PI * 2F)) * 0.2F;
+//            if (handside == HandSide.LEFT) {
+//                this.body.rotateAngleY *= -1.0F;
+//            }
+
+//            this.armRight.rotationPointY = MathHelper.sin(this.body.rotateAngleY) * 5.0F;
+//            this.armRight.rotationPointX = -MathHelper.cos(this.body.rotateAngleY) * 5.0F;
+//            this.armLeft.rotationPointY = -MathHelper.sin(this.body.rotateAngleY) * 5.0F;
+//            this.armLeft.rotationPointX = MathHelper.cos(this.body.rotateAngleY) * 5.0F;
+//            this.armRight.rotateAngleY += this.body.rotateAngleY;
+//            this.armLeft.rotateAngleY += this.body.rotateAngleY;
+            //noinspection SuspiciousNameCombination
+//            this.armLeft.rotateAngleX += this.body.rotateAngleY;
+            f1 = 1.0F - this.swingProgress;
+            f1 = f1 * f1;
+            f1 = f1 * f1;
+            f1 = 1.0F - f1;
+            float f2 = MathHelper.sin(f1 * (float)Math.PI);
+            float f3 = MathHelper.sin(this.swingProgress * (float)Math.PI) * -(this.head.rotateAngleX - 0.7F) * 0.75F;
+            renderermodel.rotateAngleX = (float)((double)renderermodel.rotateAngleX - ((double)f2 * 1.2D + (double)f3));
+            renderermodel.rotateAngleY += this.body.rotateAngleY * 2.0F;
+            renderermodel.rotateAngleZ += MathHelper.sin(this.swingProgress * (float)Math.PI) * -0.4F;
+        }
+//
+        if (this.isSneak) {
+            this.body.rotateAngleX = 0.7F;
+//            this.armRight.rotateAngleX += 0.4F;
+//            this.armLeft.rotateAngleX += 0.4F;
+        } else {
+            this.body.rotateAngleX = 0.5F;
+        }
+//
+//        this.armRight.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+//        this.armLeft.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+//        this.armRight.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+//        this.armLeft.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+////        if (this.rightArmPose == BipedModel.ArmPose.BOW_AND_ARROW) {
+////            this.armRight.rotateAngleY = -0.1F + this.head.rotateAngleY;
+////            this.armLeft.rotateAngleY = 0.1F + this.head.rotateAngleY + 0.4F;
+////            this.armRight.rotateAngleX = (-(float)Math.PI / 2F) + this.head.rotateAngleX;
+////            this.armLeft.rotateAngleX = (-(float)Math.PI / 2F) + this.head.rotateAngleX;
+////        } else if (this.leftArmPose == BipedModel.ArmPose.BOW_AND_ARROW && this.rightArmPose != BipedModel.ArmPose.THROW_SPEAR && this.rightArmPose != BipedModel.ArmPose.BLOCK) {
+////            this.armRight.rotateAngleY = -0.1F + this.head.rotateAngleY - 0.4F;
+////            this.armLeft.rotateAngleY = 0.1F + this.head.rotateAngleY;
+////            this.armRight.rotateAngleX = (-(float)Math.PI / 2F) + this.head.rotateAngleX;
+////            this.armLeft.rotateAngleX = (-(float)Math.PI / 2F) + this.head.rotateAngleX;
+////        }
+//
+////        float f4 = (float) CrossbowItem.getChargeTime(entityIn.getActiveItemStack());
+////        if (this.rightArmPose == BipedModel.ArmPose.CROSSBOW_CHARGE) {
+////            this.armRight.rotateAngleY = -0.8F;
+////            this.armRight.rotateAngleX = -0.97079635F;
+////            this.armLeft.rotateAngleX = -0.97079635F;
+////            float f5 = MathHelper.clamp(this.remainingItemUseTime, 0.0F, f4);
+////            this.armLeft.rotateAngleY = MathHelper.lerp(f5 / f4, 0.4F, 0.85F);
+////            this.armLeft.rotateAngleX = MathHelper.lerp(f5 / f4, this.armLeft.rotateAngleX, (-(float)Math.PI / 2F));
+////        } else if (this.leftArmPose == BipedModel.ArmPose.CROSSBOW_CHARGE) {
+////            this.armLeft.rotateAngleY = 0.8F;
+////            this.armRight.rotateAngleX = -0.97079635F;
+////            this.armLeft.rotateAngleX = -0.97079635F;
+////            float f6 = MathHelper.clamp(this.remainingItemUseTime, 0.0F, f4);
+////            this.armRight.rotateAngleY = MathHelper.lerp(f6 / f4, -0.4F, -0.85F);
+////            this.armRight.rotateAngleX = MathHelper.lerp(f6 / f4, this.armRight.rotateAngleX, (-(float)Math.PI / 2F));
+////        }
+//
+////        if (this.rightArmPose == BipedModel.ArmPose.CROSSBOW_HOLD && this.swingProgress <= 0.0F) {
+////            this.armRight.rotateAngleY = -0.3F + this.head.rotateAngleY;
+////            this.armLeft.rotateAngleY = 0.6F + this.head.rotateAngleY;
+////            this.armRight.rotateAngleX = (-(float)Math.PI / 2F) + this.head.rotateAngleX + 0.1F;
+////            this.armLeft.rotateAngleX = -1.5F + this.head.rotateAngleX;
+////        } else if (this.leftArmPose == BipedModel.ArmPose.CROSSBOW_HOLD) {
+////            this.armRight.rotateAngleY = -0.6F + this.head.rotateAngleY;
+////            this.armLeft.rotateAngleY = 0.3F + this.head.rotateAngleY;
+////            this.armRight.rotateAngleX = -1.5F + this.head.rotateAngleX;
+////            this.armLeft.rotateAngleX = (-(float)Math.PI / 2F) + this.head.rotateAngleX + 0.1F;
+////        }
+//
+//        if (this.swimAnimation > 0.0F) {
+//            float f7 = limbSwing % 26.0F;
+//            float f8 = this.swingProgress > 0.0F ? 0.0F : this.swimAnimation;
+//            if (f7 < 14.0F) {
+//                this.armLeft.rotateAngleX = this.func_205060_a(this.armLeft.rotateAngleX, 0.0F, this.swimAnimation);
+//                this.armRight.rotateAngleX = MathHelper.lerp(f8, this.armRight.rotateAngleX, 0.0F);
+//                this.armLeft.rotateAngleY = this.func_205060_a(this.armLeft.rotateAngleY, (float)Math.PI, this.swimAnimation);
+//                this.armRight.rotateAngleY = MathHelper.lerp(f8, this.armRight.rotateAngleY, (float)Math.PI);
+//                this.armLeft.rotateAngleZ = this.func_205060_a(this.armLeft.rotateAngleZ, (float)Math.PI + 1.8707964F * this.func_203068_a(f7) / this.func_203068_a(14.0F), this.swimAnimation);
+//                this.armRight.rotateAngleZ = MathHelper.lerp(f8, this.armRight.rotateAngleZ, (float)Math.PI - 1.8707964F * this.func_203068_a(f7) / this.func_203068_a(14.0F));
+//            } else if (f7 >= 14.0F && f7 < 22.0F) {
+//                float f10 = (f7 - 14.0F) / 8.0F;
+//                this.armLeft.rotateAngleX = this.func_205060_a(this.armLeft.rotateAngleX, ((float)Math.PI / 2F) * f10, this.swimAnimation);
+//                this.armRight.rotateAngleX = MathHelper.lerp(f8, this.armRight.rotateAngleX, ((float)Math.PI / 2F) * f10);
+//                this.armLeft.rotateAngleY = this.func_205060_a(this.armLeft.rotateAngleY, (float)Math.PI, this.swimAnimation);
+//                this.armRight.rotateAngleY = MathHelper.lerp(f8, this.armRight.rotateAngleY, (float)Math.PI);
+//                this.armLeft.rotateAngleZ = this.func_205060_a(this.armLeft.rotateAngleZ, 5.012389F - 1.8707964F * f10, this.swimAnimation);
+//                this.armRight.rotateAngleZ = MathHelper.lerp(f8, this.armRight.rotateAngleZ, 1.2707963F + 1.8707964F * f10);
+//            } else if (f7 >= 22.0F && f7 < 26.0F) {
+//                float f9 = (f7 - 22.0F) / 4.0F;
+//                this.armLeft.rotateAngleX = this.func_205060_a(this.armLeft.rotateAngleX, ((float)Math.PI / 2F) - ((float)Math.PI / 2F) * f9, this.swimAnimation);
+//                this.armRight.rotateAngleX = MathHelper.lerp(f8, this.armRight.rotateAngleX, ((float)Math.PI / 2F) - ((float)Math.PI / 2F) * f9);
+//                this.armLeft.rotateAngleY = this.func_205060_a(this.armLeft.rotateAngleY, (float)Math.PI, this.swimAnimation);
+//                this.armRight.rotateAngleY = MathHelper.lerp(f8, this.armRight.rotateAngleY, (float)Math.PI);
+//                this.armLeft.rotateAngleZ = this.func_205060_a(this.armLeft.rotateAngleZ, (float)Math.PI, this.swimAnimation);
+//                this.armRight.rotateAngleZ = MathHelper.lerp(f8, this.armRight.rotateAngleZ, (float)Math.PI);
+//            }
+//
+////            float f11 = 0.3F;
+////            float f12 = 0.33333334F;
+//            this.legLeft.rotateAngleX = MathHelper.lerp(this.swimAnimation, this.legLeft.rotateAngleX, 0.3F * MathHelper.cos(limbSwing * 0.33333334F + (float)Math.PI));
+//            this.legRight.rotateAngleX = MathHelper.lerp(this.swimAnimation, this.legRight.rotateAngleX, 0.3F * MathHelper.cos(limbSwing * 0.33333334F));
+//        }
     }
 
     /**
@@ -309,5 +480,36 @@ public class WerewolfBeastModel<T extends LivingEntity> extends EntityModel<T> {
         RendererModel.rotateAngleX = x;
         RendererModel.rotateAngleY = y;
         RendererModel.rotateAngleZ = z;
+    }
+
+    public void setVisible(boolean visible) {
+        this.body.showModel = visible;
+    }
+
+    public void setSneak(boolean sneak) {
+        this.isSneak = sneak;
+    }
+
+    /**
+     * copied from {@link net.minecraft.client.renderer.entity.model.BipedModel}
+     */
+    protected float func_205060_a(float p_205060_1_, float p_205060_2_, float p_205060_3_) {
+        float f = (p_205060_2_ - p_205060_1_) % ((float)Math.PI * 2F);
+        if (f < -(float)Math.PI) {
+            f += ((float)Math.PI * 2F);
+        }
+
+        if (f >= (float)Math.PI) {
+            f -= ((float)Math.PI * 2F);
+        }
+
+        return p_205060_1_ + p_205060_3_ * f;
+    }
+
+    /**
+     * copied from {@link net.minecraft.client.renderer.entity.model.BipedModel}
+     */
+    private float func_203068_a(float p_203068_1_) {
+        return -65.0F * p_203068_1_ + p_203068_1_ * p_203068_1_;
     }
 }

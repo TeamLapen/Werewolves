@@ -37,7 +37,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
                 this.renderCrosshair(event);
                 break;
             case ALL:
-                this.renderFur(event);
+                this.renderFur();
                 break;
         }
     }
@@ -69,8 +69,8 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    private void renderFur(RenderGameOverlayEvent.Pre event) {
-        if(Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)).orElse(false)){
+    private void renderFur() {
+        if(this.mc.gameSettings.thirdPersonView == 0 && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)).orElse(false)){
             this.mc.getTextureManager().bindTexture(FUR);
             GlStateManager.enableBlend();
             blit(0, 0, this.blitOffset, 0, 0, this.mc.mainWindow.getWidth(), this.mc.mainWindow.getHeight(), this.mc.mainWindow.getScaledHeight(), this.mc.mainWindow.getScaledWidth());
