@@ -1,7 +1,9 @@
 package de.teamlapen.werewolves.client.core;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
+import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfAction;
@@ -11,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -24,7 +27,7 @@ import org.lwjgl.opengl.GL11;
 public class WerewolvesHUDOverlay extends ExtendedGui {
 
     private final Minecraft mc = Minecraft.getInstance();
-    private final ResourceLocation icons = new ResourceLocation("vampirism" + ":textures/gui/icons.png");//TODO other icon
+    private final ResourceLocation ICONS = new ResourceLocation(REFERENCE.MODID, "textures/gui/hud.png");
     private final ResourceLocation FUR = new ResourceLocation(REFERENCE.MODID,"textures/gui/overlay/werewolf_fur_border.png");
 
     @SubscribeEvent
@@ -52,20 +55,20 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void renderFangs(int width, int height) {//TODO replace texture
-        float r = ((0xFFFFFF & 0xFF0000) >> 16) / 256f;
-        float g = ((0xFFFFFF & 0xFF00) >> 8) / 256f;
-        float b = (0xFFFFFF & 0xFF) / 256f;
-        this.mc.getTextureManager().bindTexture(icons);
-        int left = width / 2 - 8;
-        int top = height / 2 - 4;
+    private void renderFangs(int width, int height, Entity entity) {//TODO replace texture
+        this.mc.getTextureManager().bindTexture(ICONS);
+        int left = width / 2 - 9;
+        int top = height / 2 - 6;
+        boolean silver = false;
+        for(ItemStack stack : entity.getArmorInventoryList()) {
+            if(stack.getItem() instanceof ISilverItem) {
+                silver = true;
+                break;
+            }
+        }
         GL11.glEnable(GL11.GL_BLEND);
-        GlStateManager.color4f(1f, 1f, 1f, 0.7F);
-        blit(left, top, 27, 0, 16, 10);
-        GlStateManager.color4f(r, g, b, 0.8F);
-        int percHeight = 10 * 100;
-        blit(left, top + (10 - percHeight), 27, 10 - percHeight, 16, percHeight);
-        GlStateManager.color4f(1F, 1F, 1F, 1F);
+        GlStateManager.color4f(1f,1f,1f, 1f);
+        blit(left, top, this.blitOffset,silver ?30:15, 0, 15, 15,256,256);//other option is 18x18 - 307x307
         GL11.glDisable(GL11.GL_BLEND);
     }
 
@@ -85,7 +88,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             WerewolfPlayer player = WerewolfPlayer.get(mc.player);
             if (player.canBite(((EntityRayTraceResult) p).getEntity())) {
                 Entity entity = ((EntityRayTraceResult) p).getEntity();
-                renderFangs(this.mc.mainWindow.getScaledWidth(), this.mc.mainWindow.getScaledHeight());
+                renderFangs(this.mc.mainWindow.getScaledWidth(), this.mc.mainWindow.getScaledHeight(), entity);
                 event.setCanceled(true);
             }
         }
