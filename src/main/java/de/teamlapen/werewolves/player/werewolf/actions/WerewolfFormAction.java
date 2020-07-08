@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
-import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -16,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.UUID;
 
-public class WerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
+public class WerewolfFormAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
     public static final UUID ARMOR = UUID.fromString("0b281a87-829f-4d98-9a3b-116549cfdd57");
     public static final UUID ARMOR_TOUGHNESS = UUID.fromString("f47e2130-39c4-496f-8d47-572abdc03920");
     public static final UUID MOVEMENT_SPEED = UUID.fromString("e9748d20-a9a5-470c-99a4-44167df71aa5");

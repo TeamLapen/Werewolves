@@ -6,7 +6,6 @@ import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
-import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -25,11 +24,12 @@ public class WerewolfSkills {
     public static final ISkill werewolf_form_more_time = getNull();
     public static final ISkill werewolf_form_time_regain = getNull();
 
+    @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
-        registry.register(new SimpleWerewolfSkill.ToggleWerewolfAction("eat_flesh", ((player, status) -> ((WerewolfPlayer) player).getSpecialAttributes().eatFlesh = status))); //TODO cooldown before next use
+        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "bite"), WerewolfActions.bite));
         registry.register(new SimpleWerewolfSkill("werewolf_form_more_time"));
         registry.register(new SimpleWerewolfSkill("werewolf_form_time_regain") {
             @Override

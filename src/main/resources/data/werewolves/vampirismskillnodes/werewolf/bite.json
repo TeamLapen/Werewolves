@@ -1,6 +1,6 @@
 {
   "parent": "werewolves:werewolf",
   "skills": [
-    "werewolves:eat_flesh"
+    "werewolves:bite"
   ]
 }

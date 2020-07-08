@@ -8,4 +8,6 @@ public class WerewolfPlayerSpecialAttributes {
     public long werewolfTime;
 
     public boolean longerWerewolfForm;
+
+    public int target;
 }

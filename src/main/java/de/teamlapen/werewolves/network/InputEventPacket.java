@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.network;
 
 import de.teamlapen.lib.network.IMessage;
+import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
@@ -51,18 +52,18 @@ public class InputEventPacket implements IMessage {
         ServerPlayerEntity player = ctx.getSender();
         Validate.notNull(player);
         ctx.enqueueWork(() -> {
-            switch (msg.action) {
-                case BITE:
-                    try {
-                        int id = Integer.parseInt(msg.param);
-                        if (id != 0) {
-                            WerewolfPlayer.getOpt(player).ifPresent(werewolfPlayer -> werewolfPlayer.biteEntity(id));
-                        }
-                    } catch (NumberFormatException e) {
-                        LOGGER.error("Receiving invalid param {} for {}", msg.param, msg.action);
+            if (BITE.equals(msg.action)) {
+                try {
+                    int id = Integer.parseInt(msg.param);
+                    if (id != 0) {
+                        WerewolfPlayer.getOpt(player).ifPresent(werewolfPlayer -> {
+                            werewolfPlayer.getSpecialAttributes().target = id;
+                            werewolfPlayer.getActionHandler().toggleAction(WerewolfActions.bite);
+                        });
                     }
-                    break;
-                default:
+                } catch (NumberFormatException e) {
+                    LOGGER.error("Receiving invalid param {} for {}", msg.param, msg.action);
+                }
             }
             ctx.setPacketHandled(true);
         });

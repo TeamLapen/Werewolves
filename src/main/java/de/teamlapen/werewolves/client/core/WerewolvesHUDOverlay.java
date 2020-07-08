@@ -6,7 +6,7 @@ import de.teamlapen.lib.lib.client.gui.ExtendedGui;
 import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.player.werewolf.actions.WerewolfAction;
+import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -86,10 +86,12 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
 
         if (p != null && p.getType() == RayTraceResult.Type.ENTITY) {
             WerewolfPlayer player = WerewolfPlayer.get(mc.player);
-            if (player.canBite(((EntityRayTraceResult) p).getEntity())) {
-                Entity entity = ((EntityRayTraceResult) p).getEntity();
-                renderFangs(this.mc.mainWindow.getScaledWidth(), this.mc.mainWindow.getScaledHeight(), entity);
-                event.setCanceled(true);
+            if(!player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)) {
+                if (player.canBite(((EntityRayTraceResult) p).getEntity())) {
+                    Entity entity = ((EntityRayTraceResult) p).getEntity();
+                    renderFangs(this.mc.mainWindow.getScaledWidth(), this.mc.mainWindow.getScaledHeight(), entity);
+                    event.setCanceled(true);
+                }
             }
         }
     }
@@ -99,7 +101,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         if(Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if(werewolf.getActionHandler().isActionActive(WerewolfActions.werewolf_form)) {
-                float perc = WerewolfAction.getDurationPercentage(werewolf);
+                float perc = WerewolfFormAction.getDurationPercentage(werewolf);
                 renderExpBar(perc);
             }
         }
