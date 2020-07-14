@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
  * Created using Tabula 7.1.0
  */
 @OnlyIn(Dist.CLIENT)
-public class WerewolfSurvivalistModel<T extends LivingEntity> extends EntityModel<T>{
+public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
     public RendererModel body;
     public RendererModel hip;
     public RendererModel neck;
@@ -238,5 +238,15 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends EntityMode
         RendererModel.rotateAngleX = x;
         RendererModel.rotateAngleY = y;
         RendererModel.rotateAngleZ = z;
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+
+    }
+
+    @Override
+    public void setSneak(boolean sneak) {
+
     }
 }

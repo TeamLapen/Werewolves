@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
  * Created using Tabula 7.1.0
  */
 @OnlyIn(Dist.CLIENT)
-public class WerewolfBeastModel<T extends LivingEntity> extends EntityModel<T> {
+public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
     public RendererModel body;
     public RendererModel hip;
     public RendererModel neck;
@@ -482,10 +482,12 @@ public class WerewolfBeastModel<T extends LivingEntity> extends EntityModel<T> {
         RendererModel.rotateAngleZ = z;
     }
 
+    @Override
     public void setVisible(boolean visible) {
         this.body.showModel = visible;
     }
 
+    @Override
     public void setSneak(boolean sneak) {
         this.isSneak = sneak;
     }

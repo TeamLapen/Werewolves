@@ -419,4 +419,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             ((WerewolfPlayer) instance).loadData((CompoundNBT) compound);
         }
     }
+
+    public enum WerewolfType {
+        NONE, BEAST, SURVIVALIST, HUMAN;
+    }
 }

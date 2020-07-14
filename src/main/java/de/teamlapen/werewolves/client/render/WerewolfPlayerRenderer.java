@@ -1,9 +1,14 @@
 package de.teamlapen.werewolves.client.render;
 
-import de.teamlapen.werewolves.client.model.Werewolf4LModel;
+import com.google.common.collect.Maps;
+import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
+import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
+import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
@@ -15,15 +20,21 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBeastModel<AbstractClientPlayerEntity>> {
+public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
+
+    private final Map<WerewolfPlayer.WerewolfType, Pair<WerewolfBaseModel<AbstractClientPlayerEntity>,Float>> models = Maps.newHashMapWithExpectedSize(WerewolfPlayer.WerewolfType.values().length);
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
         super(rendererManager, new WerewolfBeastModel<>(), 1.3f);
+        this.models.put(WerewolfPlayer.WerewolfType.BEAST, Pair.of(this.entityModel,this.shadowSize));
+        this.models.put(WerewolfPlayer.WerewolfType.SURVIVALIST, Pair.of(new WerewolfSurvivalistModel<>(),0.5f));
     }
 
     @Override
@@ -37,8 +48,13 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         }
     }
 
+    public void switchModel(WerewolfPlayer.WerewolfType type) {
+        this.entityModel = models.get(type).getLeft();
+        this.shadowSize = models.get(type).getRight();
+    }
+
     private void setModelVisible(AbstractClientPlayerEntity clientPlayer) {
-        WerewolfBeastModel<AbstractClientPlayerEntity> playerModel = this.getEntityModel();
+        WerewolfBaseModel<AbstractClientPlayerEntity> playerModel = this.getEntityModel();
         if (clientPlayer.isSpectator()) {
             playerModel.setVisible(false);
         } else {
@@ -84,6 +100,6 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
-        return new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast_1.png");
+        return new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_1.png");
     }
 }
