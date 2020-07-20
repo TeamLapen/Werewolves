@@ -167,10 +167,14 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     }
 
     @Override
-    protected void attackedEntityAsMob(LivingEntity entity) {
-        if(this.isConverted) {
-            this.aggressionLevel = Math.max(60, this.aggressionLevel+20);//TODO config option
+    public boolean attackEntityAsMob(Entity entityIn) {
+        if(super.attackEntityAsMob(entityIn)) {
+            if(this.isConverted) {
+                this.aggressionLevel = Math.max(60, this.aggressionLevel+20);//TODO config option
+            }
+            return true;
         }
+        return false;
     }
 
     @Override

@@ -92,7 +92,7 @@ public class WerewolvesMod {
     }
 
     private void setupAPI() {
-        WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction(REFERENCE.WEREWOLF_PLAYER_KEY, IWerewolfPlayer.class, Color.orange, true, () -> WerewolfPlayer.CAP, REFERENCE.HIGHEST_WEREWOLF_LEVEL, new WerewolfVillageData());
+        WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction(REFERENCE.WEREWOLF_PLAYER_KEY, IWerewolfPlayer.class, Color.orange, true, () -> WerewolfPlayer.CAP, REFERENCE.HIGHEST_WEREWOLF_LEVEL, 0,new WerewolfVillageData());
         WReference.WEREWOLF_FACTION.setChatColor(TextFormatting.GOLD).setTranslationKeys("text.werewolves.werewolf", "text.vampirism.werewolves");
 
         WReference.WEREWOLF_CREATUE_TYPE = WerewolvesMod.WEREWOLF_CREATUE_TYPE;

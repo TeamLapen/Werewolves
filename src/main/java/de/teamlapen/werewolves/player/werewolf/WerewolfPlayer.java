@@ -110,7 +110,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     @Override
-    protected VampirismPlayer<?> copyFromPlayer(PlayerEntity playerEntity) {
+    protected VampirismPlayer<IWerewolfPlayer> copyFromPlayer(PlayerEntity playerEntity) {
         WerewolfPlayer oldWerewolf = get(playerEntity);
         CompoundNBT nbt = new CompoundNBT();
         oldWerewolf.saveData(nbt);

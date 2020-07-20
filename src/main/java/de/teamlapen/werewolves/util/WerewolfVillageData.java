@@ -2,12 +2,14 @@ package de.teamlapen.werewolves.util;
 
 import com.google.common.collect.Lists;
 import de.teamlapen.vampirism.api.entity.CaptureEntityEntry;
+import de.teamlapen.vampirism.api.entity.ITaskMasterEntity;
 import de.teamlapen.vampirism.api.entity.factions.IVillageFactionData;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModVillage;
 import de.teamlapen.werewolves.entities.WerewolfEntity;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 
@@ -35,5 +37,10 @@ public class WerewolfVillageData implements IVillageFactionData {
     @Override
     public Block getTotemTopBlock() {
         return ModBlocks.totem_top_werewolves_werewolf;
+    }
+
+    @Override
+    public EntityType<? extends ITaskMasterEntity> getTaskMasterEntity() {
+        return null;
     }
 }

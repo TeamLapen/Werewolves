@@ -4,12 +4,14 @@ import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
+import de.teamlapen.vampirism.api.entity.player.task.ITaskManager;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
@@ -69,7 +71,12 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
 
     @Override
     public void onLevelChanged(int i, int i1) {
+    }
 
+    @Nonnull
+    @Override
+    public ITaskManager getTaskManager() {
+        return null;
     }
 
     @Override
