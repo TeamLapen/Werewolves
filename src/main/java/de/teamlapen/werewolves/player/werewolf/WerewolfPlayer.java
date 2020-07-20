@@ -14,9 +14,7 @@ import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.Entity;
@@ -71,45 +69,29 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return opt;
     }
 
-    @SuppressWarnings("deprecation")
-    public static void registerCapability() {
-        CapabilityManager.INSTANCE.register(IWerewolfPlayer.class, new Storage(), WerewolfPlayerDefaultImpl::new);
-    }
+    // player ----------------------------------------------------------------------------------------------------------
 
-    public static ICapabilityProvider createNewCapability(final PlayerEntity playerEntity) {
-        return new ICapabilitySerializable<CompoundNBT>() {
-
-            final IWerewolfPlayer inst = new WerewolfPlayer(playerEntity);
-            final LazyOptional<IWerewolfPlayer> opt = LazyOptional.of(() -> inst);
-
-            @Nonnull
-            @Override
-            public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-                return CAP.orEmpty(cap, opt);
-            }
-
-            @Override
-            public CompoundNBT serializeNBT() {
-                return (CompoundNBT) CAP.getStorage().writeNBT(CAP, inst, null);
-            }
-
-            @Override
-            public void deserializeNBT(CompoundNBT nbt) {
-                CAP.getStorage().readNBT(CAP, inst, null, nbt);
-            }
-        };
-    }
-
+    @Nonnull
     private final ActionHandler<IWerewolfPlayer> actionHandler;
+    @Nonnull
     private final SkillHandler<IWerewolfPlayer> skillHandler;
+    @Nonnull
     private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
-    private final NonNullList<ItemStack> armorItems = NonNullList.withSize(5,ItemStack.EMPTY);
+    @Nonnull
+    private final NonNullList<ItemStack> armorItems = NonNullList.withSize(5, ItemStack.EMPTY);
+    @Nonnull
+    private WerewolfFormUtil.Form form = WerewolfFormUtil.Form.NONE;
 
-    public WerewolfPlayer(PlayerEntity player) {
+    public WerewolfPlayer(@Nonnull PlayerEntity player) {
         super(player);
         this.applyEntityAttributes();
         this.actionHandler = new ActionHandler<>(this);
         this.skillHandler = new SkillHandler<>(this, WReference.WEREWOLF_FACTION);
+    }
+
+    @SuppressWarnings("deprecation")
+    public static void registerCapability() {
+        CapabilityManager.INSTANCE.register(IWerewolfPlayer.class, new Storage(), WerewolfPlayerDefaultImpl::new);
     }
 
     @Override
@@ -374,15 +356,47 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return this.actionHandler;
     }
 
+    // load/save -------------------------------------------------------------------------------------------------------
+
+    public static ICapabilityProvider createNewCapability(final PlayerEntity playerEntity) {
+        return new ICapabilitySerializable<CompoundNBT>() {
+
+            final IWerewolfPlayer inst = new WerewolfPlayer(playerEntity);
+            final LazyOptional<IWerewolfPlayer> opt = LazyOptional.of(() -> inst);
+
+            @Nonnull
+            @Override
+            public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+                return CAP.orEmpty(cap, opt);
+            }
+
+            @Override
+            public CompoundNBT serializeNBT() {
+                return (CompoundNBT) CAP.getStorage().writeNBT(CAP, inst, null);
+            }
+
+            @Override
+            public void deserializeNBT(CompoundNBT nbt) {
+                CAP.getStorage().readNBT(CAP, inst, null, nbt);
+            }
+        };
+    }
+
+    @Nonnull
+    public WerewolfFormUtil.Form getForm() {
+        return this.form;
+    }
+
     public void saveData(CompoundNBT compound) {
         this.actionHandler.saveToNbt(compound);
         this.skillHandler.saveToNbt(compound);
         CompoundNBT armor = new CompoundNBT();
         for (int i = 0; i < this.armorItems.size(); i++) {
-            armor.put(""+i,this.armorItems.get(i).serializeNBT());
+            armor.put("" + i, this.armorItems.get(i).serializeNBT());
         }
         compound.put("armor", armor);
         compound.putLong("werewolfTime", this.specialAttributes.werewolfTime);
+        compound.putString("form", this.form.name());
     }
 
     public void loadData(CompoundNBT compound) {
@@ -390,12 +404,15 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.skillHandler.loadFromNbt(compound);
         CompoundNBT armor = compound.getCompound("armor");
         for (int i = 0; i < armor.size(); i++) {
-            this.armorItems.set(i,ItemStack.read(armor.getCompound(""+i)));
+            this.armorItems.set(i, ItemStack.read(armor.getCompound("" + i)));
         }
-        if(compound.contains("werewolfTime")) {
+        if (compound.contains("werewolfTime")) {
             this.specialAttributes.werewolfTime = compound.getLong("werewolfTime");
         }
+        this.form = WerewolfFormUtil.Form.valueOf(compound.getString("form"));
     }
+
+    // capability ------------------------------------------------------------------------------------------------------
 
     @Override
     protected void writeFullUpdate(CompoundNBT nbt) {
@@ -403,10 +420,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.skillHandler.writeUpdateForClient(nbt);
         CompoundNBT armor = new CompoundNBT();
         for (int i = 0; i < this.armorItems.size(); i++) {
-            armor.put(""+i,this.armorItems.get(i).serializeNBT());
+            armor.put("" + i, this.armorItems.get(i).serializeNBT());
         }
         nbt.put("armor", armor);
         nbt.putLong("werewolfTime", this.specialAttributes.werewolfTime);
+        nbt.putString("form", this.form.name());
     }
 
     @Override
@@ -420,6 +438,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if(nbt.contains("werewolfTime")) {
             this.specialAttributes.werewolfTime = nbt.getLong("werewolfTime");
         }
+        this.form = WerewolfFormUtil.Form.valueOf(nbt.getString("form"));
     }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {
@@ -435,9 +454,5 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         public void readNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side, INBT compound) {
             ((WerewolfPlayer) instance).loadData((CompoundNBT) compound);
         }
-    }
-
-    public enum WerewolfType {
-        NONE, BEAST, SURVIVALIST, HUMAN;
     }
 }

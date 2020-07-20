@@ -4,11 +4,9 @@ import com.google.common.collect.Maps;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.player.werewolf.WerewolfFormUtil;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
@@ -29,12 +27,12 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
 
-    private final Map<WerewolfPlayer.WerewolfType, Pair<WerewolfBaseModel<AbstractClientPlayerEntity>,Float>> models = Maps.newHashMapWithExpectedSize(WerewolfPlayer.WerewolfType.values().length);
+    private final Map<WerewolfFormUtil.Form, Pair<WerewolfBaseModel<AbstractClientPlayerEntity>, Float>> models = Maps.newHashMapWithExpectedSize(WerewolfFormUtil.Form.values().length);
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
         super(rendererManager, new WerewolfBeastModel<>(), 1.3f);
-        this.models.put(WerewolfPlayer.WerewolfType.BEAST, Pair.of(this.entityModel,this.shadowSize));
-        this.models.put(WerewolfPlayer.WerewolfType.SURVIVALIST, Pair.of(new WerewolfSurvivalistModel<>(),0.5f));
+        this.models.put(WerewolfFormUtil.Form.BEAST, Pair.of(this.entityModel, this.shadowSize));
+        this.models.put(WerewolfFormUtil.Form.SURVIVALIST, Pair.of(new WerewolfSurvivalistModel<>(), 0.5f));
     }
 
     @Override
@@ -48,7 +46,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         }
     }
 
-    public void switchModel(WerewolfPlayer.WerewolfType type) {
+    public void switchModel(WerewolfFormUtil.Form type) {
         this.entityModel = models.get(type).getLeft();
         this.shadowSize = models.get(type).getRight();
     }
