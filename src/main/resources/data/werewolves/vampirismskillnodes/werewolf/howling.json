@@ -1,5 +1,5 @@
 {
-  "parent": "werewolves:werewolf",
+  "parent": "werewolves:werewolf/bite",
   "skills": [
     "werewolves:howling"
   ]

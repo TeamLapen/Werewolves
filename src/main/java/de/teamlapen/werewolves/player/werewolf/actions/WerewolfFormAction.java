@@ -25,7 +25,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
      * @return how much percentage is left
      */
     public static float getDurationPercentage(IWerewolfPlayer player) {
-        long durationMax = (WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.time_limit.get() *20+ (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0));
+        long durationMax = WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.time_limit.get() *20/*+ (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0)*/;
         return 1 - (float)((WerewolfPlayer)player).getSpecialAttributes().werewolfTime/durationMax;
     }
 
@@ -99,7 +99,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean onUpdate(IWerewolfPlayer player) {
-        return ++((WerewolfPlayer) player).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.time_limit.get() *20+ (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0);
+        return ++((WerewolfPlayer) player).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.time_limit.get() *20/*+ (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0)*/;
     }
 
     @Override

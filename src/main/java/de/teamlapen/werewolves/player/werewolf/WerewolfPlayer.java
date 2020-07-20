@@ -257,7 +257,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
      */
     private void eatFleshFrom(LivingEntity entity) {
         if (this.getSpecialAttributes().eatFlesh) {
-            long durationMax = (WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.time_limit.get() *20+ (this.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0));
+            long durationMax = (WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.time_limit.get() *20/*+ (this.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0)*/);
             this.specialAttributes.werewolfTime = Math.max(0, this.specialAttributes.werewolfTime - durationMax/4);
         }
     }

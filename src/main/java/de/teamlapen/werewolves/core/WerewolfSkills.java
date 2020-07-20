@@ -19,28 +19,43 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 @ObjectHolder(REFERENCE.MODID)
 public class WerewolfSkills {
 
-    public static final ISkill werewolf_form = getNull();
+    public static final ISkill night_vision = getNull();
+    public static final ISkill bite = getNull();
     public static final ISkill howling = getNull();
-    public static final ISkill werewolf_form_more_time = getNull();
-    public static final ISkill werewolf_form_time_regain = getNull();
+    public static final ISkill werewolf_form = getNull();
 
     @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
-        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form));
-        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
+        registry.register(new SimpleWerewolfSkill("night_vision"));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "bite"), WerewolfActions.bite));
-        registry.register(new SimpleWerewolfSkill("werewolf_form_more_time"));
-        registry.register(new SimpleWerewolfSkill("werewolf_form_time_regain") {
-            @Override
-            protected void onEnabled(IWerewolfPlayer player) {
-                player.getRepresentingPlayer().getAttribute(WReference.werewolfFormTimeGain).applyModifier(new AttributeModifier(WUtils.WEREWOLF_FORM_TIME, "werewolf_form_regain_skill", WerewolvesConfig.BALANCE.SKILLS.TIME_REGAIN.increase.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
-            }
+        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
+        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form));
 
-            @Override
-            protected void onDisabled(IWerewolfPlayer player) {
-                player.getRepresentingPlayer().getAttribute(WReference.werewolfFormTimeGain).removeModifier(WUtils.WEREWOLF_FORM_TIME);
-            }
-        });
+        //beast tree
+//        registry.register(new SimpleWerewolfSkill("rage"));//action
+//        registry.register(new SimpleWerewolfSkill("health"));//skill
+//        registry.register(new SimpleWerewolfSkill("health_reg"));//skill
+//        registry.register(new SimpleWerewolfSkill("more_damage"));//skill
+//        registry.register(new SimpleWerewolfSkill("resist"));//skill
+//        registry.register(new SimpleWerewolfSkill("beast_form"));//action
+//        registry.register(new SimpleWerewolfSkill("stun_bite"));//skill
+//        registry.register(new SimpleWerewolfSkill("better_claws"));//skill
+//
+//        //survival tree
+//        registry.register(new SimpleWerewolfSkill("survival_form"));//action
+//        registry.register(new SimpleWerewolfSkill("sense"));//action
+//        registry.register(new SimpleWerewolfSkill("advanced_sense"));//skill
+//        registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
+//        registry.register(new SimpleWerewolfSkill("speed_after_kill"));//skill
+//        registry.register(new SimpleWerewolfSkill("leap"));//skill
+//        registry.register(new SimpleWerewolfSkill("fall_damage"));//skill
+//        registry.register(new SimpleWerewolfSkill("speed"));//skill
+//        registry.register(new SimpleWerewolfSkill("jump"));//skill
+//
+//
+//
+//        registry.register(new SimpleWerewolfSkill("invisible"));//skill
+//        registry.register(new SimpleWerewolfSkill("movement_attacks"));//skill
     }
 }
