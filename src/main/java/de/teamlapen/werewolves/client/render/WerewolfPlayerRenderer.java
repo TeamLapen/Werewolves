@@ -3,8 +3,10 @@ package de.teamlapen.werewolves.client.render;
 import com.google.common.collect.Maps;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
+import de.teamlapen.werewolves.client.model.WerewolfEars;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import de.teamlapen.werewolves.player.werewolf.WerewolfFormUtil;
+import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -18,7 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,12 +29,26 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
 
-    private final Map<WerewolfFormUtil.Form, Pair<WerewolfBaseModel<AbstractClientPlayerEntity>, Float>> models = Maps.newHashMapWithExpectedSize(WerewolfFormUtil.Form.values().length);
+    private final Map<WerewolfFormUtil.Form, Triple<WerewolfBaseModel<AbstractClientPlayerEntity>, Float, ResourceLocation>> models = Maps.newHashMapWithExpectedSize(WerewolfFormUtil.Form.values().length);
+
+    private ResourceLocation texture;
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
-        super(rendererManager, new WerewolfBeastModel<>(), 1.3f);
-        this.models.put(WerewolfFormUtil.Form.BEAST, Pair.of(this.entityModel, this.shadowSize));
-        this.models.put(WerewolfFormUtil.Form.SURVIVALIST, Pair.of(new WerewolfSurvivalistModel<>(), 0.5f));
+        //noinspection ConstantConditions
+        super(rendererManager, null, 0f);
+        this.models.put(WerewolfFormUtil.Form.NONE, Triple.of(null, 0f, null));
+        this.models.put(WerewolfFormUtil.Form.HUMAN, Triple.of(new WerewolfEars<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws.png")));
+        this.models.put(WerewolfFormUtil.Form.BEAST, Triple.of(new WerewolfBeastModel<>(), 1.3f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_1.png")));
+        this.models.put(WerewolfFormUtil.Form.SURVIVALIST, Triple.of(new WerewolfSurvivalistModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_1.png")));
+    }
+
+    public boolean render(WerewolfPlayer entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        if (entity.getForm() != WerewolfFormUtil.Form.NONE) {
+            this.switchModel(entity.getForm());
+            doRender((AbstractClientPlayerEntity) entity.getRepresentingPlayer(), x, y, z, entityYaw, partialTicks);
+            return entity.getForm() != WerewolfFormUtil.Form.HUMAN;
+        }
+        return false;
     }
 
     @Override
@@ -48,7 +64,8 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
 
     public void switchModel(WerewolfFormUtil.Form type) {
         this.entityModel = models.get(type).getLeft();
-        this.shadowSize = models.get(type).getRight();
+        this.shadowSize = models.get(type).getMiddle();
+        this.texture = models.get(type).getRight();
     }
 
     private void setModelVisible(AbstractClientPlayerEntity clientPlayer) {
@@ -98,6 +115,6 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
-        return new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_1.png");
+        return this.texture;
     }
 }

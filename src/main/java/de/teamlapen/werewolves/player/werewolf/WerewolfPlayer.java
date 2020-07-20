@@ -94,6 +94,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return this.form;
     }
 
+    public void setForm(@Nonnull WerewolfFormUtil.Form form) {
+        this.form = form;
+    }
+
     @Override
     protected VampirismPlayer<IWerewolfPlayer> copyFromPlayer(PlayerEntity playerEntity) {
         WerewolfPlayer oldWerewolf = get(playerEntity);
@@ -367,7 +371,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
         compound.put("armor", armor);
         compound.putLong("werewolfTime", this.specialAttributes.werewolfTime);
-        compound.putString("form", this.form.name());
+        compound.putInt("form", this.form.ordinal());
     }
 
     public void loadData(CompoundNBT compound) {
@@ -380,7 +384,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (compound.contains("werewolfTime")) {
             this.specialAttributes.werewolfTime = compound.getLong("werewolfTime");
         }
-        this.form = WerewolfFormUtil.Form.valueOf(compound.getString("form"));
+        this.form = WerewolfFormUtil.Form.values()[compound.getInt("form")];
+
     }
 
     @Override
@@ -393,7 +398,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
         nbt.put("armor", armor);
         nbt.putLong("werewolfTime", this.specialAttributes.werewolfTime);
-        nbt.putString("form", this.form.name());
+//        nbt.putInt("form", this.form.ordinal());
     }
 
     @Override
@@ -407,7 +412,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (nbt.contains("werewolfTime")) {
             this.specialAttributes.werewolfTime = nbt.getLong("werewolfTime");
         }
-        this.form = WerewolfFormUtil.Form.valueOf(nbt.getString("form"));
+//        this.form = WerewolfFormUtil.Form.values()[nbt.getInt("form")];
     }
 
     //-- capability ----------------------------------------------------------------------------------------------------

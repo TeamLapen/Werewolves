@@ -2,7 +2,9 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.player.skills.ActionSkill;
+import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
+import de.teamlapen.werewolves.player.werewolf.WerewolfFormUtil;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.util.ResourceLocation;
@@ -22,8 +24,13 @@ public class WerewolfSkills {
 
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
-        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form));
-        registry.register(new SimpleWerewolfSkill.ToggleWerewolfAction("night_vision", (player, value) ->((WerewolfPlayer)player).getSpecialAttributes().night_vision = value));
+        registry.register(new ActionSkill<IWerewolfPlayer>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form).setToggleActions(
+                (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN),
+                (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.NONE)));
+        registry.register(new SimpleWerewolfSkill.ToggleWerewolfAction("night_vision", (player, value) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = value));
+        registry.register(new SimpleWerewolfSkill("night_vision").setToggleActions(
+                (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
+                (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "bite"), WerewolfActions.bite));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
 
@@ -33,12 +40,16 @@ public class WerewolfSkills {
 //        registry.register(new SimpleWerewolfSkill("health_reg"));//skill
 //        registry.register(new SimpleWerewolfSkill("more_damage"));//skill
 //        registry.register(new SimpleWerewolfSkill("resist"));//skill
-//        registry.register(new SimpleWerewolfSkill("beast_form"));//action
+        registry.register(new SimpleWerewolfSkill("beast_form").setToggleActions(
+                (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.BEAST),
+                (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN)));
 //        registry.register(new SimpleWerewolfSkill("stun_bite"));//skill
 //        registry.register(new SimpleWerewolfSkill("better_claws"));//skill
 //
 //        //survival tree
-//        registry.register(new SimpleWerewolfSkill("survival_form"));//action
+        registry.register(new SimpleWerewolfSkill("survival_form").setToggleActions(
+                (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.SURVIVALIST),
+                (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN)));
 //        registry.register(new SimpleWerewolfSkill("sense"));//action
 //        registry.register(new SimpleWerewolfSkill("advanced_sense"));//skill
 //        registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
