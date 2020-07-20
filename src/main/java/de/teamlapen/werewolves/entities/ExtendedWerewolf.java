@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.entities;
 
 import de.teamlapen.lib.lib.network.ISyncable;
-import de.teamlapen.werewolves.api.entity.IExtendedWerewolf;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.nbt.CompoundNBT;

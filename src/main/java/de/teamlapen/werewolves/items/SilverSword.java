@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.items;
 
-import de.teamlapen.werewolves.api.items.ISilverItem;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.SwordItem;
 

@@ -1,10 +1,9 @@
 package de.teamlapen.werewolves.client.core;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
-import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.items.ISilverItem;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.Helper;

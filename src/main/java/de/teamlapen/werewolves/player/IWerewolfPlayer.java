@@ -1,7 +1,7 @@
-package de.teamlapen.werewolves.api.entity.player;
+package de.teamlapen.werewolves.player;
 
 import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
-import de.teamlapen.werewolves.api.entity.IWerewolf;
+import de.teamlapen.werewolves.entities.IWerewolf;
 
 public interface IWerewolfPlayer extends IWerewolf, IFactionPlayer<IWerewolfPlayer> {
 }

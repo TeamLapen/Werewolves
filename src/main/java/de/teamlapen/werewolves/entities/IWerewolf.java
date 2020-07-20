@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.api.entity;
+package de.teamlapen.werewolves.entities;
 
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 

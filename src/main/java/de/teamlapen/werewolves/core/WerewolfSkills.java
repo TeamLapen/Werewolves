@@ -2,14 +2,9 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.player.skills.ActionSkill;
-import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
-import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WUtils;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;

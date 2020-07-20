@@ -1,9 +1,8 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
-import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;

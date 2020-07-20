@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
-import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEffects;
+import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;

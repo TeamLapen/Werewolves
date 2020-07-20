@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.entities.WerewolfEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;

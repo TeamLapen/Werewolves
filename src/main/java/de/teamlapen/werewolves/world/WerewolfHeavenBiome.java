@@ -2,8 +2,8 @@ package de.teamlapen.werewolves.world;
 
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.world.IFactionBiome;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.core.ModEntities;
+import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;

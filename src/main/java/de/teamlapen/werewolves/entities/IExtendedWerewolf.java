@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.api.entity;
+package de.teamlapen.werewolves.entities;
 
 public interface IExtendedWerewolf {
 

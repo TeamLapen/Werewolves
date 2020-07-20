@@ -3,9 +3,9 @@ package de.teamlapen.werewolves.world;
 import de.teamlapen.vampirism.api.entity.CaptureEntityEntry;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.entities.ExtendedWerewolf;
 import de.teamlapen.werewolves.entities.WerewolfEntity;
+import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.List;
-import java.util.Random;
 
 public class WWorldEventHandler {
 

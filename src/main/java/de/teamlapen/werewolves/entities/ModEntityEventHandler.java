@@ -1,15 +1,12 @@
 package de.teamlapen.werewolves.entities;
 
-import de.teamlapen.vampirism.api.VReference;
-import de.teamlapen.vampirism.entity.ExtendedCreature;
 import de.teamlapen.vampirism.tileentity.TotemTileEntity;
-import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.api.entity.IExtendedWerewolf;
-import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEffects;
+import de.teamlapen.werewolves.items.ISilverItem;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;

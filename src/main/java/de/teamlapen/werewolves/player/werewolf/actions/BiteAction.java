@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
-import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 
 public class BiteAction extends DefaultWerewolfAction {

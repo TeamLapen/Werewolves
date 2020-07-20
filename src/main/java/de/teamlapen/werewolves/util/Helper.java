@@ -1,9 +1,8 @@
 package de.teamlapen.werewolves.util;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.api.entity.IExtendedWerewolf;
 import de.teamlapen.werewolves.entities.ExtendedWerewolf;
+import de.teamlapen.werewolves.entities.IExtendedWerewolf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;

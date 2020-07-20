@@ -1,7 +1,7 @@
-package de.teamlapen.werewolves.api;
+package de.teamlapen.werewolves.util;
 
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
-import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.ai.attributes.IAttribute;

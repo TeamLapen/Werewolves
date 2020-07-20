@@ -1,7 +1,5 @@
 package de.teamlapen.werewolves.entities;
 
-import de.teamlapen.werewolves.api.entity.IExtendedWerewolf;
-
 public class ExtendedWerewolfDefaultImpl implements IExtendedWerewolf {
 
     @Override

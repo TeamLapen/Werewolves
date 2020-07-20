@@ -31,7 +31,6 @@ dependencies {
     compileOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}") //for compile (not POM)
     runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}") //for runtime (not POM)
 
-    apiCompileOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}") //for api package (not POM)
     compileOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}") //for compile (not POM)
     runtimeOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}") //for runtime (not POM)
 }
@@ -52,7 +51,6 @@ minecraft {
             mods {
                 werewolves {
                     source sourceSets.main
-                    source sourceSets.api
                 }
             }
 
@@ -66,7 +64,6 @@ minecraft {
             mods {
                 werewolves {
                     source sourceSets.main
-                    source sourceSets.api
                 }
 
 
@@ -80,7 +77,6 @@ minecraft {
             mods {
                 werewolves {
                     source sourceSets.main
-                    source sourceSets.api
                 }
             }
         }
@@ -158,9 +154,7 @@ jar {
     includeEmptyDirs = false
 
     from sourceSets.main.output.classesDirs
-    from sourceSets.api.output.classesDirs
     from sourceSets.main.output.resourcesDir
-    from sourceSets.api.output.resourcesDir
 
     from{
         fileTree('build/translations').matching{
