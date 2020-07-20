@@ -9,10 +9,12 @@ import de.teamlapen.vampirism.player.LevelAttributeModifier;
 import de.teamlapen.vampirism.player.VampirismPlayer;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
+import de.teamlapen.vampirism.potion.VampireNightVisionEffect;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -25,6 +27,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
@@ -99,7 +103,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final ActionHandler<IWerewolfPlayer> actionHandler;
     private final SkillHandler<IWerewolfPlayer> skillHandler;
     private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
-    private int killedAnimal;
     private final NonNullList<ItemStack> armorItems = NonNullList.withSize(5,ItemStack.EMPTY);
 
     public WerewolfPlayer(PlayerEntity player) {
@@ -203,6 +206,21 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 this.actionHandler.updateActions();
             }
         }
+        if(this.specialAttributes.werewolfForm && this.specialAttributes.night_vision) {
+            EffectInstance effect = this.player.getActivePotionEffect(Effects.NIGHT_VISION);
+            if(!(effect instanceof VampireNightVisionEffect)) {
+                player.removeActivePotionEffect(Effects.NIGHT_VISION);
+                effect = null;
+            }
+            if(effect == null) {
+                player.addPotionEffect(new VampireNightVisionEffect());
+            }
+        }else {
+            EffectInstance effect = this.player.getActivePotionEffect(Effects.NIGHT_VISION);
+            if(effect instanceof VampireNightVisionEffect) {
+                player.removeActivePotionEffect(Effects.NIGHT_VISION);
+            }
+        }
         this.player.getEntityWorld().getProfiler().endSection();
     }
 
@@ -246,7 +264,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             this.eatFleshFrom(entity);
         }
         if (!entity.isAlive()) {
-            this.killedAnimal++;
         }
     }
 

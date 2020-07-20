@@ -6,6 +6,7 @@ import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entity.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
+import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -24,13 +25,12 @@ public class WerewolfSkills {
     public static final ISkill howling = getNull();
     public static final ISkill werewolf_form = getNull();
 
-    @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
-        registry.register(new SimpleWerewolfSkill("night_vision"));
+        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form));
+        registry.register(new SimpleWerewolfSkill.ToggleWerewolfAction("night_vision", (player, value) ->((WerewolfPlayer)player).getSpecialAttributes().night_vision = value));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "bite"), WerewolfActions.bite));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
-        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form));
 
         //beast tree
 //        registry.register(new SimpleWerewolfSkill("rage"));//action
