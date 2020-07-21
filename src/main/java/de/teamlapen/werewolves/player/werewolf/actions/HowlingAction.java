@@ -26,7 +26,7 @@ public class HowlingAction extends DefaultWerewolfAction {
         AxisAlignedBB bb = new AxisAlignedBB(player.getPosition());
         bb.grow(10);
         List<LivingEntity> entities = player.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, bb);
-        entities.forEach(entity -> entity.addPotionEffect(new EffectInstance(ModEffects.howling, (WerewolvesConfig.BALANCE.SKILLS.HOWLING.duration.get() + WerewolvesConfig.BALANCE.SKILLS.HOWLING.disabled_duration.get()) * 20)));
+        entities.forEach(entity -> entity.addPotionEffect(new EffectInstance(ModEffects.howling, (WerewolvesConfig.BALANCE.SKILLS.HOWLING.duration.get() + WerewolvesConfig.BALANCE.SKILLS.HOWLING.disabled_duration.get()) * 20, 0, true, false, true)));
         return true;
     }
 

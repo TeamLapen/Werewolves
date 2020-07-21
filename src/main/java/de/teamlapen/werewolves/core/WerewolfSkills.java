@@ -30,7 +30,7 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill.ToggleWerewolfAction("night_vision", (player, value) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = value));
         registry.register(new SimpleWerewolfSkill("night_vision").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
-                (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false));
+                (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false).setHasDefaultDescription());
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "bite"), WerewolfActions.bite));
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
 
