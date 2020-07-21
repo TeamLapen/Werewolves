@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.client.core.ModKeys;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.network.InputEventPacket;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
@@ -51,8 +52,8 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void handleInputEvent(InputEvent event) {
-        if(Minecraft.getInstance().player == null)return;
-        if(WerewolfPlayer.getOpt(Minecraft.getInstance().player).map(player -> !player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)).orElse(false)) {
+        if (Minecraft.getInstance().player == null) return;
+        if (WerewolfPlayer.getOpt(Minecraft.getInstance().player).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.bite) && !player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)).orElse(false)) {
             if (!BITE.isKeyDown()) {
                 suck_down = true;
             }

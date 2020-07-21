@@ -2,8 +2,11 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
+import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.items.ISilverItem;
+import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.Helper;
@@ -22,21 +25,27 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
+
 @OnlyIn(Dist.CLIENT)
 public class WerewolvesHUDOverlay extends ExtendedGui {
 
     private final Minecraft mc = Minecraft.getInstance();
     private final ResourceLocation ICONS = new ResourceLocation(REFERENCE.MODID, "textures/gui/hud.png");
-    private final ResourceLocation FUR = new ResourceLocation(REFERENCE.MODID,"textures/gui/overlay/werewolf_fur_border.png");
+    private final ResourceLocation FUR = new ResourceLocation(REFERENCE.MODID, "textures/gui/overlay/werewolf_fur_border.png");
+    protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
 
     @SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Pre event) {
         if(mc.player == null || !mc.player.isAlive()) {
             return;
         }
-        switch (event.getType()){
+        switch (event.getType()) {
             case CROSSHAIRS:
                 this.renderCrosshair(event);
+                break;
+            case HOTBAR:
+                this.renderFangHotBar(event);
                 break;
             case ALL:
                 this.renderFur();
@@ -81,12 +90,10 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
-        RayTraceResult p = Minecraft.getInstance().objectMouseOver;
-
-        if (p != null && p.getType() == RayTraceResult.Type.ENTITY) {
-            WerewolfPlayer player = WerewolfPlayer.get(mc.player);
-            if(!player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)) {
-                if (player.canBite(((EntityRayTraceResult) p).getEntity())) {
+        if (Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.bite) && !player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)).orElse(false)) {
+            RayTraceResult p = Minecraft.getInstance().objectMouseOver;
+            if (p != null && p.getType() == RayTraceResult.Type.ENTITY) {
+                if (WerewolfPlayer.get(mc.player).canBite(((EntityRayTraceResult) p).getEntity())) {
                     Entity entity = ((EntityRayTraceResult) p).getEntity();
                     renderFangs(this.mc.mainWindow.getScaledWidth(), this.mc.mainWindow.getScaledHeight(), entity);
                     event.setCanceled(true);
@@ -106,7 +113,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void renderExpBar(float perc) { //TODO maybe not in creative mode
+    private void renderExpBar(float perc) {
         int scaledWidth = Minecraft.getInstance().ingameGUI.scaledWidth;
         int scaledHeight = Minecraft.getInstance().ingameGUI.scaledHeight;
         int x = scaledWidth / 2 - 91;
@@ -114,13 +121,32 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
         GlStateManager.color4f(1f, 0.1f, 0, 1);
 
-        int k = (int) ((1 -perc) * 183.0F);
+        int k = (int) ((1 - perc) * 183.0F);
         int l = scaledHeight - 32 + 3;
         this.blit(x, l, 0, 64, 182, 5);
         if (k > 0) {
-            this.blit(x+k, l, k, 69, 182-k, 5);
+            this.blit(x + k, l, k, 69, 182 - k, 5);
         }
         this.mc.getProfiler().endSection();
+    }
+
+    private void renderFangHotBar(RenderGameOverlayEvent.Pre event) {
+        if (Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getSpecialAttributes().werewolfForm).orElse(false) && WerewolfPlayer.get(this.mc.player).getSkillHandler().isSkillEnabled(WerewolfSkills.bite)) {
+            this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
+            this.blit(this.mc.mainWindow.getScaledWidth() / 2 - 91 - 29, this.mc.mainWindow.getScaledHeight() - 23, 24, 22, 29, 24);
+            this.mc.getTextureManager().bindTexture(ICONS);
+            blit(this.mc.mainWindow.getScaledWidth() / 2 - 91 - 29 + 4, this.mc.mainWindow.getScaledHeight() - 23 + 5, 15, 0, 15, 15);
+            IActionHandler<IWerewolfPlayer> handler = WerewolfPlayer.get(this.mc.player).getActionHandler();
+            if (handler.isActionOnCooldown(WerewolfActions.bite)) {
+                float percentageForAction = handler.getPercentageForAction(WerewolfActions.bite);
+                float h = (1.0F + percentageForAction) * 16.0F;
+                int x = this.mc.mainWindow.getScaledWidth() / 2 - 91 - 29 + 3;
+                int y = this.mc.mainWindow.getScaledHeight() - 23 + 4;
+                if (percentageForAction < 0.0F) {
+                    this.fillGradient(x, (int) ((float) y + h), x + 16, y + 16, Color.BLACK.getRGB() - 1426063360, Color.BLACK.getRGB());
+                }
+            }
+        }
     }
 
 }
