@@ -1,5 +1,5 @@
 {
-  "parent": "werewolves:werewolf/werewolf_form",
+  "parent": "werewolves:werewolf/skill1",
   "skills": [
     "werewolves:night_vision"
   ]

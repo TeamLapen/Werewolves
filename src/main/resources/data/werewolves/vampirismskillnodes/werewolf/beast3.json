@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:werewolf/beast2",
+  "skills": [
+    "werewolves:stun_bite"
+  ]
+}

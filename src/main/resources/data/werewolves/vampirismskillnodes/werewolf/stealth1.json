@@ -1,0 +1,10 @@
+{
+  "parent": "werewolves:werewolf/other2",
+  "skills": [
+    "werewolves:hide_name"
+  ],
+  "locking": [
+    "werewolves:werewolf/beast2",
+    "werewolves:werewolf/survival1"
+  ]
+}

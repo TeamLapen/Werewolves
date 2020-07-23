@@ -32,36 +32,38 @@ public class WerewolfSkills {
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false).setHasDefaultDescription());
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "bite"), WerewolfActions.bite));
-        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
 
         //beast tree
-//        registry.register(new SimpleWerewolfSkill("rage"));//action
-//        registry.register(new SimpleWerewolfSkill("health"));//skill
-//        registry.register(new SimpleWerewolfSkill("health_reg"));//skill
-//        registry.register(new SimpleWerewolfSkill("more_damage"));//skill
-//        registry.register(new SimpleWerewolfSkill("resist"));//skill
+        registry.register(new SimpleWerewolfSkill("rage"));//action
         registry.register(new SimpleWerewolfSkill("beast_form").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.BEAST),
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN)));
-//        registry.register(new SimpleWerewolfSkill("stun_bite"));//skill
-//        registry.register(new SimpleWerewolfSkill("better_claws"));//skill
-//
-//        //survival tree
+        registry.register(new SimpleWerewolfSkill("health"));//skill
+        registry.register(new SimpleWerewolfSkill("health_reg"));//skill
+        registry.register(new SimpleWerewolfSkill("damage"));//skill
+        registry.register(new SimpleWerewolfSkill("resistance"));//skill
+        registry.register(new SimpleWerewolfSkill("health_after_kill"));//skill
+        registry.register(new SimpleWerewolfSkill("stun_bite"));//skill
+        registry.register(new SimpleWerewolfSkill("better_claws"));//skill
+
+
+        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
+        registry.register(new SimpleWerewolfSkill("sense"));//action
+
+        //survival tree
         registry.register(new SimpleWerewolfSkill("survival_form").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.SURVIVALIST),
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN)));
-//        registry.register(new SimpleWerewolfSkill("sense"));//action
-//        registry.register(new SimpleWerewolfSkill("advanced_sense"));//skill
-//        registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
-//        registry.register(new SimpleWerewolfSkill("speed_after_kill"));//skill
-//        registry.register(new SimpleWerewolfSkill("leap"));//skill
-//        registry.register(new SimpleWerewolfSkill("fall_damage"));//skill
-//        registry.register(new SimpleWerewolfSkill("speed"));//skill
-//        registry.register(new SimpleWerewolfSkill("jump"));//skill
-//
-//
-//
-//        registry.register(new SimpleWerewolfSkill("invisible"));//skill
-//        registry.register(new SimpleWerewolfSkill("movement_attacks"));//skill
+        registry.register(new SimpleWerewolfSkill("speed"));//skill
+        registry.register(new SimpleWerewolfSkill("jump"));//skill
+        registry.register(new SimpleWerewolfSkill("fall_damage"));//skill
+        registry.register(new SimpleWerewolfSkill("leap"));//skill
+        registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
+        registry.register(new SimpleWerewolfSkill("speed_after_kill"));//skill
+        registry.register(new SimpleWerewolfSkill("movement_attacks"));//skill
+
+        //stealth tree
+        registry.register(new SimpleWerewolfSkill("hide_name"));//action
+        registry.register(new SimpleWerewolfSkill("advanced_sense"));//skill
     }
 }

@@ -1,6 +1,0 @@
-{
-  "parent": "werewolves:werewolf/werewolf_form",
-  "skills": [
-    "werewolves:survival_form"
-  ]
-}

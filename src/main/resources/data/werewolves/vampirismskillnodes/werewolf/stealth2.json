@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:werewolf/stealth1",
+  "skills": [
+    "werewolves:advanced_sense"
+  ]
+}
