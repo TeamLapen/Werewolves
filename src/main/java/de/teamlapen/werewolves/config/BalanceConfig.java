@@ -90,6 +90,9 @@ public class BalanceConfig {
         //resistance skill
         public final ForgeConfigSpec.DoubleValue resistance_amount;
 
+        //speed skill
+        public final ForgeConfigSpec.DoubleValue speed_amount;
+
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -129,6 +132,10 @@ public class BalanceConfig {
 
             builder.push("resistance");
             this.resistance_amount = builder.defineInRange("resistance_amount", 3, 0.0, 10.0);
+            builder.pop();
+
+            builder.push("speed");
+            this.speed_amount = builder.defineInRange("speed_amount", 0.1, 0.0, 2.0);
             builder.pop();
         }
     }
