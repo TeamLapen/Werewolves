@@ -26,7 +26,7 @@ public class WerewolfSkills {
     public static final ISkill stun_bite = getNull();//TODO
     public static final ISkill better_claws = getNull();//TODO
     public static final ISkill health = getNull();
-    public static final ISkill health_reg = getNull();//TODO
+    public static final ISkill health_reg = getNull();
     public static final ISkill damage = getNull();//TODO
     public static final ISkill resistance = getNull();//TODO
     public static final ISkill health_after_kill = getNull();//TODO
@@ -60,7 +60,7 @@ public class WerewolfSkills {
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.BEAST),
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN)));
         registry.register(new HealthWerewolfSkill());
-        registry.register(new SimpleWerewolfSkill("health_reg"));//skill
+        registry.register(new SimpleWerewolfSkill("health_reg", true));//skill
         registry.register(new SimpleWerewolfSkill("damage"));//skill
         registry.register(new SimpleWerewolfSkill("resistance"));//skill
         registry.register(new SimpleWerewolfSkill("health_after_kill"));//skill

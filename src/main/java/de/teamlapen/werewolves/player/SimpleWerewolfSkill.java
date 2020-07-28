@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nonnull;
 import java.util.function.BiConsumer;
 
+@SuppressWarnings("DeprecatedIsStillUsed")
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     @Deprecated
     public SimpleWerewolfSkill(String id) {
