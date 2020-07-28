@@ -65,6 +65,7 @@ public class BalanceConfig {
         public final Health HEALTH;
         public final HealthReg HEALTH_REG;
         public final Damage DAMAGE;
+        public final Resistance RESISTANCE;
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -84,6 +85,9 @@ public class BalanceConfig {
             builder.pop();
             builder.push("damage");
             DAMAGE = new Damage(builder);
+            builder.pop();
+            builder.push("resistance");
+            RESISTANCE = new Resistance(builder);
             builder.pop();
 
 
@@ -156,6 +160,14 @@ public class BalanceConfig {
 
             public Damage(ForgeConfigSpec.Builder builder) {
                 this.amount = builder.defineInRange("damage_amount", 3, 0.0, 10.0);
+            }
+        }
+
+        public static class Resistance {
+            public final ForgeConfigSpec.DoubleValue amount;
+
+            public Resistance(ForgeConfigSpec.Builder builder) {
+                this.amount = builder.defineInRange("resistance_amount", 3, 0.0, 10.0);
             }
         }
     }

@@ -8,6 +8,7 @@ import de.teamlapen.werewolves.player.werewolf.WerewolfFormUtil;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.skills.DamageWerewolfSkill;
 import de.teamlapen.werewolves.player.werewolf.skills.HealthWerewolfSkill;
+import de.teamlapen.werewolves.player.werewolf.skills.ResistanceWerewolfSkill;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -29,7 +30,7 @@ public class WerewolfSkills {
     public static final ISkill health = getNull();
     public static final ISkill health_reg = getNull();
     public static final ISkill damage = getNull();
-    public static final ISkill resistance = getNull();//TODO
+    public static final ISkill resistance = getNull();
     public static final ISkill health_after_kill = getNull();//TODO
     public static final ISkill howling = getNull();
     public static final ISkill sense = getNull();//TODO
@@ -44,6 +45,7 @@ public class WerewolfSkills {
     public static final ISkill hide_name = getNull();//TODO
     public static final ISkill advanced_sense = getNull();//TODO
 
+    @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
         registry.register(new ActionSkill<IWerewolfPlayer>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form).setToggleActions(
@@ -63,7 +65,7 @@ public class WerewolfSkills {
         registry.register(new HealthWerewolfSkill());
         registry.register(new SimpleWerewolfSkill("health_reg", true));//skill
         registry.register(new DamageWerewolfSkill());
-        registry.register(new SimpleWerewolfSkill("resistance"));//skill
+        registry.register(new ResistanceWerewolfSkill());
         registry.register(new SimpleWerewolfSkill("health_after_kill"));//skill
         registry.register(new SimpleWerewolfSkill("stun_bite"));//skill
         registry.register(new SimpleWerewolfSkill("better_claws"));//skill
