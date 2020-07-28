@@ -61,8 +61,6 @@ public class BalanceConfig {
 
         public final WerewolfForm WEREWOLFFORM;
         public final Howling HOWLING;
-        public final TimeRegain TIME_REGAIN;
-        public final LongerWerewolfForm LONGER_FORM;
         public final Bite BITE;
 
         public Skills(ForgeConfigSpec.Builder builder) {
@@ -71,12 +69,6 @@ public class BalanceConfig {
             builder.pop();
             builder.push("howling");
             HOWLING = new Howling(builder);
-            builder.pop();
-            builder.push("time_regain");
-            TIME_REGAIN = new TimeRegain(builder);
-            builder.pop();
-            builder.push("longer_werewolf_form");
-            LONGER_FORM = new LongerWerewolfForm(builder);
             builder.pop();
             builder.push("bite");
             BITE = new Bite(builder);
@@ -127,22 +119,6 @@ public class BalanceConfig {
             public Bite(ForgeConfigSpec.Builder builder) {
                 this.enabled = builder.define("bite_enabled",true);
                 this.cooldown = builder.comment("In Seconds").defineInRange("bite_cooldown", 5,0,Integer.MAX_VALUE);
-            }
-        }
-
-        public static class TimeRegain {
-            public final ForgeConfigSpec.DoubleValue increase;
-
-            public TimeRegain(ForgeConfigSpec.Builder builder) {
-                increase = builder.defineInRange("increase", 0.2, 0, 1);
-            }
-        }
-
-        public static class LongerWerewolfForm {
-            public final ForgeConfigSpec.IntValue time;
-
-            public LongerWerewolfForm(ForgeConfigSpec.Builder builder) {
-                time = builder.comment("In seconds").defineInRange("time", 10, 0, Integer.MAX_VALUE);
             }
         }
     }

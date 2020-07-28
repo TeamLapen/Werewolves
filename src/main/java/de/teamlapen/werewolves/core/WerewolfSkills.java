@@ -17,10 +17,30 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 @ObjectHolder(REFERENCE.MODID)
 public class WerewolfSkills {
 
+    public static final ISkill werewolf_form = getNull();
     public static final ISkill night_vision = getNull();
     public static final ISkill bite = getNull();
+    public static final ISkill rage = getNull(); //TODO
+    public static final ISkill beast_form = getNull();
+    public static final ISkill stun_bite = getNull();//TODO
+    public static final ISkill better_claws = getNull();//TODO
+    public static final ISkill health = getNull();//TODO
+    public static final ISkill health_reg = getNull();//TODO
+    public static final ISkill damage = getNull();//TODO
+    public static final ISkill resistance = getNull();//TODO
+    public static final ISkill health_after_kill = getNull();//TODO
     public static final ISkill howling = getNull();
-    public static final ISkill werewolf_form = getNull();
+    public static final ISkill sense = getNull();//TODO
+    public static final ISkill survival_form = getNull();
+    public static final ISkill speed = getNull();//TODO
+    public static final ISkill jump = getNull();//TODO
+    public static final ISkill leap = getNull();//TODO
+    public static final ISkill fall_damage = getNull();//TODO
+    public static final ISkill movement_attacks = getNull();//TODO
+    public static final ISkill speed_after_kill = getNull();//TODO
+    public static final ISkill sixth_sense = getNull();//TODO
+    public static final ISkill hide_name = getNull();//TODO
+    public static final ISkill advanced_sense = getNull();//TODO
 
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
