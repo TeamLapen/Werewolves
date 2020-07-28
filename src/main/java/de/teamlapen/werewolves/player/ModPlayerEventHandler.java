@@ -8,7 +8,11 @@ import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -55,6 +59,15 @@ public class ModPlayerEventHandler {
         if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
             if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_reg)).orElse(false)) {
                 event.setAmount(event.getAmount() * (1 + WerewolvesConfig.BALANCE.SKILLS.HEALTH_REG.modifier.get().floatValue()));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onKilled(LivingDeathEvent event) {
+        if (event.getSource() instanceof EntityDamageSource && event.getSource().getTrueSource() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getSource().getTrueSource()))) {
+            if (WerewolfPlayer.getOpt(((PlayerEntity) event.getSource().getTrueSource())).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_after_kill)).orElse(false)) {
+                ((PlayerEntity) event.getSource().getTrueSource()).addPotionEffect(new EffectInstance(Effects.REGENERATION, 4, 10));
             }
         }
     }

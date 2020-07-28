@@ -31,7 +31,7 @@ public class WerewolfSkills {
     public static final ISkill health_reg = getNull();
     public static final ISkill damage = getNull();
     public static final ISkill resistance = getNull();
-    public static final ISkill health_after_kill = getNull();//TODO
+    public static final ISkill health_after_kill = getNull();
     public static final ISkill howling = getNull();
     public static final ISkill sense = getNull();//TODO
     public static final ISkill survival_form = getNull();
