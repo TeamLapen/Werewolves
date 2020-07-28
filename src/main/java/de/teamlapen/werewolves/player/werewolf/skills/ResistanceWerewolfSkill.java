@@ -22,7 +22,7 @@ public class ResistanceWerewolfSkill extends SimpleWerewolfSkill {
     protected void onEnabled(IWerewolfPlayer player) {
         IAttributeInstance attributes = player.getRepresentingPlayer().getAttribute(SharedMonsterAttributes.ARMOR);
         if (attributes.getModifier(RESISTANCE) == null) {
-            attributes.applyModifier(new AttributeModifier(RESISTANCE, "werewolf_damage_skill", WerewolvesConfig.BALANCE.SKILLS.RESISTANCE.amount.get(), AttributeModifier.Operation.ADDITION));
+            attributes.applyModifier(new AttributeModifier(RESISTANCE, "werewolf_damage_skill", WerewolvesConfig.BALANCE.SKILLS.resistance_amount.get(), AttributeModifier.Operation.ADDITION));
         }
     }
 

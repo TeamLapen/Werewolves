@@ -58,117 +58,78 @@ public class BalanceConfig {
     }
 
     public static class Skills {
+        //werewolf action
+        public final ForgeConfigSpec.BooleanValue werewolf_form_enabled;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration;
+        public final ForgeConfigSpec.IntValue werewolf_form_cooldown;
+        public final ForgeConfigSpec.DoubleValue werewolf_form_speed_amount;
+        public final ForgeConfigSpec.DoubleValue werewolf_form_armor;
+        public final ForgeConfigSpec.DoubleValue werewolf_form_armor_toughness;
+        public final ForgeConfigSpec.LongValue werewolf_form_time_limit;
 
-        public final WerewolfForm WEREWOLFFORM;
-        public final Howling HOWLING;
-        public final Bite BITE;
-        public final Health HEALTH;
-        public final HealthReg HEALTH_REG;
-        public final Damage DAMAGE;
-        public final Resistance RESISTANCE;
+        //howling action
+        public final ForgeConfigSpec.BooleanValue howling_enabled;
+        public final ForgeConfigSpec.DoubleValue howling_attackspeed_amount;
+        public final ForgeConfigSpec.IntValue howling_cooldown;
+        public final ForgeConfigSpec.IntValue howling_duration;
+        public final ForgeConfigSpec.IntValue howling_disabled_duration;
+
+        //bite action
+        public final ForgeConfigSpec.BooleanValue bite_enabled;
+        public final ForgeConfigSpec.IntValue bite_cooldown;
+
+        //health skill
+        public final ForgeConfigSpec.DoubleValue health_amount;
+
+        //health_reg skill
+        public final ForgeConfigSpec.DoubleValue health_reg_modifier;
+
+        //damage skill
+        public final ForgeConfigSpec.DoubleValue damage_amount;
+
+        //resistance skill
+        public final ForgeConfigSpec.DoubleValue resistance_amount;
+
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
-            WEREWOLFFORM = new WerewolfForm(builder);
+            this.werewolf_form_enabled = builder.define("werewolf_form_enabled", true);
+            this.werewolf_form_duration = builder.comment("Use werewolf_form_time_limit").defineInRange("werewolf_form_duration", Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
+            this.werewolf_form_cooldown = builder.comment("In seconds").defineInRange("werewolf_form_cooldown", 0, 0, 10000);
+            this.werewolf_form_speed_amount = builder.defineInRange("werewolf_form_speed_amount", 0.5, 0, 5);
+            this.werewolf_form_armor = builder.defineInRange("werewolf_form_armor", 5.0, 0, 10.0);
+            this.werewolf_form_armor_toughness = builder.defineInRange("werewolf_form_armor_toughness", 5.0, 0, 10.0);
+            this.werewolf_form_time_limit = builder.comment("in Seconds").defineInRange("werewolf_form_time_limit", 2, 1, Long.MAX_VALUE);
             builder.pop();
+
             builder.push("howling");
-            HOWLING = new Howling(builder);
+            this.howling_enabled = builder.comment("Hownling Action enabled").define("howling_enabled", true);
+            this.howling_attackspeed_amount = builder.comment("Hownling Attack speed multiplier").defineInRange("howling_attackspeed_amount", 2.0, 0.0, 5.0);
+            this.howling_cooldown = builder.comment("Howling cooldown").defineInRange("howling_cooldown", 10, 1, Integer.MAX_VALUE);
+            this.howling_duration = builder.comment("Howling howling_duration").defineInRange("howling_duration", 10, 1, Integer.MAX_VALUE);
+            this.howling_disabled_duration = builder.comment("Howling disabled howling_duration").defineInRange("howling_disabled_duration", 10, 1, Integer.MAX_VALUE);
             builder.pop();
+
             builder.push("bite");
-            BITE = new Bite(builder);
+            this.bite_enabled = builder.define("bite_enabled", true);
+            this.bite_cooldown = builder.comment("In Seconds").defineInRange("bite_cooldown", 5, 0, Integer.MAX_VALUE);
             builder.pop();
+
             builder.push("health");
-            HEALTH = new Health(builder);
+            this.health_amount = builder.defineInRange("health_amount", 5.0, 0.0, 10.0);
             builder.pop();
+
             builder.push("health_reg");
-            HEALTH_REG = new HealthReg(builder);
+            this.health_reg_modifier = builder.defineInRange("health_reg_modifier", 0.2, 0.0, 1);
             builder.pop();
+
             builder.push("damage");
-            DAMAGE = new Damage(builder);
+            this.damage_amount = builder.defineInRange("damage_amount", 3, 0.0, 10.0);
             builder.pop();
+
             builder.push("resistance");
-            RESISTANCE = new Resistance(builder);
+            this.resistance_amount = builder.defineInRange("resistance_amount", 3, 0.0, 10.0);
             builder.pop();
-
-
-        }
-
-        public static class WerewolfForm {
-            public final ForgeConfigSpec.BooleanValue enabled;
-            public final ForgeConfigSpec.IntValue duration;
-            public final ForgeConfigSpec.IntValue cooldown;
-            public final ForgeConfigSpec.DoubleValue speed_amount;
-            public final ForgeConfigSpec.DoubleValue armor;
-            public final ForgeConfigSpec.DoubleValue armor_toughness;
-            public final ForgeConfigSpec.LongValue time_limit;
-
-            public WerewolfForm(ForgeConfigSpec.Builder builder) {
-                enabled = builder.define("werewolf_form_enabled", true);
-                duration = builder.comment("In seconds").defineInRange("werewolf_form_duration", Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
-                cooldown = builder.comment("In seconds").defineInRange("werewolf_form_cooldown", 0, 0, 10000);
-                speed_amount = builder.defineInRange("werewolf_form_speed_amount", 0.5, 0, 5);
-                armor = builder.defineInRange("werewolf_form_armor", 5.0, 0, 10.0);
-                armor_toughness = builder.defineInRange("werewolf_form_armor_toughness", 5.0, 0, 10.0);
-                time_limit = builder.comment("in Seconds").defineInRange("werewolf_form_time_limit",2,1,Long.MAX_VALUE);
-            }
-        }
-
-        public static class Howling {
-            public final ForgeConfigSpec.BooleanValue enabled;
-            public final ForgeConfigSpec.DoubleValue attackspeed_amount;
-            public final ForgeConfigSpec.IntValue cooldown;
-            public final ForgeConfigSpec.IntValue duration;
-            public final ForgeConfigSpec.IntValue disabled_duration;
-
-            public Howling(ForgeConfigSpec.Builder builder) {
-                enabled = builder.comment("Hownling Action enabled").define("howling_enabled", true);
-                attackspeed_amount = builder.comment("Hownling Attack speed multiplier").defineInRange("howling_attackspeed_amount", 2.0, 0.0, 5.0);
-                cooldown = builder.comment("Howling cooldown").defineInRange("howling_cooldown", 10, 1, Integer.MAX_VALUE);
-                duration = builder.comment("Howling duration").defineInRange("howling_duration", 10, 1, Integer.MAX_VALUE);
-                disabled_duration = builder.comment("Howling disabled duration").defineInRange("howling_disabled_duration", 10, 1, Integer.MAX_VALUE);
-            }
-        }
-
-        public static class Bite {
-            public final ForgeConfigSpec.BooleanValue enabled;
-            public final ForgeConfigSpec.IntValue cooldown;
-
-            public Bite(ForgeConfigSpec.Builder builder) {
-                this.enabled = builder.define("bite_enabled", true);
-                this.cooldown = builder.comment("In Seconds").defineInRange("bite_cooldown", 5, 0, Integer.MAX_VALUE);
-            }
-        }
-
-        public static class Health {
-            public final ForgeConfigSpec.DoubleValue amount;
-
-            public Health(ForgeConfigSpec.Builder builder) {
-                this.amount = builder.defineInRange("health_amount", 5.0, 0.0, 10.0);
-            }
-        }
-
-        public static class HealthReg {
-            public final ForgeConfigSpec.DoubleValue modifier;
-
-            public HealthReg(ForgeConfigSpec.Builder builder) {
-                this.modifier = builder.defineInRange("health_reg_modifier", 0.2, 0.0, 1);
-            }
-        }
-
-        public static class Damage {
-            public final ForgeConfigSpec.DoubleValue amount;
-
-            public Damage(ForgeConfigSpec.Builder builder) {
-                this.amount = builder.defineInRange("damage_amount", 3, 0.0, 10.0);
-            }
-        }
-
-        public static class Resistance {
-            public final ForgeConfigSpec.DoubleValue amount;
-
-            public Resistance(ForgeConfigSpec.Builder builder) {
-                this.amount = builder.defineInRange("resistance_amount", 3, 0.0, 10.0);
-            }
         }
     }
 
@@ -187,10 +148,10 @@ public class BalanceConfig {
         public final ForgeConfigSpec.IntValue silverItemEffectDuration;
 
         public Util(ForgeConfigSpec.Builder builder) {
-            drownsytime = builder.comment("in minutes").defineInRange("drownsytime", 10, 1, Integer.MAX_VALUE);
-            werewolfHeavenWeight = builder.defineInRange("werewolfHeavenWeight", 6, 1, Integer.MAX_VALUE);
-            silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 4, 1,Integer.MAX_VALUE);
-            silverItemEffectDuration = builder.comment("in ticks").defineInRange("silverItemEffectDuration", 10, 1,Integer.MAX_VALUE);
+            this.drownsytime = builder.comment("in minutes").defineInRange("drownsytime", 10, 1, Integer.MAX_VALUE);
+            this.werewolfHeavenWeight = builder.defineInRange("werewolfHeavenWeight", 6, 1, Integer.MAX_VALUE);
+            this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 4, 1, Integer.MAX_VALUE);
+            this.silverItemEffectDuration = builder.comment("in ticks").defineInRange("silverItemEffectDuration", 10, 1, Integer.MAX_VALUE);
         }
     }
 }

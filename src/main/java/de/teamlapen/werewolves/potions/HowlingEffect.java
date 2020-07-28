@@ -17,12 +17,12 @@ public class HowlingEffect extends WerewolvesEffect {
 
     public HowlingEffect() {
         super("howling", EffectType.BENEFICIAL, 0xFFC90E);
-        this.addAttributesModifier(SharedMonsterAttributes.ATTACK_SPEED, ATTACK_SPEED, WerewolvesConfig.BALANCE.SKILLS.HOWLING.attackspeed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributesModifier(SharedMonsterAttributes.ATTACK_SPEED, ATTACK_SPEED, WerewolvesConfig.BALANCE.SKILLS.howling_attackspeed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     @Override
     public boolean isReady(int duration, int amplifier) {
-        return duration == WerewolvesConfig.BALANCE.SKILLS.HOWLING.disabled_duration.get() * 20;
+        return duration == WerewolvesConfig.BALANCE.SKILLS.howling_disabled_duration.get() * 20;
     }
 
     @Override

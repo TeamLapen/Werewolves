@@ -20,7 +20,7 @@ public class HealthWerewolfSkill extends SimpleWerewolfSkill {
     protected void onEnabled(IWerewolfPlayer player) {
         IAttributeInstance attributes = player.getRepresentingPlayer().getAttribute(SharedMonsterAttributes.MAX_HEALTH);
         if (attributes.getModifier(HEALTH) == null) {
-            attributes.applyModifier(new AttributeModifier(HEALTH, "werewolf_health_action", WerewolvesConfig.BALANCE.SKILLS.HEALTH.amount.get(), AttributeModifier.Operation.ADDITION));
+            attributes.applyModifier(new AttributeModifier(HEALTH, "werewolf_health_action", WerewolvesConfig.BALANCE.SKILLS.health_amount.get(), AttributeModifier.Operation.ADDITION));
         }
     }
 

@@ -58,7 +58,7 @@ public class ModPlayerEventHandler {
     public void onHealing(LivingHealEvent event) {
         if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
             if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_reg)).orElse(false)) {
-                event.setAmount(event.getAmount() * (1 + WerewolvesConfig.BALANCE.SKILLS.HEALTH_REG.modifier.get().floatValue()));
+                event.setAmount(event.getAmount() * (1 + WerewolvesConfig.BALANCE.SKILLS.health_reg_modifier.get().floatValue()));
             }
         }
     }

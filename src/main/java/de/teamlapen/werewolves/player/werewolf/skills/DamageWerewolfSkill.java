@@ -13,6 +13,7 @@ public class DamageWerewolfSkill extends SimpleWerewolfSkill {
 
     private static final UUID DAMAGE = UUID.fromString("33227645-38c8-467e-8c1c-c15215361935");
 
+    @SuppressWarnings("deprecation")
     public DamageWerewolfSkill() {
         super("damage", true);
     }
@@ -21,7 +22,7 @@ public class DamageWerewolfSkill extends SimpleWerewolfSkill {
     protected void onEnabled(IWerewolfPlayer player) {
         IAttributeInstance attributes = player.getRepresentingPlayer().getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         if (attributes.getModifier(DAMAGE) == null) {
-            attributes.applyModifier(new AttributeModifier(DAMAGE, "werewolf_damage_skill", WerewolvesConfig.BALANCE.SKILLS.DAMAGE.amount.get(), AttributeModifier.Operation.ADDITION));
+            attributes.applyModifier(new AttributeModifier(DAMAGE, "werewolf_damage_skill", WerewolvesConfig.BALANCE.SKILLS.damage_amount.get(), AttributeModifier.Operation.ADDITION));
         }
     }
 
