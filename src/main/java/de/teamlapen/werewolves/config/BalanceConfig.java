@@ -62,6 +62,7 @@ public class BalanceConfig {
         public final WerewolfForm WEREWOLFFORM;
         public final Howling HOWLING;
         public final Bite BITE;
+        public final Health HEALTH;
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -73,6 +74,10 @@ public class BalanceConfig {
             builder.push("bite");
             BITE = new Bite(builder);
             builder.pop();
+            builder.push("health");
+            HEALTH = new Health(builder);
+            builder.pop();
+
 
         }
 
@@ -117,8 +122,16 @@ public class BalanceConfig {
             public final ForgeConfigSpec.IntValue cooldown;
 
             public Bite(ForgeConfigSpec.Builder builder) {
-                this.enabled = builder.define("bite_enabled",true);
-                this.cooldown = builder.comment("In Seconds").defineInRange("bite_cooldown", 5,0,Integer.MAX_VALUE);
+                this.enabled = builder.define("bite_enabled", true);
+                this.cooldown = builder.comment("In Seconds").defineInRange("bite_cooldown", 5, 0, Integer.MAX_VALUE);
+            }
+        }
+
+        public static class Health {
+            public final ForgeConfigSpec.DoubleValue amount;
+
+            public Health(ForgeConfigSpec.Builder builder) {
+                this.amount = builder.defineInRange("health_amount", 5.0, 0.0, 10.0);
             }
         }
     }

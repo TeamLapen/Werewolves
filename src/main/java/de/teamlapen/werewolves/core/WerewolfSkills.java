@@ -6,6 +6,7 @@ import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.player.werewolf.WerewolfFormUtil;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.player.werewolf.skills.HealthWerewolfSkill;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -24,7 +25,7 @@ public class WerewolfSkills {
     public static final ISkill beast_form = getNull();
     public static final ISkill stun_bite = getNull();//TODO
     public static final ISkill better_claws = getNull();//TODO
-    public static final ISkill health = getNull();//TODO
+    public static final ISkill health = getNull();
     public static final ISkill health_reg = getNull();//TODO
     public static final ISkill damage = getNull();//TODO
     public static final ISkill resistance = getNull();//TODO
@@ -58,7 +59,7 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("beast_form").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.BEAST),
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN)));
-        registry.register(new SimpleWerewolfSkill("health"));//skill
+        registry.register(new HealthWerewolfSkill());
         registry.register(new SimpleWerewolfSkill("health_reg"));//skill
         registry.register(new SimpleWerewolfSkill("damage"));//skill
         registry.register(new SimpleWerewolfSkill("resistance"));//skill
