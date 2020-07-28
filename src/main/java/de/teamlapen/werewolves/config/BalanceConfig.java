@@ -64,6 +64,7 @@ public class BalanceConfig {
         public final Bite BITE;
         public final Health HEALTH;
         public final HealthReg HEALTH_REG;
+        public final Damage DAMAGE;
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -80,6 +81,9 @@ public class BalanceConfig {
             builder.pop();
             builder.push("health_reg");
             HEALTH_REG = new HealthReg(builder);
+            builder.pop();
+            builder.push("damage");
+            DAMAGE = new Damage(builder);
             builder.pop();
 
 
@@ -144,6 +148,14 @@ public class BalanceConfig {
 
             public HealthReg(ForgeConfigSpec.Builder builder) {
                 this.modifier = builder.defineInRange("health_reg_modifier", 0.2, 0.0, 1);
+            }
+        }
+
+        public static class Damage {
+            public final ForgeConfigSpec.DoubleValue amount;
+
+            public Damage(ForgeConfigSpec.Builder builder) {
+                this.amount = builder.defineInRange("damage_amount", 3, 0.0, 10.0);
             }
         }
     }
