@@ -23,6 +23,7 @@ bd550e3de1e149b1818839fad7b5ac3d1175ae90 assets/werewolves/models/block/silver_o
 0708c96b95b5c05b5152465bedc57d1da97cd779 assets/werewolves/models/item/jacaranda_leaves.json
 16210e360653d27a991b6bd8a1b72528ec2f8b81 assets/werewolves/models/item/jacaranda_log.json
 f41a8f0f7701dd773df643616cd5d54ea6bb1078 assets/werewolves/models/item/jacaranda_sapling.json
+75a422f2425e2382c28a731deb0385e014c73502 assets/werewolves/models/item/liver.json
 fb22707b6f2f9ffb8da0f2852f6e979823adb2c0 assets/werewolves/models/item/magic_leaves.json
 9443d4ad85976431065750a5f084d9fc106c5000 assets/werewolves/models/item/magic_log.json
 65fa0e568cd31d9480c21e9a3a0220495e464825 assets/werewolves/models/item/magic_planks.json
@@ -39,7 +40,7 @@ ed737530f3e3c55d4baace9921e0ea4112f086a1 assets/werewolves/models/item/silver_sh
 cf364e388b8b502f7ab4ddae7d2b344caaa27a38 data/forge/tags/blocks/ores/silver.json
 9a8b997b4ab4a1e265a1a09a17cb3177ca1507f8 data/forge/tags/items/ingots/silver.json
 cf364e388b8b502f7ab4ddae7d2b344caaa27a38 data/forge/tags/items/ores/silver.json
-73321c77b293a6cc43fb98672c309e0ece1b82b1 data/forge/tags/items/rawmeats.json
+5611013084dbd9a70bf9d3564339e6f6fe77c4f8 data/forge/tags/items/rawmeats.json
 0b1bc4b2c3e043274db1776efd2e04e9400d0c90 data/minecraft/tags/blocks/leaves.json
 3ce0b35087a3bc7eb1dc9dc161d12bca5722c7e6 data/minecraft/tags/blocks/logs.json
 8f72a52019e5734281e89513a739a14c7c2a6512 data/minecraft/tags/blocks/planks.json

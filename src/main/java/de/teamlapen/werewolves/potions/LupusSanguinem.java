@@ -11,21 +11,21 @@ import net.minecraft.potion.EffectType;
 
 import javax.annotation.Nonnull;
 
-public class DrownsyEffect extends WerewolvesEffect {
+public class LupusSanguinem extends WerewolvesEffect {
 
-    private static final String REGNAME = "drownsy";
+    private static final String REG_NAME = "lupus_sanguinem";
 
-    public DrownsyEffect() {
-        super(REGNAME, EffectType.HARMFUL, 0xe012ef);
+    public LupusSanguinem() {
+        super(REG_NAME, EffectType.HARMFUL, 0xe012ef);
     }
 
     public static int getPotionDuration() {
         return WerewolvesConfig.BALANCE.UTIL.drownsytime.get() * 1200;
     }
 
-    public static void addDrownsyPotion(PlayerEntity playerEntity) {
+    public static void addSanguinemEffect(PlayerEntity playerEntity) {
         if (FactionPlayerHandler.getOpt(playerEntity).map(player -> player.canJoin(WReference.WEREWOLF_FACTION)).orElse(false)) {
-            playerEntity.addPotionEffect(new EffectInstance(ModEffects.drownsy, getPotionDuration()));
+            playerEntity.addPotionEffect(new EffectInstance(ModEffects.lupus_sanguinem, getPotionDuration()));
         }
     }
 

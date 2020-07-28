@@ -30,7 +30,8 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void onFootEaten(LivingEntityUseItemEvent.Start event) {
         if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) event.getEntity())) {
-            if (event.getItem().isFood() && !ModTags.Items.RAWMEATS.contains(event.getItem().getItem())) {
+            //noinspection ConstantConditions
+            if (event.getItem().isFood() && !event.getItem().getItem().getFood().isMeat()) {
                 event.setCanceled(true);
             }
         }
@@ -39,7 +40,8 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void onFootEaten(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) event.getEntity())) {
-            if (event.getItem().isFood() && ModTags.Items.RAWMEATS.contains(event.getItem().getItem())) {
+            //noinspection ConstantConditions
+            if (event.getItem().isFood() && event.getItem().getItem().getFood().isMeat() && ModTags.Items.RAWMEATS.contains(event.getItem().getItem())) {
                 ((PlayerEntity) event.getEntityLiving()).getFoodStats().consume(event.getItem().getItem(), event.getItem());
             }
         }

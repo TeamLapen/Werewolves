@@ -259,10 +259,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
      * @param entity The bitten entity
      */
     private void eatFleshFrom(LivingEntity entity) {
-        if (this.getSpecialAttributes().eatFlesh) {
-            long durationMax = (WerewolvesConfig.BALANCE.SKILLS.WEREWOLFFORM.time_limit.get() *20/*+ (this.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0)*/);
-            this.specialAttributes.werewolfTime = Math.max(0, this.specialAttributes.werewolfTime - durationMax/4);
-        }
+        this.player.getFoodStats().addStats(1, 1);
     }
 
     @Override

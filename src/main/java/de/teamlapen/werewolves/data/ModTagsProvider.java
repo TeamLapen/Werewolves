@@ -6,6 +6,7 @@ import de.teamlapen.werewolves.core.ModTags;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.item.Items;
 import net.minecraft.tags.BlockTags;
 
 public class ModTagsProvider {
@@ -39,7 +40,7 @@ public class ModTagsProvider {
         protected void registerTags() {
             this.copy(ModTags.Blocks.SILVER_ORE, ModTags.Items.SILVER_ORE);
             this.getBuilder(ModTags.Items.SILVER_INGOT).add(ModItems.silver_ingot);
-            this.getBuilder(ModTags.Items.RAWMEATS).add(net.minecraft.item.Items.BEEF, net.minecraft.item.Items.CHICKEN, net.minecraft.item.Items.MUTTON, net.minecraft.item.Items.PORKCHOP, net.minecraft.item.Items.RABBIT);
+            this.getBuilder(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver);
         }
     }
 }

@@ -43,6 +43,7 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModItems.silver_shovel);
             add(ModItems.silver_hoe);
             add(ModItems.silver_ingot);
+            add(ModItems.liver);
         }};
 
         blocks.forEach(this::block);
