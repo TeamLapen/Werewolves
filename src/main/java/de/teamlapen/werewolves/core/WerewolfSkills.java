@@ -61,15 +61,15 @@ public class WerewolfSkills {
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "bite"), WerewolfActions.bite));
 
         //beast tree
-        registry.register(new SimpleWerewolfSkill("rage"));//action
+        registry.register(new ActionSkill<IWerewolfPlayer>(new ResourceLocation(REFERENCE.MODID, "rage"), WerewolfActions.rage));
         registry.register(new SimpleWerewolfSkill("beast_form").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.BEAST),
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN)));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("health", true, HEALTH_SKILL, SharedMonsterAttributes.MAX_HEALTH, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.health_amount.get()));
-        registry.register(new SimpleWerewolfSkill("health_reg", true));//skill
+        registry.register(new SimpleWerewolfSkill("health_reg", true));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("damage", true, DAMAGE_SKILL, SharedMonsterAttributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.damage_amount.get()));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("resistance", true, RESISTANCE_SKILL, SharedMonsterAttributes.ARMOR, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.resistance_amount.get()));
-        registry.register(new SimpleWerewolfSkill("health_after_kill"));//skill
+        registry.register(new SimpleWerewolfSkill("health_after_kill"));
         registry.register(new SimpleWerewolfSkill("stun_bite"));//skill
         registry.register(new SimpleWerewolfSkill("better_claws"));//skill
 

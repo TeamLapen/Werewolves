@@ -2,7 +2,10 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
+import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
+import de.teamlapen.vampirism.config.VampirismConfig;
+import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.items.ISilverItem;
@@ -22,9 +25,13 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
@@ -35,9 +42,37 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     private final ResourceLocation FUR = new ResourceLocation(REFERENCE.MODID, "textures/gui/overlay/werewolf_fur_border.png");
     protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
 
+    private int screenColor = 0;
+    private int screenPercentage = 0;
+    private boolean fullScreen = false;
+    private int renderFullTick = 0;
+    private int rederFullOn, renderFullOff, renderFullColor;
+    private int screenBottomColor = 0;
+    private int screenBottomPercentage = 0;
+
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (mc.player == null || !mc.player.isAlive()) {
+            this.renderFullTick = 0;
+            this.screenPercentage = 0;
+            return;
+        }
+        if (event.phase == TickEvent.Phase.END)
+            return;
+
+        @Nullable
+        IFactionPlayer<?> player = FactionPlayerHandler.get(mc.player).getCurrentFactionPlayer().orElse(null);
+        if (player instanceof WerewolfPlayer) {
+            this.handleScreenColorWerewolf(((WerewolfPlayer) player));
+        } else {
+            screenPercentage = 0;
+            screenBottomPercentage = 0;
+        }
+    }
+
     @SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Pre event) {
-        if(mc.player == null || !mc.player.isAlive()) {
+        if (mc.player == null || !mc.player.isAlive()) {
             return;
         }
         switch (event.getType()) {
@@ -55,11 +90,51 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
 
     @SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Post event) {
-        if(mc.player == null || !mc.player.isAlive()) {
+        if (mc.player == null || !mc.player.isAlive()) {
             return;
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.EXPERIENCE) {
             this.renderExperienceBar(event);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public void onRenderWorldLast(RenderWorldLastEvent event) {
+        if (this.screenPercentage > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
+            GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+            GlStateManager.matrixMode(GL11.GL_PROJECTION);
+            GlStateManager.loadIdentity();
+            GlStateManager.ortho(0.0D, this.mc.mainWindow.getScaledWidth(), this.mc.mainWindow.getScaledHeight(), 0.0D, 1D, -1D);
+            GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+            GlStateManager.loadIdentity();
+            GlStateManager.pushMatrix();
+            GL11.glDisable(GL11.GL_DEPTH_TEST);
+            int w = (this.mc.mainWindow.getScaledWidth());
+            int h = (this.mc.mainWindow.getScaledHeight());
+            if (this.screenPercentage > 0) {
+                // sun border
+                int bw = 0;
+                int bh = 0;
+
+                bh = Math.round(h / (float) 4 * this.screenPercentage / 100);
+                bw = Math.round(w / (float) 8 * this.screenPercentage / 100);
+
+                this.fillGradient(0, 0, w, bh, this.screenColor, 0x000);
+                this.fillGradient(0, h - bh, w, h, 0x00000000, this.screenColor);
+                this.fillGradient2(0, 0, bw, h, 0x000000, this.screenColor);
+                this.fillGradient2(w - bw, 0, w, h, this.screenColor, 0x00);
+            }
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GlStateManager.popMatrix();
+        }
+    }
+
+    private void handleScreenColorWerewolf(WerewolfPlayer player) {
+        if (player.getActionHandler().isActionActive(WerewolfActions.rage)) {
+            this.screenPercentage = 100;
+            this.screenColor = 0xfff00000;
+        } else {
+            this.screenPercentage = 0;
         }
     }
 
@@ -68,8 +143,8 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         int left = width / 2 - 9;
         int top = height / 2 - 6;
         boolean silver = false;
-        for(ItemStack stack : entity.getArmorInventoryList()) {
-            if(stack.getItem() instanceof ISilverItem) {
+        for (ItemStack stack : entity.getArmorInventoryList()) {
+            if (stack.getItem() instanceof ISilverItem) {
                 silver = true;
                 break;
             }

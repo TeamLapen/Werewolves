@@ -93,6 +93,10 @@ public class BalanceConfig {
         //speed skill
         public final ForgeConfigSpec.DoubleValue speed_amount;
 
+        //rake action
+        public final ForgeConfigSpec.BooleanValue rage_enabled;
+        public final ForgeConfigSpec.IntValue rage_duration;
+        public final ForgeConfigSpec.IntValue rage_cooldown;
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -102,7 +106,7 @@ public class BalanceConfig {
             this.werewolf_form_speed_amount = builder.defineInRange("werewolf_form_speed_amount", 0.5, 0, 5);
             this.werewolf_form_armor = builder.defineInRange("werewolf_form_armor", 5.0, 0, 10.0);
             this.werewolf_form_armor_toughness = builder.defineInRange("werewolf_form_armor_toughness", 5.0, 0, 10.0);
-            this.werewolf_form_time_limit = builder.comment("in Seconds").defineInRange("werewolf_form_time_limit", 2, 1, Long.MAX_VALUE);
+            this.werewolf_form_time_limit = builder.comment("in Seconds").defineInRange("werewolf_form_time_limit", 50, 1, Long.MAX_VALUE);
             builder.pop();
 
             builder.push("howling");
@@ -136,6 +140,12 @@ public class BalanceConfig {
 
             builder.push("speed");
             this.speed_amount = builder.defineInRange("speed_amount", 0.1, 0.0, 2.0);
+            builder.pop();
+
+            builder.push("rage");
+            this.rage_enabled = builder.define("rage_enabled", true);
+            this.rage_duration = builder.defineInRange("rage_duration", 10, 0, Integer.MAX_VALUE);
+            this.rage_cooldown = builder.defineInRange("rage_cooldown", 10, 0, Integer.MAX_VALUE);
             builder.pop();
         }
     }
