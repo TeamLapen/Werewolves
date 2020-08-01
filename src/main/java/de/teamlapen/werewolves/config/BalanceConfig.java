@@ -93,10 +93,16 @@ public class BalanceConfig {
         //speed skill
         public final ForgeConfigSpec.DoubleValue speed_amount;
 
-        //rake action
+        //rage action
         public final ForgeConfigSpec.BooleanValue rage_enabled;
         public final ForgeConfigSpec.IntValue rage_duration;
         public final ForgeConfigSpec.IntValue rage_cooldown;
+
+        //sense action
+        public final ForgeConfigSpec.BooleanValue sense_enabled;
+        public final ForgeConfigSpec.IntValue sense_radius;
+        public final ForgeConfigSpec.IntValue sense_duration;
+        public final ForgeConfigSpec.IntValue sense_cooldown;
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -146,6 +152,13 @@ public class BalanceConfig {
             this.rage_enabled = builder.define("rage_enabled", true);
             this.rage_duration = builder.defineInRange("rage_duration", 10, 0, Integer.MAX_VALUE);
             this.rage_cooldown = builder.defineInRange("rage_cooldown", 10, 0, Integer.MAX_VALUE);
+            builder.pop();
+
+            builder.push("sense");
+            this.sense_enabled = builder.define("sense_enabled", true);
+            this.sense_radius = builder.defineInRange("sense_radius", 15, 1, 400);
+            this.sense_duration = builder.defineInRange("sense_duration", 15, 1, Integer.MAX_VALUE);
+            this.sense_cooldown = builder.defineInRange("sense_cooldown", 15, 1, Integer.MAX_VALUE);
             builder.pop();
         }
     }

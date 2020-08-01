@@ -24,7 +24,7 @@ public class WerewolfSkills {
     public static final ISkill werewolf_form = getNull();
     public static final ISkill night_vision = getNull();
     public static final ISkill bite = getNull();
-    public static final ISkill rage = getNull(); //TODO
+    public static final ISkill rage = getNull();
     public static final ISkill beast_form = getNull();
     public static final ISkill stun_bite = getNull();//TODO
     public static final ISkill better_claws = getNull();//TODO
@@ -34,9 +34,9 @@ public class WerewolfSkills {
     public static final ISkill resistance = getNull();
     public static final ISkill health_after_kill = getNull();
     public static final ISkill howling = getNull();
-    public static final ISkill sense = getNull();//TODO
+    public static final ISkill sense = getNull();
     public static final ISkill survival_form = getNull();
-    public static final ISkill speed = getNull();//TODO
+    public static final ISkill speed = getNull();
     public static final ISkill jump = getNull();//TODO
     public static final ISkill leap = getNull();//TODO
     public static final ISkill fall_damage = getNull();//TODO
@@ -44,7 +44,7 @@ public class WerewolfSkills {
     public static final ISkill speed_after_kill = getNull();//TODO
     public static final ISkill sixth_sense = getNull();//TODO
     public static final ISkill hide_name = getNull();//TODO
-    public static final ISkill advanced_sense = getNull();//TODO
+    public static final ISkill advanced_sense = getNull();
 
     @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
@@ -75,7 +75,7 @@ public class WerewolfSkills {
 
 
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
-        registry.register(new SimpleWerewolfSkill("sense"));//action
+        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "sense"), WerewolfActions.sense));
 
         //survival tree
         registry.register(new SimpleWerewolfSkill("survival_form").setToggleActions(
@@ -91,6 +91,6 @@ public class WerewolfSkills {
 
         //stealth tree
         registry.register(new SimpleWerewolfSkill("hide_name"));//action
-        registry.register(new SimpleWerewolfSkill("advanced_sense"));//skill
+        registry.register(new SimpleWerewolfSkill("advanced_sense"));
     }
 }
