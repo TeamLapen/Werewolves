@@ -39,7 +39,7 @@ public class WerewolfSkills {
     public static final ISkill speed = getNull();
     public static final ISkill jump = getNull();//TODO
     public static final ISkill leap = getNull();//TODO
-    public static final ISkill fall_damage = getNull();//TODO
+    public static final ISkill fall_damage = getNull();
     public static final ISkill movement_attacks = getNull();//TODO
     public static final ISkill speed_after_kill = getNull();
     public static final ISkill sixth_sense = getNull();//TODO
@@ -83,7 +83,7 @@ public class WerewolfSkills {
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN)));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, SharedMonsterAttributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
         registry.register(new SimpleWerewolfSkill("jump"));//skill
-        registry.register(new SimpleWerewolfSkill("fall_damage"));//skill
+        registry.register(new SimpleWerewolfSkill("fall_damage"));
         registry.register(new SimpleWerewolfSkill("leap"));//skill
         registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
         registry.register(new SimpleWerewolfSkill("speed_after_kill"));

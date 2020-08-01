@@ -14,6 +14,7 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
@@ -71,6 +72,16 @@ public class ModPlayerEventHandler {
                 ((PlayerEntity) event.getSource().getTrueSource()).addPotionEffect(new EffectInstance(Effects.REGENERATION, 4, 10));
             } else if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.speed_after_kill)) {
                 player.getRepresentingPlayer().addPotionEffect(new EffectInstance(Effects.SPEED, 40));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onFall(LivingFallEvent event) {
+        if (event.getEntityLiving() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getEntityLiving()))) {
+            if (WerewolfPlayer.get(((PlayerEntity) event.getEntityLiving())).getSkillHandler().isSkillEnabled(WerewolfSkills.fall_damage)) {
+                event.setDistance(event.getDistance() * 0.8f);
+                event.setDamageMultiplier(event.getDamageMultiplier() * 0.8f);
             }
         }
     }
