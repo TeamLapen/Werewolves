@@ -104,6 +104,9 @@ public class BalanceConfig {
         public final ForgeConfigSpec.IntValue sense_duration;
         public final ForgeConfigSpec.IntValue sense_cooldown;
 
+        //stun bite skill
+        public final ForgeConfigSpec.IntValue stun_bite_duration;
+
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
             this.werewolf_form_enabled = builder.define("werewolf_form_enabled", true);
@@ -159,6 +162,10 @@ public class BalanceConfig {
             this.sense_radius = builder.defineInRange("sense_radius", 15, 1, 400);
             this.sense_duration = builder.defineInRange("sense_duration", 15, 1, Integer.MAX_VALUE);
             this.sense_cooldown = builder.defineInRange("sense_cooldown", 15, 1, Integer.MAX_VALUE);
+            builder.pop();
+
+            builder.push("stun bite");
+            this.stun_bite_duration = builder.defineInRange("stun_bite_duration", 40, 0, Integer.MAX_VALUE);
             builder.pop();
         }
     }
