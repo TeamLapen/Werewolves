@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.potions;
+package de.teamlapen.werewolves.effects;
 
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.config.WerewolvesConfig;

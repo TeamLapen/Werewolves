@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.potions.HowlingEffect;
-import de.teamlapen.werewolves.potions.LupusSanguinem;
-import de.teamlapen.werewolves.potions.SilverEffect;
+import de.teamlapen.werewolves.effects.HowlingEffect;
+import de.teamlapen.werewolves.effects.LupusSanguinem;
+import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.potion.Effect;
 import net.minecraftforge.registries.IForgeRegistry;
