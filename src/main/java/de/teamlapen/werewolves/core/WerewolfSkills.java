@@ -27,6 +27,7 @@ public class WerewolfSkills {
     public static final ISkill rage = getNull();
     public static final ISkill beast_form = getNull();
     public static final ISkill stun_bite = getNull();
+    public static final ISkill bleeding_bite = getNull();//TODO
     public static final ISkill better_claws = getNull();//TODO
     public static final ISkill health = getNull();
     public static final ISkill health_reg = getNull();
@@ -45,6 +46,8 @@ public class WerewolfSkills {
     public static final ISkill sixth_sense = getNull();//TODO
     public static final ISkill hide_name = getNull();//TODO
     public static final ISkill advanced_sense = getNull();
+    public static final ISkill wolf_pack = getNull();//TODO
+    public static final ISkill fear = getNull(); //TODO
 
     @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
@@ -71,6 +74,7 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill.AttributeSkill("resistance", true, RESISTANCE_SKILL, SharedMonsterAttributes.ARMOR, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.resistance_amount.get()));
         registry.register(new SimpleWerewolfSkill("health_after_kill"));
         registry.register(new SimpleWerewolfSkill("stun_bite"));
+        registry.register(new SimpleWerewolfSkill("bleeding_bite"));
         registry.register(new SimpleWerewolfSkill("better_claws"));//skill
 
 
@@ -88,9 +92,11 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
         registry.register(new SimpleWerewolfSkill("speed_after_kill"));
         registry.register(new SimpleWerewolfSkill("movement_attacks"));//skill
+        registry.register(new SimpleWerewolfSkill("fear"));//action
 
         //stealth tree
         registry.register(new SimpleWerewolfSkill("hide_name"));//action
         registry.register(new SimpleWerewolfSkill("advanced_sense"));
+        registry.register(new SimpleWerewolfSkill("wolf_pack"));//action
     }
 }
