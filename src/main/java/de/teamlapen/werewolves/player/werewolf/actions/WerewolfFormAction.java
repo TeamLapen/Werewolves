@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -13,6 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.UUID;
+
+import static de.teamlapen.werewolves.player.ModPlayerEventHandler.CLAWS;
 
 public class WerewolfFormAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
     public static final UUID ARMOR = UUID.fromString("0b281a87-829f-4d98-9a3b-116549cfdd57");
@@ -75,6 +78,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
         IAttributeInstance armor = player.getAttributes().getAttributeInstance(SharedMonsterAttributes.ARMOR);
         IAttributeInstance armor_toughness = player.getAttributes().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS);
         IAttributeInstance movement_speed = player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        IAttributeInstance attack_damage = player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         if (armor == null || armor_toughness == null) {
             LOGGER.warn("Could not apply attribute modifier to entity: {}", player.getName());
             return;
@@ -89,7 +93,15 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
             if (movement_speed.getModifier(MOVEMENT_SPEED) == null) {
                 movement_speed.applyModifier(new AttributeModifier(MOVEMENT_SPEED, "werewolf_form_movement_speed", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_speed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
+            if (player.getHeldItemMainhand().isEmpty()) { //see ModPlayerEventHandler#onEquipmentChange
+                double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
+                if (WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
+                    damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
+                }
+                attack_damage.applyModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
+            }
         } else {
+            attack_damage.removeModifier(CLAWS);
             armor.removeModifier(ARMOR);
             armor_toughness.removeModifier(ARMOR_TOUGHNESS);
             movement_speed.removeModifier(MOVEMENT_SPEED);

@@ -28,7 +28,7 @@ public class WerewolfSkills {
     public static final ISkill beast_form = getNull();
     public static final ISkill stun_bite = getNull();
     public static final ISkill bleeding_bite = getNull();
-    public static final ISkill better_claws = getNull();//TODO
+    public static final ISkill better_claws = getNull();
     public static final ISkill health = getNull();
     public static final ISkill health_reg = getNull();
     public static final ISkill damage = getNull();
@@ -75,7 +75,7 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("health_after_kill"));
         registry.register(new SimpleWerewolfSkill("stun_bite"));
         registry.register(new SimpleWerewolfSkill("bleeding_bite"));
-        registry.register(new SimpleWerewolfSkill("better_claws"));//skill
+        registry.register(new SimpleWerewolfSkill("better_claws"));
 
 
         registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));

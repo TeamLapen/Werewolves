@@ -7,21 +7,24 @@ import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.event.entity.living.LivingHealEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.UUID;
+
 public class ModPlayerEventHandler {
     private static final Logger LOGGER = LogManager.getLogger();
+
+    public static final UUID CLAWS = UUID.fromString("70435284-afcd-4470-85c2-d9b36b3d94e8");
 
     @SubscribeEvent
     public void onAttachCapability(AttachCapabilitiesEvent<Entity> event) {
@@ -82,6 +85,27 @@ public class ModPlayerEventHandler {
             if (WerewolfPlayer.get(((PlayerEntity) event.getEntityLiving())).getSkillHandler().isSkillEnabled(WerewolfSkills.fall_damage)) {
                 event.setDistance(event.getDistance() * 0.8f);
                 event.setDamageMultiplier(event.getDamageMultiplier() * 0.8f);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onEquipmentChange(LivingEquipmentChangeEvent event) {
+        if (event.getEntity() instanceof PlayerEntity) {
+            if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
+                if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSpecialAttributes().werewolfForm) {
+                    if (event.getTo().isEmpty()) { // see WerewolfFormAction#applyModifier
+                        if (((PlayerEntity) event.getEntity()).getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
+                            double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
+                            if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
+                                damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
+                            }
+                            ((PlayerEntity) event.getEntity()).getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
+                        }
+                    } else {
+                        ((PlayerEntity) event.getEntity()).getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).removeModifier(CLAWS);
+                    }
+                }
             }
         }
     }

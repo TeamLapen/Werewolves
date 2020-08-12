@@ -33,11 +33,13 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue werewolf_speed_amount;
         public final ForgeConfigSpec.DoubleValue werewolf_armor_toughness;
         public final ForgeConfigSpec.DoubleValue werewolf_damage;
+        public final ForgeConfigSpec.DoubleValue werewolf_claw_damage;
 
         public Player(ForgeConfigSpec.Builder builder) {
             werewolf_damage = builder.comment("In seconds").defineInRange("werewolf_form_duration", 1.0, 0, 10);
             werewolf_speed_amount = builder.defineInRange("werewolf_speed_amount", 0.2, 0, 5);
             werewolf_armor_toughness = builder.defineInRange("werewolf_armor_toughness", 3.0, 0, 10.0);
+            werewolf_claw_damage = builder.defineInRange("werewolf_claw_damage", 2d, 0, Integer.MAX_VALUE);
         }
     }
 
@@ -110,6 +112,9 @@ public class BalanceConfig {
         //bleeding bite skill
         public final ForgeConfigSpec.IntValue bleeding_bite_duration;
 
+        //better claws
+        public final ForgeConfigSpec.DoubleValue better_claw_damage;
+
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
             this.werewolf_form_enabled = builder.define("werewolf_form_enabled", true);
@@ -173,6 +178,10 @@ public class BalanceConfig {
 
             builder.push("bleeding bite");
             this.bleeding_bite_duration = builder.defineInRange("bleeding_bite_duration", 100, 0, Integer.MAX_VALUE);
+            builder.pop();
+
+            builder.push("better claws");
+            this.better_claw_damage = builder.defineInRange("better_claw_damage", 1d, 0, Integer.MAX_VALUE);
             builder.pop();
         }
     }
