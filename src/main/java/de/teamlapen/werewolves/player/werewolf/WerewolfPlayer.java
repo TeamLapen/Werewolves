@@ -250,6 +250,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         entity.attackEntityFrom(DamageSource.causePlayerDamage(this.player), damage);
         if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {
             entity.addPotionEffect(new EffectInstance(ModEffects.freeze, WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get()));
+        } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
+            entity.addPotionEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get()));
         }
         if (!entity.isEntityUndead()) {
             this.eatFleshFrom(entity);

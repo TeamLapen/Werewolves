@@ -107,6 +107,9 @@ public class BalanceConfig {
         //stun bite skill
         public final ForgeConfigSpec.IntValue stun_bite_duration;
 
+        //bleeding bite skill
+        public final ForgeConfigSpec.IntValue bleeding_bite_duration;
+
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
             this.werewolf_form_enabled = builder.define("werewolf_form_enabled", true);
@@ -166,6 +169,10 @@ public class BalanceConfig {
 
             builder.push("stun bite");
             this.stun_bite_duration = builder.defineInRange("stun_bite_duration", 40, 0, Integer.MAX_VALUE);
+            builder.pop();
+
+            builder.push("bleeding bite");
+            this.bleeding_bite_duration = builder.defineInRange("bleeding_bite_duration", 100, 0, Integer.MAX_VALUE);
             builder.pop();
         }
     }

@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:werewolf/middle1",
+  "skills": [
+    "werewolves:fear"
+  ]
+}

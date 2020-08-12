@@ -27,7 +27,7 @@ public class WerewolfSkills {
     public static final ISkill rage = getNull();
     public static final ISkill beast_form = getNull();
     public static final ISkill stun_bite = getNull();
-    public static final ISkill bleeding_bite = getNull();//TODO
+    public static final ISkill bleeding_bite = getNull();
     public static final ISkill better_claws = getNull();//TODO
     public static final ISkill health = getNull();
     public static final ISkill health_reg = getNull();
