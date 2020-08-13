@@ -13,7 +13,6 @@ import javax.annotation.Nonnull;
 import java.util.UUID;
 import java.util.function.Function;
 
-@SuppressWarnings("DeprecatedIsStillUsed")
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     @Deprecated
     public SimpleWerewolfSkill(String id) {

@@ -1,16 +1,14 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
-import de.teamlapen.vampirism.player.skills.ActionSkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
+import de.teamlapen.werewolves.player.skill.ActionSkill;
 import de.teamlapen.werewolves.player.werewolf.WerewolfFormUtil;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -52,7 +50,7 @@ public class WerewolfSkills {
     @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
-        registry.register(new ActionSkill<IWerewolfPlayer>(new ResourceLocation(REFERENCE.MODID, "werewolf_form"), WerewolfActions.werewolf_form).setToggleActions(
+        registry.register(new ActionSkill<>(WerewolfActions.werewolf_form).setToggleActions(
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN),
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.NONE)));
         registry.register(new SimpleWerewolfSkill("night_vision").setToggleActions(
@@ -61,10 +59,10 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("night_vision").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false).setHasDefaultDescription());
-        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "bite"), WerewolfActions.bite));
+        registry.register(new ActionSkill<>(WerewolfActions.bite));
 
         //beast tree
-        registry.register(new ActionSkill<IWerewolfPlayer>(new ResourceLocation(REFERENCE.MODID, "rage"), WerewolfActions.rage));
+        registry.register(new ActionSkill<>(WerewolfActions.rage));
         registry.register(new SimpleWerewolfSkill("beast_form").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.BEAST),
                 (player) -> ((WerewolfPlayer) player).setForm(WerewolfFormUtil.Form.HUMAN)));
@@ -78,8 +76,8 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("better_claws"));
 
 
-        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "howling"), WerewolfActions.howling));
-        registry.register(new ActionSkill<>(new ResourceLocation(REFERENCE.MODID, "sense"), WerewolfActions.sense));
+        registry.register(new ActionSkill<>(WerewolfActions.howling));
+        registry.register(new ActionSkill<>(WerewolfActions.sense));
 
         //survival tree
         registry.register(new SimpleWerewolfSkill("survival_form").setToggleActions(
@@ -92,7 +90,7 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
         registry.register(new SimpleWerewolfSkill("speed_after_kill"));
         registry.register(new SimpleWerewolfSkill("movement_attacks"));//skill
-        registry.register(new ActionSkill<IWerewolfPlayer>(new ResourceLocation(REFERENCE.MODID, "fear"), WerewolfActions.fear));
+        registry.register(new ActionSkill<>(WerewolfActions.fear));
 
         //stealth tree
         registry.register(new SimpleWerewolfSkill("hide_name"));//action
