@@ -14,7 +14,7 @@ public class HowlingAction extends DefaultWerewolfAction {
 
     @Override
     public boolean isEnabled() {
-        return WerewolvesConfig.BALANCE.SKILLS.HOWLING.enabled.get();
+        return WerewolvesConfig.BALANCE.SKILLS.howling_enabled.get();
     }
 
     @Override
@@ -26,12 +26,12 @@ public class HowlingAction extends DefaultWerewolfAction {
         AxisAlignedBB bb = new AxisAlignedBB(player.getPosition());
         bb.grow(10);
         List<LivingEntity> entities = player.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, bb);
-        entities.forEach(entity -> entity.addPotionEffect(new EffectInstance(ModEffects.howling, (WerewolvesConfig.BALANCE.SKILLS.HOWLING.duration.get() + WerewolvesConfig.BALANCE.SKILLS.HOWLING.disabled_duration.get()) * 20, 0, true, false, true)));
+        entities.forEach(entity -> entity.addPotionEffect(new EffectInstance(ModEffects.howling, (WerewolvesConfig.BALANCE.SKILLS.howling_duration.get() + WerewolvesConfig.BALANCE.SKILLS.howling_disabled_duration.get()) * 20, 0, true, false, true)));
         return true;
     }
 
     @Override
     public int getCooldown() {
-        return WerewolvesConfig.BALANCE.SKILLS.HOWLING.cooldown.get() * 20;
+        return WerewolvesConfig.BALANCE.SKILLS.howling_cooldown.get() * 20;
     }
 }

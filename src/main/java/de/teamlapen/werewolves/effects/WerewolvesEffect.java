@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.potions;
+package de.teamlapen.werewolves.effects;
 
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.potion.Effect;

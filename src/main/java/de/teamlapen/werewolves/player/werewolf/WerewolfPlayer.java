@@ -12,7 +12,9 @@ import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.vampirism.potion.VampireNightVisionEffect;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
@@ -246,6 +248,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private void biteAttack(LivingEntity entity) {
         float damage = (float) this.player.getAttribute(WReference.biteDamage).getValue();
         entity.attackEntityFrom(DamageSource.causePlayerDamage(this.player), damage);
+        if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {
+            entity.addPotionEffect(new EffectInstance(ModEffects.freeze, WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get()));
+        } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
+            entity.addPotionEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get()));
+        }
         if (!entity.isEntityUndead()) {
             this.eatFleshFrom(entity);
         }

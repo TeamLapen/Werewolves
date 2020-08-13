@@ -8,7 +8,7 @@ public class BiteAction extends DefaultWerewolfAction {
 
     @Override
     public boolean isEnabled() {
-        return WerewolvesConfig.BALANCE.SKILLS.BITE.enabled.get();
+        return WerewolvesConfig.BALANCE.SKILLS.bite_enabled.get();
     }
 
     @Override
@@ -20,7 +20,7 @@ public class BiteAction extends DefaultWerewolfAction {
 
     @Override
     public int getCooldown() {
-        return WerewolvesConfig.BALANCE.SKILLS.BITE.cooldown.get() * 20;
+        return WerewolvesConfig.BALANCE.SKILLS.bite_cooldown.get() * 20;
     }
 
     @Override

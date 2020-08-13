@@ -1,0 +1,88 @@
+{
+  "default": {},
+  "description": "The root schema comprises the entire JSON document.",
+  "examples": [
+    {
+      "parent": "werewolves:werewolf/beast1",
+      "skills": [
+        "werewolves:beast_form"
+      ],
+      "locking": [
+        "werewolves:werewolf/survival1",
+        "werewolves:werewolf/stealth1"
+      ]
+    }
+  ],
+  "required": [
+    "parent",
+    "skills"
+  ],
+  "title": "The root schema",
+  "properties": {
+    "parent": {
+      "default": "",
+      "description": "An explanation about the purpose of this instance.",
+      "examples": [
+        "werewolves:werewolf/beast1"
+      ],
+      "title": "The parent skill node"
+    },
+    "skills": {
+      "$id": "#/properties/skills",
+      "type": "array",
+      "title": "The skills schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": [],
+      "examples": [
+        [
+          "werewolves:beast_form"
+        ]
+      ],
+      "additionalItems": true,
+      "items": {
+        "$id": "#/properties/skills/items",
+        "anyOf": [
+          {
+            "$id": "#/properties/skills/items/anyOf/0",
+            "type": "string",
+            "title": "The first anyOf schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "werewolves:beast_form"
+            ]
+          }
+        ]
+      }
+    },
+    "locking": {
+      "default": [],
+      "description": "if one of the listed skill nodes are unlocked, this will be locked",
+      "examples": [
+        [
+          "werewolves:werewolf/survival1",
+          "werewolves:werewolf/stealth1"
+        ]
+      ],
+      "title": "Locking skill nodes",
+      "additionalItems": true,
+      "items": {
+        "$id": "#/properties/locking/items",
+        "anyOf": [
+          {
+            "$id": "#/properties/locking/items/anyOf/0",
+            "type": "string",
+            "title": "The first anyOf schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "werewolves:werewolf/survival1",
+              "werewolves:werewolf/stealth1"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": true
+}

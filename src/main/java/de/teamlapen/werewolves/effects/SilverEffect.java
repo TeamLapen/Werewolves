@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.potions;
+package de.teamlapen.werewolves.effects;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import net.minecraft.entity.LivingEntity;
