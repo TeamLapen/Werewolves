@@ -92,7 +92,7 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
         registry.register(new SimpleWerewolfSkill("speed_after_kill"));
         registry.register(new SimpleWerewolfSkill("movement_attacks"));//skill
-        registry.register(new SimpleWerewolfSkill("fear"));//action
+        registry.register(new ActionSkill<IWerewolfPlayer>(new ResourceLocation(REFERENCE.MODID, "fear"), WerewolfActions.fear));
 
         //stealth tree
         registry.register(new SimpleWerewolfSkill("hide_name"));//action

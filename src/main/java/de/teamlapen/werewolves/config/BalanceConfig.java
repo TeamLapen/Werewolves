@@ -115,6 +115,11 @@ public class BalanceConfig {
         //better claws
         public final ForgeConfigSpec.DoubleValue better_claw_damage;
 
+        //fear action
+        public final ForgeConfigSpec.BooleanValue fear_action_enabled;
+        public final ForgeConfigSpec.IntValue fear_action_cooldown;
+
+
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
             this.werewolf_form_enabled = builder.define("werewolf_form_enabled", true);
@@ -182,6 +187,11 @@ public class BalanceConfig {
 
             builder.push("better claws");
             this.better_claw_damage = builder.defineInRange("better_claw_damage", 1d, 0, Integer.MAX_VALUE);
+            builder.pop();
+
+            builder.push("fear action");
+            this.fear_action_enabled = builder.define("fear_action_enabled", true);
+            this.fear_action_cooldown = builder.defineInRange("fear_action_cooldown", 20, 10, Integer.MAX_VALUE);
             builder.pop();
         }
     }
