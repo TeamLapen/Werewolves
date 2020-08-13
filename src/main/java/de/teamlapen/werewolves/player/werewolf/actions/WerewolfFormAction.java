@@ -38,7 +38,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        return (player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 && getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
+        return true;//player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) instanceof WerewolfHeavenBiome || (player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 && getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
     }
 
     @Override
@@ -110,7 +110,8 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean onUpdate(IWerewolfPlayer player) {
-        return ++((WerewolfPlayer) player).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20/*+ (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0)*/;
+        return false;
+        //return ++((WerewolfPlayer) player).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20/*+ (player.getSkillHandler().isSkillEnabled(WerewolfSkills.werewolf_form_more_time) ? WerewolvesConfig.BALANCE.SKILLS.LONGER_FORM.time.get() * 20 : 0)*/;
     }
 
     @Override

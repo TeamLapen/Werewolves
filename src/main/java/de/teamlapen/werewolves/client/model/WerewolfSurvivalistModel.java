@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.client.model;
 
-import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -50,6 +50,9 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public RendererModel footLeft_1;
     public RendererModel armRight2;
     public RendererModel footLeft_2;
+
+    public float swimAnimation;
+    private boolean sneak;
 
     public WerewolfSurvivalistModel() {
         this.textureWidth = 128;
@@ -231,6 +234,50 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.body.render(scale);
     }
 
+    @SuppressWarnings("DuplicatedCode")
+    public void setRotationAngles(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        boolean flag1 = entityIn.isActualySwimming();
+        this.head.rotateAngleY = netHeadYaw * ((float) Math.PI / 180F);
+        if (this.swimAnimation > 0.0f) {
+            if (flag1) {
+                this.head.rotateAngleX = this.func_205060_a(this.head.rotateAngleX, (-(float) Math.PI / 4F), this.swimAnimation);
+            } else {
+                this.head.rotateAngleX = this.func_205060_a(this.head.rotateAngleX, headPitch * ((float) Math.PI / 180F), this.swimAnimation);
+            }
+        } else {
+            this.head.rotateAngleX = headPitch * ((float) Math.PI / 180F);
+        }
+
+
+        this.legRight.rotateAngleX = -1.5707963267948966F;
+        this.legLeft.rotateAngleX = -1.5707963267948966F;
+
+        this.armRight.rotateAngleX = -1.2217304763960306F;
+        this.armLeft.rotateAngleX = -1.2217304763960306F;
+
+        this.legRight.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F * 0.8f + 1.5f * (float) Math.PI) * 0.8F * limbSwingAmount;
+        this.legLeft.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F * 0.8f + 0.5f * (float) Math.PI) * 0.8F * limbSwingAmount;
+
+        this.armRight.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F * 0.8f) * 0.8F * limbSwingAmount;
+        this.armLeft.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F * 0.8f + (float) Math.PI) * 0.8F * limbSwingAmount;
+
+
+        //reset tail rotation angle
+        this.tail.rotateAngleX = -0.22759093446006054F;
+        this.tail.rotateAngleY = 0F;
+
+        //idle rotations
+        this.tail.rotateAngleX -= 0.035f;
+        this.tail.rotateAngleX += MathHelper.cos(ageInTicks * 0.10F) * 0.07F;
+
+        this.tail.rotateAngleY = -0.035F;
+        this.tail.rotateAngleY += MathHelper.sin(ageInTicks * 0.14F) * 0.07f;
+
+        //running tail animation
+        this.tail.rotateAngleX += MathHelper.cos(limbSwing * 0.6662F * 0.7f) * 0.3F * MathHelper.abs(limbSwingAmount) + 0.3f;
+        this.tail.rotateAngleY += MathHelper.sin(limbSwing * 0.6662F * 0.7f) * 0.1F * limbSwingAmount;
+    }
+
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
@@ -241,12 +288,12 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     }
 
     @Override
-    public void setVisible(boolean visible) {
-
+    public void setSneak(boolean sneak) {
+        this.sneak = sneak;
     }
 
     @Override
-    public void setSneak(boolean sneak) {
-
+    public void setVisible(boolean visible) {
+        this.body.showModel = visible;
     }
 }

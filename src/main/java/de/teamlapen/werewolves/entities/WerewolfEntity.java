@@ -190,6 +190,7 @@ public class WerewolfEntity extends VampirismEntity implements IVillageCaptureEn
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new BreakDoorGoal(this, (difficulty) -> difficulty == net.minecraft.world.Difficulty.HARD));//Only break doors on hard difficulty
         this.goalSelector.addGoal(4, new AttackMeleeNoSunGoal(this, 1.0, false));
         this.goalSelector.addGoal(8, new MoveThroughVillageGoal(this, 0.6, true, 600, () -> false));
