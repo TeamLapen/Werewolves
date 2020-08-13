@@ -16,6 +16,7 @@ public class WerewolfActions {
     public static final BiteAction bite = getNull();
     public static final RageWerewolfAction rage = getNull();
     public static final SenseWerewolfAction sense = getNull();
+    public static final FearAction fear = getNull();
 
     static void registerActions(IForgeRegistry<IAction> registry) {
         registry.register(new WerewolfFormAction().setRegistryName(REFERENCE.MODID, "werewolf_form"));
@@ -23,5 +24,6 @@ public class WerewolfActions {
         registry.register(new BiteAction().setRegistryName(REFERENCE.MODID, "bite"));
         registry.register(new RageWerewolfAction().setRegistryName(REFERENCE.MODID, "rage"));
         registry.register(new SenseWerewolfAction().setRegistryName(REFERENCE.MODID, "sense"));
+        registry.register(new FearAction().setRegistryName(REFERENCE.MODID, "fear"));
     }
 }
