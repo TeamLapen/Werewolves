@@ -6,4 +6,7 @@ public class WerewolfPlayerSpecialAttributes {
     public boolean werewolfForm;
     public long werewolfTime;
     public int target;
+
+    public boolean humanForm;
+    public WerewolfFormUtil.Form specialForm;
 }

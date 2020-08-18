@@ -96,8 +96,16 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return this.form;
     }
 
-    public void setForm(@Nonnull WerewolfFormUtil.Form form) {
-        this.form = form;
+    public void updateForm() {
+        if (this.specialAttributes.humanForm) {
+            if (this.specialAttributes.specialForm != null) {
+                this.form = this.specialAttributes.specialForm;
+            } else {
+                this.form = WerewolfFormUtil.Form.HUMAN;
+            }
+        } else {
+            this.form = WerewolfFormUtil.Form.NONE;
+        }
     }
 
     @Override

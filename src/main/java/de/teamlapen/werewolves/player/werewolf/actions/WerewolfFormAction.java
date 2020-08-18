@@ -94,11 +94,13 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
                 movement_speed.applyModifier(new AttributeModifier(MOVEMENT_SPEED, "werewolf_form_movement_speed", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_speed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
             if (player.getHeldItemMainhand().isEmpty()) { //see ModPlayerEventHandler#onEquipmentChange
-                double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
-                if (WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
-                    damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
+                if (attack_damage.getModifier(CLAWS) == null) {
+                    double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
+                    if (WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
+                        damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
+                    }
+                    attack_damage.applyModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
                 }
-                attack_damage.applyModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
             }
         } else {
             attack_damage.removeModifier(CLAWS);
