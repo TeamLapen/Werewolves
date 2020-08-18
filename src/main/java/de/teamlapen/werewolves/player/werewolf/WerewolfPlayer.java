@@ -9,12 +9,12 @@ import de.teamlapen.vampirism.player.LevelAttributeModifier;
 import de.teamlapen.vampirism.player.VampirismPlayer;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
-import de.teamlapen.vampirism.potion.VampireNightVisionEffect;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
@@ -194,7 +194,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         } else {
             if (getLevel() > 0) {
-                if(this.player.world.getGameTime() % 10 == 0) {
+                if (this.player.world.getGameTime() % 10 == 0) {
                     if (this.specialAttributes.werewolfTime > 0 && !this.actionHandler.isActionActive(WerewolfActions.werewolf_form)) {
                         this.specialAttributes.werewolfTime -= 10 * player.getAttribute(WReference.werewolfFormTimeGain).getValue();
                     }
@@ -202,18 +202,18 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 this.actionHandler.updateActions();
             }
         }
-        if(this.specialAttributes.werewolfForm && this.specialAttributes.night_vision) {
+        if (this.specialAttributes.werewolfForm && this.specialAttributes.night_vision) {
             EffectInstance effect = this.player.getActivePotionEffect(Effects.NIGHT_VISION);
-            if(!(effect instanceof VampireNightVisionEffect)) {
+            if (!(effect instanceof WerewolfNightVisionEffect)) {
                 player.removeActivePotionEffect(Effects.NIGHT_VISION);
                 effect = null;
             }
-            if(effect == null) {
-                player.addPotionEffect(new VampireNightVisionEffect());
+            if (effect == null) {
+                player.addPotionEffect(new WerewolfNightVisionEffect());
             }
-        }else {
+        } else {
             EffectInstance effect = this.player.getActivePotionEffect(Effects.NIGHT_VISION);
-            if(effect instanceof VampireNightVisionEffect) {
+            if (effect instanceof WerewolfNightVisionEffect) {
                 player.removeActivePotionEffect(Effects.NIGHT_VISION);
             }
         }
