@@ -41,5 +41,7 @@
   "effect.werewolves.drownsy": "Drownsy",
   "effect.werewolves.howling": "Howling",
   "effect.werewolves.silver": "Silver",
-  "effect.werewolves.bleeding": "Bleeding"
+  "effect.werewolves.bleeding": "Bleeding",
+  "__comment": "texts",
+  "text.werewolves.skill_screen.level_progression": "Level Progress: %s%%"
 }

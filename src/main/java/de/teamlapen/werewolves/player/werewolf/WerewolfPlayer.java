@@ -83,6 +83,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final NonNullList<ItemStack> armorItems = NonNullList.withSize(5, ItemStack.EMPTY);
     @Nonnull
     private WerewolfFormUtil.Form form = WerewolfFormUtil.Form.NONE;
+    @Nonnull
+    private final LevelHandler levelHandler = new LevelHandler(this);
 
     public WerewolfPlayer(@Nonnull PlayerEntity player) {
         super(player);
@@ -139,6 +141,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public void onDeath(DamageSource damageSource) {
         this.actionHandler.deactivateAllActions();
+    }
+
+    @Nonnull
+    public LevelHandler getLevelHandler() {
+        return levelHandler;
     }
 
     @Override
@@ -377,6 +384,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     public void saveData(CompoundNBT compound) {
         this.actionHandler.saveToNbt(compound);
         this.skillHandler.saveToNbt(compound);
+        this.levelHandler.saveToNbt(compound);
         CompoundNBT armor = new CompoundNBT();
         for (int i = 0; i < this.armorItems.size(); i++) {
             armor.put("" + i, this.armorItems.get(i).serializeNBT());
@@ -389,6 +397,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     public void loadData(CompoundNBT compound) {
         this.actionHandler.loadFromNbt(compound);
         this.skillHandler.loadFromNbt(compound);
+        this.levelHandler.loadFromNbt(compound);
         CompoundNBT armor = compound.getCompound("armor");
         for (int i = 0; i < armor.size(); i++) {
             this.armorItems.set(i, ItemStack.read(armor.getCompound("" + i)));
@@ -404,6 +413,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     protected void writeFullUpdate(CompoundNBT nbt) {
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
+        this.levelHandler.saveToNbt(nbt);
         CompoundNBT armor = new CompoundNBT();
         for (int i = 0; i < this.armorItems.size(); i++) {
             armor.put("" + i, this.armorItems.get(i).serializeNBT());
@@ -417,6 +427,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     protected void loadUpdate(CompoundNBT nbt) {
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
+        this.levelHandler.loadFromNbt(nbt);
         CompoundNBT armor = nbt.getCompound("armor");
         for (int i = 0; i < armor.size(); i++) {
             this.armorItems.set(i, ItemStack.read(armor.getCompound("" + i)));
