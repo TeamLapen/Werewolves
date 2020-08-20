@@ -1,8 +1,10 @@
 package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.client.core.ModKeys;
+import de.teamlapen.vampirism.client.gui.SkillsScreen;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.WerewolvesMod;
+import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.network.InputEventPacket;
@@ -71,12 +73,21 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void onGuiInitPre(GuiScreenEvent.InitGuiEvent.Pre event) {
-        if(event.getGui() instanceof InventoryScreen) {
+        if (event.getGui() instanceof InventoryScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 if (WerewolfPlayer.get(Minecraft.getInstance().player).getSpecialAttributes().werewolfForm) {
                     event.setCanceled(true);
                     Minecraft.getInstance().displayGuiScreen(null);
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onGuiInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
+        if (event.getGui() instanceof SkillsScreen) {
+            if (Helper.isWerewolf(Minecraft.getInstance().player)) {
+                event.getGui().addButton(new ExpBar(118, 62, ((SkillsScreen) event.getGui())));
             }
         }
     }

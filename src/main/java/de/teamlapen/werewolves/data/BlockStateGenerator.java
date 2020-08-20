@@ -2,9 +2,9 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.world.ModBiomeFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 
@@ -33,9 +33,14 @@ public class BlockStateGenerator extends BlockStateProvider {
         simpleBlock(ModBlocks.magic_sapling, cross("magic_sapling", modLoc("block/magic_sapling")));
         simpleBlock(ModBlocks.magic_leaves);
         logBlock(ModBlocks.magic_log);
+        simpleBlock(ModBlocks.stone_altar, getExistingFile(modIdR("block/stone_altar")));
     }
 
     private String modId(String path) {
         return REFERENCE.MODID + ":" + path;
+    }
+
+    private ResourceLocation modIdR(String path) {
+        return new ResourceLocation(REFERENCE.MODID, path);
     }
 }
