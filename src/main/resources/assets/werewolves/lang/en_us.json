@@ -16,6 +16,7 @@
   "block.werewolves.jacaranda_sapling": "Jacaranda Sapling",
   "block.werewolves.magic_sapling": "Magic Sapling",
   "block.werewolves.magic_planks": "Magic Planks",
+  "block.werewolves.stone_altar": "Stone Altar",
   "__comment": "items",
   "item.werewolves.silver_ingot": "Silver Ingot",
   "item.werewolves.silver_hoe": "Silver Hoe",
@@ -43,5 +44,8 @@
   "effect.werewolves.silver": "Silver",
   "effect.werewolves.bleeding": "Bleeding",
   "__comment": "texts",
-  "text.werewolves.skill_screen.level_progression": "Level Progress: %s%%"
+  "text.werewolves.skill_screen.level_progression": "Level Progress: %s%%",
+  "text.werewolves.stone_altar.maxlvl": "You are already max level",
+  "text.werewolves.stone_altar.no_xp": "You need more experience",
+  "text.werewolves.stone_altar.wrong_level": "You can not progress at this altar"
 }

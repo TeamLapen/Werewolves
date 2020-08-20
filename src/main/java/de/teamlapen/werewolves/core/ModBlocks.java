@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.blocks.TotemTopBlock;
 import de.teamlapen.werewolves.blocks.ModSaplingBlock;
+import de.teamlapen.werewolves.blocks.StoneAltarBlock;
 import de.teamlapen.werewolves.blocks.WolfsbaneBlock;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
@@ -34,6 +35,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
     public static final LeavesBlock magic_leaves = getNull();
     public static final LogBlock magic_log = getNull();
     public static final Block magic_planks = getNull();
+    public static final StoneAltarBlock stone_altar = getNull();
 
 
     static void registerItemBlocks(IForgeRegistry<Item> registry) {
@@ -47,6 +49,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
         registry.register(itemBlock(magic_leaves));
         registry.register(itemBlock(magic_log));
         registry.register(itemBlock(magic_planks));
+        registry.register(itemBlock(stone_altar));
     }
 
 
@@ -64,6 +67,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
         registry.register(new ModSaplingBlock(new MagicTree()).setRegistryName(REFERENCE.MODID, "magic_sapling"));
         registry.register(new LogBlock(MaterialColor.BLUE, Block.Properties.create(Material.WOOD, MaterialColor.BLUE).hardnessAndResistance(2.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "magic_log"));
         registry.register(new Block(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "magic_planks"));
+        registry.register(new StoneAltarBlock());
     }
 
 
