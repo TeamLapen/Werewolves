@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.entities.PermanentWerewolfEntity;
-import de.teamlapen.werewolves.entities.TransformedWerewolfEntity;
-import de.teamlapen.werewolves.entities.WerewolfEntity;
+import de.teamlapen.werewolves.entities.werewolf.PermanentWerewolfEntity;
+import de.teamlapen.werewolves.entities.werewolf.TransformedWerewolfEntity;
+import de.teamlapen.werewolves.entities.werewolf.WerewolfEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.Entity;

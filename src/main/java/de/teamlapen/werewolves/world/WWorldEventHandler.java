@@ -4,7 +4,7 @@ import de.teamlapen.vampirism.api.entity.CaptureEntityEntry;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
 import de.teamlapen.werewolves.entities.ExtendedWerewolf;
-import de.teamlapen.werewolves.entities.TransformedWerewolfEntity;
+import de.teamlapen.werewolves.entities.werewolf.TransformedWerewolfEntity;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;

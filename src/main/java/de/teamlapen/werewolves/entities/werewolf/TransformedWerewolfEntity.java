@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.entities;
+package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.difficulty.Difficulty;
@@ -17,6 +17,7 @@ import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
+import de.teamlapen.werewolves.entities.IWerewolfMob;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;

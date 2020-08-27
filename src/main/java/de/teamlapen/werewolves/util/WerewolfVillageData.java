@@ -7,7 +7,7 @@ import de.teamlapen.vampirism.api.entity.factions.IVillageFactionData;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModVillage;
-import de.teamlapen.werewolves.entities.TransformedWerewolfEntity;
+import de.teamlapen.werewolves.entities.werewolf.TransformedWerewolfEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;

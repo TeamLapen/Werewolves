@@ -1,13 +1,14 @@
-package de.teamlapen.werewolves.entities;
+package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
+import de.teamlapen.werewolves.entities.WerewolfFormUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.World;
 
 public abstract class PermanentWerewolfEntity extends WerewolfEntity {
 
-    private WerewolfFormUtil.Form werewolfForm;
+    private final WerewolfFormUtil.Form werewolfForm;
 
     public PermanentWerewolfEntity(EntityType<? extends WerewolfEntity> type, World world, WerewolfFormUtil.Form form) {
         super(type, world, EntityClassType.getRandomClass(world.rand), EntityActionTier.Low);
