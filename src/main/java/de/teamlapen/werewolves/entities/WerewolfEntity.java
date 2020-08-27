@@ -24,6 +24,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -206,4 +207,28 @@ public abstract class WerewolfEntity extends VampirismEntity implements IWerewol
     }
 
     public abstract WerewolfFormUtil.Form getForm();
+
+    @Override
+    public void readAdditional(CompoundNBT nbt) {
+        super.readAdditional(nbt);
+        if (nbt.contains("level")) {
+            this.setLevel(nbt.getInt("level"));
+        }
+        if (nbt.contains("attack")) {
+            this.attack = nbt.getBoolean("attack");
+        }
+        if (this.entityActionHandler != null) {
+            this.entityActionHandler.read(nbt);
+        }
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT nbt) {
+        super.writeAdditional(nbt);
+        nbt.putBoolean("attack", this.attack);
+        nbt.putInt("level", this.getLevel());
+        if (this.entityActionHandler != null) {
+            this.entityActionHandler.write(nbt);
+        }
+    }
 }
