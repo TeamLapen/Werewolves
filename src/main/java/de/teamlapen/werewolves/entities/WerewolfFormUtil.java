@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.player.werewolf;
+package de.teamlapen.werewolves.entities;
 
 
 import net.minecraft.util.IStringSerializable;

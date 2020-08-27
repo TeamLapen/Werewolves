@@ -86,7 +86,7 @@ public class ExtendedWerewolf<T extends AbstractVillagerEntity> implements ISync
 
     public void makeWerewolf() {
         if (canBecomeWerewolf()) {
-            WerewolfEntity werewolf = WerewolfEntity.createFromVillager(this.villager);
+            TransformedWerewolfEntity werewolf = TransformedWerewolfEntity.createFromVillager(this.villager);
             this.villager.remove(true);
             this.villager.world.addEntity(werewolf);
         }

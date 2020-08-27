@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.player.werewolf;
 
+import de.teamlapen.werewolves.entities.WerewolfFormUtil;
+
 public class WerewolfPlayerSpecialAttributes {
 
     public boolean night_vision;

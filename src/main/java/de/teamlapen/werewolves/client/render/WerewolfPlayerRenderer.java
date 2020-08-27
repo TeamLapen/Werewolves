@@ -3,9 +3,9 @@ package de.teamlapen.werewolves.client.render;
 import com.google.common.collect.Maps;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
-import de.teamlapen.werewolves.client.model.WerewolfEars;
+import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.player.werewolf.WerewolfFormUtil;
+import de.teamlapen.werewolves.entities.WerewolfFormUtil;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -37,7 +37,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         //noinspection ConstantConditions
         super(rendererManager, null, 0f);
         this.models.put(WerewolfFormUtil.Form.NONE, Triple.of(null, 0f, null));
-        this.models.put(WerewolfFormUtil.Form.HUMAN, Triple.of(new WerewolfEars<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws.png")));
+        this.models.put(WerewolfFormUtil.Form.HUMAN, Triple.of(new WerewolfEarsModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws.png")));
         this.models.put(WerewolfFormUtil.Form.BEAST, Triple.of(new WerewolfBeastModel<>(), 1.3f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_1.png")));
         this.models.put(WerewolfFormUtil.Form.SURVIVALIST, Triple.of(new WerewolfSurvivalistModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_1.png")));
     }

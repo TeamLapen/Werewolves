@@ -2,9 +2,9 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.entities.WerewolfFormUtil;
 import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.player.skill.ActionSkill;
-import de.teamlapen.werewolves.player.werewolf.WerewolfFormUtil;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.SharedMonsterAttributes;

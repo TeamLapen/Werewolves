@@ -35,7 +35,7 @@ public class WerewolfHeavenBiome extends Biome implements IFactionBiome {
         DefaultBiomeFeatures.addDefaultFlowers(this);
         DefaultBiomeFeatures.addBerryBushes(this);
 
-        addSpawn(EntityClassification.MONSTER, new SpawnListEntry(ModEntities.werewolf,10,1,2));
+        addSpawn(EntityClassification.MONSTER, new SpawnListEntry(ModEntities.transformed_werewolf, 10, 1, 2));
     }
 
     @OnlyIn(Dist.CLIENT)

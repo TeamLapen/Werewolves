@@ -6,10 +6,10 @@ import net.minecraft.entity.LivingEntity;
 import javax.annotation.Nonnull;
 
 /**
- * WerewolfEars - RebelT
+ * WerewolfEarsModel - RebelT
  * Created using Tabula 7.1.0
  */
-public class WerewolfEars<T extends LivingEntity> extends WerewolfBaseModel<T> {
+public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
     public RendererModel clawsLeft;
     public RendererModel clawsRight;
     public RendererModel earRight;
@@ -18,7 +18,7 @@ public class WerewolfEars<T extends LivingEntity> extends WerewolfBaseModel<T> {
     private boolean visible;
     private boolean sneak;
 
-    public WerewolfEars() {
+    public WerewolfEarsModel() {
         this.textureWidth = 64;
         this.textureHeight = 32;
         this.earRight = new RendererModel(this, 16, 0);
