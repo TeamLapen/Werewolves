@@ -1,9 +1,7 @@
 package de.teamlapen.werewolves.client.core;
 
-import de.teamlapen.werewolves.client.render.TransformedWerewolfRenderer;
-import de.teamlapen.werewolves.client.render.WerewolfBeastRenderer;
-import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
-import de.teamlapen.werewolves.client.render.WerewolfSurvivalistRenderer;
+import de.teamlapen.werewolves.client.render.*;
+import de.teamlapen.werewolves.entities.werewolf.HumanWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.PermanentWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.TransformedWerewolfEntity;
 import net.minecraft.client.Minecraft;
@@ -21,5 +19,6 @@ public class WEntityRenderer {
         RenderingRegistry.registerEntityRenderingHandler(TransformedWerewolfEntity.class, TransformedWerewolfRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(PermanentWerewolfEntity.Beast.class, WerewolfBeastRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(PermanentWerewolfEntity.Survivalist.class, WerewolfSurvivalistRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(HumanWerewolfEntity.class, HumanWerewolfRenderer::new);
     }
 }

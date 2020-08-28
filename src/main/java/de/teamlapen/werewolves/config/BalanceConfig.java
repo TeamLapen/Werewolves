@@ -50,12 +50,24 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue werewolf_attack_damage_pl;
         public final ForgeConfigSpec.DoubleValue werewolf_speed;
 
+        public final ForgeConfigSpec.DoubleValue human_werewolf_max_health;
+        public final ForgeConfigSpec.DoubleValue human_werewolf_attack_damage;
+        public final ForgeConfigSpec.DoubleValue human_werewolf_speed;
+
         public MobProps(ForgeConfigSpec.Builder builder) {
-            werewolf_attack_damage = builder.defineInRange("werewolfAttackDamage", 3, 0, Double.MAX_VALUE);
-            werewolf_attack_damage_pl = builder.defineInRange("werewolfAttackDamagePl", 1, 0, Double.MAX_VALUE);
-            werewolf_max_health = builder.defineInRange("werewolfMaxHealth", 30.0, 10, Double.MAX_VALUE);
-            werewolf_max_health_pl = builder.defineInRange("werewolfMaxHealthPl", 3, 0, Double.MAX_VALUE);
-            werewolf_speed = builder.defineInRange("werewolfSpeed", 0.3, 0.1, 2);
+            builder.push("werewolf");
+            werewolf_attack_damage = builder.defineInRange("werewolf_attack_damage", 3, 0, Double.MAX_VALUE);
+            werewolf_attack_damage_pl = builder.defineInRange("werewolf_attack_damage_pl", 1, 0, Double.MAX_VALUE);
+            werewolf_max_health = builder.defineInRange("werewolf_max_health", 30.0, 10, Double.MAX_VALUE);
+            werewolf_max_health_pl = builder.defineInRange("werewolf_max_health_pl", 3, 0, Double.MAX_VALUE);
+            werewolf_speed = builder.defineInRange("werewolf_speed", 0.3, 0.1, 2);
+            builder.pop();
+
+            builder.push("human werewolf");
+            human_werewolf_attack_damage = builder.defineInRange("human_werewolf_attack_damage", 3, 0, Double.MAX_VALUE);
+            human_werewolf_max_health = builder.defineInRange("human_werewolf_max_health", 30.0, 10, Double.MAX_VALUE);
+            human_werewolf_speed = builder.defineInRange("human_werewolf_speed", 0.3, 0.1, 2);
+            builder.pop();
         }
     }
 
