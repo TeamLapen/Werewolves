@@ -21,9 +21,13 @@ public class WerewolfRenderer<T extends WerewolfEntity> extends MobRenderer<T, W
         this.textures = textures;
     }
 
+    public ResourceLocation getWerewolfTexture(int entityId) {
+        return this.textures[entityId % textures.length];
+    }
+
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull T entity) {
-        return textures[entity.getEntityId() % textures.length];
+        return this.getWerewolfTexture(entity.getEntityTextureType());
     }
 }

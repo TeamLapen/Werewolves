@@ -42,7 +42,8 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public abstract class WerewolfEntity extends VampirismEntity implements IWerewolfMob, IVillageCaptureEntity, IEntityActionUser {
-    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(VampirismEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(WerewolfEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WerewolfEntity.class, DataSerializers.VARINT);
     private static final int MAX_LEVEL = 2;
 
     private final ActionHandlerEntity<?> entityActionHandler;
@@ -86,6 +87,7 @@ public abstract class WerewolfEntity extends VampirismEntity implements IWerewol
     protected void registerData() {
         super.registerData();
         this.getDataManager().register(LEVEL, -1);
+        this.getDataManager().register(TYPE, -1);
     }
 
     @Override
@@ -164,6 +166,7 @@ public abstract class WerewolfEntity extends VampirismEntity implements IWerewol
         return getDataManager().get(LEVEL);
     }
 
+
     @Override
     public void setLevel(int level) {
         if (level >= 0) {
@@ -228,6 +231,10 @@ public abstract class WerewolfEntity extends VampirismEntity implements IWerewol
         if (nbt.contains("attack")) {
             this.attack = nbt.getBoolean("attack");
         }
+        if (nbt.contains("type")) {
+            int t = nbt.getInt("type");
+            this.getDataManager().set(TYPE, t < 126 && t >= 0 ? t : -1);
+        }
         if (this.entityActionHandler != null) {
             this.entityActionHandler.read(nbt);
         }
@@ -238,8 +245,22 @@ public abstract class WerewolfEntity extends VampirismEntity implements IWerewol
         super.writeAdditional(nbt);
         nbt.putBoolean("attack", this.attack);
         nbt.putInt("level", this.getLevel());
+        nbt.putInt("type", this.getEntityTextureType());
         if (this.entityActionHandler != null) {
             this.entityActionHandler.write(nbt);
         }
+    }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+        if (this.getDataManager().get(TYPE) == -1) {
+            this.getDataManager().set(TYPE, this.getRNG().nextInt(126));
+        }
+    }
+
+    public int getEntityTextureType() {
+        int i = this.getDataManager().get(TYPE);
+        return Math.max(i, 0);
     }
 }
