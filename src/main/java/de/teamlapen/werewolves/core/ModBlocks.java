@@ -59,7 +59,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
         registry.register(wolfsbane);
         registry.register(new Block(Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(REFERENCE.MODID, "silver_block"));
         registry.register(new FlowerPotBlock(wolfsbane, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0f)).setRegistryName(REFERENCE.MODID, "potted_wolfsbane"));
-        registry.register(new TotemTopBlock(REFERENCE.WEREWOLF_PLAYER_KEY).setRegistryName(REFERENCE.MODID, "totem_top_werewolves_werewolf"));
+        registry.register(new TotemTopBlock(false, REFERENCE.WEREWOLF_PLAYER_KEY).setRegistryName(REFERENCE.MODID, "totem_top_werewolves_werewolf"));
         registry.register(new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(REFERENCE.MODID, "jacaranda_leaves"));
         registry.register(new ModSaplingBlock(new JacarandaTree()).setRegistryName(REFERENCE.MODID, "jacaranda_sapling"));
         registry.register(new LogBlock(MaterialColor.BROWN, Block.Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(2.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "jacaranda_log"));
