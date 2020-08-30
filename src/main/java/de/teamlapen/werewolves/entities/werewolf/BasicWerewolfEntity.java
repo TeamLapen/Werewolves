@@ -26,6 +26,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity {
 
     @Override
     public WerewolfTransformable transformBack() {
+        if (this.transformed == null) return this;
         ((Entity) this.transformed).copyLocationAndAnglesFrom(this);
         ((Entity) this.transformed).revive();
         this.world.addEntity((Entity) this.transformed);
@@ -58,21 +59,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity {
         public Beast(EntityType<? extends WerewolfBaseEntity> type, World world) {
             super(type, world, WerewolfFormUtil.Form.BEAST);
         }
-
-        @Override
-        public boolean canTransform() {
-            return false;
-        }
     }
 
     public static class Survivalist extends BasicWerewolfEntity {
         public Survivalist(EntityType<? extends WerewolfBaseEntity> type, World world) {
             super(type, world, WerewolfFormUtil.Form.SURVIVALIST);
-        }
-
-        @Override
-        public boolean canTransform() {
-            return false;
         }
     }
 }

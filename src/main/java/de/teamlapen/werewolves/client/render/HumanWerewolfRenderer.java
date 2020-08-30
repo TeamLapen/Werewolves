@@ -4,19 +4,19 @@ import de.teamlapen.werewolves.entities.werewolf.HumanWerewolfEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class HumanWerewolfRenderer extends LivingRenderer<HumanWerewolfEntity, PlayerModel<HumanWerewolfEntity>> {
+public class HumanWerewolfRenderer extends MobRenderer<HumanWerewolfEntity, PlayerModel<HumanWerewolfEntity>> {
 
     private final ResourceLocation[] textures;
 
     public HumanWerewolfRenderer(EntityRendererManager rendererManager) {
-        super(rendererManager, new PlayerModel<>(0.95f, false), 0.5f);
+        super(rendererManager, new PlayerModel<>(0.0f, false), 0.5f);
         this.textures = Minecraft.getInstance().getResourceManager().getAllResourceLocations("textures/entity/human", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).toArray(ResourceLocation[]::new);
     }
 

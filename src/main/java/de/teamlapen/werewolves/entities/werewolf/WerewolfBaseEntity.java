@@ -268,6 +268,4 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
         int i = this.getDataManager().get(TYPE);
         return Math.max(i, 0);
     }
-
-    public abstract WerewolfTransformable transformBack();
 }

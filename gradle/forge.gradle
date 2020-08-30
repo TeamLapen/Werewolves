@@ -28,11 +28,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
     compileOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}:api") //API for compile (not POM)
     runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}") //Full for runtime (not POM)
-    compileOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}") //for compile (not POM)
-    runtimeOnly fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}") //for runtime (not POM)
-
-    compileOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}") //for compile (not POM)
-    runtimeOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}") //for runtime (not POM)
+    implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}")
+    implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
 }
 
 minecraft {
