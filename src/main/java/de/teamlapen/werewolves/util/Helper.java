@@ -1,21 +1,14 @@
 package de.teamlapen.werewolves.util;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.werewolves.entities.ExtendedWerewolf;
-import de.teamlapen.werewolves.entities.IExtendedWerewolf;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
 public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static boolean isWerewolf(Entity entity) {
-        boolean faction = WReference.WEREWOLF_FACTION.equals(VampirismAPI.factionRegistry().getFaction(entity));
-        if (entity instanceof AbstractVillagerEntity) {
-            return faction || ExtendedWerewolf.getSafe((AbstractVillagerEntity) entity).map(IExtendedWerewolf::isWerewolf).orElse(false);
-        }
-        return faction;
+        return WReference.WEREWOLF_FACTION.equals(VampirismAPI.factionRegistry().getFaction(entity));
     }
 
     public static boolean isWerewolf(PlayerEntity entity) {

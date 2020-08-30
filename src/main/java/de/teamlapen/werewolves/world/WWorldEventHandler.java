@@ -3,12 +3,9 @@ package de.teamlapen.werewolves.world;
 import de.teamlapen.vampirism.api.entity.CaptureEntityEntry;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
-import de.teamlapen.werewolves.entities.ExtendedWerewolf;
-import de.teamlapen.werewolves.entities.werewolf.TransformedWerewolfEntity;
+import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -21,31 +18,17 @@ public class WWorldEventHandler {
     @SubscribeEvent
     public void onVillageCaptureFinish(VampirismVillageEvent.VillagerCaptureFinish event) {
         if(WReference.WEREWOLF_FACTION.equals(event.getControllingFaction())) {
-            List<TransformedWerewolfEntity> werewolves = event.getWorld().getEntitiesWithinAABB(TransformedWerewolfEntity.class, event.getVillageArea());
-            for (TransformedWerewolfEntity werewolf : werewolves) {
-                if (werewolf.isConverted()) {
-                    AbstractVillagerEntity villager = werewolf.transformBack();
-                    ExtendedWerewolf.getSafe(villager).ifPresent(villager1 -> villager1.setWerewolfFaction(false));
-                    event.getVillager().add((VillagerEntity) villager);
+            List<MobEntity> werewolves = event.getWorld().getEntitiesWithinAABB(MobEntity.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
+            werewolves.forEach(e -> {
+                if (((WerewolfTransformable) e).canTransform()) {
+                    ((WerewolfTransformable) e).transformBack();
                 } else if (event.isForced()) {
-                    spawnEntity(event.getWorld(), getCaptureEntity(event.getCapturingFaction(), event.getWorld()), werewolf, true);
+                    spawnEntity(event.getWorld(), getCaptureEntity(event.getCapturingFaction(), event.getWorld()), e, true);
                 }
-            }
+            });
         }
     }
 
-    @SubscribeEvent
-    public void onVillageCaptureFinishPost(VampirismVillageEvent.VillagerCaptureFinish.Post event) {
-        if(WReference.WEREWOLF_FACTION.equals(event.getCapturingFaction())) {
-            for(VillagerEntity entity : event.getVillager()) {
-                ExtendedWerewolf.getSafe(entity).ifPresent(villager -> villager.setWerewolfFaction(true));
-            }
-        }else if(WReference.WEREWOLF_FACTION.equals(event.getControllingFaction())) {
-            for(VillagerEntity entity : event.getVillager()) {
-                ExtendedWerewolf.getSafe(entity).ifPresent(villager -> villager.setWerewolfFaction(false));
-            }
-        }
-    }
     @SubscribeEvent
     public void onVillageSpawnNewVillager(VampirismVillageEvent.SpawnNewVillager event) {
 
@@ -59,15 +42,15 @@ public class WWorldEventHandler {
 
     }
 
-    private boolean spawnEntity(World world, MobEntity newEntity, MobEntity oldEntity, boolean replaceOld) {
+    private void spawnEntity(World world, MobEntity newEntity, MobEntity oldEntity, boolean replaceOld) {
         newEntity.copyDataFromOld(oldEntity);
         newEntity.setUniqueId(MathHelper.getRandomUUID());
         if (replaceOld) oldEntity.remove();
-        return world.addEntity(newEntity);
+        world.addEntity(newEntity);
     }
 
-    private MobEntity getCaptureEntity(IFaction faction, World world) {
+    private MobEntity getCaptureEntity(IFaction<?> faction, World world) {
         List<CaptureEntityEntry> entry = faction.getVillageData().getCaptureEntries();
-        return WeightedRandom.getRandomItem(world.getRandom(),entry).getEntity().create(world);
+        return WeightedRandom.getRandomItem(world.getRandom(), entry).getEntity().create(world);
     }
 }

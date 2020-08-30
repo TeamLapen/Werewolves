@@ -11,7 +11,6 @@ import de.teamlapen.werewolves.data.BlockStateGenerator;
 import de.teamlapen.werewolves.data.ItemModelGenerator;
 import de.teamlapen.werewolves.data.ModTagsProvider;
 import de.teamlapen.werewolves.data.RecipeGenerator;
-import de.teamlapen.werewolves.entities.ExtendedWerewolf;
 import de.teamlapen.werewolves.entities.ModEntityEventHandler;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
@@ -101,7 +100,6 @@ public class WerewolvesMod {
 
     private void setup(final FMLCommonSetupEvent event) {
         setupAPI();
-        ExtendedWerewolf.registerCapability();
         WerewolfPlayer.registerCapability();
 
         dispatcher.registerPackets();
