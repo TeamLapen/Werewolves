@@ -41,28 +41,33 @@ import net.minecraft.world.gen.feature.structure.Structures;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class WerewolfEntity extends VampirismEntity implements IWerewolfMob, IVillageCaptureEntity, IEntityActionUser {
-    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(WerewolfEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WerewolfEntity.class, DataSerializers.VARINT);
+public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob, IVillageCaptureEntity, IEntityActionUser, WerewolfTransformable {
+    protected static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WerewolfBaseEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(WerewolfBaseEntity.class, DataSerializers.VARINT);
     private static final int MAX_LEVEL = 2;
 
     private final ActionHandlerEntity<?> entityActionHandler;
-    private final EntityClassType entityClass;
-    private final EntityActionTier entityTier;
+    private EntityClassType entityClass;
+    private EntityActionTier entityTier;
 
     @Nullable
     private ICaptureAttributes villageAttributes;
     private boolean attack;
 
-    public WerewolfEntity(EntityType<? extends VampirismEntity> type, World world, EntityClassType entityClass, EntityActionTier entityTier) {
+    public WerewolfBaseEntity(EntityType<? extends VampirismEntity> type, World world, EntityClassType entityClass, EntityActionTier entityTier) {
         super(type, world);
         this.entityClass = entityClass;
         this.entityTier = entityTier;
         this.entityActionHandler = new ActionHandlerEntity<>(this);
     }
 
-    public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfEntity> entityType, IWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
+    public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, IWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
         return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random);
+    }
+
+    protected void setup(EntityClassType classType, EntityActionTier actionTier) {
+        this.entityClass = classType;
+        this.entityTier = actionTier;
     }
 
     @Override
@@ -263,4 +268,6 @@ public abstract class WerewolfEntity extends VampirismEntity implements IWerewol
         int i = this.getDataManager().get(TYPE);
         return Math.max(i, 0);
     }
+
+    public abstract WerewolfTransformable transformBack();
 }

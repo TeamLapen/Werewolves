@@ -1,8 +1,12 @@
 package de.teamlapen.werewolves.entities.werewolf;
 
+import de.teamlapen.vampirism.api.entity.EntityClassType;
+import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModEntities;
+import de.teamlapen.werewolves.entities.WerewolfFormUtil;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,11 +21,17 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class HumanWerewolfEntity extends CreatureEntity {
+public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTransformable {
     private static final DataParameter<Integer> FORM = EntityDataManager.createKey(HumanWerewolfEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(HumanWerewolfEntity.class, DataSerializers.VARINT);
+
+    private final EntityClassType classType;
+    private final EntityActionTier actionTier;
 
     public HumanWerewolfEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
+        this.classType = EntityClassType.getRandomClass(this.getRNG());
+        this.actionTier = EntityActionTier.Medium;
     }
 
     public static boolean spawnPredicateHumanWerewolf(EntityType<? extends CreatureEntity> entityType, IWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
@@ -32,6 +42,7 @@ public class HumanWerewolfEntity extends CreatureEntity {
     protected void registerData() {
         super.registerData();
         this.getDataManager().register(FORM, -1);
+        this.getDataManager().register(TYPE, -1);
     }
 
     @Override
@@ -63,7 +74,11 @@ public class HumanWerewolfEntity extends CreatureEntity {
         super.readAdditional(compound);
         if (compound.contains("form")) {
             int t = compound.getInt("form");
-            this.getDataManager().set(FORM, t < 126 && t >= 0 ? t : -1);
+            this.getDataManager().set(FORM, t < 2 && t >= 0 ? t : -1);
+        }
+        if (compound.contains("type")) {
+            int t = compound.getInt("type");
+            this.getDataManager().set(TYPE, t < 126 && t >= 0 ? t : -1);
         }
     }
 
@@ -71,6 +86,7 @@ public class HumanWerewolfEntity extends CreatureEntity {
     public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putInt("form", this.getDataManager().get(FORM));
+        compound.putInt("type", this.getDataManager().get(TYPE));
     }
 
     @Override
@@ -78,6 +94,62 @@ public class HumanWerewolfEntity extends CreatureEntity {
         super.onAddedToWorld();
         if (this.getDataManager().get(FORM) == -1) {
             this.getDataManager().set(FORM, this.getRNG().nextInt(2));
+        }
+        if (this.getDataManager().get(TYPE) == -1) {
+            this.getDataManager().set(TYPE, this.getRNG().nextInt(126));
+        }
+    }
+
+    public int getEntityTextureType() {
+        int i = this.getDataManager().get(TYPE);
+        return Math.max(i, 0);
+    }
+
+    @Override
+    public WerewolfTransformable transformToWerewolf() {
+        BasicWerewolfEntity werewolf;
+        if (this.getDataManager().get(FORM) == 0) {
+            werewolf = ModEntities.werewolf_beast.create(this.world);
+        } else {
+            werewolf = ModEntities.werewolf_survivalist.create(this.world);
+        }
+        werewolf.setSourceEntity(this);
+        werewolf.copyLocationAndAnglesFrom(this);
+        this.world.addEntity(werewolf);
+        this.remove(true);
+        return werewolf;
+    }
+
+    @Override
+    public EntityActionTier getEntityTier() {
+        return this.actionTier;
+    }
+
+    @Override
+    public EntityClassType getEntityClass() {
+        return this.classType;
+    }
+
+    @Override
+    public WerewolfTransformable transformBack() {
+        return this;
+    }
+
+    @Override
+    public boolean canTransform() {
+        return true;
+    }
+
+    @Nonnull
+    @Override
+    public WerewolfFormUtil.Form getWerewolfForm() {
+        switch (this.getDataManager().get(FORM)) {
+            case 0:
+                return WerewolfFormUtil.Form.BEAST;
+            case 1:
+                return WerewolfFormUtil.Form.SURVIVALIST;
+            default:
+                throw new IllegalStateException("Werewolf form is not set");
         }
     }
 }
