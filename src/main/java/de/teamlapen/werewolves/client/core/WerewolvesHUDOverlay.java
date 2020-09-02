@@ -181,7 +181,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         PlayerEntity player = mc.player;
         if(Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-            if(werewolf.getActionHandler().isActionActive(WerewolfActions.werewolf_form)) {
+            if (werewolf.getSpecialAttributes().werewolfTime > 0) {
                 float perc = WerewolfFormAction.getDurationPercentage(werewolf);
                 renderExpBar(perc);
             }
@@ -199,9 +199,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         int k = (int) ((1 - perc) * 183.0F);
         int l = scaledHeight - 32 + 3;
         this.blit(x, l, 0, 64, 182, 5);
-        if (k > 0) {
-            this.blit(x + k, l, k, 69, 182 - k, 5);
-        }
+        this.blit(x + k, l, k, 69, 182 - k, 5);
         this.mc.getProfiler().endSection();
     }
 
