@@ -8,9 +8,21 @@ import javax.annotation.Nonnull;
 
 public interface WerewolfTransformable {
 
-    WerewolfTransformable transformToWerewolf();
+    default WerewolfTransformable transformBack() {
+        WerewolfTransformable transformable = transformBack2();
+        transformable.reset();
+        return transformable;
+    }
 
-    WerewolfTransformable transformBack();
+    default WerewolfTransformable transformToWerewolf() {
+        WerewolfTransformable transformable = transformToWerewolf2();
+        transformable.start();
+        return transformable;
+    }
+
+    WerewolfTransformable transformToWerewolf2();
+
+    WerewolfTransformable transformBack2();
 
     boolean canTransform();
 
@@ -22,4 +34,10 @@ public interface WerewolfTransformable {
     EntityActionTier getEntityTier();
 
     int getEntityTextureType();
+
+    default void reset() {
+    }
+
+    default void start() {
+    }
 }

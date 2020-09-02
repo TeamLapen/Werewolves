@@ -50,6 +50,8 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue werewolf_attack_damage_pl;
         public final ForgeConfigSpec.DoubleValue werewolf_speed;
 
+        public final ForgeConfigSpec.IntValue werewolf_transform_duration;
+
         public final ForgeConfigSpec.DoubleValue human_werewolf_max_health;
         public final ForgeConfigSpec.DoubleValue human_werewolf_attack_damage;
         public final ForgeConfigSpec.DoubleValue human_werewolf_speed;
@@ -61,6 +63,8 @@ public class BalanceConfig {
             werewolf_max_health = builder.defineInRange("werewolf_max_health", 30.0, 10, Double.MAX_VALUE);
             werewolf_max_health_pl = builder.defineInRange("werewolf_max_health_pl", 3, 0, Double.MAX_VALUE);
             werewolf_speed = builder.defineInRange("werewolf_speed", 0.3, 0.1, 2);
+
+            werewolf_transform_duration = builder.defineInRange("werewolf_transform_duration", 10, 10, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("human werewolf");

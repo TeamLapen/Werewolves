@@ -14,6 +14,9 @@ repositories {
         url = "../../MinecraftForge/repo/"
     }
     maven {
+        url = "https://www.cursemaven.com"
+    }
+    maven {
         url = "https://maxanier.de/maven2"
     }
     maven {
@@ -30,6 +33,7 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}") //Full for runtime (not POM)
     implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}")
     implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
+    implementation fg.deobf("curse.maven:hwyla:2777880")
 }
 
 minecraft {

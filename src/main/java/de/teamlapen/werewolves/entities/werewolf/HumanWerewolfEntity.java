@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
+import de.teamlapen.vampirism.entity.vampire.VampireBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.entities.WerewolfFormUtil;
@@ -14,12 +15,14 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
+import java.util.UUID;
 
 public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTransformable {
     private static final DataParameter<Integer> FORM = EntityDataManager.createKey(HumanWerewolfEntity.class, DataSerializers.VARINT);
@@ -27,6 +30,8 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
 
     private final EntityClassType classType;
     private final EntityActionTier actionTier;
+
+    protected int rage;
 
     public HumanWerewolfEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
@@ -49,11 +54,39 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new OpenDoorGoal(this, true));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 1.2));
 
         this.goalSelector.addGoal(9, new RandomWalkingGoal(this, 0.7));
         this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, PlayerEntity.class, 20F, 0.6F));
         this.goalSelector.addGoal(10, new LookAtGoal(this, HunterBaseEntity.class, 17F));
+        this.goalSelector.addGoal(10, new LookAtGoal(this, VampireBaseEntity.class, 17F));
         this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
+
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+    }
+
+    @Override
+    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
+        if (super.attackEntityFrom(source, amount)) {
+            this.rage += amount * 10;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void livingTick() {
+        super.livingTick();
+        if (this.rage > 50) {
+            WerewolfTransformable werewolf = this.transformToWerewolf();
+            ((MobEntity) werewolf).setRevengeTarget(this.getAttackTarget());
+        }
+    }
+
+    @Override
+    public void reset() {
+        this.rage = 0;
     }
 
     @Override
@@ -106,7 +139,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public WerewolfTransformable transformToWerewolf() {
+    public BasicWerewolfEntity transformToWerewolf2() {
         BasicWerewolfEntity werewolf;
         if (this.getDataManager().get(FORM) == 0) {
             werewolf = ModEntities.werewolf_beast.create(this.world);
@@ -115,8 +148,11 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
         }
         werewolf.setSourceEntity(this);
         werewolf.copyLocationAndAnglesFrom(this);
+        werewolf.copyDataFromOld(this);
+        werewolf.setUniqueId(UUID.randomUUID());
         this.world.addEntity(werewolf);
         this.remove(true);
+        werewolf.setHealth(this.getHealth() / this.getMaxHealth() * werewolf.getMaxHealth());
         return werewolf;
     }
 
@@ -131,7 +167,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public WerewolfTransformable transformBack() {
+    public WerewolfTransformable transformBack2() {
         return this;
     }
 

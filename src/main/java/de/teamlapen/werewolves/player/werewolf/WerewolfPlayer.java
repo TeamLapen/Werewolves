@@ -345,7 +345,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public boolean isDisguised() {
-        return false;
+        return !this.getSpecialAttributes().werewolfForm;
     }
 
     @Override
