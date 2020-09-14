@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.client.render;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
@@ -9,6 +10,7 @@ import de.teamlapen.werewolves.entities.WerewolfFormUtil;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
@@ -23,7 +25,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Triple;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
@@ -42,23 +43,24 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         this.models.put(WerewolfFormUtil.Form.SURVIVALIST, Triple.of(new WerewolfSurvivalistModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_1.png")));
     }
 
-    public boolean render(WerewolfPlayer entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public boolean render(WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         if (entity.getForm() != WerewolfFormUtil.Form.NONE) {
             this.switchModel(entity.getForm());
-            doRender((AbstractClientPlayerEntity) entity.getRepresentingPlayer(), x, y, z, entityYaw, partialTicks);
+            render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             return entity.getForm() != WerewolfFormUtil.Form.HUMAN;
         }
         return false;
     }
 
     @Override
-    public void doRender(AbstractClientPlayerEntity entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void render(AbstractClientPlayerEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+
         if (!entity.isUser() || this.renderManager.info.getRenderViewEntity() == entity) {
-            if (entity.shouldRenderSneaking()) {
-                y = y - 0.125D;
+            if (entity.isCrouching()) {
+//                y = y - 0.125D;
             }
             this.setModelVisible(entity);
-            super.doRender(entity, x, y, z, entityYaw, partialTicks);
+            super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         }
     }
 
@@ -74,7 +76,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
             playerModel.setVisible(false);
         } else {
             playerModel.setVisible(true);
-            playerModel.setSneak(clientPlayer.shouldRenderSneaking());
+            playerModel.setSneak(clientPlayer.isCrouching());
         }
     }
 
@@ -112,9 +114,9 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         return bipedmodel$armpose;
     }
 
-    @Nullable
+    @Nonnull
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
+    public ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
         return this.texture;
     }
 }

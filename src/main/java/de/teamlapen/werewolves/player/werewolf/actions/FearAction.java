@@ -23,7 +23,7 @@ public class FearAction extends DefaultWerewolfAction {
         for (MobEntity entity : entities) {
             entity.setAttackTarget(null);
             entity.getNavigator().clearPath();
-            Path path = entity.getNavigator().func_179680_a(entity.getPosition().add(Helper.multiplyBlockPos(entity.getPosition().subtract(player.getRepresentingEntity().getPosition()), 3)), 0);
+            Path path = entity.getNavigator().getPathToPos(entity.getPosition().add(Helper.multiplyBlockPos(entity.getPosition().subtract(player.getRepresentingEntity().getPosition()), 3)), 0);
             entity.getNavigator().setPath(path, 2);
         }
         return true;

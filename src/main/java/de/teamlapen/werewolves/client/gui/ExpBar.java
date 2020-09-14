@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.client.gui;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
@@ -40,13 +40,13 @@ public class ExpBar extends Widget {
         if (this.visible) {
             Color color = VampirismAPI.getFactionPlayerHandler(Minecraft.getInstance().player).map(IFactionPlayerHandler::getCurrentFaction).map(IFaction::getColor).orElse(Color.WHITE);
             Minecraft.getInstance().textureManager.bindTexture(ICON);
-            GlStateManager.color4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1.0F);
+            RenderSystem.color4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1.0F);
             this.blit(this.x, this.y, 10, 0, 19, 202);
 
             float perc = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc();
 
             int ySize = ((int) (182 * perc));
-            GlStateManager.color4f(170 / 255F, 16 / 255F, 208 / 255F, 1.0F);
+            RenderSystem.color4f(170 / 255F, 16 / 255F, 208 / 255F, 1.0F);
 
             blit(this.x + 7, this.y + 10, 0, 0, 5, 182);
             blit(this.x + 7, this.y + 10 + (182 - ySize), 5, (182 - ySize), 5, ySize);

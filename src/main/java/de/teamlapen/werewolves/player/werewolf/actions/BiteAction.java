@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.player.werewolf.actions;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class BiteAction extends DefaultWerewolfAction {
 
@@ -24,7 +25,7 @@ public class BiteAction extends DefaultWerewolfAction {
     }
 
     @Override
-    public boolean showInSelectAction() {
+    public boolean showInSelectAction(PlayerEntity player) {
         return false;
     }
 }

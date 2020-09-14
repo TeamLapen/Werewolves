@@ -3,12 +3,11 @@ package de.teamlapen.werewolves.blocks;
 import de.teamlapen.werewolves.core.ModTiles;
 import de.teamlapen.werewolves.tileentity.StoneAltarTileEntity;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -52,17 +51,6 @@ public class StoneAltarBlock extends WerewolfBlock { //TODO shape
         return VoxelShapes.or(a, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4);
     }
 
-    @Nonnull
-    @Override
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;
-    }
-
-    @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
-
     @Override
     public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return false;
@@ -79,10 +67,11 @@ public class StoneAltarBlock extends WerewolfBlock { //TODO shape
         return true;
     }
 
+    @Nonnull
     @SuppressWarnings("ConstantConditions")
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (worldIn.isRemote) return true;
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (worldIn.isRemote) return ActionResultType.PASS;
         return ((StoneAltarTileEntity) worldIn.getTileEntity(pos)).onInteraction(player);
     }
 

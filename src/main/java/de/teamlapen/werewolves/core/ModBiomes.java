@@ -51,7 +51,7 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
         List<Biome> oreBiomes = Lists.newArrayList(ForgeRegistries.BIOMES);
         oreBiomes.removeIf(biome -> biome.getCategory().equals(Biome.Category.THEEND) || biome.getCategory().equals(Biome.Category.NETHER) || biome instanceof IFactionBiome);
         for (Biome biome : oreBiomes) {
-            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.silver_ore.getDefaultState(), 5), Placement.COUNT_RANGE, new CountRangeConfig(2, 0, 0, 45)));
+            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.silver_block.getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(2, 0, 0, 45))));
         }
     }
 }

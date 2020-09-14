@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.text.TranslationTextComponent;
 
 public class StoneAltarTileEntity extends TileEntity implements ITickableTileEntity {
@@ -27,7 +28,7 @@ public class StoneAltarTileEntity extends TileEntity implements ITickableTileEnt
 
     }
 
-    public boolean onInteraction(PlayerEntity player) {
+    public ActionResultType onInteraction(PlayerEntity player) {
         if (Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             WerewolfLevelConf.LevelRequirement req = WerewolfLevelConf.getInstance().getRequirement(werewolf.getLevel() + 1);
@@ -59,7 +60,7 @@ public class StoneAltarTileEntity extends TileEntity implements ITickableTileEnt
                 player.sendStatusMessage(new TranslationTextComponent("text.werewolves.stone_altar.wrong_level"), true);
             }
         }
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     private boolean isAltarFilled(WerewolfLevelConf.StoneAltarRequirement requirement) {

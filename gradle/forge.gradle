@@ -33,7 +33,7 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}:${project.jei_version}") //Full for runtime (not POM)
     implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.minecraft_version}-${project.guideapi_version}")
     implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
-    implementation fg.deobf("curse.maven:hwyla:2777880")
+    implementation fg.deobf("curse.maven:hwyla:${hwyla_curse_version}")
 }
 
 minecraft {
@@ -139,15 +139,14 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         include 'META-INF/mods.toml'
 
-        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version
+        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'jei_version': jei_version, 'guideapi_version': guideapi_version
     }
 
-
+    outputs.upToDateWhen { false }
 
     from(sourceSets.main.resources.srcDirs) {
         exclude 'META-INF/mods.toml'
     }
-    outputs.upToDateWhen { false }
 
     exclude '**/Thumbs.db'
 }

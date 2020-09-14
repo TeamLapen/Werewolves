@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.client.core;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
 import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
@@ -101,16 +101,16 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onRenderWorldLast(RenderWorldLastEvent event) {
         if (this.screenPercentage > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
-            GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
-            GlStateManager.matrixMode(GL11.GL_PROJECTION);
-            GlStateManager.loadIdentity();
-            GlStateManager.ortho(0.0D, this.mc.mainWindow.getScaledWidth(), this.mc.mainWindow.getScaledHeight(), 0.0D, 1D, -1D);
-            GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-            GlStateManager.loadIdentity();
-            GlStateManager.pushMatrix();
+            RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+            RenderSystem.matrixMode(GL11.GL_PROJECTION);
+            RenderSystem.loadIdentity();
+            RenderSystem.ortho(0.0D, this.mc.getMainWindow().getScaledWidth(), this.mc.getMainWindow().getScaledHeight(), 0.0D, 1D, -1D);
+            RenderSystem.matrixMode(GL11.GL_MODELVIEW);
+            RenderSystem.loadIdentity();
+            RenderSystem.pushMatrix();
             GL11.glDisable(GL11.GL_DEPTH_TEST);
-            int w = (this.mc.mainWindow.getScaledWidth());
-            int h = (this.mc.mainWindow.getScaledHeight());
+            int w = (this.mc.getMainWindow().getScaledWidth());
+            int h = (this.mc.getMainWindow().getScaledHeight());
             if (this.screenPercentage > 0) {
                 // sun border
                 int bw = 0;
@@ -125,7 +125,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
                 this.fillGradient2(w - bw, 0, w, h, this.screenColor, 0x00);
             }
             GL11.glEnable(GL11.GL_DEPTH_TEST);
-            GlStateManager.popMatrix();
+            RenderSystem.popMatrix();
         }
     }
 
@@ -150,17 +150,17 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             }
         }
         GL11.glEnable(GL11.GL_BLEND);
-        GlStateManager.color4f(1f,1f,1f, 1f);
-        blit(left, top, this.blitOffset,silver ?30:15, 0, 15, 15,256,256);//other option is 18x18 - 307x307
+        RenderSystem.color4f(1f,1f,1f, 1f);
+        blit(left, top, this.getBlitOffset(),silver ?30:15, 0, 15, 15,256,256);//other option is 18x18 - 307x307
         GL11.glDisable(GL11.GL_BLEND);
     }
 
     private void renderFur() {
         if(this.mc.gameSettings.thirdPersonView == 0 && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)).orElse(false)){
             this.mc.getTextureManager().bindTexture(FUR);
-            GlStateManager.enableBlend();
-            blit(0, 0, this.blitOffset, 0, 0, this.mc.mainWindow.getWidth(), this.mc.mainWindow.getHeight(), this.mc.mainWindow.getScaledHeight(), this.mc.mainWindow.getScaledWidth());
-            GlStateManager.disableBlend();
+            RenderSystem.enableBlend();
+            blit(0, 0, this.getBlitOffset(), 0, 0, this.mc.getMainWindow().getWidth(), this.mc.getMainWindow().getHeight(), this.mc.getMainWindow().getScaledHeight(), this.mc.getMainWindow().getScaledWidth());
+            RenderSystem.disableBlend();
         }
     }
 
@@ -170,7 +170,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             if (p != null && p.getType() == RayTraceResult.Type.ENTITY) {
                 if (WerewolfPlayer.get(mc.player).canBite(((EntityRayTraceResult) p).getEntity())) {
                     Entity entity = ((EntityRayTraceResult) p).getEntity();
-                    renderFangs(this.mc.mainWindow.getScaledWidth(), this.mc.mainWindow.getScaledHeight(), entity);
+                    renderFangs(this.mc.getMainWindow().getScaledWidth(), this.mc.getMainWindow().getScaledHeight(), entity);
                     event.setCanceled(true);
                 }
             }
@@ -194,7 +194,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         int x = scaledWidth / 2 - 91;
         this.mc.getProfiler().startSection("werewolfActionDurationBar");
         this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
-        GlStateManager.color4f(1f, 0.1f, 0, 1);
+        RenderSystem.color4f(1f, 0.1f, 0, 1);
 
         int k = (int) ((1 - perc) * 183.0F);
         int l = scaledHeight - 32 + 3;
@@ -206,15 +206,15 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     private void renderFangHotBar(RenderGameOverlayEvent.Pre event) {
         if (Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getSpecialAttributes().werewolfForm).orElse(false) && WerewolfPlayer.get(this.mc.player).getSkillHandler().isSkillEnabled(WerewolfSkills.bite)) {
             this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
-            this.blit(this.mc.mainWindow.getScaledWidth() / 2 - 91 - 29, this.mc.mainWindow.getScaledHeight() - 23, 24, 22, 29, 24);
+            this.blit(this.mc.getMainWindow().getScaledWidth() / 2 - 91 - 29, this.mc.getMainWindow().getScaledHeight() - 23, 24, 22, 29, 24);
             this.mc.getTextureManager().bindTexture(ICONS);
-            blit(this.mc.mainWindow.getScaledWidth() / 2 - 91 - 29 + 4, this.mc.mainWindow.getScaledHeight() - 23 + 5, 15, 0, 15, 15);
+            blit(this.mc.getMainWindow().getScaledWidth() / 2 - 91 - 29 + 4, this.mc.getMainWindow().getScaledHeight() - 23 + 5, 15, 0, 15, 15);
             IActionHandler<IWerewolfPlayer> handler = WerewolfPlayer.get(this.mc.player).getActionHandler();
             if (handler.isActionOnCooldown(WerewolfActions.bite)) {
                 float percentageForAction = handler.getPercentageForAction(WerewolfActions.bite);
                 float h = (1.0F + percentageForAction) * 16.0F;
-                int x = this.mc.mainWindow.getScaledWidth() / 2 - 91 - 29 + 3;
-                int y = this.mc.mainWindow.getScaledHeight() - 23 + 4;
+                int x = this.mc.getMainWindow().getScaledWidth() / 2 - 91 - 29 + 3;
+                int y = this.mc.getMainWindow().getScaledHeight() - 23 + 4;
                 if (percentageForAction < 0.0F) {
                     this.fillGradient(x, (int) ((float) y + h), x + 16, y + 16, Color.BLACK.getRGB() - 1426063360, Color.BLACK.getRGB());
                 }

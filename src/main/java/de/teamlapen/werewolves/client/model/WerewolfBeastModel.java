@@ -1,12 +1,12 @@
 package de.teamlapen.werewolves.client.model;
 
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
 
 /**
  * Model made by Rebel
@@ -14,52 +14,52 @@ import javax.annotation.Nonnull;
  */
 @OnlyIn(Dist.CLIENT)
 public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
-    public RendererModel body;
-    public RendererModel hip;
-    public RendererModel neck;
-    public RendererModel armLeft;
-    public RendererModel armRight;
-    public RendererModel bodyFluff;
-    public RendererModel legLeft;
-    public RendererModel legRight;
-    public RendererModel tail;
-    public RendererModel legLeft2;
-    public RendererModel footLeft;
-    public RendererModel legRight2;
-    public RendererModel footRight;
-    public RendererModel tail2;
-    public RendererModel tail3;
-    public RendererModel joint;
-    public RendererModel neckFluff;
-    public RendererModel neckFluffLeft;
-    public RendererModel neckFluffRight;
-    public RendererModel neckFluffBottom;
-    public RendererModel head;
-    public RendererModel earLeft;
-    public RendererModel earRight;
-    public RendererModel snout;
-    public RendererModel jaw;
-    public RendererModel headFluff;
-    public RendererModel headSidburnLeft;
-    public RendererModel headSidburnRight;
-    public RendererModel earLeft2;
-    public RendererModel earRight2;
-    public RendererModel nose;
-    public RendererModel snoutTeeth;
-    public RendererModel jawTeeth;
-    public RendererModel jawFluff;
-    public RendererModel armLeft2;
-    public RendererModel fingerLeft;
-    public RendererModel fingerLeft2;
-    public RendererModel fingerLeft3;
-    public RendererModel fingerLeft4;
-    public RendererModel thumbLeft;
-    public RendererModel armRight2;
-    public RendererModel fingerRight;
-    public RendererModel fingerRight2;
-    public RendererModel fingerRight3;
-    public RendererModel fingerRight4;
-    public RendererModel thumbRight;
+    public ModelRenderer body;
+    public ModelRenderer hip;
+    public ModelRenderer neck;
+    public ModelRenderer armLeft;
+    public ModelRenderer armRight;
+    public ModelRenderer bodyFluff;
+    public ModelRenderer legLeft;
+    public ModelRenderer legRight;
+    public ModelRenderer tail;
+    public ModelRenderer legLeft2;
+    public ModelRenderer footLeft;
+    public ModelRenderer legRight2;
+    public ModelRenderer footRight;
+    public ModelRenderer tail2;
+    public ModelRenderer tail3;
+    public ModelRenderer joint;
+    public ModelRenderer neckFluff;
+    public ModelRenderer neckFluffLeft;
+    public ModelRenderer neckFluffRight;
+    public ModelRenderer neckFluffBottom;
+    public ModelRenderer head;
+    public ModelRenderer earLeft;
+    public ModelRenderer earRight;
+    public ModelRenderer snout;
+    public ModelRenderer jaw;
+    public ModelRenderer headFluff;
+    public ModelRenderer headSidburnLeft;
+    public ModelRenderer headSidburnRight;
+    public ModelRenderer earLeft2;
+    public ModelRenderer earRight2;
+    public ModelRenderer nose;
+    public ModelRenderer snoutTeeth;
+    public ModelRenderer jawTeeth;
+    public ModelRenderer jawFluff;
+    public ModelRenderer armLeft2;
+    public ModelRenderer fingerLeft;
+    public ModelRenderer fingerLeft2;
+    public ModelRenderer fingerLeft3;
+    public ModelRenderer fingerLeft4;
+    public ModelRenderer thumbLeft;
+    public ModelRenderer armRight2;
+    public ModelRenderer fingerRight;
+    public ModelRenderer fingerRight2;
+    public ModelRenderer fingerRight3;
+    public ModelRenderer fingerRight4;
+    public ModelRenderer thumbRight;
 
     public boolean isSneak;
     public float swimAnimation;
@@ -68,189 +68,189 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     public WerewolfBeastModel() {
         this.textureWidth = 128;
         this.textureHeight = 64;
-        this.armRight = new RendererModel(this, 36, 25);
+        this.armRight = new ModelRenderer(this, 36, 25);
         this.armRight.setRotationPoint(-4.5F, 3.0F, 0.0F);
         this.armRight.addBox(-4.0F, -2.0F, -2.0F, 4, 10, 4, 0.0F);
         this.setRotateAngle(armRight, -0.3490658503988659F, 0.0F, 0.08726646259971647F);
-        this.legRight = new RendererModel(this, 24, 39);
+        this.legRight = new ModelRenderer(this, 24, 39);
         this.legRight.setRotationPoint(-0.5F, 9.0F, 0.0F);
         this.legRight.addBox(-4.0F, -2.0F, -3.0F, 4, 8, 6, 0.0F);
         this.setRotateAngle(legRight, -0.3839724354387525F, 0.0F, 0.0F);
-        this.neck = new RendererModel(this, 0, 45);
+        this.neck = new ModelRenderer(this, 0, 45);
         this.neck.setRotationPoint(0.0F, 1.5F, 1.0F);
         this.neck.addBox(-3.0F, -6.0F, -3.0F, 6, 7, 6, 0.0F);
         this.setRotateAngle(neck, 0.6981317007977318F, 0.0F, 0.0F);
-        this.headSidburnLeft = new RendererModel(this, 32, 12);
+        this.headSidburnLeft = new ModelRenderer(this, 32, 12);
         this.headSidburnLeft.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.headSidburnLeft.addBox(1.0F, -1.0F, -5.0F, 3, 6, 0, 0.0F);
         this.setRotateAngle(headSidburnLeft, 0.0F, -0.5235987755982988F, 0.0F);
-        this.jawFluff = new RendererModel(this, 96, 8);
+        this.jawFluff = new ModelRenderer(this, 96, 8);
         this.jawFluff.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.jawFluff.addBox(-1.5F, 2.0F, -3.5F, 3, 2, 4, 0.0F);
-        this.neckFluff = new RendererModel(this, 64, 19);
+        this.neckFluff = new ModelRenderer(this, 64, 19);
         this.neckFluff.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.neckFluff.addBox(-3.5F, -5.0F, 2.5F, 7, 8, 2, 0.0F);
         this.setRotateAngle(neckFluff, 0.2617993877991494F, 0.0F, 0.0F);
-        this.fingerLeft = new RendererModel(this, 0, 13);
+        this.fingerLeft = new ModelRenderer(this, 0, 13);
         this.fingerLeft.setRotationPoint(1.2F, 9.0F, -1.5F);
         this.fingerLeft.addBox(-1.5F, 0.0F, -0.5F, 2, 3, 1, 0.0F);
         this.setRotateAngle(fingerLeft, -0.2617993877991494F, 0.0F, -0.17453292519943295F);
-        this.body = new RendererModel(this, 0, 13);
+        this.body = new ModelRenderer(this, 0, 13);
         this.body.setRotationPoint(0.0F, -4.0F, -2.5F);
         this.body.addBox(-4.5F, 0.0F, -4.0F, 9, 8, 8, 0.0F);
         this.setRotateAngle(body, 0.5235987755982988F, 0.0F, 0.0F);
-        this.legRight2 = new RendererModel(this, 44, 44);
+        this.legRight2 = new ModelRenderer(this, 44, 44);
         this.legRight2.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.legRight2.addBox(-3.5F, 2.0F, 3.0F, 3, 10, 4, 0.0F);
-        this.hip = new RendererModel(this, 0, 30);
+        this.hip = new ModelRenderer(this, 0, 30);
         this.hip.setRotationPoint(0.0F, 6.0F, 1.0F);
         this.hip.addBox(-3.5F, 0.0F, -3.0F, 7, 9, 6, 0.0F);
         this.setRotateAngle(hip, -0.5235987755982988F, 0.0F, 0.0F);
-        this.tail = new RendererModel(this, 62, 30);
+        this.tail = new ModelRenderer(this, 62, 30);
         this.tail.setRotationPoint(0.0F, 7.0F, 2.0F);
         this.tail.addBox(-1.5F, 0.0F, -1.5F, 3, 4, 3, 0.0F);
         this.setRotateAngle(tail, 0.7853981633974483F, 0.0F, 0.0F);
-        this.earLeft = new RendererModel(this, 26, 0);
+        this.earLeft = new ModelRenderer(this, 26, 0);
         this.earLeft.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.earLeft.addBox(3.5F, -2.5F, -2.5F, 1, 4, 3, 0.0F);
         this.setRotateAngle(earLeft, -0.4886921905584123F, 0.3490658503988659F, 0.0F);
-        this.footRight = new RendererModel(this, 24, 54);
+        this.footRight = new ModelRenderer(this, 24, 54);
         this.footRight.setRotationPoint(-2.0F, 12.0F, 5.0F);
         this.footRight.addBox(-2.0F, -1.5F, -4.0F, 4, 3, 6, 0.0F);
         this.setRotateAngle(footRight, 0.3839724354387525F, 0.0F, 0.0F);
-        this.fingerRight = new RendererModel(this, 0, 13);
+        this.fingerRight = new ModelRenderer(this, 0, 13);
         this.fingerRight.mirror = true;
         this.fingerRight.setRotationPoint(-1.2F, 9.0F, -1.5F);
         this.fingerRight.addBox(-0.5F, 0.0F, -0.5F, 2, 3, 1, 0.0F);
         this.setRotateAngle(fingerRight, -0.2617993877991494F, 0.0F, 0.17453292519943295F);
-        this.snoutTeeth = new RendererModel(this, 34, 6);
+        this.snoutTeeth = new ModelRenderer(this, 34, 6);
         this.snoutTeeth.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.snoutTeeth.addBox(-2.0F, 0.0F, -4.0F, 4, 2, 4, 0.0F);
-        this.armLeft2 = new RendererModel(this, 48, 15);
+        this.armLeft2 = new ModelRenderer(this, 48, 15);
         this.armLeft2.mirror = true;
         this.armLeft2.setRotationPoint(2.0F, 7.0F, 0.0F);
         this.armLeft2.addBox(-1.5F, 0.0F, -2.0F, 3, 10, 4, 0.0F);
         this.setRotateAngle(armLeft2, -0.3490658503988659F, 0.0F, 0.0F);
-        this.headSidburnRight = new RendererModel(this, 32, 12);
+        this.headSidburnRight = new ModelRenderer(this, 32, 12);
         this.headSidburnRight.mirror = true;
         this.headSidburnRight.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.headSidburnRight.addBox(-4.0F, -1.0F, -5.0F, 3, 6, 0, 0.0F);
         this.setRotateAngle(headSidburnRight, 0.0F, 0.5235987755982988F, 0.0F);
-        this.nose = new RendererModel(this, 64, 0);
+        this.nose = new ModelRenderer(this, 64, 0);
         this.nose.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.nose.addBox(-1.5F, -3.5F, -3.7F, 3, 2, 5, 0.0F);
         this.setRotateAngle(nose, 0.17453292519943295F, 0.0F, 0.0F);
-        this.fingerRight2 = new RendererModel(this, 0, 13);
+        this.fingerRight2 = new ModelRenderer(this, 0, 13);
         this.fingerRight2.mirror = true;
         this.fingerRight2.setRotationPoint(-1.2F, 9.0F, -0.5F);
         this.fingerRight2.addBox(-0.5F, 0.0F, -0.5F, 2, 3, 1, 0.0F);
         this.setRotateAngle(fingerRight2, -0.08726646259971647F, 0.0F, 0.17453292519943295F);
-        this.snout = new RendererModel(this, 34, 0);
+        this.snout = new ModelRenderer(this, 34, 0);
         this.snout.setRotationPoint(0.0F, 2.0F, -5.0F);
         this.snout.addBox(-2.0F, -2.0F, -4.0F, 4, 2, 4, 0.0F);
         this.setRotateAngle(snout, -0.08726646259971647F, 0.0F, 0.0F);
-        this.fingerLeft3 = new RendererModel(this, 0, 13);
+        this.fingerLeft3 = new ModelRenderer(this, 0, 13);
         this.fingerLeft3.setRotationPoint(1.2F, 9.0F, 0.5F);
         this.fingerLeft3.addBox(-1.5F, 0.0F, -0.5F, 2, 3, 1, 0.0F);
         this.setRotateAngle(fingerLeft3, 0.08726646259971647F, 0.0F, -0.17453292519943295F);
-        this.fingerLeft4 = new RendererModel(this, 0, 13);
+        this.fingerLeft4 = new ModelRenderer(this, 0, 13);
         this.fingerLeft4.setRotationPoint(1.2F, 9.0F, 1.5F);
         this.fingerLeft4.addBox(-1.5F, 0.0F, -0.5F, 2, 3, 1, 0.0F);
         this.setRotateAngle(fingerLeft4, 0.2617993877991494F, 0.0F, -0.17453292519943295F);
-        this.head = new RendererModel(this, 0, 0);
+        this.head = new ModelRenderer(this, 0, 0);
         this.head.setRotationPoint(0.0F, 0.0F, 1.0F);
         this.head.addBox(-3.5F, -3.5F, -5.0F, 7, 7, 6, 0.0F);
-        this.bodyFluff = new RendererModel(this, 82, 14);
+        this.bodyFluff = new ModelRenderer(this, 82, 14);
         this.bodyFluff.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.bodyFluff.addBox(-4.5F, 8.0F, -4.0F, 9, 3, 8, 0.0F);
-        this.fingerRight4 = new RendererModel(this, 0, 13);
+        this.fingerRight4 = new ModelRenderer(this, 0, 13);
         this.fingerRight4.mirror = true;
         this.fingerRight4.setRotationPoint(-1.2F, 9.0F, 1.5F);
         this.fingerRight4.addBox(-0.5F, 0.0F, -0.5F, 2, 3, 1, 0.0F);
         this.setRotateAngle(fingerRight4, 0.2617993877991494F, 0.0F, 0.17453292519943295F);
-        this.tail3 = new RendererModel(this, 62, 49);
+        this.tail3 = new ModelRenderer(this, 62, 49);
         this.tail3.setRotationPoint(0.0F, 7.8F, 0.0F);
         this.tail3.addBox(-1.5F, 0.0F, -1.5F, 3, 4, 3, 0.0F);
         this.setRotateAngle(tail3, 0.136659280431156F, 0.0F, 0.0F);
-        this.neckFluffRight = new RendererModel(this, 82, 25);
+        this.neckFluffRight = new ModelRenderer(this, 82, 25);
         this.neckFluffRight.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.neckFluffRight.addBox(-3.5F, -5.5F, 3.0F, 6, 8, 3, 0.0F);
         this.setRotateAngle(neckFluffRight, 0.3490658503988659F, -1.5707963267948966F, 0.0F);
-        this.armLeft = new RendererModel(this, 36, 25);
+        this.armLeft = new ModelRenderer(this, 36, 25);
         this.armLeft.mirror = true;
         this.armLeft.setRotationPoint(4.5F, 3.0F, 0.0F);
         this.armLeft.addBox(0.0F, -2.0F, -2.0F, 4, 10, 4, 0.0F);
         this.setRotateAngle(armLeft, -0.3490658503988659F, 0.0F, -0.08726646259971647F);
-        this.headFluff = new RendererModel(this, 96, 0);
+        this.headFluff = new ModelRenderer(this, 96, 0);
         this.headFluff.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.headFluff.addBox(-3.5F, 3.5F, -5.0F, 7, 2, 6, 0.0F);
-        this.thumbLeft = new RendererModel(this, 0, 17);
+        this.thumbLeft = new ModelRenderer(this, 0, 17);
         this.thumbLeft.setRotationPoint(-1.2F, 9.0F, -1.5F);
         this.thumbLeft.addBox(-0.5F, 0.0F, -0.5F, 2, 2, 1, 0.0F);
         this.setRotateAngle(thumbLeft, -0.2617993877991494F, 0.0F, 0.17453292519943295F);
-        this.legLeft = new RendererModel(this, 24, 39);
+        this.legLeft = new ModelRenderer(this, 24, 39);
         this.legLeft.setRotationPoint(0.5F, 9.0F, 0.0F);
         this.legLeft.addBox(0.0F, -2.0F, -3.0F, 4, 8, 6, 0.0F);
         this.setRotateAngle(legLeft, -0.3839724354387525F, 0.0F, 0.0F);
-        this.fingerLeft2 = new RendererModel(this, 0, 13);
+        this.fingerLeft2 = new ModelRenderer(this, 0, 13);
         this.fingerLeft2.setRotationPoint(1.2F, 9.0F, -0.5F);
         this.fingerLeft2.addBox(-1.5F, 0.0F, -0.5F, 2, 3, 1, 0.0F);
         this.setRotateAngle(fingerLeft2, -0.08726646259971647F, 0.0F, -0.17453292519943295F);
-        this.tail2 = new RendererModel(this, 62, 37);
+        this.tail2 = new ModelRenderer(this, 62, 37);
         this.tail2.setRotationPoint(0.0F, 3.0F, 0.0F);
         this.tail2.addBox(-2.0F, 0.0F, -2.0F, 4, 8, 4, 0.0F);
         this.setRotateAngle(tail2, -0.3490658503988659F, 0.0F, 0.0F);
-        this.thumbRight = new RendererModel(this, 0, 17);
+        this.thumbRight = new ModelRenderer(this, 0, 17);
         this.thumbRight.mirror = true;
         this.thumbRight.setRotationPoint(1.2F, 9.0F, -1.5F);
         this.thumbRight.addBox(-1.5F, 0.0F, -0.5F, 2, 2, 1, 0.0F);
         this.setRotateAngle(thumbRight, -0.2617993877991494F, 0.0F, -0.17453292519943295F);
-        this.earRight2 = new RendererModel(this, 26, 7);
+        this.earRight2 = new ModelRenderer(this, 26, 7);
         this.earRight2.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.earRight2.addBox(-4.0F, -5.5F, -2.0F, 1, 4, 2, 0.0F);
         this.setRotateAngle(earRight2, 0.0F, 0.0F, -0.17453292519943295F);
-        this.footLeft = new RendererModel(this, 24, 54);
+        this.footLeft = new ModelRenderer(this, 24, 54);
         this.footLeft.mirror = true;
         this.footLeft.setRotationPoint(2.0F, 12.0F, 5.0F);
         this.footLeft.addBox(-2.0F, -1.5F, -4.0F, 4, 3, 6, 0.0F);
         this.setRotateAngle(footLeft, 0.3839724354387525F, 0.0F, 0.0F);
-        this.joint = new RendererModel(this, 0, 0);
+        this.joint = new ModelRenderer(this, 0, 0);
         this.joint.setRotationPoint(0.0F, -6.5F, -1.0F);
         this.joint.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
         this.setRotateAngle(joint, -1.2217304763960306F, 0.0F, 0.0F);
-        this.armRight2 = new RendererModel(this, 48, 15);
+        this.armRight2 = new ModelRenderer(this, 48, 15);
         this.armRight2.setRotationPoint(-2.0F, 7.0F, 0.0F);
         this.armRight2.addBox(-1.5F, 0.0F, -2.0F, 3, 10, 4, 0.0F);
         this.setRotateAngle(armRight2, -0.3490658503988659F, 0.0F, 0.0F);
-        this.jawTeeth = new RendererModel(this, 50, 6);
+        this.jawTeeth = new ModelRenderer(this, 50, 6);
         this.jawTeeth.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.jawTeeth.addBox(-1.5F, -1.0F, -3.5F, 3, 1, 4, 0.0F);
-        this.neckFluffBottom = new RendererModel(this, 80, 0);
+        this.neckFluffBottom = new ModelRenderer(this, 80, 0);
         this.neckFluffBottom.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.neckFluffBottom.addBox(-3.0F, -0.6F, 4.5F, 6, 6, 2, 0.0F);
         this.setRotateAngle(neckFluffBottom, 1.0471975511965976F, 3.141592653589793F, 0.0F);
-        this.legLeft2 = new RendererModel(this, 44, 44);
+        this.legLeft2 = new ModelRenderer(this, 44, 44);
         this.legLeft2.mirror = true;
         this.legLeft2.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.legLeft2.addBox(0.5F, 2.0F, 3.0F, 3, 10, 4, 0.0F);
-        this.earLeft2 = new RendererModel(this, 26, 7);
+        this.earLeft2 = new ModelRenderer(this, 26, 7);
         this.earLeft2.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.earLeft2.addBox(3.0F, -5.5F, -2.0F, 1, 4, 2, 0.0F);
         this.setRotateAngle(earLeft2, 0.0F, 0.0F, 0.17453292519943295F);
-        this.fingerRight3 = new RendererModel(this, 0, 13);
+        this.fingerRight3 = new ModelRenderer(this, 0, 13);
         this.fingerRight3.mirror = true;
         this.fingerRight3.setRotationPoint(-1.2F, 9.0F, 0.5F);
         this.fingerRight3.addBox(-0.5F, 0.0F, -0.5F, 2, 3, 1, 0.0F);
         this.setRotateAngle(fingerRight3, 0.08726646259971647F, 0.0F, 0.17453292519943295F);
-        this.earRight = new RendererModel(this, 26, 0);
+        this.earRight = new ModelRenderer(this, 26, 0);
         this.earRight.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.earRight.addBox(-4.5F, -2.5F, -2.5F, 1, 4, 3, 0.0F);
         this.setRotateAngle(earRight, -0.4886921905584123F, -0.3490658503988659F, 0.0F);
-        this.jaw = new RendererModel(this, 50, 0);
+        this.jaw = new ModelRenderer(this, 50, 0);
         this.jaw.setRotationPoint(0.0F, 1.5F, -5.0F);
         this.jaw.addBox(-1.5F, 0.0F, -3.5F, 3, 2, 4, 0.0F);
         this.setRotateAngle(jaw, 1.2217304763960306F, 0.0F, 0.0F);
-        this.neckFluffLeft = new RendererModel(this, 82, 25);
+        this.neckFluffLeft = new ModelRenderer(this, 82, 25);
         this.neckFluffLeft.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.neckFluffLeft.addBox(-2.5F, -5.5F, 3.0F, 6, 8, 3, 0.0F);
         this.setRotateAngle(neckFluffLeft, 0.3490658503988659F, 1.5707963267948966F, 0.0F);
@@ -302,13 +302,13 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     }
 
     @Override
-    public void render(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        this.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-        this.body.render(scale);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     @SuppressWarnings("DuplicatedCode")
-    public void setRotationAngles(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    @Override
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         boolean flag1 = entityIn.isActualySwimming();
         this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
         if(this.swimAnimation > 0.0f ) {
@@ -366,7 +366,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         this.tail.rotateAngleY += MathHelper.sin(limbSwing * 0.6662F * 0.7f) * 0.1F * limbSwingAmount;
 
         if (this.swingProgress > 0.0F) {
-            RendererModel renderermodel = this.armRight;
+            ModelRenderer ModelRenderer = this.armRight;
             float f1 = this.swingProgress;
             f1 = 1.0F - this.swingProgress;
             f1 = f1 * f1;
@@ -374,9 +374,9 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
             f1 = 1.0F - f1;
             float f2 = MathHelper.sin(f1 * (float) Math.PI);
             float f3 = MathHelper.sin(this.swingProgress * (float) Math.PI) * -(this.head.rotateAngleX - 0.7F) * 0.75F;
-            renderermodel.rotateAngleX = (float) ((double) renderermodel.rotateAngleX - ((double) f2 * 1.2D + (double) f3));
-            renderermodel.rotateAngleY += this.body.rotateAngleY * 2.0F;
-            renderermodel.rotateAngleZ += MathHelper.sin(this.swingProgress * (float) Math.PI) * -0.4F;
+            ModelRenderer.rotateAngleX = (float) ((double) ModelRenderer.rotateAngleX - ((double) f2 * 1.2D + (double) f3));
+            ModelRenderer.rotateAngleY += this.body.rotateAngleY * 2.0F;
+            ModelRenderer.rotateAngleZ += MathHelper.sin(this.swingProgress * (float) Math.PI) * -0.4F;
         }
 
         this.jaw.rotateAngleX = 0.8217304763960306f;
@@ -392,10 +392,10 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(RendererModel RendererModel, float x, float y, float z) {
-        RendererModel.rotateAngleX = x;
-        RendererModel.rotateAngleY = y;
-        RendererModel.rotateAngleZ = z;
+    public void setRotateAngle(ModelRenderer ModelRenderer, float x, float y, float z) {
+        ModelRenderer.rotateAngleX = x;
+        ModelRenderer.rotateAngleY = y;
+        ModelRenderer.rotateAngleZ = z;
     }
 
     @Override

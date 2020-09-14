@@ -5,14 +5,11 @@ import de.teamlapen.vampirism.api.world.IFactionBiome;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
 
 public class WerewolfHeavenBiome extends Biome implements IFactionBiome {
 
@@ -41,19 +38,19 @@ public class WerewolfHeavenBiome extends Biome implements IFactionBiome {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public int getFoliageColor(@Nonnull BlockPos pos) {
+    public int getFoliageColor() {
         return 0x70E0B5;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public int getGrassColor(@Nonnull BlockPos pos) {
+    public int getGrassColor(double p_225528_1_, double p_225528_3_) {
         return 0x69CFDB;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public int getSkyColorByTemp(float currentTemperature) {
+    public int getSkyColor() {
         return 0x66DBFF;
     }
 

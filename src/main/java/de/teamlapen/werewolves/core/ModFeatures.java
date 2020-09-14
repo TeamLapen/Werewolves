@@ -1,42 +1,28 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.world.BigTreeFeature;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FlowersFeature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeature;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraftforge.registries.IForgeRegistry;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class ModFeatures extends de.teamlapen.vampirism.core.ModFeatures {
 
-    public static final TreeFeature jacaranda_tree;
-    public static final TreeFeature magic_tree;
-    public static final BigTreeFeature magic_tree_big;
-    public static final FlowersFeature wolfsbane;
+    public static final TreeFeatureConfig jacaranda_tree;
+    public static final TreeFeatureConfig magic_tree;
+    public static final TreeFeatureConfig magic_tree_big;
+    public static final BlockClusterFeatureConfig wolfsbane;
 
     static {
-        jacaranda_tree = new TreeFeature(NoFeatureConfig::deserialize, true, 4, ModBlocks.jacaranda_log.getDefaultState(), ModBlocks.jacaranda_leaves.getDefaultState(), false);
-        magic_tree = new TreeFeature(NoFeatureConfig::deserialize, true, 4, ModBlocks.magic_log.getDefaultState(), ModBlocks.magic_leaves.getDefaultState(), false);
-        magic_tree_big = new BigTreeFeature(NoFeatureConfig::deserialize, true, ModBlocks.magic_log.getDefaultState(), ModBlocks.magic_leaves.getDefaultState());
-        wolfsbane = (FlowersFeature)new FlowersFeature(NoFeatureConfig::deserialize) {
-            @Nonnull
-            @Override
-            public BlockState getRandomFlower(@Nonnull Random random, @Nonnull BlockPos pos) {
-                return ModBlocks.wolfsbane.getDefaultState();
-            }
-        }.setRegistryName(REFERENCE.MODID,"wolfsbane");
+        jacaranda_tree = new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.jacaranda_log.getDefaultState()), new SimpleBlockStateProvider(ModBlocks.jacaranda_leaves.getDefaultState()), new BlobFoliagePlacer(2,0)).baseHeight(4).heightRandA(2).foliageHeight(3).ignoreVines().setSapling(ModBlocks.jacaranda_sapling).build();
+        magic_tree = new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.magic_log.getDefaultState()), new SimpleBlockStateProvider(ModBlocks.magic_leaves.getDefaultState()), new BlobFoliagePlacer(2,0)).baseHeight(4).heightRandA(2).foliageHeight(3).ignoreVines().setSapling(ModBlocks.magic_sapling).build();
+        magic_tree_big = new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.magic_log.getDefaultState()), new SimpleBlockStateProvider(ModBlocks.magic_leaves.getDefaultState()), new BlobFoliagePlacer(0,0)).setSapling(ModBlocks.magic_sapling).build();
+        wolfsbane = new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.wolfsbane.getDefaultState()), new SimpleBlockPlacer()).tries(20).build();
     }
 
     //needed for world gen
     static void registerFeatures(IForgeRegistry<Feature<?>> registry) {
-        registry.register(jacaranda_tree.setRegistryName(REFERENCE.MODID, "jacaranda_tree"));
-        registry.register(magic_tree.setRegistryName(REFERENCE.MODID, "magic_tree"));
-        registry.register(magic_tree_big.setRegistryName(REFERENCE.MODID, "magic_tree_big"));
     }
 }
