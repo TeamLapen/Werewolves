@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -105,6 +106,19 @@ public class ModPlayerEventHandler {
                     } else {
                         ((PlayerEntity) event.getEntity()).getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).removeModifier(CLAWS);
                     }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onJump(LivingEvent.LivingJumpEvent event) {
+        if (event.getEntity() instanceof PlayerEntity) {
+            if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
+                WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
+                if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.jump)) {
+                    Vec3d motion = event.getEntity().getMotion().mul(1.1, 1.2, 1.1);
+                    event.getEntity().setMotion(motion);
                 }
             }
         }
