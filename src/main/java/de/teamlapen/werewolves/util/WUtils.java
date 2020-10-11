@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.util;
 
-import de.teamlapen.vampirism.core.ModItems;
+import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModTags;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemGroup;
@@ -17,7 +17,7 @@ public class WUtils {
     public static final ItemGroup creativeTab = new ItemGroup(REFERENCE.MODID) {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModItems.item_garlic);//TODO change
+            return new ItemStack(ModItems.liver);
         }
     };
     public static final IItemTier SILVER_ITEM_TIER = new IItemTier() {

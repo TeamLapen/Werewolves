@@ -24,20 +24,17 @@ public class ItemModelGenerator extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        Set<Block> blocks = new HashSet<Block>() {{
+        Set<Block> blockParent = new HashSet<Block>() {{
             add(ModBlocks.silver_ore);
             add(ModBlocks.silver_block);
-            add(ModBlocks.wolfsbane);
             add(ModBlocks.jacaranda_leaves);
             add(ModBlocks.jacaranda_log);
-            add(ModBlocks.jacaranda_sapling);
             add(ModBlocks.magic_leaves);
             add(ModBlocks.magic_log);
-            add(ModBlocks.magic_sapling);
             add(ModBlocks.magic_planks);
             add(ModBlocks.stone_altar);
         }};
-        Set<Item> items = new HashSet<Item>() {{
+        Set<Item> itemsLayer = new HashSet<Item>() {{
             add(ModItems.silver_axe);
             add(ModItems.silver_pickaxe);
             add(ModItems.silver_sword);
@@ -46,9 +43,16 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModItems.silver_ingot);
             add(ModItems.liver);
         }};
+        Set<Block> blockLayer = new HashSet<Block>() {{
+            add(ModBlocks.jacaranda_sapling);
+            add(ModBlocks.magic_sapling);
+            add(ModBlocks.wolfsbane);
+        }};
 
-        blocks.forEach(this::block);
-        items.forEach(this::item);
+        blockParent.forEach(this::block);
+        itemsLayer.forEach(this::item);
+        blockLayer.forEach(this::blockLayer);
+
     }
 
     @Nonnull
@@ -59,18 +63,24 @@ public class ItemModelGenerator extends ItemModelProvider {
 
     public ItemModelBuilder item(String item, ResourceLocation... texture) {
         ItemModelBuilder model = withExistingParent(item, mcLoc("item/generated"));
-        if (texture != null) {
-            for (int i = 0; i < texture.length; i++) {
-                model.texture("layer" + i, texture[i]);
-            }
+        for (int i = 0; i < texture.length; i++) {
+            model.texture("layer" + i, texture[i]);
         }
         return model;
     }
 
     @SuppressWarnings("ConstantConditions")
     public ItemModelBuilder item(Item item, ResourceLocation... texture) {
-        if (texture != null && texture.length == 0) {
+        if (texture.length == 0) {
             return withExistingParent(item, mcLoc("item/generated")).texture("layer0", REFERENCE.MODID + ":item/" + item.getRegistryName().getPath());
+        }
+        return item(item.getRegistryName().getPath(), texture);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public ItemModelBuilder blockLayer(Block item, ResourceLocation... texture) {
+        if (texture.length == 0) {
+            return withExistingParent(item, mcLoc("item/generated")).texture("layer0", REFERENCE.MODID + ":block/" + item.getRegistryName().getPath());
         }
         return item(item.getRegistryName().getPath(), texture);
     }

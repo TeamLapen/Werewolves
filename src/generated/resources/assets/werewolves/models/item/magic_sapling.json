@@ -1,3 +1,6 @@
 {
-  "parent": "werewolves:block/magic_sapling"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "werewolves:block/magic_sapling"
+  }
 }
