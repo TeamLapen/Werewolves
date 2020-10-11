@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.player;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModTags;
+import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
@@ -83,10 +84,15 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void onFall(LivingFallEvent event) {
         if (event.getEntityLiving() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getEntityLiving()))) {
-            if (WerewolfPlayer.get(((PlayerEntity) event.getEntityLiving())).getSkillHandler().isSkillEnabled(WerewolfSkills.fall_damage)) {
+            WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
+            if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.fall_damage)) {
                 event.setDistance(event.getDistance() * 0.8f);
                 event.setDamageMultiplier(event.getDamageMultiplier() * 0.8f);
             }
+            if (werewolf.getActionHandler().isActionActive(WerewolfActions.leap)) {
+                werewolf.getActionHandler().toggleAction(WerewolfActions.leap);
+            }
+
         }
     }
 
@@ -119,6 +125,11 @@ public class ModPlayerEventHandler {
                 if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.jump)) {
                     Vec3d motion = event.getEntity().getMotion().mul(1.1, 1.2, 1.1);
                     event.getEntity().setMotion(motion);
+                }
+                if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.leap)) {
+                    if (!werewolf.getActionHandler().isActionOnCooldown(WerewolfActions.leap)) {
+                        werewolf.getActionHandler().toggleAction(WerewolfActions.leap);
+                    }
                 }
             }
         }

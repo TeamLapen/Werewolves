@@ -102,9 +102,9 @@ public class WerewolfSkills {
                     ((WerewolfPlayer) player).updateForm();
                 }));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, SharedMonsterAttributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
-        registry.register(new SimpleWerewolfSkill("jump"));//skill
+        registry.register(new SimpleWerewolfSkill("jump"));
         registry.register(new SimpleWerewolfSkill("fall_damage"));
-        registry.register(new SimpleWerewolfSkill("leap"));//skill
+        registry.register(new ActionSkill<>(WerewolfActions.leap));
         registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
         registry.register(new SimpleWerewolfSkill("speed_after_kill"));
         registry.register(new SimpleWerewolfSkill("movement_attacks"));//skill
