@@ -3,14 +3,14 @@ package de.teamlapen.werewolves.client.core;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
 import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
-import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
+import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.items.ISilverItem;
-import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.player.werewolf.actions.DefaultWerewolfAction;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -32,7 +32,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class WerewolvesHUDOverlay extends ExtendedGui {
@@ -79,9 +80,6 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             case CROSSHAIRS:
                 this.renderCrosshair(event);
                 break;
-            case HOTBAR:
-                this.renderFangHotBar(event);
-                break;
             case ALL:
                 this.renderFur();
                 break;
@@ -93,8 +91,13 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         if (mc.player == null || !mc.player.isAlive()) {
             return;
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.EXPERIENCE) {
-            this.renderExperienceBar(event);
+        switch (event.getType()) {
+            case EXPERIENCE:
+                this.renderExperienceBar(event);
+                break;
+            case ALL:
+                this.renderActionCooldown();
+                break;
         }
     }
 
@@ -203,21 +206,26 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         this.mc.getProfiler().endSection();
     }
 
-    private void renderFangHotBar(RenderGameOverlayEvent.Pre event) {
-        if (Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getSpecialAttributes().werewolfForm).orElse(false) && WerewolfPlayer.get(this.mc.player).getSkillHandler().isSkillEnabled(WerewolfSkills.bite)) {
-            this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
-            this.blit(this.mc.getMainWindow().getScaledWidth() / 2 - 91 - 29, this.mc.getMainWindow().getScaledHeight() - 23, 24, 22, 29, 24);
-            this.mc.getTextureManager().bindTexture(ICONS);
-            blit(this.mc.getMainWindow().getScaledWidth() / 2 - 91 - 29 + 4, this.mc.getMainWindow().getScaledHeight() - 23 + 5, 15, 0, 15, 15);
-            IActionHandler<IWerewolfPlayer> handler = WerewolfPlayer.get(this.mc.player).getActionHandler();
-            if (handler.isActionOnCooldown(WerewolfActions.bite)) {
-                float percentageForAction = handler.getPercentageForAction(WerewolfActions.bite);
-                float h = (1.0F + percentageForAction) * 16.0F;
-                int x = this.mc.getMainWindow().getScaledWidth() / 2 - 91 - 29 + 3;
-                int y = this.mc.getMainWindow().getScaledHeight() - 23 + 4;
-                if (percentageForAction < 0.0F) {
-                    this.fillGradient(x, (int) ((float) y + h), x + 16, y + 16, Color.BLACK.getRGB() - 1426063360, Color.BLACK.getRGB());
-                }
+    private void renderActionCooldown() {
+        if (Helper.isWerewolf(this.mc.player)) {
+            WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
+            List<IAction> actions = new ArrayList<>();
+            actions.addAll(werewolf.getActionHandler().getUnlockedActions());
+            actions.removeIf(action -> !(action instanceof DefaultWerewolfAction && ((DefaultWerewolfAction) action).showInCooldownMenu() && werewolf.getActionHandler().isActionOnCooldown(action)));
+
+
+            int x = 12;
+            int y = this.mc.getMainWindow().getScaledHeight() - 27;
+            for (IAction action : actions) {
+                ResourceLocation loc = new ResourceLocation(action.getRegistryName().getNamespace(), "textures/skills/" + action.getRegistryName().getPath() + ".png");
+                this.mc.getTextureManager().bindTexture(loc);
+                RenderSystem.color4f(1, 1, 1, 0.5f);
+                blit(x, y, this.getBlitOffset(), 0, 0, 16, 16, 16, 16);
+                float perc1 = 1 - -werewolf.getActionHandler().getPercentageForAction(action);
+                int perc = (int) (perc1 * 16);
+                RenderSystem.color4f(1, 1, 1, 1);
+                blit(x, y + perc, this.getBlitOffset(), 0, 0 + perc, 16, 16 - perc, 16, 16);
+                x += 16;
             }
         }
     }

@@ -33,4 +33,9 @@ public class FearAction extends DefaultWerewolfAction {
     public int getCooldown() {
         return WerewolvesConfig.BALANCE.SKILLS.fear_action_cooldown.get();
     }
+
+    @Override
+    public boolean showInCooldownMenu() {
+        return true;
+    }
 }

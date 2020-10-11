@@ -14,4 +14,8 @@ public abstract class DefaultWerewolfAction extends DefaultAction<IWerewolfPlaye
     public IPlayableFaction<?> getFaction() {
         return WReference.WEREWOLF_FACTION;
     }
+
+    public boolean showInCooldownMenu() {
+        return false;
+    }
 }

@@ -28,4 +28,9 @@ public class BiteAction extends DefaultWerewolfAction {
     public boolean showInSelectAction(PlayerEntity player) {
         return false;
     }
+
+    @Override
+    public boolean showInCooldownMenu() {
+        return true;
+    }
 }
