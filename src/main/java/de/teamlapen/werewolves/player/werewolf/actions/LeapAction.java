@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class LeapAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
@@ -13,12 +14,13 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     protected boolean activate(IWerewolfPlayer iWerewolfPlayer) {
+        ((WerewolfPlayer) iWerewolfPlayer).getSpecialAttributes().leap = false;
         return true;
     }
 
     @Override
     public int getCooldown() {
-        return 4 * 20;
+        return 4 * 20; //TODO Config
     }
 
     @Override
@@ -28,7 +30,7 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     public int getDuration(int i) {
-        return 100000;
+        return 1000000; //TODO Config
     }
 
     @Override
@@ -38,12 +40,10 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     public void onDeactivated(IWerewolfPlayer iWerewolfPlayer) {
-
     }
 
     @Override
     public void onReActivated(IWerewolfPlayer iWerewolfPlayer) {
-
     }
 
     @Override

@@ -89,7 +89,7 @@ public class ModPlayerEventHandler {
                 event.setDistance(event.getDistance() * 0.8f);
                 event.setDamageMultiplier(event.getDamageMultiplier() * 0.8f);
             }
-            if (werewolf.getActionHandler().isActionActive(WerewolfActions.leap)) {
+            if (werewolf.getSpecialAttributes().leap) {
                 werewolf.getActionHandler().toggleAction(WerewolfActions.leap);
             }
 
@@ -126,10 +126,16 @@ public class ModPlayerEventHandler {
                     Vec3d motion = event.getEntity().getMotion().mul(1.1, 1.2, 1.1);
                     event.getEntity().setMotion(motion);
                 }
-                if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.leap)) {
-                    if (!werewolf.getActionHandler().isActionOnCooldown(WerewolfActions.leap)) {
+
+                //unnecessary leap attribute because LivingFallEvent is not called for creative player
+                if (werewolf.getActionHandler().isActionActive(WerewolfActions.leap)) {
+                    if (werewolf.getSpecialAttributes().leap) {
                         werewolf.getActionHandler().toggleAction(WerewolfActions.leap);
+                    } else {
+                        werewolf.getSpecialAttributes().leap = true;
                     }
+                } else {
+                    werewolf.getSpecialAttributes().leap = false;
                 }
             }
         }

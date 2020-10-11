@@ -30,6 +30,7 @@ public class ClientProxy extends CommonProxy {
                 ModBlocksRenderer.register();
                 MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
                 MinecraftForge.EVENT_BUS.register(new WerewolvesHUDOverlay());
+                ModKeys.register();
                 break;
             case LOAD_COMPLETE:
                 WItemRenderer.registerColors();

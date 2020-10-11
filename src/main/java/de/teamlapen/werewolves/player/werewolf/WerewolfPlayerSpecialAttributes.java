@@ -11,4 +11,5 @@ public class WerewolfPlayerSpecialAttributes {
 
     public boolean humanForm;
     public WerewolfFormUtil.Form specialForm;
+    public boolean leap;
 }

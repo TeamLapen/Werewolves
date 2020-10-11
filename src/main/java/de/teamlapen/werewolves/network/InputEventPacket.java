@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 public class InputEventPacket implements IMessage {
 
     public static final String BITE = "bt";
+    public static final String LEAP = "lp";
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String SPLIT = "&";
@@ -64,6 +65,10 @@ public class InputEventPacket implements IMessage {
                 } catch (NumberFormatException e) {
                     LOGGER.error("Receiving invalid param {} for {}", msg.param, msg.action);
                 }
+            } else if (LEAP.equals(msg.action)) {
+                WerewolfPlayer.getOpt(player).ifPresent(werewolfPlayer -> {
+                    werewolfPlayer.getActionHandler().toggleAction(WerewolfActions.leap);
+                });
             }
             ctx.setPacketHandled(true);
         });
