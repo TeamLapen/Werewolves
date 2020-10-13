@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.client.core;
 
+import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.core.ModKeys;
 import de.teamlapen.vampirism.client.gui.SkillsScreen;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
@@ -8,6 +9,7 @@ import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.network.InputEventPacket;
+import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
@@ -23,8 +25,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 
@@ -88,6 +92,19 @@ public class ClientEventHandler {
         if (event.getGui() instanceof SkillsScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 event.getGui().addButton(new ExpBar(118, 62, ((SkillsScreen) event.getGui())));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderNamePlate(RenderNameplateEvent event) {
+        if (event.getEntity() instanceof PlayerEntity) {
+            if (Helper.isWerewolf((PlayerEntity) event.getEntity())) {
+                WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
+                IActionHandler<IWerewolfPlayer> d = werewolf.getActionHandler();
+                if (d.isActionActive(WerewolfActions.hide_name)) {
+                    event.setResult(Event.Result.DENY);
+                }
             }
         }
     }

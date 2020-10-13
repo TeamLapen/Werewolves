@@ -111,7 +111,7 @@ public class WerewolfSkills {
         registry.register(new ActionSkill<>(WerewolfActions.fear));
 
         //stealth tree
-        registry.register(new SimpleWerewolfSkill("hide_name"));//action
+        registry.register(new ActionSkill<>(WerewolfActions.hide_name));
         registry.register(new SimpleWerewolfSkill("advanced_sense"));
         registry.register(new SimpleWerewolfSkill("wolf_pack"));//action
     }
