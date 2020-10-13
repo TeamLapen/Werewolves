@@ -67,7 +67,7 @@ public class BalanceConfig {
             werewolf_transform_duration = builder.defineInRange("werewolf_transform_duration", 10, 10, Integer.MAX_VALUE);
             builder.pop();
 
-            builder.push("human werewolf");
+            builder.push("human_werewolf");
             human_werewolf_attack_damage = builder.defineInRange("human_werewolf_attack_damage", 3, 0, Double.MAX_VALUE);
             human_werewolf_max_health = builder.defineInRange("human_werewolf_max_health", 30.0, 10, Double.MAX_VALUE);
             human_werewolf_speed = builder.defineInRange("human_werewolf_speed", 0.3, 0.1, 2);
@@ -189,23 +189,23 @@ public class BalanceConfig {
             builder.push("sense");
             this.sense_enabled = builder.define("sense_enabled", true);
             this.sense_radius = builder.defineInRange("sense_radius", 15, 1, 400);
-            this.sense_duration = builder.defineInRange("sense_duration", 15, 1, Integer.MAX_VALUE);
-            this.sense_cooldown = builder.defineInRange("sense_cooldown", 15, 1, Integer.MAX_VALUE);
+            this.sense_duration = builder.defineInRange("sense_duration", 30, 1, Integer.MAX_VALUE);
+            this.sense_cooldown = builder.defineInRange("sense_cooldown", 60, 1, Integer.MAX_VALUE);
             builder.pop();
 
-            builder.push("stun bite");
+            builder.push("stun_bite");
             this.stun_bite_duration = builder.defineInRange("stun_bite_duration", 40, 0, Integer.MAX_VALUE);
             builder.pop();
 
-            builder.push("bleeding bite");
+            builder.push("bleeding_bite");
             this.bleeding_bite_duration = builder.defineInRange("bleeding_bite_duration", 100, 0, Integer.MAX_VALUE);
             builder.pop();
 
-            builder.push("better claws");
+            builder.push("better_claws");
             this.better_claw_damage = builder.defineInRange("better_claw_damage", 1d, 0, Integer.MAX_VALUE);
             builder.pop();
 
-            builder.push("fear action");
+            builder.push("fear_action");
             this.fear_action_enabled = builder.define("fear_action_enabled", true);
             this.fear_action_cooldown = builder.defineInRange("fear_action_cooldown", 20, 10, Integer.MAX_VALUE);
             builder.pop();

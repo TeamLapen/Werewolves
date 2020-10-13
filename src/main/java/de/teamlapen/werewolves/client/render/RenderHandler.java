@@ -39,7 +39,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
 
     @Nonnull
     private final Minecraft mc;
-    private final int VISION_FADE_TICKS = 80;
+    private final int VISION_FADE_TICKS = 30;
 
     private OutlineLayerBuffer visionBuffer;
     private boolean enhanced;

@@ -18,7 +18,7 @@ public class SenseWerewolfAction extends DefaultWerewolfAction implements ILasti
 
     @Override
     public int getDuration(int level) {
-        return WerewolvesConfig.BALANCE.SKILLS.sense_duration.get();
+        return WerewolvesConfig.BALANCE.SKILLS.sense_duration.get() * 20;
     }
 
     @Override
@@ -41,6 +41,6 @@ public class SenseWerewolfAction extends DefaultWerewolfAction implements ILasti
 
     @Override
     public int getCooldown() {
-        return WerewolvesConfig.BALANCE.SKILLS.sense_cooldown.get() + WerewolvesConfig.BALANCE.SKILLS.sense_duration.get();
+        return WerewolvesConfig.BALANCE.SKILLS.sense_cooldown.get() + WerewolvesConfig.BALANCE.SKILLS.sense_duration.get() * 20;
     }
 }
