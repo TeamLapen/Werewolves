@@ -10,7 +10,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 
 import java.util.List;
 
-public class FearAction extends DefaultWerewolfAction {
+public class FearAction extends DefaultWerewolfAction implements IActionCooldownMenu {
     @Override
     public boolean isEnabled() {
         return WerewolvesConfig.BALANCE.SKILLS.fear_action_enabled.get();
@@ -34,8 +34,4 @@ public class FearAction extends DefaultWerewolfAction {
         return WerewolvesConfig.BALANCE.SKILLS.fear_action_cooldown.get();
     }
 
-    @Override
-    public boolean showInCooldownMenu() {
-        return true;
-    }
 }

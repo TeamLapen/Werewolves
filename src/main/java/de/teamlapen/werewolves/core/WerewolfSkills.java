@@ -36,16 +36,16 @@ public class WerewolfSkills {
     public static final ISkill sense = getNull();
     public static final ISkill survival_form = getNull();
     public static final ISkill speed = getNull();
-    public static final ISkill jump = getNull();//TODO
-    public static final ISkill leap = getNull();//TODO
+    public static final ISkill jump = getNull();
+    public static final ISkill leap = getNull();
     public static final ISkill fall_damage = getNull();
     public static final ISkill movement_attacks = getNull();//TODO
     public static final ISkill speed_after_kill = getNull();
     public static final ISkill sixth_sense = getNull();//TODO
-    public static final ISkill hide_name = getNull();//TODO
+    public static final ISkill hide_name = getNull();
     public static final ISkill advanced_sense = getNull();
     public static final ISkill wolf_pack = getNull();//TODO
-    public static final ISkill fear = getNull(); //TODO
+    public static final ISkill fear = getNull();
 
     @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {

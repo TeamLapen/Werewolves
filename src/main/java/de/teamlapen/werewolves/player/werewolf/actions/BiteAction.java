@@ -5,7 +5,7 @@ import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class BiteAction extends DefaultWerewolfAction {
+public class BiteAction extends DefaultWerewolfAction implements IActionCooldownMenu {
 
     @Override
     public boolean isEnabled() {
@@ -14,8 +14,8 @@ public class BiteAction extends DefaultWerewolfAction {
 
     @Override
     protected boolean activate(IWerewolfPlayer player) {
-        ((WerewolfPlayer)player).biteEntity(((WerewolfPlayer)player).getSpecialAttributes().target);
-        ((WerewolfPlayer)player).getSpecialAttributes().target = 0;
+        ((WerewolfPlayer) player).biteEntity(((WerewolfPlayer) player).getSpecialAttributes().target);
+        ((WerewolfPlayer) player).getSpecialAttributes().target = 0;
         return true;
     }
 
@@ -29,8 +29,4 @@ public class BiteAction extends DefaultWerewolfAction {
         return false;
     }
 
-    @Override
-    public boolean showInCooldownMenu() {
-        return true;
-    }
 }

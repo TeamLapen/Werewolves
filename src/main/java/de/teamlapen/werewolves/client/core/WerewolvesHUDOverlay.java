@@ -10,7 +10,7 @@ import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.items.ISilverItem;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.player.werewolf.actions.DefaultWerewolfAction;
+import de.teamlapen.werewolves.player.werewolf.actions.IActionCooldownMenu;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -45,16 +45,10 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
 
     private int screenColor = 0;
     private int screenPercentage = 0;
-    private boolean fullScreen = false;
-    private int renderFullTick = 0;
-    private int rederFullOn, renderFullOff, renderFullColor;
-    private int screenBottomColor = 0;
-    private int screenBottomPercentage = 0;
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (mc.player == null || !mc.player.isAlive()) {
-            this.renderFullTick = 0;
             this.screenPercentage = 0;
             return;
         }
@@ -67,7 +61,6 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             this.handleScreenColorWerewolf(((WerewolfPlayer) player));
         } else {
             screenPercentage = 0;
-            screenBottomPercentage = 0;
         }
     }
 
@@ -211,13 +204,14 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
             List<IAction> actions = new ArrayList<>();
             actions.addAll(werewolf.getActionHandler().getUnlockedActions());
-            actions.removeIf(action -> !(action instanceof DefaultWerewolfAction && ((DefaultWerewolfAction) action).showInCooldownMenu() && werewolf.getActionHandler().isActionOnCooldown(action)));
+            actions.removeIf(action -> !(action instanceof IActionCooldownMenu));
+            actions.removeIf(action -> !(werewolf.getActionHandler().isActionOnCooldown(action)));
 
 
             int x = 12;
             int y = this.mc.getMainWindow().getScaledHeight() - 27;
             for (IAction action : actions) {
-                ResourceLocation loc = new ResourceLocation(action.getRegistryName().getNamespace(), "textures/skills/" + action.getRegistryName().getPath() + ".png");
+                ResourceLocation loc = new ResourceLocation(action.getRegistryName().getNamespace(), "textures/actions/" + action.getRegistryName().getPath() + ".png");
                 this.mc.getTextureManager().bindTexture(loc);
                 RenderSystem.color4f(1, 1, 1, 0.5f);
                 blit(x, y, this.getBlitOffset(), 0, 0, 16, 16, 16, 16);

@@ -5,7 +5,7 @@ import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class LeapAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
+public class LeapAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
 
     @Override
     public boolean isEnabled() {
