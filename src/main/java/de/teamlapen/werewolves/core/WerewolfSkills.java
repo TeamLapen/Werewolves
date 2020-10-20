@@ -44,7 +44,8 @@ public class WerewolfSkills {
     public static final ISkill sixth_sense = getNull();//TODO
     public static final ISkill hide_name = getNull();
     public static final ISkill advanced_sense = getNull();
-    public static final ISkill wolf_pack = getNull();//TODO
+    //--
+    public static final ISkill wolf_pack = getNull();
     public static final ISkill fear = getNull();
 
     @SuppressWarnings("deprecation")
@@ -113,6 +114,6 @@ public class WerewolfSkills {
         //stealth tree
         registry.register(new ActionSkill<>(WerewolfActions.hide_name));
         registry.register(new SimpleWerewolfSkill("advanced_sense"));
-        registry.register(new SimpleWerewolfSkill("wolf_pack"));//action
+        registry.register(new ActionSkill<>(WerewolfActions.wolf_pack));
     }
 }

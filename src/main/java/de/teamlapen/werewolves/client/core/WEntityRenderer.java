@@ -6,6 +6,7 @@ import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
 import de.teamlapen.werewolves.client.render.WerewolfSurvivalistRenderer;
 import de.teamlapen.werewolves.core.ModEntities;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.WolfRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -20,5 +21,6 @@ public class WEntityRenderer {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_beast, WerewolfBeastRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_survivalist, WerewolfSurvivalistRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.human_werewolf, HumanWerewolfRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.wolf, WolfRenderer::new);
     }
 }
