@@ -16,5 +16,6 @@ public class ModPacketDispatcher extends AbstractPacketDispatcher {
     @Override
     public void registerPackets() {
         this.dispatcher.registerMessage(nextID(), InputEventPacket.class, InputEventPacket::encode, InputEventPacket::decode, InputEventPacket::handle);
+        this.dispatcher.registerMessage(nextID(), AttackTargetEventPacket.class, AttackTargetEventPacket::encode, AttackTargetEventPacket::decode, AttackTargetEventPacket::handle);
     }
 }

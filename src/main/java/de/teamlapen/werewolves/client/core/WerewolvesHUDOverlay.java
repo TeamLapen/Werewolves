@@ -46,10 +46,17 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     private int screenColor = 0;
     private int screenPercentage = 0;
 
+    private final List<Integer> entities = new ArrayList<>();
+    private int attackTargetScreenPercentage = 0;
+    private int waitTicks = 0;
+
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (mc.player == null || !mc.player.isAlive()) {
             this.screenPercentage = 0;
+            this.attackTargetScreenPercentage = 0;
+            this.entities.clear();
+            this.waitTicks = 0;
             return;
         }
         if (event.phase == TickEvent.Phase.END)
@@ -60,7 +67,10 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         if (player instanceof WerewolfPlayer) {
             this.handleScreenColorWerewolf(((WerewolfPlayer) player));
         } else {
-            screenPercentage = 0;
+            this.screenPercentage = 0;
+            this.attackTargetScreenPercentage = 0;
+            this.waitTicks = 0;
+            this.entities.clear();
         }
     }
 
@@ -96,7 +106,16 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onRenderWorldLast(RenderWorldLastEvent event) {
-        if (this.screenPercentage > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
+        int percentages = 0;
+        int color = 0;
+        if (this.screenPercentage > 0) {
+            percentages = this.screenPercentage;
+            color = this.screenColor;
+        } else if (this.attackTargetScreenPercentage > 0) {
+            percentages = this.attackTargetScreenPercentage;
+            color = 0xffff6e07;
+        }
+        if (percentages > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
             RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
             RenderSystem.matrixMode(GL11.GL_PROJECTION);
             RenderSystem.loadIdentity();
@@ -107,29 +126,53 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             int w = (this.mc.getMainWindow().getScaledWidth());
             int h = (this.mc.getMainWindow().getScaledHeight());
-            if (this.screenPercentage > 0) {
-                // sun border
-                int bw = 0;
-                int bh = 0;
+            int bw = 0;
+            int bh = 0;
 
-                bh = Math.round(h / (float) 4 * this.screenPercentage / 100);
-                bw = Math.round(w / (float) 8 * this.screenPercentage / 100);
+            bh = Math.round(h / (float) 4 * percentages / 100);
+            bw = Math.round(w / (float) 8 * percentages / 100);
 
-                this.fillGradient(0, 0, w, bh, this.screenColor, 0x000);
-                this.fillGradient(0, h - bh, w, h, 0x00000000, this.screenColor);
-                this.fillGradient2(0, 0, bw, h, 0x000000, this.screenColor);
-                this.fillGradient2(w - bw, 0, w, h, this.screenColor, 0x00);
-            }
+            this.fillGradient(0, 0, w, bh, color, 0x000);
+            this.fillGradient(0, h - bh, w, h, 0x00000000, color);
+            this.fillGradient2(0, 0, bw, h, 0x000000, color);
+            this.fillGradient2(w - bw, 0, w, h, color, 0x00);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             RenderSystem.popMatrix();
         }
     }
 
+    public void attackTriggered(int entityId) {
+        if (!entities.contains(entityId)) {
+            this.entities.add(entityId);
+            if (this.waitTicks == 0) {
+                this.screenPercentage = 100;
+                this.waitTicks = 100;
+                this.screenColor = 0xffff6e07;
+            }
+        }
+    }
+
     private void handleScreenColorWerewolf(WerewolfPlayer player) {
-        if (player.getActionHandler().isActionActive(WerewolfActions.rage)) {
+        boolean sixth_sense = player.getActionHandler().isActionActive(WerewolfActions.sixth_sense);
+        boolean rage = player.getActionHandler().isActionActive(WerewolfActions.rage);
+        if (sixth_sense) {
+            if (this.screenPercentage > 0) {
+                this.screenPercentage -= 10;
+            }
+            if (this.waitTicks > 0) {
+                --this.waitTicks;
+            }
+        } else {
+            this.waitTicks = 0;
+            this.entities.clear();
+        }
+
+        if (rage) {
             this.screenPercentage = 100;
             this.screenColor = 0xfff00000;
-        } else {
+        }
+
+        if (!(sixth_sense || rage)) {
             this.screenPercentage = 0;
         }
     }

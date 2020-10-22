@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.proxy;
 
 import de.teamlapen.werewolves.client.core.*;
 import de.teamlapen.werewolves.client.render.RenderHandler;
+import de.teamlapen.werewolves.network.AttackTargetEventPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
@@ -11,6 +12,8 @@ import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
+
+    private WerewolvesHUDOverlay hudOverlay;
 
     public ClientProxy() {
         RenderHandler renderHandler = new RenderHandler(Minecraft.getInstance());
@@ -29,12 +32,17 @@ public class ClientProxy extends CommonProxy {
                 WEntityRenderer.registerEntityRenderer();
                 ModBlocksRenderer.register();
                 MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-                MinecraftForge.EVENT_BUS.register(new WerewolvesHUDOverlay());
+                MinecraftForge.EVENT_BUS.register(hudOverlay = new WerewolvesHUDOverlay());
                 ModKeys.register();
                 break;
             case LOAD_COMPLETE:
                 WItemRenderer.registerColors();
                 break;
         }
+    }
+
+    @Override
+    public void handleAttackTargetEventPacket(AttackTargetEventPacket packet) {
+        this.hudOverlay.attackTriggered(packet.entityId);
     }
 }

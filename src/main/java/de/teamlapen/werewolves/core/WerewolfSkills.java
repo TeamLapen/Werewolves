@@ -106,7 +106,7 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("jump"));
         registry.register(new SimpleWerewolfSkill("fall_damage"));
         registry.register(new ActionSkill<>(WerewolfActions.leap));
-        registry.register(new SimpleWerewolfSkill("sixth_sense"));//skill
+        registry.register(new ActionSkill<>(WerewolfActions.sixth_sense));
         registry.register(new SimpleWerewolfSkill("speed_after_kill"));
         registry.register(new SimpleWerewolfSkill("movement_attacks"));//skill
         registry.register(new ActionSkill<>(WerewolfActions.fear));
