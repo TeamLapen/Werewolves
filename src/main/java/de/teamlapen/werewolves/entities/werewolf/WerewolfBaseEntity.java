@@ -16,6 +16,7 @@ import de.teamlapen.vampirism.entity.goals.DefendVillageGoal;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.effects.LupusSanguinem;
 import de.teamlapen.werewolves.entities.IWerewolfMob;
 import de.teamlapen.werewolves.entities.WerewolfFormUtil;
 import de.teamlapen.werewolves.util.WReference;
@@ -68,6 +69,11 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     protected void setup(EntityClassType classType, EntityActionTier actionTier) {
         this.entityClass = classType;
         this.entityTier = actionTier;
+    }
+
+    public void bite(LivingEntity entity) {
+        //TODO take a look at ExtendedCreature#onBite
+        LupusSanguinem.addSanguinemEffect(entity);
     }
 
     @Override

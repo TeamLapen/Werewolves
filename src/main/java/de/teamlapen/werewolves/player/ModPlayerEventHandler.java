@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.player;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
@@ -17,6 +18,7 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -138,6 +140,14 @@ public class ModPlayerEventHandler {
                     werewolf.getSpecialAttributes().leap = false;
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onWakeUp(PlayerWakeUpEvent event) {
+        if (event.getPlayer().getActivePotionEffect(ModEffects.lupus_sanguinem) != null) {
+            event.getPlayer().getActivePotionEffect(ModEffects.lupus_sanguinem).performEffect(event.getPlayer());
+            event.getPlayer().removePotionEffect(ModEffects.lupus_sanguinem);
         }
     }
 }

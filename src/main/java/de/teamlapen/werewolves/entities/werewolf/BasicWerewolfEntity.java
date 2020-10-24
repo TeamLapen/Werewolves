@@ -48,6 +48,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity {
         this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get();
     }
 
+
     @Override
     public WerewolfTransformable transformToWerewolf2() {
         return this;
