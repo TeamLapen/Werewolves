@@ -177,7 +177,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void renderFangs(int width, int height, Entity entity) {//TODO replace texture
+    private void renderFangs(int width, int height, Entity entity) {
         this.mc.getTextureManager().bindTexture(ICONS);
         int left = width / 2 - 9;
         int top = height / 2 - 6;

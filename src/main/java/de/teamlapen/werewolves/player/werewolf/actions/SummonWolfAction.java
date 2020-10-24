@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.lib.lib.util.UtilLib;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class SummonWolfAction extends DefaultWerewolfAction {
     @Override
     public boolean isEnabled() {
-        return true; //TODO config
+        return WerewolvesConfig.BALANCE.SKILLS.wolf_pack_enabled.get();
     }
 
     @Override
@@ -35,6 +36,6 @@ public class SummonWolfAction extends DefaultWerewolfAction {
 
     @Override
     public int getCooldown() {
-        return 10; //TODO config
+        return WerewolvesConfig.BALANCE.SKILLS.wolf_pack_cooldown.get() * 20;
     }
 }

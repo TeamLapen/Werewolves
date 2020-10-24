@@ -1,12 +1,13 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 
 public class SixthSenseAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
     @Override
     public boolean isEnabled() {
-        return true; //TODO config
+        return WerewolvesConfig.BALANCE.SKILLS.sixth_sense_enabled.get();
     }
 
     @Override
@@ -16,12 +17,12 @@ public class SixthSenseAction extends DefaultWerewolfAction implements ILastingA
 
     @Override
     public int getCooldown() {
-        return 30 * 20; //TODO config
+        return WerewolvesConfig.BALANCE.SKILLS.sixth_sense_cooldown.get() * 20;
     }
 
     @Override
     public int getDuration(int i) {
-        return 1000000; //TODO config
+        return WerewolvesConfig.BALANCE.SKILLS.sixth_sense_duration.get();
     }
 
     @Override

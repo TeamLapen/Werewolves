@@ -10,7 +10,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,7 +50,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public int getDuration(int level) {
-        return MathHelper.clamp(WerewolvesConfig.BALANCE.SKILLS.werewolf_form_duration.get(), 10, Integer.MAX_VALUE / 20 - 1) * 20;
+        return Integer.MAX_VALUE - 1;
     }
 
     @Override

@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public class StoneAltarBlock extends WerewolfBlock { //TODO shape
+public class StoneAltarBlock extends WerewolfBlock {
     protected static final VoxelShape SHAPE = makeShape();
     private static final String REG_NAME = "stone_altar";
 

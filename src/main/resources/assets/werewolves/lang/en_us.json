@@ -19,6 +19,8 @@
   "block.werewolves.magic_sapling": "Magic Sapling",
   "block.werewolves.magic_planks": "Magic Planks",
   "block.werewolves.stone_altar": "Stone Altar",
+  "block.werewolves.totem_top_werewolves_werewolf": "Fragile village totem top",
+  "block.werewolves.totem_top_werewolves_werewolf_crafted": "Village totem Top",
   "__comment": "items",
   "item.werewolves.silver_ingot": "Silver Ingot",
   "item.werewolves.silver_hoe": "Silver Hoe",

@@ -35,9 +35,10 @@ public class WerewolfVillageData implements IVillageFactionData {
         return captureEntityEntries;
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public Pair<Block, Block> getTotemTopBlock() {
-        return Pair.of(ModBlocks.totem_top_werewolves_werewolf, ModBlocks.totem_top_werewolves_werewolf);//TODO replace with destructible version
+        return Pair.of(ModBlocks.totem_top_werewolves_werewolf, ModBlocks.totem_top_werewolves_werewolf_crafted);
     }
 
     @Override

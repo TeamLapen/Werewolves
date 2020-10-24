@@ -41,7 +41,7 @@ public class WerewolfSkills {
     public static final ISkill fall_damage = getNull();
     public static final ISkill movement_attacks = getNull();//TODO
     public static final ISkill speed_after_kill = getNull();
-    public static final ISkill sixth_sense = getNull();//TODO
+    public static final ISkill sixth_sense = getNull();
     public static final ISkill hide_name = getNull();
     public static final ISkill advanced_sense = getNull();
     //--

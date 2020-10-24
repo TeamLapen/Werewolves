@@ -4,9 +4,9 @@ import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,14 +33,16 @@ public class BlockStateGenerator extends BlockStateProvider {
         simpleBlock(ModBlocks.magic_sapling, models().cross("magic_sapling", modLoc("block/magic_sapling")));
         simpleBlock(ModBlocks.magic_leaves);
         logBlock(ModBlocks.magic_log);
-        simpleBlock(ModBlocks.stone_altar, models().getExistingFile(modIdR("block/stone_altar")));
+        simpleBlock(ModBlocks.stone_altar, models().getExistingFile(modLoc("block/stone_altar")));
+        simpleBlock(ModBlocks.totem_top_werewolves_werewolf, models().getBuilder("totem_top_werewolves_werewolf").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top"))));
+        simpleBlock(ModBlocks.totem_top_werewolves_werewolf_crafted, models().getBuilder("totem_top_werewolves_werewolf_crafted").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top"))));
     }
 
     private String modId(String path) {
         return REFERENCE.MODID + ":" + path;
     }
 
-    private ResourceLocation modIdR(String path) {
-        return new ResourceLocation(REFERENCE.MODID, path);
+    private String vampirismId(String path) {
+        return de.teamlapen.vampirism.util.REFERENCE.MODID + ":" + path;
     }
 }

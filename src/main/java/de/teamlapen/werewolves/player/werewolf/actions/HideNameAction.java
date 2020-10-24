@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 
 public class HideNameAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
@@ -9,7 +10,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public boolean isEnabled() {
-        return true; //TODO Config
+        return WerewolvesConfig.BALANCE.SKILLS.hide_name_enabled.get();
     }
 
     @Override
@@ -19,7 +20,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public int getDuration(int i) {
-        return 100000;//TODO Config
+        return WerewolvesConfig.BALANCE.SKILLS.hide_name_duration.get();
     }
 
     @Override
@@ -41,6 +42,6 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public int getCooldown() {
-        return 1; //TODO Config
+        return WerewolvesConfig.BALANCE.SKILLS.hide_name_cooldown.get() * 20;
     }
 }
