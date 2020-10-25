@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.util;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -23,5 +24,9 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static BlockPos multiplyBlockPos(BlockPos pos, double amount) {
         return new BlockPos(pos.getX() * amount, pos.getY() * amount, pos.getZ() * amount);
+    }
+
+    public static boolean canBecomeWerewolf(PlayerEntity player) {
+        return FactionPlayerHandler.getOpt(player).map((v) -> v.canJoin(WReference.WEREWOLF_FACTION)).orElse(false);
     }
 }

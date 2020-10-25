@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.effects;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.LivingEntity;
@@ -23,7 +22,7 @@ public class LupusSanguinem extends WerewolvesEffect {
         }
         if (canBecomeWerewolf) {
             if (entity.getRNG().nextInt(5) == 0) {
-                entity.addPotionEffect(new EffectInstance(ModEffects.lupus_sanguinem, Integer.MAX_VALUE));
+                entity.addPotionEffect(new LupusSanguinemInstance(Integer.MAX_VALUE));
             }
         }
     }
