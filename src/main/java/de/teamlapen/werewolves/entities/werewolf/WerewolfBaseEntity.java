@@ -60,6 +60,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
         this.entityClass = entityClass;
         this.entityTier = entityTier;
         this.entityActionHandler = new ActionHandlerEntity<>(this);
+        this.entityTier = entityTier;
     }
 
     public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, IWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {

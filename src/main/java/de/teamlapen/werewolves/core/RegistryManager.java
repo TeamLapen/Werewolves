@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.lib.lib.util.IInitListener;
+import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import net.minecraft.block.Block;
@@ -84,5 +85,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterTiles(RegistryEvent.Register<TileEntityType<?>> event) {
         ModTiles.registerTiles(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterEntityActions(RegistryEvent.Register<IEntityAction> event) {
+        ModEntityActions.registerEntityActions(event.getRegistry());
     }
 }
