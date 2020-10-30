@@ -37,6 +37,7 @@ public class ClientProxy extends CommonProxy {
                 break;
             case LOAD_COMPLETE:
                 WItemRenderer.registerColors();
+                ModScreens.registerScreens();
                 break;
         }
     }

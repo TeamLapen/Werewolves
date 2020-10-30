@@ -75,7 +75,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
         registry.register(prepareRegister(new ModSaplingBlock(new MagicTree()).setRegistryName(REFERENCE.MODID, "magic_sapling")));
         registry.register(prepareRegister(new LogBlock(MaterialColor.BLUE, Block.Properties.create(Material.WOOD, MaterialColor.BLUE).hardnessAndResistance(2.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "magic_log")));
         registry.register(prepareRegister(new Block(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "magic_planks")));
-        registry.register(prepareRegister(new StoneAltarBlock()));
+        registry.register(prepareRegister(new StoneAltarBlock().setRegistryName(REFERENCE.MODID, StoneAltarBlock.REG_NAME)));
     }
 
     private static Block prepareRegister(Block block) {

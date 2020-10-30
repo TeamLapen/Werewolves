@@ -1,7 +1,7 @@
 {
   "__comment": "Designed by Cheaterpaul with Cubik Studio - https://cubik.studio",
   "textures": {
-    "particle": "blocks/stone_bricks",
+    "particle": "block/stone_bricks",
     "texture": "block/stone_bricks",
     "liver": "werewolves:item/liver"
   },

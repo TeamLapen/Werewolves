@@ -14,11 +14,19 @@ import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @SuppressWarnings("unused")
 public class RegistryManager implements IInitListener {
+
+    public RegistryManager() {
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.register(ModContainer.class);
+    }
+
     @Override
     public void onInitStep(Step step, ModLifecycleEvent event) {
         switch (step) {
