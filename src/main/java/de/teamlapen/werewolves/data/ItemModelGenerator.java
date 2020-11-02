@@ -32,7 +32,6 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModBlocks.magic_leaves);
             add(ModBlocks.magic_log);
             add(ModBlocks.magic_planks);
-            add(ModBlocks.stone_altar);
             add(ModBlocks.totem_top_werewolves_werewolf);
             add(ModBlocks.totem_top_werewolves_werewolf_crafted);
         }};

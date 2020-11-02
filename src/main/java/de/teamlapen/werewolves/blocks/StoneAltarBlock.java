@@ -70,6 +70,12 @@ public class StoneAltarBlock extends ContainerBlock {
         return true;
     }
 
+    @Override
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+        TileEntity te = world.getTileEntity(pos);
+        return te instanceof StoneAltarTileEntity ? ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.FOG ? 16 : 0 : 0;
+    }
+
     @Nonnull
     @Override
     public BlockRenderType getRenderType(BlockState state) {
@@ -82,6 +88,15 @@ public class StoneAltarBlock extends ContainerBlock {
             this.dropItems(worldIn, pos);
             super.onReplaced(state, worldIn, pos, newState, isMoving);
         }
+    }
+
+    @Override
+    public boolean isBurning(BlockState state, IBlockReader world, BlockPos pos) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof StoneAltarTileEntity) {
+            return ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.FOG;
+        }
+        return false;
     }
 
     @Nonnull
