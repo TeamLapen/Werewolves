@@ -50,9 +50,14 @@ uploadArchives {
     repositories.mavenDeployer {
         configuration = configurations.deployerJars
 
-        logger.info('Publishing to files server')
-        repository(url: System.getenv("MAVEN_URL")) {
-            authentication(userName: System.getenv("MAVEN_USER"), password: System.getenv("MAVEN_TOKEN"))
+        if (project.hasProperty("MAVEN_URL")) {
+            logger.info('Publishing to files server')
+            repository(url: project.MAVEN_URL) {
+                authentication(userName: project.MAVEN_USER, password: project.MAVEN_TOKEN)
+            }
+        } else {
+            logger.info('Publishing to repo folder')
+            repository(url: 'file://localhost/' + project.file('../../../.m2/repository').getAbsolutePath())
         }
 
         pom {
