@@ -73,7 +73,12 @@ public class StoneAltarBlock extends ContainerBlock {
     @Override
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         TileEntity te = world.getTileEntity(pos);
-        return te instanceof StoneAltarTileEntity ? ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.FOG ? 16 : 0 : 0;
+        if (te instanceof StoneAltarTileEntity) {
+            if (((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.FOG || ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.STARTING) {
+                return 16;
+            }
+        }
+        return 0;
     }
 
     @Nonnull
@@ -94,7 +99,7 @@ public class StoneAltarBlock extends ContainerBlock {
     public boolean isBurning(BlockState state, IBlockReader world, BlockPos pos) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof StoneAltarTileEntity) {
-            return ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.FOG;
+            return ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.FOG || ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.STARTING;
         }
         return false;
     }

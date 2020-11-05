@@ -14,6 +14,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
+import static de.teamlapen.werewolves.tileentity.StoneAltarTileEntity.Phase;
+
 @OnlyIn(Dist.CLIENT)
 public class StoneAltarTESR extends TileEntityRenderer<StoneAltarTileEntity> {
     private static final ResourceLocation FIRE = new ResourceLocation("textures/block/fire_0.png");
@@ -26,7 +28,7 @@ public class StoneAltarTESR extends TileEntityRenderer<StoneAltarTileEntity> {
     @Override
     public void render(@Nonnull StoneAltarTileEntity tileEntityIn, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         StoneAltarTileEntity.Phase phase = tileEntityIn.getCurrentPhase();
-        if (phase == StoneAltarTileEntity.Phase.FOG) {
+        if (phase == Phase.FOG || phase == Phase.STARTING) {
             matrixStackIn.translate(0, 0.7, 0);
             Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(FIRE_STATE, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
         }
