@@ -133,7 +133,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
             return Result.OTHER_FACTION;
         }
         this.targetLevel = WerewolfPlayer.get(player).getLevel() + 1;
-        if (!checkLevel(player)) {
+        if (!checkLevel(this.targetLevel)) {
             return Result.WRONG_LEVEL;
         }
         if (player.getEntityWorld().isDaytime()) {
@@ -144,13 +144,12 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         return Result.OK;
     }
 
-    private boolean checkLevel(PlayerEntity player) {
-        return true;
+    private boolean checkLevel(int targetLevel) {
+        return targetLevel >= WerewolfLevelConf.StoneAltarRequirement.START_LVL && targetLevel <= WerewolfLevelConf.StoneAltarRequirement.LAST_LVL;
     }
 
     private boolean checkItemRequirements(PlayerEntity player) {
-        int newLevel = this.targetLevel;
-        WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(newLevel);
+        WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(this.targetLevel);
         ItemStack missing = InventoryHelper.checkItems(this, new Item[]{ModItems.liver, ModItems.bones}, new int[]{req.liverAmount, req.bonesAmount});
         return missing.isEmpty();
     }

@@ -264,7 +264,7 @@ public class BalanceConfig {
         public Util(ForgeConfigSpec.Builder builder) {
             this.werewolfHeavenWeight = builder.defineInRange("werewolfHeavenWeight", 6, 1, Integer.MAX_VALUE);
             this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 4, 1, Integer.MAX_VALUE);
-            this.silverItemEffectDuration = builder.comment("in ticks").defineInRange("silverItemEffectDuration", 10, 1, Integer.MAX_VALUE);
+            this.silverItemEffectDuration = builder.comment("in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
         }
     }
 }

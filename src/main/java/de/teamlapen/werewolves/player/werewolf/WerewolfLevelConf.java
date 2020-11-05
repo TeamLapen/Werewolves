@@ -48,6 +48,8 @@ public class WerewolfLevelConf {
 
     public static class StoneAltarRequirement extends LevelRequirement {
 
+        public static final int START_LVL = 2;
+        public static final int LAST_LVL = 14;
         public final int liverAmount, bonesAmount;
 
         public StoneAltarRequirement(int xpAmount, int liverAmount, int bonesAmount) {
