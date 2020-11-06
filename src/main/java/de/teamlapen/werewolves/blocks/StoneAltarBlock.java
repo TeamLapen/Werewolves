@@ -12,6 +12,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -33,10 +36,12 @@ import java.util.Random;
 @ParametersAreNonnullByDefault
 public class StoneAltarBlock extends ContainerBlock {
     protected static final VoxelShape SHAPE = makeShape();
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final String REG_NAME = "stone_altar";
 
     public StoneAltarBlock() {
-        super(Block.Properties.create(Material.ROCK));
+        super(Block.Properties.create(Material.ROCK).notSolid());
+        this.setDefaultState(this.stateContainer.getBaseState().with(LIT, false));
     }
 
     protected static VoxelShape makeShape() {
@@ -72,13 +77,7 @@ public class StoneAltarBlock extends ContainerBlock {
 
     @Override
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        TileEntity te = world.getTileEntity(pos);
-        if (te instanceof StoneAltarTileEntity) {
-            if (((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.FOG || ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.STARTING) {
-                return 16;
-            }
-        }
-        return 0;
+        return state.get(LIT) ? 15 : 0;
     }
 
     @Nonnull
@@ -97,11 +96,7 @@ public class StoneAltarBlock extends ContainerBlock {
 
     @Override
     public boolean isBurning(BlockState state, IBlockReader world, BlockPos pos) {
-        TileEntity te = world.getTileEntity(pos);
-        if (te instanceof StoneAltarTileEntity) {
-            return ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.FOG || ((StoneAltarTileEntity) te).getCurrentPhase() == StoneAltarTileEntity.Phase.STARTING;
-        }
-        return false;
+        return state.get(LIT);
     }
 
     @Nonnull
@@ -189,5 +184,10 @@ public class StoneAltarBlock extends ContainerBlock {
             }
 
         }
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(LIT);
     }
 }
