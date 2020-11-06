@@ -138,7 +138,7 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         include 'META-INF/mods.toml'
 
-        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'jei_version': jei_version, 'guideapi_version': guideapi_version
+        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'jei_version': jei_version, 'guideapi_version': guideapi_version, 'vampirism_version': vampirism_version
     }
 
     outputs.upToDateWhen { false }
@@ -151,7 +151,7 @@ processResources {
 }
 
 jar {
-//    dependsOn 'crowdin' //TODO translation into the right directory
+    dependsOn 'crowdin'
     finalizedBy('reobfJar')
 
     //Keep the jar as clean as possible
