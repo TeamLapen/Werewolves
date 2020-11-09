@@ -8,6 +8,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -30,5 +31,8 @@ public class RecipeGenerator extends RecipeProvider {
         ShapelessRecipeBuilder.shapelessRecipe(Blocks.OAK_PLANKS, 4).addIngredient(ModBlocks.jacaranda_log).addCriterion("has_jacaranda_log", this.hasItem(ModBlocks.jacaranda_log)).build(consumer, new ResourceLocation(REFERENCE.MODID, "oak_planks_from_jacaranda_log"));
 
         CookingRecipeBuilder.smeltingRecipe(Ingredient.fromTag(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).addCriterion("has_silver_ore", this.hasItem(ModTags.Items.SILVER_ORE)).build(consumer, new ResourceLocation(REFERENCE.MODID, "silver_ingot_from_blasting"));
+
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.stone_altar).key('S', Items.STONE_BRICKS).patternLine("S S").patternLine("SSS").patternLine("SSS").addCriterion("has_stone_bricks", this.hasItem(Items.STONE_BRICKS)).build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.stone_altar_fire_bowl).key('S', Items.STONE_BRICKS).key('P', ItemTags.PLANKS).patternLine("SPS").patternLine("SSS").patternLine(" S ").addCriterion("has_stone_bricks", this.hasItem(Items.STONE_BRICKS)).build(consumer);
     }
 }
