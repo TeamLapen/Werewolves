@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.client.gui;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.teamlapen.werewolves.inventory.container.StoneAltarContainer;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -11,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class StoneAltarScreen extends ContainerScreen<StoneAltarContainer> {
-    private static final ResourceLocation altarGuiTextures = new ResourceLocation("vampirism", "textures/gui/altar4.png");
+    private static final ResourceLocation altarGuiTextures = new ResourceLocation(REFERENCE.MODID, "textures/gui/stone_altar.png");
 
 
     public StoneAltarScreen(StoneAltarContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {

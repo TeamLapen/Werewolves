@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "werewolves:block/stone_altar"
+        "model": "werewolves:block/stone_altar_fire_bowl"
       }
     },
     {
@@ -10,7 +10,7 @@
         "lit": "true"
       },
       "apply": {
-        "model": "werewolves:block/stone_altar_fire"
+        "model": "werewolves:block/stone_altar_fire_bowl_fire"
       }
     }
   ]

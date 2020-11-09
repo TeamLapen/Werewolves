@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.data;
 
+import de.teamlapen.werewolves.blocks.StoneAltarBlock;
+import de.teamlapen.werewolves.blocks.StoneAltarFireBowlBlock;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Block;
@@ -33,9 +35,10 @@ public class BlockStateGenerator extends BlockStateProvider {
         simpleBlock(ModBlocks.magic_sapling, models().cross("magic_sapling", modLoc("block/magic_sapling")));
         simpleBlock(ModBlocks.magic_leaves);
         logBlock(ModBlocks.magic_log);
-        simpleBlock(ModBlocks.stone_altar, models().getExistingFile(modLoc("block/stone_altar")));
+        getMultipartBuilder(ModBlocks.stone_altar).part().modelFile(models().getExistingFile(modLoc("block/stone_altar"))).addModel().end().part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire"))).addModel().condition(StoneAltarBlock.LIT, true).end();
         simpleBlock(ModBlocks.totem_top_werewolves_werewolf, models().getBuilder("totem_top_werewolves_werewolf").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top"))));
         simpleBlock(ModBlocks.totem_top_werewolves_werewolf_crafted, models().getBuilder("totem_top_werewolves_werewolf_crafted").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top"))));
+        getMultipartBuilder(ModBlocks.stone_altar_fire_bowl).part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl"))).addModel().end().part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl_fire"))).addModel().condition(StoneAltarFireBowlBlock.LIT, true).end();
     }
 
     private String modId(String path) {

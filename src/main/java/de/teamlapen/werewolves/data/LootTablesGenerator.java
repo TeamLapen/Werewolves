@@ -53,6 +53,7 @@ public class LootTablesGenerator extends LootTableProvider {
             this.registerDropSelfLootTable(ModBlocks.magic_planks);
             this.registerLootTable(ModBlocks.jacaranda_leaves, (block -> droppingWithChancesAndSticks(block, ModBlocks.jacaranda_sapling, DEFAULT_SAPLING_DROP_RATES)));
             this.registerLootTable(ModBlocks.magic_leaves, (block -> droppingWithChancesAndSticks(block, ModBlocks.magic_leaves, DEFAULT_SAPLING_DROP_RATES)));
+            this.registerDropSelfLootTable(ModBlocks.stone_altar_fire_bowl);
         }
 
         @Nonnull

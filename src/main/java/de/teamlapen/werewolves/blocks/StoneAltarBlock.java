@@ -130,6 +130,12 @@ public class StoneAltarBlock extends ContainerBlock {
                 case WRONG_LEVEL:
                     player.sendStatusMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_wrong_level"), true);
                     return ActionResultType.SUCCESS;
+                case STRUCTURE_LESS:
+                    player.sendStatusMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_structures_missing"), true);
+                    return ActionResultType.SUCCESS;
+                case STRUCTURE_LIT:
+                    player.sendStatusMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_less_lit_structures"), true);
+                    return ActionResultType.SUCCESS;
             }
             player.openContainer(te);
         }

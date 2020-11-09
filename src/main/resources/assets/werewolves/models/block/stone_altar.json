@@ -2,8 +2,7 @@
   "__comment": "Designed by Cheaterpaul with Cubik Studio - https://cubik.studio",
   "textures": {
     "particle": "block/stone_bricks",
-    "texture": "block/stone_bricks",
-    "liver": "werewolves:item/liver"
+    "texture": "block/stone_bricks"
   },
   "elements": [
     {
@@ -900,48 +899,6 @@
             10
           ],
           "texture": "#texture"
-        }
-      }
-    },
-    {
-      "__comment": "PlaneY15",
-      "from": [
-        2,
-        11.4457,
-        0.7296
-      ],
-      "to": [
-        8,
-        11.4467,
-        6.7296
-      ],
-      "rotation": {
-        "origin": [
-          2,
-          12,
-          0.5
-        ],
-        "axis": "x",
-        "angle": 22.5
-      },
-      "faces": {
-        "down": {
-          "uv": [
-            0,
-            16,
-            16,
-            0
-          ],
-          "texture": "#liver"
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#liver"
         }
       }
     }

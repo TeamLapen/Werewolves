@@ -1,0 +1,287 @@
+{
+  "__comment": "Designed by Cheaterpaul with Cubik Studio - https://cubik.studio",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "#fire",
+    "texture": "block/stone_bricks",
+    "fire": "block/fire_1"
+  },
+  "elements": [
+    {
+      "__comment": "Element",
+      "from": [
+        2,
+        9.2012,
+        6.4265
+      ],
+      "to": [
+        14,
+        22.2012,
+        6.4275
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          13,
+          8
+        ],
+        "axis": "x",
+        "angle": -22.5,
+        "rescale": true
+      },
+      "shade": false,
+      "faces": {
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#fire"
+        }
+      }
+    },
+    {
+      "__comment": "Element",
+      "from": [
+        2,
+        9.2012,
+        9.5735
+      ],
+      "to": [
+        14,
+        22.2012,
+        9.5745
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          13,
+          8
+        ],
+        "axis": "x",
+        "angle": 22.5,
+        "rescale": true
+      },
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#fire"
+        }
+      }
+    },
+    {
+      "__comment": "Element",
+      "from": [
+        9.709499,
+        9.3729,
+        2
+      ],
+      "to": [
+        9.7105,
+        22.3729,
+        14
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          13.5,
+          8
+        ],
+        "axis": "z",
+        "angle": -22.5,
+        "rescale": true
+      },
+      "shade": false,
+      "faces": {
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#fire"
+        }
+      }
+    },
+    {
+      "__comment": "Element",
+      "from": [
+        6.2905,
+        9.3729,
+        2
+      ],
+      "to": [
+        6.2915,
+        22.3729,
+        14
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          13.5,
+          8
+        ],
+        "axis": "z",
+        "angle": 22.5,
+        "rescale": true
+      },
+      "shade": false,
+      "faces": {
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#fire"
+        }
+      }
+    },
+    {
+      "__comment": "Element",
+      "from": [
+        2,
+        9.5,
+        2
+      ],
+      "to": [
+        14,
+        21.5,
+        2.001
+      ],
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#fire"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#fire"
+        }
+      }
+    },
+    {
+      "__comment": "Element",
+      "from": [
+        2,
+        9.5,
+        14
+      ],
+      "to": [
+        14,
+        21.5,
+        14.001
+      ],
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#fire"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#fire"
+        }
+      }
+    },
+    {
+      "__comment": "Element",
+      "from": [
+        14,
+        9.5,
+        2
+      ],
+      "to": [
+        14.001,
+        21.5,
+        14
+      ],
+      "shade": false,
+      "faces": {
+        "west": {
+          "uv": [
+            16,
+            0,
+            0,
+            16
+          ],
+          "texture": "#fire"
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            0,
+            16
+          ],
+          "texture": "#fire"
+        }
+      }
+    },
+    {
+      "__comment": "Element",
+      "from": [
+        2,
+        9.5,
+        2
+      ],
+      "to": [
+        2.001,
+        21.5,
+        14
+      ],
+      "shade": false,
+      "faces": {
+        "west": {
+          "uv": [
+            16,
+            0,
+            0,
+            16
+          ],
+          "texture": "#fire"
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            0,
+            16
+          ],
+          "texture": "#fire"
+        }
+      }
+    }
+  ]
+}

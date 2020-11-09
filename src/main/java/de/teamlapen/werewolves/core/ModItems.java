@@ -30,7 +30,7 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final SilverSword silver_sword = getNull();
     public static final CrossbowArrowItem crossbow_arrow_silver_bolt = getNull();
     public static final LiverItem liver = getNull();
-    public static final WerewolvesItem bones = getNull();
+    public static final WerewolvesItem bone = getNull();
 
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new WerewolvesItem("silver_ingot", (new Item.Properties()).group(WUtils.creativeTab)));
@@ -50,6 +50,6 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
         }));
 
         registry.register(new LiverItem());
-        registry.register(new WerewolvesItem("bones", new Item.Properties().group(WUtils.creativeTab)));
+        registry.register(new WerewolvesItem("bone", new Item.Properties().group(WUtils.creativeTab)));
     }
 }

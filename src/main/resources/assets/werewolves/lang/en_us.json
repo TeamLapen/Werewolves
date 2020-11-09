@@ -19,6 +19,7 @@
   "block.werewolves.magic_sapling": "Magic Sapling",
   "block.werewolves.magic_planks": "Magic Planks",
   "block.werewolves.stone_altar": "Stone Altar",
+  "block.werewolves.stone_altar_fire_bowl": "Stone Altar Fire Bowl",
   "block.werewolves.totem_top_werewolves_werewolf": "Fragile village totem top",
   "block.werewolves.totem_top_werewolves_werewolf_crafted": "Village totem Top",
   "__comment": "items",
@@ -30,6 +31,7 @@
   "item.werewolves.silver_sword": "Silver Sword",
   "item.werewolves.crossbow_arrow_silver_bolt": "Silver Bolt",
   "item.werewolves.liver": "Liver",
+  "item.werewolves.bone": "Cracked Bone",
   "__comment": "item desc",
   "item.werewolves.crossbow_arrow_silver_bolt.tooltip": "Weakens werewolf entities",
   "__comment": "entities",
@@ -82,5 +84,7 @@
   "text.werewolves.stone_altar.ritual_night_only": "The ritual is only working at night",
   "text.werewolves.stone_altar.ritual_still_running": "The ritual is still running",
   "text.werewolves.stone_altar.ritual_missing_items": "Missing items",
-  "text.werewolves.stone_altar.wrong_faction": "This altar seem unfamiliar"
+  "text.werewolves.stone_altar.wrong_faction": "This altar seem unfamiliar",
+  "text.werewolves.stone_altar.ritual_structures_missing": "Missing Structures",
+  "text.werewolves.stone_altar.ritual_less_lit_structures": "The Structures are not burning"
 }

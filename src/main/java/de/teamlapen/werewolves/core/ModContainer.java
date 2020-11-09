@@ -10,6 +10,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
+@SuppressWarnings("deprecation")
 @ObjectHolder(REFERENCE.MODID)
 public class ModContainer {
 

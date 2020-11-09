@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import de.teamlapen.vampirism.blocks.TotemTopBlock;
 import de.teamlapen.werewolves.blocks.ModSaplingBlock;
 import de.teamlapen.werewolves.blocks.StoneAltarBlock;
+import de.teamlapen.werewolves.blocks.StoneAltarFireBowlBlock;
 import de.teamlapen.werewolves.blocks.WolfsbaneBlock;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
@@ -42,6 +43,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
     public static final LogBlock magic_log = getNull();
     public static final Block magic_planks = getNull();
     public static final StoneAltarBlock stone_altar = getNull();
+    public static final StoneAltarFireBowlBlock stone_altar_fire_bowl = getNull();
 
     static void registerItemBlocks(IForgeRegistry<Item> registry) {
         registry.register(itemBlock(silver_ore));
@@ -57,6 +59,7 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
         registry.register(itemBlock(stone_altar));
         registry.register(itemBlock(totem_top_werewolves_werewolf, new Item.Properties()));
         registry.register(itemBlock(totem_top_werewolves_werewolf_crafted, new Item.Properties()));
+        registry.register(itemBlock(stone_altar_fire_bowl));
     }
 
 
@@ -68,14 +71,15 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
         registry.register(prepareRegister(new FlowerPotBlock(wolfsbane, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0f)).setRegistryName(REFERENCE.MODID, "potted_wolfsbane")));
         registry.register(prepareRegister(new TotemTopBlock(false, REFERENCE.WEREWOLF_PLAYER_KEY).setRegistryName(REFERENCE.MODID, "totem_top_werewolves_werewolf")));
         registry.register(prepareRegister(new TotemTopBlock(true, REFERENCE.WEREWOLF_PLAYER_KEY).setRegistryName(REFERENCE.MODID, "totem_top_werewolves_werewolf_crafted")));
-        registry.register(prepareRegister(new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(REFERENCE.MODID, "jacaranda_leaves")));
+        registry.register(prepareRegister(new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()).setRegistryName(REFERENCE.MODID, "jacaranda_leaves")));
         registry.register(prepareRegister(new ModSaplingBlock(new JacarandaTree()).setRegistryName(REFERENCE.MODID, "jacaranda_sapling")));
         registry.register(prepareRegister(new LogBlock(MaterialColor.BROWN, Block.Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(2.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "jacaranda_log")));
-        registry.register(prepareRegister(new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(REFERENCE.MODID, "magic_leaves")));
+        registry.register(prepareRegister(new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()).setRegistryName(REFERENCE.MODID, "magic_leaves")));
         registry.register(prepareRegister(new ModSaplingBlock(new MagicTree()).setRegistryName(REFERENCE.MODID, "magic_sapling")));
         registry.register(prepareRegister(new LogBlock(MaterialColor.BLUE, Block.Properties.create(Material.WOOD, MaterialColor.BLUE).hardnessAndResistance(2.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "magic_log")));
         registry.register(prepareRegister(new Block(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "magic_planks")));
         registry.register(prepareRegister(new StoneAltarBlock().setRegistryName(REFERENCE.MODID, StoneAltarBlock.REG_NAME)));
+        registry.register(prepareRegister(new StoneAltarFireBowlBlock().setRegistryName(REFERENCE.MODID, StoneAltarFireBowlBlock.REG_NAME)));
     }
 
     private static Block prepareRegister(Block block) {

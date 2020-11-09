@@ -32,8 +32,8 @@ public class StoneAltarContainer extends InventoryContainer {
 
     static {
         SELECTOR_INFOS = new SelectorInfo[]{
-                new SelectorInfo(Ingredient.fromItems(ModItems.liver), 44, 34),
-                new SelectorInfo(Ingredient.fromItems(ModItems.bones), 80, 34)
+                new SelectorInfo(Ingredient.fromItems(ModItems.liver), 62, 34),
+                new SelectorInfo(Ingredient.fromItems(ModItems.bone), 98, 34)
         };
     }
 }
