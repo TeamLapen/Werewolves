@@ -1,61 +1,46 @@
 package de.teamlapen.werewolves.world;
 
-import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.api.world.IFactionBiome;
+import de.teamlapen.vampirism.world.biome.VampirismBiomeFeatures;
 import de.teamlapen.werewolves.core.ModEntities;
-import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.DefaultBiomeFeatures;
+import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class WerewolfHeavenBiome extends Biome implements IFactionBiome {
+public class WerewolfHeavenBiome {
 
-    public WerewolfHeavenBiome() {
-        super(new Builder().surfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_DIRT_GRAVEL_CONFIG).category(Category.FOREST).depth(0.2f).scale(0.5f).waterColor(0x4CCCFF).waterFogColor(0x4CCCFF).precipitation(RainType.NONE).parent(null).downfall(0.0f).temperature(0.3f));
+    public static Biome createWerewolfHeavenBiome() {
+        MobSpawnInfo.Builder mob_builder = new MobSpawnInfo.Builder();
+        mob_builder.withCreatureSpawnProbability(0.25f);
+        mob_builder.withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast, 10, 1, 2));
+        mob_builder.withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist, 10, 1, 2));
 
-        DefaultBiomeFeatures.addCarvers(this);
+        BiomeAmbience.Builder ambienceBuilder = new BiomeAmbience.Builder();
+        ambienceBuilder.setWaterColor(0x4CCCFF);
+        ambienceBuilder.setWaterFogColor(0x4CCCFF);
+        ambienceBuilder.withSkyColor(0x66DBFF);
+        ambienceBuilder.setFogColor(0x4CCCFF);//TODO
+        ambienceBuilder.withFoliageColor(0x70E0B5);
+        ambienceBuilder.withGrassColor(0x69CFDB);
+        ambienceBuilder.setMoodSound(MoodSoundAmbience.DEFAULT_CAVE);//TODO
 
-        DefaultBiomeFeatures.addGrass(this);
-        ModBiomeFeatures.addJacarandaTree(this);
-        ModBiomeFeatures.addMagicTree(this);
-        ModBiomeFeatures.addBigTree(this);
+        BiomeGenerationSettings.Builder biomeGeneratorSettings = new BiomeGenerationSettings.Builder().withSurfaceBuilder(SurfaceBuilder.DEFAULT.func_242929_a(SurfaceBuilder.GRASS_DIRT_GRAVEL_CONFIG));
 
-        DefaultBiomeFeatures.addSedimentDisks(this);
-        DefaultBiomeFeatures.func_222283_Y(this);
-        DefaultBiomeFeatures.addStoneVariants(this);
-        DefaultBiomeFeatures.addMonsterRooms(this);
-        DefaultBiomeFeatures.addLakes(this);
-        DefaultBiomeFeatures.addOres(this);
-        DefaultBiomeFeatures.addDefaultFlowers(this);
-        DefaultBiomeFeatures.addBerryBushes(this);
+        DefaultBiomeFeatures.withCavesAndCanyons(biomeGeneratorSettings);
 
-        addSpawn(EntityClassification.MONSTER, new SpawnListEntry(ModEntities.werewolf_survivalist, 10, 1, 2));
-        addSpawn(EntityClassification.MONSTER, new SpawnListEntry(ModEntities.werewolf_beast, 10, 1, 2));
+        DefaultBiomeFeatures.withForestGrass(biomeGeneratorSettings);
+        WerewolvesBiomeFeatures.addWerewolfBiomeTrees(biomeGeneratorSettings);
+
+        DefaultBiomeFeatures.withDisks(biomeGeneratorSettings);
+        DefaultBiomeFeatures.withCommonOverworldBlocks(biomeGeneratorSettings);
+        DefaultBiomeFeatures.withMonsterRoom(biomeGeneratorSettings);
+        DefaultBiomeFeatures.withOverworldOres(biomeGeneratorSettings);
+        DefaultBiomeFeatures.withSparseBerries(biomeGeneratorSettings);
+        VampirismBiomeFeatures.addModdedWaterLake(biomeGeneratorSettings);
+        DefaultBiomeFeatures.withDefaultFlowers(biomeGeneratorSettings);
+        DefaultBiomeFeatures.withTallGrass(biomeGeneratorSettings);
+
+
+        return new Biome.Builder().precipitation(Biome.RainType.NONE).category(Biome.Category.FOREST).depth(0.2f).scale(0.5f).temperature(0.3f).downfall(0).setEffects(ambienceBuilder.build()).withMobSpawnSettings(mob_builder.copy()).withGenerationSettings(biomeGeneratorSettings.build()).build();
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public int getFoliageColor() {
-        return 0x70E0B5;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public int getGrassColor(double p_225528_1_, double p_225528_3_) {
-        return 0x69CFDB;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public int getSkyColor() {
-        return 0x66DBFF;
-    }
-
-    @Override
-    public IFaction<?> getFaction() {
-        return WReference.WEREWOLF_FACTION;
-    }
 }

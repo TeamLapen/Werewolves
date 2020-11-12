@@ -17,7 +17,7 @@ public class ModBlocksRenderer {
     }
 
     private static void registerRenderType() {
-        RenderType renderType = RenderType.cutout();
+        RenderType renderType = RenderType.getCutout();
         RenderTypeLookup.setRenderLayer(ModBlocks.wolfsbane, renderType);
         RenderTypeLookup.setRenderLayer(ModBlocks.jacaranda_sapling, renderType);
         RenderTypeLookup.setRenderLayer(ModBlocks.magic_sapling, renderType);
@@ -25,8 +25,8 @@ public class ModBlocksRenderer {
         RenderTypeLookup.setRenderLayer(ModBlocks.stone_altar_fire_bowl, renderType);
         RenderTypeLookup.setRenderLayer(ModBlocks.totem_top_werewolves_werewolf, renderType);
         RenderTypeLookup.setRenderLayer(ModBlocks.totem_top_werewolves_werewolf_crafted, renderType);
-        RenderTypeLookup.setRenderLayer(ModBlocks.jacaranda_leaves, RenderType.cutoutMipped());
-        RenderTypeLookup.setRenderLayer(ModBlocks.magic_leaves, RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.jacaranda_leaves, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.magic_leaves, RenderType.getCutoutMipped());
     }
 
     private static void registerTileRenderer() {

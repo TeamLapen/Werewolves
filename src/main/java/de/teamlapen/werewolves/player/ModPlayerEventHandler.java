@@ -9,13 +9,13 @@ import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
@@ -104,15 +104,15 @@ public class ModPlayerEventHandler {
             if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
                 if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSpecialAttributes().werewolfForm) {
                     if (event.getTo().isEmpty()) { // see WerewolfFormAction#applyModifier
-                        if (((PlayerEntity) event.getEntity()).getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
+                        if (((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
                             double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
                             if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
                                 damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
                             }
-                            ((PlayerEntity) event.getEntity()).getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
+                            ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).applyPersistentModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
                         }
                     } else {
-                        ((PlayerEntity) event.getEntity()).getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).removeModifier(CLAWS);
+                        ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).removeModifier(CLAWS);
                     }
                 }
             }
@@ -125,7 +125,7 @@ public class ModPlayerEventHandler {
             if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
                 if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.jump)) {
-                    Vec3d motion = event.getEntity().getMotion().mul(1.1, 1.2, 1.1);
+                    Vector3d motion = event.getEntity().getMotion().mul(1.1, 1.2, 1.1);
                     event.getEntity().setMotion(motion);
                 }
 

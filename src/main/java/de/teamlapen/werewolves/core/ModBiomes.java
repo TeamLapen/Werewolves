@@ -1,57 +1,51 @@
 package de.teamlapen.werewolves.core;
 
-import com.google.common.collect.Lists;
-import de.teamlapen.vampirism.api.world.IFactionBiome;
+import com.google.common.collect.ImmutableList;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.world.ModBiomeFeatures;
 import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
+import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.provider.OverworldBiomeProvider;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
-@ObjectHolder(REFERENCE.MODID)
-public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
 
-    public static final WerewolfHeavenBiome werewolf_heaven = getNull();
+public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
+    @ObjectHolder(REFERENCE.MODID + ":werewolf_heaven")
+    public static final Biome werewolf_heaven = getNull();
+    public static final RegistryKey<Biome> WEREWOLF_HEAVEN_KEY = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(REFERENCE.MODID, "werewolf_heaven"));
 
     static void registerBiomes(IForgeRegistry<Biome> registry) {
-        registry.register(new WerewolfHeavenBiome().setRegistryName(REFERENCE.MODID, "werewolf_heaven"));
+        registry.register(WerewolfHeavenBiome.createWerewolfHeavenBiome().setRegistryName(REFERENCE.MODID, "werewolf_heaven"));
     }
 
-    static void addBiomes() {
-        BiomeDictionary.addTypes(werewolf_heaven, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL);
+    static void addBiomesToGeneratorUnsafe() {
         if (!WerewolvesConfig.SERVER.disableWerewolfHeaven.get()) {
-            BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(werewolf_heaven, WerewolvesConfig.BALANCE.UTIL.werewolfHeavenWeight.get()));
+            List<RegistryKey<Biome>> modlist = new ArrayList<>(OverworldBiomeProvider.biomes);
+            modlist.add(WEREWOLF_HEAVEN_KEY);
+            OverworldBiomeProvider.biomes = ImmutableList.copyOf(modlist);
+            BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(WEREWOLF_HEAVEN_KEY, WerewolvesConfig.BALANCE.UTIL.werewolfHeavenWeight.get()));
         }
     }
 
-    static void addFeatures() {
-        for(Biome biome: ForgeRegistries.BIOMES.getValues()) {
-            if(BiomeDictionary.getTypes(biome).contains(BiomeDictionary.Type.FOREST)) {
-                if(biome instanceof IFactionBiome) continue;
-                ModBiomeFeatures.addWerewolvesFlowers(biome);
-            }
+    public static void onBiomeLoadingEventAdditions(BiomeLoadingEvent event) {
+        if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
+            event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, WerewolvesBiomeFeatures.silver_ore);
         }
-    }
-
-    static void setUpOreGen() {
-        List<Biome> oreBiomes = Lists.newArrayList(ForgeRegistries.BIOMES);
-        oreBiomes.removeIf(biome -> biome.getCategory().equals(Biome.Category.THEEND) || biome.getCategory().equals(Biome.Category.NETHER) || biome instanceof IFactionBiome);
-        for (Biome biome : oreBiomes) {
-            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.silver_block.getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(2, 0, 0, 45))));
+        if (event.getCategory() == Biome.Category.FOREST) {
+            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, WerewolvesBiomeFeatures.wolfsbane);
         }
     }
 }

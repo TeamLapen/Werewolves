@@ -2,13 +2,13 @@ package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +38,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) instanceof WerewolfHeavenBiome || (player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 && getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
+        return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 && getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
     }
 
     @Override
@@ -75,23 +75,23 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
     }
 
     private void applyModifier(PlayerEntity player, boolean activate) {
-        IAttributeInstance armor = player.getAttributes().getAttributeInstance(SharedMonsterAttributes.ARMOR);
-        IAttributeInstance armor_toughness = player.getAttributes().getAttributeInstance(SharedMonsterAttributes.ARMOR_TOUGHNESS);
-        IAttributeInstance movement_speed = player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-        IAttributeInstance attack_damage = player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        ModifiableAttributeInstance armor = player.getAttribute(Attributes.ARMOR);
+        ModifiableAttributeInstance armor_toughness = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
+        ModifiableAttributeInstance movement_speed = player.getAttribute(Attributes.MOVEMENT_SPEED);
+        ModifiableAttributeInstance attack_damage = player.getAttribute(Attributes.ATTACK_DAMAGE);
         if (armor == null || armor_toughness == null) {
             LOGGER.warn("Could not apply attribute modifier to entity: {}", player.getName());
             return;
         }
         if (activate) {
             if (armor.getModifier(ARMOR) == null) {
-                armor.applyModifier(new AttributeModifier(ARMOR, "werewolf_form_armor", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_armor.get(), AttributeModifier.Operation.ADDITION));
+                armor.applyPersistentModifier(new AttributeModifier(ARMOR, "werewolf_form_armor", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_armor.get(), AttributeModifier.Operation.ADDITION));
             }
             if (armor_toughness.getModifier(ARMOR_TOUGHNESS) == null) {
-                armor_toughness.applyModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_form_armor_toughness", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_armor_toughness.get(), AttributeModifier.Operation.ADDITION));
+                armor_toughness.applyPersistentModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_form_armor_toughness", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_armor_toughness.get(), AttributeModifier.Operation.ADDITION));
             }
             if (movement_speed.getModifier(MOVEMENT_SPEED) == null) {
-                movement_speed.applyModifier(new AttributeModifier(MOVEMENT_SPEED, "werewolf_form_movement_speed", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_speed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
+                movement_speed.applyPersistentModifier(new AttributeModifier(MOVEMENT_SPEED, "werewolf_form_movement_speed", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_speed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
             if (player.getHeldItemMainhand().isEmpty()) { //see ModPlayerEventHandler#onEquipmentChange
                 if (attack_damage.getModifier(CLAWS) == null) {
@@ -99,7 +99,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
                     if (WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
                         damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
                     }
-                    attack_damage.applyModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
+                    attack_damage.applyPersistentModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
                 }
             }
         } else {

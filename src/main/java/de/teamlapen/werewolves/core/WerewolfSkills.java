@@ -7,8 +7,8 @@ import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.player.skill.ActionSkill;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -79,10 +79,10 @@ public class WerewolfSkills {
                     ((WerewolfPlayer) player).getSpecialAttributes().specialForm = null;
                     ((WerewolfPlayer) player).updateForm();
                 }));
-        registry.register(new SimpleWerewolfSkill.AttributeSkill("health", true, HEALTH_SKILL, SharedMonsterAttributes.MAX_HEALTH, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.health_amount.get()));
+        registry.register(new SimpleWerewolfSkill.AttributeSkill("health", true, HEALTH_SKILL, Attributes.MAX_HEALTH, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.health_amount.get()));
         registry.register(new SimpleWerewolfSkill("health_reg", true));
-        registry.register(new SimpleWerewolfSkill.AttributeSkill("damage", true, DAMAGE_SKILL, SharedMonsterAttributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.damage_amount.get()));
-        registry.register(new SimpleWerewolfSkill.AttributeSkill("resistance", true, RESISTANCE_SKILL, SharedMonsterAttributes.ARMOR, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.resistance_amount.get()));
+        registry.register(new SimpleWerewolfSkill.AttributeSkill("damage", true, DAMAGE_SKILL, Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.damage_amount.get()));
+        registry.register(new SimpleWerewolfSkill.AttributeSkill("resistance", true, RESISTANCE_SKILL, Attributes.ARMOR, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.resistance_amount.get()));
         registry.register(new SimpleWerewolfSkill("health_after_kill"));
         registry.register(new SimpleWerewolfSkill("stun_bite"));
         registry.register(new SimpleWerewolfSkill("bleeding_bite"));
@@ -102,7 +102,7 @@ public class WerewolfSkills {
                     ((WerewolfPlayer) player).getSpecialAttributes().specialForm = null;
                     ((WerewolfPlayer) player).updateForm();
                 }));
-        registry.register(new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, SharedMonsterAttributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
+        registry.register(new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
         registry.register(new SimpleWerewolfSkill("jump"));
         registry.register(new SimpleWerewolfSkill("fall_damage"));
         registry.register(new ActionSkill<>(WerewolfActions.leap));

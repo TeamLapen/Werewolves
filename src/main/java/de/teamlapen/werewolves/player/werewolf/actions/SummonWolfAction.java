@@ -9,6 +9,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class SummonWolfAction extends DefaultWerewolfAction {
             AggressiveWolfEntity wolf = ModEntities.wolf.create(world);
             wolf.setTamedBy(player);
             wolf.restrictLiveSpan();
-            UtilLib.spawnEntityInWorld(world, new AxisAlignedBB(player.getPosition()).grow(1), wolf, 10, new ArrayList<>(), SpawnReason.EVENT);
+            UtilLib.spawnEntityInWorld((ServerWorld) world, new AxisAlignedBB(player.getPosition()).grow(1), wolf, 10, new ArrayList<>(), SpawnReason.EVENT);
         }
         return true;
     }

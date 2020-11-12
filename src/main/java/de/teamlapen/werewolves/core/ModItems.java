@@ -35,7 +35,7 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new WerewolvesItem("silver_ingot", (new Item.Properties()).group(WUtils.creativeTab)));
 
-        registry.register(new HoeItem(WUtils.SILVER_ITEM_TIER, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_hoe"));
+        registry.register(new HoeItem(WUtils.SILVER_ITEM_TIER, 0, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_hoe"));
         registry.register(new ShovelItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_shovel"));
         registry.register(new AxeItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_axe"));
         registry.register(new PickaxeItem(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_pickaxe"));

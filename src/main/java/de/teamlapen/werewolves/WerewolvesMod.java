@@ -5,6 +5,7 @@ import de.teamlapen.lib.lib.network.AbstractPacketDispatcher;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModCommands;
 import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.data.*;
@@ -22,6 +23,8 @@ import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -29,7 +32,6 @@ import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,8 +46,8 @@ public class WerewolvesMod {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final AbstractPacketDispatcher dispatcher = new ModPacketDispatcher();
-    public static final Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-    private static final EntityClassification WEREWOLF_CREATUE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 20, false, false);
+    public static final Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    private static final EntityClassification WEREWOLF_CREATUE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 20, false, false, 128);
     private static final CreatureAttribute WEREWOLF_CREATURE_ATTRIBUTES = new CreatureAttribute();
     public static WerewolvesMod instance;
     public static boolean inDev = false;
@@ -74,6 +76,7 @@ public class WerewolvesMod {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ModBiomes::onBiomeLoadingEventAdditions);
 
         WerewolvesConfig.registerConfigs();
         Permissions.init();
@@ -125,7 +128,7 @@ public class WerewolvesMod {
     private void gatherData(final GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         if (event.includeServer()) {
-            ModTagsProvider.addProvider(generator);
+            ModTagsProvider.addProvider(generator, event.getExistingFileHelper());
             generator.addProvider(new RecipeGenerator(generator));
             generator.addProvider(new LootTablesGenerator(generator));
         }
@@ -141,7 +144,8 @@ public class WerewolvesMod {
     }
 
     @SubscribeEvent
-    public void onServerStart(FMLServerStartingEvent event) {
-        ModCommands.registerCommands(event.getCommandDispatcher());
+    public void onCommandsRegister(RegisterCommandsEvent event) {
+        ModCommands.registerCommands(event.getDispatcher());
     }
+
 }

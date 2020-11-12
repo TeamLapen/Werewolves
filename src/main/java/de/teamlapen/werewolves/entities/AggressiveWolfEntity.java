@@ -24,8 +24,9 @@ public class AggressiveWolfEntity extends WolfEntity {
         this.restrictLiveSpan = true;
     }
 
+    @Nonnull
     @Override
-    public ITextComponent func_225513_by_() {
+    protected ITextComponent getProfessionName() {
         return EntityType.WOLF.getName();
     }
 

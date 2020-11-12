@@ -1,6 +1,7 @@
-modLoader="javafml"
-loaderVersion="[28,)"
-issueTrackerURL="https://github.com/TeamLapen/Werewolves/issues"
+modLoader = "javafml"
+loaderVersion = "[35,)"
+issueTrackerURL = "https://github.com/TeamLapen/Werewolves/issues"
+license = "LGPL-3.0"
 
 [[mods]]
 modId = "werewolves"
@@ -18,15 +19,15 @@ mandatory = true
 versionRange = "[${forge_version},)"
 ordering = "NONE"
 side = "BOTH"
-    [[dependencies.werewolves]]
-        modId="teamlapenlib"
-    mandatory = true
-    versionRange = "[${vampirism_version},)"
-    ordering = "AFTER"
-        side="BOTH"
-    [[dependencies.werewolves]]
-        modId="vampirism"
-    mandatory = true
-    versionRange = "[${vampirism_version},)"
-    ordering = "AFTER"
-        side="BOTH"
+[[dependencies.werewolves]]
+modId = "teamlapenlib"
+mandatory = true
+versionRange = "[${vampirism_version},)"
+ordering = "AFTER"
+side = "BOTH"
+[[dependencies.werewolves]]
+modId = "vampirism"
+mandatory = true
+versionRange = "[${vampirism_version},)"
+ordering = "AFTER"
+side = "BOTH"

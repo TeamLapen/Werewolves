@@ -2,8 +2,8 @@ package de.teamlapen.werewolves.effects;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.potion.EffectType;
 
 import javax.annotation.Nonnull;
@@ -14,8 +14,8 @@ public class SilverEffect extends WerewolvesEffect {
 
     public SilverEffect() {
         super("silver", EffectType.HARMFUL, 0xC0C0C0);
-        this.addAttributesModifier(SharedMonsterAttributes.MOVEMENT_SPEED, MOVEMENT_SPEED, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
-        this.addAttributesModifier(SharedMonsterAttributes.ARMOR, ARMOR, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributesModifier(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributesModifier(Attributes.ARMOR, ARMOR, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     @Override

@@ -16,7 +16,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.ModLifecycleEvent;
+import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @SuppressWarnings("unused")
@@ -28,13 +28,12 @@ public class RegistryManager implements IInitListener {
     }
 
     @Override
-    public void onInitStep(Step step, ModLifecycleEvent event) {
+    public void onInitStep(Step step, ParallelDispatchEvent event) {
         switch (step) {
             case COMMON_SETUP:
-                ModBiomes.addBiomes();
-                ModBiomes.addFeatures();
-                ModBiomes.setUpOreGen();
+                event.enqueueWork(ModBiomes::addBiomesToGeneratorUnsafe);
                 ModEntities.registerSpawns();
+                ModEntities.registerEntityTypeAttributes();
                 break;
         }
     }
@@ -77,7 +76,6 @@ public class RegistryManager implements IInitListener {
 
     @SubscribeEvent
     public void onRegisterFeatures(RegistryEvent.Register<Feature<?>> event) {
-        ModFeatures.registerFeatures(event.getRegistry());
     }
 
     @SubscribeEvent

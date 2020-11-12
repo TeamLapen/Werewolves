@@ -262,17 +262,17 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         super.onDataPacket(net, pkt);
-        this.read(pkt.getNbtCompound());
+        this.read(null, pkt.getNbtCompound());//TODO check
     }
 
     @Override
-    public void handleUpdateTag(CompoundNBT tag) {
-        read(tag);
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+        read(state, tag);
     }
 
     @Override
-    public void read(CompoundNBT tagCompound) {
-        super.read(tagCompound);
+    public void read(BlockState state, CompoundNBT tagCompound) {
+        super.read(state, tagCompound);
         if (tagCompound.hasUniqueId("player")) {
             UUID playerUuid = tagCompound.getUniqueId("player");
             if (!this.loadRitual(playerUuid)) {

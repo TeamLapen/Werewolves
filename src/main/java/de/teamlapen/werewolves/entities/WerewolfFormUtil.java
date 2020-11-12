@@ -20,5 +20,10 @@ public class WerewolfFormUtil {
         public String getName() {
             return name;
         }
+
+        @Override
+        public String getString() {
+            return name;
+        }
     }
 }

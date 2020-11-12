@@ -7,8 +7,8 @@ import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.data.loot.BlockLootTables;
+import net.minecraft.loot.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.*;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -33,13 +33,13 @@ public class LootTablesGenerator extends LootTableProvider {
 
     @Override
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationTracker validationtracker) {
-        map.forEach((resourceLocation, lootTable) -> LootTableManager.func_227508_a_(validationtracker, resourceLocation, lootTable));
+        map.forEach((resourceLocation, lootTable) -> LootTableManager.validateLootTable(validationtracker, resourceLocation, lootTable));
     }
 
     private static class ModBlockLootTables extends BlockLootTables {
         @Override
         protected void addTables() {
-            this.registerLootTable(ModBlocks.totem_top_werewolves_werewolf, BlockLootTables.func_218482_a());
+            this.registerLootTable(ModBlocks.totem_top_werewolves_werewolf, LootTable.builder());
             this.registerLootTable(ModBlocks.totem_top_werewolves_werewolf_crafted, dropping(de.teamlapen.vampirism.core.ModBlocks.totem_top));
             this.registerDropSelfLootTable(ModBlocks.jacaranda_sapling);
             this.registerDropSelfLootTable(ModBlocks.magic_sapling);

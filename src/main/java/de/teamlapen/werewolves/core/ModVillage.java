@@ -39,7 +39,7 @@ public class ModVillage extends de.teamlapen.vampirism.core.ModVillage {
     static void registerPointOfInterestTypes(IForgeRegistry<PointOfInterestType> registry) {
         PointOfInterestType werewolf_faction = new FactionPointOfInterestType("werewolf_faction", ImmutableSet.of(ModBlocks.totem_top_werewolves_werewolf.getStateContainer().getBaseState()),1,1).setRegistryName(REFERENCE.MODID, "werewolf_faction");
         registry.register(werewolf_faction);
-        PointOfInterestType.func_221052_a(werewolf_faction);
+        PointOfInterestType.registerBlockStates(werewolf_faction);
     }
 
     private static Map<Integer, VillagerTrades.ITrade[]> getWerewolfTrades() {

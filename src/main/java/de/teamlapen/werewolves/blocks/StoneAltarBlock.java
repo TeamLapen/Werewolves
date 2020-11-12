@@ -66,11 +66,6 @@ public class StoneAltarBlock extends ContainerBlock {
     }
 
     @Override
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return false;
-    }
-
-    @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
     }

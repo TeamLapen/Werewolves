@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.effects;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.util.WReference;
@@ -49,8 +50,8 @@ public class LupusSanguinem extends WerewolvesEffect {
     }
 
     @Override
-    public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, int x, int y, float z) {
+    public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, MatrixStack mStack, int x, int y, float z) {
         String s = UtilLib.translate(effect.getPotion().getName());
-        gui.font.drawStringWithShadow(s, (float) (x + 10 + 18), (float) (y + 6), 16777215);
+        gui.font.drawStringWithShadow(mStack, s, (float) (x + 10 + 18), (float) (y + 6), 16777215);
     }
 }
