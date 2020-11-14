@@ -48,6 +48,7 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             workingDirectory project.file('run/client').canonicalPath
             jvmArg '-ea:de.teamlapen...'
+            arg "-mixin.config=werewolves.mixins.json"
 
             mods {
                 werewolves {
@@ -59,13 +60,14 @@ minecraft {
         client2 {
             parent runs.client
             taskName 'runClient2'
-            args '--username', 'Dev2'
+            args "-mixin.config=werewolves.mixins.json", '--username', 'Dev2'
         }
         server {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/server').canonicalPath
             jvmArg '-ea:de.teamlapen...'
+            arg "-mixin.config=werewolves.mixins.json"
 
             mods {
                 werewolves {
@@ -79,7 +81,7 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/data').canonicalPath
-            args '--mod', 'werewolves', '--all', '--output', file('src/generated/resources/'),  '--existing', sourceSets.main.resources.srcDirs[0]
+            args "-mixin.config=werewolves.mixins.json", '--mod', 'werewolves', '--all', '--output', file('src/generated/resources/'),  '--existing', sourceSets.main.resources.srcDirs[0]
             mods {
                 werewolves {
                     source sourceSets.main
@@ -177,8 +179,15 @@ jar {
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${mod_version}",
                 "Implementation-Vendor" :"cheaterpaul",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "werewolves.mixins.json"
         ])
     }
 
+}
+
+apply plugin: 'org.spongepowered.mixin'
+
+mixin {
+    add sourceSets.main, "werewolves.refmap.json"
 }
