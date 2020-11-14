@@ -47,7 +47,7 @@ public class WerewolvesMod {
 
     public static final AbstractPacketDispatcher dispatcher = new ModPacketDispatcher();
     public static final Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-    private static final EntityClassification WEREWOLF_CREATUE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 20, false, false, 128);
+    public static final EntityClassification WEREWOLF_CREATURE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 20, false, false, 128);
     private static final CreatureAttribute WEREWOLF_CREATURE_ATTRIBUTES = new CreatureAttribute();
     public static WerewolvesMod instance;
     public static boolean inDev = false;
@@ -93,7 +93,6 @@ public class WerewolvesMod {
         WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction(REFERENCE.WEREWOLF_PLAYER_KEY, IWerewolfPlayer.class, Color.orange, true, () -> WerewolfPlayer.CAP, REFERENCE.HIGHEST_WEREWOLF_LEVEL, 0, LordTitles::getWerewolfTitle, new WerewolfVillageData());
         WReference.WEREWOLF_FACTION.setChatColor(TextFormatting.GOLD).setTranslationKeys("text.werewolves.werewolf", "text.vampirism.werewolves");
 
-        WReference.WEREWOLF_CREATUE_TYPE = WerewolvesMod.WEREWOLF_CREATUE_TYPE;
         WReference.WEREWOLF_CREATURE_ATTRIBUTES = WerewolvesMod.WEREWOLF_CREATURE_ATTRIBUTES;
     }
 

@@ -1,11 +1,11 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.HumanWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -57,8 +57,8 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
 
     //needed for worldgen
     static {
-        werewolf_beast = prepareEntityType("werewolf_beast", EntityType.Builder.create(BasicWerewolfEntity.Beast::new, WReference.WEREWOLF_CREATUE_TYPE).size(0.8f, 2f), true);
-        werewolf_survivalist = prepareEntityType("werewolf_survivalist", EntityType.Builder.create(BasicWerewolfEntity.Survivalist::new, WReference.WEREWOLF_CREATUE_TYPE).size(0.8f, 1f), true);
+        werewolf_beast = prepareEntityType("werewolf_beast", EntityType.Builder.create(BasicWerewolfEntity.Beast::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).size(0.8f, 2f), true);
+        werewolf_survivalist = prepareEntityType("werewolf_survivalist", EntityType.Builder.create(BasicWerewolfEntity.Survivalist::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).size(0.8f, 1f), true);
         human_werewolf = prepareEntityType("human_werewolf", EntityType.Builder.create(HumanWerewolfEntity::new, EntityClassification.CREATURE).size(0.6f, 1.9f), true);
         wolf = prepareEntityType("wolf", EntityType.Builder.create(AggressiveWolfEntity::new, EntityClassification.MISC).size(0.6F, 0.85F), false);
     }

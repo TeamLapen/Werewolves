@@ -1,6 +1,9 @@
 package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.core.ModFeatures;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
@@ -29,6 +32,8 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
 
     static void registerBiomes(IForgeRegistry<Biome> registry) {
         registry.register(WerewolfHeavenBiome.createWerewolfHeavenBiome().setRegistryName(REFERENCE.MODID, "werewolf_heaven"));
+
+        VampirismAPI.worldGenRegistry().removeStructureFromBiomes(ModFeatures.hunter_camp.getRegistryName(), Lists.newArrayList(WEREWOLF_HEAVEN_KEY.getLocation()));
     }
 
     static void addBiomesToGeneratorUnsafe() {

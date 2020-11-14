@@ -9,11 +9,22 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 public class WerewolfHeavenBiome {
 
     public static Biome createWerewolfHeavenBiome() {
+        return new Biome.Builder().precipitation(Biome.RainType.NONE).category(Biome.Category.FOREST).depth(0.2f).scale(0.5f).temperature(0.3f).downfall(0)
+                .setEffects(getAmbienceBuilder().build())
+                .withMobSpawnSettings(getMobSpawnBuilder().copy())
+                .withGenerationSettings(getGenerationBuilder().build())
+                .build();
+    }
+
+    public static MobSpawnInfo.Builder getMobSpawnBuilder() {
         MobSpawnInfo.Builder mob_builder = new MobSpawnInfo.Builder();
         mob_builder.withCreatureSpawnProbability(0.25f);
-        mob_builder.withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast, 10, 1, 2));
-        mob_builder.withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist, 10, 1, 2));
+        mob_builder.withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast, 70, 1, 2));
+        mob_builder.withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist, 70, 1, 2));
+        return mob_builder;
+    }
 
+    public static BiomeAmbience.Builder getAmbienceBuilder() {
         BiomeAmbience.Builder ambienceBuilder = new BiomeAmbience.Builder();
         ambienceBuilder.setWaterColor(0x4CCCFF);
         ambienceBuilder.setWaterFogColor(0x4CCCFF);
@@ -21,8 +32,11 @@ public class WerewolfHeavenBiome {
         ambienceBuilder.setFogColor(0x4CCCFF);//TODO
         ambienceBuilder.withFoliageColor(0x70E0B5);
         ambienceBuilder.withGrassColor(0x69CFDB);
-        ambienceBuilder.setMoodSound(MoodSoundAmbience.DEFAULT_CAVE);//TODO
+        ambienceBuilder.setMoodSound(MoodSoundAmbience.DEFAULT_CAVE);
+        return ambienceBuilder;
+    }
 
+    public static BiomeGenerationSettings.Builder getGenerationBuilder() {
         BiomeGenerationSettings.Builder biomeGeneratorSettings = new BiomeGenerationSettings.Builder().withSurfaceBuilder(SurfaceBuilder.DEFAULT.func_242929_a(SurfaceBuilder.GRASS_DIRT_GRAVEL_CONFIG));
 
         DefaultBiomeFeatures.withCavesAndCanyons(biomeGeneratorSettings);
@@ -38,9 +52,7 @@ public class WerewolfHeavenBiome {
         VampirismBiomeFeatures.addModdedWaterLake(biomeGeneratorSettings);
         DefaultBiomeFeatures.withDefaultFlowers(biomeGeneratorSettings);
         DefaultBiomeFeatures.withTallGrass(biomeGeneratorSettings);
-
-
-        return new Biome.Builder().precipitation(Biome.RainType.NONE).category(Biome.Category.FOREST).depth(0.2f).scale(0.5f).temperature(0.3f).downfall(0).setEffects(ambienceBuilder.build()).withMobSpawnSettings(mob_builder.copy()).withGenerationSettings(biomeGeneratorSettings.build()).build();
+        return biomeGeneratorSettings;
     }
 
 }
