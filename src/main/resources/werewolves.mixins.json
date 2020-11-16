@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "werewolves.refmap.json",
   "mixins": [
+    "entity.MixinVillagerEntity"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -25,6 +25,9 @@ public class ModEntityEventHandler {
                 ((LivingEntity) event.getTarget()).addPotionEffect(new EffectInstance(ModEffects.silver, WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
             }
         }
+        if (event.getTarget() instanceof IExtendedWerewolf) {
+            ((IExtendedWerewolf) event.getTarget()).makeWerewolf();
+        }
     }
 
     @SubscribeEvent
