@@ -1,4 +1,4 @@
-Werewolves for Minecraft 1.14 - Latest branch [![Java CI](https://github.com/TeamLapen/Werewolves/workflows/Java%20CI/badge.svg?branch=1.16)](https://github.com/TeamLapen/Werewolves/actions) [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
+Werewolves for Minecraft 1.16 - Latest branch [![Java CI](https://github.com/TeamLapen/Werewolves/workflows/Java%20CI/badge.svg?branch=1.16)](https://github.com/TeamLapen/Werewolves/actions) [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 ============================================ 
 
 ## Mod Description
