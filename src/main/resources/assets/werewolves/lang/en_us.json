@@ -39,6 +39,7 @@
   "entity.werewolves.human_werewolf": "Human",
   "entity.werewolves.werewolf_beast": "Werewolf",
   "entity.werewolves.werewolf_survivalist": "Werewolf",
+  "entity.werewolves.task_master_werewolf": "Werewolf representative",
   "__comment": "actions",
   "action.werewolves.howling": "Howling",
   "action.werewolves.werewolf_form": "Werewolf form",
@@ -86,5 +87,6 @@
   "text.werewolves.stone_altar.ritual_missing_items": "Missing items",
   "text.werewolves.stone_altar.wrong_faction": "This altar seem unfamiliar",
   "text.werewolves.stone_altar.ritual_structures_missing": "Missing Structures",
-  "text.werewolves.stone_altar.ritual_less_lit_structures": "The Structures are not burning"
+  "text.werewolves.stone_altar.ritual_less_lit_structures": "The Structures are not burning",
+  "gui.vampirism.taskmaster.text.werewolves_werewolf": "Be not afraid\n, your secret is safe with me and if you intend to help us with a few things we can protect this village from unwanted disturbance and you will be rewarded upon completion. Please browse the available tasks and accept any you like."
 }

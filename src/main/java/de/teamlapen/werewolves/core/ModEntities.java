@@ -5,6 +5,7 @@ import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.HumanWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
+import de.teamlapen.werewolves.entities.werewolf.WerewolfTaskMasterEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -16,20 +17,23 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
+import static de.teamlapen.lib.lib.util.UtilLib.getNull;
+
 @ObjectHolder(REFERENCE.MODID)
 public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
 
     public static final EntityType<BasicWerewolfEntity.Beast> werewolf_beast;
     public static final EntityType<BasicWerewolfEntity.Survivalist> werewolf_survivalist;
     public static final EntityType<HumanWerewolfEntity> human_werewolf;
-    //--
-    public static final EntityType<AggressiveWolfEntity> wolf;
+    public static final EntityType<WerewolfTaskMasterEntity> task_master_werewolf = getNull();
+    public static final EntityType<AggressiveWolfEntity> wolf = getNull();
 
     static void registerEntities(IForgeRegistry<EntityType<?>> registry) {
         registry.register(werewolf_beast);
         registry.register(werewolf_survivalist);
         registry.register(human_werewolf);
-        registry.registerAll(wolf);
+        registry.register(prepareEntityType("wolf", EntityType.Builder.create(AggressiveWolfEntity::new, EntityClassification.MISC).size(0.6F, 0.85F), false));
+        registry.register(prepareEntityType("task_master_werewolf", EntityType.Builder.create(WerewolfTaskMasterEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).size(0.6f, 1.95f), true));
     }
 
     static void registerSpawns() {
@@ -53,6 +57,7 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
         GlobalEntityTypeAttributes.put(werewolf_beast, BasicWerewolfEntity.getAttributeBuilder().create());
         GlobalEntityTypeAttributes.put(werewolf_survivalist, BasicWerewolfEntity.getAttributeBuilder().create());
         GlobalEntityTypeAttributes.put(wolf, AggressiveWolfEntity.func_234233_eS_().create());
+        GlobalEntityTypeAttributes.put(task_master_werewolf, WerewolfTaskMasterEntity.getAttributeBuilder().create());
     }
 
     //needed for worldgen
@@ -60,6 +65,5 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
         werewolf_beast = prepareEntityType("werewolf_beast", EntityType.Builder.create(BasicWerewolfEntity.Beast::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).size(0.8f, 2f), true);
         werewolf_survivalist = prepareEntityType("werewolf_survivalist", EntityType.Builder.create(BasicWerewolfEntity.Survivalist::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).size(0.8f, 1f), true);
         human_werewolf = prepareEntityType("human_werewolf", EntityType.Builder.create(HumanWerewolfEntity::new, EntityClassification.CREATURE).size(0.6f, 1.9f), true);
-        wolf = prepareEntityType("wolf", EntityType.Builder.create(AggressiveWolfEntity::new, EntityClassification.MISC).size(0.6F, 0.85F), false);
     }
 }

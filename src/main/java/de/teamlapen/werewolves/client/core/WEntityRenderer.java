@@ -1,9 +1,6 @@
 package de.teamlapen.werewolves.client.core;
 
-import de.teamlapen.werewolves.client.render.HumanWerewolfRenderer;
-import de.teamlapen.werewolves.client.render.WerewolfBeastRenderer;
-import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
-import de.teamlapen.werewolves.client.render.WerewolfSurvivalistRenderer;
+import de.teamlapen.werewolves.client.render.*;
 import de.teamlapen.werewolves.core.ModEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.WolfRenderer;
@@ -22,5 +19,6 @@ public class WEntityRenderer {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_survivalist, WerewolfSurvivalistRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.human_werewolf, HumanWerewolfRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.wolf, WolfRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.task_master_werewolf, WerewolfTaskMasterRenderer::new);
     }
 }

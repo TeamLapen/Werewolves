@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
@@ -96,5 +97,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterEntityActions(RegistryEvent.Register<IEntityAction> event) {
         ModEntityActions.registerEntityActions(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterAttributes(RegistryEvent.Register<Attribute> event) {
+        ModAttributes.registerAttributes(event.getRegistry());
     }
 }

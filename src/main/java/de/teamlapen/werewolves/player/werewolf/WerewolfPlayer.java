@@ -57,7 +57,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     public static Capability<IWerewolfPlayer> CAP = getNull();
 
     private void applyEntityAttributes() {
-        this.player.getAttribute(ModAttributes.bite_damage).setBaseValue(2.0);
+        try {
+            this.player.getAttribute(ModAttributes.bite_damage).setBaseValue(2.0);
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
         this.player.getAttribute(ModAttributes.time_regain).setBaseValue(1.0);
     }
 

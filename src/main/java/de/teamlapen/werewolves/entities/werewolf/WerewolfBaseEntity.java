@@ -1,78 +1,31 @@
 package de.teamlapen.werewolves.entities.werewolf;
 
-import de.teamlapen.lib.lib.util.UtilLib;
-import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.api.difficulty.Difficulty;
-import de.teamlapen.vampirism.api.entity.EntityClassType;
-import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
-import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
-import de.teamlapen.vampirism.api.entity.actions.IActionHandlerEntity;
-import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.api.world.ICaptureAttributes;
 import de.teamlapen.vampirism.entity.VampirismEntity;
-import de.teamlapen.vampirism.entity.action.ActionHandlerEntity;
-import de.teamlapen.vampirism.entity.goals.AttackVillageGoal;
-import de.teamlapen.vampirism.entity.goals.DefendVillageGoal;
-import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
-import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.LupusSanguinem;
 import de.teamlapen.werewolves.entities.IWerewolfMob;
-import de.teamlapen.werewolves.entities.WerewolfFormUtil;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.PatrollerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.structure.Structure;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob, IVillageCaptureEntity, IEntityActionUser, WerewolfTransformable {
-    protected static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WerewolfBaseEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(WerewolfBaseEntity.class, DataSerializers.VARINT);
-    private static final int MAX_LEVEL = 2;
+public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob {
 
-    private final ActionHandlerEntity<?> entityActionHandler;
-    private EntityClassType entityClass;
-    private EntityActionTier entityTier;
-
-    @Nullable
-    private ICaptureAttributes villageAttributes;
-    private boolean attack;
-
-    public WerewolfBaseEntity(EntityType<? extends VampirismEntity> type, World world, EntityClassType entityClass, EntityActionTier entityTier) {
+    public WerewolfBaseEntity(EntityType<? extends VampirismEntity> type, World world) {
         super(type, world);
-        this.entityClass = entityClass;
-        this.entityTier = entityTier;
-        this.entityActionHandler = new ActionHandlerEntity<>(this);
-        this.entityTier = entityTier;
     }
 
     public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, IWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
         return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random);
-    }
-
-    protected void setup(EntityClassType classType, EntityActionTier actionTier) {
-        this.entityClass = classType;
-        this.entityTier = actionTier;
     }
 
     public void bite(LivingEntity entity) {
@@ -98,191 +51,10 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
         return this;
     }
 
-    @Override
-    protected void registerData() {
-        super.registerData();
-        this.getDataManager().register(LEVEL, -1);
-        this.getDataManager().register(TYPE, -1);
-    }
-
-    @Override
-    public void livingTick() {
-        super.livingTick();
-        if (this.entityActionHandler != null) {
-            this.entityActionHandler.handle();
-        }
-    }
-
     public static AttributeModifierMap.MutableAttribute getAttributeBuilder() {
         return VampirismEntity.getAttributeBuilder()
                 .createMutableAttribute(Attributes.MAX_HEALTH, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_max_health.get())
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_attack_damage.get())
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_speed.get());
-    }
-
-    @Override
-    public void attackVillage(ICaptureAttributes iCaptureAttributes) {
-        this.villageAttributes = iCaptureAttributes;
-        this.attack = true;
-    }
-
-    @Override
-    public void defendVillage(ICaptureAttributes iCaptureAttributes) {
-        this.villageAttributes = iCaptureAttributes;
-        this.attack = false;
-    }
-
-    @Nullable
-    @Override
-    public AxisAlignedBB getTargetVillageArea() {
-        return this.villageAttributes == null ? null : this.villageAttributes.getVillageArea();
-    }
-
-    @Override
-    public boolean isAttackingVillage() {
-        return this.villageAttributes != null && attack;
-    }
-
-    @Override
-    public boolean isDefendingVillage() {
-        return this.villageAttributes != null && !attack;
-    }
-
-    @Override
-    public void stopVillageAttackDefense() {
-        this.villageAttributes = null;
-    }
-
-    @Nullable
-    @Override
-    public ICaptureAttributes getCaptureInfo() {
-        return this.villageAttributes;
-    }
-
-    @Override
-    public IActionHandlerEntity getActionHandler() {
-        return this.entityActionHandler;
-    }
-
-    @Override
-    public int getLevel() {
-        return getDataManager().get(LEVEL);
-    }
-
-
-    @Override
-    public void setLevel(int level) {
-        if (level >= 0) {
-            getDataManager().set(LEVEL, level);
-            this.updateEntityAttributes();
-            if (level == 2) {
-                this.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 1000000, 1));
-            }
-            if (level == 1) {
-                this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.IRON_SWORD));
-            } else {
-                this.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
-            }
-
-        }
-    }
-
-    @Override
-    public int getMaxLevel() {
-        return MAX_LEVEL;
-    }
-
-    @Override
-    public int suggestLevel(Difficulty difficulty) {
-        switch (this.rand.nextInt(5)) {
-            case 0:
-                return (int) (difficulty.minPercLevel / 100F * MAX_LEVEL);
-            case 1:
-                return (int) (difficulty.avgPercLevel / 100F * MAX_LEVEL);
-            case 2:
-                return (int) (difficulty.maxPercLevel / 100F * MAX_LEVEL);
-            default:
-                return this.rand.nextInt(MAX_LEVEL + 1);
-        }
-    }
-
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new BreakDoorGoal(this, (difficulty) -> difficulty == net.minecraft.world.Difficulty.HARD));//Only break doors on hard difficulty
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.addGoal(9, new RandomWalkingGoal(this, 0.7));
-        this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, PlayerEntity.class, 20F, 0.6F));
-        this.goalSelector.addGoal(10, new LookAtGoal(this, HunterBaseEntity.class, 17F));
-        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
-
-
-        this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(4, new AttackVillageGoal<>(this));
-        this.targetSelector.addGoal(4, new DefendVillageGoal<>(this));//Should automatically be mutually exclusive with  attack village
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, false, true, true, null)));
-        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, CreatureEntity.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));
-        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollerEntity.class, 5, true, true, (living) -> UtilLib.isInsideStructure(living, Structure.VILLAGE)));
-    }
-
-    protected void updateEntityAttributes() {
-        int l = Math.max(getLevel(), 0);
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(WerewolvesConfig.BALANCE.MOBPROPS.werewolf_max_health.get() + WerewolvesConfig.BALANCE.MOBPROPS.werewolf_max_health_pl.get() * l);
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(WerewolvesConfig.BALANCE.MOBPROPS.werewolf_attack_damage.get() + WerewolvesConfig.BALANCE.MOBPROPS.werewolf_attack_damage_pl.get() * l);
-        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(WerewolvesConfig.BALANCE.MOBPROPS.werewolf_speed.get());
-    }
-
-    @Override
-    public EntityActionTier getEntityTier() {
-        return entityTier;
-    }
-
-    @Override
-    public EntityClassType getEntityClass() {
-        return entityClass;
-    }
-
-    public abstract WerewolfFormUtil.Form getForm();
-
-    @Override
-    public void readAdditional(CompoundNBT nbt) {
-        super.readAdditional(nbt);
-        if (nbt.contains("level")) {
-            this.setLevel(nbt.getInt("level"));
-        }
-        if (nbt.contains("attack")) {
-            this.attack = nbt.getBoolean("attack");
-        }
-        if (nbt.contains("type")) {
-            int t = nbt.getInt("type");
-            this.getDataManager().set(TYPE, t < 126 && t >= 0 ? t : -1);
-        }
-        if (this.entityActionHandler != null) {
-            this.entityActionHandler.read(nbt);
-        }
-    }
-
-    @Override
-    public void writeAdditional(CompoundNBT nbt) {
-        super.writeAdditional(nbt);
-        nbt.putBoolean("attack", this.attack);
-        nbt.putInt("level", this.getLevel());
-        nbt.putInt("type", this.getEntityTextureType());
-        if (this.entityActionHandler != null) {
-            this.entityActionHandler.write(nbt);
-        }
-    }
-
-    @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
-        if (this.getDataManager().get(TYPE) == -1) {
-            this.getDataManager().set(TYPE, this.getRNG().nextInt(126));
-        }
-    }
-
-    public int getEntityTextureType() {
-        int i = this.getDataManager().get(TYPE);
-        return Math.max(i, 0);
     }
 }

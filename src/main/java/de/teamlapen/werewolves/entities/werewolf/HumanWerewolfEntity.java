@@ -27,7 +27,6 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.UUID;
 
 public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTransformable {
     private static final DataParameter<Integer> FORM = EntityDataManager.createKey(HumanWerewolfEntity.class, DataSerializers.VARINT);
@@ -139,20 +138,15 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public BasicWerewolfEntity transformToWerewolf2() {
-        BasicWerewolfEntity werewolf;
+    public BasicWerewolfEntity _transformToWerewolf() {
+        EntityType<? extends BasicWerewolfEntity> type;
         if (this.getDataManager().get(FORM) == 0) {
-            werewolf = ModEntities.werewolf_beast.create(this.world);
+            type = ModEntities.werewolf_beast;
         } else {
-            werewolf = ModEntities.werewolf_survivalist.create(this.world);
+            type = ModEntities.werewolf_survivalist;
         }
+        BasicWerewolfEntity werewolf = WerewolfTransformable.copyData(type, this);
         werewolf.setSourceEntity(this);
-        werewolf.copyLocationAndAnglesFrom(this);
-        werewolf.copyDataFromOld(this);
-        werewolf.setUniqueId(UUID.randomUUID());
-        this.world.addEntity(werewolf);
-        this.remove(true);
-        werewolf.setHealth(this.getHealth() / this.getMaxHealth() * werewolf.getMaxHealth());
         return werewolf;
     }
 
@@ -167,7 +161,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public WerewolfTransformable transformBack2() {
+    public WerewolfTransformable _transformBack() {
         return this;
     }
 
