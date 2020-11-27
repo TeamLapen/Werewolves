@@ -8,6 +8,7 @@ import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.mixin.MixinAccessors;
 import de.teamlapen.werewolves.network.InputEventPacket;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
@@ -91,7 +92,7 @@ public class ClientEventHandler {
     public void onGuiInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
         if (event.getGui() instanceof SkillsScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
-                event.getGui().addButton(new ExpBar(118, 62, ((SkillsScreen) event.getGui())));
+                ((MixinAccessors.ScreenMixin) event.getGui()).addButton(new ExpBar(118, 62, ((SkillsScreen) event.getGui())));
             }
         }
     }

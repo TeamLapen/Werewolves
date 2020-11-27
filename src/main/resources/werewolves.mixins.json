@@ -4,6 +4,11 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "werewolves.refmap.json",
   "mixins": [
+    "MixinAccessors$BlocksInvoker",
+    "MixinAccessors$FireBlockInvoker",
+    "MixinAccessors$IngameGuiAccessor",
+    "MixinAccessors$PointOfInterestTypeInvoker",
+    "MixinAccessors$ScreenMixin",
     "entity.MixinPlayerEntity",
     "entity.MixinVillagerEntity"
   ],

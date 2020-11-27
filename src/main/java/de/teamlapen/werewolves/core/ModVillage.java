@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.entity.FactionVillagerProfession;
 import de.teamlapen.vampirism.world.FactionPointOfInterestType;
+import de.teamlapen.werewolves.mixin.MixinAccessors;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -39,7 +40,7 @@ public class ModVillage extends de.teamlapen.vampirism.core.ModVillage {
     static void registerPointOfInterestTypes(IForgeRegistry<PointOfInterestType> registry) {
         PointOfInterestType werewolf_faction = new FactionPointOfInterestType("werewolf_faction", ImmutableSet.of(ModBlocks.totem_top_werewolves_werewolf.getStateContainer().getBaseState()),1,1).setRegistryName(REFERENCE.MODID, "werewolf_faction");
         registry.register(werewolf_faction);
-        PointOfInterestType.registerBlockStates(werewolf_faction);
+        MixinAccessors.PointOfInterestTypeInvoker.registerBlockStates(werewolf_faction);
     }
 
     private static Map<Integer, VillagerTrades.ITrade[]> getWerewolfTrades() {
