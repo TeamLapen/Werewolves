@@ -40,7 +40,7 @@ public class MixinAccessors {
     public interface FireBlockInvoker {
 
         @Invoker("setFireInfo")
-        void setFireInfo(Block blockIn, int encouragement, int flammability);
+        void invokeSetFireInfo(Block blockIn, int encouragement, int flammability);
     }
 
     @Mixin(PointOfInterestType.class)
@@ -57,7 +57,7 @@ public class MixinAccessors {
         FontRenderer getFont();
 
         @Invoker("addButton")
-        <T extends Widget> T addButton(T button);
+        <T extends Widget> T invokeAddButton(T button);
     }
 
 }

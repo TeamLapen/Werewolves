@@ -92,7 +92,7 @@ public class ClientEventHandler {
     public void onGuiInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
         if (event.getGui() instanceof SkillsScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
-                ((MixinAccessors.ScreenMixin) event.getGui()).addButton(new ExpBar(118, 62, ((SkillsScreen) event.getGui())));
+                ((MixinAccessors.ScreenMixin) event.getGui()).invokeAddButton(new ExpBar(118, 62, ((SkillsScreen) event.getGui())));
             }
         }
     }
