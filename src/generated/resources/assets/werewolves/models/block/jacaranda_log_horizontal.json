@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_column",
+  "parent": "minecraft:block/cube_column_horizontal",
   "textures": {
     "side": "werewolves:block/jacaranda_log",
     "end": "werewolves:block/jacaranda_log_top"
