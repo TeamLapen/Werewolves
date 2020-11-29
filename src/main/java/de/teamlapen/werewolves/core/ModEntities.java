@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.core;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
@@ -17,10 +19,14 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
+import java.util.Set;
+
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
 public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
+
+    private static final Set<EntityType<?>> ALL_ENTITIES = Sets.newHashSet();
 
     public static final EntityType<BasicWerewolfEntity.Beast> werewolf_beast;
     public static final EntityType<BasicWerewolfEntity.Survivalist> werewolf_survivalist;
@@ -32,7 +38,7 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
         registry.register(werewolf_beast);
         registry.register(werewolf_survivalist);
         registry.register(human_werewolf);
-        registry.register(prepareEntityType("wolf", EntityType.Builder.create(AggressiveWolfEntity::new, EntityClassification.MISC).size(0.6F, 0.85F), false));
+        registry.register(prepareEntityType("wolf", EntityType.Builder.create(AggressiveWolfEntity::new, EntityClassification.AMBIENT).size(0.6F, 0.85F), false));
         registry.register(prepareEntityType("task_master_werewolf", EntityType.Builder.create(WerewolfTaskMasterEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).size(0.6f, 1.95f), true));
     }
 
@@ -49,6 +55,7 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
             type.disableSummoning();
         EntityType<T> entry = type.build(REFERENCE.MODID + ":" + id);
         entry.setRegistryName(REFERENCE.MODID, id);
+        ALL_ENTITIES.add(entry);
         return entry;
     }
 
@@ -65,5 +72,9 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
         werewolf_beast = prepareEntityType("werewolf_beast", EntityType.Builder.create(BasicWerewolfEntity.Beast::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).size(0.8f, 2f), true);
         werewolf_survivalist = prepareEntityType("werewolf_survivalist", EntityType.Builder.create(BasicWerewolfEntity.Survivalist::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).size(0.8f, 1f), true);
         human_werewolf = prepareEntityType("human_werewolf", EntityType.Builder.create(HumanWerewolfEntity::new, EntityClassification.CREATURE).size(0.6f, 1.9f), true);
+    }
+
+    public static Set<EntityType<?>> getAllEntities() {
+        return ImmutableSet.copyOf(ALL_ENTITIES);
     }
 }

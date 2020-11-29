@@ -3,11 +3,16 @@ package de.teamlapen.werewolves.data;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import de.teamlapen.werewolves.core.ModBlocks;
+import de.teamlapen.werewolves.core.ModEntities;
+import de.teamlapen.werewolves.core.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.data.loot.BlockLootTables;
+import net.minecraft.data.loot.EntityLootTables;
+import net.minecraft.entity.EntityType;
 import net.minecraft.loot.*;
+import net.minecraft.loot.conditions.KilledByPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -28,7 +33,7 @@ public class LootTablesGenerator extends LootTableProvider {
 
     @Override
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootParameterSet>> getTables() {
-        return ImmutableList.of(Pair.of(ModBlockLootTables::new, LootParameterSets.BLOCK));
+        return ImmutableList.of(Pair.of(ModBlockLootTables::new, LootParameterSets.BLOCK), Pair.of(ModEntityLootTables::new, LootParameterSets.ENTITY));
     }
 
     @Override
@@ -60,6 +65,26 @@ public class LootTablesGenerator extends LootTableProvider {
         @Override
         protected Iterable<Block> getKnownBlocks() {
             return ModBlocks.getAllBlocks();
+        }
+    }
+
+    private static class ModEntityLootTables extends EntityLootTables {
+        private ModEntityLootTables() {
+        }
+
+        @Override
+        protected void addTables() {
+            this.registerLootTable(ModEntities.task_master_werewolf, LootTable.builder());
+            this.registerLootTable(ModEntities.werewolf_survivalist, LootTable.builder().addLootPool(LootPool.builder().name("general").acceptCondition(KilledByPlayer.builder()).rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ModItems.bone).weight(4)).addEntry(ItemLootEntry.builder(ModItems.liver).weight(1))));
+            this.registerLootTable(ModEntities.werewolf_beast, LootTable.builder().addLootPool(LootPool.builder().name("general").acceptCondition(KilledByPlayer.builder()).rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ModItems.bone).weight(4)).addEntry(ItemLootEntry.builder(ModItems.liver).weight(1))));
+            this.registerLootTable(ModEntities.wolf, LootTable.builder());
+            this.registerLootTable(ModEntities.human_werewolf, LootTable.builder().addLootPool(LootPool.builder().name("general").acceptCondition(KilledByPlayer.builder()).rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ModItems.bone).weight(4)).addEntry(ItemLootEntry.builder(ModItems.liver).weight(1))));
+        }
+
+        @Nonnull
+        @Override
+        protected Iterable<EntityType<?>> getKnownEntities() {
+            return ModEntities.getAllEntities();
         }
     }
 }
