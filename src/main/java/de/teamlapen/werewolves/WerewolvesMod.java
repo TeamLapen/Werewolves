@@ -10,6 +10,7 @@ import de.teamlapen.werewolves.core.ModCommands;
 import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.data.*;
 import de.teamlapen.werewolves.entities.ModEntityEventHandler;
+import de.teamlapen.werewolves.modcompat.guide.WerewolvesGuideBook;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.ModPlayerEventHandler;
@@ -77,6 +78,7 @@ public class WerewolvesMod {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ModBiomes::onBiomeLoadingEventAdditions);
+        MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
 
         WerewolvesConfig.registerConfigs();
         Permissions.init();

@@ -88,5 +88,18 @@
   "text.werewolves.stone_altar.wrong_faction": "This altar seem unfamiliar",
   "text.werewolves.stone_altar.ritual_structures_missing": "Missing Structures",
   "text.werewolves.stone_altar.ritual_less_lit_structures": "The Structures are not burning",
-  "gui.vampirism.taskmaster.text.werewolves_werewolf": "Be not afraid\n, your secret is safe with me and if you intend to help us with a few things we can protect this village from unwanted disturbance and you will be rewarded upon completion. Please browse the available tasks and accept any you like."
+  "__comment": "guide-api",
+  "gui.vampirism.taskmaster.text.werewolves_werewolf": "Be not afraid\n, your secret is safe with me and if you intend to help us with a few things we can protect this village from unwanted disturbance and you will be rewarded upon completion. Please browse the available tasks and accept any you like.",
+  "guide.werewolves.entity.werewolf.title": "Werewolf",
+  "guide.werewolves.werewolf.getting_started": "Getting started as Werewolf",
+  "guide.werewolves.werewolf.leveling": "Leveling",
+  "guide.werewolves.werewolf.skills": "Skills",
+  "guide.werewolves.werewolf.lord": "Lord",
+  "guide.werewolves.werewolf.un_werewolf": "Un-Werewolf",
+  "guide.werewolves.werewolf.leveling.intro": "Intro",
+  "guide.werewolves.werewolf.leveling.stone_altar": "Stone Altar",
+  "guide.werewolves.werewolf.skills.text": "skills text",
+  "guide.werewolves.werewolf.skills.actions": "action text",
+  "guide.werewolves.werewolf.lord.text": "The Lord feature is not yet implemented",
+  "guide.werewolves.werewolf.un_werewolf.text": "Not Possible"
 }
