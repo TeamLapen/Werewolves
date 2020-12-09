@@ -13,9 +13,13 @@ import net.minecraft.potion.EffectType;
 
 import javax.annotation.Nonnull;
 
-public class LupusSanguinem extends WerewolvesEffect {
+public class LupusSanguinemEffect extends WerewolvesEffect {
 
     private static final String REG_NAME = "lupus_sanguinem";
+
+    public LupusSanguinemEffect() {
+        super(REG_NAME, EffectType.HARMFUL, 0xe012ef);
+    }
 
     public static void addSanguinemEffect(LivingEntity entity) {
         boolean canBecomeWerewolf = false; //TODO other entities
@@ -24,13 +28,9 @@ public class LupusSanguinem extends WerewolvesEffect {
         }
         if (canBecomeWerewolf) {
             if (entity.getRNG().nextInt(5) == 0) {
-                entity.addPotionEffect(new LupusSanguinemInstance(Integer.MAX_VALUE));
+                entity.addPotionEffect(new LupusSanguinemEffectInstance(Integer.MAX_VALUE));
             }
         }
-    }
-
-    public LupusSanguinem() {
-        super(REG_NAME, EffectType.HARMFUL, 0xe012ef);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class LupusSanguinem extends WerewolvesEffect {
 
     @Override
     public boolean isReady(int duration, int amplifier) {
-        return false;
+        return duration == 2;
     }
 
     @Override
@@ -52,7 +52,10 @@ public class LupusSanguinem extends WerewolvesEffect {
 
     @Override
     public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, MatrixStack mStack, int x, int y, float z) {
+        super.renderInventoryEffect(effect, gui, mStack, x, y, z);
         String s = UtilLib.translate(effect.getPotion().getName());
         ((MixinAccessors.ScreenMixin) gui).getFont().drawStringWithShadow(mStack, s, (float) (x + 10 + 18), (float) (y + 6), 16777215);
+        String duration = "**:**";
+        ((MixinAccessors.ScreenMixin) gui).getFont().drawStringWithShadow(mStack, duration, (float) (x + 10 + 18), (float) (y + 6 + 10), 8355711);
     }
 }

@@ -13,9 +13,9 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class LiverItem extends WerewolvesItem {
+public class LiverItem extends Item {
     public LiverItem() {
-        super("liver", new Item.Properties().group(WUtils.creativeTab).food(new Food.Builder().meat().hunger(10).saturation(1.5f).build()));
+        super(new Item.Properties().group(WUtils.creativeTab).food(new Food.Builder().meat().hunger(10).saturation(1.5f).build()));
     }
 
     @Nonnull

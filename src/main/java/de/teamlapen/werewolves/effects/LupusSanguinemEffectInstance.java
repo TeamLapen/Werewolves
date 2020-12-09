@@ -8,8 +8,8 @@ import net.minecraft.potion.EffectInstance;
 
 import javax.annotation.Nonnull;
 
-public class LupusSanguinemInstance extends EffectInstance {
-    public LupusSanguinemInstance(int durationIn) {
+public class LupusSanguinemEffectInstance extends EffectInstance {
+    public LupusSanguinemEffectInstance(int durationIn) {
         super(ModEffects.lupus_sanguinem, durationIn, 0, false, true);
     }
 

@@ -1,23 +1,30 @@
 package de.teamlapen.werewolves.player;
 
+import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
+import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
+import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModEffects;
-import de.teamlapen.werewolves.core.ModTags;
-import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.core.*;
+import de.teamlapen.werewolves.effects.UnWerewolfEffectInstance;
+import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
@@ -148,6 +155,49 @@ public class ModPlayerEventHandler {
         if (event.getPlayer().getActivePotionEffect(ModEffects.lupus_sanguinem) != null) {
             event.getPlayer().getActivePotionEffect(ModEffects.lupus_sanguinem).performEffect(event.getPlayer());
             event.getPlayer().removePotionEffect(ModEffects.lupus_sanguinem);
+        }
+    }
+
+    @SubscribeEvent
+    public void onItemUseEntity(PlayerInteractEvent.EntityInteract event) {
+        if (event.getPlayer().getHeldItem(event.getHand()).getItem() == ModItems.injection_empty) {
+            if (event.getTarget() instanceof WerewolfBaseEntity) {
+                event.getPlayer().getHeldItem(event.getHand()).shrink(1);
+                event.getPlayer().addItemStackToInventory(new ItemStack(ModItems.injection_un_werewolf));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onItemUseBlock(PlayerInteractEvent.RightClickBlock event) {
+        PlayerEntity player = event.getPlayer();
+        if (player.getHeldItem(event.getHand()).getItem() == ModItems.injection_un_werewolf) {
+            if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.med_chair) {
+                ItemStack stack = player.getHeldItem(event.getHand());
+                if (player.isAlive()) {
+                    IFactionPlayerHandler handler = FactionPlayerHandler.get(event.getPlayer());
+                    IPlayableFaction<?> faction = handler.getCurrentFaction();
+                    boolean used = false;
+                    if (WReference.WEREWOLF_FACTION.equals(faction)) {
+                        if (player.getActivePotionEffect(ModEffects.un_werewolf) == null) {
+                            player.addPotionEffect(new UnWerewolfEffectInstance(2000));
+                            used = true;
+                        } else {
+                            player.sendStatusMessage(new TranslationTextComponent("text.werewolves.injection.in_use"), true);
+                        }
+                    } else if (faction != null) {
+                        player.sendStatusMessage(new TranslationTextComponent("text.werewolves.injection.not_use"), true);
+                    }
+                    if (used) {
+                        stack.shrink(1);
+                        if (stack.isEmpty()) {
+                            player.inventory.deleteStack(stack);
+                        }
+                    }
+                }
+            }
+            event.setCancellationResult(ActionResultType.SUCCESS);
+            event.setCanceled(true);
         }
     }
 }

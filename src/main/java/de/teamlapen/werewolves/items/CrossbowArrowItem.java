@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IVampirismCrossbowArrow;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.CrossbowArrowEntity;
+import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -20,13 +21,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CrossbowArrowItem extends WerewolvesItem implements IVampirismCrossbowArrow<CrossbowArrowEntity> {
+public class CrossbowArrowItem extends Item implements IVampirismCrossbowArrow<CrossbowArrowEntity> {
 
     private final ArrowType type;
 
     public CrossbowArrowItem(ArrowType type) {
-        super("crossbow_arrow_" + type.name, new Item.Properties().group(WUtils.creativeTab));
+        super(new Item.Properties().group(WUtils.creativeTab));
         this.type = type;
+        this.setRegistryName(REFERENCE.MODID, "crossbow_arrow_" + type.name);
     }
 
     @Override

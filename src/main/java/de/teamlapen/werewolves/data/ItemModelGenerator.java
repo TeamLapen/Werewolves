@@ -44,6 +44,7 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModItems.silver_ingot);
             add(ModItems.liver);
             add(ModItems.bone);
+            add(ModItems.injection_un_werewolf);
         }};
         Set<Block> blockLayer = new HashSet<Block>() {{
             add(ModBlocks.jacaranda_sapling);

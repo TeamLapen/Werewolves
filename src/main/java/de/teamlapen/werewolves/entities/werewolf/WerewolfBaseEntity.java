@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.entities.werewolf;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.effects.LupusSanguinem;
+import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.entities.IWerewolfMob;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.EntityClassification;
@@ -30,7 +30,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
 
     public void bite(LivingEntity entity) {
         //TODO take a look at ExtendedCreature#onBite
-        LupusSanguinem.addSanguinemEffect(entity);
+        LupusSanguinemEffect.addSanguinemEffect(entity);
     }
 
     @Override

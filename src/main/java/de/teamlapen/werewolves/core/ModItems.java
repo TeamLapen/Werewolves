@@ -5,7 +5,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.items.CrossbowArrowItem;
 import de.teamlapen.werewolves.items.LiverItem;
 import de.teamlapen.werewolves.items.SilverSword;
-import de.teamlapen.werewolves.items.WerewolvesItem;
+import de.teamlapen.werewolves.items.UnWerewolfInjectionItem;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
@@ -22,7 +22,7 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 @ObjectHolder(REFERENCE.MODID)
 public class ModItems extends de.teamlapen.vampirism.core.ModItems {
 
-    public static final WerewolvesItem silver_ingot = getNull();
+    public static final Item silver_ingot = getNull();
     public static final HoeItem silver_hoe = getNull();
     public static final ShovelItem silver_shovel = getNull();
     public static final AxeItem silver_axe = getNull();
@@ -30,10 +30,11 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final SilverSword silver_sword = getNull();
     public static final CrossbowArrowItem crossbow_arrow_silver_bolt = getNull();
     public static final LiverItem liver = getNull();
-    public static final WerewolvesItem bone = getNull();
+    public static final Item bone = getNull();
+    public static final UnWerewolfInjectionItem injection_un_werewolf = getNull();
 
     static void registerItems(IForgeRegistry<Item> registry) {
-        registry.register(new WerewolvesItem("silver_ingot", (new Item.Properties()).group(WUtils.creativeTab)));
+        registry.register(new Item((new Item.Properties()).group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
 
         registry.register(new HoeItem(WUtils.SILVER_ITEM_TIER, 0, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_hoe"));
         registry.register(new ShovelItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_shovel"));
@@ -49,7 +50,8 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
             }
         }));
 
-        registry.register(new LiverItem());
-        registry.register(new WerewolvesItem("bone", new Item.Properties().group(WUtils.creativeTab)));
+        registry.register(new LiverItem().setRegistryName(REFERENCE.MODID, "liver"));
+        registry.register(new Item(new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "bone"));
+        registry.register(new UnWerewolfInjectionItem());
     }
 }
