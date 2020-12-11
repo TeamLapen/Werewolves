@@ -6,9 +6,12 @@ import de.maxanier.guideapi.api.util.PageHelper;
 import de.maxanier.guideapi.category.CategoryItemStack;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.client.core.ModKeys;
+import de.teamlapen.vampirism.core.ModBlocks;
 import de.teamlapen.vampirism.modcompat.guide.EntryText;
+import de.teamlapen.vampirism.modcompat.guide.GuideHelper;
 import de.teamlapen.vampirism.modcompat.guide.VampirismGuideBookCategoriesEvent;
 import de.teamlapen.werewolves.core.ModItems;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -28,6 +31,7 @@ public class WerewolvesGuideBook {
 
     public static void onVampirismGuideBookCategoriesEvent(VampirismGuideBookCategoriesEvent event) {
         event.categories.add(3, new CategoryItemStack(buildWerewolf(), translateComponent("guide.werewolves.entity.werewolf.title"), new ItemStack(ModItems.liver)));
+
     }
 
     private static Map<ResourceLocation, EntryAbstract> buildWerewolf() {
@@ -36,6 +40,9 @@ public class WerewolvesGuideBook {
 
         List<IPage> gettingStarted = new ArrayList<>();
         gettingStarted.addAll(PageHelper.pagesForLongText(translateComponent(base + "getting_started.become")));
+        gettingStarted.addAll(PageHelper.pagesForLongText(translateComponent(base + "getting_started.as_werewolf")));
+        gettingStarted.addAll(PageHelper.pagesForLongText(translateComponent(base + "getting_started.weakness")));
+        gettingStarted.addAll(PageHelper.pagesForLongText(translateComponent(base + "getting_started.skills")));
         entries.put(new ResourceLocation(base + "getting_started"), new EntryText(gettingStarted, translateComponent(base + "getting_started")));
 
         List<IPage> levelingPages = new ArrayList<>();
@@ -45,7 +52,7 @@ public class WerewolvesGuideBook {
 
         List<IPage> skillPages = new ArrayList<>();
         skillPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "skills.text", UtilLib.translate(ModKeys.getKeyBinding(ModKeys.KEY.SKILL).getTranslationKey()))));
-        skillPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "skills.actions", UtilLib.translate(ModKeys.getKeyBinding(ModKeys.KEY.ACTION).getTranslationKey()))));
+        skillPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "skills.decision")));
         entries.put(new ResourceLocation(base + "skills"), new EntryText(skillPages, translateComponent(base + "skills")));
 
         List<IPage> werewolfLord = new ArrayList<>();
@@ -53,13 +60,17 @@ public class WerewolvesGuideBook {
         entries.put(new ResourceLocation(base + "lord"), new EntryText(werewolfLord, translateComponent(base + "lord")));
 
         List<IPage> unWerewolf = new ArrayList<>();
-        unWerewolf.addAll(PageHelper.pagesForLongText(translateComponent(base + "un_werewolf.text")));
+        unWerewolf.addAll(GuideHelper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "un_werewolf.text", loc(ModItems.injection_un_werewolf), loc(ModBlocks.med_chair))), new ResourceLocation("guide.vampirism.items.injection_empty"), new ResourceLocation("guide.vampirism.blocks.item_med_chair")));
         entries.put(new ResourceLocation(base + "un_werewolf"), new EntryText(unWerewolf, translateComponent(base + "un_werewolf")));
 
         return entries;
     }
 
     private static String loc(Item i) {
+        return UtilLib.translate(i.getTranslationKey());
+    }
+
+    private static String loc(Block i) {
         return UtilLib.translate(i.getTranslationKey());
     }
 }
