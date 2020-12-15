@@ -20,7 +20,8 @@ public class WWorldEventHandler {
 
     @SubscribeEvent
     public void onVillageCaptureFinish(VampirismVillageEvent.VillagerCaptureFinish.Pre event) {
-        List<MobEntity> werewolves = ((TileEntity) event.getTotem()).getWorld().getEntitiesWithinAABB(MobEntity.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
+        World world = ((TileEntity) event.getTotem()).getWorld();
+        List<MobEntity> werewolves = world.getEntitiesWithinAABB(MobEntity.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
         if (WReference.WEREWOLF_FACTION.equals(event.getControllingFaction())) {
             werewolves.forEach(e -> {
                 if (e instanceof IVillagerTransformable) {
@@ -29,7 +30,7 @@ public class WWorldEventHandler {
                     if (((WerewolfTransformable) e).canTransform()) {
                         ((WerewolfTransformable) e).transformBack();
                     } else if (event.isForced()) {
-                        spawnEntity(event.getWorld(), getCaptureEntity(event.getCapturingFaction(), event.getWorld()), e, true);
+                        spawnEntity(world, getCaptureEntity(event.getCapturingFaction(), world), e, true);
                     }
                 }
             });
@@ -52,7 +53,7 @@ public class WWorldEventHandler {
     @SubscribeEvent
     public void onVillageReplaceBlock(VampirismVillageEvent.ReplaceBlock event) {
         if (event.getState().getBlock() == ModBlocks.cursed_earth) {
-            event.getWorld().setBlockState(event.getBlockPos(), event.getWorld().getBiome(event.getBlockPos()).getGenerationSettings().getSurfaceBuilderConfig().getTop());
+            ((TileEntity) event.getTotem()).getWorld().setBlockState(event.getBlockPos(), ((TileEntity) event.getTotem()).getWorld().getBiome(event.getBlockPos()).getGenerationSettings().getSurfaceBuilderConfig().getTop());
         }
     }
     @SubscribeEvent
