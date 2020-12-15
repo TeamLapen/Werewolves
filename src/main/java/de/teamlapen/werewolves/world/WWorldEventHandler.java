@@ -8,6 +8,7 @@ import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -19,7 +20,7 @@ public class WWorldEventHandler {
 
     @SubscribeEvent
     public void onVillageCaptureFinish(VampirismVillageEvent.VillagerCaptureFinish.Pre event) {
-        List<MobEntity> werewolves = event.getWorld().getEntitiesWithinAABB(MobEntity.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
+        List<MobEntity> werewolves = ((TileEntity) event.getTotem()).getWorld().getEntitiesWithinAABB(MobEntity.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
         if (WReference.WEREWOLF_FACTION.equals(event.getControllingFaction())) {
             werewolves.forEach(e -> {
                 if (e instanceof IVillagerTransformable) {
