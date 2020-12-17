@@ -36,11 +36,6 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModBlocks.totem_top_werewolves_werewolf_crafted);
         }};
         Set<Item> itemsLayer = new HashSet<Item>() {{
-            add(ModItems.silver_axe);
-            add(ModItems.silver_pickaxe);
-            add(ModItems.silver_sword);
-            add(ModItems.silver_shovel);
-            add(ModItems.silver_hoe);
             add(ModItems.silver_ingot);
             add(ModItems.liver);
             add(ModItems.bone);
@@ -51,10 +46,18 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModBlocks.magic_sapling);
             add(ModBlocks.wolfsbane);
         }};
+        Set<Item> itemsHandHeld = new HashSet<Item>() {{
+            add(ModItems.silver_axe);
+            add(ModItems.silver_pickaxe);
+            add(ModItems.silver_sword);
+            add(ModItems.silver_shovel);
+            add(ModItems.silver_hoe);
+        }};
 
         blockParent.forEach(this::block);
         itemsLayer.forEach(this::item);
         blockLayer.forEach(this::blockLayer);
+        itemsHandHeld.forEach(item -> item(item, "item/handheld"));
 
     }
 
@@ -72,10 +75,14 @@ public class ItemModelGenerator extends ItemModelProvider {
         return model;
     }
 
-    @SuppressWarnings("ConstantConditions")
     public ItemModelBuilder item(Item item, ResourceLocation... texture) {
+        return item(item, "item/generated", texture);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public ItemModelBuilder item(Item item, String parent, ResourceLocation... texture) {
         if (texture.length == 0) {
-            return withExistingParent(item, mcLoc("item/generated")).texture("layer0", REFERENCE.MODID + ":item/" + item.getRegistryName().getPath());
+            return withExistingParent(item, mcLoc(parent)).texture("layer0", REFERENCE.MODID + ":item/" + item.getRegistryName().getPath());
         }
         return item(item.getRegistryName().getPath(), texture);
     }
