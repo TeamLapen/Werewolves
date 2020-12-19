@@ -8,10 +8,13 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
 import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.biome.provider.OverworldBiomeProvider;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraftforge.common.BiomeManager;
@@ -51,6 +54,13 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
         }
         if (event.getCategory() == Biome.Category.FOREST) {
             event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, WerewolvesBiomeFeatures.wolfsbane);
+        }
+
+        List<MobSpawnInfo.Spawners> monsterList = event.getSpawns().getSpawner(EntityClassification.MONSTER);
+        if (monsterList != null && monsterList.stream().anyMatch(spawners -> spawners.type == EntityType.ZOMBIE)) {
+            event.getSpawns().withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast, 5, 1, 1));
+            event.getSpawns().withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist, 5, 1, 1));
+            event.getSpawns().withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.human_werewolf, 5, 1, 1));
         }
     }
 }
