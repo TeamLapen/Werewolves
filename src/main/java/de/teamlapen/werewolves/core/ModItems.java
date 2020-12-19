@@ -33,6 +33,10 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final Item bone = getNull();
     public static final UnWerewolfInjectionItem injection_un_werewolf = getNull();
 
+    public static final SpawnEggItem werewolf_beast_spawn_egg = getNull();
+    public static final SpawnEggItem werewolf_survivalist_spawn_egg = getNull();
+    public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
+
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new Item((new Item.Properties()).group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
 
@@ -53,5 +57,8 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
         registry.register(new LiverItem().setRegistryName(REFERENCE.MODID, "liver"));
         registry.register(new Item(new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "bone"));
         registry.register(new UnWerewolfInjectionItem());
+        registry.register(new SpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
+        registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
+        registry.register(new SpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
     }
 }

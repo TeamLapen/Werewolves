@@ -57,7 +57,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private ICaptureAttributes villageAttributes;
     private boolean attack;
 
-    public BasicWerewolfEntity(EntityType<? extends WerewolfBaseEntity> type, World world, WerewolfFormUtil.Form werewolfForm) {
+    public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, World world, WerewolfFormUtil.Form werewolfForm) {
         super(type, world);
         this.werewolfForm = werewolfForm;
         this.entityClass = EntityClassType.getRandomClass(world.rand);
@@ -156,7 +156,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
         this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get() * 20;
         return super.attackEntityFrom(source, amount);
     }
@@ -301,13 +301,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     public static class Beast extends BasicWerewolfEntity {
-        public Beast(EntityType<? extends WerewolfBaseEntity> type, World world) {
+        public Beast(EntityType<? extends BasicWerewolfEntity> type, World world) {
             super(type, world, WerewolfFormUtil.Form.BEAST);
         }
     }
 
     public static class Survivalist extends BasicWerewolfEntity {
-        public Survivalist(EntityType<? extends WerewolfBaseEntity> type, World world) {
+        public Survivalist(EntityType<? extends BasicWerewolfEntity> type, World world) {
             super(type, world, WerewolfFormUtil.Form.SURVIVALIST);
         }
     }

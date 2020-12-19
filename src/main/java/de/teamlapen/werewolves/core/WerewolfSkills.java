@@ -44,7 +44,6 @@ public class WerewolfSkills {
     public static final ISkill sixth_sense = getNull();
     public static final ISkill hide_name = getNull();
     public static final ISkill advanced_sense = getNull();
-    //--
     public static final ISkill wolf_pack = getNull();
     public static final ISkill fear = getNull();
 

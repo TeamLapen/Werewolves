@@ -59,6 +59,9 @@ public class ItemModelGenerator extends ItemModelProvider {
         blockLayer.forEach(this::blockLayer);
         itemsHandHeld.forEach(item -> item(item, "item/handheld"));
 
+        this.withExistingParent(ModItems.werewolf_beast_spawn_egg, this.mcLoc("item/template_spawn_egg"));
+        this.withExistingParent(ModItems.werewolf_survivalist_spawn_egg, this.mcLoc("item/template_spawn_egg"));
+        this.withExistingParent(ModItems.human_werewolf_spawn_egg, this.mcLoc("item/template_spawn_egg"));
     }
 
     @Nonnull
