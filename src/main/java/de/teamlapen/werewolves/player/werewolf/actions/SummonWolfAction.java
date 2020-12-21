@@ -29,7 +29,7 @@ public class SummonWolfAction extends DefaultWerewolfAction {
         for (int i = 0; i < wolfAmount; ++i) {
             AggressiveWolfEntity wolf = ModEntities.wolf.create(world);
             wolf.setTamedBy(player);
-            wolf.restrictLiveSpan();
+            wolf.restrictLiveSpan(WerewolvesConfig.BALANCE.SKILLS.wolf_pack_wolf_duration.get() * 20);
             UtilLib.spawnEntityInWorld((ServerWorld) world, new AxisAlignedBB(player.getPosition()).grow(1), wolf, 10, new ArrayList<>(), SpawnReason.EVENT);
         }
         return true;

@@ -150,6 +150,7 @@ public class BalanceConfig {
         //wolf pack action
         public final ForgeConfigSpec.BooleanValue wolf_pack_enabled;
         public final ForgeConfigSpec.IntValue wolf_pack_cooldown;
+        public final ForgeConfigSpec.IntValue wolf_pack_wolf_duration;
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -244,6 +245,7 @@ public class BalanceConfig {
             builder.push("wolf_pack");
             this.wolf_pack_enabled = builder.define("wolf_pack_enabled", true);
             this.wolf_pack_cooldown = builder.comment("In seconds").defineInRange("wolf_pack_cooldown", 60, 1, Integer.MAX_VALUE);
+            this.wolf_pack_wolf_duration = builder.comment("In seconds").defineInRange("wolf_pack_wolf_duration", 25, 1, Integer.MAX_VALUE);
             builder.pop();
         }
     }

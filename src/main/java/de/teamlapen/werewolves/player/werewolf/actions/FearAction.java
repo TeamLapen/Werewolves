@@ -24,7 +24,7 @@ public class FearAction extends DefaultWerewolfAction implements IActionCooldown
             entity.setAttackTarget(null);
             entity.getNavigator().clearPath();
             Path path = entity.getNavigator().getPathToPos(entity.getPosition().add(Helper.multiplyBlockPos(entity.getPosition().subtract(player.getRepresentingEntity().getPosition()), 3)), 0);
-            entity.getNavigator().setPath(path, 2);
+            entity.getNavigator().setPath(path, 1.7);
         }
         return true;
     }

@@ -15,13 +15,15 @@ public class AggressiveWolfEntity extends WolfEntity {
 
     private boolean restrictLiveSpan;
     private boolean dead;
+    private int maxTicks;
 
     public AggressiveWolfEntity(EntityType<? extends AggressiveWolfEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
-    public void restrictLiveSpan() {
+    public void restrictLiveSpan(int ticks) {
         this.restrictLiveSpan = true;
+        this.maxTicks = ticks;
     }
 
     @Nonnull
@@ -52,7 +54,7 @@ public class AggressiveWolfEntity extends WolfEntity {
     public void tick() {
         super.tick();
         if (this.restrictLiveSpan) {
-            if (this.ticksExisted > 100) {
+            if (this.ticksExisted > maxTicks) {
                 this.attackEntityFrom(DamageSource.MAGIC, 10.0F);
             }
         }
