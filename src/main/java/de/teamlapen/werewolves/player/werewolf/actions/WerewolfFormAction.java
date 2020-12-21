@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.player.werewolf.actions;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
+import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
@@ -10,6 +11,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +30,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
      */
     public static float getDurationPercentage(IWerewolfPlayer player) {
         long durationMax = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-        return 1 - (float)((WerewolfPlayer)player).getSpecialAttributes().werewolfTime/durationMax;
+        return 1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / durationMax;
     }
 
     @Override
@@ -36,9 +38,9 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
         return WerewolvesConfig.BALANCE.SKILLS.werewolf_form_enabled.get();
     }
 
-    @Override
-    public boolean canBeUsedBy(IWerewolfPlayer player) {
-        return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (player.getRepresentingPlayer().getEntityWorld().getDayTime() > 12000 && getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
+    public static boolean isNight(World world) {
+        long time = world.getDayTime();
+        return !world.getDimensionType().doesFixedTimeExist() && time > 12786 && time < 23216;
     }
 
     @Override
@@ -111,7 +113,18 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
     }
 
     @Override
+    public boolean canBeUsedBy(IWerewolfPlayer player) {
+        if (isNight(player.getRepresentingPlayer().getEntityWorld()) && player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)) {
+            return false;
+        }
+        return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
+    }
+
+    @Override
     public boolean onUpdate(IWerewolfPlayer player) {
+        if (isNight(player.getRepresentingPlayer().getEntityWorld())) {
+            return false;
+        }
         return ++((WerewolfPlayer) player).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
     }
 

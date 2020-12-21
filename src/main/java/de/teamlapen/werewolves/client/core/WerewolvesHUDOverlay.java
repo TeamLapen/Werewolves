@@ -226,7 +226,9 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if (werewolf.getSpecialAttributes().werewolfTime > 0) {
                 float perc = WerewolfFormAction.getDurationPercentage(werewolf);
-                renderExpBar(event.getMatrixStack(), perc);
+                if (WerewolfFormAction.isNight(player.getEntityWorld())) {
+                    renderExpBar(event.getMatrixStack(), perc);
+                }
             }
         }
     }
@@ -237,7 +239,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         int x = scaledWidth / 2 - 91;
         this.mc.getProfiler().startSection("werewolfActionDurationBar");
         this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
-        RenderSystem.color4f(1f, 0.1f, 0, 1);
+        RenderSystem.color4f(1f, 0.1f, 0f, 1f);//TODO render transparent if its night
 
         int k = (int) ((1 - perc) * 183.0F);
         int l = scaledHeight - 32 + 3;

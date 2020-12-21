@@ -19,6 +19,7 @@ import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
 import de.teamlapen.werewolves.entities.WerewolfFormUtil;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import de.teamlapen.werewolves.util.WUtils;
@@ -188,6 +189,14 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 player.removeActivePotionEffect(Effects.NIGHT_VISION);
             }
         }
+
+        if (WerewolfFormAction.isNight(this.getRepresentingPlayer().getEntityWorld())) {
+            if (!this.actionHandler.isActionActive(WerewolfActions.werewolf_form)) {
+                this.actionHandler.toggleAction(WerewolfActions.werewolf_form);
+            }
+        }
+
+
         this.player.getEntityWorld().getProfiler().endSection();
     }
 
