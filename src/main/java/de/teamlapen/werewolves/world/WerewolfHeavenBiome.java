@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.world;
 
 import de.teamlapen.vampirism.world.biome.VampirismBiomeFeatures;
+import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModEntities;
-import net.minecraft.entity.EntityClassification;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 
@@ -19,8 +19,8 @@ public class WerewolfHeavenBiome {
     public static MobSpawnInfo.Builder getMobSpawnBuilder() {
         MobSpawnInfo.Builder mob_builder = new MobSpawnInfo.Builder();
         mob_builder.withCreatureSpawnProbability(0.25f);
-        mob_builder.withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast, 70, 1, 2));
-        mob_builder.withSpawner(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist, 70, 1, 2));
+        mob_builder.withSpawner(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast, 70, 1, 2));
+        mob_builder.withSpawner(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist, 70, 1, 2));
         return mob_builder;
     }
 

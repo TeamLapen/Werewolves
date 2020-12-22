@@ -69,7 +69,7 @@ public class BalanceConfig {
             builder.push("human_werewolf");
             human_werewolf_attack_damage = builder.defineInRange("human_werewolf_attack_damage", 3, 0, Double.MAX_VALUE);
             human_werewolf_max_health = builder.defineInRange("human_werewolf_max_health", 30.0, 10, Double.MAX_VALUE);
-            human_werewolf_speed = builder.defineInRange("human_werewolf_speed", 0.3, 0.1, 2);
+            human_werewolf_speed = builder.defineInRange("human_werewolf_speed", 0.36, 0.1, 2);
             builder.pop();
         }
     }

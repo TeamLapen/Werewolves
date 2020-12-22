@@ -35,9 +35,6 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
 
     @Override
     public EntityClassification getClassification(boolean forSpawnCount) {
-        if (forSpawnCount) {
-            return EntityClassification.MONSTER;
-        }
         return super.getClassification(forSpawnCount);
     }
 
