@@ -57,7 +57,9 @@ cf364e388b8b502f7ab4ddae7d2b344caaa27a38 data/forge/tags/blocks/ores/silver.json
 cf364e388b8b502f7ab4ddae7d2b344caaa27a38 data/forge/tags/items/ores/silver.json
 5611013084dbd9a70bf9d3564339e6f6fe77c4f8 data/forge/tags/items/rawmeats.json
 8f05ad94293e3eb6b3b2a0eb74c64279fe27cc8c data/minecraft/advancements/recipes/misc/bone.json
+2a50e43e5fded1af53057f7a3bbaa6a8a82e0a64 data/minecraft/advancements/recipes/misc/purple_dye.json
 09a8b3ab2118859c15e1d9e4533fdb6402afef9a data/minecraft/recipes/bone.json
+3d7d6678b164190a2bc458fd43e65cc15be7338a data/minecraft/recipes/purple_dye.json
 0b1bc4b2c3e043274db1776efd2e04e9400d0c90 data/minecraft/tags/blocks/leaves.json
 3ce0b35087a3bc7eb1dc9dc161d12bca5722c7e6 data/minecraft/tags/blocks/logs.json
 8f72a52019e5734281e89513a739a14c7c2a6512 data/minecraft/tags/blocks/planks.json

@@ -35,6 +35,8 @@ public class RecipeGenerator extends RecipeProvider {
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.stone_altar).key('S', Items.STONE_BRICKS).patternLine("S S").patternLine("SSS").patternLine("SSS").addCriterion("has_stone_bricks", hasItem(Items.STONE_BRICKS)).build(consumer);
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.stone_altar_fire_bowl).key('S', Items.STONE_BRICKS).key('P', ItemTags.PLANKS).patternLine("SPS").patternLine("SSS").patternLine(" S ").addCriterion("has_stone_bricks", hasItem(Items.STONE_BRICKS)).build(consumer);
         ShapelessRecipeBuilder.shapelessRecipe(Items.BONE, 2).addIngredient(ModItems.bone).addCriterion("has_bone", hasItem(ModItems.bone)).build(consumer);
+
+        ShapelessRecipeBuilder.shapelessRecipe(Items.PURPLE_DYE).addIngredient(ModBlocks.wolfsbane).addCriterion("has_wolfsbane", hasItem(ModBlocks.wolfsbane)).build(consumer);
     }
 
 }
