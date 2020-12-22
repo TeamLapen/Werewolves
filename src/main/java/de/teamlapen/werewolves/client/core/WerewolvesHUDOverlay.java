@@ -109,7 +109,6 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onRenderWorldLast(RenderWorldLastEvent event) {
-        MatrixStack stack = event.getMatrixStack();
         int percentages = 0;
         int color = 0;
         if (this.screenPercentage > 0) {
@@ -119,27 +118,27 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             percentages = this.attackTargetScreenPercentage;
             color = 0xffff6e07;
         }
+
         if (percentages > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
             RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+            MatrixStack stack = new MatrixStack();
+            stack.push();
             RenderSystem.matrixMode(GL11.GL_PROJECTION);
             RenderSystem.loadIdentity();
             RenderSystem.ortho(0.0D, this.mc.getMainWindow().getScaledWidth(), this.mc.getMainWindow().getScaledHeight(), 0.0D, 1D, -1D);
             RenderSystem.matrixMode(GL11.GL_MODELVIEW);
             RenderSystem.loadIdentity();
-            stack.push();
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             int w = (this.mc.getMainWindow().getScaledWidth());
             int h = (this.mc.getMainWindow().getScaledHeight());
-            int bw = 0;
-            int bh = 0;
 
-            bh = Math.round(h / (float) 4 * percentages / 100);
-            bw = Math.round(w / (float) 8 * percentages / 100);
+            int bh = Math.round(h / (float) 4 * percentages / 100);
+            int bw = Math.round(w / (float) 8 * percentages / 100);
 
-            this.fillGradient(event.getMatrixStack(), 0, 0, w, bh, color, 0x000);
-            this.fillGradient(event.getMatrixStack(), 0, h - bh, w, h, 0x00000000, color);
-            this.fillGradient2(event.getMatrixStack(), 0, 0, bw, h, 0x000000, color);
-            this.fillGradient2(event.getMatrixStack(), w - bw, 0, w, h, color, 0x00);
+            this.fillGradient(stack, 0, 0, w, bh, color, 0x000);
+            this.fillGradient(stack, 0, h - bh, w, h, 0x00000000, color);
+            this.fillGradient2(stack, 0, 0, bw, h, 0x000000, color);
+            this.fillGradient2(stack, w - bw, 0, w, h, color, 0x00);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             stack.pop();
         }
