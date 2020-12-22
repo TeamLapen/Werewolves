@@ -1,14 +1,14 @@
 package de.teamlapen.werewolves.items;
 
-import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.WReference;
+import de.teamlapen.vampirism.player.vampire.VampirePlayer;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -21,13 +21,18 @@ public class LiverItem extends Item {
     @Nonnull
     @Override
     public ItemStack onItemUseFinish(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull LivingEntity entityLiving) {
-        if (entityLiving instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) entityLiving)) {
-            FactionPlayerHandler.getOpt((PlayerEntity) entityLiving).ifPresent(player -> {
-                if (player.getCurrentLevel() > 0 && player.getCurrentLevel() < 5) {
-                    player.setFactionLevel(WReference.WEREWOLF_FACTION, player.getCurrentLevel() + 1);
-                }
+        //copied from VampirismItemBloodFood
+        if (entityLiving instanceof PlayerEntity) {
+            assert stack.getItem().getFood() != null;
+
+            PlayerEntity player = (PlayerEntity) entityLiving;
+            VampirePlayer.getOpt(player).ifPresent((v) -> {
+                v.drinkBlood(stack.getItem().getFood().getHealing(), stack.getItem().getFood().getSaturation());
             });
+            worldIn.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
+            entityLiving.onFoodEaten(worldIn, stack);
         }
-        return super.onItemUseFinish(stack, worldIn, entityLiving);
+
+        return stack;
     }
 }
