@@ -10,7 +10,7 @@ import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.items.ISilverItem;
-import de.teamlapen.werewolves.mixin.MixinAccessors;
+import de.teamlapen.werewolves.mixin.InGameGuiAccessor;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.IActionCooldownMenu;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
@@ -233,8 +233,8 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void renderExpBar(MatrixStack matrixStack, float perc) {
-        int scaledWidth = ((MixinAccessors.IngameGuiAccessor) Minecraft.getInstance().ingameGUI).getScaledWidth();
-        int scaledHeight = ((MixinAccessors.IngameGuiAccessor) Minecraft.getInstance().ingameGUI).getScaledHeight();
+        int scaledWidth = ((InGameGuiAccessor) Minecraft.getInstance().ingameGUI).getScaledWidth();
+        int scaledHeight = ((InGameGuiAccessor) Minecraft.getInstance().ingameGUI).getScaledHeight();
         int x = scaledWidth / 2 - 91;
         this.mc.getProfiler().startSection("werewolfActionDurationBar");
         this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);

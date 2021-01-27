@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.effects;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.werewolves.mixin.MixinAccessors;
+import de.teamlapen.werewolves.mixin.ScreenMixin;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.LivingEntity;
@@ -54,8 +54,8 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, MatrixStack mStack, int x, int y, float z) {
         super.renderInventoryEffect(effect, gui, mStack, x, y, z);
         String s = UtilLib.translate(effect.getPotion().getName());
-        ((MixinAccessors.ScreenMixin) gui).getFont().drawStringWithShadow(mStack, s, (float) (x + 10 + 18), (float) (y + 6), 16777215);
+        ((ScreenMixin) gui).getFont().drawStringWithShadow(mStack, s, (float) (x + 10 + 18), (float) (y + 6), 16777215);
         String duration = "**:**";
-        ((MixinAccessors.ScreenMixin) gui).getFont().drawStringWithShadow(mStack, duration, (float) (x + 10 + 18), (float) (y + 6 + 10), 8355711);
+        ((ScreenMixin) gui).getFont().drawStringWithShadow(mStack, duration, (float) (x + 10 + 18), (float) (y + 6 + 10), 8355711);
     }
 }
