@@ -33,7 +33,7 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //Full for runtime (not POM)
     implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
     implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
-    implementation fg.deobf("curse.maven:hwyla:${hwyla_curse_version}")
+    implementation fg.deobf("curse.maven:hwyla-253449:${hwyla_curse_version}")
 }
 
 minecraft {
@@ -44,6 +44,7 @@ minecraft {
         client {
             taskName 'runClient'
             main 'net.minecraftforge.userdev.LaunchTesting'
+            property 'mixin.env.disableRefMap', 'true'
             property 'forge.logging.console.level', 'debug'
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             workingDirectory project.file('run/client').canonicalPath
@@ -63,6 +64,7 @@ minecraft {
             args "-mixin.config=werewolves.mixins.json", '--username', 'Dev2'
         }
         server {
+            property 'mixin.env.disableRefMap', 'true'
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/server').canonicalPath
@@ -78,6 +80,7 @@ minecraft {
             }
         }
         data {
+            property 'mixin.env.disableRefMap', 'true'
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/data').canonicalPath
