@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(PointOfInterestType.class)
 public interface PointOfInterestTypeInvoker {
     @Invoker("registerBlockStates")
-    static PointOfInterestType registerBlockStates(PointOfInterestType poit) {
+    static PointOfInterestType registerBlockStates_werewolves(PointOfInterestType poit) {
         throw new NotImplementedException("Mixin inject failed");
     }
 }

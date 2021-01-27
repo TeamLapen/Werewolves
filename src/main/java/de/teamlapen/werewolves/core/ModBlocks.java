@@ -75,13 +75,13 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
         registry.register(prepareRegister(new TotemTopBlock(true, REFERENCE.WEREWOLF_PLAYER_KEY).setRegistryName(REFERENCE.MODID, "totem_top_werewolves_werewolf_crafted")));
         registry.register(prepareRegister(new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()).setRegistryName(REFERENCE.MODID, "jacaranda_leaves")));
         registry.register(prepareRegister(new ModSaplingBlock(new JacarandaTree()).setRegistryName(REFERENCE.MODID, "jacaranda_sapling")));
-        Block log1 = BlocksInvoker.createLogBlock(MaterialColor.BROWN, MaterialColor.BROWN).setRegistryName(REFERENCE.MODID, "jacaranda_log");
-        ((FireBlockInvoker) Blocks.FIRE).invokeSetFireInfo(log1, 5, 5);
+        Block log1 = BlocksInvoker.createLogBlock_werewolves(MaterialColor.BROWN, MaterialColor.BROWN).setRegistryName(REFERENCE.MODID, "jacaranda_log");
+        ((FireBlockInvoker) Blocks.FIRE).invokeSetFireInfo_werewolves(log1, 5, 5);
         registry.register(prepareRegister(log1));
         registry.register(prepareRegister(new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()).setRegistryName(REFERENCE.MODID, "magic_leaves")));
         registry.register(prepareRegister(new ModSaplingBlock(new MagicTree()).setRegistryName(REFERENCE.MODID, "magic_sapling")));
-        Block log2 = BlocksInvoker.createLogBlock(MaterialColor.BLUE, MaterialColor.BLUE).setRegistryName(REFERENCE.MODID, "magic_log");
-        ((FireBlockInvoker) Blocks.FIRE).invokeSetFireInfo(log2, 5, 5);
+        Block log2 = BlocksInvoker.createLogBlock_werewolves(MaterialColor.BLUE, MaterialColor.BLUE).setRegistryName(REFERENCE.MODID, "magic_log");
+        ((FireBlockInvoker) Blocks.FIRE).invokeSetFireInfo_werewolves(log2, 5, 5);
         registry.register(prepareRegister(log2));
         registry.register(prepareRegister(new Block(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)).setRegistryName(REFERENCE.MODID, "magic_planks")));
         registry.register(prepareRegister(new StoneAltarBlock().setRegistryName(REFERENCE.MODID, StoneAltarBlock.REG_NAME)));

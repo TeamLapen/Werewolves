@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface BlocksInvoker {
 
     @Invoker("createLogBlock")
-    static RotatedPillarBlock createLogBlock(MaterialColor topColor, MaterialColor barkColor) {
+    static RotatedPillarBlock createLogBlock_werewolves(MaterialColor topColor, MaterialColor barkColor) {
         throw new NotImplementedException("Mixin inject failed");
     }
 }

@@ -13,5 +13,5 @@ public interface ScreenMixin {
     FontRenderer getFont();
 
     @Invoker("addButton")
-    <T extends Widget> T invokeAddButton(T button);
+    <T extends Widget> T invokeAddButton_werewolves(T button);
 }
