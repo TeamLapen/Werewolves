@@ -225,7 +225,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if (werewolf.getSpecialAttributes().werewolfTime > 0) {
                 float perc = WerewolfFormAction.getDurationPercentage(werewolf);
-                if (WerewolfFormAction.isNight(player.getEntityWorld())) {
+                if (WerewolfFormAction.isFullMoon(player.getEntityWorld())) {
                     renderExpBar(event.getMatrixStack(), perc);
                 }
             }

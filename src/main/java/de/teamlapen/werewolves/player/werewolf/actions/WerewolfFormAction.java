@@ -38,8 +38,8 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
         return WerewolvesConfig.BALANCE.SKILLS.werewolf_form_enabled.get();
     }
 
-    public static boolean isNight(World world) {
-        long time = world.getDayTime();
+    public static boolean isFullMoon(World world) {
+        long time = world.getDayTime() % 192000;
         return !world.getDimensionType().doesFixedTimeExist() && time > 12786 && time < 23216;
     }
 
@@ -114,7 +114,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        if (isNight(player.getRepresentingPlayer().getEntityWorld()) && player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)) {
+        if (isFullMoon(player.getRepresentingPlayer().getEntityWorld()) && player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)) {
             return false;
         }
         return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
@@ -122,7 +122,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean onUpdate(IWerewolfPlayer player) {
-        if (isNight(player.getRepresentingPlayer().getEntityWorld())) {
+        if (isFullMoon(player.getRepresentingPlayer().getEntityWorld())) {
             return false;
         }
         return ++((WerewolfPlayer) player).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;

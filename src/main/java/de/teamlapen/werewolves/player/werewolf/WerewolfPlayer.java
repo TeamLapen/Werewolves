@@ -190,7 +190,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         }
 
-        if (WerewolfFormAction.isNight(this.getRepresentingPlayer().getEntityWorld())) {
+        if (WerewolfFormAction.isFullMoon(this.getRepresentingPlayer().getEntityWorld())) {
             if (!this.actionHandler.isActionActive(WerewolfActions.werewolf_form)) {
                 this.actionHandler.toggleAction(WerewolfActions.werewolf_form);
             }

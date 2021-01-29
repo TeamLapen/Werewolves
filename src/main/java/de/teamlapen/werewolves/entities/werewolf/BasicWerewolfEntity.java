@@ -41,8 +41,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IEntityActionUser, IVillageCaptureEntity {
-    protected static final DataParameter<Integer> TYPE = EntityDataManager.createKey(WerewolfBaseEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(WerewolfBaseEntity.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> TYPE = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
     private static final int MAX_LEVEL = 2;
 
     private final WerewolfFormUtil.Form werewolfForm;
