@@ -364,6 +364,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
         this.armorItems.set(this.armorItems.size()-1, this.player.inventory.offHandInventory.get(0));
         this.player.inventory.offHandInventory.set(0,ItemStack.EMPTY);
+        this.sync(this.saveArmorItems(new CompoundNBT()),false);
     }
 
     public void deactivateWerewolfForm() {
@@ -374,6 +375,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
         this.player.inventory.offHandInventory.set(0, this.armorItems.get(this.armorItems.size() - 1));
         this.armorItems.set(this.armorItems.size() - 1, ItemStack.EMPTY);
+        this.sync(this.saveArmorItems(new CompoundNBT()),false);
     }
 
     @Override
@@ -397,15 +399,21 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     //-- load/save -----------------------------------------------------------------------------------------------------
 
-    public void saveData(CompoundNBT compound) {
-        this.actionHandler.saveToNbt(compound);
-        this.skillHandler.saveToNbt(compound);
-        this.levelHandler.saveToNbt(compound);
+    public CompoundNBT saveArmorItems(CompoundNBT nbt) {
         CompoundNBT armor = new CompoundNBT();
         for (int i = 0; i < this.armorItems.size(); i++) {
             armor.put("" + i, this.armorItems.get(i).serializeNBT());
         }
-        compound.put("armor", armor);
+        nbt.put("armor", armor);
+        return nbt;
+    }
+
+
+    public void saveData(CompoundNBT compound) {
+        this.actionHandler.saveToNbt(compound);
+        this.skillHandler.saveToNbt(compound);
+        this.levelHandler.saveToNbt(compound);
+        this.saveArmorItems(compound);
         compound.putLong("werewolfTime", this.specialAttributes.werewolfTime);
         compound.putInt("form", this.form.ordinal());
     }
@@ -430,11 +438,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
         this.levelHandler.saveToNbt(nbt);
-        CompoundNBT armor = new CompoundNBT();
-        for (int i = 0; i < this.armorItems.size(); i++) {
-            armor.put("" + i, this.armorItems.get(i).serializeNBT());
-        }
-        nbt.put("armor", armor);
+        this.saveArmorItems(nbt);
         nbt.putLong("werewolfTime", this.specialAttributes.werewolfTime);
 //        nbt.putInt("form", this.form.ordinal());
     }
