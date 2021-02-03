@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.player.werewolf;
 
+import com.google.common.collect.ImmutableList;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
@@ -301,6 +302,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 this.actionHandler.resetTimers();
             }
         }
+    }
+
+    @Nonnull
+    public NonNullList<ItemStack> getArmorItems() {
+        return this.armorItems;
     }
 
     /**

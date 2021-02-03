@@ -16,7 +16,6 @@ import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -24,10 +23,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RenderNameplateEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -71,18 +67,6 @@ public class ClientEventHandler {
                 if (mouseOver != null && mouseOver.getType() == RayTraceResult.Type.ENTITY && !player.isSpectator() && FactionPlayerHandler.get(player).isInFaction(WReference.WEREWOLF_FACTION) && WerewolfPlayer.get(player).canBite(((EntityRayTraceResult) mouseOver).getEntity())) {
                     WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getEntityId()));
                     onZoomPressed();
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onGuiInitPre(GuiScreenEvent.InitGuiEvent.Pre event) {
-        if (event.getGui() instanceof InventoryScreen) {
-            if (Helper.isWerewolf(Minecraft.getInstance().player)) {
-                if (WerewolfPlayer.get(Minecraft.getInstance().player).getSpecialAttributes().werewolfForm) {
-                    event.setCanceled(true);
-                    Minecraft.getInstance().displayGuiScreen(null);
                 }
             }
         }
