@@ -6,7 +6,7 @@ import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.vampire.IVampire;
 import de.teamlapen.vampirism.entity.ExtendedCreature;
 import de.teamlapen.werewolves.core.ModEntities;
-import de.teamlapen.werewolves.entities.WerewolfFormUtil;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
@@ -33,7 +33,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(VillagerEntity.class, DataSerializers.VARINT);
 
     private boolean werewolf;
-    private WerewolfFormUtil.Form form;
+    private WerewolfForm form;
     private final EntityActionTier entitytier = EntityActionTier.Medium;
     private EntityClassType entityclass;
 
@@ -45,7 +45,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     @Override
     public BasicWerewolfEntity _transformToWerewolf() {
         EntityType<? extends BasicWerewolfEntity> type;
-        if (this.form == WerewolfFormUtil.Form.BEAST) {
+        if (this.form == WerewolfForm.BEAST) {
             type = ModEntities.werewolf_beast;
         } else {
             type = ModEntities.werewolf_survivalist;
@@ -68,7 +68,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
 
     @Nonnull
     @Override
-    public WerewolfFormUtil.Form getWerewolfForm() {
+    public WerewolfForm getWerewolfForm() {
         return this.form;
     }
 
@@ -91,7 +91,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     @Override
     public void setWerewolfFaction(boolean werewolf) {
         this.werewolf = werewolf;
-        this.form = this.getRNG().nextBoolean() ? WerewolfFormUtil.Form.SURVIVALIST : WerewolfFormUtil.Form.BEAST;
+        this.form = this.getRNG().nextBoolean() ? WerewolfForm.SURVIVALIST : WerewolfForm.BEAST;
     }
 
     @Override
@@ -126,7 +126,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
         CompoundNBT nbt = compound.getCompound("werewolves");
         this.werewolf = nbt.getBoolean("werewolf");
         if (compound.contains("form")) {
-            this.form = WerewolfFormUtil.Form.valueOf(nbt.getString("form"));
+            this.form = WerewolfForm.valueOf(nbt.getString("form"));
         }
         if (nbt.contains("type")) {
             int t = nbt.getInt("type");

@@ -12,6 +12,7 @@ import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,7 +23,9 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
@@ -30,6 +33,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ModPlayerEventHandler {
@@ -198,6 +203,18 @@ public class ModPlayerEventHandler {
             }
             event.setCancellationResult(ActionResultType.SUCCESS);
             event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void playerSize(EntityEvent.Size event){
+        if (event.getEntity() instanceof PlayerEntity){
+            LazyOptional<WerewolfPlayer> werewolf = WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity()));
+            Optional<EntitySize> size = werewolf.map(WerewolfPlayer::getSpecialAttributes).filter(s -> s.werewolfForm).map(w -> w.specialForm).flatMap(a -> a.getSize(event.getPose()));
+            if (size.isPresent()){
+                event.setNewSize(size.get());
+                event.setNewEyeHeight(size.get().height * 0.85F);
+            }
         }
     }
 }

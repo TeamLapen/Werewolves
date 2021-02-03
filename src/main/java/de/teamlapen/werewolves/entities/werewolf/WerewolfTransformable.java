@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
-import de.teamlapen.werewolves.entities.WerewolfFormUtil;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 
@@ -42,7 +42,7 @@ public interface WerewolfTransformable {
     boolean canTransform();
 
     @Nonnull
-    WerewolfFormUtil.Form getWerewolfForm();
+    WerewolfForm getWerewolfForm();
 
     EntityClassType getEntityClass();
 

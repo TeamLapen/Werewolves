@@ -6,7 +6,7 @@ import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.entities.WerewolfFormUtil;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -30,24 +30,24 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
 
-    private final Map<WerewolfFormUtil.Form, Triple<WerewolfBaseModel<AbstractClientPlayerEntity>, Float, ResourceLocation>> models = Maps.newHashMapWithExpectedSize(WerewolfFormUtil.Form.values().length);
+    private final Map<WerewolfForm, Triple<WerewolfBaseModel<AbstractClientPlayerEntity>, Float, ResourceLocation>> models = Maps.newHashMapWithExpectedSize(WerewolfForm.values().length);
 
     private ResourceLocation texture;
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
         //noinspection ConstantConditions
         super(rendererManager, null, 0f);
-        this.models.put(WerewolfFormUtil.Form.NONE, Triple.of(null, 0f, null));
-        this.models.put(WerewolfFormUtil.Form.HUMAN, Triple.of(new WerewolfEarsModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws.png")));
-        this.models.put(WerewolfFormUtil.Form.BEAST, Triple.of(new WerewolfBeastModel<>(), 1.3f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_1.png")));
-        this.models.put(WerewolfFormUtil.Form.SURVIVALIST, Triple.of(new WerewolfSurvivalistModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_1.png")));
+        this.models.put(WerewolfForm.NONE, Triple.of(null, 0f, null));
+        this.models.put(WerewolfForm.HUMAN, Triple.of(new WerewolfEarsModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws.png")));
+        this.models.put(WerewolfForm.BEAST, Triple.of(new WerewolfBeastModel<>(), 1.3f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_1.png")));
+        this.models.put(WerewolfForm.SURVIVALIST, Triple.of(new WerewolfSurvivalistModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_1.png")));
     }
 
     public boolean render(WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        if (entity.getForm() != WerewolfFormUtil.Form.NONE) {
+        if (entity.getForm() != WerewolfForm.NONE) {
             this.switchModel(entity.getForm());
             render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-            return entity.getForm() != WerewolfFormUtil.Form.HUMAN;
+            return entity.getForm() != WerewolfForm.HUMAN;
         }
         return false;
     }
@@ -64,7 +64,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         }
     }
 
-    public void switchModel(WerewolfFormUtil.Form type) {
+    public void switchModel(WerewolfForm type) {
         this.entityModel = models.get(type).getLeft();
         this.shadowSize = models.get(type).getMiddle();
         this.texture = models.get(type).getRight();

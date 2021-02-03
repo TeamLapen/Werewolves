@@ -17,7 +17,7 @@ import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
-import de.teamlapen.werewolves.entities.WerewolfFormUtil;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -89,7 +89,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nonnull
     private final NonNullList<ItemStack> armorItems = NonNullList.withSize(5, ItemStack.EMPTY);
     @Nonnull
-    private WerewolfFormUtil.Form form = WerewolfFormUtil.Form.NONE;
+    private WerewolfForm form = WerewolfForm.NONE;
     @Nonnull
     private final LevelHandler levelHandler = new LevelHandler(this);
 
@@ -100,7 +100,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     @Nonnull
-    public WerewolfFormUtil.Form getForm() {
+    public WerewolfForm getForm() {
         return this.form;
     }
 
@@ -109,10 +109,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             if (this.specialAttributes.specialForm != null) {
                 this.form = this.specialAttributes.specialForm;
             } else {
-                this.form = WerewolfFormUtil.Form.HUMAN;
+                this.form = WerewolfForm.HUMAN;
             }
         } else {
-            this.form = WerewolfFormUtil.Form.NONE;
+            this.form = WerewolfForm.NONE;
         }
     }
 
@@ -428,7 +428,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (compound.contains("werewolfTime")) {
             this.specialAttributes.werewolfTime = compound.getLong("werewolfTime");
         }
-        this.form = WerewolfFormUtil.Form.values()[compound.getInt("form")];
+        this.form = WerewolfForm.values()[compound.getInt("form")];
 
     }
 

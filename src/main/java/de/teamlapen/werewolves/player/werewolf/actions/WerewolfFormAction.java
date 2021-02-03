@@ -42,6 +42,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
     protected boolean activate(IWerewolfPlayer player) {
         ((WerewolfPlayer) player).activateWerewolfForm();
         this.applyModifier(player.getRepresentingPlayer(), true);
+        player.getRepresentingPlayer().recalculateSize();
         return true;
     }
 
@@ -53,6 +54,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
     @Override
     public void onActivatedClient(IWerewolfPlayer player) {
         ((WerewolfPlayer) player).getSpecialAttributes().werewolfForm = true;
+        player.getRepresentingPlayer().recalculateSize();
     }
 
     @Override
@@ -63,6 +65,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
             ((WerewolfPlayer) player).deactivateWerewolfForm();
         }
         this.applyModifier(player.getRepresentingPlayer(), false);
+        player.getRepresentingPlayer().recalculateSize();
     }
 
     @Override

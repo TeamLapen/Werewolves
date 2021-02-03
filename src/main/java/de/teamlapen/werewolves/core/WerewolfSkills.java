@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.entities.WerewolfFormUtil;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.player.skill.ActionSkill;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
@@ -71,7 +71,7 @@ public class WerewolfSkills {
         registry.register(new ActionSkill<>(WerewolfActions.rage));
         registry.register(new SimpleWerewolfSkill("beast_form").setToggleActions(
                 (player) -> {
-                    ((WerewolfPlayer) player).getSpecialAttributes().specialForm = WerewolfFormUtil.Form.BEAST;
+                    ((WerewolfPlayer) player).getSpecialAttributes().specialForm = WerewolfForm.BEAST;
                     ((WerewolfPlayer) player).updateForm();
                 },
                 (player) -> {
@@ -94,7 +94,7 @@ public class WerewolfSkills {
         //survival tree
         registry.register(new SimpleWerewolfSkill("survival_form").setToggleActions(
                 (player) -> {
-                    ((WerewolfPlayer) player).getSpecialAttributes().specialForm = WerewolfFormUtil.Form.SURVIVALIST;
+                    ((WerewolfPlayer) player).getSpecialAttributes().specialForm = WerewolfForm.SURVIVALIST;
                     ((WerewolfPlayer) player).updateForm();
                 },
                 (player) -> {

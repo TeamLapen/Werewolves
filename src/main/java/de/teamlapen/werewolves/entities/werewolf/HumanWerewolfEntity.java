@@ -7,7 +7,7 @@ import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.vampirism.entity.vampire.VampireBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
-import de.teamlapen.werewolves.entities.WerewolfFormUtil;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -172,12 +172,12 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
 
     @Nonnull
     @Override
-    public WerewolfFormUtil.Form getWerewolfForm() {
+    public WerewolfForm getWerewolfForm() {
         switch (this.getDataManager().get(FORM)) {
             case 0:
-                return WerewolfFormUtil.Form.BEAST;
+                return WerewolfForm.BEAST;
             case 1:
-                return WerewolfFormUtil.Form.SURVIVALIST;
+                return WerewolfForm.SURVIVALIST;
             default:
                 throw new IllegalStateException("Werewolf form is not set");
         }

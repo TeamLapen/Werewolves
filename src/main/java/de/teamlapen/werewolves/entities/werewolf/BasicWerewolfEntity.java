@@ -15,10 +15,8 @@ import de.teamlapen.vampirism.entity.goals.DefendVillageGoal;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.entities.WerewolfFormUtil;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
+import de.teamlapen.werewolves.util.WerewolfForm;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.PatrollerEntity;
@@ -45,7 +43,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
     private static final int MAX_LEVEL = 2;
 
-    private final WerewolfFormUtil.Form werewolfForm;
+    private final WerewolfForm werewolfForm;
     private WerewolfTransformable transformed;
     private int transformedDuration;
 
@@ -57,7 +55,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private ICaptureAttributes villageAttributes;
     private boolean attack;
 
-    public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, World world, WerewolfFormUtil.Form werewolfForm) {
+    public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, World world, WerewolfForm werewolfForm) {
         super(type, world);
         this.werewolfForm = werewolfForm;
         this.entityClass = EntityClassType.getRandomClass(world.rand);
@@ -65,8 +63,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.entityActionHandler = new ActionHandlerEntity<>(this);
     }
 
+    @Nonnull
+    @Override
+    public EntitySize getSize(@Nonnull Pose poseIn) {
+        return this.werewolfForm.getSize(poseIn).map(p -> p.scale(this.getRenderScale())).orElse(super.getSize(poseIn));
+    }
 
-    public WerewolfFormUtil.Form getForm() {
+    public WerewolfForm getForm() {
         return werewolfForm;
     }
 
@@ -236,7 +239,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Nonnull
-    public WerewolfFormUtil.Form getWerewolfForm() {
+    public WerewolfForm getWerewolfForm() {
         return werewolfForm;
     }
 
@@ -302,13 +305,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     public static class Beast extends BasicWerewolfEntity {
         public Beast(EntityType<? extends BasicWerewolfEntity> type, World world) {
-            super(type, world, WerewolfFormUtil.Form.BEAST);
+            super(type, world, WerewolfForm.BEAST);
         }
     }
 
     public static class Survivalist extends BasicWerewolfEntity {
         public Survivalist(EntityType<? extends BasicWerewolfEntity> type, World world) {
-            super(type, world, WerewolfFormUtil.Form.SURVIVALIST);
+            super(type, world, WerewolfForm.SURVIVALIST);
         }
     }
 }

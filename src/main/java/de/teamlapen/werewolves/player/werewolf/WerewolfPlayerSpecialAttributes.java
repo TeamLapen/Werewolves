@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.player.werewolf;
 
-import de.teamlapen.werewolves.entities.WerewolfFormUtil;
+import de.teamlapen.werewolves.util.WerewolfForm;
 
 public class WerewolfPlayerSpecialAttributes {
 
@@ -10,6 +10,6 @@ public class WerewolfPlayerSpecialAttributes {
     public int target;
 
     public boolean humanForm;
-    public WerewolfFormUtil.Form specialForm;
+    public WerewolfForm specialForm;
     public boolean leap;
 }
