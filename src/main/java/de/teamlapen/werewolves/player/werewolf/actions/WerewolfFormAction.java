@@ -7,11 +7,11 @@ import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,11 +36,6 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
     @Override
     public boolean isEnabled() {
         return WerewolvesConfig.BALANCE.SKILLS.werewolf_form_enabled.get();
-    }
-
-    public static boolean isFullMoon(World world) {
-        long time = world.getDayTime() % 192000;
-        return !world.getDimensionType().doesFixedTimeExist() && time > 12786 && time < 23216;
     }
 
     @Override
@@ -114,7 +109,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        if (isFullMoon(player.getRepresentingPlayer().getEntityWorld()) && player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)) {
+        if (Helper.isFullMoon(player.getRepresentingPlayer().getEntityWorld()) && player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)) {
             return false;
         }
         return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
@@ -122,7 +117,7 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean onUpdate(IWerewolfPlayer player) {
-        if (isFullMoon(player.getRepresentingPlayer().getEntityWorld())) {
+        if (Helper.isNight(player.getRepresentingPlayer().getEntityWorld())) {
             return false;
         }
         return ++((WerewolfPlayer) player).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;

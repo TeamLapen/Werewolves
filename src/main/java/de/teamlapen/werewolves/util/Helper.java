@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class Helper extends de.teamlapen.vampirism.util.Helper {
 
@@ -28,5 +29,15 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static boolean canBecomeWerewolf(PlayerEntity player) {
         return FactionPlayerHandler.getOpt(player).map((v) -> v.canJoin(WReference.WEREWOLF_FACTION)).orElse(false);
+    }
+
+    public static boolean isNight(World world) {
+        long time = world.getDayTime() % 24000;
+        return !world.getDimensionType().doesFixedTimeExist() && time > 12786 && time < 23216;
+    }
+
+    public static boolean isFullMoon(World world) {
+        long time = world.getDayTime() % 192000;
+        return !world.getDimensionType().doesFixedTimeExist() && time > 12786 && time < 23216;
     }
 }

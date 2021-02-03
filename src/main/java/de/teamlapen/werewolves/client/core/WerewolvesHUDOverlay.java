@@ -225,20 +225,23 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if (werewolf.getSpecialAttributes().werewolfTime > 0) {
                 float perc = WerewolfFormAction.getDurationPercentage(werewolf);
-                if (WerewolfFormAction.isFullMoon(player.getEntityWorld())) {
-                    renderExpBar(event.getMatrixStack(), perc);
+                float trans = werewolf.getActionHandler().isActionActive(WerewolfActions.werewolf_form)?1f:0.7f;
+                if (!Helper.isNight(player.getEntityWorld())) {
+                    renderExpBar(event.getMatrixStack(), perc, trans);
                 }
             }
         }
     }
 
-    private void renderExpBar(MatrixStack matrixStack, float perc) {
+    private void renderExpBar(MatrixStack matrixStack, float perc, float transparency) {
         int scaledWidth = ((InGameGuiAccessor) Minecraft.getInstance().ingameGUI).getScaledWidth();
         int scaledHeight = ((InGameGuiAccessor) Minecraft.getInstance().ingameGUI).getScaledHeight();
         int x = scaledWidth / 2 - 91;
         this.mc.getProfiler().startSection("werewolfActionDurationBar");
         this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
-        RenderSystem.color4f(1f, 0.1f, 0f, 1f);//TODO render transparent if its night
+
+        RenderSystem.enableBlend();
+        RenderSystem.color4f(1f, 0.1f, 0f, transparency);//TODO render transparent if its night
 
         int k = (int) ((1 - perc) * 183.0F);
         int l = scaledHeight - 32 + 3;
