@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -19,10 +20,13 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class StoneAltarFireBowlBlock extends Block {
     public static final String REG_NAME = "stone_altar_fire_bowl";
@@ -30,7 +34,7 @@ public class StoneAltarFireBowlBlock extends Block {
     protected static final VoxelShape SHAPE = makeShape();
 
     public StoneAltarFireBowlBlock() {
-        super(Block.Properties.create(Material.ROCK).notSolid());
+        super(Block.Properties.create(Material.ROCK).notSolid().setLightLevel((state) -> state.get(LIT)?14:0));
         this.setDefaultState(this.getStateContainer().getBaseState().with(LIT, false));
     }
 
@@ -87,12 +91,18 @@ public class StoneAltarFireBowlBlock extends Block {
     }
 
     @Override
-    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        return state.get(LIT) ? 15 : 0;
-    }
-
-    @Override
     public boolean isFlammable(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
         return true;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        if (stateIn.get(LIT)) {
+            double d0 = (double) pos.getX() + rand.nextDouble();
+            double d1 = (double) pos.getY() + rand.nextDouble() + 0.7D;
+            double d2 = (double) pos.getZ() + rand.nextDouble();
+            worldIn.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+        }
     }
 }

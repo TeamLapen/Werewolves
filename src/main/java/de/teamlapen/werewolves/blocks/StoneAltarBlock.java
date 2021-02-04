@@ -13,6 +13,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -46,7 +47,7 @@ public class StoneAltarBlock extends ContainerBlock {
     public static final String REG_NAME = "stone_altar";
 
     public StoneAltarBlock() {
-        super(Block.Properties.create(Material.ROCK).notSolid());
+        super(Block.Properties.create(Material.ROCK).notSolid().setLightLevel((state) -> state.get(LIT)?14:0));
         this.setDefaultState(this.stateContainer.getBaseState().with(LIT, false));
     }
 
@@ -74,11 +75,6 @@ public class StoneAltarBlock extends ContainerBlock {
     @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
-    }
-
-    @Override
-    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        return state.get(LIT) ? 15 : 0;
     }
 
     @Nonnull
@@ -204,5 +200,15 @@ public class StoneAltarBlock extends ContainerBlock {
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(LIT);
+    }
+
+    @Override
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        if (stateIn.get(LIT)) {
+            double d0 = (double) pos.getX() + rand.nextDouble();
+            double d1 = (double) pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
+            double d2 = (double) pos.getZ() + rand.nextDouble();
+            worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+        }
     }
 }
