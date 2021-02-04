@@ -46,6 +46,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class StoneAltarTileEntity extends InventoryTileEntity implements ITickableTileEntity {
@@ -233,6 +234,11 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(this.targetLevel);
         ItemStack missing = InventoryHelper.checkItems(this, new Item[]{ModItems.liver, ModItems.bone}, new int[]{req.liverAmount, req.bonesAmount});
         return missing.isEmpty();
+    }
+
+    public Map<Item, Integer> getMissingItems() {
+        WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(this.targetLevel);
+        return Helper.getMissingItems(this, new Item[]{ModItems.liver, ModItems.bone}, new int[]{req.liverAmount, req.bonesAmount});
     }
 
     @Nonnull

@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.BooleanProperty;
@@ -23,7 +24,11 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
@@ -31,6 +36,7 @@ import net.minecraftforge.common.ToolType;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Map;
 import java.util.Random;
 
 @ParametersAreNonnullByDefault
@@ -112,8 +118,16 @@ public class StoneAltarBlock extends ContainerBlock {
                     player.sendStatusMessage(new TranslationTextComponent("text.werewolves.stone_altar.wrong_faction"), true);
                     return ActionResultType.SUCCESS;
                 case INV_MISSING:
-                    if (heldItem.isEmpty()) {
-                        player.sendStatusMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_missing_items"), true);
+                    Map<Item, Integer> missing = te.getMissingItems();
+
+                    IFormattableTextComponent s = new TranslationTextComponent("text.werewolves.stone_altar.ritual_missing_items");
+                    missing.forEach((item, integer) -> s.appendString("\n - ").append(new TranslationTextComponent(item.getTranslationKey()).modifyStyle((style -> {
+                        return style.setFormatting(TextFormatting.AQUA).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemHover(new ItemStack(item, integer))));
+                    }))).appendString(" " + integer));
+
+                    if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
+                        player.sendStatusMessage(s, false);
+                        return ActionResultType.SUCCESS;
                     }
                     break;
                 case IS_RUNNING:
