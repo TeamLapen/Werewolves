@@ -4,7 +4,7 @@
     "werewolves:survival_form"
   ],
   "locking": [
-    "werewolves:werewolf/beast2",
-    "werewolves:werewolf/stealth1"
+    "werewolves:werewolf/stealth1",
+    "werewolves:werewolf/beast2"
   ]
 }
