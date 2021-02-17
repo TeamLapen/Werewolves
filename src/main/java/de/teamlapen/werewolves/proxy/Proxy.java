@@ -9,7 +9,4 @@ public interface Proxy extends IInitListener {
     default void handleAttackTargetEventPacket(AttackTargetEventPacket packet) {
     }
 
-    default void onTextureStitchEvent(TextureStitchEvent.Pre event){
-
-    }
 }

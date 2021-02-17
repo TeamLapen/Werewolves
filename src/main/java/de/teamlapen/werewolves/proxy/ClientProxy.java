@@ -13,6 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -38,6 +39,7 @@ public class ClientProxy extends CommonProxy {
                 MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
                 MinecraftForge.EVENT_BUS.register(hudOverlay = new WerewolvesHUDOverlay());
                 ModKeys.register();
+                FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onTextureStitchEvent);
                 break;
             case LOAD_COMPLETE:
                 WItemRenderer.registerColors();
@@ -51,7 +53,6 @@ public class ClientProxy extends CommonProxy {
         this.hudOverlay.attackTriggered(packet.entityId);
     }
 
-    @Override
     public void onTextureStitchEvent(TextureStitchEvent.Pre event) {
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_HELMET.getPath()));
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_CHESTPLATE.getPath()));

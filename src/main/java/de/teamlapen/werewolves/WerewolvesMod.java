@@ -74,7 +74,6 @@ public class WerewolvesMod {
         bus.addListener(this::gatherData);
         bus.addListener(this::setUpClient);
         bus.register(registryManager);
-        bus.addListener(proxy::onTextureStitchEvent);
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
