@@ -6,7 +6,7 @@ import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.util.WerewolfForm;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -25,12 +25,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Triple;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
 
-    private final Map<WerewolfForm, Triple<WerewolfBaseModel<AbstractClientPlayerEntity>, Float, ResourceLocation>> models = Maps.newHashMapWithExpectedSize(WerewolfForm.values().length);
+    private final Map<WerewolfForm, Triple<WerewolfBaseModel<AbstractClientPlayerEntity>, Float, ResourceLocation>> models = new HashMap<>();
 
     private ResourceLocation texture;
 

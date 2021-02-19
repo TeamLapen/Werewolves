@@ -2,8 +2,8 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.util.WerewolfForm;
-import de.teamlapen.werewolves.player.SimpleWerewolfSkill;
+import de.teamlapen.werewolves.player.WerewolfForm;
+import de.teamlapen.werewolves.player.skill.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.player.skill.ActionSkill;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -50,7 +50,7 @@ public class WerewolfSkills {
     @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
-        registry.register(new ActionSkill<>(WerewolfActions.werewolf_form).setToggleActions(
+        registry.register(new ActionSkill<>(WerewolfActions.human_form).setToggleActions(
                 (player) -> {
                     ((WerewolfPlayer) player).getSpecialAttributes().humanForm = true;
                     ((WerewolfPlayer) player).updateForm();
@@ -69,7 +69,7 @@ public class WerewolfSkills {
 
         //beast tree
         registry.register(new ActionSkill<>(WerewolfActions.rage));
-        registry.register(new SimpleWerewolfSkill("beast_form").setToggleActions(
+        registry.register(new ActionSkill<>(WerewolfActions.beast_form).setToggleActions(
                 (player) -> {
                     ((WerewolfPlayer) player).getSpecialAttributes().specialForm = WerewolfForm.BEAST;
                     ((WerewolfPlayer) player).updateForm();
@@ -92,7 +92,7 @@ public class WerewolfSkills {
         registry.register(new ActionSkill<>(WerewolfActions.sense));
 
         //survival tree
-        registry.register(new SimpleWerewolfSkill("survival_form").setToggleActions(
+        registry.register(new ActionSkill<>(WerewolfActions.survival_form).setToggleActions(
                 (player) -> {
                     ((WerewolfPlayer) player).getSpecialAttributes().specialForm = WerewolfForm.SURVIVALIST;
                     ((WerewolfPlayer) player).updateForm();

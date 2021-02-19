@@ -6,7 +6,7 @@ import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.vampire.IVampire;
 import de.teamlapen.vampirism.entity.ExtendedCreature;
 import de.teamlapen.werewolves.core.ModEntities;
-import de.teamlapen.werewolves.util.WerewolfForm;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
@@ -112,7 +112,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
         CompoundNBT nbt = new CompoundNBT();
         nbt.putBoolean("werewolf", this.werewolf);
         if (form != null) {
-            nbt.putString("form", this.form.toString());
+            nbt.putString("form", this.form.getName());
         }
         nbt.putInt("type", this.getEntityTextureType());
         if (this.entityclass != null) {
@@ -126,7 +126,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
         CompoundNBT nbt = compound.getCompound("werewolves");
         this.werewolf = nbt.getBoolean("werewolf");
         if (compound.contains("form")) {
-            this.form = WerewolfForm.valueOf(nbt.getString("form"));
+            this.form = WerewolfForm.getForm(nbt.getString("form"));
         }
         if (nbt.contains("type")) {
             int t = nbt.getInt("type");

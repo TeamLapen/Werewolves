@@ -2,6 +2,8 @@ package de.teamlapen.werewolves.util;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
+import de.teamlapen.werewolves.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -61,5 +63,9 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         }
         missing.entrySet().removeIf(s -> s.getValue() <= 0);
         return missing;
+    }
+
+    public static boolean isFormActionActive(IWerewolfPlayer player) {
+        return WerewolfFormAction.isWerewolfFormActionActive(player.getActionHandler());
     }
 }

@@ -198,7 +198,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void renderFur(MatrixStack matrixStack) {
-        if (this.mc.gameSettings.getPointOfView() == PointOfView.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)).orElse(false)) {
+        if (this.mc.gameSettings.getPointOfView() == PointOfView.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(Helper::isFormActionActive).orElse(false)) {
             this.mc.getTextureManager().bindTexture(FUR);
             RenderSystem.enableBlend();
             blit(matrixStack, 0, 0, this.getBlitOffset(), 0, 0, this.mc.getMainWindow().getWidth(), this.mc.getMainWindow().getHeight(), this.mc.getMainWindow().getScaledHeight(), this.mc.getMainWindow().getScaledWidth());
@@ -225,7 +225,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if (werewolf.getSpecialAttributes().werewolfTime > 0) {
                 float perc = WerewolfFormAction.getDurationPercentage(werewolf);
-                float trans = werewolf.getActionHandler().isActionActive(WerewolfActions.werewolf_form)?1f:0.7f;
+                float trans = Helper.isFormActionActive(werewolf)?1f:0.7f;
                 if (!Helper.isNight(player.getEntityWorld())) {
                     renderExpBar(event.getMatrixStack(), perc, trans);
                 }

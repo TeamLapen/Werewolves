@@ -1,7 +1,8 @@
-package de.teamlapen.werewolves.player;
+package de.teamlapen.werewolves.player.skill;
 
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.player.skills.VampirismSkill;
+import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.ai.attributes.Attribute;

@@ -11,7 +11,9 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 @ObjectHolder(REFERENCE.MODID)
 public class WerewolfActions {
 
-    public static final WerewolfFormAction werewolf_form = getNull();
+    public static final WerewolfFormAction human_form = getNull();
+    public static final WerewolfFormAction beast_form = getNull();
+    public static final WerewolfFormAction survival_form = getNull();
     public static final HowlingAction howling = getNull();
     public static final BiteAction bite = getNull();
     public static final RageWerewolfAction rage = getNull();
@@ -23,7 +25,9 @@ public class WerewolfActions {
     public static final SixthSenseAction sixth_sense = getNull();
 
     static void registerActions(IForgeRegistry<IAction> registry) {
-        registry.register(new WerewolfFormAction().setRegistryName(REFERENCE.MODID, "werewolf_form"));
+        registry.register(new HumanWerewolfFormAction().setRegistryName(REFERENCE.MODID, "human_form"));
+        registry.register(new BeastWerewolfFormAction().setRegistryName(REFERENCE.MODID, "beast_form"));
+        registry.register(new SurvivalWerewolfFormAction().setRegistryName(REFERENCE.MODID, "survival_form"));
         registry.register(new HowlingAction().setRegistryName(REFERENCE.MODID, "howling"));
         registry.register(new BiteAction().setRegistryName(REFERENCE.MODID, "bite"));
         registry.register(new RageWerewolfAction().setRegistryName(REFERENCE.MODID, "rage"));

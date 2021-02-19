@@ -75,9 +75,14 @@ public class BalanceConfig {
     }
 
     public static class Skills {
+
         //werewolf action
-        public final ForgeConfigSpec.BooleanValue werewolf_form_enabled;
-        public final ForgeConfigSpec.IntValue werewolf_form_cooldown;
+        public final ForgeConfigSpec.BooleanValue human_form_enabled;
+        public final ForgeConfigSpec.IntValue human_form_cooldown;
+        public final ForgeConfigSpec.BooleanValue beast_form_enabled;
+        public final ForgeConfigSpec.IntValue beast_form_cooldown;
+        public final ForgeConfigSpec.BooleanValue survival_form_enabled;
+        public final ForgeConfigSpec.IntValue survival_form_cooldown;
         public final ForgeConfigSpec.DoubleValue werewolf_form_speed_amount;
         public final ForgeConfigSpec.DoubleValue werewolf_form_armor;
         public final ForgeConfigSpec.DoubleValue werewolf_form_armor_toughness;
@@ -154,8 +159,12 @@ public class BalanceConfig {
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
-            this.werewolf_form_enabled = builder.define("werewolf_form_enabled", true);
-            this.werewolf_form_cooldown = builder.comment("In seconds").defineInRange("werewolf_form_cooldown", 0, 0, 10000);
+            this.human_form_enabled = builder.define("human_form_enabled", true);
+            this.beast_form_enabled = builder.define("beast_form_enabled", true);
+            this.survival_form_enabled = builder.define("survival_form_enabled", true);
+            this.human_form_cooldown = builder.comment("In seconds").defineInRange("human_form_cooldown", 0, 0, 10000);
+            this.beast_form_cooldown = builder.comment("In seconds").defineInRange("beast_form_cooldown", 0, 0, 10000);
+            this.survival_form_cooldown = builder.comment("In seconds").defineInRange("survival_form_cooldown", 0, 0, 10000);
             this.werewolf_form_speed_amount = builder.defineInRange("werewolf_form_speed_amount", 0.5, 0, 5);
             this.werewolf_form_armor = builder.defineInRange("werewolf_form_armor", 5.0, 0, 10.0);
             this.werewolf_form_armor_toughness = builder.defineInRange("werewolf_form_armor_toughness", 5.0, 0, 10.0);

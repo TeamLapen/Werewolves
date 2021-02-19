@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.player.werewolf;
 
-import de.teamlapen.werewolves.util.WerewolfForm;
+import de.teamlapen.werewolves.player.WerewolfForm;
 
 public class WerewolfPlayerSpecialAttributes {
 
