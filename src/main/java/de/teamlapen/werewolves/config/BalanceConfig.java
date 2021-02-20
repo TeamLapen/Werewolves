@@ -79,13 +79,22 @@ public class BalanceConfig {
         //werewolf action
         public final ForgeConfigSpec.BooleanValue human_form_enabled;
         public final ForgeConfigSpec.IntValue human_form_cooldown;
+        public final ForgeConfigSpec.DoubleValue human_form_speed_amount;
+        public final ForgeConfigSpec.DoubleValue human_form_armor;
+        public final ForgeConfigSpec.DoubleValue human_form_armor_toughness;
+
         public final ForgeConfigSpec.BooleanValue beast_form_enabled;
         public final ForgeConfigSpec.IntValue beast_form_cooldown;
+        public final ForgeConfigSpec.DoubleValue beast_form_speed_amount;
+        public final ForgeConfigSpec.DoubleValue beast_form_armor;
+        public final ForgeConfigSpec.DoubleValue beast_form_armor_toughness;
+
         public final ForgeConfigSpec.BooleanValue survival_form_enabled;
         public final ForgeConfigSpec.IntValue survival_form_cooldown;
-        public final ForgeConfigSpec.DoubleValue werewolf_form_speed_amount;
-        public final ForgeConfigSpec.DoubleValue werewolf_form_armor;
-        public final ForgeConfigSpec.DoubleValue werewolf_form_armor_toughness;
+        public final ForgeConfigSpec.DoubleValue survival_form_speed_amount;
+        public final ForgeConfigSpec.DoubleValue survival_form_armor;
+        public final ForgeConfigSpec.DoubleValue survival_form_armor_toughness;
+
         public final ForgeConfigSpec.LongValue werewolf_form_time_limit;
 
         //howling action
@@ -165,9 +174,15 @@ public class BalanceConfig {
             this.human_form_cooldown = builder.comment("In seconds").defineInRange("human_form_cooldown", 0, 0, 10000);
             this.beast_form_cooldown = builder.comment("In seconds").defineInRange("beast_form_cooldown", 0, 0, 10000);
             this.survival_form_cooldown = builder.comment("In seconds").defineInRange("survival_form_cooldown", 0, 0, 10000);
-            this.werewolf_form_speed_amount = builder.defineInRange("werewolf_form_speed_amount", 0.5, 0, 5);
-            this.werewolf_form_armor = builder.defineInRange("werewolf_form_armor", 5.0, 0, 10.0);
-            this.werewolf_form_armor_toughness = builder.defineInRange("werewolf_form_armor_toughness", 5.0, 0, 10.0);
+            this.human_form_speed_amount = builder.defineInRange("human_form_speed_amount", 0.5, 0, 5);
+            this.beast_form_speed_amount = builder.defineInRange("beast_form_speed_amount", 0.5, 0, 5);
+            this.survival_form_speed_amount = builder.defineInRange("survival_form_speed_amount", 0.5, 0, 5);
+            this.human_form_armor = builder.defineInRange("human_form_armor", 5.0, 0, 10.0);
+            this.beast_form_armor = builder.defineInRange("beast_form_armor", 5.0, 0, 10.0);
+            this.survival_form_armor = builder.defineInRange("survival_form_armor", 5.0, 0, 10.0);
+            this.human_form_armor_toughness = builder.defineInRange("human_form_armor_toughness", 5.0, 0, 10.0);
+            this.beast_form_armor_toughness = builder.defineInRange("beast_form_armor_toughness", 5.0, 0, 10.0);
+            this.survival_form_armor_toughness = builder.defineInRange("survival_form_armor_toughness", 5.0, 0, 10.0);
             this.werewolf_form_time_limit = builder.comment("Time a player can stay in werewolf form", "In seconds").defineInRange("werewolf_form_time_limit", 50, 1, Long.MAX_VALUE);
             builder.pop();
 

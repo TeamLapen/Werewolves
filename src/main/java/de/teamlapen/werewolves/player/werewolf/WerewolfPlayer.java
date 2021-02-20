@@ -90,6 +90,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final NonNullList<ItemStack> armorItems = NonNullList.withSize(5, ItemStack.EMPTY);
     @Nonnull
     private WerewolfForm form = WerewolfForm.NONE;
+    @Nullable
+    private WerewolfForm lastForm;
     @Nonnull
     private final LevelHandler levelHandler = new LevelHandler(this);
 
@@ -104,16 +106,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return this.form;
     }
 
-    public void updateForm() {
-        if (this.specialAttributes.humanForm) {
-            if (this.specialAttributes.specialForm != null) {
-                this.form = this.specialAttributes.specialForm;
-            } else {
-                this.form = WerewolfForm.HUMAN;
-            }
-        } else {
-            this.form = WerewolfForm.NONE;
+    @Override
+    public void switchForm(WerewolfForm form) {
+        this.form = form;
+        if (form != WerewolfForm.NONE) {
+            this.lastForm = form;
         }
+        this.player.recalculateSize();
     }
 
     @Override
@@ -192,7 +191,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
         if (Helper.isFullMoon(this.getRepresentingPlayer().getEntityWorld())) {
             if (!Helper.isFormActionActive(this)) {
-                this.actionHandler.toggleAction(WerewolfActions.werewolf_form);
+                this.switchForm(lastForm);
             }
         }
 

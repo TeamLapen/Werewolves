@@ -19,7 +19,7 @@ import static de.teamlapen.werewolves.util.SkillUtils.*;
 @ObjectHolder(REFERENCE.MODID)
 public class WerewolfSkills {
 
-    public static final ISkill werewolf_form = getNull();
+    public static final ISkill human_form = getNull();
     public static final ISkill night_vision = getNull();
     public static final ISkill bite = getNull();
     public static final ISkill rage = getNull();
@@ -50,15 +50,7 @@ public class WerewolfSkills {
     @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
-        registry.register(new ActionSkill<>(WerewolfActions.human_form).setToggleActions(
-                (player) -> {
-                    ((WerewolfPlayer) player).getSpecialAttributes().humanForm = true;
-                    ((WerewolfPlayer) player).updateForm();
-                },
-                (player) -> {
-                    ((WerewolfPlayer) player).getSpecialAttributes().humanForm = false;
-                    ((WerewolfPlayer) player).updateForm();
-                }));
+        registry.register(new ActionSkill<>(WerewolfActions.human_form));
         registry.register(new SimpleWerewolfSkill("night_vision").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false));
@@ -69,15 +61,7 @@ public class WerewolfSkills {
 
         //beast tree
         registry.register(new ActionSkill<>(WerewolfActions.rage));
-        registry.register(new ActionSkill<>(WerewolfActions.beast_form).setToggleActions(
-                (player) -> {
-                    ((WerewolfPlayer) player).getSpecialAttributes().specialForm = WerewolfForm.BEAST;
-                    ((WerewolfPlayer) player).updateForm();
-                },
-                (player) -> {
-                    ((WerewolfPlayer) player).getSpecialAttributes().specialForm = null;
-                    ((WerewolfPlayer) player).updateForm();
-                }));
+        registry.register(new ActionSkill<>(WerewolfActions.beast_form));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("health", true, HEALTH_SKILL, Attributes.MAX_HEALTH, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.health_amount.get()));
         registry.register(new SimpleWerewolfSkill("health_reg", true));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("damage", true, DAMAGE_SKILL, Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.damage_amount.get()));
@@ -92,15 +76,7 @@ public class WerewolfSkills {
         registry.register(new ActionSkill<>(WerewolfActions.sense));
 
         //survival tree
-        registry.register(new ActionSkill<>(WerewolfActions.survival_form).setToggleActions(
-                (player) -> {
-                    ((WerewolfPlayer) player).getSpecialAttributes().specialForm = WerewolfForm.SURVIVALIST;
-                    ((WerewolfPlayer) player).updateForm();
-                },
-                (player) -> {
-                    ((WerewolfPlayer) player).getSpecialAttributes().specialForm = null;
-                    ((WerewolfPlayer) player).updateForm();
-                }));
+        registry.register(new ActionSkill<>(WerewolfActions.survival_form));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
         registry.register(new SimpleWerewolfSkill("jump"));
         registry.register(new SimpleWerewolfSkill("fall_damage"));

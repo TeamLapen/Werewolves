@@ -2,9 +2,5 @@
   "parent": "werewolves:werewolf/other2",
   "skills": [
     "werewolves:survival_form"
-  ],
-  "locking": [
-    "werewolves:werewolf/stealth1",
-    "werewolves:werewolf/beast2"
   ]
 }

@@ -19,12 +19,12 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
 
     @Override
     protected void registerSkillNodes(Consumer<FinishedSkillNode> consumer) {
-        ResourceLocation skill1 = werewolf(this.modId("werewolf"), WerewolfSkills.werewolf_form).build(consumer, this.modId("skill1"));
+        ResourceLocation skill1 = werewolf(this.modId("werewolf"), WerewolfSkills.human_form).build(consumer, this.modId("skill1"));
         ResourceLocation skill2 = werewolf(skill1, WerewolfSkills.night_vision).build(consumer, this.modId("skill2"));
         ResourceLocation skill3 = werewolf(skill2, WerewolfSkills.bite).build(consumer, this.modId("skill3"));
 
         ResourceLocation beast1 = werewolf(skill3, WerewolfSkills.rage).build(consumer, this.modId("beast1"));
-        ResourceLocation beast2 = werewolf(beast1, WerewolfSkills.beast_form).lockingNodes(new ResourceLocation(REFERENCE.MODID,"werewolf/survival1"), new ResourceLocation(REFERENCE.MODID,"werewolf/stealth1")).build(consumer, this.modId("beast2"));
+        ResourceLocation beast2 = werewolf(beast1, WerewolfSkills.beast_form).build(consumer, this.modId("beast2"));
         ResourceLocation beast3 = werewolf(beast2, WerewolfSkills.stun_bite, WerewolfSkills.bleeding_bite).build(consumer, this.modId("beast3"));
         ResourceLocation beast3_1 = werewolf(beast2, WerewolfSkills.health, WerewolfSkills.health_reg).build(consumer, this.modId("beast3_1"));
         ResourceLocation beast3_2 = werewolf(beast2, WerewolfSkills.damage, WerewolfSkills.resistance).build(consumer, this.modId("beast3_2"));
@@ -37,10 +37,10 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
         ResourceLocation other1 = werewolf(skill3, WerewolfSkills.howling).build(consumer, this.modId("other1"));
         ResourceLocation other2 = werewolf(other1, WerewolfSkills.sense).build(consumer, this.modId("other2"));
 
-        ResourceLocation stealth1 = werewolf(other2, WerewolfSkills.hide_name).lockingNodes(beast2, new ResourceLocation(REFERENCE.MODID,"werewolf/survival1")).build(consumer, this.modId("stealth1"));
+        ResourceLocation stealth1 = werewolf(other2, WerewolfSkills.hide_name).build(consumer, this.modId("stealth1"));
         ResourceLocation stealth2 = werewolf(stealth1, WerewolfSkills.advanced_sense).build(consumer, this.modId("stealth2"));
 
-        ResourceLocation survival1 = werewolf(other2, WerewolfSkills.survival_form).lockingNodes(stealth1, beast2).build(consumer, this.modId("survival1"));
+        ResourceLocation survival1 = werewolf(other2, WerewolfSkills.survival_form).build(consumer, this.modId("survival1"));
         ResourceLocation survival2 = werewolf(survival1, WerewolfSkills.jump, WerewolfSkills.speed).build(consumer, this.modId("survival2"));
         ResourceLocation survival3 = werewolf(survival2, WerewolfSkills.sixth_sense).build(consumer, this.modId("survival3"));
         ResourceLocation survival3_1 = werewolf(survival2, WerewolfSkills.leap, WerewolfSkills.fall_damage).build(consumer, this.modId("survival3_1"));
