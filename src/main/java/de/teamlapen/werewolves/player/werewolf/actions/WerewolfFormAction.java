@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
+import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
@@ -12,15 +13,13 @@ import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class WerewolfFormAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
-    private static final Logger LOGGER = LogManager.getLogger();
     private static final Set<WerewolfFormAction> ALL_ACTION = new HashSet<>();
 
 
@@ -45,19 +44,27 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         public final Attribute attribute;
         public final UUID uuid;
         public final String name;
-        public final Supplier<Double> value;
+        public final Function<WerewolfPlayer, Double> value;
         public final AttributeModifier.Operation operation;
 
-        public Modifier(Attribute attribute, UUID uuid, String name, Supplier<Double> value, AttributeModifier.Operation operation) {
+        public Modifier(Attribute attribute, UUID uuid, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
+            this(attribute, uuid, name, player -> valueFunction.get(), operation);
+        }
+
+        public Modifier(Attribute attribute, UUID uuid, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, ISkill extendedSkill, AttributeModifier.Operation operation) {
+            this(attribute, uuid, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill) ? extendedValueFunction.get() : valueFunction.get(), operation);
+        }
+
+        public Modifier(Attribute attribute, UUID uuid, String name, Function<WerewolfPlayer, Double> valueFunction, AttributeModifier.Operation operation) {
             this.attribute = attribute;
             this.uuid = uuid;
             this.name = name;
-            this.value = value;
+            this.value = valueFunction;
             this.operation = operation;
         }
 
-        public AttributeModifier create(){
-            return new AttributeModifier(uuid, name, value.get(), operation);
+        public AttributeModifier create(WerewolfPlayer player) {
+            return new AttributeModifier(uuid, name, value.apply(player), operation);
         }
     }
 
@@ -74,7 +81,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     protected boolean activate(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
         ((WerewolfPlayer) werewolfPlayer).activateWerewolfForm();
-        this.applyModifier(werewolfPlayer.getRepresentingPlayer());
+        this.applyModifier(((WerewolfPlayer) werewolfPlayer));
         return true;
     }
 
@@ -88,7 +95,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).setForm(this, WerewolfForm.NONE);
         ((WerewolfPlayer) werewolfPlayer).deactivateWerewolfForm();
-        this.removeModifier(werewolfPlayer.getRepresentingPlayer());
+        this.removeModifier(((WerewolfPlayer) werewolfPlayer));
     }
 
     @Override
@@ -104,16 +111,18 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
     }
 
-    public void applyModifier(PlayerEntity player) {
+    public void applyModifier(WerewolfPlayer werewolf) {
+        PlayerEntity player = werewolf.getRepresentingPlayer();
         for (Modifier attribute : this.attributes) {
             ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
             if (ins != null && ins.getModifier(attribute.uuid) == null) {
-                ins.applyPersistentModifier(attribute.create());
+                ins.applyPersistentModifier(attribute.create(werewolf));
             }
         }
     }
 
-    public void removeModifier(PlayerEntity player){
+    public void removeModifier(WerewolfPlayer werewolf) {
+        PlayerEntity player = werewolf.getRepresentingPlayer();
         for (Modifier attribute : this.attributes) {
             ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
             if (ins != null) {

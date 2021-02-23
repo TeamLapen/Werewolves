@@ -2,9 +2,8 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.player.WerewolfForm;
-import de.teamlapen.werewolves.player.skill.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.player.skill.ActionSkill;
+import de.teamlapen.werewolves.player.skill.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -65,7 +64,7 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill.AttributeSkill("health", true, HEALTH_SKILL, Attributes.MAX_HEALTH, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.health_amount.get()));
         registry.register(new SimpleWerewolfSkill("health_reg", true));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("damage", true, DAMAGE_SKILL, Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.damage_amount.get()));
-        registry.register(new SimpleWerewolfSkill.AttributeSkill("resistance", true, RESISTANCE_SKILL, Attributes.ARMOR, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.resistance_amount.get()));
+        registry.register(new SimpleWerewolfSkill("resistance"));
         registry.register(new SimpleWerewolfSkill("health_after_kill"));
         registry.register(new SimpleWerewolfSkill("stun_bite"));
         registry.register(new SimpleWerewolfSkill("bleeding_bite"));
