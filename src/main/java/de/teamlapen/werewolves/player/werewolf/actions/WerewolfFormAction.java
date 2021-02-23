@@ -2,29 +2,22 @@ package de.teamlapen.werewolves.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
-import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
-import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import org.apache.commons.lang3.tuple.Triple;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Supplier;
-
-import static de.teamlapen.werewolves.player.ModPlayerEventHandler.CLAWS;
 
 public abstract class WerewolfFormAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -75,25 +68,28 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolfPlayer) {
-        werewolfPlayer.switchForm(this.form);
+        ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
+        ((WerewolfPlayer) werewolfPlayer).activateWerewolfForm();
         this.applyModifier(werewolfPlayer.getRepresentingPlayer());
         return true;
     }
 
     @Override
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
-
+        ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
+        ((WerewolfPlayer) werewolfPlayer).activateWerewolfForm();
     }
 
     @Override
     public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
-        werewolfPlayer.switchForm(WerewolfForm.NONE);
+        ((WerewolfPlayer) werewolfPlayer).switchForm(WerewolfForm.NONE);
+        ((WerewolfPlayer) werewolfPlayer).deactivateWerewolfForm();
         this.removeModifier(werewolfPlayer.getRepresentingPlayer());
     }
 
     @Override
     public void onReActivated(IWerewolfPlayer werewolfPlayer) {
-
+        ((WerewolfPlayer) werewolfPlayer).activateWerewolfForm();
     }
 
     @Override

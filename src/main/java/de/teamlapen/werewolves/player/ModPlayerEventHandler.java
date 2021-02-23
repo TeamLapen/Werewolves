@@ -33,7 +33,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -210,7 +209,7 @@ public class ModPlayerEventHandler {
     public void playerSize(EntityEvent.Size event){
         if (event.getEntity() instanceof PlayerEntity){
             LazyOptional<WerewolfPlayer> werewolf = WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity()));
-            Optional<EntitySize> size = werewolf.map(WerewolfPlayer::getSpecialAttributes).filter(s -> s.werewolfForm).map(w -> w.specialForm).flatMap(a -> a.getSize(event.getPose()));
+            Optional<EntitySize> size = werewolf.map(WerewolfPlayer::getForm).flatMap(form -> form.getSize(event.getPose()));
             if (size.isPresent()){
                 event.setNewSize(size.get());
                 event.setNewEyeHeight(size.get().height * 0.85F);

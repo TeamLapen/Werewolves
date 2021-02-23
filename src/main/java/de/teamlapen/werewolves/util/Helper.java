@@ -9,13 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class Helper extends de.teamlapen.vampirism.util.Helper {
 
@@ -67,5 +67,11 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static boolean isFormActionActive(IWerewolfPlayer player) {
         return WerewolfFormAction.isWerewolfFormActionActive(player.getActionHandler());
+    }
+
+    public static CompoundNBT nbtWith(Consumer<CompoundNBT> data) {
+        CompoundNBT nbt = new CompoundNBT();
+        data.accept(nbt);
+        return nbt;
     }
 }

@@ -6,7 +6,6 @@ import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.api.entity.player.task.ITaskManager;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
-import de.teamlapen.werewolves.player.WerewolfForm;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.apache.logging.log4j.LogManager;
@@ -22,10 +21,6 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
 
     public WerewolfPlayerDefaultImpl() {
         LOGGER.error("Created Default Implementation. THIS SHOULD NOT BE DONE. The default impl does absolutely nothing");
-    }
-
-    @Override
-    public void switchForm(WerewolfForm form) {
     }
 
     @Override

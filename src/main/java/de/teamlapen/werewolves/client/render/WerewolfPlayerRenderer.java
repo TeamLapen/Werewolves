@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.client.render;
 
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
@@ -13,16 +12,9 @@ import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.item.CrossbowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.UseAction;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.apache.commons.lang3.tuple.Triple;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -31,28 +23,65 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
 
-    private final Map<WerewolfForm, Triple<WerewolfBaseModel<AbstractClientPlayerEntity>, Float, ResourceLocation>> models = new HashMap<>();
+    private static class WerewolfModelWrapper {
+        private final WerewolfBaseModel<AbstractClientPlayerEntity> model;
+        private final ResourceLocation texture;
+        private final float shadow;
+        private final boolean skipPlayerModel;
+
+        public WerewolfModelWrapper(WerewolfBaseModel<AbstractClientPlayerEntity> model, ResourceLocation texture, float shadow, boolean skipPlayerModel) {
+            this.model = model;
+            this.texture = texture;
+            this.shadow = shadow;
+            this.skipPlayerModel = skipPlayerModel;
+        }
+    }
+
+    private static final Map<WerewolfForm, WerewolfModelWrapper> MODELS = new HashMap<>();
+
+    static {
+        addModel(WerewolfForm.NONE, new WerewolfModelWrapper(null, null, 0, false));
+        addModel(WerewolfForm.HUMAN, new WerewolfModelWrapper(new WerewolfEarsModel<>(), new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws.png"), 0.5f, false));
+        addModel(WerewolfForm.BEAST, new WerewolfModelWrapper(new WerewolfBeastModel<>(), new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_1.png"), 1.3f, true));
+        addModel(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper(new WerewolfSurvivalistModel<>(), new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_1.png"), 0.5f, true));
+    }
+
+    public static void addModel(WerewolfForm form, WerewolfModelWrapper render) {
+        MODELS.put(form, render);
+    }
 
     private ResourceLocation texture;
+    private boolean skipPlayerModel;
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
         //noinspection ConstantConditions
         super(rendererManager, null, 0f);
-        this.models.put(WerewolfForm.NONE, Triple.of(null, 0f, null));
-        this.models.put(WerewolfForm.HUMAN, Triple.of(new WerewolfEarsModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws.png")));
-        this.models.put(WerewolfForm.BEAST, Triple.of(new WerewolfBeastModel<>(), 1.3f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_1.png")));
-        this.models.put(WerewolfForm.SURVIVALIST, Triple.of(new WerewolfSurvivalistModel<>(), 0.5f, new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_1.png")));
     }
 
+    public void switchModel(WerewolfForm type) {
+        WerewolfModelWrapper werewolfModelWrapper = MODELS.get(type);
+        this.entityModel = werewolfModelWrapper.model;
+        this.shadowSize = werewolfModelWrapper.shadow;
+        this.texture = werewolfModelWrapper.texture;
+        this.skipPlayerModel = werewolfModelWrapper.skipPlayerModel;
+    }
+
+    /**
+     * @returns if the player model should be renderer
+     */
     public boolean render(WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        if (entity.getForm() != WerewolfForm.NONE) {
-            this.switchModel(entity.getForm());
+        this.switchModel(entity.getForm());
+        if (this.entityModel != null) {
             render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-            return entity.getForm() != WerewolfForm.HUMAN;
+            return skipPlayerModel;
         }
         return false;
     }
 
+    /**
+     * use {@link #render(WerewolfPlayer, float, float, MatrixStack, IRenderTypeBuffer, int)}
+     */
+    @Deprecated
     @Override
     public void render(AbstractClientPlayerEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 
@@ -65,12 +94,6 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         }
     }
 
-    public void switchModel(WerewolfForm type) {
-        this.entityModel = models.get(type).getLeft();
-        this.shadowSize = models.get(type).getMiddle();
-        this.texture = models.get(type).getRight();
-    }
-
     private void setModelVisible(AbstractClientPlayerEntity clientPlayer) {
         WerewolfBaseModel<AbstractClientPlayerEntity> playerModel = this.getEntityModel();
         if (clientPlayer.isSpectator()) {
@@ -81,43 +104,43 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         }
     }
 
-    private BipedModel.ArmPose func_217766_a(AbstractClientPlayerEntity p_217766_1_, ItemStack p_217766_2_, ItemStack p_217766_3_, Hand p_217766_4_) {
-        BipedModel.ArmPose bipedmodel$armpose = BipedModel.ArmPose.EMPTY;
-        ItemStack itemstack = p_217766_4_ == Hand.MAIN_HAND ? p_217766_2_ : p_217766_3_;
-        if (!itemstack.isEmpty()) {
-            bipedmodel$armpose = BipedModel.ArmPose.ITEM;
-            if (p_217766_1_.getItemInUseCount() > 0) {
-                UseAction useaction = itemstack.getUseAction();
-                if (useaction == UseAction.BLOCK) {
-                    bipedmodel$armpose = BipedModel.ArmPose.BLOCK;
-                } else if (useaction == UseAction.BOW) {
-                    bipedmodel$armpose = BipedModel.ArmPose.BOW_AND_ARROW;
-                } else if (useaction == UseAction.SPEAR) {
-                    bipedmodel$armpose = BipedModel.ArmPose.THROW_SPEAR;
-                } else if (useaction == UseAction.CROSSBOW && p_217766_4_ == p_217766_1_.getActiveHand()) {
-                    bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_CHARGE;
-                }
-            } else {
-                boolean flag3 = p_217766_2_.getItem() == Items.CROSSBOW;
-                boolean flag = CrossbowItem.isCharged(p_217766_2_);
-                boolean flag1 = p_217766_3_.getItem() == Items.CROSSBOW;
-                boolean flag2 = CrossbowItem.isCharged(p_217766_3_);
-                if (flag3 && flag) {
-                    bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_HOLD;
-                }
-
-                if (flag1 && flag2 && p_217766_2_.getItem().getUseAction(p_217766_2_) == UseAction.NONE) {
-                    bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_HOLD;
-                }
-            }
-        }
-
-        return bipedmodel$armpose;
-    }
-
     @Nonnull
     @Override
     public ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
         return this.texture;
     }
+
+//    private BipedModel.ArmPose func_217766_a(AbstractClientPlayerEntity p_217766_1_, ItemStack p_217766_2_, ItemStack p_217766_3_, Hand p_217766_4_) {
+//        BipedModel.ArmPose bipedmodel$armpose = BipedModel.ArmPose.EMPTY;
+//        ItemStack itemstack = p_217766_4_ == Hand.MAIN_HAND ? p_217766_2_ : p_217766_3_;
+//        if (!itemstack.isEmpty()) {
+//            bipedmodel$armpose = BipedModel.ArmPose.ITEM;
+//            if (p_217766_1_.getItemInUseCount() > 0) {
+//                UseAction useaction = itemstack.getUseAction();
+//                if (useaction == UseAction.BLOCK) {
+//                    bipedmodel$armpose = BipedModel.ArmPose.BLOCK;
+//                } else if (useaction == UseAction.BOW) {
+//                    bipedmodel$armpose = BipedModel.ArmPose.BOW_AND_ARROW;
+//                } else if (useaction == UseAction.SPEAR) {
+//                    bipedmodel$armpose = BipedModel.ArmPose.THROW_SPEAR;
+//                } else if (useaction == UseAction.CROSSBOW && p_217766_4_ == p_217766_1_.getActiveHand()) {
+//                    bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_CHARGE;
+//                }
+//            } else {
+//                boolean flag3 = p_217766_2_.getItem() == Items.CROSSBOW;
+//                boolean flag = CrossbowItem.isCharged(p_217766_2_);
+//                boolean flag1 = p_217766_3_.getItem() == Items.CROSSBOW;
+//                boolean flag2 = CrossbowItem.isCharged(p_217766_3_);
+//                if (flag3 && flag) {
+//                    bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_HOLD;
+//                }
+//
+//                if (flag1 && flag2 && p_217766_2_.getItem().getUseAction(p_217766_2_) == UseAction.NONE) {
+//                    bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_HOLD;
+//                }
+//            }
+//        }
+//
+//        return bipedmodel$armpose;
+//    }
 }
