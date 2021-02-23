@@ -3,8 +3,10 @@ package de.teamlapen.werewolves.player.werewolf;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
+import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
+import de.teamlapen.vampirism.core.ModRegistries;
 import de.teamlapen.vampirism.player.LevelAttributeModifier;
 import de.teamlapen.vampirism.player.VampirismPlayer;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
@@ -18,6 +20,7 @@ import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
+import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
@@ -43,6 +46,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -90,7 +94,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nonnull
     private WerewolfForm form = WerewolfForm.NONE;
     @Nullable
-    private WerewolfForm lastForm;
+    private WerewolfFormAction lastFormAction;
     @Nonnull
     private final LevelHandler levelHandler = new LevelHandler(this);
 
@@ -105,14 +109,16 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return this.form;
     }
 
-    public void switchForm(WerewolfForm form) {
+    public void setForm(WerewolfFormAction action, WerewolfForm form) {
+        switchForm(form);
+        this.lastFormAction = action;
         if (!this.player.world.isRemote) {
             this.sync(Helper.nbtWith(nbt -> nbt.putString("form", this.form.getName())), true);
         }
+    }
+
+    public void switchForm(WerewolfForm form) {
         this.form = form;
-        if (form != WerewolfForm.NONE) {
-            this.lastForm = form;
-        }
         this.player.recalculateSize();
     }
 
@@ -165,9 +171,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 }
             }
 
-            if (Helper.isFullMoon(this.getRepresentingPlayer().getEntityWorld())) {
-                if (!Helper.isFormActionActive(this) && lastForm != null) {
-                    this.switchForm(lastForm);
+            if (this.player.world.getGameTime() % 20 == 0 && Helper.isFullMoon(this.getRepresentingPlayer().getEntityWorld())) {
+                if (!Helper.isFormActionActive(this)) {
+                    Optional<? extends IAction> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
+                    action.ifPresent(this.actionHandler::toggleAction);
                 }
             }
         } else {
@@ -414,6 +421,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.saveArmorItems(compound);
         compound.putLong("werewolfTime", this.specialAttributes.werewolfTime);
         compound.putString("form", this.form.getName());
+        if (this.lastFormAction != null) {
+            compound.putString("lastFormAction", this.lastFormAction.getRegistryName().toString());
+        }
     }
 
     @Override
@@ -430,6 +440,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
         if (compound.contains("form")) {
             this.switchForm(WerewolfForm.getForm(compound.getString("form")));
+        }
+        if (compound.contains("lastFormAction")) {
+            this.lastFormAction = ((WerewolfFormAction) ModRegistries.ACTIONS.getValue(new ResourceLocation(compound.getString("lastFormAction"))));
         }
 
     }

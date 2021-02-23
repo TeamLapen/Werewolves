@@ -28,6 +28,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         return ALL_ACTION.stream().anyMatch(handler::isActionActive);
     }
 
+    public static Set<WerewolfFormAction> getAllAction() {
+        return Collections.unmodifiableSet(ALL_ACTION);
+    }
+
     /**
      * @return how much percentage is left
      */
@@ -68,7 +72,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
+        ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
         ((WerewolfPlayer) werewolfPlayer).activateWerewolfForm();
         this.applyModifier(werewolfPlayer.getRepresentingPlayer());
         return true;
@@ -82,7 +86,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).switchForm(WerewolfForm.NONE);
+        ((WerewolfPlayer) werewolfPlayer).setForm(this, WerewolfForm.NONE);
         ((WerewolfPlayer) werewolfPlayer).deactivateWerewolfForm();
         this.removeModifier(werewolfPlayer.getRepresentingPlayer());
     }
@@ -125,7 +129,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        if (Helper.isFullMoon(player.getRepresentingPlayer().getEntityWorld()) | Helper.isFormActionActive(player) && !player.getActionHandler().isActionActive(this)) {
+        if (Helper.isFullMoon(player.getRepresentingPlayer().getEntityWorld()) && Helper.isFormActionActive(player))
+            return false;
+        if (Helper.isFormActionActive(player) && !player.getActionHandler().isActionActive(this)) {
             return false;
         }
         return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
