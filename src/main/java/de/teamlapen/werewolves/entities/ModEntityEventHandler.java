@@ -18,19 +18,13 @@ import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.village.PointOfInterest;
-import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class ModEntityEventHandler {
 
@@ -63,20 +57,14 @@ public class ModEntityEventHandler {
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getEntity().world.isRemote()) return;
         if (event.getEntity() instanceof VillagerEntity) {
-            Collection<PointOfInterest> points = ((ServerWorld) event.getWorld()).getPointOfInterestManager().func_219146_b(p -> true, event.getEntity().getPosition(), 25, PointOfInterestManager.Status.ANY).collect(Collectors.toList());
-            if (points.size() > 0) {
-                BlockPos pos = TotemHelper.getTotemPosition(points);
-                if (pos != null && event.getWorld().getChunkProvider().isChunkLoaded(new ChunkPos(pos))) {
-                    TileEntity tileEntity = event.getWorld().getTileEntity(pos);
-                    if (tileEntity instanceof TotemTileEntity) {
-                        if (WReference.WEREWOLF_FACTION.equals(((TotemTileEntity) tileEntity).getControllingFaction())) {
-                            if (((VillagerEntity) event.getEntity()).getRNG().nextBoolean()) {
-                                ((IVillagerTransformable) event.getEntity()).setWerewolfFaction(true);
-                            }
-                        }
+            Optional<TotemTileEntity> totemOpt = TotemHelper.getTotemNearPos(((ServerWorld) event.getWorld()), event.getEntity().getPosition(), false);
+            totemOpt.ifPresent(totem -> {
+                if (WReference.WEREWOLF_FACTION.equals(totem.getControllingFaction())) {
+                    if (((VillagerEntity) event.getEntity()).getRNG().nextBoolean()) {
+                        ((IVillagerTransformable) event.getEntity()).setWerewolfFaction(true);
                     }
                 }
-            }
+            });
         }
     }
 }
