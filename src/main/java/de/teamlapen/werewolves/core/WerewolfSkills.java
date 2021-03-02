@@ -39,7 +39,7 @@ public class WerewolfSkills {
     public static final ISkill movement_tactics = getNull();
     public static final ISkill throat_seeker = getNull();
     public static final ISkill ignored = getNull();//TODO
-    public static final ISkill climber = getNull();//TODO
+    public static final ISkill climber = getNull();
     public static final ISkill wolf_pawn = getNull();//TODO include falldamage
     public static final ISkill not_meat = getNull();//TODO
     public static final ISkill water_lover = getNull();//TODO

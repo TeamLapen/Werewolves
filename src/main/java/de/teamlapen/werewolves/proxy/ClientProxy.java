@@ -4,6 +4,7 @@ import de.teamlapen.werewolves.client.core.*;
 import de.teamlapen.werewolves.client.render.RenderHandler;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ClientProxy extends CommonProxy {
 
     private WerewolvesHUDOverlay hudOverlay;
+    private boolean autoJump;
 
     public ClientProxy() {
         RenderHandler renderHandler = new RenderHandler(Minecraft.getInstance());
@@ -58,5 +60,16 @@ public class ClientProxy extends CommonProxy {
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_CHESTPLATE.getPath()));
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_LEGGINGS.getPath()));
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_BOOTS.getPath()));
+    }
+
+    @Override
+    public void toggleStepHeight(boolean activate) {
+        GameSettings settings = Minecraft.getInstance().gameSettings;
+        if (activate) {
+            this.autoJump = settings.autoJump;
+            settings.autoJump = false;
+        } else {
+            settings.autoJump = this.autoJump;
+        }
     }
 }
