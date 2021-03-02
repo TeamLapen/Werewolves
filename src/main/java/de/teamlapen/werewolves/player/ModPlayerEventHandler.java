@@ -3,7 +3,6 @@ package de.teamlapen.werewolves.player;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.UnWerewolfEffectInstance;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
@@ -13,7 +12,6 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -75,11 +73,11 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onHealing(LivingHealEvent event) {
-        if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
-            if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_reg)).orElse(false)) {
-                event.setAmount(event.getAmount() * (1 + WerewolvesConfig.BALANCE.SKILLS.health_reg_modifier.get().floatValue()));
-            }
-        }
+//        if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
+//            if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_reg)).orElse(false)) {
+//                event.setAmount(event.getAmount() * (1 + WerewolvesConfig.BALANCE.SKILLS.health_reg_modifier.get().floatValue()));
+//            }
+//        }
     }
 
     @SubscribeEvent
@@ -88,9 +86,9 @@ public class ModPlayerEventHandler {
             WerewolfPlayer player = WerewolfPlayer.get(((PlayerEntity) event.getSource().getTrueSource()));
             if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_after_kill)) {
                 ((PlayerEntity) event.getSource().getTrueSource()).addPotionEffect(new EffectInstance(Effects.REGENERATION, 4, 10));
-            } else if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.speed_after_kill)) {
+            }/* else if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.speed_after_kill)) {
                 player.getRepresentingPlayer().addPotionEffect(new EffectInstance(Effects.SPEED, 40));
-            }
+            }*/
         }
     }
 
@@ -116,11 +114,11 @@ public class ModPlayerEventHandler {
                 if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSpecialAttributes().werewolfForm) {
                     if (event.getTo().isEmpty()) { // see WerewolfFormAction#applyModifier
                         if (((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
-                            double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
-                            if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
-                                damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
-                            }
-                            ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).applyPersistentModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
+//                            double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
+//                            if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
+//                                damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
+//                            }
+//                            ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).applyPersistentModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
                         }
                     } else {
                         ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).removeModifier(CLAWS);

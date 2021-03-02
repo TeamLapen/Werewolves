@@ -1,6 +1,6 @@
 {
-  "parent": "werewolves:werewolf/other2",
+  "parent": "werewolves:werewolf/skill2",
   "skills": [
-    "werewolves:survival_form"
+    "werewolves:sense"
   ]
 }

@@ -1,7 +1,0 @@
-{
-  "parent": "werewolves:werewolf/survival2",
-  "skills": [
-    "werewolves:leap",
-    "werewolves:fall_damage"
-  ]
-}

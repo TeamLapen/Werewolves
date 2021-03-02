@@ -3,27 +3,23 @@ package de.teamlapen.werewolves.client.core;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.core.ModKeys;
 import de.teamlapen.vampirism.client.gui.SkillsScreen;
-import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.mixin.ScreenMixin;
-import de.teamlapen.werewolves.network.InputEventPacket;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RenderNameplateEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -56,20 +52,20 @@ public class ClientEventHandler {
     @SubscribeEvent
     public void handleInputEvent(InputEvent event) {
         if (Minecraft.getInstance().player == null) return;
-        if (WerewolfPlayer.getOpt(Minecraft.getInstance().player).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.bite) && !player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)).orElse(false)) {
-            if (!BITE.isKeyDown()) {
-                suck_down = true;
-            }
-            if (BITE.isKeyDown() && suck_down && !isZoomActive()) {
-                suck_down = false;
-                RayTraceResult mouseOver = Minecraft.getInstance().objectMouseOver;
-                PlayerEntity player = Minecraft.getInstance().player;
-                if (mouseOver != null && mouseOver.getType() == RayTraceResult.Type.ENTITY && !player.isSpectator() && FactionPlayerHandler.get(player).isInFaction(WReference.WEREWOLF_FACTION) && WerewolfPlayer.get(player).canBite(((EntityRayTraceResult) mouseOver).getEntity())) {
-                    WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getEntityId()));
-                    onZoomPressed();
-                }
-            }
-        }
+//        if (WerewolfPlayer.getOpt(Minecraft.getInstance().player).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.bite) && !player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)).orElse(false)) {
+//            if (!BITE.isKeyDown()) {
+//                suck_down = true;
+//            }
+//            if (BITE.isKeyDown() && suck_down && !isZoomActive()) {
+//                suck_down = false;
+//                RayTraceResult mouseOver = Minecraft.getInstance().objectMouseOver;
+//                PlayerEntity player = Minecraft.getInstance().player;
+//                if (mouseOver != null && mouseOver.getType() == RayTraceResult.Type.ENTITY && !player.isSpectator() && FactionPlayerHandler.get(player).isInFaction(WReference.WEREWOLF_FACTION) && WerewolfPlayer.get(player).canBite(((EntityRayTraceResult) mouseOver).getEntity())) {
+//                    WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getEntityId()));
+//                    onZoomPressed();
+//                }
+//            }
+//        }
     }
 
     @SubscribeEvent

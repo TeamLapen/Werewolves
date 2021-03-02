@@ -8,7 +8,6 @@ import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.items.ISilverItem;
 import de.teamlapen.werewolves.mixin.InGameGuiAccessor;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
@@ -23,8 +22,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -207,16 +204,16 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
-        if (Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.bite) && !player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)).orElse(false)) {
-            RayTraceResult p = Minecraft.getInstance().objectMouseOver;
-            if (p != null && p.getType() == RayTraceResult.Type.ENTITY) {
-                if (WerewolfPlayer.get(mc.player).canBite(((EntityRayTraceResult) p).getEntity())) {
-                    Entity entity = ((EntityRayTraceResult) p).getEntity();
-                    renderFangs(event.getMatrixStack(), this.mc.getMainWindow().getScaledWidth(), this.mc.getMainWindow().getScaledHeight(), entity);
-                    event.setCanceled(true);
-                }
-            }
-        }
+//        if (Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.bite) && !player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)).orElse(false)) {
+//            RayTraceResult p = Minecraft.getInstance().objectMouseOver;
+//            if (p != null && p.getType() == RayTraceResult.Type.ENTITY) {
+//                if (WerewolfPlayer.get(mc.player).canBite(((EntityRayTraceResult) p).getEntity())) {
+//                    Entity entity = ((EntityRayTraceResult) p).getEntity();
+//                    renderFangs(event.getMatrixStack(), this.mc.getMainWindow().getScaledWidth(), this.mc.getMainWindow().getScaledHeight(), entity);
+//                    event.setCanceled(true);
+//                }
+//            }
+//        }
     }
 
     private void renderExperienceBar(RenderGameOverlayEvent.Post event) {

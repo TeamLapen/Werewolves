@@ -1,7 +1,0 @@
-{
-  "parent": "werewolves:werewolf/survival2",
-  "skills": [
-    "werewolves:movement_attacks",
-    "werewolves:speed_after_kill"
-  ]
-}

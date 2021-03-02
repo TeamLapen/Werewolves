@@ -1,0 +1,7 @@
+{
+  "parent": "werewolves:werewolf/survival3",
+  "skills": [
+    "werewolves:leap",
+    "werewolves:climber"
+  ]
+}

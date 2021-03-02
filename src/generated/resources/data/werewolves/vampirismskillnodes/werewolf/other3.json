@@ -1,6 +1,7 @@
 {
   "parent": "werewolves:werewolf/other2",
   "skills": [
-    "werewolves:hide_name"
+    "werewolves:not_meat",
+    "werewolves:water_lover"
   ]
 }
