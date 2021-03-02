@@ -57,7 +57,7 @@ uploadArchives {
             }
         } else {
             logger.info('Publishing to repo folder')
-            repository(url: 'file://localhost/' + project.file('../../../.m2/repository').getAbsolutePath())
+            repository(url: 'file://localhost/' + project.file(System.getProperty("user.home") + "/.m2/repository").getAbsolutePath())
         }
 
         pom {
