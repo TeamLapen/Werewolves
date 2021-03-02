@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.player;
 
+import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
@@ -12,6 +13,7 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -25,8 +27,10 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -224,6 +228,21 @@ public class ModPlayerEventHandler {
                         if (((PlayerEntity) event.getEntity()).getRNG().nextFloat() < 0.35) {
                             event.setCanceled(true);
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onCriticalHit(CriticalHitEvent event) {
+        if (Helper.isWerewolf(event.getPlayer()) && event.getTarget() instanceof LivingEntity) {
+            LazyOptional<WerewolfPlayer> wOpt = WerewolfPlayer.getOpt(event.getPlayer());
+            if (wOpt.filter(w -> w.getForm() == WerewolfForm.BEAST).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.throat_seeker) && !UtilLib.canReallySee(((LivingEntity) event.getTarget()), event.getPlayer(), true)).orElse(false)) {
+                if (((LivingEntity) event.getTarget()).getHealth() / ((LivingEntity) event.getTarget()).getMaxHealth() < 0.25) {
+                    if (event.getPlayer().getRNG().nextInt(4) < 1) {
+                        event.setDamageModifier(10000f);
+                        event.setResult(Event.Result.ALLOW);
                     }
                 }
             }
