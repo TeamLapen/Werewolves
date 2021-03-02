@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
+import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
@@ -80,7 +81,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     @Override
     protected boolean activate(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
-        ((WerewolfPlayer) werewolfPlayer).activateWerewolfForm();
+        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
+            ((WerewolfPlayer) werewolfPlayer).storeArmor();
+        }
         this.applyModifier(((WerewolfPlayer) werewolfPlayer));
         return true;
     }
@@ -88,19 +91,23 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     @Override
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
-        ((WerewolfPlayer) werewolfPlayer).activateWerewolfForm();
+        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
+            ((WerewolfPlayer) werewolfPlayer).storeArmor();
+        }
     }
 
     @Override
     public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).setForm(this, WerewolfForm.NONE);
-        ((WerewolfPlayer) werewolfPlayer).deactivateWerewolfForm();
+        ((WerewolfPlayer) werewolfPlayer).loadArmor();
         this.removeModifier(((WerewolfPlayer) werewolfPlayer));
     }
 
     @Override
     public void onReActivated(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).activateWerewolfForm();
+        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
+            ((WerewolfPlayer) werewolfPlayer).storeArmor();
+        }
     }
 
     @Override

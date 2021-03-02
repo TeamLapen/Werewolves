@@ -59,7 +59,7 @@ public class ModPlayerEventHandler {
     public void onFootEaten(LivingEntityUseItemEvent.Start event) {
         if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) event.getEntity())) {
             //noinspection ConstantConditions
-            if (event.getItem().isFood() && !event.getItem().getItem().getFood().isMeat()) {
+            if (event.getItem().isFood() && !event.getItem().getItem().getFood().isMeat() && !WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false)) {
                 event.setCanceled(true);
             }
         }
@@ -115,7 +115,7 @@ public class ModPlayerEventHandler {
     public void onEquipmentChange(LivingEquipmentChangeEvent event) {
         if (event.getEntity() instanceof PlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
-                if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSpecialAttributes().werewolfForm) {
+                if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getForm() != WerewolfForm.NONE) {
                     if (event.getTo().isEmpty()) { // see WerewolfFormAction#applyModifier
                         if (((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
 //                            double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();

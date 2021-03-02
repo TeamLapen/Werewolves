@@ -7,6 +7,7 @@ import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.mixin.ScreenMixin;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
@@ -36,8 +37,8 @@ public class ClientEventHandler {
     @SubscribeEvent
     public void onRenderPlayer(RenderPlayerEvent.Pre event) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getPlayer();
-        if (Helper.isWerewolf(player) && WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getSpecialAttributes).map(attributes -> attributes.werewolfForm).orElse(false)) {
-            event.setCanceled(WEntityRenderer.render.render(WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.prevRotationYaw, player.rotationYaw), event.getPartialRenderTick(), event.getMatrixStack(),event.getBuffers(),event.getLight()));
+        if (Helper.isWerewolf(player) && WerewolfPlayer.getOpt(player).map(w -> w.getForm() != WerewolfForm.NONE).orElse(false)) {
+            event.setCanceled(WEntityRenderer.render.render(WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.prevRotationYaw, player.rotationYaw), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight()));
         }
     }
 

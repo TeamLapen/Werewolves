@@ -172,7 +172,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
 
             if (this.player.world.getGameTime() % 20 == 0 && Helper.isFullMoon(this.getRepresentingPlayer().getEntityWorld())) {
-                if (!Helper.isFormActionActive(this)) {
+                if (!Helper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will)) {
                     Optional<? extends IAction> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
                     action.ifPresent(this.actionHandler::toggleAction);
                 }
@@ -188,7 +188,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         }
         EffectInstance effect = this.player.getActivePotionEffect(Effects.NIGHT_VISION);
-        if (this.specialAttributes.werewolfForm && this.specialAttributes.night_vision) {
+        if (this.getForm() != WerewolfForm.NONE && this.specialAttributes.night_vision) {
             if (!(effect instanceof WerewolfNightVisionEffect)) {
                 player.removeActivePotionEffect(Effects.NIGHT_VISION);
                 effect = null;
@@ -336,7 +336,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nullable
     @Override
     public IFaction<?> getDisguisedAs() {
-        if (this.getSpecialAttributes().werewolfForm) {
+        if (this.getForm() != WerewolfForm.NONE) {
             return WReference.WEREWOLF_FACTION;
         }
         return null;
@@ -361,31 +361,30 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
     }
 
-    public void activateWerewolfForm() {
-        this.specialAttributes.werewolfForm = true;
-        for (int i = 0; i < player.inventory.armorInventory.size(); i++) {
-            this.armorItems.set(i,this.player.inventory.armorInventory.get(i));
-            this.player.inventory.armorInventory.set(i,ItemStack.EMPTY);
+    public void storeArmor() {
+        if (!this.skillHandler.isSkillEnabled(WerewolfSkills.wear_armor)) {
+            for (int i = 0; i < player.inventory.armorInventory.size(); i++) {
+                this.armorItems.set(i, this.player.inventory.armorInventory.get(i));
+                this.player.inventory.armorInventory.set(i, ItemStack.EMPTY);
+            }
+            this.sync(this.saveArmorItems(new CompoundNBT()), false);
         }
-        this.armorItems.set(this.armorItems.size()-1, this.player.inventory.offHandInventory.get(0));
-        this.player.inventory.offHandInventory.set(0,ItemStack.EMPTY);
-        this.sync(this.saveArmorItems(new CompoundNBT()),false);
     }
 
-    public void deactivateWerewolfForm() {
-        this.specialAttributes.werewolfForm = false;
+    public void loadArmor() {
         for (int i = 0; i < this.armorItems.size() - 1; i++) {
-            this.player.inventory.armorInventory.set(i,this.armorItems.get(i));
-            this.armorItems.set(i,ItemStack.EMPTY);
+            ItemStack stack = this.armorItems.get(i);
+            if (!stack.isEmpty()) {
+                this.player.inventory.armorInventory.set(i, stack);
+                this.armorItems.set(i, ItemStack.EMPTY);
+            }
         }
-        this.player.inventory.offHandInventory.set(0, this.armorItems.get(this.armorItems.size() - 1));
-        this.armorItems.set(this.armorItems.size() - 1, ItemStack.EMPTY);
-        this.sync(this.saveArmorItems(new CompoundNBT()),false);
+        this.sync(this.saveArmorItems(new CompoundNBT()), false);
     }
 
     @Override
     public boolean isDisguised() {
-        return !this.getSpecialAttributes().werewolfForm;
+        return this.getForm() == WerewolfForm.NONE;
     }
 
     static {
@@ -433,7 +432,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.levelHandler.loadFromNbt(compound);
         CompoundNBT armor = compound.getCompound("armor");
         for (int i = 0; i < armor.size(); i++) {
-            this.armorItems.set(i, ItemStack.read(armor.getCompound("" + i)));
+            try { //TODO remove
+                this.armorItems.set(i, ItemStack.read(armor.getCompound("" + i)));
+            } catch (IndexOutOfBoundsException ignored) {
+
+            }
         }
         if (compound.contains("werewolfTime")) {
             this.specialAttributes.werewolfTime = compound.getLong("werewolfTime");

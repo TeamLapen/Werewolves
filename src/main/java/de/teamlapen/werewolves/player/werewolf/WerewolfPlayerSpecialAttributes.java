@@ -5,7 +5,6 @@ import de.teamlapen.werewolves.player.WerewolfForm;
 public class WerewolfPlayerSpecialAttributes {
 
     public boolean night_vision;
-    public boolean werewolfForm;
     public long werewolfTime;
     public int target;
 
