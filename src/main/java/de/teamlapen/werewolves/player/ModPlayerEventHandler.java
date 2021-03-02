@@ -204,13 +204,28 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void playerSize(EntityEvent.Size event){
-        if (event.getEntity() instanceof PlayerEntity){
+    public void playerSize(EntityEvent.Size event) {
+        if (event.getEntity() instanceof PlayerEntity) {
             LazyOptional<WerewolfPlayer> werewolf = WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity()));
             Optional<EntitySize> size = werewolf.map(WerewolfPlayer::getForm).flatMap(form -> form.getSize(event.getPose()));
-            if (size.isPresent()){
+            if (size.isPresent()) {
                 event.setNewSize(size.get());
                 event.setNewEyeHeight(size.get().height * 0.85F);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerAttacked(LivingAttackEvent event) {
+        if (event.getEntity() instanceof PlayerEntity && event.getEntity().isSprinting()) {
+            if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
+                if (event.getSource() instanceof EntityDamageSource) {
+                    if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(w -> w.getForm() == WerewolfForm.SURVIVALIST).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.movement_tactics)).orElse(false)) {
+                        if (((PlayerEntity) event.getEntity()).getRNG().nextFloat() < 0.35) {
+                            event.setCanceled(true);
+                        }
+                    }
+                }
             }
         }
     }

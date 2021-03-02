@@ -29,15 +29,14 @@ public class WerewolfSkills {
     public static final ISkill resistance = getNull();
     public static final ISkill health_after_kill = getNull();
     public static final ISkill howling = getNull();
-    public static final ISkill sense = getNull();//TODO
+    public static final ISkill sense = getNull();
     public static final ISkill survival_form = getNull();
     public static final ISkill speed = getNull();
     public static final ISkill jump = getNull();
     public static final ISkill leap = getNull();
     public static final ISkill fall_damage = getNull();
-    public static final ISkill advanced_sense = getNull();
     public static final ISkill wolf_pack = getNull();
-    public static final ISkill movement_tactics = getNull();//TODO
+    public static final ISkill movement_tactics = getNull();
     public static final ISkill throat_seeker = getNull();//TODO
     public static final ISkill ignored = getNull();//TODO
     public static final ISkill climber = getNull();//TODO
@@ -94,7 +93,6 @@ public class WerewolfSkills {
         registry.register(new ActionSkill<>(WerewolfActions.fear));
 
         registry.register(new ActionSkill<>(WerewolfActions.hide_name));
-        registry.register(new SimpleWerewolfSkill("advanced_sense"));
         registry.register(new ActionSkill<>(WerewolfActions.wolf_pack));
 
         registry.register(new SimpleWerewolfSkill("throat_seeker"));
