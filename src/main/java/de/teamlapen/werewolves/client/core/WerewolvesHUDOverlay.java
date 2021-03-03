@@ -8,6 +8,7 @@ import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.items.ISilverItem;
 import de.teamlapen.werewolves.mixin.InGameGuiAccessor;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
@@ -153,7 +154,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void handleScreenColorWerewolf(WerewolfPlayer player) {
-        boolean sixth_sense = player.getActionHandler().isActionActive(WerewolfActions.sixth_sense);
+        boolean sixth_sense = player.getSkillHandler().isSkillEnabled(WerewolfSkills.sixth_sense);
         boolean rage = player.getActionHandler().isActionActive(WerewolfActions.rage);
         if (sixth_sense) {
             if (this.screenPercentage > 0) {

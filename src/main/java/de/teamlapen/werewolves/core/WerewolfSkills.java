@@ -72,7 +72,7 @@ public class WerewolfSkills {
         registry.register(new ActionSkill<>(WerewolfActions.survival_form).setHasDefaultDescription());
         registry.register(new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()).setHasDefaultDescription());
         registry.register(new ActionSkill<>(WerewolfActions.leap).setHasDefaultDescription());
-        registry.register(new ActionSkill<>(WerewolfActions.sixth_sense).setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("sixth_sense").setHasDefaultDescription());
         registry.register(new ActionSkill<>(WerewolfActions.fear).setHasDefaultDescription());
         registry.register(new ActionSkill<>(WerewolfActions.hide_name).setHasDefaultDescription());
         registry.register(new SimpleWerewolfSkill("wolf_pack").setHasDefaultDescription());
