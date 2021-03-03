@@ -1,6 +1,6 @@
 {
-  "parent": "werewolves:werewolf/other3",
+  "parent": "werewolves:werewolf/util3",
   "skills": [
-    "werewolves:free_will"
+    "werewolves:health_reg"
   ]
 }

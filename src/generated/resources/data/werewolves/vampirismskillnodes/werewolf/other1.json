@@ -1,6 +1,6 @@
 {
-  "parent": "werewolves:werewolf/skill2",
+  "parent": "werewolves:werewolf/util3",
   "skills": [
-    "werewolves:howling"
+    "werewolves:free_will"
   ]
 }

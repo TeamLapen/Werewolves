@@ -12,7 +12,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-import static de.teamlapen.werewolves.util.SkillUtils.*;
+import static de.teamlapen.werewolves.util.SkillUtils.DAMAGE_SKILL;
+import static de.teamlapen.werewolves.util.SkillUtils.SPEED_SKILL;
 
 @SuppressWarnings("unused")
 @ObjectHolder(REFERENCE.MODID)
@@ -20,7 +21,6 @@ public class WerewolfSkills {
 
     public static final ISkill human_form = getNull();
     public static final ISkill night_vision = getNull();
-//    public static final ISkill bite = getNull(); //TODO integrate like vampire bite
     public static final ISkill rage = getNull();
     public static final ISkill beast_form = getNull();
     public static final ISkill stun_bite = getNull();
@@ -37,7 +37,6 @@ public class WerewolfSkills {
     public static final ISkill wolf_pack = getNull();
     public static final ISkill movement_tactics = getNull();
     public static final ISkill throat_seeker = getNull();
-    public static final ISkill ignored = getNull();//TODO
     public static final ISkill climber = getNull();
     public static final ISkill wolf_pawn = getNull(); //TODO maybe add soul sand & slime & ice & webs as blocks that do not affect movement speed
     public static final ISkill not_meat = getNull();
@@ -45,16 +44,11 @@ public class WerewolfSkills {
     public static final ISkill free_will = getNull();
     public static final ISkill wear_armor = getNull();
     public static final ISkill silver_blooded = getNull();
-
-
-    public static final ISkill fall_damage = getNull(); //TODO map to wolfs_pawn
-    public static final ISkill health_reg = getNull();
-    public static final ISkill health = getNull();
-    public static final ISkill speed_after_kill = getNull();
-    public static final ISkill sixth_sense = getNull();
     public static final ISkill hide_name = getNull();
     public static final ISkill fear = getNull();
-    public static final ISkill better_claws = getNull();
+    public static final ISkill sixth_sense = getNull();
+    public static final ISkill health_reg = getNull();
+
 
     @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
@@ -66,38 +60,26 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("night_vision").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false).setHasDefaultDescription());
-        registry.register(new ActionSkill<>(WerewolfActions.bite));
-
         registry.register(new ActionSkill<>(WerewolfActions.rage));
         registry.register(new ActionSkill<>(WerewolfActions.beast_form));
-        registry.register(new SimpleWerewolfSkill.AttributeSkill("health", true, HEALTH_SKILL, Attributes.MAX_HEALTH, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.health_amount.get()));
         registry.register(new SimpleWerewolfSkill("health_reg", true));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("damage", true, DAMAGE_SKILL, Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.damage_amount.get()));
         registry.register(new SimpleWerewolfSkill("resistance"));
         registry.register(new SimpleWerewolfSkill("health_after_kill"));
         registry.register(new SimpleWerewolfSkill("stun_bite"));
         registry.register(new SimpleWerewolfSkill("bleeding_bite"));
-        registry.register(new SimpleWerewolfSkill("better_claws"));
-
-
         registry.register(new ActionSkill<>(WerewolfActions.howling));
         registry.register(new ActionSkill<>(WerewolfActions.sense));
-
         registry.register(new ActionSkill<>(WerewolfActions.survival_form));
         registry.register(new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
         registry.register(new SimpleWerewolfSkill("jump"));
-        registry.register(new SimpleWerewolfSkill("fall_damage"));
         registry.register(new ActionSkill<>(WerewolfActions.leap));
         registry.register(new ActionSkill<>(WerewolfActions.sixth_sense));
-        registry.register(new SimpleWerewolfSkill("speed_after_kill"));
         registry.register(new ActionSkill<>(WerewolfActions.fear));
-
         registry.register(new ActionSkill<>(WerewolfActions.hide_name));
         registry.register(new SimpleWerewolfSkill("wolf_pack"));
-
         registry.register(new SimpleWerewolfSkill("throat_seeker"));
         registry.register(new SimpleWerewolfSkill("movement_tactics"));
-        registry.register(new SimpleWerewolfSkill("ignored"));
         registry.register(new SimpleWerewolfSkill("climber"));
         registry.register(new SimpleWerewolfSkill("wolf_pawn"));
         registry.register(new SimpleWerewolfSkill("not_meat"));

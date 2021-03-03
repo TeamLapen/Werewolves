@@ -1,7 +1,6 @@
 {
   "parent": "werewolves:werewolf/survival4",
   "skills": [
-    "werewolves:ignored",
     "werewolves:movement_tactics"
   ]
 }
