@@ -34,13 +34,12 @@ public class WerewolfSkills {
     public static final ISkill speed = getNull();
     public static final ISkill jump = getNull();
     public static final ISkill leap = getNull();
-    public static final ISkill fall_damage = getNull();
     public static final ISkill wolf_pack = getNull();
     public static final ISkill movement_tactics = getNull();
     public static final ISkill throat_seeker = getNull();
     public static final ISkill ignored = getNull();//TODO
     public static final ISkill climber = getNull();
-    public static final ISkill wolf_pawn = getNull();//TODO include falldamage
+    public static final ISkill wolf_pawn = getNull(); //TODO maybe add soul sand & slime & ice & webs as blocks that do not affect movement speed
     public static final ISkill not_meat = getNull();
     public static final ISkill water_lover = getNull();
     public static final ISkill free_will = getNull();
@@ -48,6 +47,7 @@ public class WerewolfSkills {
     public static final ISkill silver_blooded = getNull();
 
 
+    public static final ISkill fall_damage = getNull(); //TODO map to wolfs_pawn
     public static final ISkill health_reg = getNull();
     public static final ISkill health = getNull();
     public static final ISkill speed_after_kill = getNull();

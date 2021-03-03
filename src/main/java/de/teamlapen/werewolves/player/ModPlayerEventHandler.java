@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -100,7 +101,7 @@ public class ModPlayerEventHandler {
     public void onFall(LivingFallEvent event) {
         if (event.getEntityLiving() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getEntityLiving()))) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
-            if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.fall_damage)) {
+            if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn)) {
                 event.setDistance(event.getDistance() * 0.8f);
                 event.setDamageMultiplier(event.getDamageMultiplier() * 0.8f);
             }
@@ -228,6 +229,10 @@ public class ModPlayerEventHandler {
                         if (((PlayerEntity) event.getEntity()).getRNG().nextFloat() < 0.35) {
                             event.setCanceled(true);
                         }
+                    }
+                } else if (event.getSource() == DamageSource.SWEET_BERRY_BUSH || event.getSource() == DamageSource.CACTUS || event.getSource() == DamageSource.HOT_FLOOR) {
+                    if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(w -> w.getForm().isTransformed()).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn)).orElse(false)) {
+                        event.setCanceled(true);
                     }
                 }
             }
