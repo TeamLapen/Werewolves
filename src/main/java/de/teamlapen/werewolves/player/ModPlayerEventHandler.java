@@ -115,7 +115,7 @@ public class ModPlayerEventHandler {
     public void onEquipmentChange(LivingEquipmentChangeEvent event) {
         if (event.getEntity() instanceof PlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
-                if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getForm() != WerewolfForm.NONE) {
+                if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getForm().isTransformed()) {
                     if (event.getTo().isEmpty()) { // see WerewolfFormAction#applyModifier
                         if (((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
 //                            double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();

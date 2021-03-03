@@ -42,10 +42,10 @@ public class WerewolfSkills {
     public static final ISkill climber = getNull();
     public static final ISkill wolf_pawn = getNull();//TODO include falldamage
     public static final ISkill not_meat = getNull();
-    public static final ISkill water_lover = getNull();//TODO
+    public static final ISkill water_lover = getNull();
     public static final ISkill free_will = getNull();
     public static final ISkill wear_armor = getNull();
-    public static final ISkill silver_blooded = getNull();//TODO
+    public static final ISkill silver_blooded = getNull();
 
 
     public static final ISkill health_reg = getNull();

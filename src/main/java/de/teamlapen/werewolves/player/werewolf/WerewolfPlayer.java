@@ -166,15 +166,25 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     sync = true;
                     skillHandler.writeUpdateForClient(syncPacket);
                 }
+
+                if (this.player.world.getGameTime() % 20 == 0) {
+                    if (Helper.isFullMoon(this.getRepresentingPlayer().getEntityWorld())) {
+                        if (!Helper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will)) {
+                            Optional<? extends IAction> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
+                            action.ifPresent(this.actionHandler::toggleAction);
+                        }
+                    }
+
+                    if (this.form.isTransformed()) {
+                        if (this.player.isInWater() && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover)) {
+                            this.player.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 21, 0, true, true));
+                        }
+                    }
+                }
+
+
                 if (sync) {
                     sync(syncPacket, syncToAll);
-                }
-            }
-
-            if (this.player.world.getGameTime() % 20 == 0 && Helper.isFullMoon(this.getRepresentingPlayer().getEntityWorld())) {
-                if (!Helper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will)) {
-                    Optional<? extends IAction> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
-                    action.ifPresent(this.actionHandler::toggleAction);
                 }
             }
         } else {
@@ -188,7 +198,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         }
         EffectInstance effect = this.player.getActivePotionEffect(Effects.NIGHT_VISION);
-        if (this.getForm() != WerewolfForm.NONE && this.specialAttributes.night_vision) {
+        if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
             if (!(effect instanceof WerewolfNightVisionEffect)) {
                 player.removeActivePotionEffect(Effects.NIGHT_VISION);
                 effect = null;
@@ -336,7 +346,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nullable
     @Override
     public IFaction<?> getDisguisedAs() {
-        if (this.getForm() != WerewolfForm.NONE) {
+        if (this.getForm().isTransformed()) {
             return WReference.WEREWOLF_FACTION;
         }
         return null;
@@ -384,7 +394,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public boolean isDisguised() {
-        return this.getForm() == WerewolfForm.NONE;
+        return !this.getForm().isTransformed();
     }
 
     static {
