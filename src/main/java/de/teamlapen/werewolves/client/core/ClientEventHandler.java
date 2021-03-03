@@ -2,10 +2,7 @@ package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.core.ModKeys;
-import de.teamlapen.vampirism.client.gui.SkillsScreen;
-import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.mixin.ScreenMixin;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
@@ -16,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -68,14 +64,14 @@ public class ClientEventHandler {
 //        }
     }
 
-    @SubscribeEvent
-    public void onGuiInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
-        if (event.getGui() instanceof SkillsScreen) {
-            if (Helper.isWerewolf(Minecraft.getInstance().player)) {
-                ((ScreenMixin) event.getGui()).invokeAddButton_werewolves(new ExpBar(118, 62, ((SkillsScreen) event.getGui())));
-            }
-        }
-    }
+//    @SubscribeEvent
+//    public void onGuiInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
+//        if (event.getGui() instanceof SkillsScreen) {
+//            if (Helper.isWerewolf(Minecraft.getInstance().player)) {
+//                ((ScreenMixin) event.getGui()).invokeAddButton_werewolves(new ExpBar(118, 62, ((SkillsScreen) event.getGui())));
+//            }
+//        }
+//    }
 
     @SubscribeEvent
     public void onRenderNamePlate(RenderNameplateEvent event) {
