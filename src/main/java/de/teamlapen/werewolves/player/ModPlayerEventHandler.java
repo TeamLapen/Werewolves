@@ -138,7 +138,7 @@ public class ModPlayerEventHandler {
         if (event.getEntity() instanceof PlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
-                if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.jump)) {
+                if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn)) {
                     Vector3d motion = event.getEntity().getMotion().mul(1.1, 1.2, 1.1);
                     event.getEntity().setMotion(motion);
                 }

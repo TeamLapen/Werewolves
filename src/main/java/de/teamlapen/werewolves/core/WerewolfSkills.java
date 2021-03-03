@@ -32,7 +32,6 @@ public class WerewolfSkills {
     public static final ISkill sense = getNull();
     public static final ISkill survival_form = getNull();
     public static final ISkill speed = getNull();
-    public static final ISkill jump = getNull();
     public static final ISkill leap = getNull();
     public static final ISkill wolf_pack = getNull();
     public static final ISkill movement_tactics = getNull();
@@ -53,39 +52,38 @@ public class WerewolfSkills {
     @SuppressWarnings("deprecation")
     static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
-        registry.register(new ActionSkill<>(WerewolfActions.human_form));
+        registry.register(new ActionSkill<>(WerewolfActions.human_form).setHasDefaultDescription());
         registry.register(new SimpleWerewolfSkill("night_vision").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false));
         registry.register(new SimpleWerewolfSkill("night_vision").setToggleActions(
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
                 (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false).setHasDefaultDescription());
-        registry.register(new ActionSkill<>(WerewolfActions.rage));
-        registry.register(new ActionSkill<>(WerewolfActions.beast_form));
-        registry.register(new SimpleWerewolfSkill("health_reg", true));
-        registry.register(new SimpleWerewolfSkill.AttributeSkill("damage", true, DAMAGE_SKILL, Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.damage_amount.get()));
-        registry.register(new SimpleWerewolfSkill("resistance"));
-        registry.register(new SimpleWerewolfSkill("health_after_kill"));
-        registry.register(new SimpleWerewolfSkill("stun_bite"));
-        registry.register(new SimpleWerewolfSkill("bleeding_bite"));
-        registry.register(new ActionSkill<>(WerewolfActions.howling));
-        registry.register(new ActionSkill<>(WerewolfActions.sense));
-        registry.register(new ActionSkill<>(WerewolfActions.survival_form));
-        registry.register(new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
-        registry.register(new SimpleWerewolfSkill("jump"));
-        registry.register(new ActionSkill<>(WerewolfActions.leap));
-        registry.register(new ActionSkill<>(WerewolfActions.sixth_sense));
-        registry.register(new ActionSkill<>(WerewolfActions.fear));
-        registry.register(new ActionSkill<>(WerewolfActions.hide_name));
-        registry.register(new SimpleWerewolfSkill("wolf_pack"));
-        registry.register(new SimpleWerewolfSkill("throat_seeker"));
-        registry.register(new SimpleWerewolfSkill("movement_tactics"));
-        registry.register(new SimpleWerewolfSkill("climber"));
-        registry.register(new SimpleWerewolfSkill("wolf_pawn"));
-        registry.register(new SimpleWerewolfSkill("not_meat"));
-        registry.register(new SimpleWerewolfSkill("water_lover"));
-        registry.register(new SimpleWerewolfSkill("free_will"));
-        registry.register(new SimpleWerewolfSkill("wear_armor"));
-        registry.register(new SimpleWerewolfSkill("silver_blooded"));
+        registry.register(new ActionSkill<>(WerewolfActions.rage).setHasDefaultDescription());
+        registry.register(new ActionSkill<>(WerewolfActions.beast_form).setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("health_reg", true).setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill.AttributeSkill("damage", true, DAMAGE_SKILL, Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.damage_amount.get()).setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("resistance").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("health_after_kill").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("stun_bite").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("bleeding_bite").setHasDefaultDescription());
+        registry.register(new ActionSkill<>(WerewolfActions.howling).setHasDefaultDescription());
+        registry.register(new ActionSkill<>(WerewolfActions.sense).setHasDefaultDescription());
+        registry.register(new ActionSkill<>(WerewolfActions.survival_form).setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()).setHasDefaultDescription());
+        registry.register(new ActionSkill<>(WerewolfActions.leap).setHasDefaultDescription());
+        registry.register(new ActionSkill<>(WerewolfActions.sixth_sense).setHasDefaultDescription());
+        registry.register(new ActionSkill<>(WerewolfActions.fear).setHasDefaultDescription());
+        registry.register(new ActionSkill<>(WerewolfActions.hide_name).setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("wolf_pack").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("throat_seeker").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("movement_tactics").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("climber").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("wolf_pawn").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("not_meat").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("water_lover").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("free_will").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("wear_armor").setHasDefaultDescription());
+        registry.register(new SimpleWerewolfSkill("silver_blooded").setHasDefaultDescription());
     }
 }
