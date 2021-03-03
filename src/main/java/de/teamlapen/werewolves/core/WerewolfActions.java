@@ -21,7 +21,6 @@ public class WerewolfActions {
     public static final FearAction fear = getNull();
     public static final LeapAction leap = getNull();
     public static final HideNameAction hide_name = getNull();
-    public static final SummonWolfAction wolf_pack = getNull();
     public static final SixthSenseAction sixth_sense = getNull();
 
     static void registerActions(IForgeRegistry<IAction> registry) {
@@ -35,7 +34,6 @@ public class WerewolfActions {
         registry.register(new FearAction().setRegistryName(REFERENCE.MODID, "fear"));
         registry.register(new LeapAction().setRegistryName(REFERENCE.MODID, "leap"));
         registry.register(new HideNameAction().setRegistryName(REFERENCE.MODID, "hide_name"));
-        registry.register(new SummonWolfAction().setRegistryName(REFERENCE.MODID, "wolf_pack"));
         registry.register(new SixthSenseAction().setRegistryName(REFERENCE.MODID, "sixth_sense"));
     }
 }

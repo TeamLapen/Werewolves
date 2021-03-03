@@ -93,7 +93,7 @@ public class WerewolfSkills {
         registry.register(new ActionSkill<>(WerewolfActions.fear));
 
         registry.register(new ActionSkill<>(WerewolfActions.hide_name));
-        registry.register(new ActionSkill<>(WerewolfActions.wolf_pack));
+        registry.register(new SimpleWerewolfSkill("wolf_pack"));
 
         registry.register(new SimpleWerewolfSkill("throat_seeker"));
         registry.register(new SimpleWerewolfSkill("movement_tactics"));
