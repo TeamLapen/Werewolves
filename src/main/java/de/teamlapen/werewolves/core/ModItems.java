@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.items.CrossbowArrowItem;
 import de.teamlapen.werewolves.items.LiverItem;
 import de.teamlapen.werewolves.items.SilverSword;
@@ -12,7 +13,6 @@ import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
-import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -49,7 +49,7 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
             @Override
             public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
                 if (Helper.isWerewolf(entity)) {
-                    entity.addPotionEffect(new EffectInstance(ModEffects.silver, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20));
+                    entity.addPotionEffect(SilverEffect.createEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20));
                 }
             }
         }));

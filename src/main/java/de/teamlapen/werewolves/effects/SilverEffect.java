@@ -1,9 +1,15 @@
 package de.teamlapen.werewolves.effects;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModEffects;
+import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 
 import javax.annotation.Nonnull;
@@ -20,5 +26,14 @@ public class SilverEffect extends WerewolvesEffect {
 
     @Override
     public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    }
+
+    public static EffectInstance createEffect(LivingEntity entity, int defaultDuration) {
+        if (entity instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) entity))) {
+            if (WerewolfPlayer.getOpt(((PlayerEntity) entity)).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.silver_blooded)).orElse(false)) {
+                defaultDuration /= 3f;
+            }
+        }
+        return new EffectInstance(ModEffects.silver, defaultDuration);
     }
 }
