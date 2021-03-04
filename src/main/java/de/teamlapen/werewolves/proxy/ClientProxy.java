@@ -5,6 +5,7 @@ import de.teamlapen.werewolves.client.render.RenderHandler;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
@@ -58,5 +59,10 @@ public class ClientProxy extends CommonProxy {
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_CHESTPLATE.getPath()));
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_LEGGINGS.getPath()));
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_BOOTS.getPath()));
+    }
+
+    @Override
+    public boolean isShiftDown() {
+        return InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 340) || InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 344);
     }
 }
