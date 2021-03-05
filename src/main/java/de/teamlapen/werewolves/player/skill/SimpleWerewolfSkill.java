@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.player.skill;
 
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
+import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.player.skills.VampirismSkill;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -9,10 +10,14 @@ import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     @Deprecated
@@ -38,6 +43,24 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     @Override
     public IPlayableFaction<?> getFaction() {
         return WReference.WEREWOLF_FACTION;
+    }
+
+    public SimpleWerewolfSkill defaultDescWithExtra(Supplier<ITextComponent> text) {
+        this.setDescription(() -> new TranslationTextComponent(this.getTranslationKey() + ".desc").appendString("\n").append(text.get()));
+        return this;
+    }
+
+    public SimpleWerewolfSkill defaultDescWithExtra(TranslationTextComponent prefix, Supplier<ISkill> skill) {
+        this.setDescription(() -> new TranslationTextComponent(this.getTranslationKey() + ".desc").appendString("\n").append(prefix.mergeStyle(TextFormatting.AQUA)).appendString(" ").append(new TranslationTextComponent(skill.get().getTranslationKey()).mergeStyle(TextFormatting.AQUA)));
+        return this;
+    }
+
+    public SimpleWerewolfSkill defaultDescWithFormRequirement(Supplier<ISkill> skill) {
+        return defaultDescWithExtra(new TranslationTextComponent("text.werewolves.skills.only_applies"), skill);
+    }
+
+    public SimpleWerewolfSkill defaultDescWithEnhancement(Supplier<ISkill> skill) {
+        return defaultDescWithExtra(new TranslationTextComponent("text.werewolves.skills.upgrade"), skill);
     }
 
     public static class AttributeSkill extends SimpleWerewolfSkill {
