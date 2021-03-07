@@ -43,29 +43,33 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     protected static class Modifier {
 
         public final Attribute attribute;
-        public final UUID uuid;
+        public final UUID dayUuid;
+        public final UUID nightUuid;
         public final String name;
-        public final Function<WerewolfPlayer, Double> value;
+        public final Function<IWerewolfPlayer, Double> value;
         public final AttributeModifier.Operation operation;
+        public final double dayModifier;
 
-        public Modifier(Attribute attribute, UUID uuid, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
-            this(attribute, uuid, name, player -> valueFunction.get(), operation);
+        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
+            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> valueFunction.get(), operation);
         }
 
-        public Modifier(Attribute attribute, UUID uuid, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, ISkill extendedSkill, AttributeModifier.Operation operation) {
-            this(attribute, uuid, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill) ? extendedValueFunction.get() : valueFunction.get(), operation);
+        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, ISkill extendedSkill, AttributeModifier.Operation operation) {
+            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill) ? extendedValueFunction.get() : valueFunction.get(), operation);
         }
 
-        public Modifier(Attribute attribute, UUID uuid, String name, Function<WerewolfPlayer, Double> valueFunction, AttributeModifier.Operation operation) {
+        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Function<IWerewolfPlayer, Double> valueFunction, AttributeModifier.Operation operation) {
             this.attribute = attribute;
-            this.uuid = uuid;
+            this.dayUuid = dayUuid;
+            this.nightUuid = nightUuid;
             this.name = name;
             this.value = valueFunction;
             this.operation = operation;
+            this.dayModifier = dayModifier;
         }
 
-        public AttributeModifier create(WerewolfPlayer player) {
-            return new AttributeModifier(uuid, name, value.apply(player), operation);
+        public AttributeModifier create(IWerewolfPlayer player, boolean night) {
+            return new AttributeModifier(night ? nightUuid : dayUuid, name, night ? value.apply(player) : value.apply(player) * dayModifier, operation);
         }
     }
 
@@ -84,7 +88,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
             ((WerewolfPlayer) werewolfPlayer).storeArmor();
         }
-        this.applyModifier(((WerewolfPlayer) werewolfPlayer));
+        this.applyModifier(werewolfPlayer);
         return true;
     }
 
@@ -100,7 +104,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).setForm(this, WerewolfForm.NONE);
         ((WerewolfPlayer) werewolfPlayer).loadArmor();
-        this.removeModifier(((WerewolfPlayer) werewolfPlayer));
+        this.removeModifier(werewolfPlayer);
     }
 
     @Override
@@ -112,28 +116,44 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public boolean onUpdate(IWerewolfPlayer werewolfPlayer) {
+        if (!werewolfPlayer.getRepresentingPlayer().getEntityWorld().isRemote) {
+            checkDayNightModifier(werewolfPlayer);
+        }
         if (Helper.isNight(werewolfPlayer.getRepresentingPlayer().getEntityWorld())) {
             return false;
         }
         return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
     }
 
-    public void applyModifier(WerewolfPlayer werewolf) {
-        PlayerEntity player = werewolf.getRepresentingPlayer();
+    public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
+        PlayerEntity player = werewolfPlayer.getRepresentingPlayer();
+        boolean night = Helper.isNight(player.getEntityWorld());
         for (Modifier attribute : this.attributes) {
-            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
-            if (ins != null && ins.getModifier(attribute.uuid) == null) {
-                ins.applyPersistentModifier(attribute.create(werewolf));
+            if (player.getAttribute(attribute.attribute).getModifier(!night ? attribute.nightUuid : attribute.dayUuid) != null) {
+                removeModifier(werewolfPlayer);
+                applyModifier(werewolfPlayer);
             }
         }
     }
 
-    public void removeModifier(WerewolfPlayer werewolf) {
+    public void applyModifier(IWerewolfPlayer werewolf) {
+        PlayerEntity player = werewolf.getRepresentingPlayer();
+        boolean night = Helper.isNight(player.getEntityWorld());
+        for (Modifier attribute : this.attributes) {
+            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
+            if (ins != null && ins.getModifier(attribute.dayUuid) == null) {
+                ins.applyPersistentModifier(attribute.create(werewolf, night));
+            }
+        }
+    }
+
+    public void removeModifier(IWerewolfPlayer werewolf) {
         PlayerEntity player = werewolf.getRepresentingPlayer();
         for (Modifier attribute : this.attributes) {
             ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
             if (ins != null) {
-                ins.removeModifier(attribute.uuid);
+                ins.removeModifier(attribute.dayUuid);
+                ins.removeModifier(attribute.nightUuid);
             }
         }
     }

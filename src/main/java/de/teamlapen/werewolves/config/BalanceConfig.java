@@ -228,7 +228,7 @@ public class BalanceConfig {
             builder.pop();
 
             builder.push("speed");
-            this.speed_amount = builder.defineInRange("speed_amount", 0.1, 0.0, 2.0);
+            this.speed_amount = builder.defineInRange("speed_amount", 0.02, 0.0, 1);
             builder.pop();
 
             builder.push("rage");
