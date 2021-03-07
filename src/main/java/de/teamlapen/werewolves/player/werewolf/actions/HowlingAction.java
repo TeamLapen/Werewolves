@@ -51,6 +51,11 @@ public class HowlingAction extends DefaultWerewolfAction {
     }
 
     @Override
+    public boolean canBeUsedBy(IWerewolfPlayer player) {
+        return player.getRepresentingPlayer().getActivePotionEffect(ModEffects.howling) != null;
+    }
+
+    @Override
     public int getCooldown() {
         return WerewolvesConfig.BALANCE.SKILLS.howling_cooldown.get() * 20;
     }
