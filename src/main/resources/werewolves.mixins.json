@@ -6,10 +6,11 @@
   "mixins": [
     "BlocksInvoker",
     "FireBlockInvoker",
+    "FoodStatsAccessor",
     "InGameGuiAccessor",
-    "entity.MixinPlayerContainerAccessor",
     "PointOfInterestTypeInvoker",
     "ScreenMixin",
+    "entity.MixinPlayerContainerAccessor",
     "entity.MixinPlayerContainerArmorSlot",
     "entity.MixinPlayerEntity",
     "entity.MixinVillagerEntity"

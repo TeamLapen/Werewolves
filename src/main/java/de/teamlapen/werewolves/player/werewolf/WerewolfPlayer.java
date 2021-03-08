@@ -18,6 +18,7 @@ import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
+import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
@@ -36,6 +37,8 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.capabilities.*;
@@ -182,6 +185,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     }
                 }
 
+                if (this.skillHandler.isSkillEnabled(WerewolfSkills.health_reg)) {
+                    this.tickFoodStats();
+                }
 
                 if (sync) {
                     sync(syncPacket, syncToAll);
@@ -214,6 +220,31 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
 
         this.player.getEntityWorld().getProfiler().endSection();
+    }
+
+    private void tickFoodStats(){
+        Difficulty difficulty = this.player.world.getDifficulty();
+        boolean flag = this.player.world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
+        FoodStats stats = this.player.getFoodStats();
+        if (flag && stats.getSaturationLevel() > 0.0F && player.shouldHeal() && stats.getFoodLevel() >= 20) {
+            if (((FoodStatsAccessor) stats).getFoodTimer() >= 9) {
+                float f = Math.min(stats.getSaturationLevel(), 6.0F);
+                player.heal(f / 6.0F);
+                stats.addExhaustion(f);
+            }
+        } else if (flag && stats.getFoodLevel() >= 18 && player.shouldHeal()) {
+            if (((FoodStatsAccessor) stats).getFoodTimer() >= 79) {
+                player.heal(1.0F);
+                stats.addExhaustion(6.0F);
+            }
+        } else if (stats.getFoodLevel() <= 0) {
+            if (((FoodStatsAccessor) stats).getFoodTimer() >= 79) {
+                if (player.getHealth() > 10.0F || difficulty == Difficulty.HARD || player.getHealth() > 1.0F && difficulty == Difficulty.NORMAL) {
+                    player.attackEntityFrom(DamageSource.STARVE, 1.0F);
+                }
+
+            }
+        }
     }
 
     @Override
