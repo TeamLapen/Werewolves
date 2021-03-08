@@ -89,6 +89,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             ((WerewolfPlayer) werewolfPlayer).storeArmor();
         }
         this.applyModifier(werewolfPlayer);
+        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
         return true;
     }
 
@@ -98,6 +99,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
             ((WerewolfPlayer) werewolfPlayer).storeArmor();
         }
+        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
     }
 
     @Override
@@ -105,6 +107,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         ((WerewolfPlayer) werewolfPlayer).setForm(this, WerewolfForm.NONE);
         ((WerewolfPlayer) werewolfPlayer).loadArmor();
         this.removeModifier(werewolfPlayer);
+        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
     }
 
     @Override
@@ -112,6 +115,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
             ((WerewolfPlayer) werewolfPlayer).storeArmor();
         }
+        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
     }
 
     @Override
