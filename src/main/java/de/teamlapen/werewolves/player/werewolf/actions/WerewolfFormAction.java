@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
+import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
@@ -108,6 +109,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         ((WerewolfPlayer) werewolfPlayer).loadArmor();
         this.removeModifier(werewolfPlayer);
         werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
+        if (werewolfPlayer.getActionHandler().isActionActive(WerewolfActions.hide_name)) {
+            werewolfPlayer.getActionHandler().toggleAction(WerewolfActions.hide_name);
+        }
     }
 
     @Override

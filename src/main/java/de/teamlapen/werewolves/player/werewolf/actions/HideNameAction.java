@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.player.werewolf.actions;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 
 public class HideNameAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
     public HideNameAction() {
@@ -43,5 +44,10 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     @Override
     public int getCooldown() {
         return WerewolvesConfig.BALANCE.SKILLS.hide_name_cooldown.get() * 20;
+    }
+
+    @Override
+    public boolean canBeUsedBy(IWerewolfPlayer player) {
+        return ((WerewolfPlayer) player).getForm().isTransformed();
     }
 }
