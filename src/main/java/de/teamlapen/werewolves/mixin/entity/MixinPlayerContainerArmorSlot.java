@@ -1,12 +1,11 @@
 package de.teamlapen.werewolves.mixin.entity;
 
 import com.mojang.datafixers.util.Pair;
+import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.InputMappings;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.inventory.container.Slot;
@@ -39,7 +38,7 @@ public class MixinPlayerContainerArmorSlot extends Slot {
     public ItemStack getStack() {
         LazyOptional<WerewolfPlayer> player = WerewolfPlayer.getOpt(((MixinPlayerContainerAccessor) this$0).getPlayer());
         if ((player.map(Helper::isFormActionActive).orElse(false))) {
-            if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 340) || InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 344)) {
+            if (WerewolvesMod.proxy.isShiftDown()) {
                 return player.map(w -> w.getArmorItems().get(39 - this.getSlotIndex() + 1)).orElse(ItemStack.EMPTY);
             }
         }
