@@ -52,7 +52,7 @@ public class HowlingAction extends DefaultWerewolfAction {
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        return player.getRepresentingPlayer().getActivePotionEffect(ModEffects.howling) != null;
+        return player.getRepresentingPlayer().getActivePotionEffect(ModEffects.howling) == null;
     }
 
     @Override

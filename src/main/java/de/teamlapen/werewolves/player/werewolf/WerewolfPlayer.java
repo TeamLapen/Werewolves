@@ -22,10 +22,7 @@ import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
-import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WReference;
-import de.teamlapen.werewolves.util.WUtils;
+import de.teamlapen.werewolves.util.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -116,7 +113,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         switchForm(form);
         this.lastFormAction = action;
         if (!this.player.world.isRemote) {
-            this.sync(Helper.nbtWith(nbt -> nbt.putString("form", this.form.getName())), true);
+            this.sync(NBTHelper.nbtWith(nbt -> nbt.putString("form", this.form.getName())), true);
         }
     }
 
@@ -479,13 +476,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
             }
         }
-        if (compound.contains("werewolfTime")) {
+        if (NBTHelper.containsLong(compound,"werewolfTime")) {
             this.specialAttributes.werewolfTime = compound.getLong("werewolfTime");
         }
-        if (compound.contains("form")) {
+        if (NBTHelper.containsString(compound, "form")) {
             this.switchForm(WerewolfForm.getForm(compound.getString("form")));
         }
-        if (compound.contains("lastFormAction")) {
+        if (NBTHelper.containsString(compound, "lastFormAction")) {
             this.lastFormAction = ((WerewolfFormAction) ModRegistries.ACTIONS.getValue(new ResourceLocation(compound.getString("lastFormAction"))));
         }
 
@@ -510,10 +507,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         for (int i = 0; i < armor.size(); i++) {
             this.armorItems.set(i, ItemStack.read(armor.getCompound("" + i)));
         }
-        if (nbt.contains("werewolfTime")) {
+        if (NBTHelper.containsLong(nbt,"werewolfTime")) {
             this.specialAttributes.werewolfTime = nbt.getLong("werewolfTime");
         }
-        if (nbt.contains("form")) {
+        if (NBTHelper.containsString(nbt, "form")) {
             this.switchForm(WerewolfForm.getForm(nbt.getString("form")));
         }
     }

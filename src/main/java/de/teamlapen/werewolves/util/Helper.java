@@ -69,9 +69,4 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return WerewolfFormAction.isWerewolfFormActionActive(player.getActionHandler());
     }
 
-    public static CompoundNBT nbtWith(Consumer<CompoundNBT> data) {
-        CompoundNBT nbt = new CompoundNBT();
-        data.accept(nbt);
-        return nbt;
-    }
 }
