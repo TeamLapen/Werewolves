@@ -6,6 +6,7 @@
   "mixins": [
     "BlocksInvoker",
     "FireBlockInvoker",
+    "FoodStatsAccessor",
     "PointOfInterestTypeInvoker",
     "entity.MixinPlayerContainerAccessor",
     "entity.MixinPlayerContainerArmorSlot",
@@ -13,8 +14,9 @@
     "entity.MixinVillagerEntity"
   ],
   "client": [
-    "InGameGuiAccessor",
-    "ScreenMixin"
+    "client.ClientPlayerEntityMixin",
+    "client.InGameGuiAccessor",
+    "client.ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

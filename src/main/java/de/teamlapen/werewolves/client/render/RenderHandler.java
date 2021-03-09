@@ -4,7 +4,6 @@ import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.util.REFERENCE;
 import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OutlineLayerBuffer;
@@ -42,7 +41,6 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
     private final int VISION_FADE_TICKS = 30;
 
     private OutlineLayerBuffer visionBuffer;
-    private boolean enhanced;
 
     private int ticks;
     private int lastTicks;
@@ -56,7 +54,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
     private Shader blit0;
 
 
-    public RenderHandler(Minecraft mc) {
+    public RenderHandler(@Nonnull Minecraft mc) {
         this.mc = mc;
     }
 
@@ -74,7 +72,6 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
         WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
 
         if (werewolf.getActionHandler().isActionActive(WerewolfActions.sense)) {
-            this.enhanced = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.advanced_sense);
             if (this.ticks < VISION_FADE_TICKS) {
                 this.ticks++;
             }
@@ -86,9 +83,9 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
     }
 
     @SubscribeEvent
-    public void onRenderLivingPost(RenderLivingEvent.Post event) {
+    public void onRenderLivingPost(RenderLivingEvent.Post<?, ?> event) {
         if (!this.isInsideVisionRendering && this.shouldRenderVision()) {
-            Entity entity = event.getEntity();
+            LivingEntity entity = event.getEntity();
 
             boolean flag = true;
             double dist = this.mc.player.getDistanceSq(entity);
@@ -97,13 +94,11 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
             }
             if (flag) {
                 int color = 0xA0A0A0;
-                if (this.enhanced) {
-                    if (entity instanceof IFactionEntity) {
-                        color = ((IFactionEntity) entity).getFaction().getColor().getRGB();
-                    } else if (entity instanceof LivingEntity){
-                        if (!((LivingEntity) entity).isEntityUndead()) {
-                            color = 0xFF0000;
-                        }
+                if (entity instanceof IFactionEntity) {
+                    color = ((IFactionEntity) entity).getFaction().getColor().getRGB();
+                } else {
+                    if (!entity.isEntityUndead()) {
+                        color = 0xFF0000;
                     }
                 }
                 EntityRendererManager renderManager = this.mc.getRenderManager();
@@ -177,7 +172,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
     }
 
     @Override
-    public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
+    public void onResourceManagerReload(@Nonnull IResourceManager resourceManager, @Nonnull Predicate<IResourceType> resourcePredicate) {
         this.reMakeShader();
     }
 

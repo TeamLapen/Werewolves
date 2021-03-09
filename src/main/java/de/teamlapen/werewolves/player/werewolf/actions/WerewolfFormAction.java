@@ -1,29 +1,37 @@
 package de.teamlapen.werewolves.player.werewolf.actions;
 
+import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
+import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.UUID;
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import static de.teamlapen.werewolves.player.ModPlayerEventHandler.CLAWS;
+public abstract class WerewolfFormAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
+    private static final Set<WerewolfFormAction> ALL_ACTION = new HashSet<>();
 
-public class WerewolfFormAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
-    public static final UUID ARMOR = UUID.fromString("0b281a87-829f-4d98-9a3b-116549cfdd57");
-    public static final UUID ARMOR_TOUGHNESS = UUID.fromString("f47e2130-39c4-496f-8d47-572abdc03920");
-    public static final UUID MOVEMENT_SPEED = UUID.fromString("e9748d20-a9a5-470c-99a4-44167df71aa5");
-    private static final Logger LOGGER = LogManager.getLogger();
+
+    public static boolean isWerewolfFormActionActive(IActionHandler<IWerewolfPlayer> handler) {
+        return ALL_ACTION.stream().anyMatch(handler::isActionActive);
+    }
+
+    public static Set<WerewolfFormAction> getAllAction() {
+        return Collections.unmodifiableSet(ALL_ACTION);
+    }
 
     /**
      * @return how much percentage is left
@@ -33,17 +41,129 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
         return 1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / durationMax;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return WerewolvesConfig.BALANCE.SKILLS.werewolf_form_enabled.get();
+    protected static class Modifier {
+
+        public final Attribute attribute;
+        public final UUID dayUuid;
+        public final UUID nightUuid;
+        public final String name;
+        public final Function<IWerewolfPlayer, Double> value;
+        public final AttributeModifier.Operation operation;
+        public final double dayModifier;
+
+        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
+            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> valueFunction.get(), operation);
+        }
+
+        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, ISkill extendedSkill, AttributeModifier.Operation operation) {
+            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill) ? extendedValueFunction.get() : valueFunction.get(), operation);
+        }
+
+        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Function<IWerewolfPlayer, Double> valueFunction, AttributeModifier.Operation operation) {
+            this.attribute = attribute;
+            this.dayUuid = dayUuid;
+            this.nightUuid = nightUuid;
+            this.name = name;
+            this.value = valueFunction;
+            this.operation = operation;
+            this.dayModifier = dayModifier;
+        }
+
+        public AttributeModifier create(IWerewolfPlayer player, boolean night) {
+            return new AttributeModifier(night ? nightUuid : dayUuid, name, night ? value.apply(player) : value.apply(player) * dayModifier, operation);
+        }
+    }
+
+    protected final List<Modifier> attributes = new ArrayList<>();
+    @Nonnull
+    private final WerewolfForm form;
+
+    public WerewolfFormAction(@Nonnull WerewolfForm form) {
+        ALL_ACTION.add(this);
+        this.form = form;
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer player) {
-        ((WerewolfPlayer) player).activateWerewolfForm();
-        this.applyModifier(player.getRepresentingPlayer(), true);
-        player.getRepresentingPlayer().recalculateSize();
+    protected boolean activate(IWerewolfPlayer werewolfPlayer) {
+        ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
+        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
+            ((WerewolfPlayer) werewolfPlayer).storeArmor();
+        }
+        this.applyModifier(werewolfPlayer);
+        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
         return true;
+    }
+
+    @Override
+    public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
+        ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
+        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
+            ((WerewolfPlayer) werewolfPlayer).storeArmor();
+        }
+        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
+    }
+
+    @Override
+    public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
+        ((WerewolfPlayer) werewolfPlayer).setForm(this, WerewolfForm.NONE);
+        ((WerewolfPlayer) werewolfPlayer).loadArmor();
+        this.removeModifier(werewolfPlayer);
+        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
+        if (werewolfPlayer.getActionHandler().isActionActive(WerewolfActions.hide_name)) {
+            werewolfPlayer.getActionHandler().toggleAction(WerewolfActions.hide_name);
+        }
+    }
+
+    @Override
+    public void onReActivated(IWerewolfPlayer werewolfPlayer) {
+        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
+            ((WerewolfPlayer) werewolfPlayer).storeArmor();
+        }
+        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
+    }
+
+    @Override
+    public boolean onUpdate(IWerewolfPlayer werewolfPlayer) {
+        if (!werewolfPlayer.getRepresentingPlayer().getEntityWorld().isRemote) {
+            checkDayNightModifier(werewolfPlayer);
+        }
+        if (Helper.isNight(werewolfPlayer.getRepresentingPlayer().getEntityWorld())) {
+            return false;
+        }
+        return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
+    }
+
+    public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
+        PlayerEntity player = werewolfPlayer.getRepresentingPlayer();
+        boolean night = Helper.isNight(player.getEntityWorld());
+        for (Modifier attribute : this.attributes) {
+            if (player.getAttribute(attribute.attribute).getModifier(!night ? attribute.nightUuid : attribute.dayUuid) != null) {
+                removeModifier(werewolfPlayer);
+                applyModifier(werewolfPlayer);
+            }
+        }
+    }
+
+    public void applyModifier(IWerewolfPlayer werewolf) {
+        PlayerEntity player = werewolf.getRepresentingPlayer();
+        boolean night = Helper.isNight(player.getEntityWorld());
+        for (Modifier attribute : this.attributes) {
+            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
+            if (ins != null && ins.getModifier(attribute.dayUuid) == null) {
+                ins.applyPersistentModifier(attribute.create(werewolf, night));
+            }
+        }
+    }
+
+    public void removeModifier(IWerewolfPlayer werewolf) {
+        PlayerEntity player = werewolf.getRepresentingPlayer();
+        for (Modifier attribute : this.attributes) {
+            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
+            if (ins != null) {
+                ins.removeModifier(attribute.dayUuid);
+                ins.removeModifier(attribute.nightUuid);
+            }
+        }
     }
 
     @Override
@@ -52,82 +172,12 @@ public class WerewolfFormAction extends DefaultWerewolfAction implements ILastin
     }
 
     @Override
-    public void onActivatedClient(IWerewolfPlayer player) {
-        ((WerewolfPlayer) player).getSpecialAttributes().werewolfForm = true;
-        player.getRepresentingPlayer().recalculateSize();
-    }
-
-    @Override
-    public void onDeactivated(IWerewolfPlayer player) {
-        if(player.getRepresentingPlayer().world.isRemote()){
-            ((WerewolfPlayer) player).getSpecialAttributes().werewolfForm = false;
-        }else {
-            ((WerewolfPlayer) player).deactivateWerewolfForm();
-        }
-        this.applyModifier(player.getRepresentingPlayer(), false);
-        player.getRepresentingPlayer().recalculateSize();
-    }
-
-    @Override
-    public void onReActivated(IWerewolfPlayer player) {
-        ((WerewolfPlayer) player).getSpecialAttributes().werewolfForm = true;
-        this.applyModifier(player.getRepresentingPlayer(), true);
-    }
-
-    private void applyModifier(PlayerEntity player, boolean activate) {
-        ModifiableAttributeInstance armor = player.getAttribute(Attributes.ARMOR);
-        ModifiableAttributeInstance armor_toughness = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
-        ModifiableAttributeInstance movement_speed = player.getAttribute(Attributes.MOVEMENT_SPEED);
-        ModifiableAttributeInstance attack_damage = player.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (armor == null || armor_toughness == null) {
-            LOGGER.warn("Could not apply attribute modifier to entity: {}", player.getName());
-            return;
-        }
-        if (activate) {
-            if (armor.getModifier(ARMOR) == null) {
-                armor.applyPersistentModifier(new AttributeModifier(ARMOR, "werewolf_form_armor", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_armor.get(), AttributeModifier.Operation.ADDITION));
-            }
-            if (armor_toughness.getModifier(ARMOR_TOUGHNESS) == null) {
-                armor_toughness.applyPersistentModifier(new AttributeModifier(ARMOR_TOUGHNESS, "werewolf_form_armor_toughness", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_armor_toughness.get(), AttributeModifier.Operation.ADDITION));
-            }
-            if (movement_speed.getModifier(MOVEMENT_SPEED) == null) {
-                movement_speed.applyPersistentModifier(new AttributeModifier(MOVEMENT_SPEED, "werewolf_form_movement_speed", WerewolvesConfig.BALANCE.SKILLS.werewolf_form_speed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
-            }
-            if (player.getHeldItemMainhand().isEmpty()) { //see ModPlayerEventHandler#onEquipmentChange
-                if (attack_damage.getModifier(CLAWS) == null) {
-                    double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
-                    if (WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
-                        damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
-                    }
-                    attack_damage.applyPersistentModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
-                }
-            }
-        } else {
-            attack_damage.removeModifier(CLAWS);
-            armor.removeModifier(ARMOR);
-            armor_toughness.removeModifier(ARMOR_TOUGHNESS);
-            movement_speed.removeModifier(MOVEMENT_SPEED);
-        }
-    }
-
-    @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        if (Helper.isFullMoon(player.getRepresentingPlayer().getEntityWorld()) && player.getActionHandler().isActionActive(WerewolfActions.werewolf_form)) {
+        if (Helper.isFullMoon(player.getRepresentingPlayer().getEntityWorld()) && Helper.isFormActionActive(player))
+            return false;
+        if (Helper.isFormActionActive(player) && !player.getActionHandler().isActionActive(this)) {
             return false;
         }
         return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
-    }
-
-    @Override
-    public boolean onUpdate(IWerewolfPlayer player) {
-        if (Helper.isNight(player.getRepresentingPlayer().getEntityWorld())) {
-            return false;
-        }
-        return ++((WerewolfPlayer) player).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-    }
-
-    @Override
-    public int getCooldown() {
-        return WerewolvesConfig.BALANCE.SKILLS.werewolf_form_cooldown.get() * 20;
     }
 }

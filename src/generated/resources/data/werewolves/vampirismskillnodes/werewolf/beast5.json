@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:werewolf/beast4",
+  "skills": [
+    "werewolves:health_after_kill"
+  ]
+}

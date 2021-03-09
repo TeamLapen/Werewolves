@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:werewolf/util3",
+  "skills": [
+    "werewolves:health_reg"
+  ]
+}

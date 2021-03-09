@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:werewolf",
+  "skills": [
+    "werewolves:human_form"
+  ]
+}

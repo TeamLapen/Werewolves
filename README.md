@@ -31,6 +31,6 @@ This mod is licenced under [LGPLv3](https://raw.githubusercontent.com/TeamLapen/
 
 ##### Textures
 ```
-Any textures (and models) included in the mod may be used, remixed and distributed for anything related to Vampirism (fan art, addon mods, forks, reviews, ...) excluding resource packs.
-If you want to use them in a resource/texture pack, you must credit the Vampirism project or the individual creator where applicable and it must not be used commercially.
+Any textures (and models) included in the mod may be used, remixed and distributed for anything related to Vampirism or Werewolves (fan art, addon mods, forks, reviews, ...) excluding resource packs.
+If you want to use them in a resource/texture pack, you must credit the Werewolves project or the individual creator where applicable and it must not be used commercially.
 ```

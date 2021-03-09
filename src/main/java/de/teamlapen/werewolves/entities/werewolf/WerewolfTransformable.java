@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
-import de.teamlapen.werewolves.util.WerewolfForm;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 

@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.PlayerContainer;
@@ -32,10 +33,11 @@ public class MixinPlayerContainerArmorSlot extends Slot {
     @Final
     private PlayerContainer this$0;
 
+    @Nonnull
     @Override
     public ItemStack getStack() {
         LazyOptional<WerewolfPlayer> player = WerewolfPlayer.getOpt(((MixinPlayerContainerAccessor) this$0).getPlayer());
-        if ((player.map(w -> w.getActionHandler().isActionActive(WerewolfActions.werewolf_form)).orElse(false))) {
+        if ((player.map(Helper::isFormActionActive).orElse(false))) {
             if (WerewolvesMod.proxy.isShiftDown()) {
                 return player.map(w -> w.getArmorItems().get(39 - this.getSlotIndex() + 1)).orElse(ItemStack.EMPTY);
             }
@@ -47,7 +49,7 @@ public class MixinPlayerContainerArmorSlot extends Slot {
     public void isItemValid(ItemStack stack, @Nonnull CallbackInfoReturnable<Boolean> cir){
         if (cir.getReturnValue()) {
             LazyOptional<WerewolfPlayer> player = WerewolfPlayer.getOpt(((MixinPlayerContainerAccessor) this$0).getPlayer());
-            if (!(player.map(w -> !w.getActionHandler().isActionActive(WerewolfActions.werewolf_form)).orElse(true))) {
+            if (player.map(Helper::isFormActionActive).orElse(false)) {
                 cir.setReturnValue(false);
             }
         }
@@ -56,7 +58,7 @@ public class MixinPlayerContainerArmorSlot extends Slot {
     @Inject(method = "getBackground()Lcom/mojang/datafixers/util/Pair;", at = @At("RETURN"), cancellable = true)
     public void getBackground(CallbackInfoReturnable<Pair<ResourceLocation, ResourceLocation>> cir) {
         LazyOptional<WerewolfPlayer> player = WerewolfPlayer.getOpt(((MixinPlayerContainerAccessor) this$0).getPlayer());
-        if (!(player.map(w -> !w.getActionHandler().isActionActive(WerewolfActions.werewolf_form)).orElse(true))) {
+        if (player.map(Helper::isFormActionActive).orElse(false)) {
             ResourceLocation old = cir.getReturnValue().getSecond();
             cir.setReturnValue(Pair.of(PlayerContainer.LOCATION_BLOCKS_TEXTURE, new ResourceLocation(REFERENCE.MODID, old.getPath())));
         }

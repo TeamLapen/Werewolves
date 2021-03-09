@@ -4,8 +4,8 @@ import de.teamlapen.vampirism.tileentity.TotemHelper;
 import de.teamlapen.vampirism.tileentity.TotemTileEntity;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModEffects;
-import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.items.ISilverItem;
@@ -17,7 +17,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
@@ -32,7 +31,7 @@ public class ModEntityEventHandler {
     public void onEntityAttacked(AttackEntityEvent event) {
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
             if (event.getPlayer().getHeldItemMainhand().getItem() instanceof ISilverItem) { //TODO maybe check for silver tag
-                ((LivingEntity) event.getTarget()).addPotionEffect(new EffectInstance(ModEffects.silver, WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
+                ((LivingEntity) event.getTarget()).addPotionEffect(SilverEffect.createEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
             }
         }
         if (event.getTarget() instanceof WerewolfTransformable) {
@@ -46,7 +45,7 @@ public class ModEntityEventHandler {
     public void onAttack(LivingSetAttackTargetEvent event) {
         if (event.getTarget() instanceof ServerPlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getTarget()))) {
-                if (WerewolfPlayer.getOpt(((ServerPlayerEntity) event.getTarget())).map(werewolf -> werewolf.getActionHandler().isActionActive(WerewolfActions.sixth_sense)).orElse(false)) {
+                if (WerewolfPlayer.getOpt(((ServerPlayerEntity) event.getTarget())).map(werewolf -> werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.sixth_sense)).orElse(false)) {
                     WerewolvesMod.dispatcher.sendTo(new AttackTargetEventPacket(event.getEntity().getEntityId()), ((ServerPlayerEntity) event.getTarget()));
                 }
             }

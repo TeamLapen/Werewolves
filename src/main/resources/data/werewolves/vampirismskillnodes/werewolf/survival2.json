@@ -1,7 +1,0 @@
-{
-  "parent": "werewolves:werewolf/survival1",
-  "skills": [
-    "werewolves:jump",
-    "werewolves:speed"
-  ]
-}

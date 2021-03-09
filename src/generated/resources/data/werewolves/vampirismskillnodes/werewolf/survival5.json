@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:werewolf/survival4",
+  "skills": [
+    "werewolves:movement_tactics"
+  ]
+}
