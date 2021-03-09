@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.effects;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.werewolves.mixin.ScreenMixin;
+import de.teamlapen.werewolves.mixin.client.ScreenMixin;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.LivingEntity;

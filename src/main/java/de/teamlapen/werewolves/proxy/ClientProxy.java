@@ -4,7 +4,6 @@ import de.teamlapen.werewolves.client.core.*;
 import de.teamlapen.werewolves.client.render.RenderHandler;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.inventory.container.PlayerContainer;
@@ -67,16 +66,5 @@ public class ClientProxy extends CommonProxy {
     @Override
     public boolean isShiftDown() {
         return InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 340) || InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 344);
-    }
-
-    @Override
-    public void toggleStepHeight(boolean activate) {
-        GameSettings settings = Minecraft.getInstance().gameSettings;
-        if (activate) {
-            this.autoJump = settings.autoJump;
-            settings.autoJump = false;
-        } else {
-            settings.autoJump = this.autoJump;
-        }
     }
 }

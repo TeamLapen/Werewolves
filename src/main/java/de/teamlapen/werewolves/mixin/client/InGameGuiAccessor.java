@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.mixin;
+package de.teamlapen.werewolves.mixin.client;
 
 import net.minecraft.client.gui.IngameGui;
 import org.spongepowered.asm.mixin.Mixin;

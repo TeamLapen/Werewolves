@@ -10,7 +10,7 @@ import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.items.ISilverItem;
-import de.teamlapen.werewolves.mixin.InGameGuiAccessor;
+import de.teamlapen.werewolves.mixin.client.InGameGuiAccessor;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.IActionCooldownMenu;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;

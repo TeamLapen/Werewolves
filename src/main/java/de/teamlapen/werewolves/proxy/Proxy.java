@@ -12,7 +12,4 @@ public interface Proxy extends IInitListener {
         return false;
     }
 
-    default void toggleStepHeight(boolean activate) {
-    }
-
 }

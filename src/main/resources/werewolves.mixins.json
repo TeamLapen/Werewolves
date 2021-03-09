@@ -14,8 +14,9 @@
     "entity.MixinVillagerEntity"
   ],
   "client": [
-    "InGameGuiAccessor",
-    "ScreenMixin"
+    "client.ClientPlayerEntityMixin",
+    "client.InGameGuiAccessor",
+    "client.ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
