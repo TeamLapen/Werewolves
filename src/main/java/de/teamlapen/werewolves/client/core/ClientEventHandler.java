@@ -23,8 +23,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
-    private static final KeyBinding BITE = ModKeys.getKeyBinding(ModKeys.KEY.SUCK);
-    private boolean suck_down;
     private int zoomTime = 0;
     private double zoomAmount = 0;
 
@@ -43,25 +41,6 @@ public class ClientEventHandler {
             Minecraft.getInstance().gameSettings.fov += this.zoomAmount;
             this.zoomTime--;
         }
-    }
-
-    @SubscribeEvent
-    public void handleInputEvent(InputEvent event) {
-        if (Minecraft.getInstance().player == null) return;
-//        if (WerewolfPlayer.getOpt(Minecraft.getInstance().player).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.bite) && !player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)).orElse(false)) {
-//            if (!BITE.isKeyDown()) {
-//                suck_down = true;
-//            }
-//            if (BITE.isKeyDown() && suck_down && !isZoomActive()) {
-//                suck_down = false;
-//                RayTraceResult mouseOver = Minecraft.getInstance().objectMouseOver;
-//                PlayerEntity player = Minecraft.getInstance().player;
-//                if (mouseOver != null && mouseOver.getType() == RayTraceResult.Type.ENTITY && !player.isSpectator() && FactionPlayerHandler.get(player).isInFaction(WReference.WEREWOLF_FACTION) && WerewolfPlayer.get(player).canBite(((EntityRayTraceResult) mouseOver).getEntity())) {
-//                    WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getEntityId()));
-//                    onZoomPressed();
-//                }
-//            }
-//        }
     }
 
 //    @SubscribeEvent
@@ -87,8 +66,8 @@ public class ClientEventHandler {
     }
 
     public void onZoomPressed() {
-        this.zoomAmount = Minecraft.getInstance().gameSettings.fov / 4 / 20;
         this.zoomTime = 20;
+        this.zoomAmount = Minecraft.getInstance().gameSettings.fov / 4 / this.zoomTime;
         Minecraft.getInstance().gameSettings.fov -= Minecraft.getInstance().gameSettings.fov / 4;
     }
 

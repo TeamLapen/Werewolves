@@ -21,6 +21,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ClientProxy extends CommonProxy {
 
     private WerewolvesHUDOverlay hudOverlay;
+    private ClientEventHandler clientHandler;
     private boolean autoJump;
 
     public ClientProxy() {
@@ -39,9 +40,9 @@ public class ClientProxy extends CommonProxy {
             case CLIENT_SETUP:
                 WEntityRenderer.registerEntityRenderer();
                 ModBlocksRenderer.register();
-                MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+                MinecraftForge.EVENT_BUS.register(clientHandler = new ClientEventHandler());
                 MinecraftForge.EVENT_BUS.register(hudOverlay = new WerewolvesHUDOverlay());
-                ModKeys.register();
+                ModKeys.register(clientHandler);
                 FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onTextureStitchEvent);
                 break;
             case LOAD_COMPLETE:

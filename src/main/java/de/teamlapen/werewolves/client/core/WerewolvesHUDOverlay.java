@@ -23,6 +23,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -178,15 +180,17 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void renderFangs(MatrixStack matrixStack, int width, int height, Entity entity) {
+    private void renderFangs(MatrixStack matrixStack, int width, int height, @Nullable Entity entity) {
         this.mc.getTextureManager().bindTexture(ICONS);
         int left = width / 2 - 9;
         int top = height / 2 - 6;
         boolean silver = false;
-        for (ItemStack stack : entity.getArmorInventoryList()) {
-            if (stack.getItem() instanceof ISilverItem) {
-                silver = true;
-                break;
+        if (entity != null) {
+            for (ItemStack stack : entity.getArmorInventoryList()) {
+                if (stack.getItem() instanceof ISilverItem) {
+                    silver = true;
+                    break;
+                }
             }
         }
         GL11.glEnable(GL11.GL_BLEND);
@@ -205,16 +209,14 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
-//        if (Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.bite) && !player.getActionHandler().isActionOnCooldown(WerewolfActions.bite)).orElse(false)) {
-//            RayTraceResult p = Minecraft.getInstance().objectMouseOver;
-//            if (p != null && p.getType() == RayTraceResult.Type.ENTITY) {
-//                if (WerewolfPlayer.get(mc.player).canBite(((EntityRayTraceResult) p).getEntity())) {
-//                    Entity entity = ((EntityRayTraceResult) p).getEntity();
-//                    renderFangs(event.getMatrixStack(), this.mc.getMainWindow().getScaledWidth(), this.mc.getMainWindow().getScaledHeight(), entity);
-//                    event.setCanceled(true);
-//                }
-//            }
-//        }
+        if (Helper.isWerewolf(this.mc.player)) {
+            RayTraceResult p = Minecraft.getInstance().objectMouseOver;
+            Entity entity = p instanceof EntityRayTraceResult?((EntityRayTraceResult) p).getEntity():null;
+            if (WerewolfPlayer.get(mc.player).canBite()) {
+                renderFangs(event.getMatrixStack(), this.mc.getMainWindow().getScaledWidth(), this.mc.getMainWindow().getScaledHeight(), entity);
+                event.setCanceled(true);
+            }
+        }
     }
 
     private void renderExperienceBar(RenderGameOverlayEvent.Post event) {
@@ -239,7 +241,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 
         RenderSystem.enableBlend();
-        RenderSystem.color4f(1f, 0.1f, 0f, transparency);//TODO render transparent if its night
+        RenderSystem.color4f(1f, 0.1f, 0f, transparency);
 
         int k = (int) ((1 - perc) * 183.0F);
         int l = scaledHeight - 32 + 3;

@@ -15,7 +15,6 @@ public class WerewolfActions {
     public static final WerewolfFormAction beast_form = getNull();
     public static final WerewolfFormAction survival_form = getNull();
     public static final HowlingAction howling = getNull();
-    public static final BiteAction bite = getNull();
     public static final RageWerewolfAction rage = getNull();
     public static final SenseWerewolfAction sense = getNull();
     public static final FearAction fear = getNull();
@@ -27,7 +26,6 @@ public class WerewolfActions {
         registry.register(new BeastWerewolfFormAction().setRegistryName(REFERENCE.MODID, "beast_form"));
         registry.register(new SurvivalWerewolfFormAction().setRegistryName(REFERENCE.MODID, "survival_form"));
         registry.register(new HowlingAction().setRegistryName(REFERENCE.MODID, "howling"));
-        registry.register(new BiteAction().setRegistryName(REFERENCE.MODID, "bite"));
         registry.register(new RageWerewolfAction().setRegistryName(REFERENCE.MODID, "rage"));
         registry.register(new SenseWerewolfAction().setRegistryName(REFERENCE.MODID, "sense"));
         registry.register(new FearAction().setRegistryName(REFERENCE.MODID, "fear"));

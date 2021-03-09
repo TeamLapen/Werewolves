@@ -62,7 +62,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     private void applyEntityAttributes() {
         try {
-            this.player.getAttribute(ModAttributes.bite_damage).setBaseValue(2.0);
+            this.player.getAttribute(ModAttributes.bite_damage);
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -215,6 +215,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         }
 
+        this.specialAttributes.biteTicks = Math.max(0, this.specialAttributes.biteTicks-1);
+
 
         this.player.getEntityWorld().getProfiler().endSection();
     }
@@ -276,51 +278,50 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     }
 
-    /**
-     * Bite the entity with the given id.
-     * Checks reach distance
-     *
-     * @param entityId The id of the entity to start biting
-     */
-    public void biteEntity(int entityId) {
-        Entity e = this.player.getEntityWorld().getEntityByID(entityId);
-        if (this.player.isSpectator()) {
-            LOGGER.warn("Player can't bite in spectator mode");
-            return;
-        }
-        if (e instanceof LivingEntity) {
-            if (e.getDistance(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1) {
-                this.biteAttack((LivingEntity) e);
-            }
-        }
-    }
-
     @Override
     public void onUpdatePlayer(TickEvent.Phase phase) {
 
     }
 
-    public boolean canBite(Entity entity) {
-        return !this.player.isSpectator() && this.getLevel() > 0 && Helper.isFormActionActive(this);
+    public boolean canBiteEntity(LivingEntity entity) {
+        return entity.getDistance(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue()+1;
     }
 
-    /**
-     * only execute in werewolf form
-     *
-     * @param entity The entity to attack
-     */
-    private void biteAttack(LivingEntity entity) {
-        float damage = (float) this.player.getAttribute(ModAttributes.bite_damage).getValue();
-        entity.attackEntityFrom(DamageSource.causePlayerDamage(this.player), damage);
-        if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {
-            entity.addPotionEffect(new EffectInstance(ModEffects.freeze, WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get()));
-        } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
-            entity.addPotionEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get()));
+    public boolean canBite(){
+        return this.form.isTransformed() && !this.player.isSpectator() && this.getLevel() > 0 && this.specialAttributes.biteTicks <= 0;
+    }
+
+    public boolean bite(int entityId) {
+        Entity entity = this.player.world.getEntityByID(entityId);
+        if (entity instanceof LivingEntity) {
+            return bite(((LivingEntity) entity));
         }
-        if (!entity.isEntityUndead()) {
-            this.eatFleshFrom(entity);
+        return false;
+    }
+
+    private boolean bite(LivingEntity entity) {
+        if (this.specialAttributes.biteTicks > 0)return false;
+        if (!this.form.isTransformed()) return false;
+        if (entity.getDistance(this.player) > this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue()+1) return false;
+        double damage = this.player.getAttribute(ModAttributes.bite_damage).getValue() + this.player.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
+        boolean flag = entity.attackEntityFrom(Helper.causeWerewolfDamage(this.player), (float) damage);
+        if (flag) {
+            this.eatEntity(entity);
+            this.specialAttributes.biteTicks = 100;
+            if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {
+                entity.addPotionEffect(new EffectInstance(ModEffects.freeze, WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get()));
+            } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
+                entity.addPotionEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get()));
+            }
+            this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)),false);
         }
-        if (!entity.isAlive()) {
+        return flag;
+    }
+
+    private void eatEntity(LivingEntity entity) {
+        if (entity.isEntityUndead())return;
+        if (!entity.isAlive() && entity.getType().getClassification().getAnimal()){
+            this.player.getFoodStats().addStats(1,1);
         }
     }
 
@@ -335,6 +336,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             if (newLevel > 0) {
                 if (oldLevel == 0) {
                     this.skillHandler.enableRootSkill();
+                    this.specialAttributes.werewolfTime = 0;
                 }
             } else {
                 this.actionHandler.resetTimers();
@@ -461,6 +463,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (this.lastFormAction != null) {
             compound.putString("lastFormAction", this.lastFormAction.getRegistryName().toString());
         }
+        compound.putInt("biteTicks", this.specialAttributes.biteTicks);
     }
 
     @Override
@@ -485,6 +488,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (NBTHelper.containsString(compound, "lastFormAction")) {
             this.lastFormAction = ((WerewolfFormAction) ModRegistries.ACTIONS.getValue(new ResourceLocation(compound.getString("lastFormAction"))));
         }
+        this.specialAttributes.biteTicks = compound.getInt("biteTicks");
 
     }
 
@@ -496,6 +500,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.saveArmorItems(nbt);
         nbt.putLong("werewolfTime", this.specialAttributes.werewolfTime);
         nbt.putString("form", this.form.getName());
+        nbt.putInt("biteTicks", this.specialAttributes.biteTicks);
     }
 
     @Override
@@ -513,6 +518,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (NBTHelper.containsString(nbt, "form")) {
             this.switchForm(WerewolfForm.getForm(nbt.getString("form")));
         }
+        this.specialAttributes.biteTicks = nbt.getInt("biteTicks");
     }
 
     //-- capability ----------------------------------------------------------------------------------------------------

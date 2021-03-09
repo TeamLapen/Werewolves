@@ -69,4 +69,12 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return WerewolfFormAction.isWerewolfFormActionActive(player.getActionHandler());
     }
 
+    public static WerewolfDamageSource causeWerewolfDamage(String cause, Entity entity) {
+        return new WerewolfDamageSource(cause, entity);
+    }
+
+    public static WerewolfDamageSource causeWerewolfDamage(PlayerEntity entity) {
+        return causeWerewolfDamage("player", entity);
+    }
+
 }

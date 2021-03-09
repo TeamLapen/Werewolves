@@ -57,10 +57,7 @@ public class InputEventPacket implements IMessage {
                 try {
                     int id = Integer.parseInt(msg.param);
                     if (id != 0) {
-                        WerewolfPlayer.getOpt(player).ifPresent(werewolfPlayer -> {
-                            werewolfPlayer.getSpecialAttributes().target = id;
-                            werewolfPlayer.getActionHandler().toggleAction(WerewolfActions.bite);
-                        });
+                        WerewolfPlayer.getOpt(player).ifPresent(werewolfPlayer -> werewolfPlayer.bite(id));
                     }
                 } catch (NumberFormatException e) {
                     LOGGER.error("Receiving invalid param {} for {}", msg.param, msg.action);

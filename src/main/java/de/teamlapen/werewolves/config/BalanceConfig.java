@@ -89,6 +89,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue beast_form_armor;
         public final ForgeConfigSpec.DoubleValue beast_form_armor_toughness;
         public final ForgeConfigSpec.DoubleValue beast_form_health;
+        public final ForgeConfigSpec.DoubleValue beast_form_bite_damage;
 
         public final ForgeConfigSpec.BooleanValue survival_form_enabled;
         public final ForgeConfigSpec.IntValue survival_form_cooldown;
@@ -185,6 +186,7 @@ public class BalanceConfig {
             this.beast_form_armor = builder.defineInRange("beast_form_armor", 20, 0, 20.0);
             this.beast_form_armor_toughness = builder.defineInRange("beast_form_armor_toughness", 8, 0, 10.0);
             this.beast_form_health = builder.defineInRange("beast_form_health", 4.0, 0.0, 20.0);
+            this.beast_form_bite_damage = builder.defineInRange("beast_form_bite_damage", 2.0, 0.0, 20.0);
             builder.pop();
 
             builder.push("survival_form");
