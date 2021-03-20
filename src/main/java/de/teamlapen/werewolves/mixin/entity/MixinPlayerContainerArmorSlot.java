@@ -22,16 +22,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import javax.annotation.Nonnull;
 
 @Mixin(targets = "net/minecraft/inventory/container/PlayerContainer$1")
-public class MixinPlayerContainerArmorSlot extends Slot {
+public abstract class MixinPlayerContainerArmorSlot extends Slot {
 
     @Deprecated
     public MixinPlayerContainerArmorSlot(IInventory inventoryIn, int index, int xPosition, int yPosition) {
         super(inventoryIn, index, xPosition, yPosition);
     }
 
-    @Shadow(aliases = "this$0")
+    @Shadow(aliases = {"this$0","field_75235_b"})
     @Final
     private PlayerContainer this$0;
+
+    @Shadow public abstract boolean isItemValid(ItemStack stack);
 
     @Nonnull
     @Override
