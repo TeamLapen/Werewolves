@@ -56,7 +56,7 @@ public class ModEntityEventHandler {
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getEntity().world.isRemote()) return;
         if (event.getEntity() instanceof VillagerEntity) {
-            Optional<TotemTileEntity> totemOpt = TotemHelper.getTotemNearPos(((ServerWorld) event.getWorld()), event.getEntity().getPosition(), false);
+            Optional<TotemTileEntity> totemOpt = TotemHelper.getTotemNearPos(((ServerWorld) event.getWorld()), event.getEntity().getPosition(), true);
             totemOpt.ifPresent(totem -> {
                 if (WReference.WEREWOLF_FACTION.equals(totem.getControllingFaction())) {
                     if (((VillagerEntity) event.getEntity()).getRNG().nextBoolean()) {
