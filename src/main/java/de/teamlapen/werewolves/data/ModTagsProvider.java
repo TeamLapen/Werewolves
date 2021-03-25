@@ -7,6 +7,7 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -43,7 +44,8 @@ public class ModTagsProvider {
         protected void registerTags() {
             this.copy(ModTags.Blocks.SILVER_ORE, ModTags.Items.SILVER_ORE);
             this.getOrCreateBuilder(ModTags.Items.SILVER_INGOT).add(ModItems.silver_ingot);
-            this.getOrCreateBuilder(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver);
+            this.getOrCreateBuilder(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver, ModItems.human_heart, ModItems.weak_human_heart, Items.SALMON, Items.TROPICAL_FISH, Items.COD);
+            this.getOrCreateBuilder(ModTags.Items.COOKEDMEATS).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
         }
     }
 }

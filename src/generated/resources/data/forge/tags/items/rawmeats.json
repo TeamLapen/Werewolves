@@ -6,6 +6,11 @@
     "minecraft:mutton",
     "minecraft:porkchop",
     "minecraft:rabbit",
-    "werewolves:liver"
+    "werewolves:liver",
+    "vampirism:human_heart",
+    "vampirism:weak_human_heart",
+    "minecraft:salmon",
+    "minecraft:tropical_fish",
+    "minecraft:cod"
   ]
 }

@@ -60,7 +60,7 @@ public class ModPlayerEventHandler {
     public void onFootEaten(LivingEntityUseItemEvent.Start event) {
         if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) event.getEntity())) {
             //noinspection ConstantConditions
-            if (event.getItem().isFood() && !event.getItem().getItem().getFood().isMeat() && !WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false)) {
+            if (event.getItem().isFood() && !ModTags.Items.RAWMEATS.contains(event.getItem().getItem()) && !ModTags.Items.COOKEDMEATS.contains(event.getItem().getItem()) &&!event.getItem().getItem().getFood().isMeat() && !WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false)) {
                 event.setCanceled(true);
             }
         }

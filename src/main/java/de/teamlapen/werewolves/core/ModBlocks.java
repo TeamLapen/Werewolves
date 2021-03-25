@@ -29,14 +29,14 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 @ObjectHolder(REFERENCE.MODID)
 public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
 
-    public static final TotemTopBlock totem_top_werewolves_werewolf_crafted = getNull();
+    private static final Set<Block> ALL_BLOCKS = new HashSet<>();
 
     public static final OreBlock silver_ore = getNull();
     public static final WolfsbaneBlock wolfsbane = getNull();
     public static final Block silver_block = getNull();
     public static final FlowerPotBlock potted_wolfsbane = getNull();
     public static final TotemTopBlock totem_top_werewolves_werewolf = getNull();
-    private static final Set<Block> ALL_BLOCKS = new HashSet<>();
+    public static final TotemTopBlock totem_top_werewolves_werewolf_crafted = getNull();
     public static final SaplingBlock jacaranda_sapling = getNull();
     public static final LeavesBlock jacaranda_leaves = getNull();
     public static final RotatedPillarBlock jacaranda_log = getNull();

@@ -37,7 +37,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         logBlock(ModBlocks.magic_log);
         getMultipartBuilder(ModBlocks.stone_altar).part().modelFile(models().getExistingFile(modLoc("block/stone_altar"))).addModel().end().part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire"))).addModel().condition(StoneAltarBlock.LIT, true).end();
         simpleBlock(ModBlocks.totem_top_werewolves_werewolf, models().getBuilder("totem_top_werewolves_werewolf").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top"))));
-        simpleBlock(ModBlocks.totem_top_werewolves_werewolf_crafted, models().getBuilder("totem_top_werewolves_werewolf_crafted").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top"))));
+        simpleBlock(ModBlocks.totem_top_werewolves_werewolf_crafted, models().getBuilder("totem_top_werewolves_werewolf_crafted").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top_crafted"))));
         getMultipartBuilder(ModBlocks.stone_altar_fire_bowl).part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl"))).addModel().end().part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl_fire"))).addModel().condition(StoneAltarFireBowlBlock.LIT, true).end();
     }
 
