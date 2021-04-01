@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -25,6 +26,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class ClientEventHandler {
     private int zoomTime = 0;
     private double zoomAmount = 0;
+    private double zoomModifier = 0;
 
 
     @SubscribeEvent
@@ -36,12 +38,14 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onRenderTick(TickEvent.RenderTickEvent event) {
+    public void onFOVModifier(EntityViewRenderEvent.FOVModifier event) {
         if (this.zoomTime > 0) {
-            Minecraft.getInstance().gameSettings.fov += this.zoomAmount;
-            this.zoomTime--;
+            event.setFOV(event.getFOV() - this.zoomModifier);
+            this.zoomModifier -= this.zoomAmount;
+            --this.zoomTime;
         }
     }
+
 
 //    @SubscribeEvent
 //    public void onGuiInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
@@ -51,7 +55,6 @@ public class ClientEventHandler {
 //            }
 //        }
 //    }
-
     @SubscribeEvent
     public void onRenderNamePlate(RenderNameplateEvent event) {
         if (event.getEntity() instanceof PlayerEntity) {
@@ -68,10 +71,6 @@ public class ClientEventHandler {
     public void onZoomPressed() {
         this.zoomTime = 20;
         this.zoomAmount = Minecraft.getInstance().gameSettings.fov / 4 / this.zoomTime;
-        Minecraft.getInstance().gameSettings.fov -= Minecraft.getInstance().gameSettings.fov / 4;
-    }
-
-    public boolean isZoomActive() {
-        return this.zoomTime > 0;
+        this.zoomModifier = Minecraft.getInstance().gameSettings.fov - Minecraft.getInstance().gameSettings.fov / 4;
     }
 }

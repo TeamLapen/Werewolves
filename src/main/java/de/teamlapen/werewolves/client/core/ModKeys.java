@@ -59,7 +59,7 @@ public class ModKeys {
                 if (Helper.isWerewolf(player)) {
                     RayTraceResult mouseOver = Minecraft.getInstance().objectMouseOver;
                     Entity entity = mouseOver instanceof EntityRayTraceResult? ((EntityRayTraceResult) mouseOver).getEntity():null;
-                    if (entity instanceof LivingEntity && !player.isSpectator() && werewolfOpt.map(w -> w.getForm().isTransformed() && w.getLevel() > 0 && w.canBiteEntity(((LivingEntity) entity))).orElse(false)) {
+                    if (entity instanceof LivingEntity && !player.isSpectator() && werewolfOpt.map(w -> w.getForm().isTransformed() && w.getLevel() > 0 && w.canBite() && w.canBiteEntity(((LivingEntity) entity))).orElse(false)) {
                         WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getEntityId()));
                         clientEventHandler.onZoomPressed();
                     }
