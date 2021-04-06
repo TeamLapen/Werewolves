@@ -83,6 +83,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         if (this.transformed == null) return this;
         WerewolfTransformable.copyData(((MobEntity) this.transformed), this);
         ((MobEntity) this.transformed).revive();
+        this.world.addEntity(((MobEntity) this.transformed));
         return this.transformed;
     }
 
