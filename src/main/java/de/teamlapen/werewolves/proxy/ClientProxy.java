@@ -12,9 +12,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.lwjgl.glfw.GLFW;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -61,10 +64,5 @@ public class ClientProxy extends CommonProxy {
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_CHESTPLATE.getPath()));
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_LEGGINGS.getPath()));
         event.addSprite(new ResourceLocation(REFERENCE.MODID, PlayerContainer.EMPTY_ARMOR_SLOT_BOOTS.getPath()));
-    }
-
-    @Override
-    public boolean isShiftDown() {
-        return InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 340) || InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 344);
     }
 }

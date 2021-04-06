@@ -35,18 +35,6 @@ public abstract class MixinPlayerContainerArmorSlot extends Slot {
 
     @Shadow public abstract boolean isItemValid(ItemStack stack);
 
-    @Nonnull
-    @Override
-    public ItemStack getStack() {
-        LazyOptional<WerewolfPlayer> player = WerewolfPlayer.getOpt(((MixinPlayerContainerAccessor) this$0).getPlayer());
-        if ((player.map(Helper::isFormActionActive).orElse(false))) {
-            if (WerewolvesMod.proxy.isShiftDown()) {
-                return player.map(w -> w.getArmorItems().get(39 - this.getSlotIndex() + 1)).orElse(ItemStack.EMPTY);
-            }
-        }
-        return super.getStack();
-    }
-
     @Inject(method = "isItemValid(Lnet/minecraft/item/ItemStack;)Z", at = @At(value = "RETURN"), cancellable = true)
     public void isItemValid(ItemStack stack, @Nonnull CallbackInfoReturnable<Boolean> cir){
         if (cir.getReturnValue()) {
