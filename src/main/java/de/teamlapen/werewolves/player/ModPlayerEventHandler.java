@@ -222,9 +222,9 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onPlayerAttacked(LivingAttackEvent event) {
-        if (event.getEntity() instanceof PlayerEntity && event.getEntity().isSprinting()) {
+        if (event.getEntity() instanceof PlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
-                if (event.getSource() instanceof EntityDamageSource) {
+                if (event.getEntity().isSprinting() && event.getSource() instanceof EntityDamageSource) {
                     if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(w -> w.getForm() == WerewolfForm.SURVIVALIST).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.movement_tactics)).orElse(false)) {
                         if (((PlayerEntity) event.getEntity()).getRNG().nextFloat() < 0.35) {
                             event.setCanceled(true);
