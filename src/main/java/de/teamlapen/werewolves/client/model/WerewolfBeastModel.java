@@ -61,10 +61,6 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     public ModelRenderer fingerRight4;
     public ModelRenderer thumbRight;
 
-    public boolean isSneak;
-    public float swimAnimation;
-
-
     public WerewolfBeastModel() {
         this.textureWidth = 128;
         this.textureHeight = 64;
@@ -396,16 +392,6 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         ModelRenderer.rotateAngleX = x;
         ModelRenderer.rotateAngleY = y;
         ModelRenderer.rotateAngleZ = z;
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        this.body.showModel = visible;
-    }
-
-    @Override
-    public void setSneak(boolean sneak) {
-        this.isSneak = sneak;
     }
 
     /**

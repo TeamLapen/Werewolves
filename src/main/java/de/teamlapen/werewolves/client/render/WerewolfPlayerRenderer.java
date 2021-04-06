@@ -84,11 +84,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     @Deprecated
     @Override
     public void render(AbstractClientPlayerEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-
         if (!entity.isUser() || this.renderManager.info.getRenderViewEntity() == entity) {
-            if (entity.isCrouching()) {
-//                y = y - 0.125D;
-            }
             this.setModelVisible(entity);
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         }
@@ -98,9 +94,10 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         WerewolfBaseModel<AbstractClientPlayerEntity> playerModel = this.getEntityModel();
         if (clientPlayer.isSpectator()) {
             playerModel.setVisible(false);
+            playerModel.bipedHead.showModel = true;
         } else {
             playerModel.setVisible(true);
-            playerModel.setSneak(clientPlayer.isCrouching());
+            playerModel.isSneak = clientPlayer.isCrouching();
         }
     }
 

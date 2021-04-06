@@ -51,9 +51,6 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public ModelRenderer armRight2;
     public ModelRenderer footLeft_2;
 
-    public float swimAnimation;
-    private boolean sneak;
-
     public WerewolfSurvivalistModel() {
         this.textureWidth = 128;
         this.textureHeight = 64;
@@ -288,13 +285,4 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         ModelRenderer.rotateAngleZ = z;
     }
 
-    @Override
-    public void setSneak(boolean sneak) {
-        this.sneak = sneak;
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        this.body.showModel = visible;
-    }
 }

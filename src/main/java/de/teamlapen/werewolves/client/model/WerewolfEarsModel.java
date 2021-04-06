@@ -17,9 +17,6 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
     public ModelRenderer earRight;
     public ModelRenderer earLeft;
 
-    private boolean visible;
-    private boolean sneak;
-
     public WerewolfEarsModel() {
         this.textureWidth = 64;
         this.textureHeight = 32;
@@ -36,7 +33,7 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
         this.clawsRight.addBox(-3.0F, 10.0F, -2.0F, 4, 3, 4, 0.0F);
         this.clawsLeft = new ModelRenderer(this, 0, 7);
         this.clawsLeft.setRotationPoint(5.0F, 2.0F, 0.0F);
-        this.clawsLeft.addBox(-1.0F, 10.0F, -2.0F, 4, 3, 4, 0.0F);
+        this.clawsLeft.addBox(-1.4F, 10.0F, -2.0F, 4, 3, 4, 0.0F);
     }
 
     @Override
@@ -49,22 +46,20 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
 
     @Override
     public void setRotationAngles(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.clawsLeft.showModel = visible;
-        this.clawsRight.showModel = visible;
-        this.earLeft.showModel = visible;
-        this.earRight.showModel = visible;
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        this.earLeft.copyModelAngles(this.bipedHead);
+        this.earRight.copyModelAngles(this.bipedHead);
+        this.clawsLeft.copyModelAngles(this.bipedLeftArm);
+        this.clawsRight.copyModelAngles(this.bipedRightArm);
 
-        if (this.sneak) {
-            this.clawsLeft.rotationPointY = 1.0F;
-            this.clawsRight.rotationPointY = 1.0F;
-            this.earLeft.rotationPointY = 1.0F;
-            this.earRight.rotationPointY = 1.0F;
+        if (this.isSneak) {
+            this.earLeft.rotationPointY = 4.2F;
+            this.earRight.rotationPointY = 4.2F;
         } else {
-            this.clawsLeft.rotationPointY = 0.0F;
-            this.clawsRight.rotationPointY = 0.0F;
             this.earLeft.rotationPointY = 0.0F;
             this.earRight.rotationPointY = 0.0F;
         }
+
     }
 
     @SuppressWarnings("SameParameterValue")
@@ -74,13 +69,4 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
         ModelRenderer.rotateAngleZ = z;
     }
 
-    @Override
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
-    @Override
-    public void setSneak(boolean sneak) {
-        this.sneak = sneak;
-    }
 }
