@@ -11,10 +11,13 @@ import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -128,6 +131,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             checkDayNightModifier(werewolfPlayer);
         }
         if (Helper.isNight(werewolfPlayer.getRepresentingPlayer().getEntityWorld())) {
+            return false;
+        }
+        if (werewolfPlayer.getRepresentingPlayer().getEntityWorld().getBiome(werewolfPlayer.getRepresentingPlayer().getPosition()).getRegistryName().equals(ModBiomes.WEREWOLF_HEAVEN_KEY.getLocation())) {
             return false;
         }
         return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
