@@ -133,7 +133,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (Helper.isNight(werewolfPlayer.getRepresentingPlayer().getEntityWorld())) {
             return false;
         }
-        if (werewolfPlayer.getRepresentingPlayer().getEntityWorld().getBiome(werewolfPlayer.getRepresentingPlayer().getPosition()).getRegistryName().equals(ModBiomes.WEREWOLF_HEAVEN_KEY.getLocation())) {
+        Biome biome = werewolfPlayer.getRepresentingPlayer().getEntityWorld().getBiome(werewolfPlayer.getRepresentingPlayer().getPosition());
+        if (Objects.equals(biome.getRegistryName(), ModBiomes.WEREWOLF_HEAVEN_KEY.getLocation())) {
             return false;
         }
         return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
