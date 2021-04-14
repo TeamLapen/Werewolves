@@ -7,6 +7,7 @@ import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.items.ISilverItem;
@@ -200,6 +201,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void renderFur(MatrixStack matrixStack) {
+        if (WerewolvesConfig.CLIENT.disableScreenFurRendering.get())return;
         if (this.mc.gameSettings.getPointOfView() == PointOfView.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(Helper::isFormActionActive).orElse(false)) {
             this.mc.getTextureManager().bindTexture(FUR);
             RenderSystem.enableBlend();
