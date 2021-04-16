@@ -67,7 +67,7 @@ public class StoneAltarFireBowlBlock extends Block {
     public ActionResultType onBlockActivated(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult p_225533_6_) {
         if (!state.get(LIT)) {
             ItemStack stack = player.getHeldItem(handIn);
-            if (stack.getItem() == Items.FLINT_AND_STEEL) {
+            if (stack.getItem() == Items.FLINT_AND_STEEL || stack.getItem() == Items.TORCH || stack.getItem() == Items.SOUL_TORCH) {
                 worldIn.setBlockState(pos, state.with(LIT, true));
             }
         }

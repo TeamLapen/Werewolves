@@ -105,7 +105,7 @@ public class StoneAltarBlock extends ContainerBlock {
             StoneAltarTileEntity.Result result = te.canActivate(player);
             switch (result) {
                 case OK:
-                    if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
+                    if (heldItem.getItem() == Items.FLINT_AND_STEEL || heldItem.getItem() == Items.TORCH || heldItem.getItem() == Items.SOUL_TORCH) {
                         te.startRitual(player);
                         return ActionResultType.SUCCESS;
                     }

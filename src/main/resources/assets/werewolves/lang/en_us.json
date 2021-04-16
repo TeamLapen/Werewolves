@@ -146,7 +146,7 @@
   "guide.werewolves.werewolf.skills.text": "As werewolf you can unlock skills, With each levelup you receive one skill point you can use.\\nOpen the skill GUI with %s.",
   "guide.werewolves.werewolf.skills.decision": "A big decision you need to decide it how you want to play as werewolf, since there are three different path you can take:\\nBeast:\n The Beast will target a brutal fighting build\\nSurvivalist:\n The Survivalist will target a more swift build\\nHuman:\n The Human has access to utility features",
   "guide.werewolves.werewolf.leveling.stone.reach": "To reach level 2-14",
-  "guide.werewolves.werewolf.leveling.stone.intro": "To level at the stone altar you require a certain structure. It must be night that you can interact with the altar, then insert the required items and click the altar with %s then the ritual will start.",
+  "guide.werewolves.werewolf.leveling.stone.intro": "To level at the stone altar you require a certain structure. It must be night that you can interact with the altar, then insert the required items and click the altar with %s or %s then the ritual will start.",
   "guide.werewolves.werewolf.leveling.stone.structure": "§lStructure§r\\nThe ritual needs a composition of blocks to function. The most important on is the %s with which you will interact. Secondly there must be four %s in a 3 blocks radius around the %s. Once everything is placed you can lit the %s with %s.",
   "guide.werewolves.werewolf.leveling.stone.items": "For the ritual there are two items that are required to perform the ritual. There amount increases for higher level",
   "guide.werewolves.werewolf.leveling.stone_req": "Requirements",

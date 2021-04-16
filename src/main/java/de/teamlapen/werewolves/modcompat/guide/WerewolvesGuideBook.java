@@ -86,7 +86,7 @@ public class WerewolvesGuideBook {
         List<IPage> levelingPages = new ArrayList<>();
         levelingPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "leveling.intro")));
         String stone_altar = "§l" + loc(ModBlocks.stone_altar) + "§r\n§o" + translate(base + "leveling.stone.reach") + "§r\n";
-        stone_altar += translate(base + "leveling.stone.intro", loc(Items.FLINT_AND_STEEL));
+        stone_altar += translate(base + "leveling.stone.intro", loc(Items.FLINT_AND_STEEL), loc(Items.TORCH));
         levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(new StringTextComponent(stone_altar)), new ResourceLocation("guide.werewolves.blocks.stone_altar"), new ResourceLocation("guide.werewolves.blocks.stone_altar_fire_bowl")));
         levelingPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.structure", loc(ModBlocks.stone_altar), loc(ModBlocks.stone_altar_fire_bowl),loc(ModBlocks.stone_altar), loc(ModBlocks.stone_altar_fire_bowl), loc(Items.FLINT_AND_STEEL))));
         levelingPages.add(new PageTextImage(translateComponent(base + "leveling.stone.image1"), new ResourceLocation(IMAGE_BASE + "stone1.png"), false));
