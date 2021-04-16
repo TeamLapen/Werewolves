@@ -101,6 +101,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nonnull
     private final LevelHandler levelHandler = new LevelHandler(this);
     private boolean checkArmorModifer;
+    private Map<WerewolfForm, Integer> eyeType = new HashMap<>();
+    private Map<WerewolfForm, Integer> skinType = new HashMap<>();
 
     public WerewolfPlayer(@Nonnull PlayerEntity player) {
         super(player);
@@ -288,6 +290,34 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
     }
 
+    public boolean setEyeType(WerewolfForm form, int type) {
+        if (type != this.eyeType.get(form)) {
+            this.eyeType.put(form, type);
+            if (!isRemote()) {
+                CompoundNBT nbt = new CompoundNBT();
+                CompoundNBT eye = new CompoundNBT();
+                this.eyeType.forEach((key, value) -> eye.putInt(key.getName(), value));
+                nbt.put("eyeTypes", eye);
+                this.sync(nbt, true);
+            }
+        }
+        return true;
+    }
+
+    public boolean setSkinType(WerewolfForm form, int type) {
+        if (type != this.skinType.get(form)) {
+            this.skinType.put(form, type);
+            if (!isRemote()) {
+                CompoundNBT nbt = new CompoundNBT();
+                CompoundNBT skin = new CompoundNBT();
+                this.skinType.forEach((key, value) -> skin.putInt(key.getName(), value));
+                nbt.put("skinTypes", skin);
+                this.sync(nbt, true);
+            }
+        }
+        return true;
+    }
+
     @Override
     public void onDeath(DamageSource damageSource) {
         this.actionHandler.deactivateAllActions();
@@ -470,6 +500,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             compound.putString("lastFormAction", this.lastFormAction.getRegistryName().toString());
         }
         compound.putInt("biteTicks", this.specialAttributes.biteTicks);
+        CompoundNBT eye = new CompoundNBT();
+        this.eyeType.forEach((key, value) -> eye.putInt(key.getName(), value));
+        compound.put("eyeTypes", eye);
+        CompoundNBT skin = new CompoundNBT();
+        this.skinType.forEach((key, value) -> skin.putInt(key.getName(), value));
+        compound.put("skinTypes", skin);
     }
 
     @Override
@@ -496,7 +532,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             this.lastFormAction = ((WerewolfFormAction) ModRegistries.ACTIONS.getValue(new ResourceLocation(compound.getString("lastFormAction"))));
         }
         this.specialAttributes.biteTicks = compound.getInt("biteTicks");
-
+        CompoundNBT eye = compound.getCompound("eyeTypes");
+        eye.keySet().forEach(string -> this.eyeType.put(WerewolfForm.getForm(string), eye.getInt(string)));
+        CompoundNBT skin = compound.getCompound("skinTypes");
+        skin.keySet().forEach(string -> this.skinType.put(WerewolfForm.getForm(string), skin.getInt(string)));
     }
 
     @Override
@@ -507,6 +546,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         nbt.putLong("werewolfTime", this.specialAttributes.werewolfTime);
         nbt.putString("form", this.form.getName());
         nbt.putInt("biteTicks", this.specialAttributes.biteTicks);
+        CompoundNBT eye = new CompoundNBT();
+        this.eyeType.forEach((key, value) -> eye.putInt(key.getName(), value));
+        nbt.put("eyeTypes", eye);
+        CompoundNBT skin = new CompoundNBT();
+        this.skinType.forEach((key, value) -> skin.putInt(key.getName(), value));
+        nbt.put("skinTypes", skin);
     }
 
     @Override
@@ -520,7 +565,17 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (NBTHelper.containsString(nbt, "form")) {
             this.switchForm(WerewolfForm.getForm(nbt.getString("form")));
         }
-        this.specialAttributes.biteTicks = nbt.getInt("biteTicks");
+        if (nbt.contains("biteTicks")) {
+            this.specialAttributes.biteTicks = nbt.getInt("biteTicks");
+        }
+        if (nbt.contains("eyeTypes")){
+            CompoundNBT eye = nbt.getCompound("eyeTypes");
+            eye.keySet().forEach(string -> this.eyeType.put(WerewolfForm.getForm(string), eye.getInt(string)));
+        }
+        if (nbt.contains("skinTypes")){
+            CompoundNBT skin = nbt.getCompound("skinTypes");
+            skin.keySet().forEach(string -> this.skinType.put(WerewolfForm.getForm(string), skin.getInt(string)));
+        }
     }
 
     //-- capability ----------------------------------------------------------------------------------------------------
@@ -552,6 +607,14 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 CAP.getStorage().readNBT(CAP, inst, null, nbt);
             }
         };
+    }
+
+    public int getEyeType() {
+        return this.eyeType.getOrDefault(this.form, 0);
+    }
+
+    public int getSkinType() {
+        return this.skinType.getOrDefault(this.form, 0);
     }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {

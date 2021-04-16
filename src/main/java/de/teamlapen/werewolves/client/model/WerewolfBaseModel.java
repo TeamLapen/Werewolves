@@ -2,9 +2,12 @@ package de.teamlapen.werewolves.client.model;
 
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class WerewolfBaseModel<T extends LivingEntity> extends BipedModel<T> {
@@ -28,5 +31,8 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends BipedMod
 
         return p_205060_1_ + p_205060_3_ * f;
     }
+
+    @Nullable
+    public abstract ModelRenderer getModelRenderer();
 
 }
