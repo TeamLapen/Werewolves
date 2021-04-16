@@ -37,6 +37,12 @@ public class WerewolfLevelConf {
         return levelRequirementMap.get(level);
     }
 
+    @Nullable
+    public StoneAltarRequirement getStoneRequirement(int level){
+        LevelRequirement req = levelRequirementMap.get(level);
+        return req instanceof StoneAltarRequirement? (StoneAltarRequirement) req :null;
+    }
+
     public static class LevelRequirement {
 
         public final int xpAmount;
