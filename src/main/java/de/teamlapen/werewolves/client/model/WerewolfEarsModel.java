@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * WerewolfEarsModel - RebelT
@@ -36,8 +37,14 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
         this.clawsLeft.addBox(-1.4F, 10.0F, -2.0F, 4, 3, 4, 0.0F);
     }
 
+    @Nullable
     @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public ModelRenderer getModelRenderer() {
+        return null;
+    }
+
+    @Override
+    public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.earRight.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         this.earLeft.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         this.clawsRight.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);

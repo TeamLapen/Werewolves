@@ -8,6 +8,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * WerewolfSurvivalistModel - Rebel
  * Created using Tabula 7.1.0
@@ -226,8 +229,14 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.armRight2.addChild(this.footLeft_2);
     }
 
+    @Nullable
     @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public ModelRenderer getModelRenderer() {
+        return body;
+    }
+
+    @Override
+    public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
