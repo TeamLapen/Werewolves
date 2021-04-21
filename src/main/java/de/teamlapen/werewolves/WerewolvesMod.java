@@ -7,6 +7,7 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModCommands;
+import de.teamlapen.werewolves.core.ModLootTables;
 import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.data.*;
 import de.teamlapen.werewolves.entities.ModEntityEventHandler;
@@ -78,6 +79,7 @@ public class WerewolvesMod {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ModBiomes::onBiomeLoadingEventAdditions);
+        MinecraftForge.EVENT_BUS.addListener(ModLootTables::onLootLoad);
 
         if (ModList.get().isLoaded("guidebook-vp")) {
             MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);

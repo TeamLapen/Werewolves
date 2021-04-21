@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
+import de.teamlapen.werewolves.core.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
@@ -13,6 +14,7 @@ import net.minecraft.data.loot.EntityLootTables;
 import net.minecraft.entity.EntityType;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.KilledByPlayer;
+import net.minecraft.loot.conditions.RandomChance;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -33,7 +35,7 @@ public class LootTablesGenerator extends LootTableProvider {
 
     @Override
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootParameterSet>> getTables() {
-        return ImmutableList.of(Pair.of(ModBlockLootTables::new, LootParameterSets.BLOCK), Pair.of(ModEntityLootTables::new, LootParameterSets.ENTITY));
+        return ImmutableList.of(Pair.of(ModBlockLootTables::new, LootParameterSets.BLOCK), Pair.of(ModEntityLootTables::new, LootParameterSets.ENTITY), Pair.of(InjectLootTables::new, LootParameterSets.ENTITY));
     }
 
     @Override
@@ -85,6 +87,18 @@ public class LootTablesGenerator extends LootTableProvider {
         @Override
         protected Iterable<EntityType<?>> getKnownEntities() {
             return ModEntities.getAllEntities();
+        }
+    }
+
+    private static class InjectLootTables implements Consumer<BiConsumer<ResourceLocation, LootTable.Builder>> {
+        @Override
+        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+            consumer.accept(ModLootTables.villager, LootTable.builder()
+                    .addLootPool(LootPool.builder().name("liver").rolls(ConstantRange.of(1))
+                            .addEntry(ItemLootEntry.builder(ModItems.liver).weight(1).acceptCondition(RandomChance.builder(0.5f)))));
+            consumer.accept(ModLootTables.skeleton, LootTable.builder()
+                    .addLootPool(LootPool.builder().name("bones").rolls(ConstantRange.of(1))
+                            .addEntry(ItemLootEntry.builder(ModItems.bone).weight(1).acceptCondition(RandomChance.builder(0.1f)))));
         }
     }
 }
