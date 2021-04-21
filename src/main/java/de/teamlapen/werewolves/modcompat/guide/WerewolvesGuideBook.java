@@ -1,8 +1,6 @@
 package de.teamlapen.werewolves.modcompat.guide;
 
-import com.google.common.collect.Maps;
 import de.maxanier.guideapi.api.IPage;
-import de.maxanier.guideapi.api.impl.Book;
 import de.maxanier.guideapi.api.impl.abstraction.CategoryAbstract;
 import de.maxanier.guideapi.api.impl.abstraction.EntryAbstract;
 import de.maxanier.guideapi.api.util.BookHelper;

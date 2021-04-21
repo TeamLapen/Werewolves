@@ -16,7 +16,8 @@
   "client": [
     "client.ClientPlayerEntityMixin",
     "client.InGameGuiAccessor",
-    "client.ScreenMixin"
+    "client.ScreenMixin",
+    "client.LivingRendererMixin",
   ],
   "injectors": {
     "defaultRequire": 1
