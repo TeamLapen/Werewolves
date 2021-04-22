@@ -126,6 +126,7 @@
   "text.werewolves.no_longer_werewolf": "You are now a human",
   "text.werewolves.skills.only_applies": "Only applies to",
   "text.werewolves.skills.upgrade": "Upgrades",
+  "text.werewolves.no_meat": "Why should i try this food? I know that it will not satisfy me",
   "__comment": "guide-api",
   "gui.vampirism.taskmaster.text.werewolves_werewolf": "Be not afraid\n, your secret is safe with me and if you intend to help us with a few things we can protect this village from unwanted disturbance and you will be rewarded upon completion. Please browse the available tasks and accept any you like.",
   "guide.werewolves.entity.werewolf.title": "Werewolf",

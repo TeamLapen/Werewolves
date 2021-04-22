@@ -62,6 +62,7 @@ public class ModPlayerEventHandler {
             //noinspection ConstantConditions
             if (event.getItem().isFood() && !ModTags.Items.RAWMEATS.contains(event.getItem().getItem()) && !ModTags.Items.COOKEDMEATS.contains(event.getItem().getItem()) &&!event.getItem().getItem().getFood().isMeat() && !WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false)) {
                 event.setCanceled(true);
+                ((PlayerEntity) event.getEntity()).sendStatusMessage(new TranslationTextComponent("text.werewolves.no_meat"), true);
             }
         }
     }
