@@ -81,7 +81,7 @@ public class WerewolvesMod {
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ModBiomes::onBiomeLoadingEventAdditions);
         MinecraftForge.EVENT_BUS.addListener(ModLootTables::onLootLoad);
 
-        if (ModList.get().isLoaded("guidebook-vp")) {
+        if (ModList.get().isLoaded("guideapi-vp")) {
             MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
         }
 
