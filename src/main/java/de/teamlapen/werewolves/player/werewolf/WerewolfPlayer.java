@@ -404,8 +404,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     public void storeArmor() {
         if (!this.skillHandler.isSkillEnabled(WerewolfSkills.wear_armor)) {
             for (int i = 0; i < player.inventory.armorInventory.size(); i++) {
-                this.armorItems.set(i, this.player.inventory.armorInventory.get(i));
-                this.player.inventory.armorInventory.set(i, ItemStack.EMPTY);
+                ItemStack stack =  this.player.inventory.armorInventory.get(i);
+                if (!stack.isEmpty()) {
+                    this.armorItems.set(i, stack);
+                    this.player.inventory.armorInventory.set(i, ItemStack.EMPTY);
+                }
             }
             this.sync(this.saveArmorItems(new CompoundNBT()), false);
         }
