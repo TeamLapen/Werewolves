@@ -49,7 +49,7 @@ public class WerewolvesMod {
 
     public static final AbstractPacketDispatcher dispatcher = new ModPacketDispatcher();
     public static final Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-    public static final EntityClassification WEREWOLF_CREATURE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 10, false, false, 128);
+    public static final EntityClassification WEREWOLF_CREATURE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 5, false, false, 128);
     private static final CreatureAttribute WEREWOLF_CREATURE_ATTRIBUTES = new CreatureAttribute();
     public static WerewolvesMod instance;
     public static boolean inDev = false;
