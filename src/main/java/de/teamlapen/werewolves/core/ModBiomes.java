@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
 import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
@@ -16,6 +17,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.biome.provider.OverworldBiomeProvider;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -36,6 +38,7 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
         registry.register(WerewolfHeavenBiome.createWerewolfHeavenBiome().setRegistryName(REFERENCE.MODID, "werewolf_heaven"));
 
         VampirismAPI.worldGenRegistry().removeStructureFromBiomes(ModFeatures.hunter_camp.getRegistryName(), Lists.newArrayList(WEREWOLF_HEAVEN_KEY.getLocation()));
+        BiomeDictionary.addTypes(WEREWOLF_HEAVEN_KEY, BiomeDictionary.Type.OVERWORLD, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.HILLS);
     }
 
     static void addBiomesToGeneratorUnsafe() {
@@ -48,7 +51,7 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
     }
 
     public static void onBiomeLoadingEventAdditions(BiomeLoadingEvent event) {
-        if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
+        if (!WerewolvesConfig.SERVER.disableOreGen.get() && event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
             event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, WerewolvesBiomeFeatures.silver_ore);
         }
         if (event.getCategory() == Biome.Category.FOREST) {
