@@ -27,13 +27,15 @@ import java.util.Optional;
 public class ModKeys {
     private static final String CATEGORY = "keys.werewolves.category";
     private static final String LEAP_KEY = "keys.werewolves.leap";
+    private static final String BITE_KEY = "keys.werewolves.bite";
 
     private static final KeyBinding LEAP = new KeyBinding(LEAP_KEY, KeyConflictContext.IN_GAME, KeyModifier.CONTROL, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_SPACE, CATEGORY);
-    private static final KeyBinding BITE = de.teamlapen.vampirism.client.core.ModKeys.getKeyBinding(de.teamlapen.vampirism.client.core.ModKeys.KEY.SUCK);
+    private static final KeyBinding BITE = new KeyBinding(BITE_KEY, KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY);
 
     public static void register(ClientEventHandler clientEventHandler) {
         MinecraftForge.EVENT_BUS.register(new ModKeys(clientEventHandler));
         ClientRegistry.registerKeyBinding(LEAP);
+        ClientRegistry.registerKeyBinding(BITE);
     }
 
     private final ClientEventHandler clientEventHandler;

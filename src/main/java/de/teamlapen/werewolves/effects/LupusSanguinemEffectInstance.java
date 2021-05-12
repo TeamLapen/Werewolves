@@ -14,7 +14,17 @@ public class LupusSanguinemEffectInstance extends EffectInstance {
     }
 
     @Override
+    public boolean combine(@Nonnull EffectInstance other) {
+        return false;
+    }
+
+    @Override
     public boolean tick(@Nonnull LivingEntity entityIn, @Nonnull Runnable runnable) {
-        return (this.getDuration() % 10 != 0 || !(entityIn instanceof PlayerEntity) || Helper.canBecomeWerewolf((PlayerEntity) entityIn)) && super.tick(entityIn, runnable);
+        if (this.getDuration() % 10 == 0 && entityIn instanceof PlayerEntity) {
+            if (!Helper.canBecomeWerewolf((PlayerEntity) entityIn)) {
+                return false;
+            }
+        }
+        return super.tick(entityIn, runnable);
     }
 }

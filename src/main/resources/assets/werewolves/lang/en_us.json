@@ -5,6 +5,7 @@
   "itemGroup.werewolves": "Werewolves",
   "keys.werewolves.category": "Werewolves",
   "keys.werewolves.leap": "Leap",
+  "keys.werewolves.bite": "Bite",
   "__comment": "worldgen",
   "biome.werewolves.werewolf_heaven": "Werewolf Heaven",
   "__comment": "blocks",
