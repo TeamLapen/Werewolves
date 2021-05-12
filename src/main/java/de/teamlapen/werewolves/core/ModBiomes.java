@@ -35,7 +35,7 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
     public static final RegistryKey<Biome> WEREWOLF_HEAVEN_KEY = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(REFERENCE.MODID, "werewolf_heaven"));
 
     static void registerBiomes(IForgeRegistry<Biome> registry) {
-        registry.register(WerewolfHeavenBiome.createWerewolfHeavenBiome().setRegistryName(REFERENCE.MODID, "werewolf_heaven"));
+        registry.register(WerewolfHeavenBiome.createWerewolfHeavenBiome().setRegistryName(WEREWOLF_HEAVEN_KEY.getLocation()));
 
         VampirismAPI.worldGenRegistry().removeStructureFromBiomes(ModFeatures.hunter_camp.getRegistryName(), Lists.newArrayList(WEREWOLF_HEAVEN_KEY.getLocation()));
         BiomeDictionary.addTypes(WEREWOLF_HEAVEN_KEY, BiomeDictionary.Type.OVERWORLD, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.HILLS);
