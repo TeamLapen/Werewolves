@@ -89,8 +89,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     @Override
     protected boolean activate(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
-        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
-            ((WerewolfPlayer) werewolfPlayer).storeArmor();
+        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form.isHumanLike())) {
+            ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
         }
         this.applyModifier(werewolfPlayer);
         werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
@@ -100,16 +100,13 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     @Override
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
-        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
-            ((WerewolfPlayer) werewolfPlayer).storeArmor();
-        }
         werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
     }
 
     @Override
     public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).setForm(this, WerewolfForm.NONE);
-        ((WerewolfPlayer) werewolfPlayer).loadArmor();
+        ((WerewolfPlayer) werewolfPlayer).addArmorModifier();
         this.removeModifier(werewolfPlayer);
         werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
         if (werewolfPlayer.getActionHandler().isActionActive(WerewolfActions.hide_name)) {
@@ -119,8 +116,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public void onReActivated(IWerewolfPlayer werewolfPlayer) {
-        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form == WerewolfForm.HUMAN)) {
-            ((WerewolfPlayer) werewolfPlayer).storeArmor();
+        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form.isHumanLike())) {
+            ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
         }
         werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
     }

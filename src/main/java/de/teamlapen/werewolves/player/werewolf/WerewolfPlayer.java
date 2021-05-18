@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.player.werewolf;
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
@@ -18,6 +20,7 @@ import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
+import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
@@ -25,9 +28,12 @@ import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -46,8 +52,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
@@ -90,13 +95,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nonnull
     private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
     @Nonnull
-    private final NonNullList<ItemStack> armorItems = NonNullList.withSize(5, ItemStack.EMPTY);
-    @Nonnull
     private WerewolfForm form = WerewolfForm.NONE;
     @Nullable
     private WerewolfFormAction lastFormAction;
     @Nonnull
     private final LevelHandler levelHandler = new LevelHandler(this);
+    private boolean checkArmorModifer;
 
     public WerewolfPlayer(@Nonnull PlayerEntity player) {
         super(player);
@@ -129,6 +133,37 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         oldWerewolf.saveData(nbt);
         this.loadData(nbt);
         return oldWerewolf;
+    }
+
+    public void requestArmorEvaluation() {
+        this.checkArmorModifer = true;
+    }
+
+    public void removeArmorModifier(){
+        for (UUID uuid : ArmorItemAccessor.getARMOR_MODIFIERS()) {
+            this.player.getAttribute(Attributes.ARMOR_TOUGHNESS).removeModifier(uuid);
+            this.player.getAttribute(Attributes.ARMOR).removeModifier(uuid);
+        }
+    }
+
+    public void addArmorModifier() {
+        Set<UUID> uuids = Sets.newHashSet(ArmorItemAccessor.getARMOR_MODIFIERS());
+        int i = 0;
+        for (ItemStack stack : this.player.getArmorInventoryList()) {
+            EquipmentSlotType slotType = EquipmentSlotType.fromSlotTypeAndIndex(EquipmentSlotType.Group.ARMOR, i);
+            ++i;
+            Multimap<Attribute, AttributeModifier> map = stack.getAttributeModifiers(slotType);
+            for (Map.Entry<Attribute, Collection<AttributeModifier>> entry : map.asMap().entrySet()) {
+                for (AttributeModifier modifier : entry.getValue()) {
+                    if (uuids.contains(modifier.getID())) {
+                        ModifiableAttributeInstance attribute = this.player.getAttribute(entry.getKey());
+                        if (!attribute.hasModifier(modifier)) {
+                            attribute.applyPersistentModifier(modifier);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -188,6 +223,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
                 if (sync) {
                     sync(syncPacket, syncToAll);
+                }
+
+                if (this.checkArmorModifer && this.form.isTransformed() /*&& this.player.world.getGameTime() % 2 == 0*/) {
+                    if (!(this.form.isHumanLike() && this.skillHandler.isSkillEnabled(WerewolfSkills.wear_armor))) {
+                        this.removeArmorModifier();
+                    }
+                    this.checkArmorModifer = false;
                 }
             }
         } else {
@@ -349,11 +391,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
     }
 
-    @Nonnull
-    public NonNullList<ItemStack> getArmorItems() {
-        return this.armorItems;
-    }
-
     /**
      * feeds it self from bitten entities
      *
@@ -401,30 +438,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
     }
 
-    public void storeArmor() {
-        if (!this.skillHandler.isSkillEnabled(WerewolfSkills.wear_armor)) {
-            for (int i = 0; i < player.inventory.armorInventory.size(); i++) {
-                ItemStack stack =  this.player.inventory.armorInventory.get(i);
-                if (!stack.isEmpty()) {
-                    this.armorItems.set(i, stack);
-                    this.player.inventory.armorInventory.set(i, ItemStack.EMPTY);
-                }
-            }
-            this.sync(this.saveArmorItems(new CompoundNBT()), false);
-        }
-    }
-
-    public void loadArmor() {
-        for (int i = 0; i < this.armorItems.size() - 1; i++) {
-            ItemStack stack = this.armorItems.get(i);
-            if (!stack.isEmpty()) {
-                this.player.inventory.armorInventory.set(i, stack);
-                this.armorItems.set(i, ItemStack.EMPTY);
-            }
-        }
-        this.sync(this.saveArmorItems(new CompoundNBT()), false);
-    }
-
     @Override
     public boolean isDisguised() {
         return !this.getForm().isTransformed();
@@ -446,21 +459,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     //-- load/save -----------------------------------------------------------------------------------------------------
 
-    public CompoundNBT saveArmorItems(CompoundNBT nbt) {
-        CompoundNBT armor = new CompoundNBT();
-        for (int i = 0; i < this.armorItems.size(); i++) {
-            armor.put("" + i, this.armorItems.get(i).serializeNBT());
-        }
-        nbt.put("armor", armor);
-        return nbt;
-    }
-
     @Override
     public void saveData(CompoundNBT compound) {
         this.actionHandler.saveToNbt(compound);
         this.skillHandler.saveToNbt(compound);
         this.levelHandler.saveToNbt(compound);
-        this.saveArmorItems(compound);
         compound.putLong("werewolfTime", this.specialAttributes.werewolfTime);
         compound.putString("form", this.form.getName());
         if (this.lastFormAction != null) {
@@ -477,8 +480,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         CompoundNBT armor = compound.getCompound("armor");
         for (int i = 0; i < armor.size(); i++) {
             try { //TODO remove
-                this.armorItems.set(i, ItemStack.read(armor.getCompound("" + i)));
-            } catch (IndexOutOfBoundsException ignored) {
+                ItemStack stack = ItemStack.read(armor.getCompound("" + i));
+                this.player.setItemStackToSlot(EquipmentSlotType.values()[i],stack);
+            } catch (Exception ignored) {
 
             }
         }
@@ -500,7 +504,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
         this.levelHandler.saveToNbt(nbt);
-        this.saveArmorItems(nbt);
         nbt.putLong("werewolfTime", this.specialAttributes.werewolfTime);
         nbt.putString("form", this.form.getName());
         nbt.putInt("biteTicks", this.specialAttributes.biteTicks);
@@ -511,10 +514,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
         this.levelHandler.loadFromNbt(nbt);
-        CompoundNBT armor = nbt.getCompound("armor");
-        for (int i = 0; i < armor.size(); i++) {
-            this.armorItems.set(i, ItemStack.read(armor.getCompound("" + i)));
-        }
         if (NBTHelper.containsLong(nbt,"werewolfTime")) {
             this.specialAttributes.werewolfTime = nbt.getLong("werewolfTime");
         }

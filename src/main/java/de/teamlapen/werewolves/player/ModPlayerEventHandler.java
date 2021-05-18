@@ -129,6 +129,7 @@ public class ModPlayerEventHandler {
                     } else {
                         ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).removeModifier(CLAWS);
                     }
+                    WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(werewolf -> !(werewolf.getForm().isHumanLike() && werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor))).ifPresent(WerewolfPlayer::requestArmorEvaluation);
                 }
             }
         }

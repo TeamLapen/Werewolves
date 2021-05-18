@@ -4,20 +4,20 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "werewolves.refmap.json",
   "mixins": [
+    "ArmorItemAccessor",
     "BlocksInvoker",
     "FireBlockInvoker",
     "FoodStatsAccessor",
     "PointOfInterestTypeInvoker",
-    "entity.MixinPlayerContainerAccessor",
-    "entity.MixinPlayerContainerArmorSlot",
     "entity.MixinPlayerEntity",
     "entity.MixinVillagerEntity"
   ],
   "client": [
+    "client.BipedArmorLayerMixin",
     "client.ClientPlayerEntityMixin",
     "client.InGameGuiAccessor",
-    "client.ScreenMixin",
-    "client.LivingRendererMixin"
+    "client.LivingRendererMixin",
+    "client.ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
