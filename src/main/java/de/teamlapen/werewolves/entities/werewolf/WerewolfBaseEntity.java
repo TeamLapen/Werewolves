@@ -6,12 +6,10 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.entities.IWerewolfMob;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -25,7 +23,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     }
 
     public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, IWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
-        return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random) && random.nextInt(3) == 0;
+        return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && world.canSeeSky(blockPos) && spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random) && random.nextInt(3) == 0;
     }
 
     public void bite(LivingEntity entity) {
