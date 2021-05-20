@@ -26,6 +26,8 @@ public class RegistryManager implements IInitListener {
     public RegistryManager() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.register(ModContainer.class);
+        bus.addListener(ModEntities::onRegisterEntityTypeAttributes);
+        bus.addListener(ModEntities::onModifyEntityTypeAttributes);
     }
 
     @Override
@@ -34,7 +36,6 @@ public class RegistryManager implements IInitListener {
             case COMMON_SETUP:
                 event.enqueueWork(ModBiomes::addBiomesToGeneratorUnsafe);
                 ModEntities.registerSpawns();
-                ModEntities.registerEntityTypeAttributes();
                 break;
         }
     }

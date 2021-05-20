@@ -9,7 +9,6 @@
     "FireBlockInvoker",
     "FoodStatsAccessor",
     "PointOfInterestTypeInvoker",
-    "entity.MixinPlayerEntity",
     "entity.MixinVillagerEntity"
   ],
   "client": [

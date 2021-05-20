@@ -16,6 +16,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -59,12 +61,17 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
         return entry;
     }
 
-    static void registerEntityTypeAttributes() {
-        GlobalEntityTypeAttributes.put(human_werewolf, HumanWerewolfEntity.getAttributeBuilder().create());
-        GlobalEntityTypeAttributes.put(werewolf_beast, BasicWerewolfEntity.getAttributeBuilder().create());
-        GlobalEntityTypeAttributes.put(werewolf_survivalist, BasicWerewolfEntity.getAttributeBuilder().create());
-        GlobalEntityTypeAttributes.put(wolf, AggressiveWolfEntity.func_234233_eS_().create());
-        GlobalEntityTypeAttributes.put(task_master_werewolf, WerewolfTaskMasterEntity.getAttributeBuilder().create());
+    static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {
+        event.put(human_werewolf, HumanWerewolfEntity.getAttributeBuilder().create());
+        event.put(werewolf_beast, BasicWerewolfEntity.getAttributeBuilder().create());
+        event.put(werewolf_survivalist, BasicWerewolfEntity.getAttributeBuilder().create());
+        event.put(wolf, AggressiveWolfEntity.func_234233_eS_().create());
+        event.put(task_master_werewolf, WerewolfTaskMasterEntity.getAttributeBuilder().create());
+    }
+
+    static void onModifyEntityTypeAttributes(EntityAttributeModificationEvent event) {
+        event.add(EntityType.PLAYER, ModAttributes.bite_damage);
+        event.add(EntityType.PLAYER, ModAttributes.time_regain);
     }
 
     //needed for worldgen
