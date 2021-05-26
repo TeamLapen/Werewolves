@@ -15,6 +15,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -22,6 +23,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
@@ -43,8 +45,8 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
         this.actionTier = EntityActionTier.Medium;
     }
 
-    public static boolean spawnPredicateHumanWerewolf(EntityType<? extends CreatureEntity> entityType, IWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
-        return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && MobEntity.canSpawnOn(entityType, world, spawnReason, blockPos, random);
+    public static boolean spawnPredicateHumanWerewolf(EntityType<? extends CreatureEntity> entityType, IServerWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
+        return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && MonsterEntity.isValidLightLevel(world, blockPos, random) && MobEntity.canSpawnOn(entityType, world, spawnReason, blockPos, random);
     }
 
     @Override
