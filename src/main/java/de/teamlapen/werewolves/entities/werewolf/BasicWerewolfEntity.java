@@ -61,6 +61,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.entityClass = EntityClassType.getRandomClass(world.rand);
         this.entityTier = EntityActionTier.Low;
         this.entityActionHandler = new ActionHandlerEntity<>(this);
+        this.experienceValue = 3;
     }
 
     @Nonnull
