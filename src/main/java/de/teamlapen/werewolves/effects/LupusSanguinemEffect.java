@@ -36,7 +36,7 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     @Override
     public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
         if (entityLivingBaseIn instanceof PlayerEntity) {
-            FactionPlayerHandler.getOpt((PlayerEntity) entityLivingBaseIn).ifPresent(e -> e.joinFaction(WReference.WEREWOLF_FACTION));
+            FactionPlayerHandler.get((PlayerEntity) entityLivingBaseIn).joinFaction(WReference.WEREWOLF_FACTION);
         }
     }
 
