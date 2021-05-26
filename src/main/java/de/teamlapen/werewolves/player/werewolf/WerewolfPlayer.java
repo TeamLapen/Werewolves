@@ -291,7 +291,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     public boolean setEyeType(WerewolfForm form, int type) {
-        if (type != this.eyeType.get(form)) {
+        if (type != this.eyeType.getOrDefault(form, -1)) {
             this.eyeType.put(form, type);
             if (!isRemote()) {
                 CompoundNBT nbt = new CompoundNBT();
@@ -305,7 +305,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     public boolean setSkinType(WerewolfForm form, int type) {
-        if (type != this.skinType.get(form)) {
+        if (type != this.skinType.getOrDefault(form,-1)) {
             this.skinType.put(form, type);
             if (!isRemote()) {
                 CompoundNBT nbt = new CompoundNBT();
@@ -316,6 +316,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
         }
         return true;
+    }
+    
+    public void setSkinData(WerewolfForm form, int[] data) {
+        this.setEyeType(form, data[0]);
+        this.setSkinType(form, data[1]);
     }
 
     @Override
@@ -609,12 +614,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         };
     }
 
-    public int getEyeType() {
-        return this.eyeType.getOrDefault(this.form, 0);
+    public int getEyeType(WerewolfForm form) {
+        return this.eyeType.getOrDefault(form, 0);
     }
 
-    public int getSkinType() {
-        return this.skinType.getOrDefault(this.form, 0);
+    public int getSkinType(WerewolfForm form) {
+        return this.skinType.getOrDefault(form, 0);
     }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {
