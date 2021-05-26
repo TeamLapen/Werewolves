@@ -59,7 +59,7 @@ public class WerewolfSkills {
         registry.register(new ActionSkill<>(WerewolfActions.rage, true));
         registry.register(new ActionSkill<>(WerewolfActions.beast_form, true));
         registry.register(new SimpleWerewolfSkill("health_reg", true));
-        registry.register(new SimpleWerewolfSkill.AttributeSkill("damage", true, DAMAGE_SKILL, Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.damage_amount.get()));
+        registry.register(new SimpleWerewolfSkill("damage", true));
         registry.register(new SimpleWerewolfSkill("resistance", true));
         registry.register(new SimpleWerewolfSkill("health_after_kill", true));
         registry.register(new SimpleWerewolfSkill("stun_bite", true));

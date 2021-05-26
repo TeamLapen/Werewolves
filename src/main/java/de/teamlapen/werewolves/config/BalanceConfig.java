@@ -86,6 +86,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.BooleanValue beast_form_enabled;
         public final ForgeConfigSpec.IntValue beast_form_cooldown;
         public final ForgeConfigSpec.DoubleValue beast_form_speed_amount;
+        public final ForgeConfigSpec.DoubleValue beast_form_attack_damage;
         public final ForgeConfigSpec.DoubleValue beast_form_armor;
         public final ForgeConfigSpec.DoubleValue beast_form_armor_toughness;
         public final ForgeConfigSpec.DoubleValue beast_form_health;
@@ -94,6 +95,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.BooleanValue survival_form_enabled;
         public final ForgeConfigSpec.IntValue survival_form_cooldown;
         public final ForgeConfigSpec.DoubleValue survival_form_speed_amount;
+        public final ForgeConfigSpec.DoubleValue survival_form_attack_damage;
         public final ForgeConfigSpec.DoubleValue survival_form_armor;
         public final ForgeConfigSpec.DoubleValue survival_form_armor_toughness;
 
@@ -115,9 +117,6 @@ public class BalanceConfig {
 
         //health_reg skill
         public final ForgeConfigSpec.DoubleValue health_reg_modifier;
-
-        //damage skill
-        public final ForgeConfigSpec.DoubleValue damage_amount;
 
         //resistance skill
         public final ForgeConfigSpec.DoubleValue resistance_amount;
@@ -183,6 +182,7 @@ public class BalanceConfig {
             this.beast_form_enabled = builder.define("beast_form_enabled", true);
             this.beast_form_cooldown = builder.comment("In seconds").defineInRange("beast_form_cooldown", 0, 0, 10000);
             this.beast_form_speed_amount = builder.defineInRange("beast_form_speed_amount", 0.4, 0, 5);
+            this.beast_form_attack_damage = builder.defineInRange("beast_form_attack_damage", 4D, 0, 100);
             this.beast_form_armor = builder.defineInRange("beast_form_armor", 20, 0, 20.0);
             this.beast_form_armor_toughness = builder.defineInRange("beast_form_armor_toughness", 8, 0, 10.0);
             this.beast_form_health = builder.defineInRange("beast_form_health", 4.0, 0.0, 20.0);
@@ -193,6 +193,7 @@ public class BalanceConfig {
             this.survival_form_enabled = builder.define("survival_form_enabled", true);
             this.survival_form_cooldown = builder.comment("In seconds").defineInRange("survival_form_cooldown", 0, 0, 10000);
             this.survival_form_speed_amount = builder.defineInRange("survival_form_speed_amount", 0.5, 0, 5);
+            this.survival_form_attack_damage = builder.defineInRange("survival_form_attack_damage", 2D, 0, 100);
             this.survival_form_armor = builder.defineInRange("survival_form_armor", 16, 0, 20.0);
             this.survival_form_armor_toughness = builder.defineInRange("survival_form_armor_toughness", 6, 0, 10.0);
             builder.pop();
@@ -219,10 +220,6 @@ public class BalanceConfig {
 
             builder.push("health_reg");
             this.health_reg_modifier = builder.defineInRange("health_reg_modifier", 0.2, 0.0, 1);
-            builder.pop();
-
-            builder.push("damage");
-            this.damage_amount = builder.defineInRange("damage_amount", 3, 0.0, 10.0);
             builder.pop();
 
             builder.push("resistance");
