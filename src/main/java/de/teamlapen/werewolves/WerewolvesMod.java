@@ -54,6 +54,7 @@ public class WerewolvesMod {
     public static WerewolvesMod instance;
     public static boolean inDev = false;
     public final RegistryManager registryManager = new RegistryManager();
+    public final boolean obfuscateLoaded;
 
     public WerewolvesMod() {
         WerewolvesMod.instance = this;
@@ -84,6 +85,7 @@ public class WerewolvesMod {
         if (ModList.get().isLoaded("guideapi-vp")) {
             MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
         }
+        this.obfuscateLoaded = ModList.get().isLoaded("obfuscate");
 
         WerewolvesConfig.registerConfigs();
         Permissions.init();
@@ -161,4 +163,7 @@ public class WerewolvesMod {
         ModCommands.registerCommands(event.getDispatcher());
     }
 
+    public boolean isObfuscateLoaded() {
+        return obfuscateLoaded;
+    }
 }

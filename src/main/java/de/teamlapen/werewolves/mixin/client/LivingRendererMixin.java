@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.mixin.client;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -39,7 +40,7 @@ public abstract class LivingRendererMixin<T extends LivingEntity, M extends Enti
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingRenderer;func_230496_a_(Lnet/minecraft/entity/LivingEntity;ZZZ)Lnet/minecraft/client/renderer/RenderType;", shift = At.Shift.BEFORE))
     public void renderModel_werewolves(T entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, CallbackInfo ci) {
-        if (this.entityModel instanceof WerewolfBaseModel) {
+        if (this.entityModel instanceof WerewolfBaseModel && WerewolvesMod.instance.isObfuscateLoaded()) {
             Minecraft minecraft = Minecraft.getInstance();
             boolean flag = this.isVisible(entityIn);
             boolean flag1 = !flag && !entityIn.isInvisibleToPlayer(minecraft.player);
@@ -55,7 +56,7 @@ public abstract class LivingRendererMixin<T extends LivingEntity, M extends Enti
 
     @ModifyVariable(method = "render", at = @At(value = "STORE", ordinal = 0))
     public RenderType setRenderTypeToNull(RenderType type){
-        if (this.entityModel instanceof WerewolfBaseModel) {
+        if (this.entityModel instanceof WerewolfBaseModel && WerewolvesMod.instance.isObfuscateLoaded()) {
             return null;
         }
         return type;
