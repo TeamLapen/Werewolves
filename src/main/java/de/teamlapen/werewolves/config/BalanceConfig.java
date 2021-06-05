@@ -294,12 +294,11 @@ public class BalanceConfig {
     }
 
     public static class Util {
-        public final ForgeConfigSpec.IntValue werewolfHeavenWeight;
+
         public final ForgeConfigSpec.IntValue silverBoltEffectDuration;
         public final ForgeConfigSpec.IntValue silverItemEffectDuration;
 
         public Util(ForgeConfigSpec.Builder builder) {
-            this.werewolfHeavenWeight = builder.defineInRange("werewolfHeavenWeight", 6, 1, Integer.MAX_VALUE);
             this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 4, 1, Integer.MAX_VALUE);
             this.silverItemEffectDuration = builder.comment("in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
         }

@@ -42,16 +42,16 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
     }
 
     static void addBiomesToGeneratorUnsafe() {
-        if (!WerewolvesConfig.SERVER.disableWerewolfHeaven.get()) {
+        if (!WerewolvesConfig.COMMON.disableWerewolfHeaven.get()) {
             List<RegistryKey<Biome>> modlist = new ArrayList<>(OverworldBiomeProvider.biomes);
             modlist.add(WEREWOLF_HEAVEN_KEY);
             OverworldBiomeProvider.biomes = ImmutableList.copyOf(modlist);
-            BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(WEREWOLF_HEAVEN_KEY, WerewolvesConfig.BALANCE.UTIL.werewolfHeavenWeight.get()));
+            BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(WEREWOLF_HEAVEN_KEY, WerewolvesConfig.COMMON.werewolfHeavenWeight.get()));
         }
     }
 
     public static void onBiomeLoadingEventAdditions(BiomeLoadingEvent event) {
-        if (!WerewolvesConfig.SERVER.disableOreGen.get() && event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
+        if (!WerewolvesConfig.COMMON.disableOreGen.get() && event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
             event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, WerewolvesBiomeFeatures.silver_ore);
         }
         if (event.getCategory() == Biome.Category.FOREST) {
