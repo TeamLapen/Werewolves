@@ -34,9 +34,21 @@ public class ClientEventHandler {
     @SubscribeEvent
     public void onRenderPlayer(RenderPlayerEvent.Pre event) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getPlayer();
-        if (Helper.isWerewolf(player) && (WerewolfPlayer.getOpt(player).map(w -> w.getForm().isTransformed()).orElse(false) || (Minecraft.getInstance().currentScreen instanceof WerewolfPlayerAppearanceScreen && ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().currentScreen).isRenderForm()))) {
+        if (shouldRenderWerewolfForm(player)) {
             event.setCanceled(WEntityRenderer.render.render(WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.prevRotationYaw, player.rotationYaw), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight()));
         }
+    }
+
+    @SubscribeEvent
+    public void onRenderPlayerPost(RenderPlayerEvent.Post event) {
+        AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getPlayer();
+        if (shouldRenderWerewolfForm(player)) {
+            WEntityRenderer.render.renderPost(event.getRenderer().getEntityModel(), WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.prevRotationYaw, player.rotationYaw), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight());
+        }
+    }
+
+    private boolean shouldRenderWerewolfForm(AbstractClientPlayerEntity player) {
+        return Helper.isWerewolf(player) && (WerewolfPlayer.getOpt(player).map(w -> w.getForm().isTransformed()).orElse(false) || (Minecraft.getInstance().currentScreen instanceof WerewolfPlayerAppearanceScreen && ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().currentScreen).isRenderForm()));
     }
 
     @SubscribeEvent
