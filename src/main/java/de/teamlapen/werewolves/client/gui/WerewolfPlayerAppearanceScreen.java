@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.lib.lib.client.gui.widget.ScrollableArrayTextComponentList;
 import de.teamlapen.lib.lib.client.gui.widget.ScrollableListWidget;
 import de.teamlapen.vampirism.client.gui.AppearanceScreen;
-import de.teamlapen.vampirism.player.vampire.VampirePlayer;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.network.WerewolfAppearancePacket;
 import de.teamlapen.werewolves.player.WerewolfForm;
@@ -11,6 +11,7 @@ import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -29,6 +30,12 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
     private WerewolfForm activeForm;
     private int skinType;
     private int eyeType;
+
+    private boolean renderForm;
+
+    private Button human;
+    private Button beast;
+    private Button survival;
 
     private ScrollableListWidget<Pair<Integer, ITextComponent>> eyeList;
     private ScrollableListWidget<Pair<Integer, ITextComponent>> skinList;
@@ -49,16 +56,42 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
     @Override
     protected void init() {
         super.init();
+        human = this.addButton(new Button( this.guiLeft + 20, this.guiTop + 20, 40,20, WerewolfForm.HUMAN.getTextComponent(), (button1)->{switchToForm(WerewolfForm.HUMAN);}));
+        beast = this.addButton(new Button( this.guiLeft + 60, this.guiTop + 20, 40,20, WerewolfForm.BEAST.getTextComponent(), (button1)->{switchToForm(WerewolfForm.BEAST);}));
+        survival = this.addButton(new Button( this.guiLeft + 100, this.guiTop + 20, 40,20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1)->{switchToForm(WerewolfForm.SURVIVALIST);}));
         switchToForm(WerewolfForm.HUMAN);
     }
 
+    private void sync() {
+        if (this.activeForm == WerewolfForm.BEAST) {
+            this.beast.active = false;
+            this.human.active = true;
+            this.survival.active = true;
+        } else if (this.activeForm == WerewolfForm.SURVIVALIST) {
+            this.beast.active = true;
+            this.human.active = true;
+            this.survival.active = false;
+        } else {
+            this.beast.active = true;
+            this.human.active = false;
+            this.survival.active = true;
+        }
+    }
+
     private void switchToForm(WerewolfForm form) {
+        if (this.eyeButton != null) {
+            ((ScreenModifier) this).removeButton(this.eyeButton);
+            ((ScreenModifier) this).removeButton(this.skinButton);
+            ((ScreenModifier) this).removeButton(this.eyeList);
+            ((ScreenModifier) this).removeButton(this.skinList);
+        }
+
         this.activeForm = form;
         this.skinType = werewolf.getSkinType(form);
         this.eyeType = werewolf.getEyeType(form);
 
-        this.eyeList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft+20, this.guiTop+30+19, 99, 100, 20, REFERENCE.EYE_TYPE_COUNT,new TranslationTextComponent("gui.vampirism.appearance.eye"),this::eye, this::hoverEye));
-        this.skinList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft+20, this.guiTop+50+19, 99, 80, 20, REFERENCE.SKIN_TYPE_COUNT,new TranslationTextComponent("gui.werewolves.appearance.skin"),this::skin, this::hoverSkin));
+        this.eyeList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft+20, this.guiTop+30+19+20, 99, 100, 20, REFERENCE.EYE_TYPE_COUNT,new TranslationTextComponent("text.werewolves.appearance.eye"),this::eye, this::hoverEye));
+        this.skinList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft+20, this.guiTop+50+19+20, 99, 80, 20, form.getSkinTypes(),new TranslationTextComponent("text.werewolves.appearance.skin"),this::skin, this::hoverSkin));
         this.eyeButton = this.addButton(new ExtendedButton(eyeList.x, eyeList.y - 20, eyeList.getWidth() + 1, 20, new StringTextComponent(""), (b) -> {
             this.setEyeListVisibility(!eyeList.visible);
         }));
@@ -67,28 +100,47 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
         }));
         this.setEyeListVisibility(false);
         this.setSkinListVisibility(false);
+        this.eyeButton.active = form != WerewolfForm.HUMAN;
+        sync();
+    }
+
+    @Override
+    public void render(MatrixStack mStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderForm = true;
+        super.render(mStack, mouseX, mouseY, partialTicks);
+        this.renderForm = false;
+    }
+
+    public boolean isRenderForm() {
+        return renderForm;
+    }
+
+    public WerewolfForm getActiveForm() {
+        return this.activeForm;
     }
 
     private void setEyeListVisibility(boolean show) {
-        eyeButton.setMessage(eyeList.getMessage().deepCopy().appendString(" " + (eyeType + 1)));
+        this.eyeButton.setMessage(eyeList.getMessage().deepCopy().appendString(" " + (eyeType + 1)));
         this.eyeList.visible = show;
         this.skinButton.visible = !show;
         if (show) this.skinList.visible = false;
     }
 
     private void setSkinListVisibility(boolean show) {
-        skinButton.setMessage(skinList.getMessage().deepCopy().appendString(" " + (skinType + 1)));
+        this.skinButton.setMessage(skinList.getMessage().deepCopy().appendString(" " + (skinType + 1)));
         this.skinList.visible = show;
         if (show) this.eyeList.visible = false;
     }
 
     private void eye(int eyeType) {
+        this.eyeType = eyeType;
         this.werewolf.setEyeType(this.activeForm, eyeType);
         this.setEyeListVisibility(false);
     }
 
-    private void skin(int fangType) {
-        this.werewolf.setSkinType(this.activeForm, fangType);
+    private void skin(int skinType) {
+        this.skinType = skinType;
+        this.werewolf.setSkinType(this.activeForm, skinType);
         this.setSkinListVisibility(false);
     }
 

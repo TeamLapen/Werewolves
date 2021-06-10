@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.client.render;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
@@ -10,6 +11,7 @@ import de.teamlapen.werewolves.client.render.layer.WerewolfFaceOverlayLayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -93,7 +95,11 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
      * @returns if the player model should be renderer
      */
     public boolean render(WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        this.switchModel(entity.getForm());
+        WerewolfForm form = entity.getForm();
+        if (Minecraft.getInstance().currentScreen instanceof WerewolfPlayerAppearanceScreen) {
+            form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().currentScreen).getActiveForm();
+        }
+        this.switchModel(form);
         if (this.entityModel != null) {
             render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             return skipPlayerModel;
@@ -124,6 +130,10 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         }
     }
 
+    public WerewolfForm getForm() {
+        return form;
+    }
+
     @Nonnull
     @Override
     public ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
@@ -139,40 +149,6 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     private static List<ResourceLocation> getHumanTextures() {
-        return Lists.newArrayList(new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_1.png"),new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_1.png"));
+        return Lists.newArrayList(new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_1.png"),new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_2.png"));
     }
-
-//    private BipedModel.ArmPose func_217766_a(AbstractClientPlayerEntity p_217766_1_, ItemStack p_217766_2_, ItemStack p_217766_3_, Hand p_217766_4_) {
-//        BipedModel.ArmPose bipedmodel$armpose = BipedModel.ArmPose.EMPTY;
-//        ItemStack itemstack = p_217766_4_ == Hand.MAIN_HAND ? p_217766_2_ : p_217766_3_;
-//        if (!itemstack.isEmpty()) {
-//            bipedmodel$armpose = BipedModel.ArmPose.ITEM;
-//            if (p_217766_1_.getItemInUseCount() > 0) {
-//                UseAction useaction = itemstack.getUseAction();
-//                if (useaction == UseAction.BLOCK) {
-//                    bipedmodel$armpose = BipedModel.ArmPose.BLOCK;
-//                } else if (useaction == UseAction.BOW) {
-//                    bipedmodel$armpose = BipedModel.ArmPose.BOW_AND_ARROW;
-//                } else if (useaction == UseAction.SPEAR) {
-//                    bipedmodel$armpose = BipedModel.ArmPose.THROW_SPEAR;
-//                } else if (useaction == UseAction.CROSSBOW && p_217766_4_ == p_217766_1_.getActiveHand()) {
-//                    bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_CHARGE;
-//                }
-//            } else {
-//                boolean flag3 = p_217766_2_.getItem() == Items.CROSSBOW;
-//                boolean flag = CrossbowItem.isCharged(p_217766_2_);
-//                boolean flag1 = p_217766_3_.getItem() == Items.CROSSBOW;
-//                boolean flag2 = CrossbowItem.isCharged(p_217766_3_);
-//                if (flag3 && flag) {
-//                    bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_HOLD;
-//                }
-//
-//                if (flag1 && flag2 && p_217766_2_.getItem().getUseAction(p_217766_2_) == UseAction.NONE) {
-//                    bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_HOLD;
-//                }
-//            }
-//        }
-//
-//        return bipedmodel$armpose;
-//    }
 }

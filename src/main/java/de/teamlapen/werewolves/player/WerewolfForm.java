@@ -3,6 +3,8 @@ package de.teamlapen.werewolves.player;
 import de.teamlapen.werewolves.util.WerewolfSize;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.Pose;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,6 +24,7 @@ public class WerewolfForm {
     private final boolean humanLike;
     private final boolean transformed;
     private final int skinTypes;
+    private final ITextComponent textComponent;
 
     WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntitySize> sizeMap, boolean humanLike, boolean transformed, int skinTypes) {
         if (REGISTRY.containsKey(name)) throw new IllegalStateException("this name already exists");
@@ -34,6 +37,7 @@ public class WerewolfForm {
         this.humanLike = humanLike;
         this.transformed = transformed;
         this.skinTypes = skinTypes;
+        this.textComponent = new TranslationTextComponent("form.werewolves." + name);
     }
 
     public boolean isHumanLike() {
@@ -55,6 +59,10 @@ public class WerewolfForm {
         } else {
             return Optional.empty();
         }
+    }
+
+    public ITextComponent getTextComponent() {
+        return textComponent.copyRaw();
     }
 
     public int getSkinTypes() {
