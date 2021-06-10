@@ -35,7 +35,7 @@ minecraft {
             main 'net.minecraftforge.userdev.LaunchTesting'
             property 'mixin.env.disableRefMap', 'true'
             property 'forge.logging.console.level', 'debug'
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
             workingDirectory project.file('run/client').canonicalPath
             jvmArg '-ea:de.teamlapen...'
             arg "-mixin.config=werewolves.mixins.json"
@@ -54,7 +54,7 @@ minecraft {
         }
         server {
             property 'mixin.env.disableRefMap', 'true'
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/server').canonicalPath
             jvmArg '-ea:de.teamlapen...'
@@ -70,7 +70,7 @@ minecraft {
         }
         data {
             property 'mixin.env.disableRefMap', 'true'
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/data').canonicalPath
             args "-mixin.config=werewolves.mixins.json", '--mod', 'werewolves', '--all', '--output', file('src/generated/resources/'),  '--existing', sourceSets.main.resources.srcDirs[0]

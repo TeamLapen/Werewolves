@@ -17,7 +17,10 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -30,26 +33,27 @@ import java.util.function.Supplier;
 public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
 
     private static class WerewolfModelWrapper {
-        private final WerewolfBaseModel<AbstractClientPlayerEntity> model;
+        private final Supplier<WerewolfBaseModel<AbstractClientPlayerEntity>> modelSupplier;
+        private WerewolfBaseModel<AbstractClientPlayerEntity> model;
         private final Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>> layers = new ArrayList<>();
         private final Function<WerewolfPlayerRenderer, Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>>> layersFactory;
         private final Supplier<List<ResourceLocation>> textures;
         private final float shadow;
         private final boolean skipPlayerModel;
 
-        public WerewolfModelWrapper(WerewolfBaseModel<AbstractClientPlayerEntity> model, Function<WerewolfPlayerRenderer, Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>>> layersFactory, Supplier<List<ResourceLocation>> textures, float shadow, boolean skipPlayerModel) {
-            this.model = model;
+        public WerewolfModelWrapper(Supplier<WerewolfBaseModel<AbstractClientPlayerEntity>> model, Function<WerewolfPlayerRenderer, Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>>> layersFactory, Supplier<List<ResourceLocation>> textures, float shadow, boolean skipPlayerModel) {
+            this.modelSupplier = model;
             this.textures = textures;
             this.shadow = shadow;
             this.skipPlayerModel = skipPlayerModel;
             this.layersFactory = layersFactory;
         }
 
-        public WerewolfModelWrapper(WerewolfBaseModel<AbstractClientPlayerEntity> model, Function<WerewolfPlayerRenderer, Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>>> layersFactory, ResourceLocation texture, float shadow, boolean skipPlayerModel) {
+        public WerewolfModelWrapper(Supplier<WerewolfBaseModel<AbstractClientPlayerEntity>> model, Function<WerewolfPlayerRenderer, Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>>> layersFactory, ResourceLocation texture, float shadow, boolean skipPlayerModel) {
             this(model, layersFactory, () -> Collections.singletonList(texture), shadow, skipPlayerModel);
         }
 
-        public WerewolfModelWrapper(WerewolfBaseModel<AbstractClientPlayerEntity> model, ResourceLocation textures, float shadow, boolean skipPlayerModel) {
+        public WerewolfModelWrapper(Supplier<WerewolfBaseModel<AbstractClientPlayerEntity>> model, ResourceLocation textures, float shadow, boolean skipPlayerModel) {
             this(model, (a)-> Collections.emptyList(), () -> Collections.singletonList(textures), shadow, skipPlayerModel);
         }
     }
@@ -57,10 +61,10 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     private static final Map<WerewolfForm, WerewolfModelWrapper> MODELS = new HashMap<>();
 
     static {
-        addModel(WerewolfForm.NONE, new WerewolfModelWrapper(null, null, 0, false));
-        addModel(WerewolfForm.HUMAN, new WerewolfModelWrapper(new WerewolfEarsModel<>(), (renderer) -> Collections.emptyList(),WerewolfPlayerRenderer::getHumanTextures, 0.5f, false));
-        addModel(WerewolfForm.BEAST, new WerewolfModelWrapper(new WerewolfBeastModel<>(), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getBeastTextures , 1.3f, true));
-        addModel(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper(new WerewolfSurvivalistModel<>(), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getSurvivalTextures, 0.5f, true));
+        addModel(WerewolfForm.NONE, new WerewolfModelWrapper(()->null, null, 0, false));
+        addModel(WerewolfForm.HUMAN, new WerewolfModelWrapper(WerewolfEarsModel::new, (renderer) -> Collections.emptyList(),WerewolfPlayerRenderer::getHumanTextures, 0.5f, false));
+        addModel(WerewolfForm.BEAST, new WerewolfModelWrapper(WerewolfBeastModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getBeastTextures , 1.3f, true));
+        addModel(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper(WerewolfSurvivalistModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getSurvivalTextures, 0.5f, true));
     }
 
     public static void addModel(WerewolfForm form, WerewolfModelWrapper render) {
@@ -75,6 +79,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         //noinspection ConstantConditions
         super(rendererManager, null, 0f);
         MODELS.values().forEach(m -> {
+            m.model = m.modelSupplier.get();
             m.layers.clear();
             m.layers.addAll(m.layersFactory.apply(this));
         });
@@ -100,11 +105,18 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
             form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().currentScreen).getActiveForm();
         }
         this.switchModel(form);
-        if (this.entityModel != null) {
-            render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-            return skipPlayerModel;
+        if (this.entityModel != null && this.skipPlayerModel) {
+                this.render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+                return true;
         }
         return false;
+    }
+
+    public void renderPost(PlayerModel<AbstractClientPlayerEntity> entityModel, WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+        if (this.entityModel != null && !this.skipPlayerModel) {
+            this.entityModel.setPlayerModel(entityModel);
+            render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        }
     }
 
     /**
@@ -116,6 +128,19 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         if (!entity.isUser() || this.renderManager.info.getRenderViewEntity() == entity) {
             this.setModelVisible(entity);
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        }
+    }
+
+    @Override
+    protected void applyRotations(AbstractClientPlayerEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+        if (entityLiving.getSwimAnimation(partialTicks) > 0.0F && this.form.isHumanLike()) {
+            float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.rotationPitch : -90.0F;
+            float f4 = MathHelper.lerp(entityLiving.getSwimAnimation(partialTicks), 0.0F, f3);
+            matrixStackIn.rotate(Vector3f.XP.rotationDegrees(f4));
+            if (entityLiving.isActualySwimming()) {
+                matrixStackIn.translate(0.0D, -1.0D, (double)0.3F);
+            }
         }
     }
 
