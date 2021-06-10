@@ -166,14 +166,23 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     private static List<ResourceLocation> getBeastTextures() {
-        return Lists.newArrayList(new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_1.png"),new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_2.png"));
+        return Lists.newArrayList(
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_1.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_2.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_3.png"));
     }
 
     private static List<ResourceLocation> getSurvivalTextures() {
-        return Lists.newArrayList(new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_1.png"),new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_2.png"));
+        return Lists.newArrayList(
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_1.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_2.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_3.png"));
     }
 
     private static List<ResourceLocation> getHumanTextures() {
-        return Lists.newArrayList(new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_1.png"),new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_2.png"));
+        return Lists.newArrayList(
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_1.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_2.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_3.png"));
     }
 }
