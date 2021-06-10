@@ -36,6 +36,7 @@ public class RegistryManager implements IInitListener {
             case COMMON_SETUP:
                 event.enqueueWork(ModBiomes::addBiomesToGeneratorUnsafe);
                 ModEntities.registerSpawns();
+                event.enqueueWork(ModCommands::registerArgumentTypesUsages);
                 break;
         }
     }
