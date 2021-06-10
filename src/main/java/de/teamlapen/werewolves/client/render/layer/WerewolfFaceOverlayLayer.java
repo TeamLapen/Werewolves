@@ -3,6 +3,8 @@ package de.teamlapen.werewolves.client.render.layer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
+import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
+import de.teamlapen.werewolves.mixin.client.LayerRendererAccessor;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -20,7 +22,7 @@ public class WerewolfFaceOverlayLayer extends LayerRenderer<AbstractClientPlayer
 
     private final ResourceLocation[] eyeOverlays;
 
-    public WerewolfFaceOverlayLayer(IEntityRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> entityRendererIn) {
+    public WerewolfFaceOverlayLayer(WerewolfPlayerRenderer entityRendererIn) {
         super(entityRendererIn);
         eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
         for (int i = 0; i < eyeOverlays.length; i++) {
@@ -31,7 +33,7 @@ public class WerewolfFaceOverlayLayer extends LayerRenderer<AbstractClientPlayer
     @Override
     public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull AbstractClientPlayerEntity player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-        int eyeType = Math.max(0, Math.min(werewolf.getEyeType(werewolf.getForm()), eyeOverlays.length-1));
+        int eyeType = Math.max(0, Math.min(werewolf.getEyeType(((WerewolfPlayerRenderer) ((LayerRendererAccessor<?,?>) this).getRenderer()).getForm()), eyeOverlays.length-1));
         RenderType renderType = RenderType.getEntityCutoutNoCull(eyeOverlays[eyeType]);
         IVertexBuilder vertexBuilderEye = bufferIn.getBuffer(renderType);
         int packerOverlay = LivingRenderer.getPackedOverlay(player, 0);

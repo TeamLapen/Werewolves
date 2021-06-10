@@ -12,9 +12,11 @@
     "entity.MixinVillagerEntity"
   ],
   "client": [
+    "client.LayerRendererAccessor",
     "client.BipedArmorLayerMixin",
     "client.ClientPlayerEntityMixin",
     "client.InGameGuiAccessor",
+    "client.ScreenAccessor",
     "client.ScreenMixin"
   ],
   "injectors": {
