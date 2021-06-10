@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.client.render;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
@@ -21,6 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
@@ -29,20 +31,24 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         private final WerewolfBaseModel<AbstractClientPlayerEntity> model;
         private final Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>> layers = new ArrayList<>();
         private final Function<WerewolfPlayerRenderer, Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>>> layersFactory;
-        private final ResourceLocation texture;
+        private final Supplier<List<ResourceLocation>> textures;
         private final float shadow;
         private final boolean skipPlayerModel;
 
-        public WerewolfModelWrapper(WerewolfBaseModel<AbstractClientPlayerEntity> model, Function<WerewolfPlayerRenderer, Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>>> layersFactory, ResourceLocation texture, float shadow, boolean skipPlayerModel) {
+        public WerewolfModelWrapper(WerewolfBaseModel<AbstractClientPlayerEntity> model, Function<WerewolfPlayerRenderer, Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>>> layersFactory, Supplier<List<ResourceLocation>> textures, float shadow, boolean skipPlayerModel) {
             this.model = model;
-            this.texture = texture;
+            this.textures = textures;
             this.shadow = shadow;
             this.skipPlayerModel = skipPlayerModel;
             this.layersFactory = layersFactory;
         }
 
-        public WerewolfModelWrapper(WerewolfBaseModel<AbstractClientPlayerEntity> model, ResourceLocation texture, float shadow, boolean skipPlayerModel) {
-            this(model, (a)-> Collections.emptyList(),texture,shadow, skipPlayerModel);
+        public WerewolfModelWrapper(WerewolfBaseModel<AbstractClientPlayerEntity> model, Function<WerewolfPlayerRenderer, Collection<LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>>>> layersFactory, ResourceLocation texture, float shadow, boolean skipPlayerModel) {
+            this(model, layersFactory, () -> Collections.singletonList(texture), shadow, skipPlayerModel);
+        }
+
+        public WerewolfModelWrapper(WerewolfBaseModel<AbstractClientPlayerEntity> model, ResourceLocation textures, float shadow, boolean skipPlayerModel) {
+            this(model, (a)-> Collections.emptyList(), () -> Collections.singletonList(textures), shadow, skipPlayerModel);
         }
     }
 
@@ -50,17 +56,18 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
 
     static {
         addModel(WerewolfForm.NONE, new WerewolfModelWrapper(null, null, 0, false));
-        addModel(WerewolfForm.HUMAN, new WerewolfModelWrapper(new WerewolfEarsModel<>(), new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws.png"), 0.5f, false));
-        addModel(WerewolfForm.BEAST, new WerewolfModelWrapper(new WerewolfBeastModel<>(), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_1.png"), 1.3f, true));
-        addModel(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper(new WerewolfSurvivalistModel<>(), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_1.png"), 0.5f, true));
+        addModel(WerewolfForm.HUMAN, new WerewolfModelWrapper(new WerewolfEarsModel<>(), (renderer) -> Collections.emptyList(),WerewolfPlayerRenderer::getHumanTextures, 0.5f, false));
+        addModel(WerewolfForm.BEAST, new WerewolfModelWrapper(new WerewolfBeastModel<>(), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getBeastTextures , 1.3f, true));
+        addModel(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper(new WerewolfSurvivalistModel<>(), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getSurvivalTextures, 0.5f, true));
     }
 
     public static void addModel(WerewolfForm form, WerewolfModelWrapper render) {
         MODELS.put(form, render);
     }
 
-    private ResourceLocation texture;
+    private List<ResourceLocation> textures;
     private boolean skipPlayerModel;
+    private WerewolfForm form;
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
         //noinspection ConstantConditions
@@ -72,10 +79,11 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     public void switchModel(WerewolfForm type) {
+        this.form = type;
         WerewolfModelWrapper werewolfModelWrapper = MODELS.get(type);
         this.entityModel = werewolfModelWrapper.model;
         this.shadowSize = werewolfModelWrapper.shadow;
-        this.texture = werewolfModelWrapper.texture;
+        this.textures = werewolfModelWrapper.textures.get();
         this.skipPlayerModel = werewolfModelWrapper.skipPlayerModel;
         this.layerRenderers.clear();
         this.layerRenderers.addAll(werewolfModelWrapper.layers);
@@ -119,7 +127,19 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     @Nonnull
     @Override
     public ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
-        return this.texture;
+        return this.textures.get(WerewolfPlayer.get(entity).getSkinType(this.form) % this.form.getSkinTypes());
+    }
+
+    private static List<ResourceLocation> getBeastTextures() {
+        return Lists.newArrayList(new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_1.png"),new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_2.png"));
+    }
+
+    private static List<ResourceLocation> getSurvivalTextures() {
+        return Lists.newArrayList(new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_1.png"),new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_2.png"));
+    }
+
+    private static List<ResourceLocation> getHumanTextures() {
+        return Lists.newArrayList(new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_1.png"),new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_1.png"));
     }
 
 //    private BipedModel.ArmPose func_217766_a(AbstractClientPlayerEntity p_217766_1_, ItemStack p_217766_2_, ItemStack p_217766_3_, Hand p_217766_4_) {
