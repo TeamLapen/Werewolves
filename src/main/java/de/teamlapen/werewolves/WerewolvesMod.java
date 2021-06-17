@@ -58,7 +58,7 @@ public class WerewolvesMod {
         checkDevEnv();
         WUtils.init();
 
-        Optional<? extends ModContainer> opt = ModList.get().getModContainerById(de.teamlapen.vampirism.util.REFERENCE.MODID);
+        Optional<? extends ModContainer> opt = ModList.get().getModContainerById(REFERENCE.VMODID);
         if (opt.isPresent()) {
             REFERENCE.VERSION = opt.get().getModInfo().getVersion();
         } else {

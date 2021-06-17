@@ -46,6 +46,6 @@ public class BlockStateGenerator extends BlockStateProvider {
     }
 
     private String vampirismId(String path) {
-        return de.teamlapen.vampirism.util.REFERENCE.MODID + ":" + path;
+        return REFERENCE.VMODID + ":" + path;
     }
 }
