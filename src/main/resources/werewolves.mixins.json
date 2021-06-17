@@ -16,7 +16,6 @@
     "client.BipedArmorLayerMixin",
     "client.ClientPlayerEntityMixin",
     "client.InGameGuiAccessor",
-    "client.LivingRendererMixin",
     "client.ScreenMixin"
   ],
   "injectors": {
