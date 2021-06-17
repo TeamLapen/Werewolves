@@ -38,6 +38,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
@@ -210,7 +211,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     }
 
                     if (this.form.isTransformed()) {
-                        if (this.player.isInWater() && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover)) {
+                        if (this.player.isInWater() && this.player.areEyesInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover)) {
                             this.player.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 21, 0, true, true));
                         }
                     }
