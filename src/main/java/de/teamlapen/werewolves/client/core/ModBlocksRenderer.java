@@ -27,6 +27,7 @@ public class ModBlocksRenderer {
         RenderTypeLookup.setRenderLayer(ModBlocks.totem_top_werewolves_werewolf_crafted, renderType);
         RenderTypeLookup.setRenderLayer(ModBlocks.jacaranda_leaves, RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(ModBlocks.magic_leaves, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.potted_wolfsbane, RenderType.getCutoutMipped());
     }
 
     private static void registerTileRenderer() {
