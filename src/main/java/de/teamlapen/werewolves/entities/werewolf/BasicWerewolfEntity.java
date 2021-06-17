@@ -15,6 +15,8 @@ import de.teamlapen.vampirism.entity.goals.DefendVillageGoal;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.entities.goals.WerewolfAttackVillageGoal;
+import de.teamlapen.werewolves.entities.goals.WerewolfDefendVillageGoal;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -291,8 +293,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
 
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(4, new AttackVillageGoal<>(this));
-        this.targetSelector.addGoal(4, new DefendVillageGoal<>(this));//Should automatically be mutually exclusive with  attack village
+        this.targetSelector.addGoal(4, new WerewolfAttackVillageGoal<>(this));
+        this.targetSelector.addGoal(4, new WerewolfDefendVillageGoal<>(this));//Should automatically be mutually exclusive with  attack village
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, false, true, true, null)));
         this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, CreatureEntity.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollerEntity.class, 5, true, true, (living) -> UtilLib.isInsideStructure(living, Structure.VILLAGE)));
