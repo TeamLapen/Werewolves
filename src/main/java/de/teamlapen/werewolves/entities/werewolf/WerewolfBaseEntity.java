@@ -24,7 +24,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     }
 
     public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, IServerWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
-        return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && MonsterEntity.isValidLightLevel(world, blockPos, random) && spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random) && random.nextInt(3) == 0;
+        return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && world.canBlockSeeSky(blockPos) && MonsterEntity.isValidLightLevel(world, blockPos, random) && spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random) && random.nextInt(3) == 0;
     }
 
     public void bite(LivingEntity entity) {
