@@ -18,17 +18,6 @@ public class WerewolfAttackVillageGoal<T extends VampirismEntity & IVillageCaptu
 
     public WerewolfAttackVillageGoal(T creature) {
         super(creature);
-        EntityPredicate predicate = (new EntityPredicate() {
-            public boolean canTarget(@Nullable LivingEntity attackEntity, @Nonnull LivingEntity targetEntity) {
-                if (creature.getCaptureInfo() != null && creature.getCaptureInfo().shouldForceTargets() && getTargetDistance() > 0.0D) {
-                    this.setDistance(-1.0D);
-                } else if (getTargetDistance() < 0.0D) {
-                    this.setDistance(getTargetDistance() * 4);
-                }
-
-                return super.canTarget(attackEntity, targetEntity);
-            }
-        }).setCustomPredicate(VampirismAPI.factionRegistry().getPredicate(creature.getFaction(), true)).setLineOfSiteRequired();//TODO new vampirism version
-        ObfuscationReflectionHelper.setPrivateValue(AttackVillageGoal.class,this,predicate, "entityPredicate");
+        this.entityPredicate.setCustomPredicate(VampirismAPI.factionRegistry().getPredicate(creature.getFaction(), true));
     }
 }
