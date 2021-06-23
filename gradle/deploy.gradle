@@ -22,7 +22,7 @@ curseforge {
         addGameVersion "1.16.5"
 
         mainArtifact(jar) {
-            displayName = "Werewolves-${project.minecraft_version}-${project.mod_version}"
+            displayName = "Werewolves-${project.minecraft_version}-${project.vampirism_version_simple}-${project.mod_version}"
         }
 
         relations {
