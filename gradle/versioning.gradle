@@ -16,7 +16,7 @@ if (hasProperty("beta")) {
     project.type = "alpha"
 }
 
-version = project.minecraft_version + "-" + project.mod_version
+version = project.minecraft_version + "-" + project.vampirism_version_simple + "-"+ project.mod_version
 
 logger.lifecycle "Version " + project.mod_version
 
