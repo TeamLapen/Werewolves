@@ -8,6 +8,7 @@ import de.teamlapen.vampirism.entity.vampire.VampireBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.player.WerewolfForm;
+import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -46,7 +47,13 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     public static boolean spawnPredicateHumanWerewolf(EntityType<? extends CreatureEntity> entityType, IServerWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
-        return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && MonsterEntity.isValidLightLevel(world, blockPos, random) && MobEntity.canSpawnOn(entityType, world, spawnReason, blockPos, random);
+        if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
+        if (!MobEntity.canSpawnOn(entityType, world, spawnReason, blockPos, random)) return false;
+        if (random.nextInt(3) != 0) return false;
+        if (world.canBlockSeeSky(blockPos) && MonsterEntity.isValidLightLevel(world, blockPos, random))  {
+            return true;
+        }
+        return Helper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
     }
 
     @Override

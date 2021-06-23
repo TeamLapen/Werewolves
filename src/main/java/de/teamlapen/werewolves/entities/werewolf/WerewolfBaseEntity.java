@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.entities.IWerewolfMob;
+import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -24,7 +25,13 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     }
 
     public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, IServerWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
-        return world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && world.canBlockSeeSky(blockPos) && MonsterEntity.isValidLightLevel(world, blockPos, random) && spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random) && random.nextInt(3) == 0;
+        if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
+        if (!spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random)) return false;
+        if (random.nextInt(3) != 0) return false;
+        if (world.canBlockSeeSky(blockPos) && MonsterEntity.isValidLightLevel(world, blockPos, random))  {
+            return true;
+        }
+        return Helper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
     }
 
     public void bite(LivingEntity entity) {
