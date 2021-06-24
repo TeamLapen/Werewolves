@@ -130,6 +130,7 @@
   "text.werewolves.no_meat": "Why should i try this food? I know that it will not satisfy me",
   "text.werewolves.appearance.eye": "Eye type",
   "text.werewolves.appearance.skin": "Skin type",
+  "text.werewolves.not_unlocked": "Not unlocked",
   "__comment": "guide-api",
   "gui.vampirism.taskmaster.text.werewolves_werewolf": "Be not afraid\n, your secret is safe with me and if you intend to help us with a few things we can protect this village from unwanted disturbance and you will be rewarded upon completion. Please browse the available tasks and accept any you like.",
   "guide.werewolves.entity.werewolf.title": "Werewolf",
