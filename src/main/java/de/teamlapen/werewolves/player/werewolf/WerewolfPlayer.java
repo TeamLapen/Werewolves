@@ -101,8 +101,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Nonnull
     private final LevelHandler levelHandler = new LevelHandler(this);
     private boolean checkArmorModifer;
-    private Map<WerewolfForm, Integer> eyeType = new HashMap<>();
-    private Map<WerewolfForm, Integer> skinType = new HashMap<>();
+    private final Map<WerewolfForm, Integer> eyeType = new HashMap<>();
+    private final Map<WerewolfForm, Integer> skinType = new HashMap<>();
+    private final Map<WerewolfForm, Boolean> glowingEyes = new HashMap<>();
 
     public WerewolfPlayer(@Nonnull PlayerEntity player) {
         super(player);
@@ -290,6 +291,21 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
     }
 
+    public boolean setGlowingEyes(WerewolfForm form, boolean on) {
+        if (on != this.glowingEyes.getOrDefault(form, false)) {
+            this.glowingEyes.put(form, on);
+            if (!isRemote()) {
+                CompoundNBT nbt = new CompoundNBT();
+                CompoundNBT glowingEyes = new CompoundNBT();
+                this.glowingEyes.forEach((key, value) -> glowingEyes.putBoolean(key.getName(), value));
+                nbt.put("glowingEyes", glowingEyes);
+                this.sync(nbt, true);
+            }
+            return true;
+        }
+        return false;
+    }
+
     public boolean setEyeType(WerewolfForm form, int type) {
         if (type != this.eyeType.getOrDefault(form, -1)) {
             this.eyeType.put(form, type);
@@ -300,8 +316,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 nbt.put("eyeTypes", eye);
                 this.sync(nbt, true);
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public boolean setSkinType(WerewolfForm form, int type) {
@@ -321,6 +338,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     public void setSkinData(WerewolfForm form, int[] data) {
         this.setEyeType(form, data[0]);
         this.setSkinType(form, data[1]);
+        this.setGlowingEyes(form, data[2] == 1);
     }
 
     @Override
@@ -511,6 +529,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         CompoundNBT skin = new CompoundNBT();
         this.skinType.forEach((key, value) -> skin.putInt(key.getName(), value));
         compound.put("skinTypes", skin);
+        CompoundNBT glowingEye = new CompoundNBT();
+        this.glowingEyes.forEach((key, value) -> glowingEye.putBoolean(key.getName(), value));
+        compound.put("glowingEyes", glowingEye);
     }
 
     @Override
@@ -541,6 +562,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         eye.keySet().forEach(string -> this.eyeType.put(WerewolfForm.getForm(string), eye.getInt(string)));
         CompoundNBT skin = compound.getCompound("skinTypes");
         skin.keySet().forEach(string -> this.skinType.put(WerewolfForm.getForm(string), skin.getInt(string)));
+        CompoundNBT glowingEyes = compound.getCompound("glowingEyes");
+        glowingEyes.keySet().forEach(string -> this.glowingEyes.put(WerewolfForm.getForm(string), glowingEyes.getBoolean(string)));
     }
 
     @Override
@@ -557,6 +580,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         CompoundNBT skin = new CompoundNBT();
         this.skinType.forEach((key, value) -> skin.putInt(key.getName(), value));
         nbt.put("skinTypes", skin);
+        CompoundNBT glowingEye = new CompoundNBT();
+        this.glowingEyes.forEach((key, value) -> glowingEye.putBoolean(key.getName(), value));
+        nbt.put("glowingEyes", glowingEye);
     }
 
     @Override
@@ -580,6 +606,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (nbt.contains("skinTypes")){
             CompoundNBT skin = nbt.getCompound("skinTypes");
             skin.keySet().forEach(string -> this.skinType.put(WerewolfForm.getForm(string), skin.getInt(string)));
+        }
+        if (nbt.contains("glowingEyes")) {
+            CompoundNBT glowingEyes = nbt.getCompound("glowingEyes");
+            glowingEyes.keySet().forEach(string -> this.glowingEyes.put(WerewolfForm.getForm(string), glowingEyes.getBoolean(string)));
         }
     }
 
@@ -620,6 +650,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     public int getSkinType(WerewolfForm form) {
         return this.skinType.getOrDefault(form, 0);
+    }
+
+    public boolean getGlowingEyes(WerewolfForm form) {
+        return this.glowingEyes.getOrDefault(form, false);
     }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {

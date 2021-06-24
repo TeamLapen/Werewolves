@@ -37,6 +37,9 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends BipedMod
     @Nullable
     public abstract ModelRenderer getModelRenderer();
 
+    @Nullable
+    public abstract ModelRenderer getHeadModel();
+
     public void setPlayerModel(PlayerModel<T> model) {
         this.playerModel = model;
     }

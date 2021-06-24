@@ -303,7 +303,13 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     @Nullable
     @Override
     public ModelRenderer getModelRenderer() {
-        return body;
+        return this.body;
+    }
+
+    @Nullable
+    @Override
+    public ModelRenderer getHeadModel() {
+        return this.head;
     }
 
     @Override

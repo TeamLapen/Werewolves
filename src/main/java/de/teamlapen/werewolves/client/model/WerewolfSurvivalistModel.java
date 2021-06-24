@@ -232,7 +232,13 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     @Nullable
     @Override
     public ModelRenderer getModelRenderer() {
-        return body;
+        return this.body;
+    }
+
+    @Nullable
+    @Override
+    public ModelRenderer getHeadModel() {
+        return this.head;
     }
 
     @Override
