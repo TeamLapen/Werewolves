@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.werewolves.command.WerewolfEyeCommand;
+import de.teamlapen.werewolves.command.WerewolfGlowingEyeCommand;
 import de.teamlapen.werewolves.command.WerewolfSkinCommand;
 import de.teamlapen.werewolves.command.WerewolfTransformCommand;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
@@ -30,6 +31,7 @@ public class ModCommands {
                     LiteralArgumentBuilder.<CommandSource>literal(s)
                             .then(WerewolfEyeCommand.register())
                             .then(WerewolfSkinCommand.register())
+                            .then(WerewolfGlowingEyeCommand.register())
             );
         }
 

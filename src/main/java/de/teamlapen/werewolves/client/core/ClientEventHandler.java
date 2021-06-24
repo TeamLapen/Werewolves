@@ -2,13 +2,13 @@ package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.gui.VampirismScreen;
-import de.teamlapen.vampirism.util.REFERENCE;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.core.WerewolfActions;
 import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.gui.widget.button.ImageButton;
@@ -65,7 +65,7 @@ public class ClientEventHandler {
     public void onGuiInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
         if (event.getGui() instanceof VampirismScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
-                ResourceLocation BACKGROUND = new ResourceLocation(REFERENCE.MODID, "textures/gui/vampirism_menu.png");
+                ResourceLocation BACKGROUND = new ResourceLocation(REFERENCE.VMODID, "textures/gui/vampirism_menu.png");
                 ((ScreenAccessor) event.getGui()).invokeAddButton_werewolves(new ImageButton(((VampirismScreen) event.getGui()).getGuiLeft() + 47, ((VampirismScreen) event.getGui()).getGuiTop() + 90, 20, 20, 20, 205, 20, BACKGROUND, 256, 256, (context) -> {
                     Minecraft.getInstance().displayGuiScreen(new WerewolfPlayerAppearanceScreen(event.getGui()));
                 }, (button1, matrixStack, mouseX, mouseY) -> {
