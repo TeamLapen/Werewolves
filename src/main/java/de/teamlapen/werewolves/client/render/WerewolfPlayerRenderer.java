@@ -139,7 +139,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
             float f4 = MathHelper.lerp(entityLiving.getSwimAnimation(partialTicks), 0.0F, f3);
             matrixStackIn.rotate(Vector3f.XP.rotationDegrees(f4));
             if (entityLiving.isActualySwimming()) {
-                matrixStackIn.translate(0.0D, -1.0D, (double)0.3F);
+                matrixStackIn.translate(0.0D, -1.0D, 0.3F);
             }
         }
     }
@@ -167,22 +167,22 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
 
     private static List<ResourceLocation> getBeastTextures() {
         return Lists.newArrayList(
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_1.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_2.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/beast/beast_3.png"));
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/beast/beast_1.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/beast/beast_2.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/beast/beast_3.png"));
     }
 
     private static List<ResourceLocation> getSurvivalTextures() {
         return Lists.newArrayList(
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_1.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_2.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/survivalist/survivalist_3.png"));
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/survivalist/survivalist_1.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/survivalist/survivalist_2.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/survivalist/survivalist_3.png"));
     }
 
     private static List<ResourceLocation> getHumanTextures() {
         return Lists.newArrayList(
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_1.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_2.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/player/human/werewolf_ear_claws_3.png"));
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/human/werewolf_ear_claws_1.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/human/werewolf_ear_claws_2.png"),
+                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/human/werewolf_ear_claws_3.png"));
     }
 }
