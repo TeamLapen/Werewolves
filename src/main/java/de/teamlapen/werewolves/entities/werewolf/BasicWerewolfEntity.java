@@ -10,8 +10,6 @@ import de.teamlapen.vampirism.api.entity.actions.IActionHandlerEntity;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.world.ICaptureAttributes;
 import de.teamlapen.vampirism.entity.action.ActionHandlerEntity;
-import de.teamlapen.vampirism.entity.goals.AttackVillageGoal;
-import de.teamlapen.vampirism.entity.goals.DefendVillageGoal;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -41,7 +39,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IEntityActionUser, IVillageCaptureEntity {
-    protected static final DataParameter<Integer> TYPE = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> SKINTYPE = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> EYETYPE = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
     private static final int MAX_LEVEL = 2;
 
@@ -100,9 +99,14 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         return entityTier;
     }
 
+    @Override
     public int getEntityTextureType() {
-        int i = this.getDataManager().get(TYPE);
-        return Math.max(i, 0);
+        return Math.max(0, this.getDataManager().get(SKINTYPE));
+    }
+
+    @Override
+    public int getEyeTextureType() {
+        return Math.max(0, this.getDataManager().get(EYETYPE));
     }
 
     @Override
@@ -131,7 +135,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
         if (nbt.contains("type")) {
             int t = nbt.getInt("type");
-            this.getDataManager().set(TYPE, t < 126 && t >= 0 ? t : -1);
+            this.getDataManager().set(SKINTYPE, t < 126 && t >= 0 ? t : -1);
+        }
+        if (nbt.contains("eyeType")) {
+            int t = nbt.getInt("eyeType");
+            this.getDataManager().set(EYETYPE, t < 126 && t >= 0?t:-1);
         }
         if (nbt.contains("transformedDuration")) {
             this.transformedDuration = nbt.getInt("transformedDuration");
@@ -153,6 +161,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
         nbt.putInt("level", this.getLevel());
         nbt.putInt("type", this.getEntityTextureType());
+        nbt.putInt("eyeType", this.getEyeTextureType());
         nbt.putBoolean("attack", this.attack);
 
     }
@@ -224,8 +233,12 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     public void onAddedToWorld() {
         super.onAddedToWorld();
-        if (this.getDataManager().get(TYPE) == -1) {
-            this.getDataManager().set(TYPE, this.getRNG().nextInt(126));
+        if (this.getDataManager().get(SKINTYPE) == -1) {
+            this.getDataManager().set(SKINTYPE, this.getRNG().nextInt(126));
+        }
+        if (this.getDataManager().get(EYETYPE) == -1) {
+            int r = this.getRNG().nextInt(126);
+            this.getDataManager().set(EYETYPE,r);
         }
     }
 
@@ -233,7 +246,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.entityClass = entity.getEntityClass();
         this.entityTier = entity.getEntityTier();
         this.transformed = entity;
-        this.getDataManager().set(TYPE, entity.getEntityTextureType());
+//        this.getDataManager().set(SKINTYPE, entity.getEntityTextureType());
+//        this.getDataManager().set(EYETYPE, entity.getEyeTextureType());
     }
 
     @Override
@@ -304,7 +318,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     protected void registerData() {
         super.registerData();
         this.getDataManager().register(LEVEL, -1);
-        this.getDataManager().register(TYPE, -1);
+        this.getDataManager().register(SKINTYPE, -1);
+        this.getDataManager().register(EYETYPE, -1);
     }
 
     public static class Beast extends BasicWerewolfEntity {

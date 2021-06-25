@@ -25,7 +25,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -141,9 +140,15 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
         }
     }
 
+    @Override
     public int getEntityTextureType() {
         int i = this.getDataManager().get(TYPE);
         return Math.max(i, 0);
+    }
+
+    @Override
+    public int getEyeTextureType() {
+        return 0;
     }
 
     @Override

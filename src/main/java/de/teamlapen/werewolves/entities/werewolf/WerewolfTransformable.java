@@ -50,6 +50,8 @@ public interface WerewolfTransformable {
 
     int getEntityTextureType();
 
+    int getEyeTextureType();
+
     default void reset() {
     }
 

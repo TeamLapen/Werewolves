@@ -12,20 +12,19 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
-public class WerewolfFaceOverlayLayer extends LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
+public class WerewolfPlayerFaceOverlayLayer extends LayerRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
 
     private final ResourceLocation[] eyeOverlays;
 
-    public WerewolfFaceOverlayLayer(WerewolfPlayerRenderer entityRendererIn) {
+    public WerewolfPlayerFaceOverlayLayer(WerewolfPlayerRenderer entityRendererIn) {
         super(entityRendererIn);
         eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
         for (int i = 0; i < eyeOverlays.length; i++) {
-            eyeOverlays[i] = new ResourceLocation(REFERENCE.MODID + ":textures/entity/werewolf/player/eye/eye_" + (i) + ".png");
+            eyeOverlays[i] = new ResourceLocation(REFERENCE.MODID + ":textures/entity/werewolf/eye/eye_" + (i) + ".png");
         }
     }
 
@@ -33,11 +32,9 @@ public class WerewolfFaceOverlayLayer extends LayerRenderer<AbstractClientPlayer
     public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull AbstractClientPlayerEntity player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         WerewolfPlayer werewolf = WerewolfPlayer.get(player);
         int eyeType = Math.max(0, Math.min(werewolf.getEyeType(((WerewolfPlayerRenderer) ((LayerRendererAccessor<?, ?>) this).getRenderer()).getForm()), eyeOverlays.length - 1));
-        boolean a = werewolf.getGlowingEyes(werewolf.getForm());
         RenderType renderType = werewolf.getGlowingEyes(werewolf.getForm()) ? RenderType.getEyes(eyeOverlays[eyeType]) : RenderType.getEntityCutoutNoCull(eyeOverlays[eyeType]);
         IVertexBuilder vertexBuilderEye = bufferIn.getBuffer(renderType);
         int packerOverlay = LivingRenderer.getPackedOverlay(player, 0);
-        ModelRenderer head = this.getEntityModel().getModelRenderer();
-        head.render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
+        this.getEntityModel().getModelRenderer().render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
     }
 }
