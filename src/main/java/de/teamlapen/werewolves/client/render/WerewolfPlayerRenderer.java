@@ -1,13 +1,12 @@
 package de.teamlapen.werewolves.client.render;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.client.render.layer.WerewolfFaceOverlayLayer;
+import de.teamlapen.werewolves.client.render.layer.WerewolfPlayerFaceOverlayLayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -23,14 +22,19 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerEntity, WerewolfBaseModel<AbstractClientPlayerEntity>> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private static class WerewolfModelWrapper {
         private final Supplier<WerewolfBaseModel<AbstractClientPlayerEntity>> modelSupplier;
@@ -62,9 +66,9 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
 
     static {
         addModel(WerewolfForm.NONE, new WerewolfModelWrapper(()->null, null, 0, false));
-        addModel(WerewolfForm.HUMAN, new WerewolfModelWrapper(WerewolfEarsModel::new, (renderer) -> Collections.emptyList(),WerewolfPlayerRenderer::getHumanTextures, 0.5f, false));
-        addModel(WerewolfForm.BEAST, new WerewolfModelWrapper(WerewolfBeastModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getBeastTextures , 1.3f, true));
-        addModel(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper(WerewolfSurvivalistModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getSurvivalTextures, 0.5f, true));
+        addModel(WerewolfForm.HUMAN, new WerewolfModelWrapper(WerewolfEarsModel::new, (renderer) -> Collections.emptyList(), WerewolfPlayerRenderer::getHumanTextures, 0.5f, false));
+        addModel(WerewolfForm.BEAST, new WerewolfModelWrapper(WerewolfBeastModel::new, (renderer) -> Collections.singleton(new WerewolfPlayerFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getBeastTextures , 1.3f, true));
+        addModel(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper(WerewolfSurvivalistModel::new, (renderer) -> Collections.singleton(new WerewolfPlayerFaceOverlayLayer(renderer)), WerewolfPlayerRenderer::getSurvivalTextures, 0.5f, true));
     }
 
     public static void addModel(WerewolfForm form, WerewolfModelWrapper render) {
@@ -166,23 +170,44 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     private static List<ResourceLocation> getBeastTextures() {
-        return Lists.newArrayList(
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/beast/beast_1.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/beast/beast_2.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/beast/beast_3.png"));
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().getAllResourceLocations("textures/entity/werewolf/beast", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        if (locs.size() < WerewolfForm.BEAST.getSkinTypes()) {
+            LOGGER.error("Could not find all textures for the beast werewolf form");
+            for (int i = 0; i < WerewolfForm.BEAST.getSkinTypes(); i++) {
+                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_" + i + ".png");
+                if (!locs.contains(s))  {
+                    locs.add(s);
+                }
+            }
+        }
+        return locs;
     }
 
     private static List<ResourceLocation> getSurvivalTextures() {
-        return Lists.newArrayList(
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/survivalist/survivalist_1.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/survivalist/survivalist_2.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/survivalist/survivalist_3.png"));
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().getAllResourceLocations("textures/entity/werewolf/survivalist", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        if (locs.size() < WerewolfForm.SURVIVALIST.getSkinTypes()) {
+            LOGGER.error("Could not find all textures for the survivalist werewolf form");
+            for (int i = 0; i < WerewolfForm.SURVIVALIST.getSkinTypes(); i++) {
+                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_" + i + ".png");
+                if (!locs.contains(s))  {
+                    locs.add(s);
+                }
+            }
+        }
+        return locs;
     }
 
     private static List<ResourceLocation> getHumanTextures() {
-        return Lists.newArrayList(
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/human/werewolf_ear_claws_1.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/human/werewolf_ear_claws_2.png"),
-                new ResourceLocation(REFERENCE.MODID, "textures/entity/player/human/werewolf_ear_claws_3.png"));
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().getAllResourceLocations("textures/entity/werewolf/human", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        if (locs.size() < WerewolfForm.HUMAN.getSkinTypes()) {
+            LOGGER.error("Could not find all textures for the human werewolf form");
+            for (int i = 0; i < WerewolfForm.HUMAN.getSkinTypes(); i++) {
+                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws_" + i + ".png");
+                if (!locs.contains(s))  {
+                    locs.add(s);
+                }
+            }
+        }
+        return locs;
     }
 }
