@@ -237,8 +237,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             this.getDataManager().set(SKINTYPE, this.getRNG().nextInt(126));
         }
         if (this.getDataManager().get(EYETYPE) == -1) {
-            int r = this.getRNG().nextInt(126);
-            this.getDataManager().set(EYETYPE,r);
+            this.getDataManager().set(EYETYPE, this.getRNG().nextInt(126));
         }
     }
 
