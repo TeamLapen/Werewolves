@@ -14,8 +14,8 @@ public class WerewolfForm {
     private static final Map<String, WerewolfForm> REGISTRY = new HashMap<>();
     public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false,0);
     public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true,3);
-    public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true,3);
-    public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true,3);
+    public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true,8);
+    public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true,8);
 
     @Nonnull
     private final String name;
