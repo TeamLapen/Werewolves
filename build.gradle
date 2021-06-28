@@ -6,7 +6,7 @@ buildscript {
         maven {url='https://repo.spongepowered.org/repository/maven-public'}
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.0.1', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
@@ -24,7 +24,7 @@ apply plugin: 'eclipse'
 group = 'de.teamlapen.werewolves' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'Werewolves'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 ext.mod_version="Test"
 ext.type="test"
@@ -40,8 +40,9 @@ sourceSets {
 
 apply from: 'gradle/versioning.gradle'
 apply from: 'gradle/forge.gradle'
-apply from: 'gradle/dev.gradle'
-apply from: 'gradle/deploy.gradle'
+apply from: 'gradle/artifacts.gradle'
+apply from: 'gradle/maven.gradle'
+apply from: 'gradle/curse.gradle'
 
 
 idea {

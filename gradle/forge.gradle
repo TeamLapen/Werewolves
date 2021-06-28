@@ -23,6 +23,9 @@ dependencies {
     implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
     implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
     runtimeOnly fg.deobf("curse.maven:hwyla-253449:${hwyla_curse_version}")
+    if (System.getProperty("idea.sync.active") != "true") {
+        annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
+    }
 }
 
 minecraft {
@@ -128,20 +131,9 @@ task crowdin(type: Copy){
 }
 
 processResources {
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'META-INF/mods.toml'
-
+    filesMatching("**/mods.toml") {
         expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'jei_version': jei_version, 'guideapi_version': guideapi_version, 'vampirism_version': vampirism_version
     }
-
-    outputs.upToDateWhen { false }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'META-INF/mods.toml'
-    }
-
-    exclude '**/Thumbs.db'
 }
 
 jar {
