@@ -90,6 +90,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     public void switchModel(WerewolfForm type) {
+        if (this.form == type) return;
         this.form = type;
         WerewolfModelWrapper werewolfModelWrapper = MODELS.get(type);
         this.entityModel = werewolfModelWrapper.model;
