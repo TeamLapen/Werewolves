@@ -32,6 +32,7 @@ import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -159,9 +160,9 @@ public class ModPlayerEventHandler {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public void onWakeUp(PlayerWakeUpEvent event) {
-        if (event.getPlayer().getActivePotionEffect(ModEffects.lupus_sanguinem) != null) {
+        if (!event.getPlayer().world.isRemote && event.getPlayer().getActivePotionEffect(ModEffects.lupus_sanguinem) != null) {
             event.getPlayer().getActivePotionEffect(ModEffects.lupus_sanguinem).performEffect(event.getPlayer());
             event.getPlayer().removePotionEffect(ModEffects.lupus_sanguinem);
         }
