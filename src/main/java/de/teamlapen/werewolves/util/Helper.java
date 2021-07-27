@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class Helper extends de.teamlapen.vampirism.util.Helper {
 
@@ -78,6 +77,10 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static boolean isFormActionActive(IWerewolfPlayer player) {
         return WerewolfFormAction.isWerewolfFormActionActive(player.getActionHandler());
+    }
+
+    public static void deactivateWerewolfActions(IWerewolfPlayer player) {
+        WerewolfFormAction.getAllAction().stream().filter(action -> player.getActionHandler().isActionActive(action)).forEach(action -> player.getActionHandler().toggleAction(action));
     }
 
     public static WerewolfDamageSource causeWerewolfDamage(String cause, Entity entity) {

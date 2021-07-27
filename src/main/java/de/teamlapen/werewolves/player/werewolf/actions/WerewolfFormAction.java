@@ -11,12 +11,10 @@ import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 
 import javax.annotation.Nonnull;
@@ -88,6 +86,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolfPlayer) {
+        if (Helper.isFormActionActive(werewolfPlayer)) {
+            Helper.deactivateWerewolfActions(werewolfPlayer);
+        }
         ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
         if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form.isHumanLike())) {
             ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
@@ -177,11 +178,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        if (Helper.isFullMoon(player.getRepresentingPlayer().getEntityWorld()) && Helper.isFormActionActive(player))
+        boolean active = player.getActionHandler().isActionActive(this);
+        if (Helper.isFullMoon(player.getRepresentingPlayer().getEntityWorld()) && active)
             return false;
-        if (Helper.isFormActionActive(player) && !player.getActionHandler().isActionActive(this)) {
-            return false;
-        }
-        return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || player.getActionHandler().isActionActive(this);
+        return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || active;
     }
 }
