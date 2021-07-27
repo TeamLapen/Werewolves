@@ -211,6 +211,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
+        if (WerewolvesConfig.CLIENT.disableFangCrosshairRendering.get())return;
         if (Helper.isWerewolf(this.mc.player)) {
             RayTraceResult p = Minecraft.getInstance().objectMouseOver;
             Entity entity = p instanceof EntityRayTraceResult?((EntityRayTraceResult) p).getEntity():null;
