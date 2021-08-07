@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "werewolves:silver_axe",
+    "werewolves:silver_hoe",
+    "werewolves:silver_sword",
+    "werewolves:silver_pickaxe",
+    "werewolves:silver_shovel"
+  ]
+}

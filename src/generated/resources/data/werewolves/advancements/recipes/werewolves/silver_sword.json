@@ -6,6 +6,16 @@
     ]
   },
   "criteria": {
+    "has_sticks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:rods/wooden"
+          }
+        ]
+      }
+    },
     "has_silver_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
@@ -25,6 +35,7 @@
   },
   "requirements": [
     [
+      "has_sticks",
       "has_silver_ingot",
       "has_the_recipe"
     ]
