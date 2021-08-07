@@ -26,6 +26,10 @@ public class RecipeGenerator extends RecipeProvider {
     protected void registerRecipes(@Nonnull Consumer<IFinishedRecipe> consumer) {
         ITag<Item> sticks = Tags.Items.RODS_WOODEN;
         ITag<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
+        ITag<Item> red_dye = Tags.Items.DYES_RED;
+        ITag<Item> string = Tags.Items.STRING;
+        Item paper = Items.PAPER;
+        Item tnt = Items.TNT;
 
         CookingRecipeBuilder.smeltingRecipe(Ingredient.fromTag(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 200).addCriterion("has_silver_ore", hasItem(ModTags.Items.SILVER_ORE)).build(consumer);
         CookingRecipeBuilder.blastingRecipe(Ingredient.fromTag(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).addCriterion("has_silver_ore", hasItem(ModTags.Items.SILVER_ORE)).build(consumer,modId("silver_ingot_from_blasting"));
@@ -75,6 +79,12 @@ public class RecipeGenerator extends RecipeProvider {
                 .build(consumer);
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.silver_block).patternLine("###").patternLine("###").patternLine("###")
                 .key('#', silver_ingot).addCriterion("has_silver_ingot", hasItem(silver_ingot))
+                .build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(ModItems.fire_cracker).patternLine("RSS").patternLine("PTP").patternLine("PTP")
+                .key('R', red_dye).addCriterion("has_red_dye", hasItem(red_dye))
+                .key('S', string).addCriterion("has_strings", hasItem(string))
+                .key('P', paper).addCriterion("has_paper", hasItem(paper))
+                .key('T', tnt).addCriterion("has_tnt", hasItem(tnt))
                 .build(consumer);
     }
 

@@ -37,6 +37,8 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final SpawnEggItem werewolf_survivalist_spawn_egg = getNull();
     public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
 
+    public static final Item fire_cracker = getNull();
+
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new Item((new Item.Properties()).group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
 
