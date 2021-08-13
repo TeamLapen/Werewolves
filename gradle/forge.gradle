@@ -11,6 +11,10 @@ repositories {
     maven {
         url = "https://maven.paube.de"
     }
+    maven {
+
+        url "https://nexus.resourcefulbees.com/repository/maven-public/"
+    }
     mavenCentral()
     mavenLocal()
 }
@@ -18,11 +22,16 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+    //Vampirism
+    implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
+    implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
+
+    //Utility
     compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}:api") //API for compile (not POM)
     runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //Full for runtime (not POM)
-    implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
-    implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
     runtimeOnly fg.deobf("curse.maven:hwyla-253449:${hwyla_curse_version}")
+
+    //Mixin preprocessor
     if (System.getProperty("idea.sync.active") != "true") {
         annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
     }
@@ -37,6 +46,7 @@ minecraft {
             taskName 'runClient'
             main 'net.minecraftforge.userdev.LaunchTesting'
             property 'mixin.env.disableRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'
             property 'forge.logging.markers', 'REGISTRIES'
             workingDirectory project.file('run/client').canonicalPath
@@ -57,6 +67,7 @@ minecraft {
         }
         server {
             property 'mixin.env.disableRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/server').canonicalPath
@@ -73,6 +84,7 @@ minecraft {
         }
         data {
             property 'mixin.env.disableRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/data').canonicalPath
