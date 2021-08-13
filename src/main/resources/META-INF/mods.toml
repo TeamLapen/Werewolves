@@ -19,12 +19,6 @@ versionRange = "[${forge_version},)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.werewolves]]
-modId = "teamlapenlib"
-mandatory = true
-versionRange = "[${vampirism_version},)"
-ordering = "AFTER"
-side = "BOTH"
-[[dependencies.werewolves]]
 modId = "vampirism"
 mandatory = true
 versionRange = "[${vampirism_version},)"
