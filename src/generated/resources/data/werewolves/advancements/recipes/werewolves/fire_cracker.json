@@ -1,0 +1,65 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "werewolves:fire_cracker"
+    ]
+  },
+  "criteria": {
+    "has_red_dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:dyes/red"
+          }
+        ]
+      }
+    },
+    "has_strings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:string"
+          }
+        ]
+      }
+    },
+    "has_paper": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:paper"
+          }
+        ]
+      }
+    },
+    "has_tnt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:tnt"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "werewolves:fire_cracker"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_red_dye",
+      "has_strings",
+      "has_paper",
+      "has_tnt",
+      "has_the_recipe"
+    ]
+  ]
+}

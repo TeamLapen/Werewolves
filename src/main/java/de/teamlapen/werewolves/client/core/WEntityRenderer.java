@@ -20,5 +20,6 @@ public class WEntityRenderer {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.human_werewolf, HumanWerewolfRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.wolf, WolfRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.task_master_werewolf, WerewolfTaskMasterRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.fire_cracker, manager -> new FireCrackerItemRenderer(manager, Minecraft.getInstance().getItemRenderer()));
     }
 }

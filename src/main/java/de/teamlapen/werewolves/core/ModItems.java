@@ -3,10 +3,7 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
-import de.teamlapen.werewolves.items.CrossbowArrowItem;
-import de.teamlapen.werewolves.items.LiverItem;
-import de.teamlapen.werewolves.items.SilverSword;
-import de.teamlapen.werewolves.items.UnWerewolfInjectionItem;
+import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
@@ -37,7 +34,7 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final SpawnEggItem werewolf_survivalist_spawn_egg = getNull();
     public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
 
-    public static final Item fire_cracker = getNull();
+    public static final FireCrackerItem fire_cracker = getNull();
 
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new Item((new Item.Properties()).group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
@@ -62,5 +59,6 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
         registry.register(new SpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
         registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
         registry.register(new SpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
+        registry.register(new FireCrackerItem(new Item.Properties().group(WUtils.creativeTab).maxStackSize(16)).setRegistryName(REFERENCE.MODID, "fire_cracker"));
     }
 }

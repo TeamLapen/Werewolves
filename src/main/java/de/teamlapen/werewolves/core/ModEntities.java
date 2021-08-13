@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
+import de.teamlapen.werewolves.entities.FireCrackerItemEntity;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.HumanWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
@@ -13,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -35,6 +35,7 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
     public static final EntityType<HumanWerewolfEntity> human_werewolf;
     public static final EntityType<WerewolfTaskMasterEntity> task_master_werewolf = getNull();
     public static final EntityType<AggressiveWolfEntity> wolf = getNull();
+    public static final EntityType<FireCrackerItemEntity> fire_cracker = getNull();
 
     static void registerEntities(IForgeRegistry<EntityType<?>> registry) {
         registry.register(werewolf_beast);
@@ -42,6 +43,7 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
         registry.register(human_werewolf);
         registry.register(prepareEntityType("wolf", EntityType.Builder.create(AggressiveWolfEntity::new, EntityClassification.AMBIENT).size(0.6F, 0.85F), false));
         registry.register(prepareEntityType("task_master_werewolf", EntityType.Builder.create(WerewolfTaskMasterEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).size(0.6f, 1.95f), true));
+        registry.register(prepareEntityType("fire_cracker", EntityType.Builder.<FireCrackerItemEntity>create(FireCrackerItemEntity::new, EntityClassification.MISC).size(0.25F, 0.25F), false));
     }
 
     static void registerSpawns() {

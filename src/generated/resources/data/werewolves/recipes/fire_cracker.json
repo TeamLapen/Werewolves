@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RSS",
+    "PTP",
+    "PTP"
+  ],
+  "key": {
+    "R": {
+      "tag": "forge:dyes/red"
+    },
+    "S": {
+      "tag": "forge:string"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "T": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "result": {
+    "item": "werewolves:fire_cracker"
+  }
+}
