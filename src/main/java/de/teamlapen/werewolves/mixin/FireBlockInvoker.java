@@ -8,6 +8,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(FireBlock.class)
 public interface FireBlockInvoker {
 
-    @Invoker("setFireInfo")
+    @Invoker("setFlammable")
     void invokeSetFireInfo_werewolves(Block blockIn, int encouragement, int flammability);
 }

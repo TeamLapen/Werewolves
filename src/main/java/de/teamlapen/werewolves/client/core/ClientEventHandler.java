@@ -19,7 +19,10 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderNameplateEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -35,7 +38,7 @@ public class ClientEventHandler {
     public void onRenderPlayer(RenderPlayerEvent.Pre event) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getPlayer();
         if (shouldRenderWerewolfForm(player)) {
-            event.setCanceled(WEntityRenderer.render.render(WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.prevRotationYaw, player.rotationYaw), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight()));
+            event.setCanceled(WEntityRenderer.render.render(WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.yRotO, player.yRot), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight()));
         }
     }
 
@@ -43,12 +46,12 @@ public class ClientEventHandler {
     public void onRenderPlayerPost(RenderPlayerEvent.Post event) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getPlayer();
         if (shouldRenderWerewolfForm(player)) {
-            WEntityRenderer.render.renderPost(event.getRenderer().getEntityModel(), WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.prevRotationYaw, player.rotationYaw), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight());
+            WEntityRenderer.render.renderPost(event.getRenderer().getModel(), WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.yRotO, player.yRot), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight());
         }
     }
 
     private boolean shouldRenderWerewolfForm(AbstractClientPlayerEntity player) {
-        return Helper.isWerewolf(player) && (WerewolfPlayer.getOpt(player).map(w -> w.getForm().isTransformed()).orElse(false) || (Minecraft.getInstance().currentScreen instanceof WerewolfPlayerAppearanceScreen && ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().currentScreen).isRenderForm()));
+        return Helper.isWerewolf(player) && (WerewolfPlayer.getOpt(player).map(w -> w.getForm().isTransformed()).orElse(false) || (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen && ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).isRenderForm()));
     }
 
     @SubscribeEvent
@@ -67,7 +70,7 @@ public class ClientEventHandler {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 ResourceLocation BACKGROUND = new ResourceLocation(REFERENCE.VMODID, "textures/gui/vampirism_menu.png");
                 ((ScreenAccessor) event.getGui()).invokeAddButton_werewolves(new ImageButton(((VampirismScreen) event.getGui()).getGuiLeft() + 47, ((VampirismScreen) event.getGui()).getGuiTop() + 90, 20, 20, 20, 205, 20, BACKGROUND, 256, 256, (context) -> {
-                    Minecraft.getInstance().displayGuiScreen(new WerewolfPlayerAppearanceScreen(event.getGui()));
+                    Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getGui()));
                 }, (button1, matrixStack, mouseX, mouseY) -> {
                     event.getGui().renderTooltip(matrixStack, new TranslationTextComponent("gui.vampirism.vampirism_menu.appearance_menu"), mouseX, mouseY);
                 }, StringTextComponent.EMPTY));
@@ -90,7 +93,7 @@ public class ClientEventHandler {
 
     public void onZoomPressed() {
         this.zoomTime = 20;
-        this.zoomAmount = Minecraft.getInstance().gameSettings.fov / 4 / this.zoomTime;
-        this.zoomModifier = Minecraft.getInstance().gameSettings.fov - Minecraft.getInstance().gameSettings.fov / 4;
+        this.zoomAmount = Minecraft.getInstance().options.fov / 4 / this.zoomTime;
+        this.zoomModifier = Minecraft.getInstance().options.fov - Minecraft.getInstance().options.fov / 4;
     }
 }

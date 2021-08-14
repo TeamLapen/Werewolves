@@ -19,12 +19,12 @@ public class FearAction extends DefaultWerewolfAction implements IActionCooldown
     @Override
     protected boolean activate(IWerewolfPlayer iWerewolfPlayer) {
         WerewolfPlayer player = ((WerewolfPlayer) iWerewolfPlayer);
-        List<MobEntity> entities = player.getRepresentingPlayer().world.getEntitiesWithinAABB(MobEntity.class, new AxisAlignedBB(player.getRepresentingEntity().getPosition()).grow(10, 3, 10), (entity -> !(Helper.isWerewolf(entity))));
+        List<MobEntity> entities = player.getRepresentingPlayer().level.getEntitiesOfClass(MobEntity.class, new AxisAlignedBB(player.getRepresentingEntity().blockPosition()).inflate(10, 3, 10), (entity -> !(Helper.isWerewolf(entity))));
         for (MobEntity entity : entities) {
-            entity.setAttackTarget(null);
-            entity.getNavigator().clearPath();
-            Path path = entity.getNavigator().getPathToPos(entity.getPosition().add(Helper.multiplyBlockPos(entity.getPosition().subtract(player.getRepresentingEntity().getPosition()), 3)), 0);
-            entity.getNavigator().setPath(path, 1.7);
+            entity.setTarget(null);
+            entity.getNavigation().stop();
+            Path path = entity.getNavigation().createPath(entity.blockPosition().offset(Helper.multiplyBlockPos(entity.blockPosition().subtract(player.getRepresentingEntity().blockPosition()), 3)), 0);
+            entity.getNavigation().moveTo(path, 1.7);
         }
         return true;
     }

@@ -7,13 +7,15 @@ import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.entities.IWerewolfMob;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -28,7 +30,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
         if (!spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random)) return false;
         if (random.nextInt(3) != 0) return false;
-        if (world.canBlockSeeSky(blockPos) && MonsterEntity.isValidLightLevel(world, blockPos, random))  {
+        if (world.canSeeSkyFromBelowWater(blockPos) && MonsterEntity.isDarkEnoughToSpawn(world, blockPos, random))  {
             return true;
         }
         return Helper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
@@ -56,8 +58,8 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
 
     public static AttributeModifierMap.MutableAttribute getAttributeBuilder() {
         return VampirismEntity.getAttributeBuilder()
-                .createMutableAttribute(Attributes.MAX_HEALTH, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_max_health.get())
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_attack_damage.get())
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_speed.get());
+                .add(Attributes.MAX_HEALTH, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_max_health.get())
+                .add(Attributes.ATTACK_DAMAGE, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_attack_damage.get())
+                .add(Attributes.MOVEMENT_SPEED, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_speed.get());
     }
 }

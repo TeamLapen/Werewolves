@@ -20,7 +20,7 @@ public class ModLootTables {
     public static final ResourceLocation skeleton = entity(EntityType.SKELETON);
 
     static ResourceLocation entity(EntityType<?> type) {
-        ResourceLocation loc = type.getLootTable();
+        ResourceLocation loc = type.getDefaultLootTable();
         ResourceLocation newLoc = new ResourceLocation(REFERENCE.MODID, "inject/" + loc.getPath());
         INJECTION_TABLES.put(loc, newLoc);
         return newLoc;
@@ -38,7 +38,7 @@ public class ModLootTables {
     }
 
     private static LootPool getInjectPool(ResourceLocation loc) {
-        TableLootEntry.builder(INJECTION_TABLES.get(loc)).weight(1);
-        return LootPool.builder().name("werewolves_inject_pool").bonusRolls(0,1).rolls(new RandomValueRange(1)).addEntry(TableLootEntry.builder(INJECTION_TABLES.get(loc)).weight(1)).build();
+        TableLootEntry.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1);
+        return LootPool.lootPool().name("werewolves_inject_pool").bonusRolls(0,1).setRolls(new RandomValueRange(1)).add(TableLootEntry.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
     }
 }

@@ -10,7 +10,7 @@ import java.util.Random;
 public class MagicTree extends Tree {
     @Nullable
     @Override
-    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean p_225546_2_) {
+    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getConfiguredFeature(Random randomIn, boolean p_225546_2_) {
         return randomIn.nextInt(10) < 3 ? WerewolvesBiomeFeatures.magic_tree : WerewolvesBiomeFeatures.magic_tree_big;
     }
 }

@@ -121,17 +121,17 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         }
 
         if (percentages > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
-            RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+            RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
             MatrixStack stack = new MatrixStack();
-            stack.push();
+            stack.pushPose();
             RenderSystem.matrixMode(GL11.GL_PROJECTION);
             RenderSystem.loadIdentity();
-            RenderSystem.ortho(0.0D, this.mc.getMainWindow().getScaledWidth(), this.mc.getMainWindow().getScaledHeight(), 0.0D, 1D, -1D);
+            RenderSystem.ortho(0.0D, this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), 0.0D, 1D, -1D);
             RenderSystem.matrixMode(GL11.GL_MODELVIEW);
             RenderSystem.loadIdentity();
             GL11.glDisable(GL11.GL_DEPTH_TEST);
-            int w = (this.mc.getMainWindow().getScaledWidth());
-            int h = (this.mc.getMainWindow().getScaledHeight());
+            int w = (this.mc.getWindow().getGuiScaledWidth());
+            int h = (this.mc.getWindow().getGuiScaledHeight());
 
             int bh = Math.round(h / (float) 4 * percentages / 100);
             int bw = Math.round(w / (float) 8 * percentages / 100);
@@ -141,7 +141,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             this.fillGradient2(stack, 0, 0, bw, h, 0x000000, color);
             this.fillGradient2(stack, w - bw, 0, w, h, color, 0x00);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
-            stack.pop();
+            stack.popPose();
         }
     }
 
@@ -182,12 +182,12 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void renderFangs(MatrixStack matrixStack, int width, int height, @Nullable Entity entity) {
-        this.mc.getTextureManager().bindTexture(ICONS);
+        this.mc.getTextureManager().bind(ICONS);
         int left = width / 2 - 9;
         int top = height / 2 - 6;
         boolean silver = false;
         if (entity != null) {
-            for (ItemStack stack : entity.getArmorInventoryList()) {
+            for (ItemStack stack : entity.getArmorSlots()) {
                 if (stack.getItem() instanceof ISilverItem) {
                     silver = true;
                     break;
@@ -202,10 +202,10 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
 
     private void renderFur(MatrixStack matrixStack) {
         if (WerewolvesConfig.CLIENT.disableScreenFurRendering.get())return;
-        if (this.mc.gameSettings.getPointOfView() == PointOfView.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(Helper::isFormActionActive).orElse(false)) {
-            this.mc.getTextureManager().bindTexture(FUR);
+        if (this.mc.options.getCameraType() == PointOfView.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(Helper::isFormActionActive).orElse(false)) {
+            this.mc.getTextureManager().bind(FUR);
             RenderSystem.enableBlend();
-            blit(matrixStack, 0, 0, this.getBlitOffset(), 0, 0, this.mc.getMainWindow().getWidth(), this.mc.getMainWindow().getHeight(), this.mc.getMainWindow().getScaledHeight(), this.mc.getMainWindow().getScaledWidth());
+            blit(matrixStack, 0, 0, this.getBlitOffset(), 0, 0, this.mc.getWindow().getScreenWidth(), this.mc.getWindow().getScreenHeight(), this.mc.getWindow().getGuiScaledHeight(), this.mc.getWindow().getGuiScaledWidth());
             RenderSystem.disableBlend();
         }
     }
@@ -213,10 +213,10 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
         if (WerewolvesConfig.CLIENT.disableFangCrosshairRendering.get())return;
         if (Helper.isWerewolf(this.mc.player)) {
-            RayTraceResult p = Minecraft.getInstance().objectMouseOver;
+            RayTraceResult p = Minecraft.getInstance().hitResult;
             Entity entity = p instanceof EntityRayTraceResult?((EntityRayTraceResult) p).getEntity():null;
             if (WerewolfPlayer.get(mc.player).canBite()) {
-                renderFangs(event.getMatrixStack(), this.mc.getMainWindow().getScaledWidth(), this.mc.getMainWindow().getScaledHeight(), entity);
+                renderFangs(event.getMatrixStack(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), entity);
                 event.setCanceled(true);
             }
         }
@@ -229,7 +229,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             if (werewolf.getSpecialAttributes().werewolfTime > 0) {
                 float perc = WerewolfFormAction.getDurationPercentage(werewolf);
                 float trans = Helper.isFormActionActive(werewolf)?1f:0.7f;
-                if (!Helper.isNight(player.getEntityWorld())) {
+                if (!Helper.isNight(player.getCommandSenderWorld())) {
                     renderExpBar(event.getMatrixStack(), perc, trans);
                 }
             }
@@ -237,11 +237,11 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
     }
 
     private void renderExpBar(MatrixStack matrixStack, float perc, float transparency) {
-        int scaledWidth = ((InGameGuiAccessor) Minecraft.getInstance().ingameGUI).getScaledWidth();
-        int scaledHeight = ((InGameGuiAccessor) Minecraft.getInstance().ingameGUI).getScaledHeight();
+        int scaledWidth = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledWidth();
+        int scaledHeight = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledHeight();
         int x = scaledWidth / 2 - 91;
-        this.mc.getProfiler().startSection("werewolfActionDurationBar");
-        this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
+        this.mc.getProfiler().push("werewolfActionDurationBar");
+        this.mc.getTextureManager().bind(AbstractGui.GUI_ICONS_LOCATION);
 
         RenderSystem.enableBlend();
         RenderSystem.color4f(1f, 0.1f, 0f, transparency);
@@ -250,7 +250,7 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
         int l = scaledHeight - 32 + 3;
         this.blit(matrixStack, x, l, 0, 64, 182, 5);
         this.blit(matrixStack, x + k, l, k, 69, 182 - k, 5);
-        this.mc.getProfiler().endSection();
+        this.mc.getProfiler().pop();
     }
 
     private void renderActionCooldown(MatrixStack matrixStack) {
@@ -263,10 +263,10 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
 
 
             int x = 12;
-            int y = this.mc.getMainWindow().getScaledHeight() - 27;
+            int y = this.mc.getWindow().getGuiScaledHeight() - 27;
             for (IAction action : actions) {
                 ResourceLocation loc = new ResourceLocation(action.getRegistryName().getNamespace(), "textures/actions/" + action.getRegistryName().getPath() + ".png");
-                this.mc.getTextureManager().bindTexture(loc);
+                this.mc.getTextureManager().bind(loc);
                 RenderSystem.color4f(1, 1, 1, 0.5f);
                 blit(matrixStack, x, y, this.getBlitOffset(), 0, 0, 16, 16, 16, 16);
                 float perc1 = 1 - -werewolf.getActionHandler().getPercentageForAction(action);

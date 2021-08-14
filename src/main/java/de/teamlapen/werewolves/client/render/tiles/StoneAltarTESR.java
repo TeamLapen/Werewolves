@@ -26,21 +26,21 @@ public class StoneAltarTESR extends TileEntityRenderer<StoneAltarTileEntity> {
 
     @Override
     public void render(@Nonnull StoneAltarTileEntity tileEntityIn, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        if (!tileEntityIn.getStackInSlot(0).isEmpty()) {
-            matrixStackIn.push();
+        if (!tileEntityIn.getItem(0).isEmpty()) {
+            matrixStackIn.pushPose();
             matrixStackIn.translate(0.3, 0.67, 0.24);
             matrixStackIn.scale(0.4f, 0.4f, 0.4f);
-            matrixStackIn.rotate(new Quaternion(-0.4f, 0.1f, 0, 0.9f));
-            Minecraft.getInstance().getItemRenderer().renderItem(LIVER_STACK, ItemCameraTransforms.TransformType.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
-            matrixStackIn.pop();
+            matrixStackIn.mulPose(new Quaternion(-0.4f, 0.1f, 0, 0.9f));
+            Minecraft.getInstance().getItemRenderer().renderStatic(LIVER_STACK, ItemCameraTransforms.TransformType.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
+            matrixStackIn.popPose();
         }
-        if (!tileEntityIn.getStackInSlot(1).isEmpty()) {
-            matrixStackIn.push();
+        if (!tileEntityIn.getItem(1).isEmpty()) {
+            matrixStackIn.pushPose();
             matrixStackIn.translate(0.7, 0.67, 0.2);
             matrixStackIn.scale(0.4f, 0.4f, 0.4f);
-            matrixStackIn.rotate(new Quaternion(-0.5f, -0.2f, -0.1f, 0.9f));
-            Minecraft.getInstance().getItemRenderer().renderItem(BONE_STACK, ItemCameraTransforms.TransformType.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
-            matrixStackIn.pop();
+            matrixStackIn.mulPose(new Quaternion(-0.5f, -0.2f, -0.1f, 0.9f));
+            Minecraft.getInstance().getItemRenderer().renderStatic(BONE_STACK, ItemCameraTransforms.TransformType.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
+            matrixStackIn.popPose();
         }
     }
 }

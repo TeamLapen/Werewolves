@@ -16,9 +16,9 @@ public class BiteEntityAction<T extends WerewolfBaseEntity & IEntityActionUser> 
 
     @Override
     public boolean activate(T t) {
-        if (!t.getEntityWorld().isRemote()) {
-            if (t.getAttackTarget() != null && t.isEntityInRange(t.getAttackTarget(), t.getWidth() * 2.0F * t.getWidth() * 2.0F + t.getWidth())) {
-                t.bite(t.getAttackTarget());
+        if (!t.getCommandSenderWorld().isClientSide()) {
+            if (t.getTarget() != null && t.closerThan(t.getTarget(), t.getBbWidth() * 2.0F * t.getBbWidth() * 2.0F + t.getBbWidth())) {
+                t.bite(t.getTarget());
             }
         }
         return true;

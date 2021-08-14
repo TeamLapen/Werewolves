@@ -8,6 +8,6 @@ import net.minecraft.block.trees.Tree;
 
 public class ModSaplingBlock extends SaplingBlock {
     public ModSaplingBlock(Tree treeIn) {
-        super(treeIn, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0f).sound(SoundType.PLANT));
+        super(treeIn, Block.Properties.of(Material.PLANT).noCollission().randomTicks().strength(0.0f).sound(SoundType.GRASS));
     }
 }

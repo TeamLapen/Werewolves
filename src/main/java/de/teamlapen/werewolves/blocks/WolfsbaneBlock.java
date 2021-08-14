@@ -18,16 +18,16 @@ import javax.annotation.Nonnull;
 
 public class WolfsbaneBlock extends FlowerBlock {
     public WolfsbaneBlock() {
-        super(Effects.BLINDNESS, 5, Properties.create(Material.PLANTS).hardnessAndResistance(0f).doesNotBlockMovement().sound(SoundType.PLANT));
+        super(Effects.BLINDNESS, 5, Properties.of(Material.PLANT).strength(0f).noCollission().sound(SoundType.GRASS));
         this.setRegistryName(REFERENCE.MODID,"wolfsbane");
     }
 
     @Override
-    public void onEntityCollision(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull Entity entityIn) {
-        if (!worldIn.isRemote && worldIn.getDifficulty() != Difficulty.PEACEFUL) {
+    public void entityInside(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull Entity entityIn) {
+        if (!worldIn.isClientSide && worldIn.getDifficulty() != Difficulty.PEACEFUL) {
             if (entityIn instanceof LivingEntity && Helper.isWerewolf(entityIn)) {
                 LivingEntity livingentity = (LivingEntity)entityIn;
-                livingentity.addPotionEffect(SilverEffect.createEffect(livingentity, 40));
+                livingentity.addEffect(SilverEffect.createEffect(livingentity, 40));
             }
         }
     }

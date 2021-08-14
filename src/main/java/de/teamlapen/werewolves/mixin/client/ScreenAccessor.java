@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
+@SuppressWarnings("UnusedReturnValue")
 @Mixin(Screen.class)
 public interface ScreenAccessor {
     @Accessor("font")

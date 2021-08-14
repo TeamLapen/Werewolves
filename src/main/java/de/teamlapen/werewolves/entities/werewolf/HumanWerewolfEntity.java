@@ -31,8 +31,8 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTransformable {
-    private static final DataParameter<Integer> FORM = EntityDataManager.createKey(HumanWerewolfEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(HumanWerewolfEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> FORM = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.INT);
+    private static final DataParameter<Integer> TYPE = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.INT);
 
     private final EntityClassType classType;
     private final EntityActionTier actionTier;
@@ -41,25 +41,25 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
 
     public HumanWerewolfEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
-        this.classType = EntityClassType.getRandomClass(this.getRNG());
+        this.classType = EntityClassType.getRandomClass(this.getRandom());
         this.actionTier = EntityActionTier.Medium;
     }
 
     public static boolean spawnPredicateHumanWerewolf(EntityType<? extends CreatureEntity> entityType, IServerWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
-        if (!MobEntity.canSpawnOn(entityType, world, spawnReason, blockPos, random)) return false;
+        if (!MobEntity.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
         if (random.nextInt(3) != 0) return false;
-        if (world.canBlockSeeSky(blockPos) && MonsterEntity.isValidLightLevel(world, blockPos, random))  {
+        if (world.canSeeSkyFromBelowWater(blockPos) && MonsterEntity.isDarkEnoughToSpawn(world, blockPos, random))  {
             return true;
         }
         return Helper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.getDataManager().register(FORM, -1);
-        this.getDataManager().register(TYPE, -1);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.getEntityData().define(FORM, -1);
+        this.getEntityData().define(TYPE, -1);
     }
 
     @Override
@@ -78,8 +78,8 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        if (super.attackEntityFrom(source, amount)) {
+    public boolean hurt(@Nonnull DamageSource source, float amount) {
+        if (super.hurt(source, amount)) {
             this.rage += amount * 10;
             return true;
         } else {
@@ -88,11 +88,11 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
+    public void aiStep() {
+        super.aiStep();
         if (this.rage > 50) {
             WerewolfTransformable werewolf = this.transformToWerewolf();
-            ((MobEntity) werewolf).setRevengeTarget(this.getAttackTarget());
+            ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
         }
     }
 
@@ -102,47 +102,47 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     public static AttributeModifierMap.MutableAttribute getAttributeBuilder() {
-        return CreatureEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_speed.get())
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 48.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_attack_damage.get())
-                .createMutableAttribute(Attributes.MAX_HEALTH, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_max_health.get());
+        return CreatureEntity.createMobAttributes()
+                .add(Attributes.MOVEMENT_SPEED, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_speed.get())
+                .add(Attributes.FOLLOW_RANGE, 48.0D)
+                .add(Attributes.ATTACK_DAMAGE, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_attack_damage.get())
+                .add(Attributes.MAX_HEALTH, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_max_health.get());
     }
 
     @Override
-    public void readAdditional(@Nonnull CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(@Nonnull CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         if (compound.contains("form")) {
             int t = compound.getInt("form");
-            this.getDataManager().set(FORM, t < 2 && t >= 0 ? t : -1);
+            this.getEntityData().set(FORM, t < 2 && t >= 0 ? t : -1);
         }
         if (compound.contains("type")) {
             int t = compound.getInt("type");
-            this.getDataManager().set(TYPE, t < 126 && t >= 0 ? t : -1);
+            this.getEntityData().set(TYPE, t < 126 && t >= 0 ? t : -1);
         }
     }
 
     @Override
-    public void writeAdditional(@Nonnull CompoundNBT compound) {
-        super.writeAdditional(compound);
-        compound.putInt("form", this.getDataManager().get(FORM));
-        compound.putInt("type", this.getDataManager().get(TYPE));
+    public void addAdditionalSaveData(@Nonnull CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("form", this.getEntityData().get(FORM));
+        compound.putInt("type", this.getEntityData().get(TYPE));
     }
 
     @Override
     public void onAddedToWorld() {
         super.onAddedToWorld();
-        if (this.getDataManager().get(FORM) == -1) {
-            this.getDataManager().set(FORM, this.getRNG().nextInt(2));
+        if (this.getEntityData().get(FORM) == -1) {
+            this.getEntityData().set(FORM, this.getRandom().nextInt(2));
         }
-        if (this.getDataManager().get(TYPE) == -1) {
-            this.getDataManager().set(TYPE, this.getRNG().nextInt(126));
+        if (this.getEntityData().get(TYPE) == -1) {
+            this.getEntityData().set(TYPE, this.getRandom().nextInt(126));
         }
     }
 
     @Override
     public int getEntityTextureType() {
-        int i = this.getDataManager().get(TYPE);
+        int i = this.getEntityData().get(TYPE);
         return Math.max(i, 0);
     }
 
@@ -154,7 +154,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     @Override
     public BasicWerewolfEntity _transformToWerewolf() {
         EntityType<? extends BasicWerewolfEntity> type;
-        if (this.getDataManager().get(FORM) == 0) {
+        if (this.getEntityData().get(FORM) == 0) {
             type = ModEntities.werewolf_beast;
         } else {
             type = ModEntities.werewolf_survivalist;
@@ -187,7 +187,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     @Nonnull
     @Override
     public WerewolfForm getWerewolfForm() {
-        switch (this.getDataManager().get(FORM)) {
+        switch (this.getEntityData().get(FORM)) {
             case 0:
                 return WerewolfForm.BEAST;
             case 1:

@@ -6,10 +6,10 @@ import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.vampire.IVampire;
 import de.teamlapen.vampirism.entity.ExtendedCreature;
 import de.teamlapen.werewolves.core.ModEntities;
-import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 @Mixin(VillagerEntity.class)
 public abstract class MixinVillagerEntity extends AbstractVillagerEntity implements IVillagerTransformable {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(VillagerEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> TYPE = EntityDataManager.defineId(VillagerEntity.class, DataSerializers.INT);
 
     private boolean werewolf;
     private WerewolfForm form;
@@ -74,7 +74,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
 
     @Override
     public EntityClassType getEntityClass() {
-        return this.entityclass == null ? this.entityclass = EntityClassType.getRandomClass(this.getRNG()) : this.entityclass;
+        return this.entityclass == null ? this.entityclass = EntityClassType.getRandomClass(this.getRandom()) : this.entityclass;
     }
 
     @Override
@@ -84,31 +84,31 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
 
     @Override
     public int getEntityTextureType() {
-        int i = getDataManager().get(TYPE);
+        int i = getEntityData().get(TYPE);
         return Math.max(i, 0);
     }
 
     @Override
     public void setWerewolfFaction(boolean werewolf) {
         this.werewolf = werewolf;
-        this.form = this.getRNG().nextBoolean() ? WerewolfForm.SURVIVALIST : WerewolfForm.BEAST;
+        this.form = this.getRandom().nextBoolean() ? WerewolfForm.SURVIVALIST : WerewolfForm.BEAST;
     }
 
     @Override
     public void onAddedToWorld() {
         super.onAddedToWorld();
-        if (this.getDataManager().get(TYPE) == -1) {
-            this.getDataManager().set(TYPE, this.getRNG().nextInt(TYPES));
+        if (this.getEntityData().get(TYPE) == -1) {
+            this.getEntityData().set(TYPE, this.getRandom().nextInt(TYPES));
         }
     }
 
-    @Inject(method = "registerData", at = @At("RETURN"))
-    protected void registerData(CallbackInfo ci) {
-        this.getDataManager().register(TYPE, -1);
+    @Inject(method = "defineSynchedData", at = @At("RETURN"))
+    protected void defineSynchedData(CallbackInfo ci) {
+        this.getEntityData().define(TYPE, -1);
     }
 
-    @Inject(method = "readAdditional", at = @At("RETURN"))
-    public void writeAdditional(CompoundNBT compound, CallbackInfo ci) {
+    @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
+    public void addAdditionalSaveData(CompoundNBT compound, CallbackInfo ci) {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putBoolean("werewolf", this.werewolf);
         if (form != null) {
@@ -121,8 +121,8 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
         compound.put("werewolves", nbt);
     }
 
-    @Inject(method = "readAdditional", at = @At("RETURN"))
-    public void readAdditional(CompoundNBT compound, CallbackInfo ci) {
+    @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
+    public void readAdditionalSaveData(CompoundNBT compound, CallbackInfo ci) {
         CompoundNBT nbt = compound.getCompound("werewolves");
         this.werewolf = nbt.getBoolean("werewolf");
         if (compound.contains("form")) {
@@ -130,7 +130,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
         }
         if (nbt.contains("type")) {
             int t = nbt.getInt("type");
-            this.getDataManager().set(TYPE, t < TYPES && t >= 0 ? t : -1);
+            this.getEntityData().set(TYPE, t < TYPES && t >= 0 ? t : -1);
         }
         if (nbt.contains("entityclasstype")) {
             this.entityclass = EntityClassType.getEntityClassType(nbt.getInt("entityclasstype"));

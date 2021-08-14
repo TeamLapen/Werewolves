@@ -15,16 +15,16 @@ import java.util.List;
 public class WerewolfTransformCommand extends BasicCommand {
     public static ArgumentBuilder<CommandSource, ?> register() {
         return Commands.literal("werewolf-transform")
-                .requires(context -> context.hasPermissionLevel(PERMISSION_LEVEL_CHEAT))
+                .requires(context -> context.hasPermission(PERMISSION_LEVEL_CHEAT))
                 .then(Commands.literal("to-werewolf")
-                        .executes(context -> transformToWerewolf(context.getSource().asPlayer())))
+                        .executes(context -> transformToWerewolf(context.getSource().getPlayerOrException())))
                 .then(Commands.literal("from-werewolf")
-                        .executes(context -> transformFromWerewolf(context.getSource().asPlayer())));
+                        .executes(context -> transformFromWerewolf(context.getSource().getPlayerOrException())));
     }
 
     private static int transformToWerewolf(PlayerEntity player) {
         try {
-            List<LivingEntity> entites = player.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(player.getPosition()).grow(10), entity -> entity instanceof WerewolfTransformable);
+            List<LivingEntity> entites = player.level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
             entites.forEach(entity -> ((WerewolfTransformable) entity).transformToWerewolf());
         } catch (Exception e) {
             LogManager.getLogger().error(e);
@@ -33,7 +33,7 @@ public class WerewolfTransformCommand extends BasicCommand {
     }
 
     private static int transformFromWerewolf(PlayerEntity player) {
-        List<LivingEntity> entites = player.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(player.getPosition()).grow(10), entity -> entity instanceof WerewolfTransformable);
+        List<LivingEntity> entites = player.level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
         entites.forEach(entity -> ((WerewolfTransformable) entity).transformBack());
         return 0;
     }

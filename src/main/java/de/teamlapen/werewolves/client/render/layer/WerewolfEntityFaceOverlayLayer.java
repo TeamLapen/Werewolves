@@ -30,9 +30,9 @@ public class WerewolfEntityFaceOverlayLayer<T extends BasicWerewolfEntity, M ext
     public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull BasicWerewolfEntity werewolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         int s = werewolf.getEyeTextureType();
         int eyeType = Math.max(0, s) % (eyeOverlays.length);
-        RenderType renderType = RenderType.getEyes(eyeOverlays[eyeType]);
+        RenderType renderType = RenderType.eyes(eyeOverlays[eyeType]);
         IVertexBuilder vertexBuilderEye = bufferIn.getBuffer(renderType);
-        int packerOverlay = LivingRenderer.getPackedOverlay(werewolf, 0);
-        this.getEntityModel().getModelRenderer().render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
+        int packerOverlay = LivingRenderer.getOverlayCoords(werewolf, 0);
+        this.getParentModel().getModelRenderer().render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
     }
 }

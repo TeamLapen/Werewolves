@@ -25,12 +25,12 @@ public class ModTagsProvider {
         }
 
         @Override
-        protected void registerTags() {
-            this.getOrCreateBuilder(ModTags.Blocks.SILVER_ORE).add(ModBlocks.silver_ore);
-            this.getOrCreateBuilder(BlockTags.LOGS).add(ModBlocks.jacaranda_log, ModBlocks.magic_log);
-            this.getOrCreateBuilder(BlockTags.SAPLINGS).add(ModBlocks.jacaranda_sapling, ModBlocks.magic_sapling);
-            this.getOrCreateBuilder(BlockTags.LEAVES).add(ModBlocks.jacaranda_leaves, ModBlocks.magic_leaves);
-            this.getOrCreateBuilder(BlockTags.PLANKS).add(ModBlocks.magic_planks);
+        protected void addTags() {
+            this.tag(ModTags.Blocks.SILVER_ORE).add(ModBlocks.silver_ore);
+            this.tag(BlockTags.LOGS).add(ModBlocks.jacaranda_log, ModBlocks.magic_log);
+            this.tag(BlockTags.SAPLINGS).add(ModBlocks.jacaranda_sapling, ModBlocks.magic_sapling);
+            this.tag(BlockTags.LEAVES).add(ModBlocks.jacaranda_leaves, ModBlocks.magic_leaves);
+            this.tag(BlockTags.PLANKS).add(ModBlocks.magic_planks);
         }
     }
 
@@ -40,12 +40,12 @@ public class ModTagsProvider {
         }
 
         @Override
-        protected void registerTags() {
+        protected void addTags() {
             this.copy(ModTags.Blocks.SILVER_ORE, ModTags.Items.SILVER_ORE);
-            this.getOrCreateBuilder(ModTags.Items.SILVER_INGOT).add(ModItems.silver_ingot);
-            this.getOrCreateBuilder(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver, ModItems.human_heart, ModItems.weak_human_heart, Items.SALMON, Items.TROPICAL_FISH, Items.COD);
-            this.getOrCreateBuilder(ModTags.Items.COOKEDMEATS).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
-            this.getOrCreateBuilder(ModTags.Items.SILVER_TOOL).add(ModItems.silver_axe, ModItems.silver_hoe, ModItems.silver_sword, ModItems.silver_pickaxe, ModItems.silver_shovel);
+            this.tag(ModTags.Items.SILVER_INGOT).add(ModItems.silver_ingot);
+            this.tag(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver, ModItems.human_heart, ModItems.weak_human_heart, Items.SALMON, Items.TROPICAL_FISH, Items.COD);
+            this.tag(ModTags.Items.COOKEDMEATS).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
+            this.tag(ModTags.Items.SILVER_TOOL).add(ModItems.silver_axe, ModItems.silver_hoe, ModItems.silver_sword, ModItems.silver_pickaxe, ModItems.silver_shovel);
         }
     }
 }

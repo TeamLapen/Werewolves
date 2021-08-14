@@ -6,9 +6,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(IngameGui.class)
 public interface InGameGuiAccessor {
-    @Accessor("scaledWidth")
+    @Accessor("screenWidth")
     int getScaledWidth();
 
-    @Accessor("scaledHeight")
+    @Accessor("screenHeight")
     int getScaledHeight();
 }

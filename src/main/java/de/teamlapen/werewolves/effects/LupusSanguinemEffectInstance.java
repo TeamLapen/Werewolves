@@ -14,7 +14,7 @@ public class LupusSanguinemEffectInstance extends EffectInstance {
     }
 
     @Override
-    public boolean combine(@Nonnull EffectInstance other) {
+    public boolean update(@Nonnull EffectInstance other) {
         return false;
     }
 

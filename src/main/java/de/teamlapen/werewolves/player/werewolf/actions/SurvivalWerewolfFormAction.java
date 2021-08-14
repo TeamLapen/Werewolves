@@ -23,7 +23,7 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     protected boolean activate(IWerewolfPlayer werewolfPlayer) {
         if (super.activate(werewolfPlayer)) {
             if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)) {
-                werewolfPlayer.getRepresentingPlayer().stepHeight = 1.0f;
+                werewolfPlayer.getRepresentingPlayer().maxUpStep = 1.0f;
             }
             return true;
         } else {
@@ -35,7 +35,7 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
         super.onActivatedClient(werewolfPlayer);
         if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)) {
-            werewolfPlayer.getRepresentingPlayer().stepHeight = 1.0f;
+            werewolfPlayer.getRepresentingPlayer().maxUpStep = 1.0f;
 //            WerewolvesMod.proxy.toggleStepHeight(true);
         }
     }
@@ -43,7 +43,7 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     @Override
     public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
         super.onDeactivated(werewolfPlayer);
-        werewolfPlayer.getRepresentingPlayer().stepHeight = 0.6f;
+        werewolfPlayer.getRepresentingPlayer().maxUpStep = 0.6f;
 //        WerewolvesMod.proxy.toggleStepHeight(false);
     }
 

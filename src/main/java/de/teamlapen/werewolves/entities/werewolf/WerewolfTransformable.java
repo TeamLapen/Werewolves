@@ -13,15 +13,15 @@ public interface WerewolfTransformable {
     int TYPES = 126;
 
     static <T extends MobEntity> T copyData(EntityType<T> newEntity, MobEntity oldEntity) {
-        return copyData(newEntity.create(oldEntity.getEntityWorld()), oldEntity);
+        return copyData(newEntity.create(oldEntity.getCommandSenderWorld()), oldEntity);
     }
 
     static <T extends MobEntity> T copyData(T entity, MobEntity oldEntity) {
-        UUID uuid = entity.getUniqueID();
-        entity.copyLocationAndAnglesFrom(oldEntity);
-        entity.copyDataFromOld(oldEntity);
-        entity.setUniqueId(uuid);
-        entity.getEntityWorld().addEntity(entity);
+        UUID uuid = entity.getUUID();
+        entity.copyPosition(oldEntity);
+        entity.restoreFrom(oldEntity);
+        entity.setUUID(uuid);
+        entity.getCommandSenderWorld().addFreshEntity(entity);
         oldEntity.remove(true);
         entity.setHealth(oldEntity.getHealth() / oldEntity.getMaxHealth() * entity.getMaxHealth());
         return entity;

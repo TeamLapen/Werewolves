@@ -125,14 +125,14 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public boolean onUpdate(IWerewolfPlayer werewolfPlayer) {
-        if (!werewolfPlayer.getRepresentingPlayer().getEntityWorld().isRemote) {
+        if (!werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld().isClientSide) {
             checkDayNightModifier(werewolfPlayer);
         }
-        if (Helper.isNight(werewolfPlayer.getRepresentingPlayer().getEntityWorld())) {
+        if (Helper.isNight(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld())) {
             return false;
         }
-        Biome biome = werewolfPlayer.getRepresentingPlayer().getEntityWorld().getBiome(werewolfPlayer.getRepresentingPlayer().getPosition());
-        if (Objects.equals(biome.getRegistryName(), ModBiomes.WEREWOLF_HEAVEN_KEY.getLocation())) {
+        Biome biome = werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld().getBiome(werewolfPlayer.getRepresentingPlayer().blockPosition());
+        if (Objects.equals(biome.getRegistryName(), ModBiomes.WEREWOLF_HEAVEN_KEY.location())) {
             return false;
         }
         return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
@@ -140,7 +140,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
         PlayerEntity player = werewolfPlayer.getRepresentingPlayer();
-        boolean night = Helper.isNight(player.getEntityWorld());
+        boolean night = Helper.isNight(player.getCommandSenderWorld());
         for (Modifier attribute : this.attributes) {
             if (player.getAttribute(attribute.attribute).getModifier(!night ? attribute.nightUuid : attribute.dayUuid) != null) {
                 removeModifier(werewolfPlayer);
@@ -151,11 +151,11 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     public void applyModifier(IWerewolfPlayer werewolf) {
         PlayerEntity player = werewolf.getRepresentingPlayer();
-        boolean night = Helper.isNight(player.getEntityWorld());
+        boolean night = Helper.isNight(player.getCommandSenderWorld());
         for (Modifier attribute : this.attributes) {
             ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
             if (ins != null && ins.getModifier(attribute.dayUuid) == null) {
-                ins.applyPersistentModifier(attribute.create(werewolf, night));
+                ins.addPermanentModifier(attribute.create(werewolf, night));
             }
         }
     }
@@ -179,8 +179,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
         boolean active = player.getActionHandler().isActionActive(this);
-        if (Helper.isFullMoon(player.getRepresentingPlayer().getEntityWorld()) && active)
+        if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active)
             return false;
-        return player.getRepresentingPlayer().world.getBiome(player.getRepresentingEntity().getPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || active;
+        return player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || active;
     }
 }

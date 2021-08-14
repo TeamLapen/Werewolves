@@ -36,7 +36,7 @@ import java.util.Optional;
 
 public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDefaultTaskMasterEntity {
 
-    private static final DataParameter<String> BIOME_TYPE = EntityDataManager.createKey(WerewolfTaskMasterEntity.class, DataSerializers.STRING);
+    private static final DataParameter<String> BIOME_TYPE = EntityDataManager.defineId(WerewolfTaskMasterEntity.class, DataSerializers.STRING);
     @Nullable
     private PlayerEntity interactor;
 
@@ -49,16 +49,16 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if (this.interactor != null && (!this.interactor.isAlive() || !(this.interactor.openContainer instanceof TaskBoardContainer))) {
+    public void aiStep() {
+        super.aiStep();
+        if (this.interactor != null && (!this.interactor.isAlive() || !(this.interactor.containerMenu instanceof TaskBoardContainer))) {
             this.interactor = null;
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public boolean getAlwaysRenderNameTagForRender() {
+    public boolean shouldShowName() {
         return Helper.isWerewolf(Minecraft.getInstance().player);
     }
 
@@ -77,30 +77,30 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(BIOME_TYPE, Registry.VILLAGER_TYPE.getDefaultKey().toString());
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(BIOME_TYPE, Registry.VILLAGER_TYPE.getDefaultKey().toString());
     }
 
     @Override
-    public boolean canDespawn(double distanceToClosestPlayer) {
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return false;
     }
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld worldIn, @Nonnull DifficultyInstance difficultyIn, @Nonnull SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-        ILivingEntityData data = super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-        this.setBiomeType(VillagerType.func_242371_a(worldIn.func_242406_i(this.getPosition())));
+    public ILivingEntityData finalizeSpawn(@Nonnull IServerWorld worldIn, @Nonnull DifficultyInstance difficultyIn, @Nonnull SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        ILivingEntityData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        this.setBiomeType(VillagerType.byBiome(worldIn.getBiomeName(this.blockPosition())));
         return data;
     }
 
     @Nonnull
     @Override
-    protected ActionResultType func_230254_b_(@Nonnull PlayerEntity playerEntity, @Nonnull Hand hand) {
-        if (!this.world.isRemote) {
+    protected ActionResultType mobInteract(@Nonnull PlayerEntity playerEntity, @Nonnull Hand hand) {
+        if (!this.level.isClientSide) {
             if (Helper.isWerewolf(playerEntity) && this.interactor == null && this.processInteraction(playerEntity, this)) {
-                this.getNavigator().clearPath();
+                this.getNavigation().stop();
                 this.interactor = playerEntity;
             }
 
@@ -115,12 +115,12 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     }
 
     public VillagerType getBiomeType() {
-        String key = this.dataManager.get(BIOME_TYPE);
+        String key = this.entityData.get(BIOME_TYPE);
         ResourceLocation id = new ResourceLocation(key);
-        return Registry.VILLAGER_TYPE.getOrDefault(id);
+        return Registry.VILLAGER_TYPE.get(id);
     }
 
     protected void setBiomeType(VillagerType type) {
-        this.dataManager.set(BIOME_TYPE, Registry.VILLAGER_TYPE.getKey(type).toString());
+        this.entityData.set(BIOME_TYPE, Registry.VILLAGER_TYPE.getKey(type).toString());
     }
 }

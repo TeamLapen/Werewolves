@@ -52,9 +52,9 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
     }
 
     @Override
-    public void onClose() {
+    public void removed() {
         updateServer();
-        super.onClose();
+        super.removed();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
     }
 
     private void updateServer() {
-        WerewolvesMod.dispatcher.sendToServer(new WerewolfAppearancePacket(this.entity.getEntityId(), "", activeForm, eyeType, skinType, glowingEyes?1:0));
+        WerewolvesMod.dispatcher.sendToServer(new WerewolfAppearancePacket(this.entity.getId(), "", activeForm, eyeType, skinType, glowingEyes?1:0));
     }
 
     @Override
@@ -76,8 +76,8 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
         boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.beast_form);
         boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.survival_form);
         this.human = this.addButton(new Button( this.guiLeft + 20, this.guiTop + 20, 40,20, WerewolfForm.HUMAN.getTextComponent(), (button1)-> switchToForm(WerewolfForm.HUMAN)));
-        this.beast = this.addButton(new Button( this.guiLeft + 60, this.guiTop + 20, 40,20, WerewolfForm.BEAST.getTextComponent(), (button1)-> switchToForm(WerewolfForm.BEAST), beastUnlocked? Button.field_238486_s_:notUnlocked));
-        this.survival = this.addButton(new Button( this.guiLeft + 100, this.guiTop + 20, 40,20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1)-> switchToForm(WerewolfForm.SURVIVALIST), survivalUnlocked? Button.field_238486_s_:notUnlocked));
+        this.beast = this.addButton(new Button( this.guiLeft + 60, this.guiTop + 20, 40,20, WerewolfForm.BEAST.getTextComponent(), (button1)-> switchToForm(WerewolfForm.BEAST), beastUnlocked? Button.NO_TOOLTIP:notUnlocked));
+        this.survival = this.addButton(new Button( this.guiLeft + 100, this.guiTop + 20, 40,20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1)-> switchToForm(WerewolfForm.SURVIVALIST), survivalUnlocked? Button.NO_TOOLTIP:notUnlocked));
         this.switchToForm(WerewolfForm.HUMAN);
     }
 
@@ -142,7 +142,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
         this.glowingEyesButton = this.addButton(new CheckboxButton(this.guiLeft + 20, this.guiTop + 90, 99, 20, new TranslationTextComponent("gui.vampirism.appearance.glowing_eye"), this.glowingEyes) {
             public void onPress() {
                 super.onPress();
-                glowingEyes = this.isChecked();
+                glowingEyes = this.selected();
                 werewolf.getGlowingEyes(form);
             }
         });
@@ -172,14 +172,14 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
     }
 
     private void setEyeListVisibility(boolean show) {
-        this.eyeButton.setMessage(eyeList.getMessage().deepCopy().appendString(" " + (eyeType + 1)));
+        this.eyeButton.setMessage(eyeList.getMessage().copy().append(" " + (eyeType + 1)));
         this.eyeList.visible = show;
         this.skinButton.visible = !show;
         if (show) this.skinList.visible = false;
     }
 
     private void setSkinListVisibility(boolean show) {
-        this.skinButton.setMessage(skinList.getMessage().deepCopy().appendString(" " + (skinType + 1)));
+        this.skinButton.setMessage(skinList.getMessage().copy().append(" " + (skinType + 1)));
         this.skinList.visible = show;
         if (show) this.eyeList.visible = false;
     }

@@ -6,7 +6,7 @@ repositories {
         url = "https://www.cursemaven.com"
     }
     maven {
-        url = "https://maxanier.de/maven2"
+        url = "https://maven.maxanier.de"
     }
     maven {
         url = "https://maven.paube.de"

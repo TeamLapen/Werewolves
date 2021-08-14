@@ -46,12 +46,12 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     }
 
     public SimpleWerewolfSkill defaultDescWithExtra(Supplier<ITextComponent> text) {
-        this.setDescription(() -> new TranslationTextComponent(this.getTranslationKey() + ".desc").appendString("\n").append(text.get()));
+        this.setDescription(() -> new TranslationTextComponent(this.getTranslationKey() + ".desc").append("\n").append(text.get()));
         return this;
     }
 
     public SimpleWerewolfSkill defaultDescWithExtra(TranslationTextComponent prefix, Supplier<ISkill> skill) {
-        this.setDescription(() -> new TranslationTextComponent(this.getTranslationKey() + ".desc").appendString("\n").append(prefix.mergeStyle(TextFormatting.AQUA)).appendString(" ").append(new TranslationTextComponent(skill.get().getTranslationKey()).mergeStyle(TextFormatting.AQUA)));
+        this.setDescription(() -> new TranslationTextComponent(this.getTranslationKey() + ".desc").append("\n").append(prefix.withStyle(TextFormatting.AQUA)).append(" ").append(new TranslationTextComponent(skill.get().getTranslationKey()).withStyle(TextFormatting.AQUA)));
         return this;
     }
 
@@ -89,7 +89,7 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
             ModifiableAttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
             if (attributes.getModifier(this.attribute) == null) {
                 //noinspection ConstantConditions
-                attributes.applyPersistentModifier(new AttributeModifier(this.attribute, this.getRegistryName().toString() + "_skill", this.attribute_value.apply(player), this.operation));
+                attributes.addPermanentModifier(new AttributeModifier(this.attribute, this.getRegistryName().toString() + "_skill", this.attribute_value.apply(player), this.operation));
             }
         }
     }

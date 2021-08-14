@@ -28,7 +28,7 @@ public class WerewolfRenderer<T extends BasicWerewolfEntity> extends MobRenderer
 
     @Nonnull
     @Override
-    public ResourceLocation getEntityTexture(@Nonnull T entity) {
+    public ResourceLocation getTextureLocation(@Nonnull T entity) {
         return this.getWerewolfTexture(entity.getEntityTextureType());
     }
 }

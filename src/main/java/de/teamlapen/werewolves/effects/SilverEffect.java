@@ -20,12 +20,12 @@ public class SilverEffect extends WerewolvesEffect {
 
     public SilverEffect() {
         super("silver", EffectType.HARMFUL, 0xC0C0C0);
-        this.addAttributesModifier(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
-        this.addAttributesModifier(Attributes.ARMOR, ARMOR, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(Attributes.ARMOR, ARMOR, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     @Override
-    public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
     }
 
     public static EffectInstance createEffect(LivingEntity entity, int defaultDuration) {

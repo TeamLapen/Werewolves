@@ -12,7 +12,7 @@ public class BleedingEffect extends WerewolvesEffect {
     }
 
     @Override
-    public boolean isReady(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         int j = 25 >> amplifier;
         if (j > 0) {
             return duration % j == 0;
@@ -22,14 +22,14 @@ public class BleedingEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void performEffect(LivingEntity entityLivingBaseIn, int amplifier) {
-        if (entityLivingBaseIn.isEntityUndead()) {
-            entityLivingBaseIn.removePotionEffect(ModEffects.bleeding);
+    public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier) {
+        if (entityLivingBaseIn.isInvertedHealAndHarm()) {
+            entityLivingBaseIn.removeEffect(ModEffects.bleeding);
             return;
         }
 
         if (entityLivingBaseIn.getHealth() > 1.0F) {
-            entityLivingBaseIn.attackEntityFrom(DamageSource.MAGIC, 1.0F);
+            entityLivingBaseIn.hurt(DamageSource.MAGIC, 1.0F);
         }
     }
 }

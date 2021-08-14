@@ -17,30 +17,30 @@ public class HowlingEffect extends WerewolvesEffect {
 
     public HowlingEffect() {
         super("howling", EffectType.BENEFICIAL, 0xFFC90E);
-        this.addAttributesModifier(Attributes.ATTACK_SPEED, ATTACK_SPEED, WerewolvesConfig.BALANCE.SKILLS.howling_attackspeed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(Attributes.ATTACK_SPEED, ATTACK_SPEED, WerewolvesConfig.BALANCE.SKILLS.howling_attackspeed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     @Override
-    public boolean isReady(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return duration == WerewolvesConfig.BALANCE.SKILLS.howling_disabled_duration.get() * 20;
     }
 
     @Override
-    public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
-        this.removeAttributesModifiersFromEntity(entityLivingBaseIn, entityLivingBaseIn.getAttributeManager(), amplifier);
+    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+        this.removeAttributeModifiers(entityLivingBaseIn, entityLivingBaseIn.getAttributes(), amplifier);
     }
 
     @Override
-    public void removeAttributesModifiersFromEntity(@Nonnull LivingEntity entityLivingBaseIn, @Nonnull AttributeModifierManager attributeMapIn, int amplifier) {
+    public void removeAttributeModifiers(@Nonnull LivingEntity entityLivingBaseIn, @Nonnull AttributeModifierManager attributeMapIn, int amplifier) {
         if (Helper.isWerewolf(entityLivingBaseIn)) {
-            super.removeAttributesModifiersFromEntity(entityLivingBaseIn, attributeMapIn, amplifier);
+            super.removeAttributeModifiers(entityLivingBaseIn, attributeMapIn, amplifier);
         }
     }
 
     @Override
-    public void applyAttributesModifiersToEntity(@Nonnull LivingEntity entityLivingBaseIn, @Nonnull AttributeModifierManager attributeMapIn, int amplifier) {
+    public void addAttributeModifiers(@Nonnull LivingEntity entityLivingBaseIn, @Nonnull AttributeModifierManager attributeMapIn, int amplifier) {
         if (Helper.isWerewolf(entityLivingBaseIn)) {
-            super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
+            super.addAttributeModifiers(entityLivingBaseIn, attributeMapIn, amplifier);
         }
     }
 }

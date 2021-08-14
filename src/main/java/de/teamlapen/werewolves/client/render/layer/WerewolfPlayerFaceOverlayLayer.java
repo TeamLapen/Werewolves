@@ -32,9 +32,9 @@ public class WerewolfPlayerFaceOverlayLayer extends LayerRenderer<AbstractClient
     public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull AbstractClientPlayerEntity player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         WerewolfPlayer werewolf = WerewolfPlayer.get(player);
         int eyeType = Math.max(0, Math.min(werewolf.getEyeType(((WerewolfPlayerRenderer) ((LayerRendererAccessor<?, ?>) this).getRenderer()).getForm()), eyeOverlays.length - 1));
-        RenderType renderType = werewolf.getGlowingEyes(werewolf.getForm()) ? RenderType.getEyes(eyeOverlays[eyeType]) : RenderType.getEntityCutoutNoCull(eyeOverlays[eyeType]);
+        RenderType renderType = werewolf.getGlowingEyes(werewolf.getForm()) ? RenderType.eyes(eyeOverlays[eyeType]) : RenderType.entityCutoutNoCull(eyeOverlays[eyeType]);
         IVertexBuilder vertexBuilderEye = bufferIn.getBuffer(renderType);
-        int packerOverlay = LivingRenderer.getPackedOverlay(player, 0);
-        this.getEntityModel().getModelRenderer().render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
+        int packerOverlay = LivingRenderer.getOverlayCoords(player, 0);
+        this.getParentModel().getModelRenderer().render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
     }
 }

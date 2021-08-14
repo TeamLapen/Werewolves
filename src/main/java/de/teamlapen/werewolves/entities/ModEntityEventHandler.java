@@ -30,8 +30,8 @@ public class ModEntityEventHandler {
     @SubscribeEvent
     public void onEntityAttacked(AttackEntityEvent event) {
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
-            if (ModTags.Items.SILVER_TOOL.contains(event.getPlayer().getHeldItemMainhand().getItem())) {
-                ((LivingEntity) event.getTarget()).addPotionEffect(SilverEffect.createEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
+            if (ModTags.Items.SILVER_TOOL.contains(event.getPlayer().getMainHandItem().getItem())) {
+                ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
             }
         }
         if (event.getTarget() instanceof WerewolfTransformable) {
@@ -46,7 +46,7 @@ public class ModEntityEventHandler {
         if (event.getTarget() instanceof ServerPlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getTarget()))) {
                 if (WerewolfPlayer.getOpt(((ServerPlayerEntity) event.getTarget())).map(werewolf -> werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.sixth_sense)).orElse(false)) {
-                    WerewolvesMod.dispatcher.sendTo(new AttackTargetEventPacket(event.getEntity().getEntityId()), ((ServerPlayerEntity) event.getTarget()));
+                    WerewolvesMod.dispatcher.sendTo(new AttackTargetEventPacket(event.getEntity().getId()), ((ServerPlayerEntity) event.getTarget()));
                 }
             }
         }
@@ -54,12 +54,12 @@ public class ModEntityEventHandler {
 
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if (event.getEntity().world.isRemote()) return;
+        if (event.getEntity().level.isClientSide()) return;
         if (event.getEntity() instanceof VillagerEntity) {
-            Optional<TotemTileEntity> totemOpt = TotemHelper.getTotemNearPos(((ServerWorld) event.getWorld()), event.getEntity().getPosition(), true);
+            Optional<TotemTileEntity> totemOpt = TotemHelper.getTotemNearPos(((ServerWorld) event.getWorld()), event.getEntity().blockPosition(), true);
             totemOpt.ifPresent(totem -> {
                 if (WReference.WEREWOLF_FACTION.equals(totem.getControllingFaction())) {
-                    if (((VillagerEntity) event.getEntity()).getRNG().nextBoolean()) {
+                    if (((VillagerEntity) event.getEntity()).getRandom().nextBoolean()) {
                         ((IVillagerTransformable) event.getEntity()).setWerewolfFaction(true);
                     }
                 }

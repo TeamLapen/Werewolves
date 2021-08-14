@@ -32,11 +32,11 @@ public class InputEventPacket implements IMessage {
     }
 
     static void encode(InputEventPacket msg, PacketBuffer buf) {
-        buf.writeString(msg.action + SPLIT + msg.param);
+        buf.writeUtf(msg.action + SPLIT + msg.param);
     }
 
     static InputEventPacket decode(PacketBuffer buf) {
-        String[] s = buf.readString(50).split(SPLIT);
+        String[] s = buf.readUtf(50).split(SPLIT);
         InputEventPacket msg = new InputEventPacket();
         msg.action = s[0];
         if (s.length > 1) {

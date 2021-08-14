@@ -20,8 +20,8 @@ public class WWorldEventHandler {
 
     @SubscribeEvent
     public void onVillageCaptureFinish(VampirismVillageEvent.VillagerCaptureFinish.Pre event) {
-        World world = ((TileEntity) event.getTotem()).getWorld();
-        List<MobEntity> werewolves = world.getEntitiesWithinAABB(MobEntity.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
+        World world = ((TileEntity) event.getTotem()).getLevel();
+        List<MobEntity> werewolves = world.getEntitiesOfClass(MobEntity.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
         if (WReference.WEREWOLF_FACTION.equals(event.getControllingFaction())) {
             werewolves.forEach(e -> {
                 if (e instanceof IVillagerTransformable) {
@@ -53,7 +53,7 @@ public class WWorldEventHandler {
     @SubscribeEvent
     public void onVillageReplaceBlock(VampirismVillageEvent.ReplaceBlock event) {
         if (event.getState().getBlock() == ModBlocks.cursed_earth) {
-            ((TileEntity) event.getTotem()).getWorld().setBlockState(event.getBlockPos(), ((TileEntity) event.getTotem()).getWorld().getBiome(event.getBlockPos()).getGenerationSettings().getSurfaceBuilderConfig().getTop());
+            ((TileEntity) event.getTotem()).getLevel().setBlockAndUpdate(event.getBlockPos(), ((TileEntity) event.getTotem()).getLevel().getBiome(event.getBlockPos()).getGenerationSettings().getSurfaceBuilderConfig().getTopMaterial());
         }
     }
     @SubscribeEvent
@@ -65,10 +65,10 @@ public class WWorldEventHandler {
     }
 
     private void spawnEntity(World world, MobEntity newEntity, MobEntity oldEntity, boolean replaceOld) {
-        newEntity.copyDataFromOld(oldEntity);
-        newEntity.setUniqueId(MathHelper.getRandomUUID());
+        newEntity.restoreFrom(oldEntity);
+        newEntity.setUUID(MathHelper.createInsecureUUID());
         if (replaceOld) oldEntity.remove();
-        world.addEntity(newEntity);
+        world.addFreshEntity(newEntity);
     }
 
     private MobEntity getCaptureEntity(IFaction<?> faction, World world) {

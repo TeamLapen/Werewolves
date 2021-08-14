@@ -23,59 +23,59 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     @Override
-    protected void registerRecipes(@Nonnull Consumer<IFinishedRecipe> consumer) {
+    protected void buildShapelessRecipes(@Nonnull Consumer<IFinishedRecipe> consumer) {
         ITag<Item> sticks = Tags.Items.RODS_WOODEN;
         ITag<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
 
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromTag(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 200).addCriterion("has_silver_ore", hasItem(ModTags.Items.SILVER_ORE)).build(consumer);
-        CookingRecipeBuilder.blastingRecipe(Ingredient.fromTag(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).addCriterion("has_silver_ore", hasItem(ModTags.Items.SILVER_ORE)).build(consumer,modId("silver_ingot_from_blasting"));
+        CookingRecipeBuilder.smelting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 200).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer);
+        CookingRecipeBuilder.blasting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer,modId("silver_ingot_from_blasting"));
 
-        ShapelessRecipeBuilder.shapelessRecipe(ModBlocks.magic_planks, 4)
-                .addIngredient(ModBlocks.magic_log).addCriterion("has_magic_log", hasItem(ModBlocks.magic_log))
-                .build(consumer, modId("magic_planks_from_magic_log"));
-        ShapelessRecipeBuilder.shapelessRecipe(Blocks.OAK_PLANKS, 4)
-                .addIngredient(ModBlocks.jacaranda_log).addCriterion("has_jacaranda_log", hasItem(ModBlocks.jacaranda_log))
-                .build(consumer, modId("oak_planks_from_jacaranda_log"));
-        ShapelessRecipeBuilder.shapelessRecipe(Items.BONE, 2)
-                .addIngredient(ModItems.bone).addCriterion("has_bone", hasItem(ModItems.bone))
-                .build(consumer);
-        ShapelessRecipeBuilder.shapelessRecipe(Items.PURPLE_DYE)
-                .addIngredient(ModBlocks.wolfsbane).addCriterion("has_wolfsbane", hasItem(ModBlocks.wolfsbane))
-                .build(consumer);
-        ShapelessRecipeBuilder.shapelessRecipe(ModItems.silver_ingot,9)
-                .addIngredient(ModBlocks.silver_block).addCriterion("has_silver_block", hasItem(ModBlocks.silver_block))
-                .build(consumer, modId("iron_ingot_from_iron_block"));
+        ShapelessRecipeBuilder.shapeless(ModBlocks.magic_planks, 4)
+                .requires(ModBlocks.magic_log).unlockedBy("has_magic_log", has(ModBlocks.magic_log))
+                .save(consumer, modId("magic_planks_from_magic_log"));
+        ShapelessRecipeBuilder.shapeless(Blocks.OAK_PLANKS, 4)
+                .requires(ModBlocks.jacaranda_log).unlockedBy("has_jacaranda_log", has(ModBlocks.jacaranda_log))
+                .save(consumer, modId("oak_planks_from_jacaranda_log"));
+        ShapelessRecipeBuilder.shapeless(Items.BONE, 2)
+                .requires(ModItems.bone).unlockedBy("has_bone", has(ModItems.bone))
+                .save(consumer);
+        ShapelessRecipeBuilder.shapeless(Items.PURPLE_DYE)
+                .requires(ModBlocks.wolfsbane).unlockedBy("has_wolfsbane", has(ModBlocks.wolfsbane))
+                .save(consumer);
+        ShapelessRecipeBuilder.shapeless(ModItems.silver_ingot,9)
+                .requires(ModBlocks.silver_block).unlockedBy("has_silver_block", has(ModBlocks.silver_block))
+                .save(consumer, modId("iron_ingot_from_iron_block"));
 
-        ShapedRecipeBuilder.shapedRecipe(ModItems.silver_hoe).patternLine("XX").patternLine(" #").patternLine(" #")
-                .key('#', sticks).addCriterion("has_sticks", hasItem(sticks))
-                .key('X', silver_ingot).addCriterion("has_silver_ingot", hasItem(silver_ingot))
-                .build(consumer);
-        ShapedRecipeBuilder.shapedRecipe(ModItems.silver_shovel).patternLine("X").patternLine("#").patternLine("#")
-                .key('#', sticks).addCriterion("has_sticks", hasItem(sticks))
-                .key('X', silver_ingot).addCriterion("has_silver_ingot", hasItem(silver_ingot))
-                .build(consumer);
-        ShapedRecipeBuilder.shapedRecipe(ModItems.silver_sword).patternLine("X").patternLine("X").patternLine("#")
-                .key('#', sticks).addCriterion("has_sticks", hasItem(sticks))
-                .key('X', silver_ingot).addCriterion("has_silver_ingot", hasItem(silver_ingot))
-                .build(consumer);
-        ShapedRecipeBuilder.shapedRecipe(ModItems.silver_axe).patternLine("XX").patternLine("X#").patternLine(" #")
-                .key('#', sticks).addCriterion("has_sticks", hasItem(sticks))
-                .key('X', silver_ingot).addCriterion("has_silver_ingot", hasItem(silver_ingot))
-                .build(consumer);
-        ShapedRecipeBuilder.shapedRecipe(ModItems.silver_pickaxe).patternLine("XXX").patternLine(" # ").patternLine(" # ")
-                .key('#', sticks).addCriterion("has_sticks", hasItem(sticks))
-                .key('X', silver_ingot).addCriterion("has_silver_ingot", hasItem(silver_ingot))
-                .build(consumer);
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.stone_altar).patternLine("S S").patternLine("SSS").patternLine("SSS")
-                .key('S', Items.STONE_BRICKS).addCriterion("has_stone_bricks", hasItem(Items.STONE_BRICKS))
-                .build(consumer);
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.stone_altar_fire_bowl).patternLine("SPS").patternLine("SSS").patternLine(" S ")
-                .key('S', Items.STONE_BRICKS).addCriterion("has_stone_bricks", hasItem(Items.STONE_BRICKS))
-                .key('P', ItemTags.PLANKS).addCriterion("has_planks", hasItem(ItemTags.PLANKS))
-                .build(consumer);
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.silver_block).patternLine("###").patternLine("###").patternLine("###")
-                .key('#', silver_ingot).addCriterion("has_silver_ingot", hasItem(silver_ingot))
-                .build(consumer);
+        ShapedRecipeBuilder.shaped(ModItems.silver_hoe).pattern("XX").pattern(" #").pattern(" #")
+                .define('#', sticks).unlockedBy("has_sticks", has(sticks))
+                .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(ModItems.silver_shovel).pattern("X").pattern("#").pattern("#")
+                .define('#', sticks).unlockedBy("has_sticks", has(sticks))
+                .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(ModItems.silver_sword).pattern("X").pattern("X").pattern("#")
+                .define('#', sticks).unlockedBy("has_sticks", has(sticks))
+                .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(ModItems.silver_axe).pattern("XX").pattern("X#").pattern(" #")
+                .define('#', sticks).unlockedBy("has_sticks", has(sticks))
+                .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(ModItems.silver_pickaxe).pattern("XXX").pattern(" # ").pattern(" # ")
+                .define('#', sticks).unlockedBy("has_sticks", has(sticks))
+                .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(ModBlocks.stone_altar).pattern("S S").pattern("SSS").pattern("SSS")
+                .define('S', Items.STONE_BRICKS).unlockedBy("has_stone_bricks", has(Items.STONE_BRICKS))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(ModBlocks.stone_altar_fire_bowl).pattern("SPS").pattern("SSS").pattern(" S ")
+                .define('S', Items.STONE_BRICKS).unlockedBy("has_stone_bricks", has(Items.STONE_BRICKS))
+                .define('P', ItemTags.PLANKS).unlockedBy("has_planks", has(ItemTags.PLANKS))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(ModBlocks.silver_block).pattern("###").pattern("###").pattern("###")
+                .define('#', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
+                .save(consumer);
     }
 
     private static ResourceLocation modId(String name) {

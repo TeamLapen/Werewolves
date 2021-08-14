@@ -15,22 +15,22 @@ import javax.annotation.Nonnull;
 
 public class LiverItem extends Item {
     public LiverItem() {
-        super(new Item.Properties().group(WUtils.creativeTab).food(new Food.Builder().meat().hunger(10).saturation(1.5f).build()));
+        super(new Item.Properties().tab(WUtils.creativeTab).food(new Food.Builder().meat().nutrition(10).saturationMod(1.5f).build()));
     }
 
     @Nonnull
     @Override
-    public ItemStack onItemUseFinish(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull LivingEntity entityLiving) {
+    public ItemStack finishUsingItem(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull LivingEntity entityLiving) {
         //copied from VampirismItemBloodFood
         if (entityLiving instanceof PlayerEntity) {
-            assert stack.getItem().getFood() != null;
+            assert stack.getItem().getFoodProperties() != null;
 
             PlayerEntity player = (PlayerEntity) entityLiving;
             VampirePlayer.getOpt(player).ifPresent((v) -> {
-                v.drinkBlood(stack.getItem().getFood().getHealing(), stack.getItem().getFood().getSaturation());
+                v.drinkBlood(stack.getItem().getFoodProperties().getNutrition(), stack.getItem().getFoodProperties().getSaturationModifier());
             });
-            worldIn.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
-            entityLiving.onFoodEaten(worldIn, stack);
+            worldIn.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
+            entityLiving.eat(worldIn, stack);
         }
 
         return stack;

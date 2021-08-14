@@ -22,9 +22,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         super(world, profile);
     }
 
-    @Inject(method = "onUpdateWalkingPlayer", at = @At("RETURN"))
-    public void sd(CallbackInfo ci){
-        if (this.isCurrentViewEntity()){
+    @Inject(method = "sendPosition()V", at = @At("RETURN"))
+    public void sendPosition(CallbackInfo ci){
+        if (this.isControlledCamera()){
             if (WerewolfPlayer.getOpt(this).map(w -> w.getForm() == WerewolfForm.SURVIVALIST && w.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)).orElse(false)) {
                 this.autoJumpEnabled = false;
             }
@@ -32,5 +32,5 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     }
 
     @Shadow
-    protected abstract boolean isCurrentViewEntity();
+    protected abstract boolean isControlledCamera();
 }

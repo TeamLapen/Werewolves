@@ -38,27 +38,27 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
 
     static void registerItems(IForgeRegistry<Item> registry) {
-        registry.register(new Item((new Item.Properties()).group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
+        registry.register(new Item((new Item.Properties()).tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
 
-        registry.register(new HoeItem(WUtils.SILVER_ITEM_TIER, 0, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_hoe"));
-        registry.register(new ShovelItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_shovel"));
-        registry.register(new AxeItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_axe"));
-        registry.register(new PickaxeItem(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_pickaxe"));
-        registry.register(new SilverSword(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_sword"));
+        registry.register(new HoeItem(WUtils.SILVER_ITEM_TIER, 0, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_hoe"));
+        registry.register(new ShovelItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_shovel"));
+        registry.register(new AxeItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_axe"));
+        registry.register(new PickaxeItem(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_pickaxe"));
+        registry.register(new SilverSword(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_sword"));
         registry.register(new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
             @Override
             public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
                 if (Helper.isWerewolf(entity)) {
-                    entity.addPotionEffect(SilverEffect.createEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20));
+                    entity.addEffect(SilverEffect.createEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20));
                 }
             }
         }));
 
         registry.register(new LiverItem().setRegistryName(REFERENCE.MODID, "liver"));
-        registry.register(new Item(new Item.Properties().group(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "bone"));
+        registry.register(new Item(new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "bone"));
         registry.register(new UnWerewolfInjectionItem());
-        registry.register(new SpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
-        registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
-        registry.register(new SpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
+        registry.register(new SpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
+        registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
+        registry.register(new SpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
     }
 }

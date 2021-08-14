@@ -18,7 +18,7 @@ public class WerewolfEyeCommand extends BasicCommand {
                 .then(Commands.argument("form", WerewolfFormArgument.formArgument())
                         .then(Commands.argument("type", IntegerArgumentType.integer(0, REFERENCE.EYE_TYPE_COUNT-1))
                                 .executes(context -> {
-                                    return setEye(context, context.getSource().asPlayer(), IntegerArgumentType.getInteger(context, "type"), WerewolfFormArgument.getForm(context, "form"));
+                                    return setEye(context, context.getSource().getPlayerOrException(), IntegerArgumentType.getInteger(context, "type"), WerewolfFormArgument.getForm(context, "form"));
                         })));
     }
 

@@ -41,7 +41,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     public static boolean isInWerewolfBiome(IWorld world, BlockPos pos) {
         ResourceLocation loc = world.getBiome(pos).getRegistryName();
         if (loc != null) {
-            ResourceLocation a = ModBiomes.WEREWOLF_HEAVEN_KEY.getLocation();
+            ResourceLocation a = ModBiomes.WEREWOLF_HEAVEN_KEY.location();
             return loc.equals(a);
         }
         return false;
@@ -53,12 +53,12 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static boolean isNight(World world) {
         long time = world.getDayTime() % 24000;
-        return !world.getDimensionType().doesFixedTimeExist() && time > 12786 && time < 23216;
+        return !world.dimensionType().hasFixedTime() && time > 12786 && time < 23216;
     }
 
     public static boolean isFullMoon(World world) {
         long time = world.getDayTime() % 192000;
-        return !world.getDimensionType().doesFixedTimeExist() && time > 12786 && time < 23216;
+        return !world.dimensionType().hasFixedTime() && time > 12786 && time < 23216;
     }
 
     public static Map<Item, Integer> getMissingItems(IInventory inventory, Item[] items, int[] amount){
@@ -67,8 +67,8 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
             missing.put(items[i], amount[i]);
         }
 
-        for (int i = 0; i < inventory.getSizeInventory(); i++) {
-            ItemStack stack = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
             missing.computeIfPresent(stack.getItem(), (item, amount1) -> amount1 - stack.getCount());
         }
         missing.entrySet().removeIf(s -> s.getValue() <= 0);

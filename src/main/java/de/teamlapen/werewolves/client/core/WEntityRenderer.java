@@ -14,7 +14,7 @@ public class WEntityRenderer {
     public static WerewolfPlayerRenderer render;
 
     public static void registerEntityRenderer() {
-        render = new WerewolfPlayerRenderer(Minecraft.getInstance().getRenderManager());
+        render = new WerewolfPlayerRenderer(Minecraft.getInstance().getEntityRenderDispatcher());
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_beast, WerewolfBeastRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_survivalist, WerewolfSurvivalistRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.human_werewolf, HumanWerewolfRenderer::new);

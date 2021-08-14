@@ -15,40 +15,40 @@ public class WUtils {
     public static final ItemGroup creativeTab = new ItemGroup(REFERENCE.MODID) {
         @Nonnull
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(ModItems.liver);
         }
     };
     public static final IItemTier SILVER_ITEM_TIER = new IItemTier() {
         @Override
-        public int getMaxUses() {
+        public int getUses() {
             return 250;
         }
 
         @Override
-        public float getEfficiency() {
+        public float getSpeed() {
             return 6.0f;
         }
 
         @Override
-        public float getAttackDamage() {
+        public float getAttackDamageBonus() {
             return 2.0f;
         }
 
         @Override
-        public int getHarvestLevel() {
+        public int getLevel() {
             return 2;
         }
 
         @Override
-        public int getEnchantability() {
+        public int getEnchantmentValue() {
             return 14;
         }
 
         @Nonnull
         @Override
-        public Ingredient getRepairMaterial() {
-            return Ingredient.fromTag(ModTags.Items.SILVER_INGOT);
+        public Ingredient getRepairIngredient() {
+            return Ingredient.of(ModTags.Items.SILVER_INGOT);
         }
     };
 

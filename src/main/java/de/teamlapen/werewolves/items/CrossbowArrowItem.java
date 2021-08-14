@@ -27,7 +27,7 @@ public class CrossbowArrowItem extends Item implements IVampirismCrossbowArrow<C
     private final ArrowType type;
 
     public CrossbowArrowItem(ArrowType type) {
-        super(new Item.Properties().group(WUtils.creativeTab));
+        super(new Item.Properties().tab(WUtils.creativeTab));
         this.type = type;
         this.setRegistryName(REFERENCE.MODID, "crossbow_arrow_" + type.name);
     }
@@ -35,14 +35,14 @@ public class CrossbowArrowItem extends Item implements IVampirismCrossbowArrow<C
     @Override
     public CrossbowArrowEntity createEntity(ItemStack stack, World world, PlayerEntity player, double heightOffset, double centerOffset, boolean rightHand) {
         CrossbowArrowEntity entity = CrossbowArrowEntity.createWithShooter(world, player, heightOffset, centerOffset, rightHand, stack);
-        entity.setDamage(this.type.baseDamage * VampirismConfig.BALANCE.crossbowDamageMult.get());
+        entity.setBaseDamage(this.type.baseDamage * VampirismConfig.BALANCE.crossbowDamageMult.get());
         return entity;
     }
 
     @Override
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World worldIn, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
+    public void appendHoverText(@Nonnull ItemStack stack, @Nullable World worldIn, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
         if (this.type.hasToolTip) {
-            tooltip.add(new TranslationTextComponent(this.getTranslationKey() + ".tooltip").mergeStyle(TextFormatting.GRAY));
+            tooltip.add(new TranslationTextComponent(this.getDescriptionId() + ".tooltip").withStyle(TextFormatting.GRAY));
         }
     }
 

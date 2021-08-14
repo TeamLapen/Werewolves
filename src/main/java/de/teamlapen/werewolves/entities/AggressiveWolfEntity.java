@@ -28,8 +28,8 @@ public class AggressiveWolfEntity extends WolfEntity {
 
     @Nonnull
     @Override
-    protected ITextComponent getProfessionName() {
-        return EntityType.WOLF.getName();
+    protected ITextComponent getTypeName() {
+        return EntityType.WOLF.getDescription();
     }
 
     @Nullable
@@ -39,14 +39,14 @@ public class AggressiveWolfEntity extends WolfEntity {
     }
 
     @Override
-    public void writeAdditional(@Nonnull CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(@Nonnull CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putBoolean("restrictLiveSpan", this.restrictLiveSpan);
     }
 
     @Override
-    public void readAdditional(@Nonnull CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(@Nonnull CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.restrictLiveSpan = compound.getBoolean("restrictLiveSpan");
     }
 
@@ -54,15 +54,15 @@ public class AggressiveWolfEntity extends WolfEntity {
     public void tick() {
         super.tick();
         if (this.restrictLiveSpan) {
-            if (this.ticksExisted > maxTicks) {
-                this.attackEntityFrom(DamageSource.MAGIC, 10.0F);
+            if (this.tickCount > maxTicks) {
+                this.hurt(DamageSource.MAGIC, 10.0F);
             }
         }
     }
 
     @Override
-    public void onDeath(@Nonnull DamageSource cause) {
+    public void die(@Nonnull DamageSource cause) {
         dead = true;
-        super.onDeath(cause);
+        super.die(cause);
     }
 }

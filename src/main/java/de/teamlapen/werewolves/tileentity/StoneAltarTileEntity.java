@@ -66,36 +66,36 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
 
     @Override
     public void tick() {
-        if (this.world != null && !this.world.isRemote) {
+        if (this.level != null && !this.level.isClientSide) {
             if (this.playerUuid != null) {
                 if (!loadRitual(this.playerUuid)) return;
                 this.playerUuid = null;
-                this.markDirty();
-                BlockState state = this.world.getBlockState(this.pos);
-                this.world.notifyBlockUpdate(this.pos, state, state, 3);
+                this.setChanged();
+                BlockState state = this.level.getBlockState(this.worldPosition);
+                this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
             }
-            BlockState state = this.world.getBlockState(this.pos);
+            BlockState state = this.level.getBlockState(this.worldPosition);
             switch (this.phase) {
                 case STARTING:
                     if (ticks == 0) {
                         this.phase = Phase.FOG;
                         this.ticks = 300;
-                        this.markDirty();
-                        this.world.notifyBlockUpdate(getPos(), state, state, 3); //Notify client about started ritual
+                        this.setChanged();
+                        this.level.sendBlockUpdated(getBlockPos(), state, state, 3); //Notify client about started ritual
                     }
                     break;
                 case FOG:
                     if (ticks == 0) {
                         this.phase = Phase.ENDING;
                         this.ticks = 90;
-                        this.player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 120, 3, false, false));
-                        this.markDirty();
-                        this.world.setBlockState(this.pos, ModBlocks.stone_altar.getDefaultState().with(StoneAltarBlock.LIT, false));
+                        this.player.addEffect(new EffectInstance(Effects.BLINDNESS, 120, 3, false, false));
+                        this.setChanged();
+                        this.level.setBlockAndUpdate(this.worldPosition, ModBlocks.stone_altar.defaultBlockState().setValue(StoneAltarBlock.LIT, false));
                     } else if (this.ticks % 10 == 0) {
-                        ModParticles.spawnParticlesServer(this.world, ParticleTypes.MYCELIUM, this.pos.getX() + Math.random(), this.pos.getY() + 1, this.pos.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
+                        ModParticles.spawnParticlesServer(this.level, ParticleTypes.MYCELIUM, this.worldPosition.getX() + Math.random(), this.worldPosition.getY() + 1, this.worldPosition.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
                         if (fire_bowls != null) {
                             for (BlockPos fire_bowl : fire_bowls) {
-                                ModParticles.spawnParticlesServer(this.world, ParticleTypes.MYCELIUM, fire_bowl.getX() + Math.random(), fire_bowl.getY() + 1, fire_bowl.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
+                                ModParticles.spawnParticlesServer(this.level, ParticleTypes.MYCELIUM, fire_bowl.getX() + Math.random(), fire_bowl.getY() + 1, fire_bowl.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
                             }
                         }
                     }
@@ -105,8 +105,8 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
                         this.phase = Phase.NOT_RUNNING;
                         this.endRitual();
                         this.cleanup();
-                        this.markDirty();
-                        this.world.notifyBlockUpdate(getPos(), state, state, 3); //Notify client about started ritual
+                        this.setChanged();
+                        this.level.sendBlockUpdated(getBlockPos(), state, state, 3); //Notify client about started ritual
                     }
                     break;
                 case NOT_RUNNING:
@@ -117,9 +117,9 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
     }
 
     public boolean loadRitual(UUID playerUuid) {
-        if (this.world == null) return false;
-        if (this.world.getPlayers().size() == 0) return false;
-        this.player = this.world.getPlayerByUuid(playerUuid);
+        if (this.level == null) return false;
+        if (this.level.players().size() == 0) return false;
+        this.player = this.level.getPlayerByUUID(playerUuid);
         if (this.player != null && player.isAlive()) {
             this.targetLevel = WerewolfPlayer.get(player).getLevel() + 1;
         } else {
@@ -132,21 +132,21 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
 
     public void startRitual(PlayerEntity player) {
         if (phase == Phase.NOT_RUNNING) {
-            BlockState state = this.world.getBlockState(this.pos);
+            BlockState state = this.level.getBlockState(this.worldPosition);
             this.phase = Phase.STARTING;
             this.ticks = 40;
             this.player = player;
             this.consumeItems();
-            this.markDirty();
-            this.world.setBlockState(this.pos, ModBlocks.stone_altar.getDefaultState().with(StoneAltarBlock.LIT, true));
+            this.setChanged();
+            this.level.setBlockAndUpdate(this.worldPosition, ModBlocks.stone_altar.defaultBlockState().setValue(StoneAltarBlock.LIT, true));
         }
     }
 
     @Override
-    public void setInventorySlotContents(int slot, ItemStack stack) {
-        super.setInventorySlotContents(slot, stack);
-        BlockState state = this.world.getBlockState(pos);
-        this.world.notifyBlockUpdate(getPos(), state, state, 3); //Notify client about started ritual
+    public void setItem(int slot, ItemStack stack) {
+        super.setItem(slot, stack);
+        BlockState state = this.level.getBlockState(worldPosition);
+        this.level.sendBlockUpdated(getBlockPos(), state, state, 3); //Notify client about started ritual
     }
 
     public void cleanup() {
@@ -162,8 +162,8 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
 
     public void consumeItems() {
         WerewolfLevelConf.StoneAltarRequirement requirement = ((WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(FactionPlayerHandler.get(this.player).getCurrentLevel() + 1));
-        this.getStackInSlot(0).shrink(requirement.liverAmount);
-        this.getStackInSlot(1).shrink(requirement.bonesAmount);
+        this.getItem(0).shrink(requirement.liverAmount);
+        this.getItem(1).shrink(requirement.bonesAmount);
     }
 
     public Phase getCurrentPhase() {
@@ -184,7 +184,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         Result r = checkStructure();
         if (r != null) {
             return r;
-        } else if (player.getEntityWorld().isDaytime()) {
+        } else if (player.getCommandSenderWorld().isDay()) {
             return Result.NIGHT_ONLY;
         } else if (!checkItemRequirements(player)) {
             return Result.INV_MISSING;
@@ -196,15 +196,15 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         List<BlockPos> i = new ArrayList<>();
         List<BlockPos> h = new ArrayList<>();
 
-        AxisAlignedBB aabb = new AxisAlignedBB(this.pos).grow(3);
+        AxisAlignedBB aabb = new AxisAlignedBB(this.worldPosition).inflate(3);
         for (double x = aabb.minX; x <= aabb.maxX; ++x) {
             for (double y = aabb.minY; y <= aabb.maxY; ++y) {
                 for (double z = aabb.minZ; z <= aabb.maxZ; ++z) {
                     BlockPos pos = new BlockPos(x, y, z);
-                    BlockState state = this.world.getBlockState(pos);
+                    BlockState state = this.level.getBlockState(pos);
                     if (state.getBlock() == ModBlocks.stone_altar_fire_bowl) {
                         i.add(pos);
-                        if (state.get(StoneAltarFireBowlBlock.LIT)) {
+                        if (state.getValue(StoneAltarFireBowlBlock.LIT)) {
                             h.add(pos);
                         }
                     }
@@ -250,37 +250,37 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
     @Nonnull
     @Override
     protected Container createMenu(int id, @Nonnull PlayerInventory playerInventory) {
-        return new StoneAltarContainer(id, playerInventory, this, this.world == null ? IWorldPosCallable.DUMMY : IWorldPosCallable.of(this.world, this.pos));
+        return new StoneAltarContainer(id, playerInventory, this, this.level == null ? IWorldPosCallable.NULL : IWorldPosCallable.create(this.level, this.worldPosition));
     }
 
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.pos, 12, this.getUpdateTag());
+        return new SUpdateTileEntityPacket(this.worldPosition, 12, this.getUpdateTag());
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
-        return this.write(new CompoundNBT());
+        return this.save(new CompoundNBT());
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         super.onDataPacket(net, pkt);
-        this.read(null, pkt.getNbtCompound());//TODO check
+        this.load(null, pkt.getTag());//TODO check
     }
 
     @Override
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        read(state, tag);
+        load(state, tag);
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tagCompound) {
-        super.read(state, tagCompound);
-        if (tagCompound.hasUniqueId("player")) {
-            UUID playerUuid = tagCompound.getUniqueId("player");
+    public void load(BlockState state, CompoundNBT tagCompound) {
+        super.load(state, tagCompound);
+        if (tagCompound.hasUUID("player")) {
+            UUID playerUuid = tagCompound.getUUID("player");
             if (!this.loadRitual(playerUuid)) {
                 this.playerUuid = playerUuid;
             }
@@ -290,13 +290,13 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT save(CompoundNBT compound) {
         if (player != null) {
-            compound.putUniqueId("player", player.getUniqueID());
+            compound.putUUID("player", player.getUUID());
         }
         compound.putInt("ticks", this.ticks);
         compound.putString("phase", this.phase.name());
-        return super.write(compound);
+        return super.save(compound);
     }
 
     public enum Result {
@@ -304,6 +304,6 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
     }
 
     public enum Phase {
-        NOT_RUNNING, STARTING, FOG, ENDING;
+        NOT_RUNNING, STARTING, FOG, ENDING
     }
 }

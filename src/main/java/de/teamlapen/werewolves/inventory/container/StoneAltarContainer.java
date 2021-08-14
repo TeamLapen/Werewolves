@@ -17,7 +17,7 @@ public class StoneAltarContainer extends InventoryContainer {
 
     @Deprecated
     public StoneAltarContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new Inventory(2), IWorldPosCallable.DUMMY);
+        this(id, playerInventory, new Inventory(2), IWorldPosCallable.NULL);
     }
 
     public StoneAltarContainer(int id, PlayerInventory playerInventory, IInventory inventory, IWorldPosCallable worldPos) {
@@ -26,14 +26,14 @@ public class StoneAltarContainer extends InventoryContainer {
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return isWithinUsableDistance(this.worldPos, playerIn, ModBlocks.stone_altar);
+    public boolean stillValid(PlayerEntity playerIn) {
+        return stillValid(this.worldPos, playerIn, ModBlocks.stone_altar);
     }
 
     static {
         SELECTOR_INFOS = new SelectorInfo[]{
-                new SelectorInfo(Ingredient.fromItems(ModItems.liver), 62, 34),
-                new SelectorInfo(Ingredient.fromItems(ModItems.bone), 98, 34)
+                new SelectorInfo(Ingredient.of(ModItems.liver), 62, 34),
+                new SelectorInfo(Ingredient.of(ModItems.bone), 98, 34)
         };
     }
 }

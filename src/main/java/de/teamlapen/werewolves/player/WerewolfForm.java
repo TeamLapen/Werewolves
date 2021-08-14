@@ -62,7 +62,7 @@ public class WerewolfForm {
     }
 
     public ITextComponent getTextComponent() {
-        return textComponent.copyRaw();
+        return textComponent.plainCopy();
     }
 
     public int getSkinTypes() {

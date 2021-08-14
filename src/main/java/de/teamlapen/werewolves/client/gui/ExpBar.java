@@ -39,7 +39,7 @@ public class ExpBar extends Widget {
         }
         if (this.visible) {
             Color color = VampirismAPI.getFactionPlayerHandler(Minecraft.getInstance().player).map(IFactionPlayerHandler::getCurrentFaction).map(IFaction::getColor).orElse(Color.WHITE);
-            Minecraft.getInstance().textureManager.bindTexture(ICON);
+            Minecraft.getInstance().textureManager.bind(ICON);
             RenderSystem.color4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1.0F);
             this.blit(matrixStack, this.x, this.y, 10, 0, 19, 202);
 
@@ -60,8 +60,8 @@ public class ExpBar extends Widget {
     public void renderToolTip(MatrixStack matrixStack, int mouseX, int mouseY) {
         if (mouseX > this.x && mouseX < this.x + 19 && mouseY > this.y && mouseY < this.y + 202) {
             String descS = UtilLib.translate("text.werewolves.skill_screen.level_progression", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100));
-            this.fillGradient(matrixStack, mouseX - 3, mouseY - 3, mouseX + Minecraft.getInstance().fontRenderer.getStringWidth(descS) + 3, mouseY + 12 + 3, -1073741824, -1073741824);
-            Minecraft.getInstance().fontRenderer.drawString(matrixStack, descS, mouseX, mouseY, 0xff808080);
+            this.fillGradient(matrixStack, mouseX - 3, mouseY - 3, mouseX + Minecraft.getInstance().font.width(descS) + 3, mouseY + 12 + 3, -1073741824, -1073741824);
+            Minecraft.getInstance().font.draw(matrixStack, descS, mouseX, mouseY, 0xff808080);
         }
     }
 }

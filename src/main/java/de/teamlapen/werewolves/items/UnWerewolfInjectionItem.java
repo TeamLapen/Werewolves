@@ -17,15 +17,15 @@ import javax.annotation.Nonnull;
 public class UnWerewolfInjectionItem extends Item {
 
     public UnWerewolfInjectionItem() {
-        super(new Item.Properties().group(WUtils.creativeTab));
+        super(new Item.Properties().tab(WUtils.creativeTab));
         this.setRegistryName(REFERENCE.MODID, "injection_un_werewolf");
     }
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn) {
-        ItemStack stack = playerIn.getHeldItem(handIn);
-        playerIn.sendStatusMessage(new StringTextComponent("Please use a ").append(new TranslationTextComponent(ModBlocks.med_chair.getTranslationKey())), true);
-        return ActionResult.resultPass(stack);
+    public ActionResult<ItemStack> use(@Nonnull World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn) {
+        ItemStack stack = playerIn.getItemInHand(handIn);
+        playerIn.displayClientMessage(new StringTextComponent("Please use a ").append(new TranslationTextComponent(ModBlocks.med_chair.getDescriptionId())), true);
+        return ActionResult.pass(stack);
     }
 }

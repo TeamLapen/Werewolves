@@ -39,9 +39,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IEntityActionUser, IVillageCaptureEntity {
-    protected static final DataParameter<Integer> SKINTYPE = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
-    protected static final DataParameter<Integer> EYETYPE = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(BasicWerewolfEntity.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> SKINTYPE = EntityDataManager.defineId(BasicWerewolfEntity.class, DataSerializers.INT);
+    protected static final DataParameter<Integer> EYETYPE = EntityDataManager.defineId(BasicWerewolfEntity.class, DataSerializers.INT);
+    private static final DataParameter<Integer> LEVEL = EntityDataManager.defineId(BasicWerewolfEntity.class, DataSerializers.INT);
     private static final int MAX_LEVEL = 2;
 
     private final WerewolfForm werewolfForm;
@@ -59,16 +59,16 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, World world, WerewolfForm werewolfForm) {
         super(type, world);
         this.werewolfForm = werewolfForm;
-        this.entityClass = EntityClassType.getRandomClass(world.rand);
+        this.entityClass = EntityClassType.getRandomClass(world.random);
         this.entityTier = EntityActionTier.Low;
         this.entityActionHandler = new ActionHandlerEntity<>(this);
-        this.experienceValue = 3;
+        this.xpReward = 3;
     }
 
     @Nonnull
     @Override
-    public EntitySize getSize(@Nonnull Pose poseIn) {
-        return this.werewolfForm.getSize(poseIn).map(p -> p.scale(this.getRenderScale())).orElse(super.getSize(poseIn));
+    public EntitySize getDimensions(@Nonnull Pose poseIn) {
+        return this.werewolfForm.getSize(poseIn).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(poseIn));
     }
 
     public WerewolfForm getForm() {
@@ -85,7 +85,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         if (this.transformed == null) return this;
         WerewolfTransformable.copyData(((MobEntity) this.transformed), this);
         ((MobEntity) this.transformed).revive();
-        this.world.addEntity(((MobEntity) this.transformed));
+        this.level.addFreshEntity(((MobEntity) this.transformed));
         return this.transformed;
     }
 
@@ -101,12 +101,12 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     @Override
     public int getEntityTextureType() {
-        return Math.max(0, this.getDataManager().get(SKINTYPE));
+        return Math.max(0, this.getEntityData().get(SKINTYPE));
     }
 
     @Override
     public int getEyeTextureType() {
-        return Math.max(0, this.getDataManager().get(EYETYPE));
+        return Math.max(0, this.getEntityData().get(EYETYPE));
     }
 
     @Override
@@ -115,9 +115,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if (this.transformed != null && this.world.getGameTime() % 20 == 0) {
+    public void aiStep() {
+        super.aiStep();
+        if (this.transformed != null && this.level.getGameTime() % 20 == 0) {
             if (--this.transformedDuration <= 0) {
                 this.transformBack();
             }
@@ -128,18 +128,18 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void readAdditional(CompoundNBT nbt) {
-        super.readAdditional(nbt);
+    public void readAdditionalSaveData(CompoundNBT nbt) {
+        super.readAdditionalSaveData(nbt);
         if (nbt.contains("level")) {
             this.setLevel(nbt.getInt("level"));
         }
         if (nbt.contains("type")) {
             int t = nbt.getInt("type");
-            this.getDataManager().set(SKINTYPE, t < 126 && t >= 0 ? t : -1);
+            this.getEntityData().set(SKINTYPE, t < 126 && t >= 0 ? t : -1);
         }
         if (nbt.contains("eyeType")) {
             int t = nbt.getInt("eyeType");
-            this.getDataManager().set(EYETYPE, t < 126 && t >= 0?t:-1);
+            this.getEntityData().set(EYETYPE, t < 126 && t >= 0?t:-1);
         }
         if (nbt.contains("transformedDuration")) {
             this.transformedDuration = nbt.getInt("transformedDuration");
@@ -153,8 +153,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void writeAdditional(CompoundNBT nbt) {
-        super.writeAdditional(nbt);
+    public void addAdditionalSaveData(CompoundNBT nbt) {
+        super.addAdditionalSaveData(nbt);
         nbt.putInt("transformedDuration", this.transformedDuration);
         if (this.entityActionHandler != null) {
             this.entityActionHandler.write(nbt);
@@ -172,28 +172,28 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
+    public boolean hurt(@Nonnull DamageSource source, float amount) {
         this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get() * 20;
-        return super.attackEntityFrom(source, amount);
+        return super.hurt(source, amount);
     }
 
     @Override
     public int getLevel() {
-        return getDataManager().get(LEVEL);
+        return getEntityData().get(LEVEL);
     }
 
     @Override
     public void setLevel(int level) {
         if (level >= 0) {
-            getDataManager().set(LEVEL, level);
+            getEntityData().set(LEVEL, level);
             this.updateEntityAttributes();
             if (level == 2) {
-                this.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 1000000, 1));
+                this.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 1000000, 1));
             }
             if (level == 1) {
-                this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.IRON_SWORD));
+                this.setItemSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.IRON_SWORD));
             } else {
-                this.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+                this.setItemSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
             }
 
         }
@@ -211,7 +211,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     @Override
     public int suggestLevel(Difficulty difficulty) {
-        switch (this.rand.nextInt(5)) {
+        switch (this.random.nextInt(5)) {
             case 0:
                 return (int) (difficulty.minPercLevel / 100F * MAX_LEVEL);
             case 1:
@@ -219,7 +219,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             case 2:
                 return (int) (difficulty.maxPercLevel / 100F * MAX_LEVEL);
             default:
-                return this.rand.nextInt(MAX_LEVEL + 1);
+                return this.random.nextInt(MAX_LEVEL + 1);
         }
     }
 
@@ -233,11 +233,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     public void onAddedToWorld() {
         super.onAddedToWorld();
-        if (this.getDataManager().get(SKINTYPE) == -1) {
-            this.getDataManager().set(SKINTYPE, this.getRNG().nextInt(126));
+        if (this.getEntityData().get(SKINTYPE) == -1) {
+            this.getEntityData().set(SKINTYPE, this.getRandom().nextInt(126));
         }
-        if (this.getDataManager().get(EYETYPE) == -1) {
-            this.getDataManager().set(EYETYPE, this.getRNG().nextInt(126));
+        if (this.getEntityData().get(EYETYPE) == -1) {
+            this.getEntityData().set(EYETYPE, this.getRandom().nextInt(126));
         }
     }
 
@@ -314,11 +314,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.getDataManager().register(LEVEL, -1);
-        this.getDataManager().register(SKINTYPE, -1);
-        this.getDataManager().register(EYETYPE, -1);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.getEntityData().define(LEVEL, -1);
+        this.getEntityData().define(SKINTYPE, -1);
+        this.getEntityData().define(EYETYPE, -1);
     }
 
     public static class Beast extends BasicWerewolfEntity {

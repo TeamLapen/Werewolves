@@ -15,7 +15,7 @@ public class WerewolfNightVisionEffect extends EffectInstance {
         this.setCurativeItems(Collections.emptyList());
     }
 
-    public boolean combine(@Nonnull EffectInstance other) {
+    public boolean update(@Nonnull EffectInstance other) {
         return false;
     }
 
@@ -24,15 +24,15 @@ public class WerewolfNightVisionEffect extends EffectInstance {
     }
 
     @Nonnull
-    public String getEffectName() {
+    public String getDescriptionId() {
         return "effect.werewolves.night_vision";
     }
 
-    public boolean getIsPotionDurationMax() {
+    public boolean isNoCounter() {
         return true;
     }
 
-    public void performEffect(@Nonnull LivingEntity entityIn) {
+    public void applyEffect(@Nonnull LivingEntity entityIn) {
     }
 
     public boolean tick(@Nonnull LivingEntity entityIn, @Nonnull Runnable p_76455_2_) {
@@ -40,7 +40,7 @@ public class WerewolfNightVisionEffect extends EffectInstance {
     }
 
     @Nonnull
-    public CompoundNBT write(@Nonnull CompoundNBT nbt) {
+    public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         return nbt;
     }
 }

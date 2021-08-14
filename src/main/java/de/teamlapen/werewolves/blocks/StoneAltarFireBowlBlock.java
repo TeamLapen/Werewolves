@@ -34,24 +34,24 @@ public class StoneAltarFireBowlBlock extends Block {
     protected static final VoxelShape SHAPE = makeShape();
 
     public StoneAltarFireBowlBlock() {
-        super(Block.Properties.create(Material.ROCK).notSolid().setLightLevel((state) -> state.get(LIT)?14:0));
-        this.setDefaultState(this.getStateContainer().getBaseState().with(LIT, false));
+        super(Block.Properties.of(Material.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT)?14:0));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(LIT, false));
     }
 
     protected static VoxelShape makeShape() {
-        VoxelShape a = Block.makeCuboidShape(4, 0, 4, 12, 8, 12);
+        VoxelShape a = Block.box(4, 0, 4, 12, 8, 12);
 
-        VoxelShape b = Block.makeCuboidShape(2, 8, 2, 14, 10, 14);
+        VoxelShape b = Block.box(2, 8, 2, 14, 10, 14);
 
-        VoxelShape c = Block.makeCuboidShape(2, 10, 2, 4, 15, 4);
-        VoxelShape d = Block.makeCuboidShape(12, 10, 12, 14, 15, 14);
-        VoxelShape e = Block.makeCuboidShape(2, 10, 12, 4, 15, 14);
-        VoxelShape f = Block.makeCuboidShape(12, 10, 2, 14, 15, 4);
+        VoxelShape c = Block.box(2, 10, 2, 4, 15, 4);
+        VoxelShape d = Block.box(12, 10, 12, 14, 15, 14);
+        VoxelShape e = Block.box(2, 10, 12, 4, 15, 14);
+        VoxelShape f = Block.box(12, 10, 2, 14, 15, 4);
 
-        VoxelShape g = Block.makeCuboidShape(3, 10, 3, 13, 14, 3.1);
-        VoxelShape h = Block.makeCuboidShape(3, 10, 3, 3.1, 14, 13);
-        VoxelShape i = Block.makeCuboidShape(13, 10, 13, 12.9, 14, 3);
-        VoxelShape j = Block.makeCuboidShape(13, 10, 13, 3, 14, 12.9);
+        VoxelShape g = Block.box(3, 10, 3, 13, 14, 3.1);
+        VoxelShape h = Block.box(3, 10, 3, 3.1, 14, 13);
+        VoxelShape i = Block.box(13, 10, 13, 12.9, 14, 3);
+        VoxelShape j = Block.box(13, 10, 13, 3, 14, 12.9);
 
         return VoxelShapes.or(a, b, c, d, e, f, g, h, i, j);
     }
@@ -64,18 +64,18 @@ public class StoneAltarFireBowlBlock extends Block {
 
     @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult p_225533_6_) {
-        if (!state.get(LIT)) {
-            ItemStack stack = player.getHeldItem(handIn);
+    public ActionResultType use(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult p_225533_6_) {
+        if (!state.getValue(LIT)) {
+            ItemStack stack = player.getItemInHand(handIn);
             if (stack.getItem() == Items.FLINT_AND_STEEL || stack.getItem() == Items.TORCH || stack.getItem() == Items.SOUL_TORCH) {
-                worldIn.setBlockState(pos, state.with(LIT, true));
+                worldIn.setBlockAndUpdate(pos, state.setValue(LIT, true));
             }
         }
         return ActionResultType.SUCCESS;
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(LIT);
     }
 
@@ -98,7 +98,7 @@ public class StoneAltarFireBowlBlock extends Block {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-        if (stateIn.get(LIT)) {
+        if (stateIn.getValue(LIT)) {
             double d0 = (double) pos.getX() + rand.nextDouble();
             double d1 = (double) pos.getY() + rand.nextDouble() + 0.7D;
             double d2 = (double) pos.getZ() + rand.nextDouble();

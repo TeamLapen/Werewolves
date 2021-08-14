@@ -93,12 +93,12 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         if (this.form == type) return;
         this.form = type;
         WerewolfModelWrapper werewolfModelWrapper = MODELS.get(type);
-        this.entityModel = werewolfModelWrapper.model;
-        this.shadowSize = werewolfModelWrapper.shadow;
+        this.model = werewolfModelWrapper.model;
+        this.shadowRadius = werewolfModelWrapper.shadow;
         this.textures = werewolfModelWrapper.textures.get();
         this.skipPlayerModel = werewolfModelWrapper.skipPlayerModel;
-        this.layerRenderers.clear();
-        this.layerRenderers.addAll(werewolfModelWrapper.layers);
+        this.layers.clear();
+        this.layers.addAll(werewolfModelWrapper.layers);
     }
 
     /**
@@ -106,11 +106,11 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
      */
     public boolean render(WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         WerewolfForm form = entity.getForm();
-        if (Minecraft.getInstance().currentScreen instanceof WerewolfPlayerAppearanceScreen) {
-            form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().currentScreen).getActiveForm();
+        if (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen) {
+            form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).getActiveForm();
         }
         this.switchModel(form);
-        if (this.entityModel != null && this.skipPlayerModel) {
+        if (this.model != null && this.skipPlayerModel) {
                 this.render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
                 return true;
         }
@@ -118,8 +118,8 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     public void renderPost(PlayerModel<AbstractClientPlayerEntity> entityModel, WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        if (this.entityModel != null && !this.skipPlayerModel) {
-            this.entityModel.setPlayerModel(entityModel);
+        if (this.model != null && !this.skipPlayerModel) {
+            this.model.setPlayerModel(entityModel);
             render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         }
     }
@@ -130,33 +130,33 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     @Deprecated
     @Override
     public void render(AbstractClientPlayerEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        if (!entity.isUser() || this.renderManager.info.getRenderViewEntity() == entity) {
+        if (!entity.isLocalPlayer() || this.entityRenderDispatcher.camera.getEntity() == entity) {
             this.setModelVisible(entity);
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         }
     }
 
     @Override
-    protected void applyRotations(AbstractClientPlayerEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
-        super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-        if (entityLiving.getSwimAnimation(partialTicks) > 0.0F && this.form.isHumanLike()) {
-            float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.rotationPitch : -90.0F;
-            float f4 = MathHelper.lerp(entityLiving.getSwimAnimation(partialTicks), 0.0F, f3);
-            matrixStackIn.rotate(Vector3f.XP.rotationDegrees(f4));
-            if (entityLiving.isActualySwimming()) {
+    protected void setupRotations(AbstractClientPlayerEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+        if (entityLiving.getSwimAmount(partialTicks) > 0.0F && this.form.isHumanLike()) {
+            float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.xRot : -90.0F;
+            float f4 = MathHelper.lerp(entityLiving.getSwimAmount(partialTicks), 0.0F, f3);
+            matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(f4));
+            if (entityLiving.isVisuallySwimming()) {
                 matrixStackIn.translate(0.0D, -1.0D, 0.3F);
             }
         }
     }
 
     private void setModelVisible(AbstractClientPlayerEntity clientPlayer) {
-        WerewolfBaseModel<AbstractClientPlayerEntity> playerModel = this.getEntityModel();
+        WerewolfBaseModel<AbstractClientPlayerEntity> playerModel = this.getModel();
         if (clientPlayer.isSpectator()) {
-            playerModel.setVisible(false);
-            playerModel.bipedHead.showModel = true;
+            playerModel.setAllVisible(false);
+            playerModel.head.visible = true;
         } else {
-            playerModel.setVisible(true);
-            playerModel.isSneak = clientPlayer.isCrouching();
+            playerModel.setAllVisible(true);
+            playerModel.crouching = clientPlayer.isCrouching();
         }
     }
 
@@ -166,12 +166,12 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
 
     @Nonnull
     @Override
-    public ResourceLocation getEntityTexture(@Nonnull AbstractClientPlayerEntity entity) {
+    public ResourceLocation getTextureLocation(@Nonnull AbstractClientPlayerEntity entity) {
         return this.textures.get(WerewolfPlayer.get(entity).getSkinType(this.form) % this.form.getSkinTypes());
     }
 
     private static List<ResourceLocation> getBeastTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().getAllResourceLocations("textures/entity/werewolf/beast", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.BEAST.getSkinTypes()) {
             LOGGER.error("Could not find all textures for the beast werewolf form");
             for (int i = 0; i < WerewolfForm.BEAST.getSkinTypes(); i++) {
@@ -185,7 +185,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     private static List<ResourceLocation> getSurvivalTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().getAllResourceLocations("textures/entity/werewolf/survivalist", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/survivalist", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.SURVIVALIST.getSkinTypes()) {
             LOGGER.error("Could not find all textures for the survivalist werewolf form");
             for (int i = 0; i < WerewolfForm.SURVIVALIST.getSkinTypes(); i++) {
@@ -199,7 +199,7 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
     }
 
     private static List<ResourceLocation> getHumanTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().getAllResourceLocations("textures/entity/werewolf/human", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/human", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.HUMAN.getSkinTypes()) {
             LOGGER.error("Could not find all textures for the human werewolf form");
             for (int i = 0; i < WerewolfForm.HUMAN.getSkinTypes(); i++) {

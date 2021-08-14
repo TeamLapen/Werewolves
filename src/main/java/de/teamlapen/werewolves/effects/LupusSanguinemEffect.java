@@ -27,21 +27,21 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
             canBecomeWerewolf = FactionPlayerHandler.getOpt(((PlayerEntity) entity)).map(player -> player.canJoin(WReference.WEREWOLF_FACTION)).orElse(false);
         }
         if (canBecomeWerewolf) {
-            if (entity.getRNG().nextInt(10) == 0) {
-                entity.addPotionEffect(new LupusSanguinemEffectInstance(Integer.MAX_VALUE));
+            if (entity.getRandom().nextInt(10) == 0) {
+                entity.addEffect(new LupusSanguinemEffectInstance(Integer.MAX_VALUE));
             }
         }
     }
 
     @Override
-    public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
         if (entityLivingBaseIn instanceof PlayerEntity) {
             FactionPlayerHandler.get((PlayerEntity) entityLivingBaseIn).joinFaction(WReference.WEREWOLF_FACTION);
         }
     }
 
     @Override
-    public boolean isReady(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return duration == 2;
     }
 
@@ -53,9 +53,9 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     @Override
     public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, MatrixStack mStack, int x, int y, float z) {
         super.renderInventoryEffect(effect, gui, mStack, x, y, z);
-        String s = UtilLib.translate(effect.getPotion().getName());
-        ((ScreenAccessor) gui).getFont().drawStringWithShadow(mStack, s, (float) (x + 10 + 18), (float) (y + 6), 16777215);
+        String s = UtilLib.translate(effect.getEffect().getDescriptionId());
+        ((ScreenAccessor) gui).getFont().drawShadow(mStack, s, (float) (x + 10 + 18), (float) (y + 6), 16777215);
         String duration = "**:**";
-        ((ScreenAccessor) gui).getFont().drawStringWithShadow(mStack, duration, (float) (x + 10 + 18), (float) (y + 6 + 10), 8355711);
+        ((ScreenAccessor) gui).getFont().drawShadow(mStack, duration, (float) (x + 10 + 18), (float) (y + 6 + 10), 8355711);
     }
 }

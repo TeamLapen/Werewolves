@@ -59,10 +59,10 @@ public class ModKeys {
                 }
             } else if (key == BITE) {
                 if (Helper.isWerewolf(player)) {
-                    RayTraceResult mouseOver = Minecraft.getInstance().objectMouseOver;
+                    RayTraceResult mouseOver = Minecraft.getInstance().hitResult;
                     Entity entity = mouseOver instanceof EntityRayTraceResult? ((EntityRayTraceResult) mouseOver).getEntity():null;
                     if (entity instanceof LivingEntity && !player.isSpectator() && werewolfOpt.map(w -> w.getForm().isTransformed() && w.getLevel() > 0 && w.canBite() && w.canBiteEntity(((LivingEntity) entity))).orElse(false)) {
-                        WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getEntityId()));
+                        WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getId()));
                         clientEventHandler.onZoomPressed();
                     }
                 }
@@ -71,9 +71,9 @@ public class ModKeys {
     }
 
     public Optional<KeyBinding> getPressedKeyBinding() {
-        if (LEAP.isPressed()) {
+        if (LEAP.consumeClick()) {
             return Optional.of(LEAP);
-        } else if (BITE.isPressed()) {
+        } else if (BITE.consumeClick()) {
             return Optional.of(BITE);
         }
         return Optional.empty();

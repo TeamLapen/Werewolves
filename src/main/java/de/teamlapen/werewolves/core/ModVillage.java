@@ -34,11 +34,11 @@ public class ModVillage extends de.teamlapen.vampirism.core.ModVillage {
             }
         }.setRegistryName(REFERENCE.MODID,"werewolf_expert");
         registry.register(werewolf_expert);
-        VillagerTrades.VILLAGER_DEFAULT_TRADES.computeIfAbsent(werewolf_expert, trades -> new Int2ObjectOpenHashMap<>()).putAll(getWerewolfTrades());
+        VillagerTrades.TRADES.computeIfAbsent(werewolf_expert, trades -> new Int2ObjectOpenHashMap<>()).putAll(getWerewolfTrades());
     }
 
     static void registerPointOfInterestTypes(IForgeRegistry<PointOfInterestType> registry) {
-        PointOfInterestType werewolf_faction = new FactionPointOfInterestType("werewolf_faction", ImmutableSet.of(ModBlocks.totem_top_werewolves_werewolf.getStateContainer().getBaseState()),1,1).setRegistryName(REFERENCE.MODID, "werewolf_faction");
+        PointOfInterestType werewolf_faction = new FactionPointOfInterestType("werewolf_faction", ImmutableSet.of(ModBlocks.totem_top_werewolves_werewolf.getStateDefinition().any()),1,1).setRegistryName(REFERENCE.MODID, "werewolf_faction");
         registry.register(werewolf_faction);
         PointOfInterestTypeInvoker.registerBlockStates_werewolves(werewolf_faction);
     }

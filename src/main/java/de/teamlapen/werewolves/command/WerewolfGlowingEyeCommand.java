@@ -17,12 +17,12 @@ public class WerewolfGlowingEyeCommand extends BasicCommand {
                 .then(Commands.literal("beast")
                         .then(Commands.argument("on", BoolArgumentType.bool())
                                 .executes(context -> {
-                                    return setGlowingEyes(context, context.getSource().asPlayer(), BoolArgumentType.getBool(context, "on"), WerewolfForm.BEAST);
+                                    return setGlowingEyes(context, context.getSource().getPlayerOrException(), BoolArgumentType.getBool(context, "on"), WerewolfForm.BEAST);
                                 })))
                 .then(Commands.literal("survival")
                         .then(Commands.argument("on",  BoolArgumentType.bool())
                                 .executes(context -> {
-                                    return setGlowingEyes(context, context.getSource().asPlayer(), BoolArgumentType.getBool(context, "on"), WerewolfForm.SURVIVALIST);
+                                    return setGlowingEyes(context, context.getSource().getPlayerOrException(), BoolArgumentType.getBool(context, "on"), WerewolfForm.SURVIVALIST);
                                 })));
     }
 

@@ -19,7 +19,7 @@ public class HumanWerewolfRenderer extends MobRenderer<HumanWerewolfEntity, Play
 
     public HumanWerewolfRenderer(EntityRendererManager rendererManager) {
         super(rendererManager, new PlayerModel<>(0.0f, false), 0.5f);
-        this.textures = Minecraft.getInstance().getResourceManager().getAllResourceLocations("textures/entity/human", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).toArray(ResourceLocation[]::new);
+        this.textures = Minecraft.getInstance().getResourceManager().listResources("textures/entity/human", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).toArray(ResourceLocation[]::new);
     }
 
     public ResourceLocation getHumanTexture(int entityId) {
@@ -28,7 +28,7 @@ public class HumanWerewolfRenderer extends MobRenderer<HumanWerewolfEntity, Play
 
     @Nonnull
     @Override
-    public ResourceLocation getEntityTexture(@Nonnull HumanWerewolfEntity entity) {
+    public ResourceLocation getTextureLocation(@Nonnull HumanWerewolfEntity entity) {
         return this.getHumanTexture(entity.getEntityTextureType());
     }
 }

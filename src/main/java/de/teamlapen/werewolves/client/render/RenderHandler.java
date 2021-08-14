@@ -66,7 +66,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (this.mc.world == null || this.mc.player == null || !this.mc.player.isAlive()) return;
+        if (this.mc.level == null || this.mc.player == null || !this.mc.player.isAlive()) return;
         if (event.phase == TickEvent.Phase.END) return;
         this.lastTicks = this.ticks;
         WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
@@ -88,7 +88,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
             LivingEntity entity = event.getEntity();
 
             boolean flag = true;
-            double dist = this.mc.player.getDistanceSq(entity);
+            double dist = this.mc.player.distanceToSqr(entity);
             if (dist > VampirismConfig.BALANCE.vsBloodVisionDistanceSq.get()) {
                 flag = false;
             }
@@ -97,24 +97,24 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
                 if (entity instanceof IFactionEntity) {
                     color = ((IFactionEntity) entity).getFaction().getColor().getRGB();
                 } else {
-                    if (!entity.isEntityUndead()) {
+                    if (!entity.isInvertedHealAndHarm()) {
                         color = 0xFF0000;
                     }
                 }
-                EntityRendererManager renderManager = this.mc.getRenderManager();
+                EntityRendererManager renderManager = this.mc.getEntityRenderDispatcher();
                 if (this.visionBuffer == null) {
-                    this.visionBuffer = new OutlineLayerBuffer(this.mc.getRenderTypeBuffers().getBufferSource());
+                    this.visionBuffer = new OutlineLayerBuffer(this.mc.renderBuffers().bufferSource());
                 }
                 int r = color >> 16 & 255;
                 int g = color >> 8 & 255;
                 int b = color & 255;
                 int alpha = (int) ((dist > ENTITY_NEAR_SQ_DISTANCE ? 50 : (dist / (double) ENTITY_NEAR_SQ_DISTANCE * 50d)) * getVisionProgress(event.getPartialRenderTick()));
                 this.visionBuffer.setColor(r, g, b, alpha);
-                float f = MathHelper.lerp(event.getPartialRenderTick(), entity.prevRotationYaw, entity.rotationYaw);
+                float f = MathHelper.lerp(event.getPartialRenderTick(), entity.yRotO, entity.yRot);
                 this.isInsideVisionRendering = true;
                 EntityRenderer<? super Entity> entityRenderer = renderManager.getRenderer(entity);
-                entityRenderer.render(entity, f, event.getPartialRenderTick(), event.getMatrixStack(), this.visionBuffer, renderManager.getPackedLight(entity, event.getPartialRenderTick()));
-                this.mc.getFramebuffer().bindFramebuffer(false);
+                entityRenderer.render(entity, f, event.getPartialRenderTick(), event.getMatrixStack(), this.visionBuffer, renderManager.getPackedLightCoords(entity, event.getPartialRenderTick()));
+                this.mc.getMainRenderTarget().bindWrite(false);
                 this.isInsideVisionRendering = false;
 
             }
@@ -133,37 +133,37 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
 
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event) {
-        if (mc.world == null) return;
+        if (mc.level == null) return;
 
         /*
          * DO NOT USE partial ticks from event. They are bugged: https://github.com/MinecraftForge/MinecraftForge/issues/6380
          */
-        float partialTicks = mc.getRenderPartialTicks();
+        float partialTicks = mc.getFrameTime();
 
 
-        if (displayHeight != mc.getMainWindow().getFramebufferHeight() || displayWidth != mc.getMainWindow().getFramebufferWidth()) {
-            this.displayHeight = mc.getMainWindow().getFramebufferHeight();
-            this.displayWidth = mc.getMainWindow().getFramebufferWidth();
+        if (displayHeight != mc.getWindow().getHeight() || displayWidth != mc.getWindow().getWidth()) {
+            this.displayHeight = mc.getWindow().getHeight();
+            this.displayWidth = mc.getWindow().getWidth();
             this.updateFramebufferSize(this.displayWidth, this.displayHeight);
         }
 
         if (shouldRenderVision()) {
             adjustVisionShaders(getVisionProgress(partialTicks));
-            this.blurShader.render(partialTicks);
-            if (this.visionBuffer != null) this.visionBuffer.finish();
+            this.blurShader.process(partialTicks);
+            if (this.visionBuffer != null) this.visionBuffer.endOutlineBatch();
         }
     }
 
     private void adjustVisionShaders(float progress) {
         if (blit0 == null) return;
         progress = MathHelper.clamp(progress, 0, 1);
-        blit0.getShaderManager().getShaderUniform("ColorModulate").set((1 - 0.4F * progress), (1 - 0.5F * progress), (1 - 0.3F * progress), 1);
+        blit0.getEffect().safeGetUniform("ColorModulate").set((1 - 0.4F * progress), (1 - 0.5F * progress), (1 - 0.3F * progress), 1);
 
     }
 
     private void updateFramebufferSize(int width, int height) {
         if (this.blurShader != null) {
-            this.blurShader.createBindFramebuffers(width, height);
+            this.blurShader.resize(width, height);
         }
     }
 
@@ -182,12 +182,12 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
         }
         ResourceLocation resourcelocationBlur = new ResourceLocation(REFERENCE.VMODID, "shaders/blank.json");
         try {
-            this.blurShader = new ShaderGroup(this.mc.getTextureManager(), this.mc.getResourceManager(), this.mc.getFramebuffer(), resourcelocationBlur);
-            Framebuffer swap = this.blurShader.getFramebufferRaw("swap");
+            this.blurShader = new ShaderGroup(this.mc.getTextureManager(), this.mc.getResourceManager(), this.mc.getMainRenderTarget(), resourcelocationBlur);
+            Framebuffer swap = this.blurShader.getTempTarget("swap");
 
-            blit0 = blurShader.addShader("blit", swap, this.mc.getFramebuffer());
+            blit0 = blurShader.addPass("blit", swap, this.mc.getMainRenderTarget());
 
-            this.blurShader.createBindFramebuffers(this.mc.getMainWindow().getFramebufferWidth(), this.mc.getMainWindow().getFramebufferHeight());
+            this.blurShader.resize(this.mc.getWindow().getWidth(), this.mc.getWindow().getHeight());
 
         } catch (Exception e) {
             LOGGER.warn("Failed to load blood vision blur shader", e);

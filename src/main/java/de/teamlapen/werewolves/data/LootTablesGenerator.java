@@ -40,27 +40,27 @@ public class LootTablesGenerator extends LootTableProvider {
 
     @Override
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationTracker validationtracker) {
-        map.forEach((resourceLocation, lootTable) -> LootTableManager.validateLootTable(validationtracker, resourceLocation, lootTable));
+        map.forEach((resourceLocation, lootTable) -> LootTableManager.validate(validationtracker, resourceLocation, lootTable));
     }
 
     private static class ModBlockLootTables extends BlockLootTables {
         @Override
         protected void addTables() {
-            this.registerLootTable(ModBlocks.totem_top_werewolves_werewolf, LootTable.builder());
-            this.registerLootTable(ModBlocks.totem_top_werewolves_werewolf_crafted, dropping(de.teamlapen.vampirism.core.ModBlocks.totem_top));
-            this.registerDropSelfLootTable(ModBlocks.jacaranda_sapling);
-            this.registerDropSelfLootTable(ModBlocks.magic_sapling);
-            this.registerDropSelfLootTable(ModBlocks.wolfsbane);
-            this.registerDropSelfLootTable(ModBlocks.silver_block);
-            this.registerDropSelfLootTable(ModBlocks.silver_ore);
-            this.registerFlowerPot(ModBlocks.potted_wolfsbane);
-            this.registerDropSelfLootTable(ModBlocks.jacaranda_log);
-            this.registerDropSelfLootTable(ModBlocks.magic_log);
-            this.registerDropSelfLootTable(ModBlocks.stone_altar);
-            this.registerDropSelfLootTable(ModBlocks.magic_planks);
-            this.registerLootTable(ModBlocks.jacaranda_leaves, (block -> droppingWithChancesAndSticks(block, ModBlocks.jacaranda_sapling, DEFAULT_SAPLING_DROP_RATES)));
-            this.registerLootTable(ModBlocks.magic_leaves, (block -> droppingWithChancesAndSticks(block, ModBlocks.magic_leaves, DEFAULT_SAPLING_DROP_RATES)));
-            this.registerDropSelfLootTable(ModBlocks.stone_altar_fire_bowl);
+            this.add(ModBlocks.totem_top_werewolves_werewolf, LootTable.lootTable());
+            this.add(ModBlocks.totem_top_werewolves_werewolf_crafted, createSingleItemTable(de.teamlapen.vampirism.core.ModBlocks.totem_top));
+            this.dropSelf(ModBlocks.jacaranda_sapling);
+            this.dropSelf(ModBlocks.magic_sapling);
+            this.dropSelf(ModBlocks.wolfsbane);
+            this.dropSelf(ModBlocks.silver_block);
+            this.dropSelf(ModBlocks.silver_ore);
+            this.dropPottedContents(ModBlocks.potted_wolfsbane);
+            this.dropSelf(ModBlocks.jacaranda_log);
+            this.dropSelf(ModBlocks.magic_log);
+            this.dropSelf(ModBlocks.stone_altar);
+            this.dropSelf(ModBlocks.magic_planks);
+            this.add(ModBlocks.jacaranda_leaves, (block -> createLeavesDrops(block, ModBlocks.jacaranda_sapling, DEFAULT_SAPLING_DROP_RATES)));
+            this.add(ModBlocks.magic_leaves, (block -> createLeavesDrops(block, ModBlocks.magic_leaves, DEFAULT_SAPLING_DROP_RATES)));
+            this.dropSelf(ModBlocks.stone_altar_fire_bowl);
         }
 
         @Nonnull
@@ -76,11 +76,11 @@ public class LootTablesGenerator extends LootTableProvider {
 
         @Override
         protected void addTables() {
-            this.registerLootTable(ModEntities.task_master_werewolf, LootTable.builder());
-            this.registerLootTable(ModEntities.werewolf_survivalist, LootTable.builder().addLootPool(LootPool.builder().name("general").acceptCondition(KilledByPlayer.builder()).rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ModItems.bone).weight(4)).addEntry(ItemLootEntry.builder(ModItems.liver).weight(1))));
-            this.registerLootTable(ModEntities.werewolf_beast, LootTable.builder().addLootPool(LootPool.builder().name("general").acceptCondition(KilledByPlayer.builder()).rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ModItems.bone).weight(4)).addEntry(ItemLootEntry.builder(ModItems.liver).weight(1))));
-            this.registerLootTable(ModEntities.wolf, LootTable.builder());
-            this.registerLootTable(ModEntities.human_werewolf, LootTable.builder().addLootPool(LootPool.builder().name("general").acceptCondition(KilledByPlayer.builder()).rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ModItems.bone).weight(4)).addEntry(ItemLootEntry.builder(ModItems.liver).weight(1))));
+            this.add(ModEntities.task_master_werewolf, LootTable.lootTable());
+            this.add(ModEntities.werewolf_survivalist, LootTable.lootTable().withPool(LootPool.lootPool().name("general").when(KilledByPlayer.killedByPlayer()).setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(4)).add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1))));
+            this.add(ModEntities.werewolf_beast, LootTable.lootTable().withPool(LootPool.lootPool().name("general").when(KilledByPlayer.killedByPlayer()).setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(4)).add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1))));
+            this.add(ModEntities.wolf, LootTable.lootTable());
+            this.add(ModEntities.human_werewolf, LootTable.lootTable().withPool(LootPool.lootPool().name("general").when(KilledByPlayer.killedByPlayer()).setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(4)).add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1))));
         }
 
         @Nonnull
@@ -93,12 +93,12 @@ public class LootTablesGenerator extends LootTableProvider {
     private static class InjectLootTables implements Consumer<BiConsumer<ResourceLocation, LootTable.Builder>> {
         @Override
         public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
-            consumer.accept(ModLootTables.villager, LootTable.builder()
-                    .addLootPool(LootPool.builder().name("liver").rolls(ConstantRange.of(1))
-                            .addEntry(ItemLootEntry.builder(ModItems.liver).weight(1).acceptCondition(RandomChance.builder(0.5f)))));
-            consumer.accept(ModLootTables.skeleton, LootTable.builder()
-                    .addLootPool(LootPool.builder().name("bones").rolls(ConstantRange.of(1))
-                            .addEntry(ItemLootEntry.builder(ModItems.bone).weight(1).acceptCondition(RandomChance.builder(0.1f)))));
+            consumer.accept(ModLootTables.villager, LootTable.lootTable()
+                    .withPool(LootPool.lootPool().name("liver").setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1).when(RandomChance.randomChance(0.5f)))));
+            consumer.accept(ModLootTables.skeleton, LootTable.lootTable()
+                    .withPool(LootPool.lootPool().name("bones").setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(1).when(RandomChance.randomChance(0.1f)))));
         }
     }
 }

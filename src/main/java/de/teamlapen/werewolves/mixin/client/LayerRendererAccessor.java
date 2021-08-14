@@ -10,6 +10,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(LayerRenderer.class)
 public interface LayerRendererAccessor<T extends Entity, M extends EntityModel<T>> {
 
-    @Accessor("entityRenderer")
+    @Accessor("renderer")
     IEntityRenderer<T, M> getRenderer();
 }

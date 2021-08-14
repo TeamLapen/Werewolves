@@ -10,9 +10,10 @@ import de.maxanier.guideapi.page.PageHolderWithLinks;
 import de.maxanier.guideapi.page.PageTextImage;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.client.core.ModKeys;
-import de.teamlapen.vampirism.modcompat.guide.*;
-import de.teamlapen.werewolves.core.ModBlocks;
+import de.teamlapen.vampirism.modcompat.guide.EntryText;
+import de.teamlapen.vampirism.modcompat.guide.VampirismGuideBookCategoriesEvent;
 import de.teamlapen.vampirism.modcompat.guide.pages.PageTable;
+import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.player.werewolf.WerewolfLevelConf;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -105,7 +106,7 @@ public class WerewolvesGuideBook {
         entries.put(new ResourceLocation(base + "leveling"), new EntryText(levelingPages, translateComponent(base + "leveling")));
 
         List<IPage> skillPages = new ArrayList<>();
-        skillPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "skills.text", UtilLib.translate(ModKeys.getKeyBinding(ModKeys.KEY.SKILL).getTranslationKey()))));
+        skillPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "skills.text", UtilLib.translate(ModKeys.getKeyBinding(ModKeys.KEY.SKILL).saveString()))));
         skillPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "skills.decision")));
         entries.put(new ResourceLocation(base + "skills"), new EntryText(skillPages, translateComponent(base + "skills")));
 
@@ -134,10 +135,10 @@ public class WerewolvesGuideBook {
     }
 
     private static String loc(Item i) {
-        return UtilLib.translate(i.getTranslationKey());
+        return UtilLib.translate(i.getDescriptionId());
     }
 
     private static String loc(Block i) {
-        return UtilLib.translate(i.getTranslationKey());
+        return UtilLib.translate(i.getDescriptionId());
     }
 }
