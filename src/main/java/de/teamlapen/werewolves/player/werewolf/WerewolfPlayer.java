@@ -343,6 +343,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void onDeath(DamageSource damageSource) {
+        super.onDeath(damageSource);
         this.actionHandler.deactivateAllActions();
     }
 

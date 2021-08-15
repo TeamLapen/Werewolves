@@ -68,8 +68,8 @@ public class ClientEventHandler {
     public void onGuiInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
         if (event.getGui() instanceof VampirismScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
-                ResourceLocation BACKGROUND = new ResourceLocation(REFERENCE.VMODID, "textures/gui/vampirism_menu.png");
-                ((ScreenAccessor) event.getGui()).invokeAddButton_werewolves(new ImageButton(((VampirismScreen) event.getGui()).getGuiLeft() + 47, ((VampirismScreen) event.getGui()).getGuiTop() + 90, 20, 20, 20, 205, 20, BACKGROUND, 256, 256, (context) -> {
+                ResourceLocation icon = new ResourceLocation(REFERENCE.MODID, "textures/gui/appearance_button.png");
+                ((ScreenAccessor) event.getGui()).invokeAddButton_werewolves(new ImageButton(((VampirismScreen) event.getGui()).getGuiLeft() + 47, ((VampirismScreen) event.getGui()).getGuiTop() + 90, 20, 20, 0, 0, 20, icon, 20, 40, (context) -> {
                     Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getGui()));
                 }, (button1, matrixStack, mouseX, mouseY) -> {
                     event.getGui().renderTooltip(matrixStack, new TranslationTextComponent("gui.vampirism.vampirism_menu.appearance_menu"), mouseX, mouseY);
