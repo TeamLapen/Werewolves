@@ -34,12 +34,14 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue werewolf_armor_toughness;
         public final ForgeConfigSpec.DoubleValue werewolf_damage;
         public final ForgeConfigSpec.DoubleValue werewolf_claw_damage;
+        public final ForgeConfigSpec.IntValue bite_cooldown;
 
         public Player(ForgeConfigSpec.Builder builder) {
             werewolf_damage = builder.comment("Level based damage attribute modifier").defineInRange("werewolf_damage", 1.0, 0, 10);
             werewolf_speed_amount = builder.comment("Level based speed attribute modifier").defineInRange("werewolf_speed_amount", 0.2, 0, 5);
             werewolf_armor_toughness = builder.comment("Level based armor toughness attribute modifier").defineInRange("werewolf_armor_toughness", 3.0, 0, 10.0);
             werewolf_claw_damage = builder.comment("Level based claw damage attribute modifier").defineInRange("werewolf_claw_damage", 2d, 0, Integer.MAX_VALUE);
+            bite_cooldown = builder.comment("Cooldown of bite attack (in ticks)").defineInRange("bite_cooldown", 120, 5, Integer.MAX_VALUE);
         }
     }
 

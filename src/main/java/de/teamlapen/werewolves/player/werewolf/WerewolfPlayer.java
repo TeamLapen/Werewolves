@@ -403,7 +403,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         boolean flag = entity.hurt(Helper.causeWerewolfDamage(this.player), (float) damage);
         if (flag) {
             this.eatEntity(entity);
-            this.specialAttributes.biteTicks = 100;
+            this.specialAttributes.biteTicks = WerewolvesConfig.BALANCE.PLAYER.bite_cooldown.get();
             if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {
                 entity.addEffect(new EffectInstance(ModEffects.freeze, WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get()));
             } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
