@@ -7,10 +7,20 @@
     },
     {
       "when": {
-        "lit": "true"
+        "lit": "true",
+        "soulfire": "false"
       },
       "apply": {
         "model": "werewolves:block/stone_altar_fire"
+      }
+    },
+    {
+      "when": {
+        "lit": "true",
+        "soulfire": "true"
+      },
+      "apply": {
+        "model": "werewolves:block/stone_altar_fire_soul"
       }
     }
   ]

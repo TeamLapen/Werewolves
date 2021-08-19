@@ -2,13 +2,13 @@ package de.teamlapen.werewolves.blocks;
 
 import de.teamlapen.werewolves.core.ModTiles;
 import de.teamlapen.werewolves.tileentity.StoneAltarTileEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
+import de.teamlapen.werewolves.util.WUtils;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -30,6 +30,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
@@ -39,15 +40,19 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 import java.util.Random;
 
+import static net.minecraft.block.CampfireBlock.makeParticles;
+
 @ParametersAreNonnullByDefault
-public class StoneAltarBlock extends ContainerBlock {
+public class StoneAltarBlock extends ContainerBlock implements IWaterLoggable {
     protected static final VoxelShape SHAPE = makeShape();
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty SOUL_FIRE = WUtils.SOUL_FIRE;
     public static final String REG_NAME = "stone_altar";
 
     public StoneAltarBlock() {
         super(Block.Properties.of(Material.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT)?14:0));
-        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false));
     }
 
     protected static VoxelShape makeShape() {
@@ -95,6 +100,38 @@ public class StoneAltarBlock extends ContainerBlock {
         return state.getValue(LIT);
     }
 
+    @Override
+    public boolean placeLiquid(IWorld world, BlockPos pos, BlockState state, FluidState fluid) {
+        if (IWaterLoggable.super.placeLiquid(world, pos, state, fluid)){
+            if (state.getValue(LIT)) {
+                world.setBlock(pos, state.setValue(LIT, false), 3);
+                if (world.isClientSide()) {
+                    for (int i = 0; i < 20; ++i) {
+                        makeParticles((World) world, pos.above(1), false, true);
+                    }
+                } else {
+                    ((StoneAltarTileEntity) world.getBlockEntity(pos)).aboardRitual();
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onPlace(BlockState state, World world, BlockPos pos, BlockState state2, boolean p_220082_5_) {
+        super.onPlace(state, world, pos, state2, p_220082_5_);
+        if (state.getValue(LIT) && state2.getBlock() == this && !state2.getValue(LIT)){
+            ((StoneAltarTileEntity) world.getBlockEntity(pos)).startRitual(state);
+        }
+    }
+
+    @Nonnull
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) :super.getFluidState(state);
+    }
+
     @Nonnull
     @Override
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
@@ -102,46 +139,57 @@ public class StoneAltarBlock extends ContainerBlock {
         StoneAltarTileEntity te = ((StoneAltarTileEntity) worldIn.getBlockEntity(pos));
         if (!worldIn.isClientSide && te != null) {
             StoneAltarTileEntity.Result result = te.canActivate(player);
-            switch (result) {
-                case OK:
-                    if (heldItem.getItem() == Items.FLINT_AND_STEEL || heldItem.getItem() == Items.TORCH || heldItem.getItem() == Items.SOUL_TORCH) {
-                        te.startRitual(player);
-                        return ActionResultType.SUCCESS;
-                    }
-                    break;
-                case OTHER_FACTION:
-                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.wrong_faction"), true);
-                    return ActionResultType.SUCCESS;
-                case INV_MISSING:
-                    Map<Item, Integer> missing = te.getMissingItems();
+            if (!state.getValue(LIT)) {
+                switch (result) {
+                    case OTHER_FACTION:
+                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.wrong_faction"), true);
+                        return ActionResultType.CONSUME;
+                    case IS_RUNNING:
+                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_still_running"), true);
+                        return ActionResultType.CONSUME;
+                    case NIGHT_ONLY:
+                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_night_only"), true);
+                        return ActionResultType.CONSUME;
+                    case WRONG_LEVEL:
+                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_wrong_level"), true);
+                        return ActionResultType.CONSUME;
+                    case STRUCTURE_LESS:
+                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_structures_missing"), true);
+                        return ActionResultType.CONSUME;
+                    case STRUCTURE_LIT:
+                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_less_lit_structures"), true);
+                        return ActionResultType.CONSUME;
+                    case INV_MISSING:
+                        Map<Item, Integer> missing = te.getMissingItems();
 
-                    IFormattableTextComponent s = new TranslationTextComponent("text.werewolves.stone_altar.ritual_missing_items");
-                    missing.forEach((item, integer) -> s.append("\n - ").append(new TranslationTextComponent(item.getDescriptionId()).withStyle((style -> {
-                        return style.withColor(TextFormatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemHover(new ItemStack(item, integer))));
-                    }))).append(" " + integer));
+                        IFormattableTextComponent s = new TranslationTextComponent("text.werewolves.stone_altar.ritual_missing_items");
+                        missing.forEach((item, integer) -> s.append("\n - ").append(new TranslationTextComponent(item.getDescriptionId()).withStyle((style -> {
+                            return style.withColor(TextFormatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemHover(new ItemStack(item, integer))));
+                        }))).append(" " + integer));
 
-                    if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
-                        player.displayClientMessage(s, false);
-                        return ActionResultType.SUCCESS;
-                    }
-                    break;
-                case IS_RUNNING:
-                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_still_running"), true);
-                    return ActionResultType.SUCCESS;
-                case NIGHT_ONLY:
-                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_night_only"), true);
-                    return ActionResultType.SUCCESS;
-                case WRONG_LEVEL:
-                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_wrong_level"), true);
-                    return ActionResultType.SUCCESS;
-                case STRUCTURE_LESS:
-                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_structures_missing"), true);
-                    return ActionResultType.SUCCESS;
-                case STRUCTURE_LIT:
-                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_less_lit_structures"), true);
-                    return ActionResultType.SUCCESS;
+                        if (!heldItem.isEmpty()) {
+                            player.displayClientMessage(s, false);
+                            return ActionResultType.CONSUME;
+                        }
+                        break;
+                    case OK:
+                        if (state.getValue(WATERLOGGED)) {
+                            break;
+                        }
+                        te.setPlayer(player);
+                        if (heldItem.getItem() == Items.TORCH || heldItem.getItem() == Items.SOUL_TORCH) {
+                            worldIn.setBlock(pos, state.setValue(LIT, true).setValue(SOUL_FIRE, heldItem.getItem() == Items.SOUL_TORCH), 5);
+                            return ActionResultType.CONSUME;
+                        }
+                        break;
+                }
+
             }
-            player.openMenu(te);
+            if (heldItem.isEmpty()) {
+                player.openMenu(te);
+                return ActionResultType.CONSUME;
+            }
+            return ActionResultType.PASS;
         }
         return ActionResultType.SUCCESS;
     }
@@ -198,7 +246,7 @@ public class StoneAltarBlock extends ContainerBlock {
 
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(LIT);
+        builder.add(LIT).add(WATERLOGGED).add(SOUL_FIRE);
     }
 
     @Override

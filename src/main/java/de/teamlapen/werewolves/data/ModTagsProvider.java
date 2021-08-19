@@ -31,6 +31,7 @@ public class ModTagsProvider {
             this.tag(BlockTags.SAPLINGS).add(ModBlocks.jacaranda_sapling, ModBlocks.magic_sapling);
             this.tag(BlockTags.LEAVES).add(ModBlocks.jacaranda_leaves, ModBlocks.magic_leaves);
             this.tag(BlockTags.PLANKS).add(ModBlocks.magic_planks);
+            this.tag(BlockTags.CAMPFIRES).add(ModBlocks.stone_altar_fire_bowl, ModBlocks.stone_altar);
         }
     }
 

@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:block/stone_altar_fire",
+  "textures": {
+    "fire": "block/soul_fire_1"
+  }
+}

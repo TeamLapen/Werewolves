@@ -116,6 +116,12 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         }
     }
 
+    public void aboardRitual() {
+        this.phase = Phase.NOT_RUNNING;
+        this.ticks = 0;
+        this.cleanup();
+    }
+
     public boolean loadRitual(UUID playerUuid) {
         if (this.level == null) return false;
         if (this.level.players().size() == 0) return false;
@@ -130,16 +136,20 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         return true;
     }
 
-    public void startRitual(PlayerEntity player) {
-        if (phase == Phase.NOT_RUNNING) {
-            BlockState state = this.level.getBlockState(this.worldPosition);
+    /**
+     * Needs to be called after {@link #setPlayer(PlayerEntity)}
+     */
+    public void startRitual(BlockState state) {
+        if (phase == Phase.NOT_RUNNING && state.getValue(StoneAltarBlock.LIT)) {
             this.phase = Phase.STARTING;
             this.ticks = 40;
-            this.player = player;
             this.consumeItems();
             this.setChanged();
-            this.level.setBlockAndUpdate(this.worldPosition, ModBlocks.stone_altar.defaultBlockState().setValue(StoneAltarBlock.LIT, true));
         }
+    }
+
+    public void setPlayer(PlayerEntity player) {
+        this.player = player;
     }
 
     @Override

@@ -7,10 +7,12 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.scoreboard.ScoreCriteria;
+import net.minecraft.state.BooleanProperty;
 
 import javax.annotation.Nonnull;
 
 public class WUtils {
+    public static final BooleanProperty SOUL_FIRE = BooleanProperty.create("soulfire");
     public static final ScoreCriteria WEREWOLF_LEVEL_CRITERIA = new ScoreCriteria("werewolves:werewolf");
     public static final ItemGroup creativeTab = new ItemGroup(REFERENCE.MODID) {
         @Nonnull
