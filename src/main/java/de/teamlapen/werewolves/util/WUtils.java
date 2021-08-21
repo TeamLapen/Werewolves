@@ -6,6 +6,7 @@ import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.loot.LootTableManager;
 import net.minecraft.scoreboard.ScoreCriteria;
 import net.minecraft.state.BooleanProperty;
 
@@ -53,6 +54,7 @@ public class WUtils {
             return Ingredient.of(ModTags.Items.SILVER_INGOT);
         }
     };
+    public static LootTableManager LOOT_TABLE_MANAGER;
 
     public static void init() {
     }

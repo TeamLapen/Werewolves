@@ -8,14 +8,15 @@
     "BlocksInvoker",
     "FireBlockInvoker",
     "FoodStatsAccessor",
+    "LootTableManagerMixin",
     "PointOfInterestTypeInvoker",
     "entity.MixinVillagerEntity"
   ],
   "client": [
-    "client.LayerRendererAccessor",
     "client.BipedArmorLayerMixin",
     "client.ClientPlayerEntityMixin",
     "client.InGameGuiAccessor",
+    "client.LayerRendererAccessor",
     "client.ScreenAccessor",
     "client.ScreenMixin"
   ],
