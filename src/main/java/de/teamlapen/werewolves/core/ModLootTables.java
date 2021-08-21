@@ -2,13 +2,16 @@ package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.Maps;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.world.loot.MobLootModifier;
 import net.minecraft.entity.EntityType;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.RandomValueRange;
 import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Map;
 
@@ -18,6 +21,8 @@ public class ModLootTables {
 
     public static final ResourceLocation villager = entity(EntityType.VILLAGER);
     public static final ResourceLocation skeleton = entity(EntityType.SKELETON);
+
+    public static final GlobalLootModifierSerializer<MobLootModifier> mob_modifier = new MobLootModifier.ModLootModifierSerializer();
 
     static ResourceLocation entity(EntityType<?> type) {
         ResourceLocation loc = type.getDefaultLootTable();
@@ -40,5 +45,9 @@ public class ModLootTables {
     private static LootPool getInjectPool(ResourceLocation loc) {
         TableLootEntry.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1);
         return LootPool.lootPool().name("werewolves_inject_pool").bonusRolls(0,1).setRolls(new RandomValueRange(1)).add(TableLootEntry.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
+    }
+
+    public static void registerLootModifier(IForgeRegistry<GlobalLootModifierSerializer<?>> registry){
+        registry.register(mob_modifier.setRegistryName(REFERENCE.MODID, "mob_modifier"));
     }
 }

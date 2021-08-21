@@ -52,6 +52,7 @@ e50013efe430bd12769feff00803c164472b43ad assets/werewolves/models/item/totem_top
 98167609bf3898587f7565736a6fc24a7966cacd assets/werewolves/models/item/werewolf_beast_spawn_egg.json
 98167609bf3898587f7565736a6fc24a7966cacd assets/werewolves/models/item/werewolf_survivalist_spawn_egg.json
 eae8b94d084783c00195dbc67194f666bf33b630 assets/werewolves/models/item/wolfsbane.json
+860bec07fc5be2094bf83971044b84b578357d05 data/forge/loot_modifiers/global_loot_modifiers.json
 cf364e388b8b502f7ab4ddae7d2b344caaa27a38 data/forge/tags/blocks/ores/silver.json
 f398738268c4829710f953391e0885b27865afef data/forge/tags/items/cookedmeats.json
 9a8b997b4ab4a1e265a1a09a17cb3177ca1507f8 data/forge/tags/items/ingots/silver.json

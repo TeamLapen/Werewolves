@@ -33,13 +33,14 @@ public class LootTablesGenerator extends LootTableProvider {
         super(dataGeneratorIn);
     }
 
+    @Nonnull
     @Override
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootParameterSet>> getTables() {
         return ImmutableList.of(Pair.of(ModBlockLootTables::new, LootParameterSets.BLOCK), Pair.of(ModEntityLootTables::new, LootParameterSets.ENTITY), Pair.of(InjectLootTables::new, LootParameterSets.ENTITY));
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationTracker validationtracker) {
+    protected void validate(Map<ResourceLocation, LootTable> map, @Nonnull ValidationTracker validationtracker) {
         map.forEach((resourceLocation, lootTable) -> LootTableManager.validate(validationtracker, resourceLocation, lootTable));
     }
 
@@ -101,4 +102,5 @@ public class LootTablesGenerator extends LootTableProvider {
                             .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(1).when(RandomChance.randomChance(0.1f)))));
         }
     }
+
 }

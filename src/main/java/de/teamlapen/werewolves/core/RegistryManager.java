@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -104,5 +105,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterAttributes(RegistryEvent.Register<Attribute> event) {
         ModAttributes.registerAttributes(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterGlobalLootModifierSerializer(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event){
+        ModLootTables.registerLootModifier(event.getRegistry());
     }
 }

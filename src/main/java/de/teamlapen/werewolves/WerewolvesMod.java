@@ -5,7 +5,10 @@ import de.teamlapen.lib.lib.network.AbstractPacketDispatcher;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.*;
+import de.teamlapen.werewolves.core.ModBiomes;
+import de.teamlapen.werewolves.core.ModCommands;
+import de.teamlapen.werewolves.core.ModLootTables;
+import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.data.*;
 import de.teamlapen.werewolves.entities.ModEntityEventHandler;
 import de.teamlapen.werewolves.modcompat.Obfuscate;
@@ -143,6 +146,7 @@ public class WerewolvesMod {
             ModTagsProvider.addProvider(generator, event.getExistingFileHelper());
             generator.addProvider(new RecipeGenerator(generator));
             generator.addProvider(new LootTablesGenerator(generator));
+            generator.addProvider(new GlobalLootTableGenerator(generator));
             generator.addProvider(new SkillNodeGenerator(generator));
         }
         if (event.includeClient()) {
