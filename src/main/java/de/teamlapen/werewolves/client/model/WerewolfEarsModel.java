@@ -54,8 +54,22 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
     @Nullable
     @Override
     public ModelRenderer getHeadModel() {
-        return null;
+        return this.dummyBipedHead;
     }
+
+    @Nullable
+    @Override
+    public ModelRenderer getLeftArmModel() {
+        return this.clawsLeft;
+    }
+
+    @Nullable
+    @Override
+    public ModelRenderer getRightArmModel() {
+        return this.clawsRight;
+    }
+
+    @Nonnull
 
     @Override
     protected Iterable<ModelRenderer> headParts() {

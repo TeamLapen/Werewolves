@@ -241,6 +241,18 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         return this.head;
     }
 
+    @Nullable
+    @Override
+    public ModelRenderer getLeftArmModel() {
+        return this.armLeft;
+    }
+
+    @Nullable
+    @Override
+    public ModelRenderer getRightArmModel() {
+        return this.armRight;
+    }
+
     @Override
     public void renderToBuffer(@Nonnull MatrixStack matrixStackIn, @Nonnull IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);

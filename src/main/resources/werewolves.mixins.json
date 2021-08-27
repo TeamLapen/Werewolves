@@ -18,6 +18,7 @@
     "client.ClientPlayerEntityMixin",
     "client.InGameGuiAccessor",
     "client.LayerRendererAccessor",
+    "client.PlayerRendererMixin",
     "client.ScreenAccessor",
     "client.ScreenMixin"
   ],

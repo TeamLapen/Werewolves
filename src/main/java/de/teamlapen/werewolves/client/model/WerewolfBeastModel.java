@@ -312,6 +312,18 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         return this.head;
     }
 
+    @Nullable
+    @Override
+    public ModelRenderer getLeftArmModel() {
+        return this.legLeft2;
+    }
+
+    @Nullable
+    @Override
+    public ModelRenderer getRightArmModel() {
+        return this.armRight2;
+    }
+
     @Override
     public void renderToBuffer(@Nonnull MatrixStack matrixStackIn, @Nonnull IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
