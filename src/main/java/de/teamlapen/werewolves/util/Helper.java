@@ -2,8 +2,12 @@ package de.teamlapen.werewolves.util;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
+import de.teamlapen.werewolves.core.ModTags;
+import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -89,6 +93,16 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static WerewolfDamageSource causeWerewolfDamage(PlayerEntity entity) {
         return causeWerewolfDamage("player", entity);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public static boolean canWerewolfEatItem(PlayerEntity player, ItemStack stack) {
+        return !stack.isEdible() || ModTags.Items.COOKEDMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()) || ModTags.Items.RAWMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()) || stack.getItem().getFoodProperties().isMeat() || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public static boolean isRawMeat(ItemStack stack){
+        return stack.isEdible() && stack.getItem().getFoodProperties().isMeat() && ModTags.Items.RAWMEATS.contains(stack.getItem());
     }
 
 }

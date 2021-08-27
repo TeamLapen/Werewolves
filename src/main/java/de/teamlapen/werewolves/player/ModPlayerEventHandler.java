@@ -58,10 +58,9 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onFootEaten(LivingEntityUseItemEvent.Start event) {
+    public void onFootEatenStart(LivingEntityUseItemEvent.Start event) {
         if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) event.getEntity())) {
-            //noinspection ConstantConditions
-            if (event.getItem().isEdible() && !ModTags.Items.RAWMEATS.contains(event.getItem().getItem()) && !ModTags.Items.COOKEDMEATS.contains(event.getItem().getItem()) &&!event.getItem().getItem().getFoodProperties().isMeat() && !WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false)) {
+            if (!Helper.canWerewolfEatItem(((PlayerEntity) event.getEntity()), event.getItem())){
                 event.setCanceled(true);
                 ((PlayerEntity) event.getEntity()).displayClientMessage(new TranslationTextComponent("text.werewolves.no_meat"), true);
             }
@@ -69,22 +68,12 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onFootEaten(LivingEntityUseItemEvent.Finish event) {
+    public void onFootEatenFinish(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) event.getEntity())) {
-            //noinspection ConstantConditions
-            if (event.getItem().isEdible() && event.getItem().getItem().getFoodProperties().isMeat() && ModTags.Items.RAWMEATS.contains(event.getItem().getItem())) {
+            if (Helper.isRawMeat(event.getItem())) {
                 ((PlayerEntity) event.getEntityLiving()).getFoodData().eat(event.getItem().getItem(), event.getItem());
             }
         }
-    }
-
-    @SubscribeEvent
-    public void onHealing(LivingHealEvent event) {
-//        if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
-//            if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).map(player -> player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_reg)).orElse(false)) {
-//                event.setAmount(event.getAmount() * (1 + WerewolvesConfig.BALANCE.SKILLS.health_reg_modifier.get().floatValue()));
-//            }
-//        }
     }
 
     @SubscribeEvent
