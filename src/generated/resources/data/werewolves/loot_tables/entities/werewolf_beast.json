@@ -7,17 +7,42 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 4,
-          "name": "werewolves:bone"
-        },
-        {
-          "type": "minecraft:item",
           "name": "werewolves:liver"
         }
       ],
       "conditions": [
         {
           "condition": "minecraft:killed_by_player"
+        },
+        {
+          "condition": "minecraft:random_chance_with_looting",
+          "chance": 0.33,
+          "looting_multiplier": 0.05
+        }
+      ]
+    },
+    {
+      "name": "general2",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 6,
+          "name": "werewolves:bone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:werewolf_tooth"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        },
+        {
+          "condition": "minecraft:random_chance_with_looting",
+          "chance": 0.33,
+          "looting_multiplier": 0.05
         }
       ]
     }

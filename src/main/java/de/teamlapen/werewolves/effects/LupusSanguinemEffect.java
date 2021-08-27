@@ -27,9 +27,7 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
             canBecomeWerewolf = FactionPlayerHandler.getOpt(((PlayerEntity) entity)).map(player -> player.canJoin(WReference.WEREWOLF_FACTION)).orElse(false);
         }
         if (canBecomeWerewolf) {
-            if (entity.getRandom().nextInt(10) == 0) {
-                entity.addEffect(new LupusSanguinemEffectInstance(Integer.MAX_VALUE));
-            }
+            entity.addEffect(new LupusSanguinemEffectInstance(Integer.MAX_VALUE));
         }
     }
 

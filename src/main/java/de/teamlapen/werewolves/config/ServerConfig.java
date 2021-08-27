@@ -11,10 +11,17 @@ public class ServerConfig {
 
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> customMeatItems;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> customRawMeatItems;
+    public final ForgeConfigSpec.BooleanValue disableToothInfection;
 
     ServerConfig(ForgeConfigSpec.Builder builder) {
+        builder.push("meat");
         this.customMeatItems = builder.comment("Add edible items that should be considered as meat.", "Format: [\"minecraft:cooked_beef\", \"minecraft:cooked_mutton\"]").defineList("customMeatItems", Collections.emptyList(), string -> string instanceof String && UtilLib.isValidResourceLocation(((String) string)));
         this.customRawMeatItems = builder.comment("Add edible items that should be considered as raw meat. Items should also be included in 'customMeatItems'", "Format: [\"minecraft:beef\", \"minecraft:rabbit\"]").defineList("customRawMeatItems", Collections.emptyList(), string -> string instanceof String && UtilLib.isValidResourceLocation(((String) string)));
+        builder.pop();
+
+        builder.push("disable");
+        this.disableToothInfection = builder.comment("Disable the ability to infect a player with Lupus Sanguinem by using a werewolf tooth").define("disableToothInfection", false);
+        builder.pop();
     }
 
     @SuppressWarnings("ConstantConditions")

@@ -38,7 +38,9 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
 
     public void bite(LivingEntity entity) {
         //TODO take a look at ExtendedCreature#onBite
-        LupusSanguinemEffect.addSanguinemEffect(entity);
+        if (entity.getRandom().nextInt(10) == 0) {
+            LupusSanguinemEffect.addSanguinemEffect(entity);
+        }
     }
 
     @Override

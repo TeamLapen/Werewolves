@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.KilledByPlayer;
 import net.minecraft.loot.conditions.RandomChance;
+import net.minecraft.loot.conditions.RandomChanceWithLooting;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -78,10 +79,36 @@ public class LootTablesGenerator extends LootTableProvider {
         @Override
         protected void addTables() {
             this.add(ModEntities.task_master_werewolf, LootTable.lootTable());
-            this.add(ModEntities.werewolf_survivalist, LootTable.lootTable().withPool(LootPool.lootPool().name("general").when(KilledByPlayer.killedByPlayer()).setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(4)).add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1))));
-            this.add(ModEntities.werewolf_beast, LootTable.lootTable().withPool(LootPool.lootPool().name("general").when(KilledByPlayer.killedByPlayer()).setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(4)).add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1))));
+            LootTable.Builder werewolf = LootTable.lootTable()
+                    .withPool(LootPool.lootPool()
+                            .name("general")
+                            .when(KilledByPlayer.killedByPlayer())
+                            .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.liver)))
+                    .withPool(LootPool.lootPool()
+                            .name("general2")
+                            .when(KilledByPlayer.killedByPlayer())
+                            .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(6))
+                            .add(ItemLootEntry.lootTableItem(ModItems.werewolf_tooth).setWeight(1)));
+            this.add(ModEntities.werewolf_survivalist, werewolf);
+            this.add(ModEntities.werewolf_beast, werewolf);
+            this.add(ModEntities.human_werewolf, LootTable.lootTable()
+                    .withPool(LootPool.lootPool()
+                            .name("general")
+                            .when(KilledByPlayer.killedByPlayer())
+                            .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.liver)))
+                    .withPool(LootPool.lootPool()
+                            .name("general2")
+                            .when(KilledByPlayer.killedByPlayer())
+                            .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(6))));
             this.add(ModEntities.wolf, LootTable.lootTable());
-            this.add(ModEntities.human_werewolf, LootTable.lootTable().withPool(LootPool.lootPool().name("general").when(KilledByPlayer.killedByPlayer()).setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(4)).add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1))));
         }
 
         @Nonnull

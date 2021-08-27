@@ -3,10 +3,7 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
-import de.teamlapen.werewolves.items.CrossbowArrowItem;
-import de.teamlapen.werewolves.items.LiverItem;
-import de.teamlapen.werewolves.items.SilverSword;
-import de.teamlapen.werewolves.items.UnWerewolfInjectionItem;
+import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
@@ -32,6 +29,7 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final LiverItem liver = getNull();
     public static final Item bone = getNull();
     public static final UnWerewolfInjectionItem injection_un_werewolf = getNull();
+    public static final WerewolfTooth werewolf_tooth = getNull();
 
     public static final SpawnEggItem werewolf_beast_spawn_egg = getNull();
     public static final SpawnEggItem werewolf_survivalist_spawn_egg = getNull();
@@ -60,5 +58,6 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
         registry.register(new SpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
         registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
         registry.register(new SpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
+        registry.register(new WerewolfTooth().setRegistryName(REFERENCE.MODID, "werewolf_tooth"));
     }
 }
