@@ -7,6 +7,7 @@ import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.UnWerewolfEffectInstance;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
+import de.teamlapen.werewolves.mixin.LivingEntityInvoker;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -141,6 +142,8 @@ public class ModPlayerEventHandler {
                         werewolf.getActionHandler().toggleAction(WerewolfActions.leap);
                     } else {
                         werewolf.getSpecialAttributes().leap = true;
+                        Vector3d vector3d = event.getEntity().getDeltaMovement();
+                        event.getEntity().setDeltaMovement(vector3d.x, vector3d.y  + (((LivingEntityInvoker)event.getEntity()).invokeGetJumpPower_werewolves() * 0.5), vector3d.z);
                     }
                 } else {
                     werewolf.getSpecialAttributes().leap = false;

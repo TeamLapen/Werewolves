@@ -52,7 +52,7 @@ public class ModKeys {
             LazyOptional<WerewolfPlayer> werewolfOpt = WerewolfPlayer.getOpt(Minecraft.getInstance().player);
             if (key == LEAP) {
                 if (Helper.isWerewolf(player)) {
-                    werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(WerewolfActions.leap)).ifPresent(w -> {
+                    werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(WerewolfActions.leap) && w.getForm().isTransformed()).ifPresent(w -> {
                         WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.LEAP, ""));
                         WerewolfPlayer.get(player).getActionHandler().toggleAction(WerewolfActions.leap);
                     });

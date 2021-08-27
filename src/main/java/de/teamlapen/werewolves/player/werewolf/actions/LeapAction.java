@@ -49,7 +49,7 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     public boolean onUpdate(IWerewolfPlayer iWerewolfPlayer) {
-        iWerewolfPlayer.getRepresentingPlayer().flyingSpeed *= 3;
+        iWerewolfPlayer.getRepresentingPlayer().flyingSpeed *= 2;
         return false;
     }
 }

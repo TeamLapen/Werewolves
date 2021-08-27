@@ -270,7 +270,7 @@ public class BalanceConfig {
 
             builder.push("leap");
             this.leap_enabled = builder.define("leap_enabled", true);
-            this.leap_cooldown = builder.comment("In seconds").defineInRange("leap_cooldown", 4, 1, Integer.MAX_VALUE);
+            this.leap_cooldown = builder.comment("In seconds").defineInRange("leap_cooldown", 6, 1, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("sixth_sense");
