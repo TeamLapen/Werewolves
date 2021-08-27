@@ -18,7 +18,7 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HowlingAction extends DefaultWerewolfAction {
+public class HowlingAction extends DefaultWerewolfAction implements IActionCooldownMenu {
 
     @Override
     public boolean isEnabled() {

@@ -10,7 +10,7 @@ import net.minecraft.potion.Effects;
 
 import java.util.UUID;
 
-public class RageWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
+public class RageWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu{
 
     private static final UUID BITE_MODIFIER = UUID.fromString("0ae51804-eaf4-456e-b4ff-24ed326557f4");
 

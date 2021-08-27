@@ -143,7 +143,7 @@ public class ModPlayerEventHandler {
                     } else {
                         werewolf.getSpecialAttributes().leap = true;
                         Vector3d vector3d = event.getEntity().getDeltaMovement();
-                        event.getEntity().setDeltaMovement(vector3d.x, vector3d.y  + (((LivingEntityInvoker)event.getEntity()).invokeGetJumpPower_werewolves() * 0.5), vector3d.z);
+                        event.getEntity().setDeltaMovement(vector3d.x, vector3d.y  + (((LivingEntityInvoker)event.getEntity()).invokeGetJumpPower_werewolves() * 0.3), vector3d.z);
                     }
                 } else {
                     werewolf.getSpecialAttributes().leap = false;

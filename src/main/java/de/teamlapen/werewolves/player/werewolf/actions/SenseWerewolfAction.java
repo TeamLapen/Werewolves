@@ -4,7 +4,7 @@ import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 
-public class SenseWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
+public class SenseWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
 
     @Override
     public boolean isEnabled() {

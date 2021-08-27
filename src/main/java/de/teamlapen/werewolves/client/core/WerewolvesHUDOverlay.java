@@ -267,12 +267,16 @@ public class WerewolvesHUDOverlay extends ExtendedGui {
             for (IAction action : actions) {
                 ResourceLocation loc = new ResourceLocation(action.getRegistryName().getNamespace(), "textures/actions/" + action.getRegistryName().getPath() + ".png");
                 this.mc.getTextureManager().bind(loc);
-                RenderSystem.color4f(1, 1, 1, 0.5f);
+                int perc = (int) ((1 - - werewolf.getActionHandler().getPercentageForAction(action)) * 16);
+                //render gray transparent background for remaining cooldown
+                this.fillGradient(matrixStack, x, y + perc, x + 16, y + 16, 0x44888888/*Color.GRAY - 0xBB000000 */, 0x44888888/*Color.GRAY - 0xBB000000 */);
+                //render action icon transparent
+                RenderSystem.enableBlend();
+                RenderSystem.color4f(1, 1, 1, 0.4f);
                 blit(matrixStack, x, y, this.getBlitOffset(), 0, 0, 16, 16, 16, 16);
-                float perc1 = 1 - -werewolf.getActionHandler().getPercentageForAction(action);
-                int perc = (int) (perc1 * 16);
+                //render action icon full for remaining cooldown
                 RenderSystem.color4f(1, 1, 1, 1);
-                blit(matrixStack, x, y + perc, this.getBlitOffset(), 0, 0 + perc, 16, 16 - perc, 16, 16);
+                blit(matrixStack, x, y + perc, this.getBlitOffset(), 0, perc, 16, 16 - perc, 16, 16);
                 x += 16;
             }
         }
