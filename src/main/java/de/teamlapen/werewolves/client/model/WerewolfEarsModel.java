@@ -70,7 +70,6 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
     }
 
     @Nonnull
-
     @Override
     protected Iterable<ModelRenderer> headParts() {
         return ImmutableList.of(this.dummyBipedHead);

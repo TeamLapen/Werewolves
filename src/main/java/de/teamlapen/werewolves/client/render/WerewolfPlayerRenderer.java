@@ -121,9 +121,13 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         this.switchModel(form);
         ModelRenderer arm = this.getModel().getRightArmModel();
         if (arm != null) {
-            matrixStackIn.scale(1.2f,1f,1.2f);
-            matrixStackIn.translate(0,0.2,0.4);
-            this.renderItem(matrixStackIn, bufferIn, combinedLightIn, playerIn, arm);
+            if (form == WerewolfForm.BEAST) {
+                matrixStackIn.pushPose();
+                matrixStackIn.scale(1.2f, 1f, 1.2f);
+                matrixStackIn.translate(0, 0.2, 0.4);
+                this.renderItem(matrixStackIn, bufferIn, combinedLightIn, playerIn, arm);
+                matrixStackIn.popPose();
+            }
         }
         return !form.isHumanLike();
     }
@@ -148,8 +152,9 @@ public class WerewolfPlayerRenderer extends LivingRenderer<AbstractClientPlayerE
         model.attackTime = 0F;
         model.crouching = false;
         model.swimAmount = 0F;
-        model.setupAnim(playerIn, 0, 0, 0, 0, 0);
-        rendererArmIn.xRot = 0F;
+        //model.setupAnim(playerIn, 0, 0, 0, 0, 0);
+//        model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(this.getTextureLocation(playerIn))), combinedLightIn, OverlayTexture.NO_OVERLAY, 1,1,1,1);
+//        rendererArmIn.xRot = 0F;
         rendererArmIn.render(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(this.getTextureLocation(playerIn))), combinedLightIn, OverlayTexture.NO_OVERLAY);
     }
 
