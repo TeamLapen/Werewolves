@@ -166,5 +166,11 @@
   "form.werewolves.none": "None",
   "form.werewolves.beast": "Beast",
   "form.werewolves.survivalist": "Survival",
-  "form.werewolves.human": "Human"
+  "form.werewolves.human": "Human",
+  "__comment": "Titles",
+  "text.werewolves.lord_title.werewolf.1": "Eplison",
+  "text.werewolves.lord_title.werewolf.2": "Delta",
+  "text.werewolves.lord_title.werewolf.3": "Gamma",
+  "text.werewolves.lord_title.werewolf.4": "Beta",
+  "text.werewolves.lord_title.werewolf.5": "Alpha"
 }
