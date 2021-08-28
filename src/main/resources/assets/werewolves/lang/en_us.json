@@ -172,5 +172,17 @@
   "text.werewolves.lord_title.werewolf.2": "Delta",
   "text.werewolves.lord_title.werewolf.3": "Gamma",
   "text.werewolves.lord_title.werewolf.4": "Beta",
-  "text.werewolves.lord_title.werewolf.5": "Alpha"
+  "text.werewolves.lord_title.werewolf.5": "Alpha",
+  "__comment": "Tasks",
+  "task.werewolves.werewolf_lord1": "Are you worthy?",
+  "task.werewolves.werewolf_lord1.reward": "Become a werewolf lord",
+  "task.werewolves.werewolf_lord2": "The next step",
+  "task.werewolves.werewolf_lord2.reward": "Lord Level 2",
+  "task.werewolves.werewolf_lord3": "One more",
+  "task.werewolves.werewolf_lord3.reward": "Lord Level 3",
+  "task.werewolves.werewolf_lord4": "Control mania",
+  "task.werewolves.werewolf_lord4.reward": "Lord Level 4",
+  "task.werewolves.werewolf_lord5": "Megalomania",
+  "task.werewolves.werewolf_lord5.reward": "Lord Level 5",
+  "task.vampirism.oblivion_potion": "Path to oblivion"
 }
