@@ -43,6 +43,6 @@ public class WerewolfVillageData implements IVillageFactionData {
 
     @Override
     public EntityType<? extends ITaskMasterEntity> getTaskMasterEntity() {
-        return null;
+        return ModEntities.task_master_werewolf;
     }
 }
