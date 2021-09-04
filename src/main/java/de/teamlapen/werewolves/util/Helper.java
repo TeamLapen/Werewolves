@@ -6,10 +6,12 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.entities.IWerewolf;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.player.werewolf.actions.WerewolfFormAction;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -103,6 +105,16 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     @SuppressWarnings("ConstantConditions")
     public static boolean isRawMeat(ItemStack stack){
         return stack.isEdible() && stack.getItem().getFoodProperties().isMeat() && ModTags.Items.RAWMEATS.contains(stack.getItem());
+    }
+
+    public static IWerewolf asIWerewolf(LivingEntity entity) {
+        if (entity instanceof IWerewolf) {
+            return ((IWerewolf) entity);
+        } if (entity instanceof PlayerEntity) {
+            return WerewolfPlayer.get(((PlayerEntity) entity));
+        } else {
+            return null;
+        }
     }
 
 }

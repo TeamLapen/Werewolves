@@ -127,9 +127,9 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
         }
 
         this.activeForm = form;
-        this.skinType = werewolf.getSkinType(form);
-        this.eyeType = werewolf.getEyeType(form);
-        this.glowingEyes = werewolf.getGlowingEyes(form);
+        this.skinType = werewolf.getSkinType();
+        this.eyeType = werewolf.getEyeType();
+        this.glowingEyes = werewolf.hasGlowingEyes();
 
         this.eyeList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100, 20, REFERENCE.EYE_TYPE_COUNT, new TranslationTextComponent("text.werewolves.appearance.eye"), this::eye, this::hoverEye));
         this.skinList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft+20, this.guiTop+50+19+20, 99, 80, 20, form.getSkinTypes(),new TranslationTextComponent("text.werewolves.appearance.skin"),this::skin, this::hoverSkin));
@@ -143,7 +143,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
             public void onPress() {
                 super.onPress();
                 glowingEyes = this.selected();
-                werewolf.getGlowingEyes(form);
+                werewolf.hasGlowingEyes();
             }
         });
         this.setEyeListVisibility(false);
@@ -200,7 +200,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
         if (hovered) {
             werewolf.setEyeType(this.activeForm, eyeType);
         } else {
-            if (werewolf.getEyeType(this.activeForm) == eyeType) {
+            if (werewolf.getEyeType() == eyeType) {
                 werewolf.setEyeType(this.activeForm, this.eyeType);
             }
         }
@@ -210,7 +210,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
         if (hovered) {
             werewolf.setSkinType(this.activeForm, skintype);
         } else {
-            if (werewolf.getSkinType(this.activeForm) == skintype) {
+            if (werewolf.getSkinType() == skintype) {
                 werewolf.setSkinType(this.activeForm, this.skinType);
             }
         }

@@ -191,7 +191,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
 
     @Nonnull
     @Override
-    public WerewolfForm getWerewolfForm() {
+    public WerewolfForm getForm() {
         switch (this.getEntityData().get(FORM)) {
             case 0:
                 return WerewolfForm.BEAST;

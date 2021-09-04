@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.api.entity.player.task.ITaskManager;
 import de.teamlapen.werewolves.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
+@SuppressWarnings("ConstantConditions")
 @Deprecated
 class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -92,5 +94,26 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     @Override
     public IActionHandler<IWerewolfPlayer> getActionHandler() {
         return null;
+    }
+
+    @Nonnull
+    @Override
+    public WerewolfForm getForm() {
+        return null;
+    }
+
+    @Override
+    public int getSkinType() {
+        return 0;
+    }
+
+    @Override
+    public int getEyeType() {
+        return 0;
+    }
+
+    @Override
+    public boolean hasGlowingEyes() {
+        return false;
     }
 }

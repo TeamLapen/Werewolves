@@ -1,0 +1,40 @@
+package de.teamlapen.werewolves.client.render.layer;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
+import de.teamlapen.werewolves.entities.IWerewolf;
+import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nonnull;
+
+public class WerewolfFaceOverlayLayer<T extends LivingEntity> extends LayerRenderer<T, WerewolfBaseModel<T>> {
+
+    private final ResourceLocation[] eyeOverlays;
+
+    public WerewolfFaceOverlayLayer(LivingRenderer<T, WerewolfBaseModel<T>> renderer) {
+        super(renderer);
+        eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
+        for (int i = 0; i < eyeOverlays.length; i++) {
+            eyeOverlays[i] = new ResourceLocation(REFERENCE.MODID + ":textures/entity/werewolf/eye/eye_" + (i) + ".png");
+        }
+    }
+
+    @Override
+    public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        IWerewolf werewolf = entity instanceof IWerewolf ? (IWerewolf) entity : WerewolfPlayer.get(((PlayerEntity) entity));
+        int eyeType = Math.max(0, Math.min(werewolf.getEyeType(), eyeOverlays.length - 1));
+        RenderType renderType = werewolf.hasGlowingEyes() ? RenderType.eyes(eyeOverlays[eyeType]) : RenderType.entityCutoutNoCull(eyeOverlays[eyeType]);
+        IVertexBuilder vertexBuilderEye = bufferIn.getBuffer(renderType);
+        int packerOverlay = LivingRenderer.getOverlayCoords(entity, 0);
+        this.getParentModel().getModelRenderer().render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
+    }
+}

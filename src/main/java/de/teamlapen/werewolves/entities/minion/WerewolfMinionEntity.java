@@ -12,6 +12,7 @@ import de.teamlapen.vampirism.entity.minion.MinionEntity;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.vampirism.entity.minion.management.MinionTasks;
 import de.teamlapen.werewolves.entities.IWerewolf;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.EntityType;
@@ -33,12 +34,8 @@ import java.util.List;
 
 public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.WerewolfMinionData> implements IWerewolf {
 
-    static {
+    public static void registerMinionData() {
         MinionData.registerDataType(WerewolfMinionEntity.WerewolfMinionData.ID, WerewolfMinionEntity.WerewolfMinionData::new);
-    }
-
-    public static void init() {
-
     }
 
     public static AttributeModifierMap.MutableAttribute getAttributeBuilder() {
@@ -104,6 +101,27 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
     }
 
+    @Nonnull
+    @Override
+    public WerewolfForm getForm() {
+        return this.minionData != null ? this.minionData.form: WerewolfForm.NONE;
+    }
+
+    @Override
+    public int getSkinType() {
+        return this.minionData != null ? this.minionData.skinType : 0;
+    }
+
+    @Override
+    public int getEyeType() {
+        return this.minionData != null ? this.minionData.eyeType :0;
+    }
+
+    @Override
+    public boolean hasGlowingEyes() {
+        return this.minionData != null && this.minionData.glowingEyes;
+    }
+
     private void updateAttributes() {
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BalanceMobProps.mobProps.MINION_MAX_HEALTH + BalanceMobProps.mobProps.MINION_MAX_HEALTH_PL * getMinionData().map((WerewolfMinionData::getHealthLevel)).orElse(0));
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(BalanceMobProps.mobProps.MINION_ATTACK_DAMAGE + BalanceMobProps.mobProps.MINION_ATTACK_DAMAGE_PL * getMinionData().map(WerewolfMinionData::getStrengthLevel).orElse(0));
@@ -123,9 +141,18 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         private int healthLevel;
         private int strengthLevel;
 
-        public WerewolfMinionData(String name) {
+        private int skinType;
+        private int eyeType;
+        private boolean glowingEyes;
+        private WerewolfForm form = WerewolfForm.BEAST;
+
+        public WerewolfMinionData(String name, int skinType, int eyeType, boolean glowingEyes, WerewolfForm form) {
             super(name, 9);
             this.level = 0;
+            this.skinType = skinType;
+            this.eyeType = eyeType;
+            this.glowingEyes = glowingEyes;
+            this.form = form;
         }
 
         private WerewolfMinionData() {
@@ -150,6 +177,22 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
         public int getLevel() {
             return level;
+        }
+
+        public int getSkinType() {
+            return skinType;
+        }
+
+        public int getEyeType() {
+            return eyeType;
+        }
+
+        public boolean hasGlowingEyes() {
+            return glowingEyes;
+        }
+
+        public WerewolfForm getForm() {
+            return form;
         }
 
         public int getRemainingStatPoints() {
@@ -179,6 +222,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         @Override
         public void handleMinionAppearanceConfig(String name, int... data) {
             super.handleMinionAppearanceConfig(name, data);
+            //TODO
         }
 
         public boolean setLevel(int level){
@@ -227,15 +271,23 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             this.inventoryLevel = nbt.getInt("l_inv");
             this.healthLevel = nbt.getInt("l_he");
             this.strengthLevel = nbt.getInt("l_str");
+            this.skinType = nbt.getInt("s_type");
+            this.eyeType = nbt.getInt("e_type");
+            this.glowingEyes = nbt.getBoolean("e_glow");
+            this.form = WerewolfForm.getForm(nbt.getString("form"));
         }
 
         @Override
         public void serializeNBT(CompoundNBT tag) {
             super.serializeNBT(tag);
-            tag.putInt("level", level);
-            tag.putInt("l_inv", inventoryLevel);
-            tag.putInt("l_he", healthLevel);
-            tag.putInt("l_str", strengthLevel);
+            tag.putInt("level", this.level);
+            tag.putInt("l_inv", this.inventoryLevel);
+            tag.putInt("l_he", this.healthLevel);
+            tag.putInt("l_str", this.strengthLevel);
+            tag.putInt("s_type", this.skinType);
+            tag.putInt("e_type", this.eyeType);
+            tag.putBoolean("e_glow", this.glowingEyes);
+            tag.putString("form", this.form.getName());
         }
 
         @Override

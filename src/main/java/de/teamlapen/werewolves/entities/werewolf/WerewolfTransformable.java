@@ -42,7 +42,7 @@ public interface WerewolfTransformable {
     boolean canTransform();
 
     @Nonnull
-    WerewolfForm getWerewolfForm();
+    WerewolfForm getForm();
 
     EntityClassType getEntityClass();
 

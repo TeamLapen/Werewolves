@@ -44,7 +44,7 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
         registry.register(prepareEntityType("wolf", EntityType.Builder.of(AggressiveWolfEntity::new, EntityClassification.AMBIENT).sized(0.6F, 0.85F), false));
         registry.register(prepareEntityType("task_master_werewolf", EntityType.Builder.of(WerewolfTaskMasterEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.6f, 1.95f), true));
         registry.register(prepareEntityType("werewolf_minion", EntityType.Builder.of(WerewolfMinionEntity::new, EntityClassification.CREATURE).sized(0.6f, 1.95f), false));
-        WerewolfMinionEntity.init();
+        WerewolfMinionEntity.registerMinionData();
     }
 
     static void registerSpawns() {

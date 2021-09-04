@@ -68,7 +68,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
 
     @Nonnull
     @Override
-    public WerewolfForm getWerewolfForm() {
+    public WerewolfForm getForm() {
         return this.form;
     }
 

@@ -76,6 +76,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         return this.werewolfForm.getSize(poseIn).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(poseIn));
     }
 
+    @Nonnull
+    @Override
     public WerewolfForm getForm() {
         return werewolfForm;
     }
@@ -205,6 +207,21 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
+    public int getSkinType() {
+        return this.getEntityData().get(SKINTYPE);
+    }
+
+    @Override
+    public int getEyeType() {
+        return this.getEntityData().get(EYETYPE);
+    }
+
+    @Override
+    public boolean hasGlowingEyes() {
+        return false; //TODO
+    }
+
+    @Override
     public void setLevel(int level) {
         if (level >= 0) {
             getEntityData().set(LEVEL, level);
@@ -275,11 +292,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public void attackVillage(ICaptureAttributes iCaptureAttributes) {
         this.villageAttributes = iCaptureAttributes;
         this.attack = true;
-    }
-
-    @Nonnull
-    public WerewolfForm getWerewolfForm() {
-        return werewolfForm;
     }
 
     @Override
