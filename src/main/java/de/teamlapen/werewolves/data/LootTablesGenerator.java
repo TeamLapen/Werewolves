@@ -79,6 +79,7 @@ public class LootTablesGenerator extends LootTableProvider {
         @Override
         protected void addTables() {
             this.add(ModEntities.task_master_werewolf, LootTable.lootTable());
+            this.add(ModEntities.werewolf_minion, LootTable.lootTable());
             LootTable.Builder werewolf = LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .name("general")
