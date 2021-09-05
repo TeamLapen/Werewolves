@@ -148,6 +148,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
         public WerewolfMinionData(String name, int skinType, int eyeType, boolean glowingEyes, WerewolfForm form) {
             super(name, 9);
+            assert !form.isHumanLike();
             this.level = 0;
             this.skinType = skinType;
             this.eyeType = eyeType;

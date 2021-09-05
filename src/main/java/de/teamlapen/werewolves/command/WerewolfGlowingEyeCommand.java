@@ -2,8 +2,8 @@ package de.teamlapen.werewolves.command;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
 import de.teamlapen.lib.lib.util.BasicCommand;
+import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.command.CommandSource;
@@ -14,19 +14,14 @@ public class WerewolfGlowingEyeCommand extends BasicCommand {
 
     public static ArgumentBuilder<CommandSource,?> register() {
         return Commands.literal("glowingEye")
-                .then(Commands.literal("beast")
+                .then(Commands.argument("form", WerewolfFormArgument.nonHumanForms())
                         .then(Commands.argument("on", BoolArgumentType.bool())
                                 .executes(context -> {
-                                    return setGlowingEyes(context, context.getSource().getPlayerOrException(), BoolArgumentType.getBool(context, "on"), WerewolfForm.BEAST);
-                                })))
-                .then(Commands.literal("survival")
-                        .then(Commands.argument("on",  BoolArgumentType.bool())
-                                .executes(context -> {
-                                    return setGlowingEyes(context, context.getSource().getPlayerOrException(), BoolArgumentType.getBool(context, "on"), WerewolfForm.SURVIVALIST);
+                                    return setGlowingEyes(context.getSource().getPlayerOrException(), BoolArgumentType.getBool(context, "on"), WerewolfFormArgument.getForm(context, "form"));
                                 })));
     }
 
-    private static int setGlowingEyes(CommandContext<CommandSource> context, PlayerEntity playerEntity, boolean on, WerewolfForm form) {
+    private static int setGlowingEyes(PlayerEntity playerEntity, boolean on, WerewolfForm form) {
         WerewolfPlayer.getOpt(playerEntity).ifPresent(w -> w.setGlowingEyes(form, on));
         return 0;
     }

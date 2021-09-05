@@ -24,8 +24,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 
-import java.util.Collection;
-
+/**
+ * @see de.teamlapen.vampirism.command.test.MinionCommand
+ */
 public class MinionCommand extends BasicCommand {
     private static final DynamicCommandExceptionType fail = new DynamicCommandExceptionType((msg) -> new StringTextComponent("Failed: " + msg));
 
@@ -33,20 +34,22 @@ public class MinionCommand extends BasicCommand {
         return Commands.literal("minion")
                 .requires(context -> context.hasPermission(PERMISSION_LEVEL_CHEAT))
                 .then(Commands.literal("spawnNew")
-                        .then(Commands.literal("werewolf").executes(context -> spawnNewWerewolfMinion(context.getSource(), "Minion", 0, 0, true, WerewolfForm.BEAST))
+                        .then(Commands.literal("werewolf").executes(context -> spawnNewWerewolfMinion(context.getSource(), "Minion", 0, 0, false, WerewolfForm.BEAST))
                                 .then(Commands.argument("name", StringArgumentType.string())
+                                        .executes(context -> spawnNewWerewolfMinion(context.getSource(), StringArgumentType.getString(context, "name"), 0, 0, false, WerewolfForm.BEAST))
                                         .then(Commands.argument("skinType", IntegerArgumentType.integer())
+                                                .executes(context -> spawnNewWerewolfMinion(context.getSource(), StringArgumentType.getString(context, "name"), IntegerArgumentType.getInteger(context, "skinType"), 0, false, WerewolfForm.BEAST))
                                                 .then(Commands.argument("eyeType", IntegerArgumentType.integer())
+                                                        .executes(context -> spawnNewWerewolfMinion(context.getSource(), StringArgumentType.getString(context, "name"), IntegerArgumentType.getInteger(context, "skinType"), IntegerArgumentType.getInteger(context, "eyeType"), false, WerewolfForm.BEAST))
                                                         .then(Commands.argument("glowingEye", BoolArgumentType.bool())
-                                                                .then(Commands.argument("form", WerewolfFormArgument.formArgument())
-                                                                        .executes(context -> {
-                                                                            return spawnNewWerewolfMinion(context.getSource(),
-                                                                                    StringArgumentType.getString(context, "name"),
-                                                                                    IntegerArgumentType.getInteger(context, "skinType"),
-                                                                                    IntegerArgumentType.getInteger(context, "eyeType"),
-                                                                                    BoolArgumentType.getBool(context, "glowingEye"),
-                                                                                    WerewolfFormArgument.getForm(context, "form"));
-                                                                        }))))))));
+                                                                .executes(context -> spawnNewWerewolfMinion(context.getSource(), StringArgumentType.getString(context, "name"), IntegerArgumentType.getInteger(context, "skinType"), IntegerArgumentType.getInteger(context, "eyeType"), BoolArgumentType.getBool(context, "glowingEye"), WerewolfForm.BEAST))
+                                                                .then(Commands.argument("form", WerewolfFormArgument.nonHumanForms())
+                                                                        .executes(context -> spawnNewWerewolfMinion(context.getSource(),
+                                                                                StringArgumentType.getString(context, "name"),
+                                                                                IntegerArgumentType.getInteger(context, "skinType"),
+                                                                                IntegerArgumentType.getInteger(context, "eyeType"),
+                                                                                BoolArgumentType.getBool(context, "glowingEye"),
+                                                                                WerewolfFormArgument.getForm(context, "form"))))))))));
     }
 
 
@@ -61,7 +64,6 @@ public class MinionCommand extends BasicCommand {
         if (fph.getMaxMinions() > 0) {
             PlayerMinionController controller = MinionWorldData.getData(ctx.getServer()).getOrCreateController(fph);
             if (controller.hasFreeMinionSlot()) {
-
                 if (fph.getCurrentFaction() == faction) {
                     int id = controller.createNewMinionSlot(data, type);
                     if (id < 0) {
@@ -71,57 +73,12 @@ public class MinionCommand extends BasicCommand {
                 } else {
                     throw fail.create("Wrong faction");
                 }
-
-
             } else {
                 throw fail.create("No free slot");
             }
-
         } else {
             throw fail.create("Can't have minions");
         }
-
-        return 0;
-    }
-
-    private static int recall(CommandSource ctx) throws CommandSyntaxException {
-        PlayerEntity p = ctx.getPlayerOrException();
-        FactionPlayerHandler fph = FactionPlayerHandler.get(p);
-        if (fph.getMaxMinions() > 0) {
-            PlayerMinionController controller = MinionWorldData.getData(ctx.getServer()).getOrCreateController(fph);
-            Collection<Integer> ids = controller.recallMinions(true);
-            for (Integer id : ids) {
-                controller.createMinionEntityAtPlayer(id, p);
-            }
-        } else {
-            throw fail.create("Can't have minions");
-        }
-
-        return 0;
-    }
-
-
-    private static int respawn(CommandSource ctx) throws CommandSyntaxException {
-        PlayerEntity p = ctx.getPlayerOrException();
-        FactionPlayerHandler fph = FactionPlayerHandler.get(p);
-        if (fph.getMaxMinions() > 0) {
-            PlayerMinionController controller = MinionWorldData.getData(ctx.getServer()).getOrCreateController(fph);
-            Collection<Integer> ids = controller.getUnclaimedMinions();
-            for (Integer id : ids) {
-                controller.createMinionEntityAtPlayer(id, p);
-            }
-
-        } else {
-            throw fail.create("Can't have minions");
-        }
-
-        return 0;
-    }
-
-    private static int purge(CommandSource ctx) throws CommandSyntaxException {
-        PlayerEntity p = ctx.getPlayerOrException();
-        MinionWorldData.getData(ctx.getServer()).purgeController(p.getUUID());
-        p.displayClientMessage(new StringTextComponent("Reload world"), false);
         return 0;
     }
 }
