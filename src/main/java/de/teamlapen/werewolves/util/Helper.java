@@ -98,8 +98,12 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static boolean canWerewolfEatItem(PlayerEntity player, ItemStack stack) {
-        return !stack.isEdible() || ModTags.Items.COOKEDMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()) || ModTags.Items.RAWMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()) || stack.getItem().getFoodProperties().isMeat() || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false);
+    public static boolean canWerewolfEatItem(ItemStack stack) {
+        return !stack.isEdible() || ModTags.Items.COOKEDMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()) || ModTags.Items.RAWMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()) || stack.getItem().getFoodProperties().isMeat();
+    }
+
+    public static boolean canWerewolfPlayerEatItem(PlayerEntity player, ItemStack stack) {
+        return canWerewolfEatItem(stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false);
     }
 
     @SuppressWarnings("ConstantConditions")

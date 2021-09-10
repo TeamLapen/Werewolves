@@ -21,17 +21,18 @@ import java.util.stream.Collectors;
 public class WerewolfModelWrapper<T extends LivingEntity> {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public final Supplier<WerewolfBaseModel<T>> modelSupplier;
     private WerewolfBaseModel<T> model;
     private Collection<LayerRenderer<T, WerewolfBaseModel<T>>> layers;
+    public List<ResourceLocation> textures;
+    public final Supplier<WerewolfBaseModel<T>> modelSupplier;
     private final Function<LivingRenderer<T, WerewolfBaseModel<T>>, Collection<LayerRenderer<T, WerewolfBaseModel<T>>>> layersFactory;
-    public final Supplier<List<ResourceLocation>> textures;
+    public final Supplier<List<ResourceLocation>> texturesSupplier;
     public final float shadow;
     public final boolean skipPlayerModel;
 
-    public WerewolfModelWrapper(Supplier<WerewolfBaseModel<T>> model, Function<LivingRenderer<T, WerewolfBaseModel<T>>, Collection<LayerRenderer<T, WerewolfBaseModel<T>>>> layersFactory, Supplier<List<ResourceLocation>> textures, float shadow, boolean skipPlayerModel) {
+    public WerewolfModelWrapper(Supplier<WerewolfBaseModel<T>> model, Function<LivingRenderer<T, WerewolfBaseModel<T>>, Collection<LayerRenderer<T, WerewolfBaseModel<T>>>> layersFactory, Supplier<List<ResourceLocation>> texturesSupplier, float shadow, boolean skipPlayerModel) {
         this.modelSupplier = model;
-        this.textures = textures;
+        this.texturesSupplier = texturesSupplier;
         this.shadow = shadow;
         this.skipPlayerModel = skipPlayerModel;
         this.layersFactory = layersFactory;
@@ -48,6 +49,7 @@ public class WerewolfModelWrapper<T extends LivingEntity> {
     public void refresh(LivingRenderer<T, WerewolfBaseModel<T>> renderer) {
         this.layers = Collections.unmodifiableCollection(layersFactory.apply(renderer));
         this.model = modelSupplier.get();
+        this.textures = texturesSupplier.get();
     }
 
     public Collection<LayerRenderer<T, WerewolfBaseModel<T>>> getLayers() {

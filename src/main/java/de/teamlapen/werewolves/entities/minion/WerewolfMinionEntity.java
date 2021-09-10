@@ -11,13 +11,18 @@ import de.teamlapen.vampirism.entity.hunter.BasicHunterEntity;
 import de.teamlapen.vampirism.entity.minion.MinionEntity;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.vampirism.entity.minion.management.MinionTasks;
+import de.teamlapen.werewolves.client.gui.WerewolfMinionAppearanceScreen;
+import de.teamlapen.werewolves.client.gui.WerewolfMinionStatsScreen;
 import de.teamlapen.werewolves.entities.IWerewolf;
 import de.teamlapen.werewolves.player.WerewolfForm;
+import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,6 +33,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -64,27 +72,37 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
     @Override
     public void openAppearanceScreen() {
-        super.openAppearanceScreen();
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().setScreen(new WerewolfMinionAppearanceScreen(this, Minecraft.getInstance().screen)));
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void openStatsScreen() {
-        super.openStatsScreen();
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().setScreen(new WerewolfMinionStatsScreen(this, Minecraft.getInstance().screen)));
     }
 
     @Override
     protected boolean canConsume(ItemStack stack) {
-        return super.canConsume(stack);
+        if (!super.canConsume(stack)) return false;
+        if (stack.isEdible() && !Helper.canWerewolfEatItem(stack)) return false;
+        boolean fullHealth = this.getHealth() == this.getMaxHealth();
+        return !fullHealth || !stack.isEdible();
     }
 
+    @Nonnull
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
+    public ItemStack eat(@Nonnull World world, @Nonnull ItemStack stack) {
+        if (stack.isEdible() && Helper.isRawMeat(stack)) {
+            float healAmount = stack.getItem().getFoodProperties().getNutrition() / 2f;
+            this.heal(healAmount);
+        }
+        return super.eat(world, stack);
     }
 
     @Override
     protected void onMinionDataReceived(@Nonnull WerewolfMinionData data) {
         super.onMinionDataReceived(data);
+        this.updateAttributes();
     }
 
     @Override
@@ -95,10 +113,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     @Override
     protected void registerGoals() {
         super.registerGoals();
-    }
-
-    private void updateAttackGoal() {
-
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
     }
 
     @Nonnull
@@ -128,6 +143,18 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_HUNTER_SPEED); //TODO
     }
 
+    public void setEyeType(int type) {
+        this.getMinionData().ifPresent(d -> d.eyeType = type);
+    }
+
+    public void setSkinType(int type) {
+        this.getMinionData().ifPresent(d -> d.skinType = type);
+    }
+
+    public void setGlowingEyes(boolean glowing) {
+        this.getMinionData().ifPresent(d -> d.glowingEyes = glowing);
+    }
+
     public static class WerewolfMinionData extends MinionData {
         public static final ResourceLocation ID = new ResourceLocation(REFERENCE.MODID, "werewolf");
 
@@ -135,11 +162,13 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         public static final int MAX_LEVEL_INVENTORY = 2;
         public static final int MAX_LEVEL_HEALTH = 3;
         public static final int MAX_LEVEL_STRENGTH = 3;
+        public static final int MAX_LEVEL_RESOURCES = 2;
 
         private int level;
         private int inventoryLevel;
         private int healthLevel;
         private int strengthLevel;
+        private int resourceEfficiencyLevel;
 
         private int skinType;
         private int eyeType;
@@ -192,17 +221,21 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             return glowingEyes;
         }
 
+        public int getResourceEfficiencyLevel() {
+            return resourceEfficiencyLevel;
+        }
+
         public WerewolfForm getForm() {
             return form;
         }
 
         public int getRemainingStatPoints() {
-            return Math.max(0, this.level - this.inventoryLevel - this.healthLevel - this.strengthLevel);
+            return Math.max(0, this.level - this.inventoryLevel - this.healthLevel - this.strengthLevel - this.resourceEfficiencyLevel);
         }
 
         @Override
         public boolean hasUsedSkillPoints() {
-            return this.inventoryLevel + this.healthLevel + this.strengthLevel > 0;
+            return this.inventoryLevel + this.healthLevel + this.strengthLevel + this.resourceEfficiencyLevel > 0;
         }
 
         @Override
@@ -210,6 +243,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             this.inventoryLevel = 0;
             this.strengthLevel = 0;
             this.healthLevel = 0;
+            this.resourceEfficiencyLevel = 0;
             this.shrinkInventory(entity);
             super.resetStats(entity);
         }
@@ -223,7 +257,9 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         @Override
         public void handleMinionAppearanceConfig(String name, int... data) {
             super.handleMinionAppearanceConfig(name, data);
-            //TODO
+            this.skinType = data[0];
+            this.eyeType = data[1];
+            this.glowingEyes = data[2] == 1;
         }
 
         public boolean setLevel(int level){
@@ -272,6 +308,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             this.inventoryLevel = nbt.getInt("l_inv");
             this.healthLevel = nbt.getInt("l_he");
             this.strengthLevel = nbt.getInt("l_str");
+            this.resourceEfficiencyLevel = nbt.getInt("l_res");
             this.skinType = nbt.getInt("s_type");
             this.eyeType = nbt.getInt("e_type");
             this.glowingEyes = nbt.getBoolean("e_glow");
@@ -285,6 +322,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             tag.putInt("l_inv", this.inventoryLevel);
             tag.putInt("l_he", this.healthLevel);
             tag.putInt("l_str", this.strengthLevel);
+            tag.putInt("l_res", resourceEfficiencyLevel);
             tag.putInt("s_type", this.skinType);
             tag.putInt("e_type", this.eyeType);
             tag.putBoolean("e_glow", this.glowingEyes);

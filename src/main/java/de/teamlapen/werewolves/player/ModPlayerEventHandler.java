@@ -61,7 +61,7 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void onFootEatenStart(LivingEntityUseItemEvent.Start event) {
         if (event.getEntity() instanceof PlayerEntity && Helper.isWerewolf((PlayerEntity) event.getEntity())) {
-            if (!Helper.canWerewolfEatItem(((PlayerEntity) event.getEntity()), event.getItem())){
+            if (!Helper.canWerewolfPlayerEatItem(((PlayerEntity) event.getEntity()), event.getItem())){
                 event.setCanceled(true);
                 ((PlayerEntity) event.getEntity()).displayClientMessage(new TranslationTextComponent("text.werewolves.no_meat"), true);
             }

@@ -22,7 +22,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
     private boolean skipPlayerModel;
 
     public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
-        super(rendererManager, 0f);
+        super(rendererManager, 0.5f);
     }
 
     @Override

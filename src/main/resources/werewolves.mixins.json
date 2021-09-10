@@ -10,6 +10,7 @@
     "FoodStatsAccessor",
     "LivingEntityInvoker",
     "LootTableManagerMixin",
+    "MinionContainerMixin",
     "PointOfInterestTypeInvoker",
     "entity.MixinVillagerEntity"
   ],

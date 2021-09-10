@@ -6,8 +6,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.werewolves.command.*;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
+import de.teamlapen.werewolves.command.arguments.serializer.WerewolfFormArgumentSerializer;
 import net.minecraft.command.CommandSource;
-import net.minecraft.command.arguments.ArgumentSerializer;
 import net.minecraft.command.arguments.ArgumentTypes;
 
 import java.util.List;
@@ -39,6 +39,6 @@ public class ModCommands {
     }
 
     static void registerArgumentTypesUsages() {
-        ArgumentTypes.register("werewolves_form", WerewolfFormArgument.class, new ArgumentSerializer<>(WerewolfFormArgument::new));
+        ArgumentTypes.register("werewolves_form", WerewolfFormArgument.class, new WerewolfFormArgumentSerializer());
     }
 }

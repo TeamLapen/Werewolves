@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.entities.IWerewolf;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -20,12 +19,9 @@ public class WerewolfFaceOverlayLayer<T extends LivingEntity> extends LayerRende
 
     private final ResourceLocation[] eyeOverlays;
 
-    public WerewolfFaceOverlayLayer(LivingRenderer<T, WerewolfBaseModel<T>> renderer) {
+    public WerewolfFaceOverlayLayer(LivingRenderer<T, WerewolfBaseModel<T>> renderer, ResourceLocation[] overlays) {
         super(renderer);
-        eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
-        for (int i = 0; i < eyeOverlays.length; i++) {
-            eyeOverlays[i] = new ResourceLocation(REFERENCE.MODID + ":textures/entity/werewolf/eye/eye_" + (i) + ".png");
-        }
+        this.eyeOverlays = overlays;
     }
 
     @Override

@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.client.render.layer.WerewolfFaceOverlayLayer;
 import de.teamlapen.werewolves.entities.IWerewolf;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -29,16 +30,23 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
 
     private final Map<WerewolfForm, WerewolfModelWrapper<T>> models = new HashMap<>();
 
+    protected final ResourceLocation[] eyeOverlays;
     protected List<ResourceLocation> textures;
     protected WerewolfForm form = WerewolfForm.NONE;
 
     public BaseWerewolfRenderer(EntityRendererManager rendererManager, float size) {
-        super(rendererManager, null, size);
-        models.put(WerewolfForm.NONE, new WerewolfModelWrapper<>(()->null, null, 0, false));
-        models.put(WerewolfForm.HUMAN, new WerewolfModelWrapper<>(WerewolfEarsModel::new, (renderer) -> Collections.emptyList(), WerewolfModelWrapper::getHumanTextures, 0.5f, false));
-        models.put(WerewolfForm.BEAST, new WerewolfModelWrapper<>(WerewolfBeastModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer)), WerewolfModelWrapper::getBeastTextures, 1.3f, true));
-        models.put(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper<>(WerewolfSurvivalistModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer)), WerewolfModelWrapper::getSurvivalTextures, 0.5f, true));
-        models.forEach((a,b)-> b.refresh(this));
+        //noinspection ConstantConditions
+        super(rendererManager, null, 0f);
+        this.eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
+        for (int i = 0; i < this.eyeOverlays.length; i++) {
+            this.eyeOverlays[i] = new ResourceLocation(REFERENCE.MODID + ":textures/entity/werewolf/eye/eye_" + (i) + ".png");
+        }
+
+        this.models.put(WerewolfForm.NONE, new WerewolfModelWrapper<>(()->null, null, 0, false));
+        this.models.put(WerewolfForm.HUMAN, new WerewolfModelWrapper<>(WerewolfEarsModel::new, (renderer) -> Collections.emptyList(), WerewolfModelWrapper::getHumanTextures, size, false));
+        this.models.put(WerewolfForm.BEAST, new WerewolfModelWrapper<>(WerewolfBeastModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer, eyeOverlays)), WerewolfModelWrapper::getBeastTextures, 2.6f * size, true));
+        this.models.put(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper<>(WerewolfSurvivalistModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer,eyeOverlays)), WerewolfModelWrapper::getSurvivalTextures, size, true));
+        this.models.forEach((a,b)-> b.refresh(this));
     }
 
     public void switchModel(WerewolfForm type) {
@@ -47,13 +55,13 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
         WerewolfModelWrapper<T> werewolfModelWrapper = getWrapper(type);
         this.model = werewolfModelWrapper.getModel();
         this.shadowRadius = werewolfModelWrapper.shadow;
-        this.textures = werewolfModelWrapper.textures.get();
+        this.textures = werewolfModelWrapper.textures;
         this.layers.clear();
         this.layers.addAll(werewolfModelWrapper.getLayers());
     }
 
     protected WerewolfModelWrapper<T> getWrapper(WerewolfForm type) {
-        return models.get(type);
+        return this.models.get(type);
     }
 
     @Override

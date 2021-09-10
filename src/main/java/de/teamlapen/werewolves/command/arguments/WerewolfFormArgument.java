@@ -54,6 +54,11 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
         this.allowedForms = allowedForms;
     }
 
+    @Nonnull
+    public Collection<WerewolfForm> getAllowedForms() {
+        return this.allowedForms;
+    }
+
     @Override
     public WerewolfForm parse(StringReader reader) throws CommandSyntaxException {
         String id = reader.readString();
