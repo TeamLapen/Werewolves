@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
+import de.teamlapen.werewolves.entities.IWerewolfDataholder;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -9,7 +10,7 @@ import net.minecraft.entity.MobEntity;
 import javax.annotation.Nonnull;
 import java.util.UUID;
 
-public interface WerewolfTransformable {
+public interface WerewolfTransformable extends IWerewolfDataholder {
     int TYPES = 126;
 
     static <T extends MobEntity> T copyData(EntityType<T> newEntity, MobEntity oldEntity) {
@@ -48,9 +49,9 @@ public interface WerewolfTransformable {
 
     EntityActionTier getEntityTier();
 
-    int getEntityTextureType();
+    int getSkinType();
 
-    int getEyeTextureType();
+    int getEyeType();
 
     default void reset() {
     }

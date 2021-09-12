@@ -31,6 +31,11 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final UnWerewolfInjectionItem injection_un_werewolf = getNull();
     public static final WerewolfTooth werewolf_tooth = getNull();
 
+    public static final Item werewolf_minion_charm = getNull();
+    public static final WerewolfMinionUpgradeItem werewolf_minion_upgrade_simple = getNull();
+    public static final WerewolfMinionUpgradeItem werewolf_minion_upgrade_enhanced = getNull();
+    public static final WerewolfMinionUpgradeItem werewolf_minion_upgrade_special = getNull();
+
     public static final SpawnEggItem werewolf_beast_spawn_egg = getNull();
     public static final SpawnEggItem werewolf_survivalist_spawn_egg = getNull();
     public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
@@ -59,5 +64,14 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
         registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
         registry.register(new SpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
         registry.register(new WerewolfTooth().setRegistryName(REFERENCE.MODID, "werewolf_tooth"));
+
+        registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "werewolf_minion_charm"));
+        registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(),1, 2).setRegistryName(REFERENCE.MODID,"werewolf_minion_upgrade_simple"));
+        registry.register(new WerewolfMinionUpgradeItem( creativeTabProps(),3, 4).setRegistryName(REFERENCE.MODID,"werewolf_minion_upgrade_enhanced"));
+        registry.register(new WerewolfMinionUpgradeItem( creativeTabProps(),5, 6).setRegistryName(REFERENCE.MODID,"werewolf_minion_upgrade_special"));
+    }
+
+    private static Item.Properties creativeTabProps() {
+        return new Item.Properties().tab(WUtils.creativeTab);
     }
 }

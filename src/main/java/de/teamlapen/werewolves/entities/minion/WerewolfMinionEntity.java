@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.entities.minion;
 
 import com.google.common.collect.Lists;
+import de.teamlapen.lib.HelperLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
@@ -14,6 +15,7 @@ import de.teamlapen.vampirism.entity.minion.management.MinionTasks;
 import de.teamlapen.werewolves.client.gui.WerewolfMinionAppearanceScreen;
 import de.teamlapen.werewolves.client.gui.WerewolfMinionStatsScreen;
 import de.teamlapen.werewolves.entities.IWerewolf;
+import de.teamlapen.werewolves.items.WerewolfMinionUpgradeItem;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -32,6 +34,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -107,6 +110,21 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
     @Override
     protected ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        if (!this.level.isClientSide() && isLord(player) && minionData != null) {
+            ItemStack heldItem = player.getItemInHand(hand);
+            if (heldItem.getItem() instanceof WerewolfMinionUpgradeItem && ((WerewolfMinionUpgradeItem) heldItem.getItem()).getFaction() == this.getFaction()) {
+                if (this.minionData.level + 1 >= ((WerewolfMinionUpgradeItem) heldItem.getItem()).getMinLevel() && this.minionData.level + 1 <= ((WerewolfMinionUpgradeItem) heldItem.getItem()).getMaxLevel()) {
+                    this.minionData.level++;
+                    if (!player.abilities.instabuild) heldItem.shrink(1);
+                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.werewolf_minion.equipment_upgrade"), false);
+                    HelperLib.sync(this);
+                } else {
+                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.werewolf_minion.equipment_wrong"), false);
+
+                }
+                return ActionResultType.SUCCESS;
+            }
+        }
         return super.mobInteract(player, hand);
     }
 

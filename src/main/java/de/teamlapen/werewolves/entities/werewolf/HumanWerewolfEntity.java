@@ -32,7 +32,9 @@ import java.util.Random;
 
 public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTransformable {
     private static final DataParameter<Integer> FORM = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.INT);
-    private static final DataParameter<Integer> TYPE = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.INT);
+    private static final DataParameter<Integer> SKIN_TYPE = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.INT);
+    private static final DataParameter<Integer> EYE_TYPE = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.INT);
+    private static final DataParameter<Boolean> GLOWING_EYES = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.BOOLEAN);
 
     private final EntityClassType classType;
     private final EntityActionTier actionTier;
@@ -59,7 +61,9 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.getEntityData().define(FORM, -1);
-        this.getEntityData().define(TYPE, -1);
+        this.getEntityData().define(SKIN_TYPE, -1);
+        this.getEntityData().define(EYE_TYPE, -1);
+        this.getEntityData().define(GLOWING_EYES, false);
     }
 
     @Override
@@ -123,7 +127,14 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
         }
         if (compound.contains("type")) {
             int t = compound.getInt("type");
-            this.getEntityData().set(TYPE, t < 126 && t >= 0 ? t : -1);
+            this.getEntityData().set(SKIN_TYPE, t < 126 && t >= 0 ? t : -1);
+        }
+        if (compound.contains("eye_type")) {
+            int t = compound.getInt("eye_type");
+            this.getEntityData().set(EYE_TYPE, t < 126 && t >= 0 ? t : -1);
+        }
+        if (compound.contains("glowing_eye")) {
+            this.getEntityData().set(GLOWING_EYES, compound.getBoolean("glowing_eye"));
         }
     }
 
@@ -131,7 +142,9 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     public void addAdditionalSaveData(@Nonnull CompoundNBT compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("form", this.getEntityData().get(FORM));
-        compound.putInt("type", this.getEntityData().get(TYPE));
+        compound.putInt("type", this.getEntityData().get(SKIN_TYPE));
+        compound.putInt("eye_type", this.getEntityData().get(EYE_TYPE));
+        compound.putBoolean("glowing_eye", this.getEntityData().get(GLOWING_EYES));
     }
 
     @Override
@@ -140,20 +153,30 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
         if (this.getEntityData().get(FORM) == -1) {
             this.getEntityData().set(FORM, this.getRandom().nextInt(2));
         }
-        if (this.getEntityData().get(TYPE) == -1) {
-            this.getEntityData().set(TYPE, this.getRandom().nextInt(126));
+        if (this.getEntityData().get(SKIN_TYPE) == -1) {
+            this.getEntityData().set(SKIN_TYPE, this.getRandom().nextInt(126));
         }
+        if (this.getEntityData().get(EYE_TYPE) == -1) {
+            this.getEntityData().set(EYE_TYPE, this.getRandom().nextInt(126));
+        }
+        this.getEntityData().set(GLOWING_EYES, this.getRandom().nextBoolean());
     }
 
     @Override
-    public int getEntityTextureType() {
-        int i = this.getEntityData().get(TYPE);
+    public int getSkinType() {
+        int i = this.getEntityData().get(SKIN_TYPE);
         return Math.max(i, 0);
     }
 
     @Override
-    public int getEyeTextureType() {
-        return 0;
+    public int getEyeType() {
+        int i = this.getEntityData().get(EYE_TYPE);
+        return Math.max(i, 0);
+    }
+
+    @Override
+    public boolean hasGlowingEyes() {
+        return this.getEntityData().get(GLOWING_EYES);
     }
 
     @Override
