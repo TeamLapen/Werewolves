@@ -90,9 +90,14 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     @Override
     public void aiStep() {
         super.aiStep();
-        if (this.rage > 50) {
-            WerewolfTransformable werewolf = this.transformToWerewolf();
+        if (this.rage > 150) {
+            WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
             ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
+        }
+        if (this.level.getGameTime() % 100 == 10) {
+            if (Helper.isFullMoon(this.level)) {
+                this.transformToWerewolf(TransformType.FULL_MOON);
+            }
         }
     }
 
@@ -181,7 +186,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
 
     @Override
     public boolean canTransform() {
-        return true;
+        return !this.level.isClientSide && Helper.isNight(this.level) && this.rage > 0;
     }
 
     @Nonnull

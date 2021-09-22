@@ -36,7 +36,7 @@ public class ModEntityEventHandler {
         }
         if (event.getTarget() instanceof WerewolfTransformable) {
             if (((WerewolfTransformable) event.getTarget()).canTransform()) {
-                ((WerewolfTransformable) event.getTarget()).transformToWerewolf();
+                 ((WerewolfTransformable) event.getTarget()).transformToWerewolf(WerewolfTransformable.TransformType.TIME_LIMITED);
             }
         }
     }

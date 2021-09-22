@@ -33,9 +33,9 @@ public interface WerewolfTransformable {
         return transformable;
     }
 
-    default BasicWerewolfEntity transformToWerewolf() {
+    default BasicWerewolfEntity transformToWerewolf(TransformType type) {
         BasicWerewolfEntity transformable = _transformToWerewolf();
-        transformable.start();
+        transformable.start(type);
         return transformable;
     }
 
@@ -55,10 +55,14 @@ public interface WerewolfTransformable {
     default void reset() {
     }
 
-    default void start() {
+    default void start(TransformType type) {
     }
 
     BasicWerewolfEntity _transformToWerewolf();
 
     WerewolfTransformable _transformBack();
+
+    enum TransformType {
+        TIME_LIMITED, FULL_MOON
+    }
 }

@@ -60,7 +60,7 @@ public class WWorldEventHandler {
     public void onVillageMakeAggressive(VampirismVillageEvent.MakeAggressive event) {
         if (event.getControllingFaction() == WReference.WEREWOLF_FACTION) {
             event.setCanceled(true);
-            ((IVillagerTransformable) event.getOldVillager()).transformToWerewolf();
+            ((IVillagerTransformable) event.getOldVillager()).transformToWerewolf(WerewolfTransformable.TransformType.TIME_LIMITED);
         }
     }
 

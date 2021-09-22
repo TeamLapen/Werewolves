@@ -16,6 +16,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.goals.WerewolfAttackVillageGoal;
 import de.teamlapen.werewolves.entities.goals.WerewolfDefendVillageGoal;
 import de.teamlapen.werewolves.player.WerewolfForm;
+import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
@@ -46,7 +47,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     private final WerewolfForm werewolfForm;
     private WerewolfTransformable transformed;
+    /**
+     * only used if {@link #transformType} = {@link de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable.TransformType#TIME_LIMITED}
+     */
     private int transformedDuration;
+    private TransformType transformType;
 
     private final ActionHandlerEntity<?> entityActionHandler;
     private EntityClassType entityClass;
@@ -110,16 +115,25 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void start() {
-        this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get() * 20;
+    public void start(TransformType type) {
+        this.transformType = type;
+        if(type == TransformType.TIME_LIMITED) {
+            this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get() * 20;
+        }
     }
 
     @Override
     public void aiStep() {
         super.aiStep();
         if (this.transformed != null && this.level.getGameTime() % 20 == 0) {
-            if (--this.transformedDuration <= 0) {
-                this.transformBack();
+            if (this.transformType == TransformType.TIME_LIMITED) {
+                if (--this.transformedDuration <= 0) {
+                    this.transformBack();
+                }
+            } else if (this.transformType == TransformType.FULL_MOON && this.level.getGameTime() % 100 == 0) {
+                if (!Helper.isFullMoon(this.level)) {
+                    this.transformBack();
+                }
             }
         }
         if (this.entityActionHandler != null) {
@@ -150,6 +164,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         if (nbt.contains("attack")) {
             this.attack = nbt.getBoolean("attack");
         }
+        if (nbt.contains("transformType")) {
+            this.transformType = TransformType.valueOf(nbt.getString("transformType"));
+        }
     }
 
     @Override
@@ -158,6 +175,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         nbt.putInt("transformedDuration", this.transformedDuration);
         if (this.entityActionHandler != null) {
             this.entityActionHandler.write(nbt);
+        }
+        if (this.transformType != null) {
+            nbt.putString("transformType", this.transformType.name());
         }
         nbt.putInt("level", this.getLevel());
         nbt.putInt("type", this.getEntityTextureType());
@@ -173,7 +193,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     @Override
     public boolean hurt(@Nonnull DamageSource source, float amount) {
-        this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get() * 20;
+        if (this.transformType == TransformType.TIME_LIMITED) {
+            this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get() * 20;
+        }
         return super.hurt(source, amount);
     }
 

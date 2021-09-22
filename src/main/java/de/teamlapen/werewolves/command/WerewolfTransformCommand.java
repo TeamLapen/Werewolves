@@ -25,7 +25,7 @@ public class WerewolfTransformCommand extends BasicCommand {
     private static int transformToWerewolf(PlayerEntity player) {
         try {
             List<LivingEntity> entites = player.level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
-            entites.forEach(entity -> ((WerewolfTransformable) entity).transformToWerewolf());
+            entites.forEach(entity -> ((WerewolfTransformable) entity).transformToWerewolf(WerewolfTransformable.TransformType.TIME_LIMITED));
         } catch (Exception e) {
             LogManager.getLogger().error(e);
         }
