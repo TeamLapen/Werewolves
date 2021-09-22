@@ -132,6 +132,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
             this.phase = Phase.NOT_RUNNING;
             this.ticks = 0;
             LOGGER.warn("Failed to find player {}", playerUuid);
+            return false;
         }
         return true;
     }
@@ -140,6 +141,10 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
      * Needs to be called after {@link #setPlayer(PlayerEntity)}
      */
     public void startRitual(BlockState state) {
+        if (this.player == null) {
+            this.level.setBlock(this.worldPosition, state.setValue(StoneAltarBlock.LIT, false),11);
+            return;
+        }
         if (phase == Phase.NOT_RUNNING && state.getValue(StoneAltarBlock.LIT)) {
             this.phase = Phase.STARTING;
             this.ticks = 40;

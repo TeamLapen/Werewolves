@@ -121,7 +121,7 @@ public class StoneAltarBlock extends ContainerBlock implements IWaterLoggable {
     @Override
     public void onPlace(BlockState state, World world, BlockPos pos, BlockState state2, boolean p_220082_5_) {
         super.onPlace(state, world, pos, state2, p_220082_5_);
-        if (state.getValue(LIT) && state2.getBlock() == this && !state2.getValue(LIT)){
+        if (state.getValue(LIT) && state2.getBlock() == this && !state2.getValue(LIT)) {
             ((StoneAltarTileEntity) world.getBlockEntity(pos)).startRitual(state);
         }
     }
@@ -163,14 +163,11 @@ public class StoneAltarBlock extends ContainerBlock implements IWaterLoggable {
                         Map<Item, Integer> missing = te.getMissingItems();
 
                         IFormattableTextComponent s = new TranslationTextComponent("text.werewolves.stone_altar.ritual_missing_items");
-                        missing.forEach((item, integer) -> s.append("\n - ").append(new TranslationTextComponent(item.getDescriptionId()).withStyle((style -> {
+                        missing.forEach((item, integer) -> s.append(" ").append(new TranslationTextComponent(item.getDescriptionId()).withStyle((style -> {
                             return style.withColor(TextFormatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemHover(new ItemStack(item, integer))));
                         }))).append(" " + integer));
 
-                        if (!heldItem.isEmpty()) {
-                            player.displayClientMessage(s, false);
-                            return ActionResultType.CONSUME;
-                        }
+                        player.displayClientMessage(s, true);
                         break;
                     case OK:
                         if (state.getValue(WATERLOGGED)) {
@@ -181,7 +178,6 @@ public class StoneAltarBlock extends ContainerBlock implements IWaterLoggable {
                             worldIn.setBlock(pos, state.setValue(LIT, true).setValue(SOUL_FIRE, heldItem.getItem() == Items.SOUL_TORCH), 5);
                             return ActionResultType.CONSUME;
                         }
-                        break;
                 }
 
             }
