@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
+import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
@@ -116,5 +117,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterTasks(RegistryEvent.Register<Task> event){
         ModTasks.registerTasks(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterMinionTasks(RegistryEvent.Register<IMinionTask<?, ?>> event) {
+        ModMinionTasks.register(event.getRegistry());
     }
 }

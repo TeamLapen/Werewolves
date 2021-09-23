@@ -200,5 +200,8 @@
   "task.werewolves.werewolf_minion_binding": "Minion control",
   "task.werewolves.werewolf_minion_upgrade_simple": "Minion enhancer",
   "task.werewolves.werewolf_minion_upgrade_enhanced": "Eclipse absorber",
-  "task.werewolves.werewolf_minion_upgrade_special": "The ultimate lunar energy"
+  "task.werewolves.werewolf_minion_upgrade_special": "The ultimate lunar energy",
+  "__comment": "Minion Tasks",
+  "minion_task.werewolves.collect_werewolf_items": "Collect resources",
+  "minion_task.werewolves.collect_werewolf_items.start": "I will head out and hunt for prey"
 }

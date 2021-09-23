@@ -11,9 +11,9 @@ import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.vampirism.entity.hunter.BasicHunterEntity;
 import de.teamlapen.vampirism.entity.minion.MinionEntity;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
-import de.teamlapen.vampirism.entity.minion.management.MinionTasks;
 import de.teamlapen.werewolves.client.gui.WerewolfMinionAppearanceScreen;
 import de.teamlapen.werewolves.client.gui.WerewolfMinionStatsScreen;
+import de.teamlapen.werewolves.core.ModMinionTasks;
 import de.teamlapen.werewolves.entities.IWerewolf;
 import de.teamlapen.werewolves.items.WerewolfMinionUpgradeItem;
 import de.teamlapen.werewolves.player.WerewolfForm;
@@ -59,7 +59,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
     @Override
     public List<IMinionTask<?, ?>> getAvailableTasks() {
-        return Lists.newArrayList(MinionTasks.follow_lord, MinionTasks.defend_area, MinionTasks.stay, MinionTasks.protect_lord);
+        return Lists.newArrayList(ModMinionTasks.follow_lord, ModMinionTasks.defend_area, ModMinionTasks.stay, ModMinionTasks.protect_lord, ModMinionTasks.collect_werewolf_items);
     }
 
     @Override
