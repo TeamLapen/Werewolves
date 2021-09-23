@@ -274,7 +274,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
         @Override
         public void handleMinionAppearanceConfig(String name, int... data) {
-            super.handleMinionAppearanceConfig(name, data);
+            this.setName(name);
             this.skinType = data[0];
             this.eyeType = data[1];
             this.glowingEyes = data[2] == 1;
@@ -312,7 +312,11 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
                     strengthLevel++;
                     ((WerewolfMinionEntity) entity).updateAttributes();
                     return true;
-
+                case 3:
+                    if (resourceEfficiencyLevel >= MAX_LEVEL_RESOURCES) return false;
+                    this.resourceEfficiencyLevel++;
+                    ((WerewolfMinionEntity) entity).updateAttributes();
+                    return true;
                 default:
                     LOGGER.warn("Cannot upgrade minion stat {} as it does not exist", statId);
                     return false;
