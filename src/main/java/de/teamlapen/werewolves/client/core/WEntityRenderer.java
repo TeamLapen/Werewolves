@@ -24,6 +24,7 @@ public class WEntityRenderer {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.wolf, WolfRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.task_master_werewolf, WerewolfTaskMasterRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_minion, safeFactory(WerewolfMinionRenderer::new));
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.alpha_werewolf, WerewolfAlphaRenderer::new);
     }
 
     private static <T extends Entity> IRenderFactory<? super T> safeFactory(IRenderFactory<? super T> f) {
