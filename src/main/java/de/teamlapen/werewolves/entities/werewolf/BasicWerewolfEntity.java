@@ -10,13 +10,22 @@ import de.teamlapen.vampirism.api.entity.actions.IActionHandlerEntity;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.world.ICaptureAttributes;
 import de.teamlapen.vampirism.entity.action.ActionHandlerEntity;
+import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
+import de.teamlapen.vampirism.entity.minion.management.MinionTasks;
+import de.teamlapen.vampirism.entity.minion.management.PlayerMinionController;
+import de.teamlapen.vampirism.player.VampirismPlayer;
+import de.teamlapen.vampirism.world.MinionWorldData;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModEntities;
+import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.entities.goals.WerewolfAttackVillageGoal;
 import de.teamlapen.werewolves.entities.goals.WerewolfDefendVillageGoal;
+import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
@@ -31,8 +40,11 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 
@@ -46,14 +58,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private static final int MAX_LEVEL = 2;
 
     private final WerewolfForm werewolfForm;
+    private final ActionHandlerEntity<?> entityActionHandler;
     private WerewolfTransformable transformed;
     /**
      * only used if {@link #transformType} = {@link de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable.TransformType#TIME_LIMITED}
      */
     private int transformedDuration;
     private TransformType transformType;
-
-    private final ActionHandlerEntity<?> entityActionHandler;
     private EntityClassType entityClass;
     private EntityActionTier entityTier;
 
@@ -76,6 +87,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         return this.werewolfForm.getSize(poseIn).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(poseIn));
     }
 
+    @Nonnull
+    @Override
     public WerewolfForm getForm() {
         return werewolfForm;
     }
@@ -105,12 +118,12 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public int getEntityTextureType() {
+    public int getSkinType() {
         return Math.max(0, this.getEntityData().get(SKINTYPE));
     }
 
     @Override
-    public int getEyeTextureType() {
+    public int getEyeType() {
         return Math.max(0, this.getEntityData().get(EYETYPE));
     }
 
@@ -153,7 +166,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
         if (nbt.contains("eyeType")) {
             int t = nbt.getInt("eyeType");
-            this.getEntityData().set(EYETYPE, t < 126 && t >= 0?t:-1);
+            this.getEntityData().set(EYETYPE, t < 126 && t >= 0 ? t : -1);
         }
         if (nbt.contains("transformedDuration")) {
             this.transformedDuration = nbt.getInt("transformedDuration");
@@ -180,8 +193,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             nbt.putString("transformType", this.transformType.name());
         }
         nbt.putInt("level", this.getLevel());
-        nbt.putInt("type", this.getEntityTextureType());
-        nbt.putInt("eyeType", this.getEyeTextureType());
+        nbt.putInt("type", this.getSkinType());
+        nbt.putInt("eyeType", this.getEyeType());
         nbt.putBoolean("attack", this.attack);
 
     }
@@ -205,6 +218,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
+    public boolean hasGlowingEyes() {
+        return false; //TODO
+    }
+
+    @Override
     public void setLevel(int level) {
         if (level >= 0) {
             getEntityData().set(LEVEL, level);
@@ -219,6 +237,76 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             }
 
         }
+    }
+
+    @Nonnull
+    @Override
+    protected ActionResultType mobInteract(@Nonnull PlayerEntity player, @Nonnull Hand hand) {
+        int werewolfLevel = WerewolfPlayer.getOpt(player).map(VampirismPlayer::getLevel).orElse(0);
+        if (werewolfLevel > 0) {
+            FactionPlayerHandler.getOpt(player).ifPresent(fph -> {
+                if (fph.getMaxMinions() > 0) {
+                    ItemStack heldItem = player.getItemInHand(hand);
+
+                    if (this.getLevel() > 0) {
+                        if (heldItem.getItem() == ModItems.werewolf_minion_charm) {
+                            player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.unavailable"), true);
+                        }
+                    } else {
+                        boolean freeSlot = MinionWorldData.getData(player.level).map(data -> data.getOrCreateController(fph)).map(PlayerMinionController::hasFreeMinionSlot).orElse(false);
+                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.available"), false);
+                        if (heldItem.getItem() == ModItems.werewolf_minion_charm) {
+                            if (!freeSlot) {
+                                player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.no_free_slot"), false);
+                            } else {
+                                player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.start_serving"), false);
+                                convertToMinion(player);
+                                if (!player.abilities.instabuild) heldItem.shrink(1);
+                            }
+                        } else if (freeSlot) {
+                            player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.werewolf_minion_charm.getDescriptionId())), false);
+                        }
+                    }
+                }
+            });
+            return ActionResultType.SUCCESS;
+        }
+        return super.mobInteract(player, hand);
+    }
+
+    /**
+     * Assumes preconditions as been met. Checks conditions but does not give feedback to user
+     */
+    public void convertToMinion(PlayerEntity lord) {
+        FactionPlayerHandler.getOpt(lord).ifPresent(fph -> {
+            if (fph.getMaxMinions() > 0) {
+                MinionWorldData.getData(lord.level).map(w -> w.getOrCreateController(fph)).ifPresent(controller -> {
+                    if (controller.hasFreeMinionSlot()) {
+                        if (fph.getCurrentFaction() == this.getFaction()) {
+                            WerewolfMinionEntity.WerewolfMinionData data = new WerewolfMinionEntity.WerewolfMinionData("Minion", this.getSkinType(), this.getEyeType(), this.hasGlowingEyes(), this.getForm());
+                            int id = controller.createNewMinionSlot(data, ModEntities.werewolf_minion);
+                            if (id < 0) {
+                                LOGGER.error("Failed to get minion slot");
+                                return;
+                            }
+                            WerewolfMinionEntity minion = ModEntities.werewolf_minion.create(this.level);
+                            minion.claimMinionSlot(id, controller);
+                            minion.copyPosition(this);
+                            minion.markAsConverted();
+                            controller.activateTask(0, MinionTasks.stay);
+                            UtilLib.replaceEntity(this, minion);
+
+                        } else {
+                            LOGGER.warn("Wrong faction for minion");
+                        }
+                    } else {
+                        LOGGER.warn("No free slot");
+                    }
+                });
+            } else {
+                LOGGER.error("Can't have minions");
+            }
+        });
     }
 
     @Override
@@ -267,19 +355,14 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.entityClass = entity.getEntityClass();
         this.entityTier = entity.getEntityTier();
         this.transformed = entity;
-//        this.getDataManager().set(SKINTYPE, entity.getEntityTextureType());
-//        this.getDataManager().set(EYETYPE, entity.getEyeTextureType());
+//        this.getDataManager().set(SKINTYPE, entity.getSkinType());
+//        this.getDataManager().set(EYETYPE, entity.getEyeType());
     }
 
     @Override
     public void attackVillage(ICaptureAttributes iCaptureAttributes) {
         this.villageAttributes = iCaptureAttributes;
         this.attack = true;
-    }
-
-    @Nonnull
-    public WerewolfForm getWerewolfForm() {
-        return werewolfForm;
     }
 
     @Override

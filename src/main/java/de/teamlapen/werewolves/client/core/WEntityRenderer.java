@@ -4,9 +4,12 @@ import de.teamlapen.werewolves.client.render.*;
 import de.teamlapen.werewolves.core.ModEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.WolfRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import org.apache.logging.log4j.LogManager;
 
 @OnlyIn(Dist.CLIENT)
 public class WEntityRenderer {
@@ -20,5 +23,18 @@ public class WEntityRenderer {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.human_werewolf, HumanWerewolfRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.wolf, WolfRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.task_master_werewolf, WerewolfTaskMasterRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_minion, safeFactory(WerewolfMinionRenderer::new));
+    }
+
+    private static <T extends Entity> IRenderFactory<? super T> safeFactory(IRenderFactory<? super T> f) {
+        return (IRenderFactory<T>) manager -> {
+            try {
+                return f.createRenderFor(manager);
+            } catch (Exception e) {
+                LogManager.getLogger().error("Failed to instantiate entity renderer", e);
+                System.exit(0);
+                throw e;
+            }
+        };
     }
 }

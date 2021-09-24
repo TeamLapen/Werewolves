@@ -79,6 +79,7 @@ public class LootTablesGenerator extends LootTableProvider {
         @Override
         protected void addTables() {
             this.add(ModEntities.task_master_werewolf, LootTable.lootTable());
+            this.add(ModEntities.werewolf_minion, LootTable.lootTable());
             LootTable.Builder werewolf = LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .name("general")
@@ -91,7 +92,7 @@ public class LootTablesGenerator extends LootTableProvider {
                             .when(KilledByPlayer.killedByPlayer())
                             .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantRange.exactly(1))
-                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(6))
+                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(40))
                             .add(ItemLootEntry.lootTableItem(ModItems.werewolf_tooth).setWeight(1)));
             this.add(ModEntities.werewolf_survivalist, werewolf);
             this.add(ModEntities.werewolf_beast, werewolf);

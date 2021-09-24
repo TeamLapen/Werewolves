@@ -68,7 +68,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
 
     @Nonnull
     @Override
-    public WerewolfForm getWerewolfForm() {
+    public WerewolfForm getForm() {
         return this.form;
     }
 
@@ -83,7 +83,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     }
 
     @Override
-    public int getEntityTextureType() {
+    public int getSkinType() {
         int i = getEntityData().get(TYPE);
         return Math.max(i, 0);
     }
@@ -114,7 +114,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
         if (form != null) {
             nbt.putString("form", this.form.getName());
         }
-        nbt.putInt("type", this.getEntityTextureType());
+        nbt.putInt("type", this.getSkinType());
         if (this.entityclass != null) {
             nbt.putInt("entityclasstype", EntityClassType.getID(this.entityclass));
         }

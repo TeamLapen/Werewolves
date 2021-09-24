@@ -2,16 +2,12 @@ package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.vampirism.VampirismMod;
-import de.teamlapen.werewolves.command.WerewolfEyeCommand;
-import de.teamlapen.werewolves.command.WerewolfGlowingEyeCommand;
-import de.teamlapen.werewolves.command.WerewolfSkinCommand;
-import de.teamlapen.werewolves.command.WerewolfTransformCommand;
+import de.teamlapen.werewolves.command.*;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
+import de.teamlapen.werewolves.command.arguments.serializer.WerewolfFormArgumentSerializer;
 import net.minecraft.command.CommandSource;
-import net.minecraft.command.arguments.ArgumentSerializer;
 import net.minecraft.command.arguments.ArgumentTypes;
 
 import java.util.List;
@@ -37,11 +33,12 @@ public class ModCommands {
 
         for (String s : test) {
             dispatcher.register(LiteralArgumentBuilder.<CommandSource>literal(s)
+                    .then(MinionCommand.register())
                     .then(WerewolfTransformCommand.register()));
         }
     }
 
     static void registerArgumentTypesUsages() {
-        ArgumentTypes.register("werewolves_form", WerewolfFormArgument.class, new ArgumentSerializer<>(WerewolfFormArgument::new));
+        ArgumentTypes.register("werewolves_form", WerewolfFormArgument.class, new WerewolfFormArgumentSerializer());
     }
 }

@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.entity.goals.ForceLookEntityGoal;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.vampirism.inventory.container.TaskBoardContainer;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.CreatureEntity;
@@ -122,5 +123,26 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
 
     protected void setBiomeType(VillagerType type) {
         this.entityData.set(BIOME_TYPE, Registry.VILLAGER_TYPE.getKey(type).toString());
+    }
+
+    @Nonnull
+    @Override
+    public WerewolfForm getForm() {
+        return WerewolfForm.NONE;
+    }
+
+    @Override
+    public int getSkinType() {
+        return 0;
+    }
+
+    @Override
+    public int getEyeType() {
+        return 0;
+    }
+
+    @Override
+    public boolean hasGlowingEyes() {
+        return false;
     }
 }

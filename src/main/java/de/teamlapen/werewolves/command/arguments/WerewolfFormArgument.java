@@ -12,6 +12,8 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.util.text.TranslationTextComponent;
 
+import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -29,8 +31,32 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
         return context.getArgument(id, WerewolfForm.class);
     }
 
-    public static WerewolfFormArgument formArgument() {
-        return new WerewolfFormArgument();
+    public static WerewolfFormArgument allForms() {
+        return new WerewolfFormArgument(WerewolfForm.getAllForms());
+    }
+
+    public static WerewolfFormArgument transformedForms() {
+        return new WerewolfFormArgument(WerewolfForm.getAllForms().stream().filter(WerewolfForm::isTransformed).collect(Collectors.toList()));
+    }
+
+    public static WerewolfFormArgument nonHumanForms() {
+        return new WerewolfFormArgument(WerewolfForm.getAllForms().stream().filter(w -> !w.isHumanLike()).collect(Collectors.toList()));
+    }
+
+    public static WerewolfFormArgument formArgument(WerewolfForm... allowedForms) {
+        return new WerewolfFormArgument(Arrays.asList(allowedForms));
+    }
+
+    @Nonnull
+    private final Collection<WerewolfForm> allowedForms;
+
+    public WerewolfFormArgument(@Nonnull Collection<WerewolfForm> allowedForms) {
+        this.allowedForms = allowedForms;
+    }
+
+    @Nonnull
+    public Collection<WerewolfForm> getAllowedForms() {
+        return this.allowedForms;
     }
 
     @Override
@@ -39,7 +65,7 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
         WerewolfForm form = WerewolfForm.getForm(id);
         if (form == null) {
             throw FORM_NOT_FOUND.create(id);
-        } else if (form == WerewolfForm.NONE) {
+        } else if (!this.allowedForms.contains(form)) {
             throw FORM_NOT_SUPPORTED.create(id);
         }
         return form;
@@ -49,13 +75,13 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
         Collection<WerewolfForm> forms = WerewolfForm.getAllForms();
         forms.remove(WerewolfForm.NONE);
-        return ISuggestionProvider.suggest(forms.stream().map(WerewolfForm::getName), builder);
+        return ISuggestionProvider.suggest(this.allowedForms.stream().map(WerewolfForm::getName), builder);
     }
 
     @Override
     public Collection<String> getExamples() {
         Collection<WerewolfForm> forms = WerewolfForm.getAllForms();
         forms.remove(WerewolfForm.NONE);
-        return forms.stream().map(WerewolfForm::getName).collect(Collectors.toList());
+        return this.allowedForms.stream().map(WerewolfForm::getName).collect(Collectors.toList());
     }
 }

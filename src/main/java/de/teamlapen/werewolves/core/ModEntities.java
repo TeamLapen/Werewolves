@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
+import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.HumanWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
@@ -34,6 +35,7 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
     public static final EntityType<HumanWerewolfEntity> human_werewolf;
     public static final EntityType<WerewolfTaskMasterEntity> task_master_werewolf = getNull();
     public static final EntityType<AggressiveWolfEntity> wolf = getNull();
+    public static final EntityType<WerewolfMinionEntity> werewolf_minion = getNull();
 
     static void registerEntities(IForgeRegistry<EntityType<?>> registry) {
         registry.register(werewolf_beast);
@@ -41,6 +43,8 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
         registry.register(human_werewolf);
         registry.register(prepareEntityType("wolf", EntityType.Builder.of(AggressiveWolfEntity::new, EntityClassification.AMBIENT).sized(0.6F, 0.85F), false));
         registry.register(prepareEntityType("task_master_werewolf", EntityType.Builder.of(WerewolfTaskMasterEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.6f, 1.95f), true));
+        registry.register(prepareEntityType("werewolf_minion", EntityType.Builder.of(WerewolfMinionEntity::new, EntityClassification.CREATURE).sized(0.6f, 1.95f), false));
+        WerewolfMinionEntity.registerMinionData();
     }
 
     static void registerSpawns() {
@@ -66,6 +70,7 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
         event.put(werewolf_survivalist, BasicWerewolfEntity.getAttributeBuilder().build());
         event.put(wolf, AggressiveWolfEntity.createAttributes().build());
         event.put(task_master_werewolf, WerewolfTaskMasterEntity.getAttributeBuilder().build());
+        event.put(werewolf_minion, WerewolfMinionEntity.getAttributeBuilder().build());
     }
 
     static void onModifyEntityTypeAttributes(EntityAttributeModificationEvent event) {

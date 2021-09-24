@@ -27,7 +27,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 6,
+          "weight": 40,
           "name": "werewolves:bone"
         },
         {

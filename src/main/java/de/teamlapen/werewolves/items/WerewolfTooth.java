@@ -36,7 +36,7 @@ public class WerewolfTooth extends Item {
                     player.addEffect(new EffectInstance(ModEffects.poison, 60));
                 } else {
                     if (Helper.isWerewolf(player)) {
-                        player.displayClientMessage(new TranslationTextComponent("text.vampirism.already_werewolf"), true);
+                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.already_werewolf"), true);
                     } else {
                         player.displayClientMessage(new TranslationTextComponent("text.vampirism.immune_to").append(new TranslationTextComponent(ModEffects.lupus_sanguinem.getDescriptionId())), true);
                     }
