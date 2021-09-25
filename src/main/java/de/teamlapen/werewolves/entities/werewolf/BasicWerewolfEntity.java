@@ -4,6 +4,7 @@ import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.difficulty.Difficulty;
 import de.teamlapen.vampirism.api.entity.EntityClassType;
+import de.teamlapen.vampirism.api.entity.IEntityLeader;
 import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IActionHandlerEntity;
@@ -20,12 +21,14 @@ import de.teamlapen.vampirism.world.MinionWorldData;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
+import de.teamlapen.werewolves.entities.IEntityFollower;
+import de.teamlapen.werewolves.entities.goals.FollowAlphaWerewolfGoal;
 import de.teamlapen.werewolves.entities.goals.WerewolfAttackVillageGoal;
 import de.teamlapen.werewolves.entities.goals.WerewolfDefendVillageGoal;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.player.WerewolfForm;
-import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
@@ -50,8 +53,9 @@ import net.minecraft.world.gen.feature.structure.Structure;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
-public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IEntityActionUser, IVillageCaptureEntity {
+public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IEntityActionUser, IVillageCaptureEntity, IEntityFollower {
     protected static final DataParameter<Integer> SKINTYPE = EntityDataManager.defineId(BasicWerewolfEntity.class, DataSerializers.INT);
     protected static final DataParameter<Integer> EYETYPE = EntityDataManager.defineId(BasicWerewolfEntity.class, DataSerializers.INT);
     private static final DataParameter<Integer> LEVEL = EntityDataManager.defineId(BasicWerewolfEntity.class, DataSerializers.INT);
@@ -67,6 +71,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private TransformType transformType;
     private EntityClassType entityClass;
     private EntityActionTier entityTier;
+    private IEntityLeader entityLeader;
 
     @Nullable
     private ICaptureAttributes villageAttributes;
@@ -404,6 +409,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new BreakDoorGoal(this, (difficulty) -> difficulty == net.minecraft.world.Difficulty.HARD));//Only break doors on hard difficulty
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
+        this.goalSelector.addGoal(6, new FollowAlphaWerewolfGoal<>(this, 1.0));
         this.goalSelector.addGoal(9, new RandomWalkingGoal(this, 0.7));
         this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, PlayerEntity.class, 20F, 0.6F));
         this.goalSelector.addGoal(10, new LookAtGoal(this, HunterBaseEntity.class, 17F));
@@ -424,6 +430,17 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.getEntityData().define(LEVEL, -1);
         this.getEntityData().define(SKINTYPE, -1);
         this.getEntityData().define(EYETYPE, -1);
+    }
+
+    @Nonnull
+    @Override
+    public Optional<IEntityLeader> getLeader() {
+        return Optional.ofNullable(this.entityLeader);
+    }
+
+    @Override
+    public void setLeader(@Nullable IEntityLeader leader) {
+        this.entityLeader = leader;
     }
 
     public static class Beast extends BasicWerewolfEntity {

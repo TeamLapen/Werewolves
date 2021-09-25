@@ -2,18 +2,20 @@ package de.teamlapen.werewolves.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Model made by Rebel
  * Created using Tabula 7.1.0
  */
 @OnlyIn(Dist.CLIENT)
-public class Werewolf4LModel<T extends LivingEntity> extends EntityModel<T> {
+public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
     public ModelRenderer body;
     public ModelRenderer hip;
     public ModelRenderer neck;
@@ -298,12 +300,12 @@ public class Werewolf4LModel<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@Nonnull MatrixStack matrixStackIn, @Nonnull IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
@@ -314,5 +316,29 @@ public class Werewolf4LModel<T extends LivingEntity> extends EntityModel<T> {
         ModelRenderer.xRot = x;
         ModelRenderer.yRot = y;
         ModelRenderer.zRot = z;
+    }
+
+    @Nullable
+    @Override
+    public ModelRenderer getModelRenderer() {
+        return this.body;
+    }
+
+    @Nullable
+    @Override
+    public ModelRenderer getHeadModel() {
+        return this.head;
+    }
+
+    @Nullable
+    @Override
+    public ModelRenderer getLeftArmModel() {
+        return this.leftArm;
+    }
+
+    @Nullable
+    @Override
+    public ModelRenderer getRightArmModel() {
+        return this.rightArm;
     }
 }

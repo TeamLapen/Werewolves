@@ -5,7 +5,6 @@ import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.entities.IWerewolfMob;
-import de.teamlapen.werewolves.player.WerewolfForm;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.EntityClassification;
@@ -19,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
 import java.util.Random;
 
 public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob {
@@ -59,9 +57,6 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     public LivingEntity getRepresentingEntity() {
         return this;
     }
-
-    @Nonnull
-    public abstract WerewolfForm getForm();
 
     public static AttributeModifierMap.MutableAttribute getAttributeBuilder() {
         return VampirismEntity.getAttributeBuilder()

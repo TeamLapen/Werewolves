@@ -15,6 +15,7 @@ public class WerewolfForm {
     public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false,0);
     public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true,3);
     public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true,8);
+    public static final WerewolfForm BEAST4L = new WerewolfForm("beast4l", WerewolfSize.BEAST, false, true,8);
     public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true,8);
 
     @Nonnull

@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.client.render.layer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
-import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
+import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
-public class WerewolfEntityFaceOverlayLayer<T extends BasicWerewolfEntity, M extends WerewolfBaseModel<T>> extends LayerRenderer<T,M> {
+public class WerewolfEntityFaceOverlayLayer<T extends WerewolfBaseEntity, M extends WerewolfBaseModel<T>> extends LayerRenderer<T,M> {
 
     private final ResourceLocation[] eyeOverlays;
 
@@ -27,7 +27,7 @@ public class WerewolfEntityFaceOverlayLayer<T extends BasicWerewolfEntity, M ext
     }
 
     @Override
-    public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull BasicWerewolfEntity werewolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull WerewolfBaseEntity werewolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         int s = werewolf.getEyeType();
         int eyeType = Math.max(0, s) % (eyeOverlays.length);
         RenderType renderType = RenderType.eyes(eyeOverlays[eyeType]);

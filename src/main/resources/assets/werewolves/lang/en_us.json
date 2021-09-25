@@ -50,6 +50,8 @@
   "entity.werewolves.werewolf_beast": "Werewolf",
   "entity.werewolves.werewolf_survivalist": "Werewolf",
   "entity.werewolves.task_master_werewolf": "Werewolf representative",
+  "entity.werewolves.alpha_werewolf": "Alpha Werewolf",
+  "entity.werewolves.alpha_werewolf.level": " Level %s",
   "__comment": "actions",
   "action.werewolves.human_form": "Human form",
   "action.werewolves.rage": "Rage",

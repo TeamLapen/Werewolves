@@ -9,6 +9,7 @@ import de.teamlapen.vampirism.entity.vampire.VampireBaseEntity;
 import de.teamlapen.vampirism.util.Helper;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.entities.IWerewolfAlpha;
+import de.teamlapen.werewolves.player.WerewolfForm;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -27,6 +28,7 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolfAlpha {
@@ -102,7 +104,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     public int getMaxFollowerCount() {
-        return (int) (BalanceMobProps.mobProps.ADVANCED_VAMPIRE_MAX_FOLLOWER * this.getLevel() / (float) this.getMaxLevel() * 2f);
+        return (int)((BalanceMobProps.mobProps.ADVANCED_VAMPIRE_MAX_FOLLOWER) * ((this.getLevel()+1)/(float)(this.getMaxLevel()+1)));
     }
 
     @Override
@@ -191,6 +193,27 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
             int playerLevel = FactionPlayerHandler.getOpt((PlayerEntity) player).map(FactionPlayerHandler::getCurrentLevel).orElse(0);
             return (playerLevel - 8) / 2F - this.getLevel() <= 0;
         }
+        return false;
+    }
+
+    @Nonnull
+    @Override
+    public WerewolfForm getForm() {
+        return WerewolfForm.BEAST4L;
+    }
+
+    @Override
+    public int getSkinType() {
+        return 0;
+    }
+
+    @Override
+    public int getEyeType() {
+        return 0;
+    }
+
+    @Override
+    public boolean hasGlowingEyes() {
         return false;
     }
 
