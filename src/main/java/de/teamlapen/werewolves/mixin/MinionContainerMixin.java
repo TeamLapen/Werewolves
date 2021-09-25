@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.function.Predicate;
 
+//TODO remove on vampirism 1.8.2
 @Mixin(MinionContainer.class)
 public abstract class MinionContainerMixin {
     @ModifyVariable(method = "createSelectors(Lde/teamlapen/vampirism/entity/minion/MinionEntity;I)[Lde/teamlapen/lib/lib/inventory/InventoryContainer$SelectorInfo;", at = @At("STORE"), ordinal = 0, remap = false, require = 0)

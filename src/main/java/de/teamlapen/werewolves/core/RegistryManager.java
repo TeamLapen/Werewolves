@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
+import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -40,6 +41,7 @@ public class RegistryManager implements IInitListener {
                 event.enqueueWork(ModBiomes::addBiomesToGeneratorUnsafe);
                 ModEntities.registerSpawns();
                 event.enqueueWork(ModCommands::registerArgumentTypesUsages);
+                WerewolvesBiomeFeatures.init();
                 break;
         }
     }

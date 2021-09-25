@@ -29,7 +29,7 @@ public class WerewolvesBiomeFeatures {
 
     public static final ConfiguredFeature<?, ?> werewolf_heaven_trees = registerFeature("werewolf_heaven_trees", Feature.RANDOM_SELECTOR.configured(new MultipleRandomFeatureConfig(ImmutableList.of(jacaranda_tree.weighted(0.4f), Features.FANCY_OAK.weighted(0.1f), magic_tree_big.weighted(0.1f)), magic_tree)).decorated(Features.Placements.HEIGHTMAP_SQUARE).decorated(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(10, 0.1F, 1))));
 
-    public static final ConfiguredFeature<?, ?> wolfsbane = registerFeature("wolfsbane", Feature.FLOWER.configured(new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.wolfsbane.defaultBlockState()), new SimpleBlockPlacer()).build())).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE).count(1);
+    public static final ConfiguredFeature<?, ?> wolfsbane = registerFeature("wolfsbane", Feature.FLOWER.configured(new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.wolfsbane.defaultBlockState()), SimpleBlockPlacer.INSTANCE).tries(32).build()).count(FeatureSpread.of(-1, 4)).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE).count(1));
 
     public static final ConfiguredFeature<?, ?> silver_ore = registerFeature("silver_ore", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.silver_ore.defaultBlockState(), 5)).range(45).squared().count(2));
 
@@ -43,5 +43,9 @@ public class WerewolvesBiomeFeatures {
 
     public static void addWerewolfBiomeTrees(BiomeGenerationSettings.Builder biomeGeneratorSettings) {
         biomeGeneratorSettings.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, werewolf_heaven_trees);
+    }
+
+    public static void init() {
+
     }
 }

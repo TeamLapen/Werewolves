@@ -12,7 +12,6 @@ repositories {
         url = "https://maven.paube.de"
     }
     maven {
-
         url "https://nexus.resourcefulbees.com/repository/maven-public/"
     }
     mavenCentral()
@@ -35,6 +34,9 @@ dependencies {
     if (System.getProperty("idea.sync.active") != "true") {
         annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
     }
+
+    //Blame for debugging
+    runtimeOnly fg.deobf("com.telepathicgrunt:Blame:${project.blame_version}")
 }
 
 minecraft {

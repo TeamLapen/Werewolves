@@ -54,7 +54,7 @@ public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
             event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, WerewolvesBiomeFeatures.silver_ore);
         }
         if (event.getCategory() == Biome.Category.FOREST) {
-            event.getGeneration().addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, WerewolvesBiomeFeatures.wolfsbane);
+            WerewolvesBiomeFeatures.addWerewolvesFlowers(event.getGeneration());
         }
 
         if (event.getCategory() == Biome.Category.TAIGA) {
