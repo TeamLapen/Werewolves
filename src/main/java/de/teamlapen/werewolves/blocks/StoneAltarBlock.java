@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.blocks;
 
+import de.teamlapen.werewolves.blocks.entity.StoneAltarTileEntity;
 import de.teamlapen.werewolves.core.ModTiles;
-import de.teamlapen.werewolves.tileentity.StoneAltarTileEntity;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;

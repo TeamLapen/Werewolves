@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.werewolves.WerewolvesMod;
-import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.core.ModActions;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.network.InputEventPacket;
-import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -52,9 +52,9 @@ public class ModKeys {
             LazyOptional<WerewolfPlayer> werewolfOpt = WerewolfPlayer.getOpt(Minecraft.getInstance().player);
             if (key == LEAP) {
                 if (Helper.isWerewolf(player)) {
-                    werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(WerewolfActions.leap) && w.getForm().isTransformed()).ifPresent(w -> {
+                    werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.leap) && w.getForm().isTransformed()).ifPresent(w -> {
                         WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.LEAP, ""));
-                        WerewolfPlayer.get(player).getActionHandler().toggleAction(WerewolfActions.leap);
+                        WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.leap);
                     });
                 }
             } else if (key == BITE) {

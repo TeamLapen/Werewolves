@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.client.render.tiles;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import de.teamlapen.werewolves.blocks.entity.StoneAltarTileEntity;
 import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.tileentity.StoneAltarTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;

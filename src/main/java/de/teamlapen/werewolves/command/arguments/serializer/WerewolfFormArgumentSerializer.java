@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.command.arguments.serializer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
-import de.teamlapen.werewolves.player.WerewolfForm;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.command.arguments.IArgumentSerializer;
 import net.minecraft.network.PacketBuffer;
 

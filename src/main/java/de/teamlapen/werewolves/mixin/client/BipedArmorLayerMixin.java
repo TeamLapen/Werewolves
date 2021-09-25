@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.mixin.client;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
-import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
@@ -25,7 +25,7 @@ public class BipedArmorLayerMixin<T extends LivingEntity, M extends BipedModel<T
         if (!Helper.isWerewolf(((PlayerEntity) entity)))return;
         WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) entity));
         if (!Helper.isFormActionActive(werewolf)) return;
-        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && werewolf.getActionHandler().isActionActive(WerewolfActions.human_form)) return;
+        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && werewolf.getActionHandler().isActionActive(ModActions.human_form)) return;
         model.setAllVisible(false);
     }
 }

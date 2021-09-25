@@ -72,7 +72,7 @@ public class RegistryManager implements IInitListener {
 
     @SubscribeEvent
     public void onRegisterActions(RegistryEvent.Register<IAction> event) {
-        WerewolfActions.registerActions(event.getRegistry());
+        ModActions.registerActions(event.getRegistry());
     }
 
     @SubscribeEvent

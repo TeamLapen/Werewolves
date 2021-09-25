@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
-import de.teamlapen.werewolves.player.WerewolfForm;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 

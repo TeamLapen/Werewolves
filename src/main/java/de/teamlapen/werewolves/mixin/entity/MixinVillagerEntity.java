@@ -9,7 +9,7 @@ import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
-import de.teamlapen.werewolves.player.WerewolfForm;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;

@@ -15,7 +15,7 @@ import de.teamlapen.vampirism.modcompat.guide.VampirismGuideBookCategoriesEvent;
 import de.teamlapen.vampirism.modcompat.guide.pages.PageTable;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.player.werewolf.WerewolfLevelConf;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfLevelConf;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

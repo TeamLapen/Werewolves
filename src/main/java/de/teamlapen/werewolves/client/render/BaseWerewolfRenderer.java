@@ -6,10 +6,10 @@ import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFaceOverlayLayer;
-import de.teamlapen.werewolves.entities.IWerewolf;
-import de.teamlapen.werewolves.player.WerewolfForm;
+import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @param <T> must extend {@link IWerewolf} be {@link net.minecraft.entity.player.PlayerEntity}
+ * @param <T> must extend {@link IWerewolf} or be {@link net.minecraft.entity.player.PlayerEntity}
  */
 public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends LivingRenderer<T, WerewolfBaseModel<T>> {
 

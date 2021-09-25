@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.proxy;
 
 import de.teamlapen.werewolves.client.core.*;
-import de.teamlapen.werewolves.client.render.RenderHandler;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -18,7 +17,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
 
-    private WerewolvesHUDOverlay hudOverlay;
+    private ModHUDOverlay hudOverlay;
     private ClientEventHandler clientHandler;
     private boolean autoJump;
 
@@ -36,15 +35,15 @@ public class ClientProxy extends CommonProxy {
         super.onInitStep(step, event);
         switch (step) {
             case CLIENT_SETUP:
-                WEntityRenderer.registerEntityRenderer();
+                ModEntityRenderer.registerEntityRenderer();
                 ModBlocksRenderer.register();
                 MinecraftForge.EVENT_BUS.register(clientHandler = new ClientEventHandler());
-                MinecraftForge.EVENT_BUS.register(hudOverlay = new WerewolvesHUDOverlay());
+                MinecraftForge.EVENT_BUS.register(hudOverlay = new ModHUDOverlay());
                 ModKeys.register(clientHandler);
                 FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onTextureStitchEvent);
                 break;
             case LOAD_COMPLETE:
-                WItemRenderer.registerColors();
+                ModItemRenderer.registerColors();
                 ModScreens.registerScreens();
                 break;
         }

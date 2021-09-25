@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.network;
 
 import de.teamlapen.lib.network.IMessage;
-import de.teamlapen.werewolves.core.WerewolfActions;
-import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.core.ModActions;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -64,7 +64,7 @@ public class InputEventPacket implements IMessage {
                 }
             } else if (LEAP.equals(msg.action)) {
                 WerewolfPlayer.getOpt(player).ifPresent(werewolfPlayer -> {
-                    werewolfPlayer.getActionHandler().toggleAction(WerewolfActions.leap);
+                    werewolfPlayer.getActionHandler().toggleAction(ModActions.leap);
                 });
             }
             ctx.setPacketHandled(true);

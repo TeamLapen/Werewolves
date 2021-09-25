@@ -3,10 +3,10 @@ package de.teamlapen.werewolves.client.core;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.gui.VampirismScreen;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
-import de.teamlapen.werewolves.core.WerewolfActions;
+import de.teamlapen.werewolves.core.ModActions;
+import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
-import de.teamlapen.werewolves.player.IWerewolfPlayer;
-import de.teamlapen.werewolves.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -38,7 +38,7 @@ public class ClientEventHandler {
     public void onRenderPlayer(RenderPlayerEvent.Pre event) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getPlayer();
         if (shouldRenderWerewolfForm(player)) {
-            event.setCanceled(WEntityRenderer.render.render(WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.yRotO, player.yRot), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight()));
+            event.setCanceled(ModEntityRenderer.render.render(WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.yRotO, player.yRot), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight()));
         }
     }
 
@@ -46,7 +46,7 @@ public class ClientEventHandler {
     public void onRenderPlayerPost(RenderPlayerEvent.Post event) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getPlayer();
         if (shouldRenderWerewolfForm(player)) {
-            WEntityRenderer.render.renderPost(event.getRenderer().getModel(), WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.yRotO, player.yRot), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight());
+            ModEntityRenderer.render.renderPost(event.getRenderer().getModel(), WerewolfPlayer.get(player), MathHelper.lerp(event.getPartialRenderTick(), player.yRotO, player.yRot), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight());
         }
     }
 
@@ -84,7 +84,7 @@ public class ClientEventHandler {
             if (Helper.isWerewolf((PlayerEntity) event.getEntity())) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
                 IActionHandler<IWerewolfPlayer> d = werewolf.getActionHandler();
-                if (d.isActionActive(WerewolfActions.hide_name) && Helper.isFormActionActive(werewolf)) {
+                if (d.isActionActive(ModActions.hide_name) && Helper.isFormActionActive(werewolf)) {
                     event.setResult(Event.Result.DENY);
                 }
             }

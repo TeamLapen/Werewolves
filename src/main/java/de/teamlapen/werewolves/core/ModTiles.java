@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.tileentity.StoneAltarTileEntity;
+import de.teamlapen.werewolves.blocks.entity.StoneAltarTileEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
