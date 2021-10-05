@@ -2,7 +2,9 @@ package de.teamlapen.werewolves.entities;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
@@ -26,6 +28,15 @@ public class AggressiveWolfEntity extends WolfEntity {
         this.maxTicks = ticks;
     }
 
+    @Override
+    public boolean canMate(@Nonnull AnimalEntity entity) {
+        return false;
+    }
+
+    @Override
+    public void setOrderedToSit(boolean p_233687_1_) {
+    }
+
     @Nonnull
     @Override
     protected ITextComponent getTypeName() {
@@ -36,6 +47,11 @@ public class AggressiveWolfEntity extends WolfEntity {
     @Override
     public LivingEntity getOwner() {
         return dead ? null : super.getOwner();
+    }
+
+    @Override
+    public boolean canBeLeashed(PlayerEntity player) {
+        return false;
     }
 
     @Override
@@ -62,7 +78,7 @@ public class AggressiveWolfEntity extends WolfEntity {
 
     @Override
     public void die(@Nonnull DamageSource cause) {
-        dead = true;
+        this.dead = true;
         super.die(cause);
     }
 }
