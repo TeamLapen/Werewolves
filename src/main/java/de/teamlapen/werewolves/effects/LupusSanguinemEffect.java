@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
+import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.LivingEntity;
@@ -21,10 +22,16 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
         super(REG_NAME, EffectType.HARMFUL, 0xe012ef);
     }
 
+    public static void addSanguinemEffectRandom(LivingEntity entity) {
+        if (entity.getRandom().nextFloat() < 0.05) {
+            addSanguinemEffect(entity);
+        }
+    }
+
     public static void addSanguinemEffect(LivingEntity entity) {
         boolean canBecomeWerewolf = false; //TODO other entities
         if (entity instanceof PlayerEntity) {
-            canBecomeWerewolf = FactionPlayerHandler.getOpt(((PlayerEntity) entity)).map(player -> player.canJoin(WReference.WEREWOLF_FACTION)).orElse(false);
+            canBecomeWerewolf = Helper.canBecomeWerewolf(((PlayerEntity) entity));
         }
         if (canBecomeWerewolf) {
             entity.addEffect(new LupusSanguinemEffectInstance(Integer.MAX_VALUE));
