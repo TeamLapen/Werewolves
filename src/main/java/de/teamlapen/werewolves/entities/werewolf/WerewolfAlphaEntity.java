@@ -176,6 +176,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0F, false));
         this.goalSelector.addGoal(6, new AvoidEntityGoal<>(this, PlayerEntity.class, 6.0F, 0.6, 0.7F, input -> input != null && !isLowerLevel(input)));
         this.goalSelector.addGoal(7, new RandomWalkingGoal(this, 0.2));
