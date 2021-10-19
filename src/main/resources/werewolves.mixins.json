@@ -6,11 +6,16 @@
   "mixins": [
     "ArmorItemAccessor",
     "BlocksInvoker",
+    "DamageSourceMixin",
+    "EnchantmentHelperMixin",
+    "EntityDamageSourceMixin",
     "FireBlockInvoker",
     "FoodStatsAccessor",
     "LivingEntityInvoker",
     "LootTableManagerMixin",
     "MinionContainerMixin",
+    "MobEntityMixin",
+    "PlayerEntityMixin",
     "PointOfInterestTypeInvoker",
     "entity.MixinVillagerEntity"
   ],
