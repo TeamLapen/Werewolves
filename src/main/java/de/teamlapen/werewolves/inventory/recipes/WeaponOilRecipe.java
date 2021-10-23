@@ -61,7 +61,7 @@ public class WeaponOilRecipe extends SpecialRecipe {
         Set<WeaponOil> oils = WeaponOilHelper.getWeaponOils(result);
         oils.add(oilItem);
         WeaponOilHelper.setWeaponOils(result, oils);
-        return tool;
+        return result;
     }
 
     @Override

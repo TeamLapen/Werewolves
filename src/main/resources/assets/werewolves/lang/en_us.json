@@ -205,5 +205,7 @@
   "task.werewolves.werewolf_minion_upgrade_special": "The ultimate lunar energy",
   "__comment": "Minion Tasks",
   "minion_task.werewolves.collect_werewolf_items": "Collect resources",
-  "minion_task.werewolves.collect_werewolf_items.start": "I will head out and hunt for prey"
+  "minion_task.werewolves.collect_werewolf_items.start": "I will head out and hunt for prey",
+  "__comment": "Weapon Oils",
+  "weapon_oil.werewolves.silver_oil": "Silver Oil"
 }
