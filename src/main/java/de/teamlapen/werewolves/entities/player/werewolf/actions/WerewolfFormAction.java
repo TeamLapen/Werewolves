@@ -9,13 +9,13 @@ import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.biome.Biome;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -86,8 +86,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolfPlayer) {
-        if (Helper.isFormActionActive(werewolfPlayer)) {
-            Helper.deactivateWerewolfActions(werewolfPlayer);
+        if (FormHelper.isFormActionActive(werewolfPlayer)) {
+            FormHelper.deactivateWerewolfActions(werewolfPlayer);
         }
         ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
         if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form.isHumanLike())) {
@@ -128,11 +128,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (!werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld().isClientSide) {
             checkDayNightModifier(werewolfPlayer);
         }
-        if (Helper.isNight(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld())) {
-            return false;
-        }
-        Biome biome = werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld().getBiome(werewolfPlayer.getRepresentingPlayer().blockPosition());
-        if (Objects.equals(biome.getRegistryName(), ModBiomes.WEREWOLF_HEAVEN_KEY.location())) {
+        if (!FormHelper.isWerewolfFormTicking(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld(), werewolfPlayer.getRepresentingPlayer().blockPosition())) {
             return false;
         }
         return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;

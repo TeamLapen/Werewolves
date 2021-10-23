@@ -15,6 +15,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.actions.IActionCooldownM
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.items.ISilverItem;
 import de.teamlapen.werewolves.mixin.client.InGameGuiAccessor;
+import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -202,7 +203,7 @@ public class ModHUDOverlay extends ExtendedGui {
 
     private void renderFur(MatrixStack matrixStack) {
         if (WerewolvesConfig.CLIENT.disableScreenFurRendering.get())return;
-        if (this.mc.options.getCameraType() == PointOfView.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(Helper::isFormActionActive).orElse(false)) {
+        if (this.mc.options.getCameraType() == PointOfView.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(FormHelper::isFormActionActive).orElse(false)) {
             this.mc.getTextureManager().bind(FUR);
             RenderSystem.enableBlend();
             blit(matrixStack, 0, 0, this.getBlitOffset(), 0, 0, this.mc.getWindow().getScreenWidth(), this.mc.getWindow().getScreenHeight(), this.mc.getWindow().getGuiScaledHeight(), this.mc.getWindow().getGuiScaledWidth());
@@ -228,10 +229,8 @@ public class ModHUDOverlay extends ExtendedGui {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if (werewolf.getSpecialAttributes().werewolfTime > 0) {
                 float perc = WerewolfFormAction.getDurationPercentage(werewolf);
-                float trans = Helper.isFormActionActive(werewolf)?1f:0.7f;
-                if (!Helper.isNight(player.getCommandSenderWorld())) {
-                    renderExpBar(event.getMatrixStack(), perc, trans);
-                }
+                float trans = FormHelper.isFormActionActive(werewolf)?1f:0.7f;
+                renderExpBar(event.getMatrixStack(), perc, trans);
             }
         }
     }

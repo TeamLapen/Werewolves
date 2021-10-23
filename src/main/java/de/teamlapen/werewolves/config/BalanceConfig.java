@@ -200,7 +200,7 @@ public class BalanceConfig {
             this.survival_form_armor_toughness = builder.defineInRange("survival_form_armor_toughness", 6, 0, 10.0);
             builder.pop();
 
-            this.werewolf_form_time_limit = builder.comment("Time a player can stay in werewolf form", "In seconds").defineInRange("werewolf_form_time_limit", 50, 1, Long.MAX_VALUE);
+            this.werewolf_form_time_limit = builder.comment("Time a player can stay in werewolf form", "In seconds").defineInRange("werewolf_form_time_limit", 80, 1, Long.MAX_VALUE);
             builder.pop();
 
             builder.push("howling");

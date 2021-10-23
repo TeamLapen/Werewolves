@@ -6,9 +6,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.core.WerewolfSkills;
-import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -79,14 +77,6 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         }
         missing.entrySet().removeIf(s -> s.getValue() <= 0);
         return missing;
-    }
-
-    public static boolean isFormActionActive(IWerewolfPlayer player) {
-        return WerewolfFormAction.isWerewolfFormActionActive(player.getActionHandler());
-    }
-
-    public static void deactivateWerewolfActions(IWerewolfPlayer player) {
-        WerewolfFormAction.getAllAction().stream().filter(action -> player.getActionHandler().isActionActive(action)).forEach(action -> player.getActionHandler().toggleAction(action));
     }
 
     public static WerewolfDamageSource causeWerewolfDamage(String cause, Entity entity) {

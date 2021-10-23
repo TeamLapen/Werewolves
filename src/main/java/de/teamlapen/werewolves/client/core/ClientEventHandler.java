@@ -7,6 +7,7 @@ import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
+import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -84,7 +85,7 @@ public class ClientEventHandler {
             if (Helper.isWerewolf((PlayerEntity) event.getEntity())) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
                 IActionHandler<IWerewolfPlayer> d = werewolf.getActionHandler();
-                if (d.isActionActive(ModActions.hide_name) && Helper.isFormActionActive(werewolf)) {
+                if (d.isActionActive(ModActions.hide_name) && FormHelper.isFormActionActive(werewolf)) {
                     event.setResult(Event.Result.DENY);
                 }
             }

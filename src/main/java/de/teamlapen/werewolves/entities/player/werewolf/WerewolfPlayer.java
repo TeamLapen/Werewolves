@@ -188,8 +188,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 boolean syncToAll = false;
                 CompoundNBT syncPacket = new CompoundNBT();
                 if(this.player.level.getGameTime() % 10 == 0) {
-                    if(this.specialAttributes.werewolfTime > 0 && !Helper.isFormActionActive(this)) {
-                        this.specialAttributes.werewolfTime -= 10 * player.getAttribute(ModAttributes.time_regain).getValue();
+                    if(this.specialAttributes.werewolfTime > 0 && !FormHelper.isWerewolfFormTicking(this.player.level, this.player.blockPosition())) {
+                        this.specialAttributes.werewolfTime -= 7 * player.getAttribute(ModAttributes.time_regain).getValue();
                         --this.specialAttributes.werewolfTime;
                         sync = true;
                         syncPacket.putLong("werewolfTime", this.specialAttributes.werewolfTime);
@@ -207,7 +207,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
                 if (this.player.level.getGameTime() % 20 == 0) {
                     if (Helper.isFullMoon(this.getRepresentingPlayer().getCommandSenderWorld())) {
-                        if (!Helper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will)) {
+                        if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will)) {
                             Optional<? extends IAction> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
                             action.ifPresent(this.actionHandler::toggleAction);
                         }
@@ -238,7 +238,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         } else {
             if (getLevel() > 0) {
                 if (this.player.level.getGameTime() % 10 == 0) {
-                    if (this.specialAttributes.werewolfTime > 0 && !Helper.isFormActionActive(this)) {
+                    if (this.specialAttributes.werewolfTime > 0 && !FormHelper.isFormActionActive(this)) {
                         this.specialAttributes.werewolfTime -= 10 * player.getAttribute(ModAttributes.time_regain).getValue();
                     }
                 }
