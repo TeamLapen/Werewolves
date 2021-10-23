@@ -12,8 +12,11 @@ public class ServerConfig {
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> customMeatItems;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> customRawMeatItems;
     public final ForgeConfigSpec.BooleanValue disableToothInfection;
+    public final ForgeConfigSpec.ConfigValue<List<? extends String>> werewolfFormFreeFormBiomes;
 
     ServerConfig(ForgeConfigSpec.Builder builder) {
+        werewolfFormFreeFormBiomes = builder.comment("Additional biomes the player can have unlimited time in werewolf form. Use biome ids e.g. [\"minecraft:mesa\", \"minecraft:plains\"]").defineList("werewolfFormFreeFormBiomes", Collections.emptyList(), string -> string instanceof String && UtilLib.isValidResourceLocation(((String) string)));
+
         builder.push("meat");
         this.customMeatItems = builder.comment("Add edible items that should be considered as meat.", "Format: [\"minecraft:cooked_beef\", \"minecraft:cooked_mutton\"]").defineList("customMeatItems", Collections.emptyList(), string -> string instanceof String && UtilLib.isValidResourceLocation(((String) string)));
         this.customRawMeatItems = builder.comment("Add edible items that should be considered as raw meat. Items should also be included in 'customMeatItems'", "Format: [\"minecraft:beef\", \"minecraft:rabbit\"]").defineList("customRawMeatItems", Collections.emptyList(), string -> string instanceof String && UtilLib.isValidResourceLocation(((String) string)));

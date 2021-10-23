@@ -4,7 +4,7 @@ import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
-import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -32,7 +32,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
         if (world.canSeeSkyFromBelowWater(blockPos) && MonsterEntity.isDarkEnoughToSpawn(world, blockPos, random))  {
             return true;
         }
-        return Helper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
+        return FormHelper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
     }
 
     public void bite(LivingEntity entity) {

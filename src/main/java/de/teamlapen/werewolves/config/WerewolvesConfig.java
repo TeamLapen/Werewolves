@@ -1,8 +1,11 @@
 package de.teamlapen.werewolves.config;
 
+import de.teamlapen.werewolves.util.FormHelper;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class WerewolvesConfig {
@@ -48,7 +51,21 @@ public class WerewolvesConfig {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, commonSpec);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, serverSpec);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, balanceSpec, "werewolves-balance.toml");
+        FMLJavaModLoadingContext.get().getModEventBus().register(WerewolvesConfig.class);
+    }
 
+    @SubscribeEvent
+    public static void onLoad(ModConfig.Loading event) {
+        if (event.getConfig().getType() == ModConfig.Type.SERVER) {
+            FormHelper.reload();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onReLoad(ModConfig.Reloading event) {
+        if (event.getConfig().getType() == ModConfig.Type.SERVER) {
+            FormHelper.reload();
+        }
     }
 
 }

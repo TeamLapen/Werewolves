@@ -3,7 +3,6 @@ package de.teamlapen.werewolves.util;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -14,9 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
@@ -40,15 +37,6 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static BlockPos multiplyBlockPos(BlockPos pos, double amount) {
         return new BlockPos(pos.getX() * amount, pos.getY() * amount, pos.getZ() * amount);
-    }
-
-    public static boolean isInWerewolfBiome(IWorld world, BlockPos pos) {
-        ResourceLocation loc = world.getBiome(pos).getRegistryName();
-        if (loc != null) {
-            ResourceLocation a = ModBiomes.WEREWOLF_HEAVEN_KEY.location();
-            return loc.equals(a);
-        }
-        return false;
     }
 
     public static boolean canBecomeWerewolf(PlayerEntity player) {
