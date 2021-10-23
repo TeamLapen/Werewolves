@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.Set;
+import java.util.Map;
 
 public class WeaponOilRecipe extends SpecialRecipe {
 
@@ -58,8 +58,8 @@ public class WeaponOilRecipe extends SpecialRecipe {
         ItemStack result = tool.copy();
         if (oil.isEmpty() || tool.isEmpty()) return result;
         WeaponOil oilItem = ((OilItem) oil.getItem()).getWeaponOil();
-        Set<WeaponOil> oils = WeaponOilHelper.getWeaponOils(result);
-        oils.add(oilItem);
+        Map<WeaponOil, Integer> oils = WeaponOilHelper.getWeaponOilsWDuration(result);
+        oils.put(oilItem, 5); //TODO hits
         WeaponOilHelper.setWeaponOils(result, oils);
         return result;
     }

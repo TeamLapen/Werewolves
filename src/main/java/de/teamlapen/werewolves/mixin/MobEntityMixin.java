@@ -23,7 +23,7 @@ public abstract class MobEntityMixin extends LivingEntity {
     public float applyOil(float damage) {
         MutableFloat damagef = new MutableFloat(damage);
         ItemStack stack = this.getItemInHand(Hand.MAIN_HAND);
-        WeaponOilHelper.forEach(stack, (oil) -> {
+        WeaponOilHelper.forEachReduced(stack, (oil, duration) -> {
             if(oil.getEntityPredicate().test(this)){
                 damagef.add(oil.getDamageCalculator().getAdditionalDamage(this, damage));
             }
