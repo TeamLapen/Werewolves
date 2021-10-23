@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.village.PointOfInterestType;
@@ -135,5 +136,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterWeaponOils(RegistryEvent.Register<WeaponOil> event) {
         ModWeaponOils.register(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterRecipeSerializer(RegistryEvent.Register<IRecipeSerializer<?>> event){
+        ModRecipes.register(event.getRegistry());
     }
 }

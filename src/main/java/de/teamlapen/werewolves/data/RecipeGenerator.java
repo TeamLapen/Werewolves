@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
+import de.teamlapen.werewolves.core.ModRecipes;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Blocks;
@@ -76,6 +77,7 @@ public class RecipeGenerator extends RecipeProvider {
         ShapedRecipeBuilder.shaped(ModBlocks.silver_block).pattern("###").pattern("###").pattern("###")
                 .define('#', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
                 .save(consumer);
+        CustomRecipeBuilder.special(ModRecipes.weapon_oil).save(consumer, REFERENCE.MODID + ":weapon_oil");
     }
 
     private static ResourceLocation modId(String name) {

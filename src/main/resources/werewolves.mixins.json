@@ -6,9 +6,6 @@
   "mixins": [
     "ArmorItemAccessor",
     "BlocksInvoker",
-    "DamageSourceMixin",
-    "EnchantmentHelperMixin",
-    "EntityDamageSourceMixin",
     "FireBlockInvoker",
     "FoodStatsAccessor",
     "LivingEntityInvoker",

@@ -110,6 +110,7 @@ public class LootTablesGenerator extends LootTableProvider {
                             .setRolls(ConstantRange.exactly(1))
                             .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(6))));
             this.add(ModEntities.wolf, LootTable.lootTable());
+            this.add(ModEntities.alpha_werewolf, LootTable.lootTable());
         }
 
         @Nonnull

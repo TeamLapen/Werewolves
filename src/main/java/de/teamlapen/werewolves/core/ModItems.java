@@ -40,6 +40,8 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final SpawnEggItem werewolf_survivalist_spawn_egg = getNull();
     public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
 
+    public static final SilverOilItem silver_oil = getNull();
+
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new Item((new Item.Properties()).tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
 
@@ -69,6 +71,8 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
         registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(),1, 2).setRegistryName(REFERENCE.MODID,"werewolf_minion_upgrade_simple"));
         registry.register(new WerewolfMinionUpgradeItem( creativeTabProps(),3, 4).setRegistryName(REFERENCE.MODID,"werewolf_minion_upgrade_enhanced"));
         registry.register(new WerewolfMinionUpgradeItem( creativeTabProps(),5, 6).setRegistryName(REFERENCE.MODID,"werewolf_minion_upgrade_special"));
+
+        registry.register(new SilverOilItem(creativeTabProps()).setRegistryName(REFERENCE.MODID, "silver_oil"));
     }
 
     private static Item.Properties creativeTabProps() {
