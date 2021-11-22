@@ -20,10 +20,13 @@
     "client.BipedArmorLayerMixin",
     "client.ClientPlayerEntityMixin",
     "client.InGameGuiAccessor",
+    "client.ItemRendererMixin",
     "client.LayerRendererAccessor",
     "client.PlayerRendererMixin",
+    "client.RenderTypeBuffersMixin",
     "client.ScreenAccessor",
-    "client.ScreenMixin"
+    "client.ScreenMixin",
+    "client.WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.items;
 
-import de.teamlapen.werewolves.items.oil.WeaponOil;
+import de.teamlapen.werewolves.items.oil.SilverWeaponOil;
 import net.minecraft.item.Item;
 
 public abstract class OilItem extends Item {
@@ -9,5 +9,5 @@ public abstract class OilItem extends Item {
         super(properties);
     }
 
-    public abstract WeaponOil getWeaponOil();
+    public abstract SilverWeaponOil getWeaponOil();
 }

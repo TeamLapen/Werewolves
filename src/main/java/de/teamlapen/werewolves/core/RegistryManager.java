@@ -6,7 +6,7 @@ import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
-import de.teamlapen.werewolves.items.oil.WeaponOil;
+import de.teamlapen.werewolves.items.oil.IWeaponOil;
 import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -134,7 +134,7 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
-    public void onRegisterWeaponOils(RegistryEvent.Register<WeaponOil> event) {
+    public void onRegisterWeaponOils(RegistryEvent.Register<IWeaponOil> event) {
         ModWeaponOils.register(event.getRegistry());
     }
 

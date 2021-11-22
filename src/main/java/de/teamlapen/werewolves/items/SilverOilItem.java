@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.items;
 
 import de.teamlapen.werewolves.core.ModWeaponOils;
-import de.teamlapen.werewolves.items.oil.WeaponOil;
+import de.teamlapen.werewolves.items.oil.SilverWeaponOil;
 
 public class SilverOilItem extends OilItem {
 
@@ -10,7 +10,7 @@ public class SilverOilItem extends OilItem {
     }
 
     @Override
-    public WeaponOil getWeaponOil() {
+    public SilverWeaponOil getWeaponOil() {
         return ModWeaponOils.silver_oil;
     }
 }

@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.inventory.recipes;
 
 import de.teamlapen.werewolves.core.ModRecipes;
 import de.teamlapen.werewolves.items.OilItem;
-import de.teamlapen.werewolves.items.oil.WeaponOil;
+import de.teamlapen.werewolves.items.oil.SilverWeaponOil;
 import de.teamlapen.werewolves.util.WeaponOilHelper;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
@@ -13,7 +13,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 
 public class WeaponOilRecipe extends SpecialRecipe {
 
@@ -57,10 +56,8 @@ public class WeaponOilRecipe extends SpecialRecipe {
         }
         ItemStack result = tool.copy();
         if (oil.isEmpty() || tool.isEmpty()) return result;
-        WeaponOil oilItem = ((OilItem) oil.getItem()).getWeaponOil();
-        Map<WeaponOil, Integer> oils = WeaponOilHelper.getWeaponOilsWDuration(result);
-        oils.put(oilItem, 5); //TODO hits
-        WeaponOilHelper.setWeaponOils(result, oils);
+        SilverWeaponOil oilItem = ((OilItem) oil.getItem()).getWeaponOil();
+        WeaponOilHelper.setWeaponOils(result, oilItem, oilItem.getMaxDuration(result));
         return result;
     }
 

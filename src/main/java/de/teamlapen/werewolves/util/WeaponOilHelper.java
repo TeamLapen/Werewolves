@@ -1,68 +1,62 @@
 package de.teamlapen.werewolves.util;
 
 import de.teamlapen.werewolves.core.ModRegistries;
-import de.teamlapen.werewolves.items.oil.WeaponOil;
+import de.teamlapen.werewolves.items.oil.IWeaponOil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 
 public class WeaponOilHelper {
 
-    public static Set<WeaponOil> getWeaponOils(ItemStack stack) {
-        return getList(stack).keySet();
+    public static IWeaponOil getOil(ItemStack stack) {
+        if (!stack.hasTag()) return null;
+        CompoundNBT tag = stack.getTag();
+        if (!tag.contains("weapon_oil")) return null;
+        CompoundNBT oilTag = stack.getTag().getCompound("weapon_oil");
+        ResourceLocation loc = new ResourceLocation(oilTag.getString("oil"));
+        return ModRegistries.WEAPON_OILS.getValue(loc);
     }
 
-    public static Map<WeaponOil, Integer> getWeaponOilsWDuration(ItemStack stack) {
-        return getList(stack);
+    public static int getDuration(ItemStack stack) {
+        if (!stack.hasTag()) return 0;
+        CompoundNBT tag = stack.getTag();
+        if (!tag.contains("weapon_oil")) return 0;
+        CompoundNBT oilTag = stack.getTag().getCompound("weapon_oil");
+        return oilTag.getInt("duration");
     }
 
-    public static void forEach(ItemStack stack, BiConsumer<WeaponOil, Integer> oilConsumer) {
-        getList(stack).forEach(oilConsumer);
+    public static Optional<Pair<IWeaponOil, Integer>> oilOpt(ItemStack stack) {
+        return Optional.ofNullable(stack.getTag()).filter(tag -> tag.contains("weapon_oil")).map(tag -> tag.getCompound("weapon_oil")).map(tag -> Pair.of(ModRegistries.WEAPON_OILS.getValue(new ResourceLocation(tag.getString("oil"))), tag.getInt("duration")));
     }
 
-    public static void forEachReduced(ItemStack stack, BiConsumer<WeaponOil, Integer> oilConsumer) {
-        Map<WeaponOil, Integer> maps = getList(stack);
-        maps.forEach(oilConsumer);
-        Map<WeaponOil, Integer> newMap = new HashMap<>();
-        for (Map.Entry<WeaponOil, Integer> entry : maps.entrySet()) {
-            if (entry.getValue() > 1) {
-                newMap.put(entry.getKey(), entry.getValue()-1);
+    public static void setWeaponOils(ItemStack stack, IWeaponOil oil, int duration) {
+        CompoundNBT oilTag = new CompoundNBT();
+        oilTag.putString("oil", oil.getRegistryName().toString());
+        oilTag.putInt("duration", duration);
+        stack.getOrCreateTag().put("weapon_oil", oilTag);
+    }
+
+    public static boolean hasOils(ItemStack stack) {
+        if (!stack.hasTag()) return false;
+        return stack.getTag().contains("weapon_oil");
+    }
+
+    public static void removeOil(ItemStack stack) {
+        stack.getOrCreateTag().remove("weapon_oil");
+    }
+
+    public static void executeAndReduce(ItemStack stack, BiConsumer<IWeaponOil, Integer> consumer) {
+        oilOpt(stack).ifPresent(oil -> {
+            consumer.accept(oil.getLeft(), oil.getRight());
+            if (oil.getRight() > 1) {
+                setWeaponOils(stack, oil.getLeft(), oil.getRight() - 1);
+            } else {
+                stack.getTag().remove("weapon_oil");
             }
-        }
-        setWeaponOils(stack, newMap);
-    }
-
-    public static void setWeaponOils(ItemStack stack, Map<WeaponOil, Integer> oils) {
-        ListNBT list = new ListNBT();
-        oils.forEach((oil, duration) -> {
-            CompoundNBT nbt = new CompoundNBT();
-            nbt.putString("id", oil.getRegistryName().toString());
-            nbt.putInt("duration", duration);
-            list.add(nbt);
         });
-        saveList(stack, list);
-    }
-
-    private static void saveList(ItemStack stack, ListNBT list) {
-        stack.getOrCreateTag().put("weapon_oils", list);
-    }
-
-    private static Map<WeaponOil, Integer> getList(ItemStack stack) {
-        ListNBT list = stack.getOrCreateTag().getList("weapon_oils", 10);
-        Map<WeaponOil, Integer> map = new HashMap<>();
-        for (int i = 0; i < list.size(); i++) {
-            CompoundNBT nbt = list.getCompound(i);
-            WeaponOil oil = ModRegistries.WEAPON_OILS.getValue(new ResourceLocation(nbt.getString("id")));
-            int duration = nbt.getInt("duration");
-            if (oil == null) continue;
-            map.put(oil, duration);
-        }
-        return map;
     }
 }

@@ -109,8 +109,8 @@ public class ClientEventHandler {
         if (shouldShowInTooltip(flags, ItemStack.TooltipDisplayFlags.ADDITIONAL)) position.increment();
         if (event.getItemStack().hasTag()) {
             if (shouldShowInTooltip(flags, ItemStack.TooltipDisplayFlags.ENCHANTMENTS)) position.add(event.getItemStack().getEnchantmentTags().size());
-            WeaponOilHelper.forEach(event.getItemStack(), (oil, duration) -> {
-                event.getToolTip().add(position.getAndIncrement()-1, new TranslationTextComponent("weapon_oil." + oil.getRegistryName().getNamespace() + "." + oil.getRegistryName().getPath()).withStyle(TextFormatting.GOLD));
+            WeaponOilHelper.oilOpt(event.getItemStack()).ifPresent((oil) -> {
+                event.getToolTip().add(position.getAndIncrement()-1, new TranslationTextComponent("weapon_oil." + oil.getLeft().getRegistryName().getNamespace() + "." + oil.getLeft().getRegistryName().getPath()).withStyle(TextFormatting.GOLD));
             });
         }
     }

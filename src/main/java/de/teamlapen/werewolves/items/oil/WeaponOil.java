@@ -1,37 +1,24 @@
 package de.teamlapen.werewolves.items.oil;
 
-import net.minecraft.entity.LivingEntity;
+import de.teamlapen.werewolves.util.WeaponOilHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-import java.util.function.Predicate;
+public abstract class WeaponOil extends ForgeRegistryEntry<IWeaponOil> implements IWeaponOil {
 
-public class WeaponOil extends ForgeRegistryEntry<WeaponOil> {
+    private final int maxDuration;
 
-    private final Predicate<LivingEntity> entityPredicate;
-    private final DamageCalculator damageCalculator;
-
-    public WeaponOil(Predicate<LivingEntity> entityPredicate, DamageCalculator damageCalculator) {
-        this.entityPredicate = entityPredicate;
-        this.damageCalculator = damageCalculator;
+    public WeaponOil(int maxDuration) {
+        this.maxDuration = maxDuration;
     }
 
-    public boolean canEffect(LivingEntity entity) {
-        return this.entityPredicate.test(entity);
+    @Override
+    public int getMaxDuration(ItemStack stack) {
+        return this.maxDuration;
     }
 
-    public float getAdditionalDamage(LivingEntity entity, float damage){
-        return this.damageCalculator.getAdditionalDamage(entity, damage);
-    }
-
-    public Predicate<LivingEntity> getEntityPredicate() {
-        return this.entityPredicate;
-    }
-
-    public DamageCalculator getDamageCalculator() {
-        return this.damageCalculator;
-    }
-
-    public interface DamageCalculator {
-        float getAdditionalDamage(LivingEntity entity, float damage);
+    @Override
+    public int getDuration(ItemStack stack) {
+        return WeaponOilHelper.getDuration(stack);
     }
 }
