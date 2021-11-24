@@ -42,6 +42,8 @@
   "item.werewolves.werewolf_minion_upgrade_simple": "Werewolf Minion Moon Charm Upgrade",
   "item.werewolves.werewolf_minion_upgrade_enhanced": "Enhanced Werewolf Minion Moon Charm Upgrade",
   "item.werewolves.werewolf_minion_upgrade_special": "Special Werewolf Minion Moon Charm Upgrade",
+  "item.werewolves.silver_oil": "Silver Oil",
+  "item.werewolves.silver_nugget": "Silver Nugget",
   "__comment": "item desc",
   "item.werewolves.crossbow_arrow_silver_bolt.tooltip": "Weakens werewolf entities",
   "__comment": "entities",
@@ -205,5 +207,7 @@
   "task.werewolves.werewolf_minion_upgrade_special": "The ultimate lunar energy",
   "__comment": "Minion Tasks",
   "minion_task.werewolves.collect_werewolf_items": "Collect resources",
-  "minion_task.werewolves.collect_werewolf_items.start": "I will head out and hunt for prey"
+  "minion_task.werewolves.collect_werewolf_items.start": "I will head out and hunt for prey",
+  "__comment": "Weapon Oils",
+  "weapon_oil.werewolves.silver_oil": "Silver Oil"
 }

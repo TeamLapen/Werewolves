@@ -44,6 +44,7 @@ public class ModTagsProvider {
         protected void addTags() {
             this.copy(ModTags.Blocks.SILVER_ORE, ModTags.Items.SILVER_ORE);
             this.tag(ModTags.Items.SILVER_INGOT).add(ModItems.silver_ingot);
+            this.tag(ModTags.Items.SILVER_NUGGET).add(ModItems.silver_nugget);
             this.tag(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver, ModItems.human_heart, ModItems.weak_human_heart, Items.SALMON, Items.TROPICAL_FISH, Items.COD);
             this.tag(ModTags.Items.COOKEDMEATS).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
             this.tag(ModTags.Items.SILVER_TOOL).add(ModItems.silver_axe, ModItems.silver_hoe, ModItems.silver_sword, ModItems.silver_pickaxe, ModItems.silver_shovel);

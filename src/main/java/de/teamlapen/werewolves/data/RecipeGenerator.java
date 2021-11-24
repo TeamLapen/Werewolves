@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
+import de.teamlapen.werewolves.core.ModRecipes;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Blocks;
@@ -22,13 +23,18 @@ public class RecipeGenerator extends RecipeProvider {
         super(generatorIn);
     }
 
+    private static ResourceLocation modId(String name) {
+        return new ResourceLocation(REFERENCE.MODID, name);
+    }
+
     @Override
     protected void buildShapelessRecipes(@Nonnull Consumer<IFinishedRecipe> consumer) {
         ITag<Item> sticks = Tags.Items.RODS_WOODEN;
         ITag<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
+        ITag<Item> silver_nugget = ModTags.Items.SILVER_NUGGET;
 
         CookingRecipeBuilder.smelting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 200).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer);
-        CookingRecipeBuilder.blasting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer,modId("silver_ingot_from_blasting"));
+        CookingRecipeBuilder.blasting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer, modId("silver_ingot_from_blasting"));
 
         ShapelessRecipeBuilder.shapeless(ModBlocks.magic_planks, 4)
                 .requires(ModBlocks.magic_log).unlockedBy("has_magic_log", has(ModBlocks.magic_log))
@@ -42,9 +48,13 @@ public class RecipeGenerator extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(Items.PURPLE_DYE)
                 .requires(ModBlocks.wolfsbane).unlockedBy("has_wolfsbane", has(ModBlocks.wolfsbane))
                 .save(consumer);
-        ShapelessRecipeBuilder.shapeless(ModItems.silver_ingot,9)
+        ShapelessRecipeBuilder.shapeless(ModItems.silver_ingot, 9)
                 .requires(ModBlocks.silver_block).unlockedBy("has_silver_block", has(ModBlocks.silver_block))
                 .save(consumer, modId("iron_ingot_from_iron_block"));
+        ShapelessRecipeBuilder.shapeless(ModItems.silver_nugget, 9)
+                .requires(silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
+                .save(consumer, modId("silver_nugget"));
+
 
         ShapedRecipeBuilder.shaped(ModItems.silver_hoe).pattern("XX").pattern(" #").pattern(" #")
                 .define('#', sticks).unlockedBy("has_sticks", has(sticks))
@@ -76,10 +86,11 @@ public class RecipeGenerator extends RecipeProvider {
         ShapedRecipeBuilder.shaped(ModBlocks.silver_block).pattern("###").pattern("###").pattern("###")
                 .define('#', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
                 .save(consumer);
-    }
+        ShapedRecipeBuilder.shaped(ModItems.silver_ingot).pattern("###").pattern("###").pattern("###")
+                .define('#', silver_nugget).unlockedBy("has_silver_nugget", has(silver_nugget))
+                .save(consumer, modId("silver_ingot_from_nuggets"));
 
-    private static ResourceLocation modId(String name) {
-        return new ResourceLocation(REFERENCE.MODID, name);
+        CustomRecipeBuilder.special(ModRecipes.weapon_oil).save(consumer, REFERENCE.MODID + ":weapon_oil");
     }
 
 }

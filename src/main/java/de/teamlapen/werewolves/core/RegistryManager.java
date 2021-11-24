@@ -6,12 +6,14 @@ import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
+import de.teamlapen.werewolves.items.oil.IWeaponOil;
 import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.village.PointOfInterestType;
@@ -34,6 +36,11 @@ public class RegistryManager implements IInitListener {
         bus.addListener(ModEntities::onModifyEntityTypeAttributes);
     }
 
+    @SubscribeEvent
+    public void onBuildRegistries(RegistryEvent.NewRegistry event) {
+        ModRegistries.init();
+    }
+
     @Override
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         switch (step) {
@@ -42,6 +49,9 @@ public class RegistryManager implements IInitListener {
                 ModEntities.registerSpawns();
                 event.enqueueWork(ModCommands::registerArgumentTypesUsages);
                 WerewolvesBiomeFeatures.init();
+                break;
+            case LOAD_COMPLETE:
+                ModItems.registerRecipes();
                 break;
         }
     }
@@ -124,5 +134,15 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterMinionTasks(RegistryEvent.Register<IMinionTask<?, ?>> event) {
         ModMinionTasks.register(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterWeaponOils(RegistryEvent.Register<IWeaponOil> event) {
+        ModWeaponOils.register(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterRecipeSerializer(RegistryEvent.Register<IRecipeSerializer<?>> event){
+        ModRecipes.register(event.getRegistry());
     }
 }

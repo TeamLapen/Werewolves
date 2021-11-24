@@ -29,6 +29,7 @@ public class ModTags extends de.teamlapen.vampirism.core.ModTags {
     public static class Items extends de.teamlapen.vampirism.core.ModTags.Items {
         public static final INamedTag<Item> SILVER_ORE = forge("ores/silver");
         public static final INamedTag<Item> SILVER_INGOT = forge("ingots/silver");
+        public static final INamedTag<Item> SILVER_NUGGET = forge("nuggets/silver");
         public static final INamedTag<Item> RAWMEATS = forge("rawmeats");
         public static final INamedTag<Item> COOKEDMEATS = forge("cookedmeats");
         public static final INamedTag<Item> SILVER_TOOL = werewolves("tools/silver");

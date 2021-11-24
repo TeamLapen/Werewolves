@@ -10,13 +10,16 @@ import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.WeaponOilHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,8 +27,10 @@ import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -96,5 +101,26 @@ public class ClientEventHandler {
         this.zoomTime = 20;
         this.zoomAmount = Minecraft.getInstance().options.fov / 4 / this.zoomTime;
         this.zoomModifier = Minecraft.getInstance().options.fov - Minecraft.getInstance().options.fov / 4;
+    }
+
+    @SubscribeEvent
+    public void onItemToolTip(ItemTooltipEvent event)  {
+        MutableInt position = new MutableInt(1);
+        int flags = getHideFlags(event.getItemStack());
+        if (shouldShowInTooltip(flags, ItemStack.TooltipDisplayFlags.ADDITIONAL)) position.increment();
+        if (event.getItemStack().hasTag()) {
+            if (shouldShowInTooltip(flags, ItemStack.TooltipDisplayFlags.ENCHANTMENTS)) position.add(event.getItemStack().getEnchantmentTags().size());
+            WeaponOilHelper.oilOpt(event.getItemStack()).ifPresent((oil) -> {
+                event.getToolTip().add(position.getAndIncrement()-1, new TranslationTextComponent("weapon_oil." + oil.getLeft().getRegistryName().getNamespace() + "." + oil.getLeft().getRegistryName().getPath()).withStyle(TextFormatting.GOLD));
+            });
+        }
+    }
+
+    private static boolean shouldShowInTooltip(int p_242394_0_, ItemStack.TooltipDisplayFlags p_242394_1_) {
+        return (p_242394_0_ & p_242394_1_.getMask()) == 0;
+    }
+
+    private int getHideFlags(ItemStack stack) {
+        return stack.hasTag() && stack.getTag().contains("HideFlags", 99) ? stack.getTag().getInt("HideFlags") : 0;
     }
 }

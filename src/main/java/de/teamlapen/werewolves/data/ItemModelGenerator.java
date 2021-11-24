@@ -45,6 +45,8 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModItems.werewolf_minion_upgrade_simple);
             add(ModItems.werewolf_minion_upgrade_enhanced);
             add(ModItems.werewolf_minion_upgrade_special);
+            add(ModItems.silver_oil);
+            add(ModItems.silver_nugget);
         }};
         Set<Block> blockLayer = new HashSet<Block>() {{
             add(ModBlocks.jacaranda_sapling);
