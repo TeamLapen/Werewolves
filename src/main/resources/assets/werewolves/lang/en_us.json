@@ -42,6 +42,8 @@
   "item.werewolves.werewolf_minion_upgrade_simple": "Werewolf Minion Moon Charm Upgrade",
   "item.werewolves.werewolf_minion_upgrade_enhanced": "Enhanced Werewolf Minion Moon Charm Upgrade",
   "item.werewolves.werewolf_minion_upgrade_special": "Special Werewolf Minion Moon Charm Upgrade",
+  "item.werewolves.silver_oil": "Silver Oil",
+  "item.werewolves.silver_nugget": "Silver Nugget",
   "__comment": "item desc",
   "item.werewolves.crossbow_arrow_silver_bolt.tooltip": "Weakens werewolf entities",
   "__comment": "entities",

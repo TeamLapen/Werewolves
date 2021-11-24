@@ -50,6 +50,9 @@ public class RegistryManager implements IInitListener {
                 event.enqueueWork(ModCommands::registerArgumentTypesUsages);
                 WerewolvesBiomeFeatures.init();
                 break;
+            case LOAD_COMPLETE:
+                ModItems.registerRecipes();
+                break;
         }
     }
 
