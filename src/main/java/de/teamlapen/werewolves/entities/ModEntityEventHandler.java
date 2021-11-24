@@ -13,19 +13,36 @@ import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
+import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
 
 public class ModEntityEventHandler {
+
+    private final static Logger LOGGER = LogManager.getLogger();
+    private static final Predicate<LivingEntity> nonWerewolfCheck = entity -> !Helper.isWerewolf(entity);
+    private static final Object2BooleanMap<String> entityAIReplacementWarnMap = new Object2BooleanArrayMap<>();
 
     @SubscribeEvent
     public void onEntityAttacked(AttackEntityEvent event) {
@@ -52,7 +69,7 @@ public class ModEntityEventHandler {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW) //TODO lower priority so that vampirism does not override our ai changes
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getEntity().level.isClientSide()) return;
         if (event.getEntity() instanceof VillagerEntity) {
@@ -64,6 +81,38 @@ public class ModEntityEventHandler {
                     }
                 }
             });
+        }
+        if (WerewolvesConfig.BALANCE.UTIL.skeletonIgnoreWerewolves.get()) {
+            if (event.getEntity() instanceof SkeletonEntity) {
+                makeWerewolfFriendly("skeleton", (SkeletonEntity) event.getEntity(), NearestAttackableTargetGoal.class, PlayerEntity.class, 2, (entity, predicate) -> new NearestAttackableTargetGoal<>(entity, PlayerEntity.class, 10, true, false, predicate), type -> type == EntityType.SKELETON);
+            }
+        }
+    }
+
+    /**
+     * copy from {@link de.teamlapen.vampirism.entity.ModEntityEventHandler#makeVampireFriendly(String, MobEntity, Class, Class, int, BiFunction, Predicate)}
+     */
+    public static <T extends MobEntity, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, T e, Class<Q> targetClass, Class<S> targetEntityClass, int attackPriority, BiFunction<T, Predicate<LivingEntity>, Q> replacement, Predicate<EntityType<? extends T>> typeCheck) {
+        Goal target = null;
+        for (PrioritizedGoal t : e.targetSelector.availableGoals) {
+            Goal g = t.getGoal();
+            if (targetClass.equals(g.getClass()) && t.getPriority() == attackPriority && targetEntityClass.equals(((NearestAttackableTargetGoal<?>) g).targetType)) {
+                target = g;
+                break;
+            }
+        }
+        if (target != null) {
+            e.targetSelector.removeGoal(target);
+            EntityType<? extends T> type = (EntityType<? extends T>) e.getType();
+            if (typeCheck.test(type)) {
+                e.targetSelector.addGoal(attackPriority, replacement.apply(e, nonWerewolfCheck.and(((Q)target).targetConditions.selector)));
+            }
+        } else {
+            if (entityAIReplacementWarnMap.getOrDefault(name, true)) {
+                LOGGER.warn("Could not replace {} attack target task for {}", name, e.getType().getDescription());
+                entityAIReplacementWarnMap.put(name, false);
+            }
+
         }
     }
 }
