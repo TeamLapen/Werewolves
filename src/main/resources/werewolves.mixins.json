@@ -10,7 +10,6 @@
     "FoodStatsAccessor",
     "LivingEntityInvoker",
     "LootTableManagerMixin",
-    "MinionContainerMixin",
     "MobEntityMixin",
     "PlayerEntityMixin",
     "PointOfInterestTypeInvoker",

@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
+import de.teamlapen.vampirism.api.items.IFactionExclusiveItem;
 import de.teamlapen.vampirism.config.BalanceMobProps;
 import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.vampirism.entity.hunter.BasicHunterEntity;
@@ -28,7 +29,9 @@ import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.UseAction;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -42,6 +45,7 @@ import net.minecraftforge.fml.DistExecutor;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.WerewolfMinionData> implements IWerewolf {
 
@@ -106,6 +110,11 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     protected void onMinionDataReceived(@Nonnull WerewolfMinionData data) {
         super.onMinionDataReceived(data);
         this.updateAttributes();
+    }
+
+    @Override
+    public Predicate<ItemStack> getEquipmentPredicate(EquipmentSlotType slotType) {
+        return itemStack -> ((itemStack.getItem() instanceof IFactionExclusiveItem) && ((IFactionExclusiveItem) itemStack.getItem()).getExclusiveFaction().equals(WReference.WEREWOLF_FACTION)) || itemStack.getUseAnimation() == UseAction.DRINK || itemStack.getUseAnimation() == UseAction.EAT;
     }
 
     @Override
