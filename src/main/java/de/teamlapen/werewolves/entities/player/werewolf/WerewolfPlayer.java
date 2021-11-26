@@ -17,6 +17,7 @@ import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModEffects;
+import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
@@ -60,6 +61,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
+    private static final UUID RAGE_FURY = UUID.fromString("aeb05d51-2388-412c-a164-fb75cab0ab95");
 
     @CapabilityInject(IWerewolfPlayer.class)
     public static Capability<IWerewolfPlayer> CAP = getNull();
@@ -355,6 +357,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public boolean onEntityAttacked(DamageSource damageSource, float v) {
         return false;
+    }
+
+    @Override
+    public void onEntityKilled(LivingEntity victim, DamageSource src) {
+        if (this.getSkillHandler().isRefinementEquipped(ModRefinements.rage_fury)) {
+        }
     }
 
     @Override

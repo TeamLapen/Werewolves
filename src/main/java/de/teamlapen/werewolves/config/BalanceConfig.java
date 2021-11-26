@@ -7,6 +7,7 @@ public class BalanceConfig {
     public final Player PLAYER;
     public final MobProps MOBPROPS;
     public final Skills SKILLS;
+    public final Refinements REFINEMENTS;
     public final Potions POTIONS;
     public final Util UTIL;
 
@@ -26,6 +27,9 @@ public class BalanceConfig {
         builder.pop();
         builder.push("util");
         UTIL = new Util(builder);
+        builder.pop();
+        builder.push("refinements");
+        REFINEMENTS = new Refinements(builder);
         builder.pop();
     }
 
@@ -168,6 +172,10 @@ public class BalanceConfig {
         public final ForgeConfigSpec.BooleanValue wolf_pack_enabled;
         public final ForgeConfigSpec.IntValue wolf_pack_cooldown;
         public final ForgeConfigSpec.IntValue wolf_pack_wolf_duration;
+        public final ForgeConfigSpec.IntValue wolf_pack_wolf_amount;
+
+        //movement tactics
+        public final ForgeConfigSpec.DoubleValue movement_tactics_doge_chance;
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -283,7 +291,23 @@ public class BalanceConfig {
             this.wolf_pack_enabled = builder.define("wolf_pack_enabled", true);
             this.wolf_pack_cooldown = builder.comment("In seconds").defineInRange("wolf_pack_cooldown", 60, 1, Integer.MAX_VALUE);
             this.wolf_pack_wolf_duration = builder.comment("In seconds").defineInRange("wolf_pack_wolf_duration", 25, 1, Integer.MAX_VALUE);
+            this.wolf_pack_wolf_amount = builder.comment("Spawned wolves when the wolf pack skill is unlocked").defineInRange("wolf_pack_wolf_amount", 2,0, 10);
             builder.pop();
+
+            builder.push("movement tactics");
+            this.movement_tactics_doge_chance = builder.comment("Doge chance for the movement tactics skill").defineInRange("movement_tactics_doge_chance", 0.25D,0D,1D);
+            builder.pop();
+        }
+    }
+
+    public static class Refinements {
+
+        public final ForgeConfigSpec.DoubleValue greater_doge_chance;
+        public final ForgeConfigSpec.IntValue more_wolves;
+
+        public Refinements(ForgeConfigSpec.Builder builder) {
+            this.greater_doge_chance = builder.comment("Increased doge chance for movement tactics skill").defineInRange("greater_doge_chance", 0.1,0,1);
+            this.more_wolves = builder.comment("Increased wolf spawning for the howling action").defineInRange("more_wolves", 1,0,5);
         }
     }
 
@@ -291,7 +315,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue silverStatsReduction;
 
         public Potions(ForgeConfigSpec.Builder builder) {
-            silverStatsReduction = builder.comment("How much a Werewolf should be weakened by a silver item").defineInRange("silverStatsReduction",-0.2,-1,0);
+            this.silverStatsReduction = builder.comment("How much a Werewolf should be weakened by a silver item").defineInRange("silverStatsReduction",-0.2,-1,0);
         }
     }
 

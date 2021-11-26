@@ -4,6 +4,7 @@ import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
 import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
+import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
 import de.teamlapen.werewolves.items.oil.IWeaponOil;
@@ -144,5 +145,10 @@ public class RegistryManager implements IInitListener {
     @SubscribeEvent
     public void onRegisterRecipeSerializer(RegistryEvent.Register<IRecipeSerializer<?>> event){
         ModRecipes.register(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterRefinementSets(RegistryEvent.Register<IRefinementSet> event) {
+        ModRefinementSets.register(event.getRegistry());
     }
 }
