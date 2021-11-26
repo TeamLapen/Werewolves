@@ -134,6 +134,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.BooleanValue rage_enabled;
         public final ForgeConfigSpec.IntValue rage_duration;
         public final ForgeConfigSpec.IntValue rage_cooldown;
+        public final ForgeConfigSpec.DoubleValue rage_bite_damage;
 
         //sense action
         public final ForgeConfigSpec.BooleanValue sense_enabled;
@@ -244,6 +245,7 @@ public class BalanceConfig {
             this.rage_enabled = builder.define("rage_enabled", true);
             this.rage_duration = builder.comment("In seconds").defineInRange("rage_duration", 10, 0, Integer.MAX_VALUE);
             this.rage_cooldown = builder.comment("In seconds").defineInRange("rage_cooldown", 10, 0, Integer.MAX_VALUE);
+            this.rage_bite_damage = builder.defineInRange("rage_bite_damage", 2,0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("sense");
