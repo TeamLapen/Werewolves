@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.entities.player.werewolf;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
@@ -237,6 +238,24 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     this.checkArmorModifer = false;
                 }
             }
+
+            EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
+            if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
+                if (!(effect instanceof WerewolfNightVisionEffect)) {
+                    if (effect != null) {
+                        player.removeEffect(effect.getEffect());
+                    }
+                    player.addEffect(new WerewolfNightVisionEffect());
+                }
+            } else {
+                if (effect instanceof WerewolfNightVisionEffect) {
+                    this.player.removeEffect(effect.getEffect());
+                    effect = ((EffectInstanceWithSource) effect).getHiddenEffect();
+                    if (effect != null) {
+                        this.player.addEffect(effect);
+                    }
+                }
+            }
         } else {
             if (getLevel() > 0) {
                 if (this.player.level.getGameTime() % 10 == 0) {
@@ -245,20 +264,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     }
                 }
                 this.actionHandler.updateActions();
-            }
-        }
-        EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
-        if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
-            if (!(effect instanceof WerewolfNightVisionEffect)) {
-                player.removeEffectNoUpdate(Effects.NIGHT_VISION);
-                effect = null;
-            }
-            if (effect == null) {
-                player.addEffect(new WerewolfNightVisionEffect());
-            }
-        } else {
-            if (effect instanceof WerewolfNightVisionEffect) {
-                player.removeEffectNoUpdate(Effects.NIGHT_VISION);
             }
         }
 

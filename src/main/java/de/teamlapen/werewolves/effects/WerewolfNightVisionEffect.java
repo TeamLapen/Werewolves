@@ -11,7 +11,11 @@ import java.util.Collections;
 public class WerewolfNightVisionEffect extends EffectInstance {
 
     public WerewolfNightVisionEffect() {
-        super(Effects.NIGHT_VISION, 10000, 0, false, false);
+        this(null);
+    }
+
+    public WerewolfNightVisionEffect(EffectInstance otherEffect) {
+        super(Effects.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false, false, otherEffect);
         this.setCurativeItems(Collections.emptyList());
     }
 
@@ -36,6 +40,7 @@ public class WerewolfNightVisionEffect extends EffectInstance {
     }
 
     public boolean tick(@Nonnull LivingEntity entityIn, @Nonnull Runnable p_76455_2_) {
+        this.hiddenEffect.tickDownDuration();
         return true;
     }
 
