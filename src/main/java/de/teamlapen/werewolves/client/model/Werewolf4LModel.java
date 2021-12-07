@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.client.model;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -340,5 +341,11 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
     @Override
     public ModelRenderer getRightArmModel() {
         return this.rightArm;
+    }
+
+    @Nonnull
+    @Override
+    protected Iterable<ModelRenderer> bodyParts() {
+        return ImmutableList.of(this.body);
     }
 }
