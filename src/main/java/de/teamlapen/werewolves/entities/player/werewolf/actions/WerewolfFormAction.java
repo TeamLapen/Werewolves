@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModBiomes;
+import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -131,7 +132,15 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (!FormHelper.isWerewolfFormTicking(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld(), werewolfPlayer.getRepresentingPlayer().blockPosition())) {
             return false;
         }
-        return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
+        return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime >  getWerewolfTimeLimit(werewolfPlayer);
+    }
+
+    protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
+        int limit = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
+        if (werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general)) {
+            limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general.get() * 20;
+        }
+        return limit;
     }
 
     public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {

@@ -84,7 +84,7 @@ public class ModPlayerEventHandler {
         if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getSource().getEntity()))) {
             WerewolfPlayer player = WerewolfPlayer.get(((PlayerEntity) event.getSource().getEntity()));
             if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_after_kill)) {
-                ((PlayerEntity) event.getSource().getEntity()).addEffect(new EffectInstance(Effects.REGENERATION, 4, 10));
+                ((PlayerEntity) event.getSource().getEntity()).addEffect(new EffectInstance(Effects.REGENERATION, player.getSkillHandler().isRefinementEquipped(ModRefinements.health_after_kill)?5: 4, 10));
             }/* else if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.speed_after_kill)) {
                 player.getRepresentingPlayer().addPotionEffect(new EffectInstance(Effects.SPEED, 40));
             }*/

@@ -40,7 +40,9 @@ public class WerewolfNightVisionEffect extends EffectInstance {
     }
 
     public boolean tick(@Nonnull LivingEntity entityIn, @Nonnull Runnable p_76455_2_) {
-        this.hiddenEffect.tickDownDuration();
+        if (this.hiddenEffect != null) {
+            this.hiddenEffect.tickDownDuration();
+        }
         return true;
     }
 

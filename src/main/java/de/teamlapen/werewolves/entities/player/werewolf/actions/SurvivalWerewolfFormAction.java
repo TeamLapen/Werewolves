@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.WerewolfForm;
@@ -55,6 +56,15 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     @Override
     public int getCooldown() {
         return WerewolvesConfig.BALANCE.SKILLS.survival_form_cooldown.get() * 20;
+    }
+
+    @Override
+    protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
+        int limit =super.getWerewolfTimeLimit(werewolf);
+        if (werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_survival)) {
+            limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_survival.get() * 20;
+        }
+        return limit;
     }
 
 }

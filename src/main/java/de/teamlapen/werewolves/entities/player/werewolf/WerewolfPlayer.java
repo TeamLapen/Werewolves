@@ -367,6 +367,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public void onEntityKilled(LivingEntity victim, DamageSource src) {
         if (this.getSkillHandler().isRefinementEquipped(ModRefinements.rage_fury)) {
+            this.player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,40, 1));
         }
     }
 

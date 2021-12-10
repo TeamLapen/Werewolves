@@ -52,6 +52,19 @@ public class ModRefinementSets {
             registry.register(rareW("speed3_n_attack_speed1", ModRefinements.VampirismRefinements.speed3, ModRefinements.VampirismRefinements.n_attack_speed1));
             registry.register(rareW("damage1_attack_speed1", ModRefinements.VampirismRefinements.damage1, ModRefinements.VampirismRefinements.attack_speed1));
         }
+        {
+            registry.register(commonW("werewolf_form_duration_general", ModRefinements.werewolf_form_duration_general));
+            registry.register(commonW("werewolf_form_duration_human", ModRefinements.werewolf_form_duration_human));
+            registry.register(commonW("werewolf_form_duration_survival", ModRefinements.werewolf_form_duration_survival));
+            registry.register(commonW("werewolf_form_duration_beast", ModRefinements.werewolf_form_duration_beast));
+            registry.register(commonW("rage_fury", ModRefinements.rage_fury));
+            registry.register(commonW("health_after_kill", ModRefinements.health_after_kill));
+            registry.register(commonW("stun_bite", ModRefinements.stun_bite));
+            registry.register(commonW("bleeding_bite", ModRefinements.bleeding_bite));
+            registry.register(commonW("more_wolves", ModRefinements.more_wolves));
+            registry.register(commonW("greater_doge_chance", ModRefinements.greater_doge_chance));
+            registry.register(commonW("fear", ModRefinements.fear));
+        }
     }
 
     private static IRefinementSet commonW(String name, IRefinement... refinements) {
