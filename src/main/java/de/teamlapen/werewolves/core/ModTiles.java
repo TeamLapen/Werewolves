@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class ModTiles extends de.teamlapen.vampirism.core.ModTiles {
+public class ModTiles {
 
     public static final TileEntityType<StoneAltarTileEntity> stone_altar = getNull();
 

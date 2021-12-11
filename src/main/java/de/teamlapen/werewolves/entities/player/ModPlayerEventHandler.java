@@ -164,7 +164,7 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onItemUseEntity(PlayerInteractEvent.EntityInteract event) {
-        if (event.getPlayer().getItemInHand(event.getHand()).getItem() == ModItems.injection_empty) {
+        if (event.getPlayer().getItemInHand(event.getHand()).getItem() == ModItems.V.injection_empty) {
             if (event.getTarget() instanceof WerewolfBaseEntity) {
                 event.getPlayer().getItemInHand(event.getHand()).shrink(1);
                 event.getPlayer().addItem(new ItemStack(ModItems.injection_un_werewolf));
@@ -176,7 +176,7 @@ public class ModPlayerEventHandler {
     public void onItemUseBlock(PlayerInteractEvent.RightClickBlock event) {
         PlayerEntity player = event.getPlayer();
         if (player.getItemInHand(event.getHand()).getItem() == ModItems.injection_un_werewolf) {
-            if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.med_chair) {
+            if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.V.med_chair) {
                 ItemStack stack = player.getItemInHand(event.getHand());
                 if (player.isAlive()) {
                     IFactionPlayerHandler handler = FactionPlayerHandler.get(event.getPlayer());

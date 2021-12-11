@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import de.teamlapen.vampirism.entity.hunter.BasicHunterEntity;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
@@ -23,7 +24,7 @@ import java.util.Set;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
+public class ModEntities {
 
     private static final Set<EntityType<?>> ALL_ENTITIES = Sets.newHashSet();
 
@@ -34,6 +35,12 @@ public class ModEntities extends de.teamlapen.vampirism.core.ModEntities {
     public static final EntityType<AggressiveWolfEntity> wolf = getNull();
     public static final EntityType<WerewolfMinionEntity> werewolf_minion = getNull();
     public static final EntityType<WerewolfAlphaEntity> alpha_werewolf;
+
+    @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
+    public static class V {
+        public static final EntityType<BasicHunterEntity> hunter = getNull();
+        public static final EntityType<BasicHunterEntity.IMob> hunter_imob = getNull();
+    }
 
     static void registerEntities(IForgeRegistry<EntityType<?>> registry) {
         registry.register(werewolf_beast);

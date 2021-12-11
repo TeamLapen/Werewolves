@@ -21,7 +21,7 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @SuppressWarnings("unused")
 @ObjectHolder(REFERENCE.MODID)
-public class ModItems extends de.teamlapen.vampirism.core.ModItems {
+public class ModItems {
 
     public static final Item silver_ingot = getNull();
     public static final HoeItem silver_hoe = getNull();
@@ -49,6 +49,14 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final WerewolfRefinementItem bone_necklace = getNull();
     public static final WerewolfRefinementItem charm_bracelet = getNull();
     public static final WerewolfRefinementItem dream_catcher = getNull();
+
+    @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
+    public static class V {
+        public static final Item human_heart = getNull();
+        public static final Item injection_empty = getNull();
+        public static final Item weak_human_heart = getNull();
+        public static final Item oblivion_potion = getNull();
+    }
 
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new Item((new Item.Properties()).tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));

@@ -9,13 +9,19 @@ import net.minecraftforge.registries.ObjectHolder;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class ModEffects extends de.teamlapen.vampirism.core.ModEffects {
+public class ModEffects {
 
     public static final LupusSanguinemEffect lupus_sanguinem = getNull();
     public static final HowlingEffect howling = getNull();
     public static final SilverEffect silver = getNull();
     public static final BleedingEffect bleeding = getNull();
     public static final UnWerewolfEffect un_werewolf = getNull();
+
+    @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
+    public static class V {
+        public static final Effect freeze = getNull();
+        public static final Effect poison = getNull();
+    }
 
     static void registerEffects(IForgeRegistry<Effect> registry) {
         registry.register(new LupusSanguinemEffect());

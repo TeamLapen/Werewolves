@@ -20,7 +20,7 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @SuppressWarnings("unused")
 @ObjectHolder(REFERENCE.MODID)
-public class ModTasks extends de.teamlapen.vampirism.core.ModTasks {
+public class ModTasks {
 
     public static final Task werewolf_minion_binding = getNull();
     public static final Task werewolf_minion_upgrade_simple = getNull();
@@ -125,10 +125,10 @@ public class ModTasks extends de.teamlapen.vampirism.core.ModTasks {
         //potion of oblivion
         {
             registry.register(TaskBuilder.builder()
-                    .setReward(new ItemStack(ModItems.oblivion_potion))
+                    .setReward(new ItemStack(ModItems.V.oblivion_potion))
                     .addRequirement("poison", PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.POISON))
                     .addRequirement("liver", new ItemStack(ModItems.liver))
-                    .addRequirement("heart", new ItemStack(ModItems.human_heart))
+                    .addRequirement("heart", new ItemStack(ModItems.V.human_heart))
                     .build(REFERENCE.MODID, "oblivion_potion"));
         }
     }

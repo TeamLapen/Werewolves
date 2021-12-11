@@ -14,7 +14,6 @@ import de.teamlapen.werewolves.util.WeaponOilHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.gui.widget.button.ImageButton;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -24,12 +23,14 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderNameplateEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.apache.logging.log4j.LogManager;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -121,20 +122,5 @@ public class ClientEventHandler {
 
     private int getHideFlags(ItemStack stack) {
         return stack.hasTag() && stack.getTag().contains("HideFlags", 99) ? stack.getTag().getInt("HideFlags") : 0;
-    }
-
-    @SubscribeEvent
-    public void onRenderLivingEventPre1(final RenderLivingEvent.Pre<PlayerEntity, PlayerModel<PlayerEntity>> event) {
-        LogManager.getLogger().debug("asd");
-    }
-
-    @SubscribeEvent
-    public void onRenderLivingEventPre2(final RenderLivingEvent.Pre<PlayerEntity, ?> event) {
-        LogManager.getLogger().debug("asd");
-    }
-
-    @SubscribeEvent
-    public void onRenderLivingEventPre3(final RenderLivingEvent.Pre<?, ?> event) {
-        LogManager.getLogger().debug("asd");
     }
 }

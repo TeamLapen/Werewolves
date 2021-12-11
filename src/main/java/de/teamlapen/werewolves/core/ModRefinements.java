@@ -8,6 +8,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
@@ -26,9 +27,8 @@ public class ModRefinements {
     public static final Refinement greater_doge_chance = getNull();
     public static final Refinement fear = getNull();
 
-
     @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
-    public static class VampirismRefinements {
+    public static class V {
         public static final Refinement armor1 = getNull();
         public static final Refinement armor2 = getNull();
         public static final Refinement armor3 = getNull();
@@ -61,13 +61,7 @@ public class ModRefinements {
         public static final Refinement n_attack_speed3 = getNull();
 
         public static void validate() {
-            if(Arrays.stream(VampirismRefinements.class.getFields()).anyMatch(a -> {
-                try {
-                    return a.get(null) == null;
-                } catch (IllegalAccessException e) {
-                    return true;
-                }
-            })) {
+            if(Arrays.stream(V.class.getFields()).anyMatch(Objects::isNull)) {
                 LogManager.getLogger().error("Invalid refinement loaded");
             }
         }
