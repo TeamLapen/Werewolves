@@ -16,10 +16,7 @@ import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModAttributes;
-import de.teamlapen.werewolves.core.ModEffects;
-import de.teamlapen.werewolves.core.ModRefinements;
-import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
@@ -368,6 +365,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     public void onEntityKilled(LivingEntity victim, DamageSource src) {
         if (this.getSkillHandler().isRefinementEquipped(ModRefinements.rage_fury)) {
             this.player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,40, 1));
+            this.actionHandler.extendActionTimer(ModActions.rage, WerewolvesConfig.BALANCE.REFINEMENTS.rage_fury_timer_extend.get());
         }
     }
 

@@ -310,6 +310,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.IntValue werewolf_form_duration_human;
         public final ForgeConfigSpec.IntValue werewolf_form_duration_survival;
         public final ForgeConfigSpec.IntValue werewolf_form_duration_beast;
+        public final ForgeConfigSpec.IntValue rage_fury_timer_extend;
 
         public Refinements(ForgeConfigSpec.Builder builder) {
             this.greater_doge_chance = builder.comment("Increased doge chance for movement tactics skill").defineInRange("greater_doge_chance", 0.1,0,1);
@@ -318,6 +319,7 @@ public class BalanceConfig {
             this.werewolf_form_duration_human = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human", 20,0, Integer.MAX_VALUE);
             this.werewolf_form_duration_survival = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival", 20,0, Integer.MAX_VALUE);
             this.werewolf_form_duration_beast = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast", 20,0, Integer.MAX_VALUE);
+            this.rage_fury_timer_extend = builder.comment("In Ticks").defineInRange("rage_fury_timer_extend", 40,0,Integer.MAX_VALUE);
         }
     }
 
