@@ -104,7 +104,7 @@ public class ModHUDOverlay extends ExtendedGui {
                 this.renderExperienceBar(event);
                 break;
             case ALL:
-                this.renderActionCooldown(event.getMatrixStack());
+                //this.renderActionCooldown(event.getMatrixStack());
                 break;
         }
     }

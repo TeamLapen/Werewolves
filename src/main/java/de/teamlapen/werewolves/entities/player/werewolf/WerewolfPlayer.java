@@ -417,9 +417,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             this.eatEntity(entity);
             this.specialAttributes.biteTicks = WerewolvesConfig.BALANCE.PLAYER.bite_cooldown.get();
             if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {
-                entity.addEffect(new EffectInstance(ModEffects.V.freeze, WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get()));
+                int duration = WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get();
+                if (this.skillHandler.isRefinementEquipped(ModRefinements.stun_bite)) {
+                    duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
+                }
+                entity.addEffect(new EffectInstance(ModEffects.V.freeze, duration));
             } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
-                entity.addEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get()));
+                entity.addEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.bleeding_bite)?3:0));
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)),false);
             LupusSanguinemEffect.addSanguinemEffectRandom(entity);
