@@ -306,20 +306,28 @@ public class BalanceConfig {
 
         public final ForgeConfigSpec.DoubleValue greater_doge_chance;
         public final ForgeConfigSpec.IntValue more_wolves;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_general;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_human;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_survival;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_beast;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_general_1;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_general_2;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_human_1;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_human_2;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_survival_1;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_survival_2;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_beast_1;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_beast_2;
         public final ForgeConfigSpec.IntValue rage_fury_timer_extend;
         public final ForgeConfigSpec.IntValue stun_bite_duration_extend;
 
         public Refinements(ForgeConfigSpec.Builder builder) {
             this.greater_doge_chance = builder.comment("Increased doge chance for movement tactics skill").defineInRange("greater_doge_chance", 0.1,0,1);
             this.more_wolves = builder.comment("Increased wolf spawning for the howling action").defineInRange("more_wolves", 1,0,5);
-            this.werewolf_form_duration_general = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general", 20,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_human = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human", 20,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_survival = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival", 20,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_beast = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast", 20,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_general_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_1", 20,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_general_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_2", 40,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_human_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_1", 20,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_human_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_2", 30,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_survival_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_1", 20,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_survival_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_2", 30,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_beast_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast_1", 20,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_beast_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast_2", 30,0, Integer.MAX_VALUE);
             this.rage_fury_timer_extend = builder.comment("In Ticks").defineInRange("rage_fury_timer_extend", 40,0,Integer.MAX_VALUE);
             this.stun_bite_duration_extend = builder.comment("In Ticks").defineInRange("stun_bite_duration_extend", 20,0,Integer.MAX_VALUE);
         }

@@ -147,8 +147,14 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
         int limit = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-        if (werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general)) {
-            limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general.get() * 20;
+        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_1);
+        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_2);
+        if (duration1 || duration2) {
+            if (duration2) {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_2.get() * 20;
+            } else {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_1.get() * 20;
+            }
         }
         return limit;
     }

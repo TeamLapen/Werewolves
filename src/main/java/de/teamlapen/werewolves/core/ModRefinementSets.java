@@ -53,16 +53,24 @@ public class ModRefinementSets {
             registry.register(rareW("damage1_attack_speed1", ModRefinements.V.damage1, ModRefinements.V.attack_speed1));
         }
         {
-            registry.register(commonW("werewolf_form_duration_general", ModRefinements.werewolf_form_duration_general));
-            registry.register(commonW("werewolf_form_duration_human", ModRefinements.werewolf_form_duration_human));
-            registry.register(commonW("werewolf_form_duration_survival", ModRefinements.werewolf_form_duration_survival));
-            registry.register(commonW("werewolf_form_duration_beast", ModRefinements.werewolf_form_duration_beast));
-            registry.register(commonW("rage_fury", ModRefinements.rage_fury));
-            registry.register(commonW("health_after_kill", ModRefinements.health_after_kill));
-            registry.register(commonW("stun_bite", ModRefinements.stun_bite));
-            registry.register(commonW("bleeding_bite", ModRefinements.bleeding_bite));
-            registry.register(commonW("more_wolves", ModRefinements.more_wolves));
-            registry.register(commonW("greater_doge_chance", ModRefinements.greater_doge_chance));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.LEGENDARY,0xc86262, ModRefinements.werewolf_form_duration_general_2).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_general_2"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.EPIC,0xc86262, ModRefinements.werewolf_form_duration_general_2, ModRefinements.V.n_damage2, ModRefinements.V.n_speed2).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_general_2_n_damage_n_speed"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.EPIC,0xc86262, ModRefinements.werewolf_form_duration_general_1).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_general_1"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.RARE,0xc86262, ModRefinements.werewolf_form_duration_general_1, ModRefinements.V.n_damage2, ModRefinements.V.n_speed2).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_general_1_n_damage_n_speed"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.RARE,0xc86262, ModRefinements.werewolf_form_duration_human_2).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_human_2"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.UNCOMMON,0xc86262, ModRefinements.werewolf_form_duration_human_1).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_human_1"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.RARE,0xc86262, ModRefinements.werewolf_form_duration_survival_2).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_survival_2"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.UNCOMMON,0xc86262, ModRefinements.werewolf_form_duration_survival_1).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_survival_1"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.RARE,0xc86262, ModRefinements.werewolf_form_duration_beast_2).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_beast_2"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.UNCOMMON,0xc86262, ModRefinements.werewolf_form_duration_beast_1).setRegistryName(REFERENCE.MODID,"werewolf_form_duration_beast_1"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.LEGENDARY,0xff0006, ModRefinements.rage_fury).setRegistryName(REFERENCE.MODID,"rage_fury"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.COMMON,0x16af00, ModRefinements.health_after_kill).setRegistryName(REFERENCE.MODID,"health_after_kill"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.RARE,0x16af00, ModRefinements.health_after_kill, ModRefinements.V.health2).setRegistryName(REFERENCE.MODID,"health"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.RARE,0xedb521, ModRefinements.stun_bite).setRegistryName(REFERENCE.MODID,"stun_bite"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.EPIC,0xcdc2639, ModRefinements.bleeding_bite).setRegistryName(REFERENCE.MODID,"bleeding_bite"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.EPIC,0xcdc2639, ModRefinements.bleeding_bite, ModRefinements.stun_bite).setRegistryName(REFERENCE.MODID,"variable_bite"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.UNCOMMON,0x929292, ModRefinements.more_wolves).setRegistryName(REFERENCE.MODID,"more_wolves"));
+            registry.register(new WerewolfRefinementSet(IRefinementSet.Rarity.UNCOMMON,0x4df1f3, ModRefinements.greater_doge_chance).setRegistryName(REFERENCE.MODID,"greater_doge_chance"));
         }
     }
 
@@ -80,6 +88,10 @@ public class ModRefinementSets {
 
     private static IRefinementSet epicW(String name, IRefinement... refinements) {
         return werewolf(IRefinementSet.Rarity.EPIC, refinements).setRegistryName(REFERENCE.MODID, name);
+    }
+
+    private static IRefinementSet legendaryW(String name, IRefinement... refinements) {
+        return werewolf(IRefinementSet.Rarity.LEGENDARY, refinements).setRegistryName(REFERENCE.MODID, name);
     }
 
     @SuppressWarnings("ConstantConditions")

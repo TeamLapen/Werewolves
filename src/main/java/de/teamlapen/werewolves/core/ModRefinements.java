@@ -15,10 +15,14 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 @ObjectHolder(REFERENCE.MODID)
 public class ModRefinements {
 
-    public static final Refinement werewolf_form_duration_general = getNull();
-    public static final Refinement werewolf_form_duration_human = getNull();
-    public static final Refinement werewolf_form_duration_survival = getNull();
-    public static final Refinement werewolf_form_duration_beast = getNull();
+    public static final Refinement werewolf_form_duration_general_1 = getNull();
+    public static final Refinement werewolf_form_duration_general_2 = getNull();
+    public static final Refinement werewolf_form_duration_human_1 = getNull();
+    public static final Refinement werewolf_form_duration_human_2 = getNull();
+    public static final Refinement werewolf_form_duration_survival_1 = getNull();
+    public static final Refinement werewolf_form_duration_survival_2 = getNull();
+    public static final Refinement werewolf_form_duration_beast_1 = getNull();
+    public static final Refinement werewolf_form_duration_beast_2 = getNull();
     public static final Refinement rage_fury = getNull();
     public static final Refinement health_after_kill = getNull();
     public static final Refinement stun_bite = getNull();
@@ -68,10 +72,14 @@ public class ModRefinements {
 
     public static void register(IForgeRegistry<IRefinement> registry) {
         { //simple refinement
-            registry.register(newRefinement("werewolf_form_duration_general"));
-            registry.register(newRefinement("werewolf_form_duration_human"));
-            registry.register(newRefinement("werewolf_form_duration_survival"));
-            registry.register(newRefinement("werewolf_form_duration_beast"));
+            registry.register(newRefinement("werewolf_form_duration_general_1"));
+            registry.register(newRefinement("werewolf_form_duration_general_2"));
+            registry.register(newRefinement("werewolf_form_duration_human_1"));
+            registry.register(newRefinement("werewolf_form_duration_human_2"));
+            registry.register(newRefinement("werewolf_form_duration_survival_1"));
+            registry.register(newRefinement("werewolf_form_duration_survival_2"));
+            registry.register(newRefinement("werewolf_form_duration_beast_1"));
+            registry.register(newRefinement("werewolf_form_duration_beast_2"));
             registry.register(newRefinement("rage_fury"));
             registry.register(newRefinement("health_after_kill"));
             registry.register(newRefinement("stun_bite"));
