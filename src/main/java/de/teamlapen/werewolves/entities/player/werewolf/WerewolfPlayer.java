@@ -514,6 +514,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         LevelAttributeModifier.registerModdedAttributeModifier(Attributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS);
     }
 
+    @Nullable
+    public WerewolfFormAction getLastFormAction() {
+        return lastFormAction;
+    }
+
     @Override
     public ISkillHandler<IWerewolfPlayer> getSkillHandler() {
         return this.skillHandler;

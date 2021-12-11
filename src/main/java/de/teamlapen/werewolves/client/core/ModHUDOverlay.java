@@ -228,7 +228,7 @@ public class ModHUDOverlay extends ExtendedGui {
         if(Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if (werewolf.getSpecialAttributes().werewolfTime > 0) {
-                float perc = WerewolfFormAction.getDurationPercentage(werewolf);
+                float perc = WerewolfFormAction.getDurationPercentage(werewolf, null);
                 float trans = FormHelper.isFormActionActive(werewolf)?1f:0.7f;
                 renderExpBar(event.getMatrixStack(), perc, trans);
             }

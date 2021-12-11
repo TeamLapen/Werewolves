@@ -17,8 +17,10 @@ import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -35,12 +37,20 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         return Collections.unmodifiableSet(ALL_ACTION);
     }
 
+    public static float getDurationPercentage(IWerewolfPlayer player, @Nullable WerewolfFormAction action) {
+        if (action == null) {
+            action = ((WerewolfPlayer) player).getLastFormAction();
+            if (action == null) {
+                return 1;
+            }
+        }
+        return MathHelper.clamp(1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / (long) action.getWerewolfTimeLimit(player),0,1);
+    }
     /**
      * @return how much percentage is left
      */
-    public static float getDurationPercentage(IWerewolfPlayer player) {
-        long durationMax = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-        return 1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / durationMax;
+    public float getDurationPercentage(IWerewolfPlayer player) {
+        return MathHelper.clamp(1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / (long) getWerewolfTimeLimit(player),0,1);
     }
 
     protected static class Modifier {
