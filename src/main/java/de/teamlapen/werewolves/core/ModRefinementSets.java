@@ -63,7 +63,6 @@ public class ModRefinementSets {
             registry.register(commonW("bleeding_bite", ModRefinements.bleeding_bite));
             registry.register(commonW("more_wolves", ModRefinements.more_wolves));
             registry.register(commonW("greater_doge_chance", ModRefinements.greater_doge_chance));
-            registry.register(commonW("fear", ModRefinements.fear));
         }
     }
 

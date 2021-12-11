@@ -25,7 +25,6 @@ public class ModRefinements {
     public static final Refinement bleeding_bite = getNull();
     public static final Refinement more_wolves = getNull();
     public static final Refinement greater_doge_chance = getNull();
-    public static final Refinement fear = getNull();
 
     @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
     public static class V {
@@ -79,7 +78,6 @@ public class ModRefinements {
             registry.register(newRefinement("bleeding_bite"));
             registry.register(newRefinement("more_wolves"));
             registry.register(newRefinement("greater_doge_chance"));
-            registry.register(newRefinement("fear"));
         }
     }
 
