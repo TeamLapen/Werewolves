@@ -2,7 +2,9 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModAttributes;
+import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -29,5 +31,20 @@ public class BeastWerewolfFormAction extends WerewolfFormAction {
     @Override
     public int getCooldown() {
         return WerewolvesConfig.BALANCE.SKILLS.beast_form_cooldown.get() * 20;
+    }
+
+    @Override
+    protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
+        int limit =super.getWerewolfTimeLimit(werewolf);
+        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_beast_1);
+        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_beast_2);
+        if (duration1 || duration2) {
+            if (duration2) {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_beast_1.get() * 20;
+            } else {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_beast_2.get() * 20;
+            }
+        }
+        return limit;
     }
 }

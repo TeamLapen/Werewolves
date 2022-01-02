@@ -26,7 +26,7 @@ public class GlobalLootTableGenerator extends GlobalLootModifierProvider {
                 .table(LootTable.lootTable()
                         .withPool(LootPool.lootPool().name("werewolves_general").setRolls(ConstantRange.exactly(1)).when(KilledByPlayer.killedByPlayer()).when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.005f))
                                 .add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1))))
-                .onlyFor(ModEntities.hunter, ModEntities.hunter_imob)
+                .onlyFor(ModEntities.V.hunter, ModEntities.V.hunter_imob)
                 .build());
     }
 

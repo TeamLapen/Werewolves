@@ -14,6 +14,7 @@ import de.teamlapen.werewolves.entities.ModEntityEventHandler;
 import de.teamlapen.werewolves.entities.player.ModPlayerEventHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.items.WerewolfRefinementItem;
 import de.teamlapen.werewolves.modcompat.Obfuscate;
 import de.teamlapen.werewolves.modcompat.guide.WerewolvesGuideBook;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
@@ -103,9 +104,19 @@ public class WerewolvesMod {
 
     private void setupAPI() {
         if (!setupAPI) {
-            WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry().registerPlayableFaction(REFERENCE.WEREWOLF_PLAYER_KEY, IWerewolfPlayer.class, Color.orange, true, () -> WerewolfPlayer.CAP, REFERENCE.HIGHEST_WEREWOLF_LEVEL, REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL, LordTitles::getWerewolfTitle, new WerewolfVillageData());
-            WReference.WEREWOLF_FACTION.setChatColor(TextFormatting.GOLD).setTranslationKeys("text.werewolves.werewolf", "text.vampirism.werewolves");
-
+            WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry()
+                    .createPlayableFaction(REFERENCE.WEREWOLF_PLAYER_KEY, IWerewolfPlayer.class, () -> WerewolfPlayer.CAP)
+                    .color(Color.orange)
+                    .hostileTowardsNeutral()
+                    .highestLevel(REFERENCE.HIGHEST_WEREWOLF_LEVEL)
+                    .lordLevel(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL)
+                    .lordTitle(LordTitles::getWerewolfTitle)
+                    .village(WerewolfVillageData::werewolfVillage)
+                    .chatColor(TextFormatting.GOLD)
+                    .name("text.werewolves.werewolf")
+                    .namePlural("text.vampirism.werewolves")
+                    .refinementItems(WerewolfRefinementItem::getRefinementItem)
+                    .register();
             WReference.WEREWOLF_CREATURE_ATTRIBUTES = WerewolvesMod.WEREWOLF_CREATURE_ATTRIBUTES;
             setupAPI = true;
         }

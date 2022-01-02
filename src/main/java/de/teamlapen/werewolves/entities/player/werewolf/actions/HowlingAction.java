@@ -4,6 +4,7 @@ import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.ModEntities;
+import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
@@ -39,7 +40,10 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
         if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pack)) {
             World world = player.getCommandSenderWorld();
 
-            int wolfAmount = 3;
+            int wolfAmount = WerewolvesConfig.BALANCE.SKILLS.wolf_pack_wolf_amount.get();
+            if (werewolfPlayer.getSkillHandler().isRefinementEquipped(ModRefinements.more_wolves)) {
+                wolfAmount += WerewolvesConfig.BALANCE.REFINEMENTS.more_wolves.get();
+            }
             for (int i = 0; i < wolfAmount; ++i) {
                 AggressiveWolfEntity wolf = ModEntities.wolf.create(world);
                 wolf.tame(player);

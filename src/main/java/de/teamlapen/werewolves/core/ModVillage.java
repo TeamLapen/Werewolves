@@ -20,7 +20,7 @@ import java.util.Map;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class ModVillage extends de.teamlapen.vampirism.core.ModVillage {
+public class ModVillage {
 
     public static final VillagerProfession werewolf_expert = getNull();
 

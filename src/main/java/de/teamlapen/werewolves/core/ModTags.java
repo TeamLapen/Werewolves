@@ -9,7 +9,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 
 @SuppressWarnings("SameParameterValue")
-public class ModTags extends de.teamlapen.vampirism.core.ModTags {
+public class ModTags {
     public static class Blocks extends de.teamlapen.vampirism.core.ModTags.Blocks {
         public static final INamedTag<Block> SILVER_ORE = forge("ores/silver");
 

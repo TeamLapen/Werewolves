@@ -29,6 +29,11 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
+    protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
     protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
         return false;
     }

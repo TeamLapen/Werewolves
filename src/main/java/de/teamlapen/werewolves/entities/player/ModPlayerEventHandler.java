@@ -4,6 +4,7 @@ import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.UnWerewolfEffectInstance;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -83,7 +84,7 @@ public class ModPlayerEventHandler {
         if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getSource().getEntity()))) {
             WerewolfPlayer player = WerewolfPlayer.get(((PlayerEntity) event.getSource().getEntity()));
             if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_after_kill)) {
-                ((PlayerEntity) event.getSource().getEntity()).addEffect(new EffectInstance(Effects.REGENERATION, 4, 10));
+                ((PlayerEntity) event.getSource().getEntity()).addEffect(new EffectInstance(Effects.REGENERATION, player.getSkillHandler().isRefinementEquipped(ModRefinements.health_after_kill)?5: 4, 10));
             }/* else if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.speed_after_kill)) {
                 player.getRepresentingPlayer().addPotionEffect(new EffectInstance(Effects.SPEED, 40));
             }*/
@@ -163,7 +164,7 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onItemUseEntity(PlayerInteractEvent.EntityInteract event) {
-        if (event.getPlayer().getItemInHand(event.getHand()).getItem() == ModItems.injection_empty) {
+        if (event.getPlayer().getItemInHand(event.getHand()).getItem() == ModItems.V.injection_empty) {
             if (event.getTarget() instanceof WerewolfBaseEntity) {
                 event.getPlayer().getItemInHand(event.getHand()).shrink(1);
                 event.getPlayer().addItem(new ItemStack(ModItems.injection_un_werewolf));
@@ -175,7 +176,7 @@ public class ModPlayerEventHandler {
     public void onItemUseBlock(PlayerInteractEvent.RightClickBlock event) {
         PlayerEntity player = event.getPlayer();
         if (player.getItemInHand(event.getHand()).getItem() == ModItems.injection_un_werewolf) {
-            if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.med_chair) {
+            if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.V.med_chair) {
                 ItemStack stack = player.getItemInHand(event.getHand());
                 if (player.isAlive()) {
                     IFactionPlayerHandler handler = FactionPlayerHandler.get(event.getPlayer());
@@ -221,11 +222,17 @@ public class ModPlayerEventHandler {
         if (event.getEntity() instanceof PlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
                 if (event.getEntity().isSprinting() && event.getSource() instanceof EntityDamageSource) {
-                    if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(w -> w.getForm() == WerewolfForm.SURVIVALIST).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.movement_tactics)).orElse(false)) {
-                        if (((PlayerEntity) event.getEntity()).getRandom().nextFloat() < 0.35) {
-                            event.setCanceled(true);
+                    WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(w -> w.getForm() == WerewolfForm.SURVIVALIST).map(WerewolfPlayer::getSkillHandler).ifPresent(skillHandler -> {
+                        if (skillHandler.isSkillEnabled(WerewolfSkills.movement_tactics)) {
+                            float limit = WerewolvesConfig.BALANCE.SKILLS.movement_tactics_doge_chance.get().floatValue();
+                            if (skillHandler.isRefinementEquipped(ModRefinements.greater_doge_chance)) {
+                                limit += WerewolvesConfig.BALANCE.REFINEMENTS.greater_doge_chance.get().floatValue();
+                            }
+                            if (((PlayerEntity) event.getEntity()).getRandom().nextFloat() < limit) {
+                                event.setCanceled(true);
+                            }
                         }
-                    }
+                    });
                 } else if (event.getSource() == DamageSource.SWEET_BERRY_BUSH || event.getSource() == DamageSource.CACTUS || event.getSource() == DamageSource.HOT_FLOOR) {
                     if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(w -> w.getForm().isTransformed()).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn)).orElse(false)) {
                         event.setCanceled(true);

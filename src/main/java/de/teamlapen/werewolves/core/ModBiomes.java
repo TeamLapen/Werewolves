@@ -28,7 +28,7 @@ import java.util.List;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 
-public class ModBiomes extends de.teamlapen.vampirism.core.ModBiomes {
+public class ModBiomes {
     @ObjectHolder(REFERENCE.MODID + ":werewolf_heaven")
     public static final Biome werewolf_heaven = getNull();
     public static final RegistryKey<Biome> WEREWOLF_HEAVEN_KEY = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(REFERENCE.MODID, "werewolf_heaven"));

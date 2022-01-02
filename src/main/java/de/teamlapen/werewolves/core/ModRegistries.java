@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
-public class ModRegistries extends de.teamlapen.vampirism.core.ModRegistries {
+public class ModRegistries {
     public static final ResourceLocation WEAPON_OIL_ID = new ResourceLocation(REFERENCE.MODID, "weapon_oil");
 
     public static final IForgeRegistry<IWeaponOil> WEAPON_OILS;

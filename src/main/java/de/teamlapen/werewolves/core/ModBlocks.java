@@ -27,7 +27,7 @@ import java.util.Set;
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
-public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
+public class ModBlocks {
 
     private static final Set<Block> ALL_BLOCKS = new HashSet<>();
 
@@ -46,6 +46,11 @@ public class ModBlocks extends de.teamlapen.vampirism.core.ModBlocks {
     public static final Block magic_planks = getNull();
     public static final StoneAltarBlock stone_altar = getNull();
     public static final StoneAltarFireBowlBlock stone_altar_fire_bowl = getNull();
+
+    @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
+    public static class V {
+        public static final Block med_chair = getNull();
+    }
 
     static void registerItemBlocks(IForgeRegistry<Item> registry) {
         registry.register(itemBlock(silver_ore));

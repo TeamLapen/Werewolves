@@ -9,9 +9,6 @@ repositories {
         url = "https://maven.maxanier.de"
     }
     maven {
-        url = "https://maven.paube.de"
-    }
-    maven {
         url "https://nexus.resourcefulbees.com/repository/maven-public/"
     }
     mavenCentral()

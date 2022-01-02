@@ -7,6 +7,7 @@ public class BalanceConfig {
     public final Player PLAYER;
     public final MobProps MOBPROPS;
     public final Skills SKILLS;
+    public final Refinements REFINEMENTS;
     public final Potions POTIONS;
     public final Util UTIL;
 
@@ -26,6 +27,9 @@ public class BalanceConfig {
         builder.pop();
         builder.push("util");
         UTIL = new Util(builder);
+        builder.pop();
+        builder.push("refinements");
+        REFINEMENTS = new Refinements(builder);
         builder.pop();
     }
 
@@ -101,7 +105,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue survival_form_armor;
         public final ForgeConfigSpec.DoubleValue survival_form_armor_toughness;
 
-        public final ForgeConfigSpec.LongValue werewolf_form_time_limit;
+        public final ForgeConfigSpec.IntValue werewolf_form_time_limit;
 
         //howling action
         public final ForgeConfigSpec.BooleanValue howling_enabled;
@@ -130,6 +134,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.BooleanValue rage_enabled;
         public final ForgeConfigSpec.IntValue rage_duration;
         public final ForgeConfigSpec.IntValue rage_cooldown;
+        public final ForgeConfigSpec.DoubleValue rage_bite_damage;
 
         //sense action
         public final ForgeConfigSpec.BooleanValue sense_enabled;
@@ -168,6 +173,10 @@ public class BalanceConfig {
         public final ForgeConfigSpec.BooleanValue wolf_pack_enabled;
         public final ForgeConfigSpec.IntValue wolf_pack_cooldown;
         public final ForgeConfigSpec.IntValue wolf_pack_wolf_duration;
+        public final ForgeConfigSpec.IntValue wolf_pack_wolf_amount;
+
+        //movement tactics
+        public final ForgeConfigSpec.DoubleValue movement_tactics_doge_chance;
 
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
@@ -200,7 +209,7 @@ public class BalanceConfig {
             this.survival_form_armor_toughness = builder.defineInRange("survival_form_armor_toughness", 6, 0, 10.0);
             builder.pop();
 
-            this.werewolf_form_time_limit = builder.comment("Time a player can stay in werewolf form", "In seconds").defineInRange("werewolf_form_time_limit", 80, 1, Long.MAX_VALUE);
+            this.werewolf_form_time_limit = builder.comment("Time a player can stay in werewolf form", "In seconds").defineInRange("werewolf_form_time_limit", 80, 1, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("howling");
@@ -236,6 +245,7 @@ public class BalanceConfig {
             this.rage_enabled = builder.define("rage_enabled", true);
             this.rage_duration = builder.comment("In seconds").defineInRange("rage_duration", 10, 0, Integer.MAX_VALUE);
             this.rage_cooldown = builder.comment("In seconds").defineInRange("rage_cooldown", 10, 0, Integer.MAX_VALUE);
+            this.rage_bite_damage = builder.defineInRange("rage_bite_damage", 2,0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("sense");
@@ -283,7 +293,43 @@ public class BalanceConfig {
             this.wolf_pack_enabled = builder.define("wolf_pack_enabled", true);
             this.wolf_pack_cooldown = builder.comment("In seconds").defineInRange("wolf_pack_cooldown", 60, 1, Integer.MAX_VALUE);
             this.wolf_pack_wolf_duration = builder.comment("In seconds").defineInRange("wolf_pack_wolf_duration", 25, 1, Integer.MAX_VALUE);
+            this.wolf_pack_wolf_amount = builder.comment("Spawned wolves when the wolf pack skill is unlocked").defineInRange("wolf_pack_wolf_amount", 2,0, 10);
             builder.pop();
+
+            builder.push("movement tactics");
+            this.movement_tactics_doge_chance = builder.comment("Doge chance for the movement tactics skill").defineInRange("movement_tactics_doge_chance", 0.25D,0D,1D);
+            builder.pop();
+        }
+    }
+
+    public static class Refinements {
+
+        public final ForgeConfigSpec.DoubleValue greater_doge_chance;
+        public final ForgeConfigSpec.IntValue more_wolves;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_general_1;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_general_2;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_human_1;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_human_2;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_survival_1;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_survival_2;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_beast_1;
+        public final ForgeConfigSpec.IntValue werewolf_form_duration_beast_2;
+        public final ForgeConfigSpec.IntValue rage_fury_timer_extend;
+        public final ForgeConfigSpec.IntValue stun_bite_duration_extend;
+
+        public Refinements(ForgeConfigSpec.Builder builder) {
+            this.greater_doge_chance = builder.comment("Increased doge chance for movement tactics skill").defineInRange("greater_doge_chance", 0.1,0,1);
+            this.more_wolves = builder.comment("Increased wolf spawning for the howling action").defineInRange("more_wolves", 1,0,5);
+            this.werewolf_form_duration_general_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_1", 20,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_general_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_2", 40,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_human_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_1", 20,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_human_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_2", 30,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_survival_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_1", 20,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_survival_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_2", 30,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_beast_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast_1", 20,0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_beast_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast_2", 30,0, Integer.MAX_VALUE);
+            this.rage_fury_timer_extend = builder.comment("In Ticks").defineInRange("rage_fury_timer_extend", 40,0,Integer.MAX_VALUE);
+            this.stun_bite_duration_extend = builder.comment("In Ticks").defineInRange("stun_bite_duration_extend", 20,0,Integer.MAX_VALUE);
         }
     }
 
@@ -291,7 +337,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue silverStatsReduction;
 
         public Potions(ForgeConfigSpec.Builder builder) {
-            silverStatsReduction = builder.comment("How much a Werewolf should be weakened by a silver item").defineInRange("silverStatsReduction",-0.2,-1,0);
+            this.silverStatsReduction = builder.comment("How much a Werewolf should be weakened by a silver item").defineInRange("silverStatsReduction",-0.2,-1,0);
         }
     }
 

@@ -6,6 +6,8 @@ import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModBiomes;
+import de.teamlapen.werewolves.core.ModRefinements;
+import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -16,8 +18,10 @@ import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -34,12 +38,20 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         return Collections.unmodifiableSet(ALL_ACTION);
     }
 
+    public static float getDurationPercentage(IWerewolfPlayer player, @Nullable WerewolfFormAction action) {
+        if (action == null) {
+            action = ((WerewolfPlayer) player).getLastFormAction();
+            if (action == null) {
+                return 1;
+            }
+        }
+        return MathHelper.clamp(1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / (long) action.getWerewolfTimeLimit(player),0,1);
+    }
     /**
      * @return how much percentage is left
      */
-    public static float getDurationPercentage(IWerewolfPlayer player) {
-        long durationMax = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-        return 1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / durationMax;
+    public float getDurationPercentage(IWerewolfPlayer player) {
+        return MathHelper.clamp(1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / (long) getWerewolfTimeLimit(player),0,1);
     }
 
     protected static class Modifier {
@@ -133,9 +145,23 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         }
         return increaseWerewolfTime(werewolfPlayer);
     }
-    
+
     protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
         return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
+    }
+
+    protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
+        int limit = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
+        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_1);
+        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_2);
+        if (duration1 || duration2) {
+            if (duration2) {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_2.get() * 20;
+            } else {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_1.get() * 20;
+            }
+        }
+        return limit;
     }
 
     public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {

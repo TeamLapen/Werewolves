@@ -62,9 +62,12 @@ public class ModEntityEventHandler {
     public void onAttack(LivingSetAttackTargetEvent event) {
         if (event.getTarget() instanceof ServerPlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getTarget()))) {
-                if (WerewolfPlayer.getOpt(((ServerPlayerEntity) event.getTarget())).map(werewolf -> werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.sixth_sense)).orElse(false)) {
-                    WerewolvesMod.dispatcher.sendTo(new AttackTargetEventPacket(event.getEntity().getId()), ((ServerPlayerEntity) event.getTarget()));
-                }
+                WerewolfPlayer.getOpt(((PlayerEntity) event.getTarget())).ifPresent(werewolf -> {
+                    if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.sixth_sense)) {
+                        WerewolvesMod.dispatcher.sendTo(new AttackTargetEventPacket(event.getEntity().getId()), ((ServerPlayerEntity) event.getTarget()));
+                    }
+                });
+
             }
         }
     }

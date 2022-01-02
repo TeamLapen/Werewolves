@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.entities.player.werewolf;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
@@ -15,9 +16,7 @@ import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModAttributes;
-import de.teamlapen.werewolves.core.ModEffects;
-import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
@@ -60,6 +59,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
+    private static final UUID RAGE_FURY = UUID.fromString("aeb05d51-2388-412c-a164-fb75cab0ab95");
 
     @CapabilityInject(IWerewolfPlayer.class)
     public static Capability<IWerewolfPlayer> CAP = getNull();
@@ -235,6 +235,24 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     this.checkArmorModifer = false;
                 }
             }
+
+            EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
+            if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
+                if (!(effect instanceof WerewolfNightVisionEffect)) {
+                    if (effect != null) {
+                        player.removeEffect(effect.getEffect());
+                    }
+                    player.addEffect(new WerewolfNightVisionEffect());
+                }
+            } else {
+                if (effect instanceof WerewolfNightVisionEffect) {
+                    this.player.removeEffect(effect.getEffect());
+                    effect = ((EffectInstanceWithSource) effect).getHiddenEffect();
+                    if (effect != null) {
+                        this.player.addEffect(effect);
+                    }
+                }
+            }
         } else {
             if (getLevel() > 0) {
                 if (this.player.level.getGameTime() % 10 == 0) {
@@ -243,20 +261,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     }
                 }
                 this.actionHandler.updateActions();
-            }
-        }
-        EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
-        if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
-            if (!(effect instanceof WerewolfNightVisionEffect)) {
-                player.removeEffectNoUpdate(Effects.NIGHT_VISION);
-                effect = null;
-            }
-            if (effect == null) {
-                player.addEffect(new WerewolfNightVisionEffect());
-            }
-        } else {
-            if (effect instanceof WerewolfNightVisionEffect) {
-                player.removeEffectNoUpdate(Effects.NIGHT_VISION);
             }
         }
 
@@ -358,6 +362,14 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     @Override
+    public void onEntityKilled(LivingEntity victim, DamageSource src) {
+        if (this.getSkillHandler().isRefinementEquipped(ModRefinements.rage_fury)) {
+            this.player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,40, 1));
+            this.actionHandler.extendActionTimer(ModActions.rage, WerewolvesConfig.BALANCE.REFINEMENTS.rage_fury_timer_extend.get());
+        }
+    }
+
+    @Override
     public void onJoinWorld() {
         if (this.getLevel() > 0) {
             this.actionHandler.onActionsReactivated();
@@ -405,9 +417,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             this.eatEntity(entity);
             this.specialAttributes.biteTicks = WerewolvesConfig.BALANCE.PLAYER.bite_cooldown.get();
             if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {
-                entity.addEffect(new EffectInstance(ModEffects.freeze, WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get()));
+                int duration = WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get();
+                if (this.skillHandler.isRefinementEquipped(ModRefinements.stun_bite)) {
+                    duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
+                }
+                entity.addEffect(new EffectInstance(ModEffects.V.freeze, duration));
             } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
-                entity.addEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get()));
+                entity.addEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.bleeding_bite)?3:0));
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)),false);
             LupusSanguinemEffect.addSanguinemEffectRandom(entity);
@@ -500,6 +516,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     static {
         LevelAttributeModifier.registerModdedAttributeModifier(Attributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS);
+    }
+
+    @Nullable
+    public WerewolfFormAction getLastFormAction() {
+        return lastFormAction;
     }
 
     @Override

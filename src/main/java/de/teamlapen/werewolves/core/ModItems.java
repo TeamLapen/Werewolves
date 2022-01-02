@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
+import de.teamlapen.vampirism.api.items.IRefinementItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.inventory.recipes.OilBrewingRecipe;
@@ -20,7 +21,7 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @SuppressWarnings("unused")
 @ObjectHolder(REFERENCE.MODID)
-public class ModItems extends de.teamlapen.vampirism.core.ModItems {
+public class ModItems {
 
     public static final Item silver_ingot = getNull();
     public static final HoeItem silver_hoe = getNull();
@@ -45,6 +46,17 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
     public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
 
     public static final SilverOilItem silver_oil = getNull();
+    public static final WerewolfRefinementItem bone_necklace = getNull();
+    public static final WerewolfRefinementItem charm_bracelet = getNull();
+    public static final WerewolfRefinementItem dream_catcher = getNull();
+
+    @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
+    public static class V {
+        public static final Item human_heart = getNull();
+        public static final Item injection_empty = getNull();
+        public static final Item weak_human_heart = getNull();
+        public static final Item oblivion_potion = getNull();
+    }
 
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new Item((new Item.Properties()).tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
@@ -78,6 +90,9 @@ public class ModItems extends de.teamlapen.vampirism.core.ModItems {
 
         registry.register(new SilverOilItem(creativeTabProps()).setRegistryName(REFERENCE.MODID, "silver_oil"));
         registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "silver_nugget"));
+        registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET).setRegistryName(REFERENCE.MODID, "bone_necklace"));
+        registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING).setRegistryName(REFERENCE.MODID, "charm_bracelet"));
+        registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.OBI_BELT).setRegistryName(REFERENCE.MODID, "dream_catcher"));
     }
 
     static void registerRecipes() {

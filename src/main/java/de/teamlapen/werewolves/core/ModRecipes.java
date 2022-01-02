@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
-public class ModRecipes extends de.teamlapen.vampirism.core.ModRecipes {
+public class ModRecipes {
     @ObjectHolder(REFERENCE.MODID + ":weapon_oil")
     public static final SpecialRecipeSerializer<WeaponOilRecipe> weapon_oil = getNull();
 
