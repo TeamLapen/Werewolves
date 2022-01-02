@@ -71,7 +71,7 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         private final Function<IWerewolfPlayer, Double> attribute_value;
 
         public AttributeSkill(String id, boolean desc, UUID attributeUUID, Attribute attributeType, AttributeModifier.Operation operation, Function<IWerewolfPlayer, Double> attribute_value) {
-            super(id);
+            super(id, desc);
             this.attribute = attributeUUID;
             this.attributeType = attributeType;
             this.operation = operation;
