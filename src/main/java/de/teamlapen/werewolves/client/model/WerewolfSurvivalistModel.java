@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.client.model;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -253,6 +254,12 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         return this.armRight;
     }
 
+    @Nonnull
+    @Override
+    protected Iterable<ModelRenderer> bodyParts() {
+        return ImmutableList.of(this.body);
+    }
+
     @Override
     public void renderToBuffer(@Nonnull MatrixStack matrixStackIn, @Nonnull IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -260,7 +267,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
 
     @SuppressWarnings("DuplicatedCode")
     @Override
-    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         boolean flag1 = entityIn.isVisuallySwimming();
         this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
         if (this.swimAmount > 0.0f) {

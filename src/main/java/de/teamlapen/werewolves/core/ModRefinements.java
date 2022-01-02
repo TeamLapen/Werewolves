@@ -17,8 +17,6 @@ public class ModRefinements {
 
     public static final Refinement werewolf_form_duration_general_1 = getNull();
     public static final Refinement werewolf_form_duration_general_2 = getNull();
-    public static final Refinement werewolf_form_duration_human_1 = getNull();
-    public static final Refinement werewolf_form_duration_human_2 = getNull();
     public static final Refinement werewolf_form_duration_survival_1 = getNull();
     public static final Refinement werewolf_form_duration_survival_2 = getNull();
     public static final Refinement werewolf_form_duration_beast_1 = getNull();
@@ -74,8 +72,6 @@ public class ModRefinements {
         { //simple refinement
             registry.register(newRefinement("werewolf_form_duration_general_1"));
             registry.register(newRefinement("werewolf_form_duration_general_2"));
-            registry.register(newRefinement("werewolf_form_duration_human_1"));
-            registry.register(newRefinement("werewolf_form_duration_human_2"));
             registry.register(newRefinement("werewolf_form_duration_survival_1"));
             registry.register(newRefinement("werewolf_form_duration_survival_2"));
             registry.register(newRefinement("werewolf_form_duration_beast_1"));

@@ -7,6 +7,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModRefinements;
+import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -142,7 +143,11 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (!FormHelper.isWerewolfFormTicking(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld(), werewolfPlayer.getRepresentingPlayer().blockPosition())) {
             return false;
         }
-        return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime >  getWerewolfTimeLimit(werewolfPlayer);
+        return increaseWerewolfTime(werewolfPlayer);
+    }
+
+    protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
+        return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
     }
 
     protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {

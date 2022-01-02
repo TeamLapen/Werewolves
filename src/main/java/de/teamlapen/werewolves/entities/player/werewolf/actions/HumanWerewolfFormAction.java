@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.WerewolfForm;
@@ -31,16 +30,11 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
 
     @Override
     protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
-        int limit = super.getWerewolfTimeLimit(werewolf);
-        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_human_1);
-        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_human_2);
-        if (duration1 || duration2) {
-            if (duration2) {
-                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_human_1.get() * 20;
-            } else {
-                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_human_2.get() * 20;
-            }
-        }
-        return limit;
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
+        return false;
     }
 }
