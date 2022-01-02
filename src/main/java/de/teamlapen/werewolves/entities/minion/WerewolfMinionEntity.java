@@ -77,6 +77,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         return WReference.WEREWOLF_FACTION;
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void openAppearanceScreen() {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().setScreen(new WerewolfMinionAppearanceScreen(this, Minecraft.getInstance().screen)));
