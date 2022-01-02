@@ -56,6 +56,7 @@ public class ModItems {
         public static final Item injection_empty = getNull();
         public static final Item weak_human_heart = getNull();
         public static final Item oblivion_potion = getNull();
+        public static final Item vampire_book = getNull();
     }
 
     static void registerItems(IForgeRegistry<Item> registry) {

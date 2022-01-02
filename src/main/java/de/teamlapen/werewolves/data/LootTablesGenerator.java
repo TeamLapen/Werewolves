@@ -108,9 +108,29 @@ public class LootTablesGenerator extends LootTableProvider {
                             .when(KilledByPlayer.killedByPlayer())
                             .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantRange.exactly(1))
-                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(6))));
+                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(6)))
+                    .withPool(LootPool.lootPool()
+                            .name("hunter")
+                            .when(KilledByPlayer.killedByPlayer())
+                            .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.1f, 0.1f))
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.V.vampire_book).setWeight(1)))
+            );
             this.add(ModEntities.wolf, LootTable.lootTable());
-            this.add(ModEntities.alpha_werewolf, LootTable.lootTable());
+            this.add(ModEntities.alpha_werewolf, LootTable.lootTable()
+                    .withPool(LootPool.lootPool()
+                            .name("general")
+                            .when(KilledByPlayer.killedByPlayer())
+                            .setRolls(RandomValueRange.between(1,2))
+                            .add(ItemLootEntry.lootTableItem(ModItems.werewolf_tooth)))
+                    .withPool(LootPool.lootPool()
+                            .name("vampire_book")
+                            .when(KilledByPlayer.killedByPlayer())
+                            .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.1f, 0.1f))
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.V.vampire_book).setWeight(1))
+                    )
+            );
         }
 
         @Nonnull
