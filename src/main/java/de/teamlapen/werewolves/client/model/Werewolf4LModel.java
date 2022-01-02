@@ -5,6 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -302,6 +303,55 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
 
     @Override
     public void setupAnim(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        boolean flag1 = entityIn.isVisuallySwimming();
+        this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
+        if(this.swimAmount > 0.0f ) {
+            if (flag1) {
+                this.head.xRot = this.rotlerpRad(this.head.xRot, (-(float)Math.PI / 4F), this.swimAmount);
+            } else {
+                this.head.xRot = this.rotlerpRad(this.head.xRot, headPitch * ((float)Math.PI / 180F), this.swimAmount);
+            }
+        } else {
+            this.head.xRot = headPitch * ((float) Math.PI / 180F);
+        }
+
+        this.armRight.xRot = -1.3962634015954636F;
+        this.armLeft.xRot = -1.3962634015954636F;
+        this.legRight.xRot = -1.3089969389957472F;
+        this.legLeft.xRot = -1.3089969389957472F;
+
+        this.armRight.xRot += MathHelper.cos(limbSwing * 0.6662F * 0.7f)* limbSwingAmount;
+        this.armLeft.xRot += MathHelper.cos(limbSwing * 0.6662F * 0.7f + (float) Math.PI)  * limbSwingAmount;
+        this.legRight.xRot += MathHelper.cos(limbSwing * 0.6662F * 0.7f)  * limbSwingAmount;
+        this.legLeft.xRot += MathHelper.cos(limbSwing * 0.6662F * 0.7f + (float) Math.PI)  * limbSwingAmount;
+
+        //reset tail rotation angle
+        this.tail1.xRot = 0.045553093477052F;
+        this.tail1.yRot = 0F;
+
+        //idle rotations
+        this.tail1.xRot -= 0.035f;
+        this.tail1.xRot += MathHelper.cos(ageInTicks * 0.08F) * 0.07F;
+
+        this.tail1.yRot = -0.035F;
+        this.tail1.yRot += MathHelper.sin(ageInTicks * 0.12F) * 0.03f;
+
+        //running tail animation
+        this.tail1.xRot += MathHelper.cos(limbSwing * 0.6662F * 0.7f) * 0.7F * MathHelper.abs(limbSwingAmount * 0.6f) + 0.3f;
+        this.tail1.yRot += MathHelper.sin(limbSwing * 0.6662F * 0.7f) * 0.1F * limbSwingAmount * 0.6f;
+
+        this.jaw.xRot = 1.2217304763960306F;
+        this.jaw.xRot += MathHelper.cos(ageInTicks * 0.09F + 0.02F) * 0.07F;
+
+        this.earLeft.xRot = -0.4886921905584123F;
+        this.earLeft.xRot += MathHelper.cos(ageInTicks * 0.06F + 0.01F) * 0.07F;
+
+        this.earRight.xRot = -0.4886921905584123F;
+        this.earRight.xRot += MathHelper.cos(ageInTicks * 0.06F) * 0.07F;
+
+        if (this.attackTime > 0.0F) {
+            this.jaw.xRot = 0.2f + this.attackTime * (1.2217304763960306F - 0.2f);
+        }
 
     }
 
