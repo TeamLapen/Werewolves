@@ -12,7 +12,7 @@ public class FollowAlphaWerewolfGoal<T extends WerewolfBaseEntity & IEntityFollo
 
     protected final T entity;
     protected final double speed;
-    private final int DIST = 20;
+    private final int DIST = 122;
     private int delayCounter;
 
     public FollowAlphaWerewolfGoal(T entity, double speed) {

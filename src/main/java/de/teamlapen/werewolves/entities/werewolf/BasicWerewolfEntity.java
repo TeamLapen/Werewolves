@@ -22,6 +22,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.entities.IEntityFollower;
+import de.teamlapen.werewolves.entities.goals.DefendLeaderGoal;
 import de.teamlapen.werewolves.entities.goals.FollowAlphaWerewolfGoal;
 import de.teamlapen.werewolves.entities.goals.WerewolfAttackVillageGoal;
 import de.teamlapen.werewolves.entities.goals.WerewolfDefendVillageGoal;
@@ -410,7 +411,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new BreakDoorGoal(this, (difficulty) -> difficulty == net.minecraft.world.Difficulty.HARD));//Only break doors on hard difficulty
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.addGoal(6, new FollowAlphaWerewolfGoal<>(this, 1.0));
+        this.goalSelector.addGoal(6, new FollowAlphaWerewolfGoal<>(this, 0.8));
         this.goalSelector.addGoal(9, new RandomWalkingGoal(this, 0.7));
         this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, PlayerEntity.class, 20F, 0.6F));
         this.goalSelector.addGoal(10, new LookAtGoal(this, HunterBaseEntity.class, 17F));
@@ -424,6 +425,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, CreatureEntity.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollerEntity.class, 5, true, true, (living) -> UtilLib.isInsideStructure(living, Structure.VILLAGE)));
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, AbstractSkeletonEntity.class, false));
+        this.targetSelector.addGoal(8, new DefendLeaderGoal<>(this));
     }
 
     @Override
