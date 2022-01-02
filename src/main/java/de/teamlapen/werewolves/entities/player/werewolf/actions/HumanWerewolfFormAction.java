@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -25,5 +26,10 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
     @Override
     public int getCooldown() {
         return WerewolvesConfig.BALANCE.SKILLS.human_form_cooldown.get() * 20;
+    }
+
+    @Override
+    protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
+        return false;
     }
 }

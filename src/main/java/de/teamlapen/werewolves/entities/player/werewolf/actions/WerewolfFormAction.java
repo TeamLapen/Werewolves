@@ -131,6 +131,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (!FormHelper.isWerewolfFormTicking(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld(), werewolfPlayer.getRepresentingPlayer().blockPosition())) {
             return false;
         }
+        return increaseWerewolfTime(werewolfPlayer);
+    }
+    
+    protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
         return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
     }
 
