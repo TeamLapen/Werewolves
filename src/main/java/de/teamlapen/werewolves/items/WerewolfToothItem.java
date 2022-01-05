@@ -17,9 +17,9 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class WerewolfTooth extends Item {
+public class WerewolfToothItem extends Item {
 
-    public WerewolfTooth() {
+    public WerewolfToothItem() {
         super(new Item.Properties().tab(WUtils.creativeTab));
     }
 
