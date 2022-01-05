@@ -63,6 +63,6 @@ public interface WerewolfTransformable extends IWerewolfDataholder {
     WerewolfTransformable _transformBack();
 
     enum TransformType {
-        TIME_LIMITED, FULL_MOON
+        TIME_LIMITED, FULL_MOON, RAID
     }
 }

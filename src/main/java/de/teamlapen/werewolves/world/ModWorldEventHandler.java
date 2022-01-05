@@ -47,7 +47,9 @@ public class ModWorldEventHandler {
     @SubscribeEvent
     public void onVillageSpawnNewVillager(VampirismVillageEvent.SpawnNewVillager event) {
         if (event.getControllingFaction() == WReference.WEREWOLF_FACTION) {
-            ((IVillagerTransformable) event.getNewVillager()).setWerewolfFaction(true);
+            if (event.getNewVillager().getRandom().nextInt(4) == 0) {
+                ((IVillagerTransformable) event.getNewVillager()).setWerewolfFaction(true);
+            }
         }
     }
     @SubscribeEvent
@@ -58,9 +60,9 @@ public class ModWorldEventHandler {
     }
     @SubscribeEvent
     public void onVillageMakeAggressive(VampirismVillageEvent.MakeAggressive event) {
-        if (event.getControllingFaction() == WReference.WEREWOLF_FACTION) {
+        if (event.getControllingFaction() == WReference.WEREWOLF_FACTION && ((IVillagerTransformable) event.getOldVillager()).canTransform()) {
             event.setCanceled(true);
-            ((IVillagerTransformable) event.getOldVillager()).transformToWerewolf(WerewolfTransformable.TransformType.TIME_LIMITED);
+            ((IVillagerTransformable) event.getOldVillager()).transformToWerewolf(WerewolfTransformable.TransformType.RAID);
         }
     }
 

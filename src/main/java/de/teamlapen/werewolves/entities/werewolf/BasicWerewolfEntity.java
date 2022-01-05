@@ -138,7 +138,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public void start(TransformType type) {
         this.transformType = type;
         if(type == TransformType.TIME_LIMITED) {
-            this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get() * 20;
+            this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get();
         }
     }
 
@@ -146,14 +146,17 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public void aiStep() {
         super.aiStep();
         if (this.transformed != null && this.level.getGameTime() % 20 == 0) {
-            if (this.transformType == TransformType.TIME_LIMITED) {
-                if (--this.transformedDuration <= 0) {
-                    this.transformBack();
-                }
-            } else if (this.transformType == TransformType.FULL_MOON && this.level.getGameTime() % 100 == 0) {
-                if (!Helper.isFullMoon(this.level)) {
-                    this.transformBack();
-                }
+            switch (this.transformType) {
+                case TIME_LIMITED:
+                    if (--this.transformedDuration <= 0) {
+                        this.transformBack();
+                    }
+                    break;
+                case FULL_MOON:
+                    if (!Helper.isFullMoon(this.level)) {
+                        this.transformBack();
+                    }
+                    break;
             }
         }
         if (this.entityActionHandler != null) {

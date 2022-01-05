@@ -9,14 +9,17 @@ import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
+import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,6 +39,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     private WerewolfForm form;
     private final EntityActionTier entitytier = EntityActionTier.Medium;
     private EntityClassType entityclass;
+    protected int rage;
 
     @Deprecated
     public MixinVillagerEntity(EntityType<? extends AbstractVillagerEntity> type, World worldIn) {
@@ -63,7 +67,39 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     @Override
     public boolean canTransform() {
         boolean can = this instanceof IVampire || ExtendedCreature.getSafe(this).map(IExtendedCreatureVampirism::hasPoisonousBlood).orElse(false);
-        return !can && this.werewolf;
+        return !can && this.rage > this.getMaxHealth() * 4 && this.werewolf;
+    }
+
+    @Override
+    public boolean hurt(@Nonnull DamageSource source, float amount) {
+        if (super.hurt(source, amount)) {
+            this.rage += amount * 10;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        if (this.rage > 150) {
+            WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
+            ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
+        }
+        if (this.level.getGameTime() % 400 == 10) {
+            if (Helper.isFullMoon(this.level)) {
+                this.transformToWerewolf(TransformType.FULL_MOON);
+            }
+            if (rage > 10) {
+                this.rage -= 10;
+            }
+        }
+    }
+
+    @Override
+    public void reset() {
+        this.rage = 0;
     }
 
     @Nonnull

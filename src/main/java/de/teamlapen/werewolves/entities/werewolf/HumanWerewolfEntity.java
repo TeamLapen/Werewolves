@@ -99,10 +99,11 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
             WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
             ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
         }
-        if (this.level.getGameTime() % 100 == 10) {
+        if (this.level.getGameTime() % 400 == 10) {
             if (Helper.isFullMoon(this.level)) {
                 this.transformToWerewolf(TransformType.FULL_MOON);
             }
+            this.rage -= 2;
         }
     }
 

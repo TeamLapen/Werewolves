@@ -69,7 +69,7 @@ public class BalanceConfig {
             werewolf_max_health = builder.defineInRange("werewolf_max_health", 30.0, 10, Double.MAX_VALUE);
             werewolf_max_health_pl = builder.defineInRange("werewolf_max_health_pl", 3, 0, Double.MAX_VALUE);
             werewolf_speed = builder.defineInRange("werewolf_speed", 0.3, 0.1, 2);
-            werewolf_transform_duration = builder.comment("Time until a werewolf turns back human").defineInRange("werewolf_transform_duration", 10, 10, Integer.MAX_VALUE);
+            werewolf_transform_duration = builder.comment("Time until a werewolf turns back human", "In Seconds").defineInRange("werewolf_transform_duration", 25, 10, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("human_werewolf");
