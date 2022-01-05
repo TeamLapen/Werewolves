@@ -13,19 +13,19 @@ public class WerewolfLevelConf {
     private final Map<Integer, LevelRequirement> levelRequirementMap = new HashMap<>();
 
     public WerewolfLevelConf() {
-        levelRequirementMap.put(2, new StoneAltarRequirement(10, 3, 2));
-        levelRequirementMap.put(3, new StoneAltarRequirement(15, 4, 3));
-        levelRequirementMap.put(4, new StoneAltarRequirement(20, 5, 4));
-        levelRequirementMap.put(5, new StoneAltarRequirement(25, 6, 5));
-        levelRequirementMap.put(6, new StoneAltarRequirement(30, 7, 6));
-        levelRequirementMap.put(7, new StoneAltarRequirement(35, 8, 7));
-        levelRequirementMap.put(8, new StoneAltarRequirement(40, 9, 8));
-        levelRequirementMap.put(9, new StoneAltarRequirement(45, 10, 9));
-        levelRequirementMap.put(10, new StoneAltarRequirement(50, 11, 10));
-        levelRequirementMap.put(11, new StoneAltarRequirement(55, 12, 11));
-        levelRequirementMap.put(12, new StoneAltarRequirement(60, 13, 12));
-        levelRequirementMap.put(13, new StoneAltarRequirement(65, 14, 13));
-        levelRequirementMap.put(14, new StoneAltarRequirement(70, 15, 14));
+        levelRequirementMap.put(2, new StoneAltarRequirement(100, 3, 2));
+        levelRequirementMap.put(3, new StoneAltarRequirement(150, 4, 3));
+        levelRequirementMap.put(4, new StoneAltarRequirement(200, 5, 4));
+        levelRequirementMap.put(5, new StoneAltarRequirement(250, 6, 5));
+        levelRequirementMap.put(6, new StoneAltarRequirement(300, 7, 6));
+        levelRequirementMap.put(7, new StoneAltarRequirement(350, 8, 7));
+        levelRequirementMap.put(8, new StoneAltarRequirement(400, 9, 8));
+        levelRequirementMap.put(9, new StoneAltarRequirement(450, 10, 9));
+        levelRequirementMap.put(10, new StoneAltarRequirement(500, 11, 10));
+        levelRequirementMap.put(11, new StoneAltarRequirement(550, 12, 11));
+        levelRequirementMap.put(12, new StoneAltarRequirement(600, 13, 12));
+        levelRequirementMap.put(13, new StoneAltarRequirement(650, 14, 13));
+        levelRequirementMap.put(14, new StoneAltarRequirement(700, 15, 14));
     }
 
     public static WerewolfLevelConf getInstance() {

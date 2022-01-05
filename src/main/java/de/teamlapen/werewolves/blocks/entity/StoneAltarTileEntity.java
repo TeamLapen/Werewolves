@@ -179,6 +179,10 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         WerewolfLevelConf.StoneAltarRequirement requirement = ((WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(FactionPlayerHandler.get(this.player).getCurrentLevel() + 1));
         this.getItem(0).shrink(requirement.liverAmount);
         this.getItem(1).shrink(requirement.bonesAmount);
+        WerewolfPlayer.getOpt(this.player).ifPresent(werewolf -> {
+            werewolf.getLevelHandler().reset();
+            werewolf.syncLevelHandler();
+        });
     }
 
     public Phase getCurrentPhase() {
@@ -203,6 +207,8 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
             return Result.NIGHT_ONLY;
         } else if (!checkItemRequirements(player)) {
             return Result.INV_MISSING;
+        } else if (!WerewolfPlayer.getOpt(player).map(w -> w.getLevelHandler().canLevelUp()).orElse(false)) {
+            return Result.TO_LESS_BLOOD;
         }
         return Result.OK;
     }
@@ -315,7 +321,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
     }
 
     public enum Result {
-        IS_RUNNING, OK, WRONG_LEVEL, NIGHT_ONLY, INV_MISSING, OTHER_FACTION, STRUCTURE_LESS, STRUCTURE_LIT
+        IS_RUNNING, OK, WRONG_LEVEL, NIGHT_ONLY, INV_MISSING, OTHER_FACTION, STRUCTURE_LESS, STRUCTURE_LIT, TO_LESS_BLOOD
     }
 
     public enum Phase {

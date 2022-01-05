@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.entities.player.werewolf;
 
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nonnull;
 
@@ -21,7 +22,7 @@ public class LevelHandler {
 
     @SuppressWarnings("ConstantConditions")
     public float getLevelPerc() {
-        return player.getLevel() == player.getMaxLevel() ? 1f : (float) levelProgress / WerewolfLevelConf.getInstance().getRequirement(player.getLevel() + 1).xpAmount;
+        return MathHelper.clamp((float) levelProgress / WerewolfLevelConf.getInstance().getRequirement(player.getLevel() + 1).xpAmount, 0, 1);
     }
 
     public void saveToNbt(@Nonnull CompoundNBT compound) {
@@ -34,11 +35,11 @@ public class LevelHandler {
         this.levelProgress = compound.getCompound("level").getInt("progress");
     }
 
-    @SuppressWarnings("ConstantConditions")
-    public void clear() {
-        if (player.getLevel() != player.getMaxLevel()) {
-            return;
-        }
-        this.levelProgress = Math.max(0, this.levelProgress - WerewolfLevelConf.getInstance().getRequirement(player.getLevel() + 1).xpAmount);
+    public void increaseProgress(int amount) {
+        this.levelProgress += amount;
+    }
+
+    public void reset() {
+        this.levelProgress = 0;
     }
 }

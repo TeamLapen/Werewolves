@@ -270,7 +270,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.player.getCommandSenderWorld().getProfiler().pop();
     }
 
-    private void tickFoodStats(){
+    private void tickFoodStats() {
         Difficulty difficulty = this.player.level.getDifficulty();
         boolean flag = this.player.level.getGameRules().getBoolean(GameRules.RULE_NATURAL_REGENERATION);
         FoodStats stats = this.player.getFoodData();
@@ -367,6 +367,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             this.player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,40, 1));
             this.actionHandler.extendActionTimer(ModActions.rage, WerewolvesConfig.BALANCE.REFINEMENTS.rage_fury_timer_extend.get());
         }
+        this.levelHandler.increaseProgress((int) (victim.getMaxHealth() * 0.1));
+        this.syncLevelHandler();
     }
 
     @Override
@@ -374,6 +376,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (this.getLevel() > 0) {
             this.actionHandler.onActionsReactivated();
         }
+    }
+
+    public void syncLevelHandler() {
+        CompoundNBT sync = new CompoundNBT();
+        this.levelHandler.saveToNbt(sync);
+        this.sync(sync, false);
     }
 
     @Override

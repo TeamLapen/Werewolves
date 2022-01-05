@@ -159,6 +159,9 @@ public class StoneAltarBlock extends ContainerBlock implements IWaterLoggable {
                     case STRUCTURE_LIT:
                         player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_less_lit_structures"), true);
                         return ActionResultType.CONSUME;
+                    case TO_LESS_BLOOD:
+                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_to_less_prey"), true);
+                        return ActionResultType.CONSUME;
                     case INV_MISSING:
                         Map<Item, Integer> missing = te.getMissingItems();
 
