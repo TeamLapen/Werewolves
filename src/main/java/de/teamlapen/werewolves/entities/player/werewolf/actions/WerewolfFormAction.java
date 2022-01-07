@@ -7,7 +7,6 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModRefinements;
-import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -139,11 +138,15 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     public boolean onUpdate(IWerewolfPlayer werewolfPlayer) {
         if (!werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld().isClientSide) {
             checkDayNightModifier(werewolfPlayer);
+
+            if (!FormHelper.isWerewolfFormTicking(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld(), werewolfPlayer.getRepresentingPlayer().blockPosition())) {
+                return false;
+            }
+
+            return increaseWerewolfTime(werewolfPlayer);
+
         }
-        if (!FormHelper.isWerewolfFormTicking(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld(), werewolfPlayer.getRepresentingPlayer().blockPosition())) {
-            return false;
-        }
-        return increaseWerewolfTime(werewolfPlayer);
+        return false;
     }
 
     protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {

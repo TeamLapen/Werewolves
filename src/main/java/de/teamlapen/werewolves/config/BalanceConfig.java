@@ -104,6 +104,8 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue survival_form_attack_damage;
         public final ForgeConfigSpec.DoubleValue survival_form_armor;
         public final ForgeConfigSpec.DoubleValue survival_form_armor_toughness;
+        public final ForgeConfigSpec.DoubleValue survival_form_bite_damage;
+        public final ForgeConfigSpec.DoubleValue survival_form_health;
 
         public final ForgeConfigSpec.IntValue werewolf_form_time_limit;
 
@@ -199,8 +201,8 @@ public class BalanceConfig {
             this.beast_form_attack_damage = builder.defineInRange("beast_form_attack_damage", 4D, 0, 100);
             this.beast_form_armor = builder.defineInRange("beast_form_armor", 20, 0, 20.0);
             this.beast_form_armor_toughness = builder.defineInRange("beast_form_armor_toughness", 8, 0, 10.0);
-            this.beast_form_health = builder.defineInRange("beast_form_health", 4.0, 0.0, 20.0);
-            this.beast_form_bite_damage = builder.defineInRange("beast_form_bite_damage", 2.0, 0.0, 20.0);
+            this.beast_form_health = builder.defineInRange("beast_form_health", 8.0, 0.0, 20.0);
+            this.beast_form_bite_damage = builder.defineInRange("beast_form_bite_damage", 4.0, 0.0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("survival_form");
@@ -210,6 +212,8 @@ public class BalanceConfig {
             this.survival_form_attack_damage = builder.defineInRange("survival_form_attack_damage", 2D, 0, 100);
             this.survival_form_armor = builder.defineInRange("survival_form_armor", 16, 0, 20.0);
             this.survival_form_armor_toughness = builder.defineInRange("survival_form_armor_toughness", 6, 0, 10.0);
+            this.survival_form_bite_damage = builder.defineInRange("survival_form_bite_damage", 3.0, 0.0, Double.MAX_VALUE);
+            this.survival_form_health = builder.defineInRange("survival_form_health", 4.0, 0.0, Double.MAX_VALUE);
             builder.pop();
 
             this.werewolf_form_time_limit = builder.comment("Time a player can stay in werewolf form", "In seconds").defineInRange("werewolf_form_time_limit", 80, 1, Integer.MAX_VALUE);
