@@ -67,7 +67,8 @@ public class ModEntityEventHandler {
     public void onEntityAttack(LivingHurtEvent event) {
         if (Helper.isWerewolf(event.getEntity())) {
             Pair<Float, Float> damageReduction = FormHelper.getForm(event.getEntityLiving()).getDamageReduction();
-            event.setAmount(MathHelper.clamp(event.getAmount() - Math.min(damageReduction.getRight(), event.getAmount() * damageReduction.getLeft()), 0, Float.MAX_VALUE));
+            float multiplier = event.getEntityLiving() instanceof PlayerEntity ? WerewolfPlayer.getOpt(((PlayerEntity) event.getEntityLiving())).filter(a -> a.getSkillHandler().isSkillEnabled(WerewolfSkills.thick_fur)).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
+            event.setAmount(MathHelper.clamp(event.getAmount() - Math.min(damageReduction.getRight(), event.getAmount() * damageReduction.getLeft()) * multiplier, 0, Float.MAX_VALUE));
         }
     }
 

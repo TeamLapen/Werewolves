@@ -178,6 +178,9 @@ public class BalanceConfig {
         //movement tactics
         public final ForgeConfigSpec.DoubleValue movement_tactics_doge_chance;
 
+        //thick fur
+        public final ForgeConfigSpec.DoubleValue thick_fur_multiplier;
+
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
 
@@ -298,6 +301,10 @@ public class BalanceConfig {
 
             builder.push("movement tactics");
             this.movement_tactics_doge_chance = builder.comment("Doge chance for the movement tactics skill").defineInRange("movement_tactics_doge_chance", 0.25D,0D,1D);
+            builder.pop();
+
+            builder.push("thick_fur");
+            this.thick_fur_multiplier = builder.comment("Multiplier for the default damage reduction of the werewolf fur").defineInRange("thick_fur_multiplier", 1.5, 1, 10);
             builder.pop();
         }
     }

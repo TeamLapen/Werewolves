@@ -24,6 +24,7 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
 
         ResourceLocation beast1 = werewolf(skill2, WerewolfSkills.rage).build(consumer, this.modId("beast1"));
         ResourceLocation beast2 = werewolf(beast1, WerewolfSkills.beast_form).build(consumer, this.modId("beast2"));
+        ResourceLocation beast3_1 = werewolf(beast2, WerewolfSkills.thick_fur).build(consumer, this.modId("beast3_1"));
         ResourceLocation beast3 = werewolf(beast2, WerewolfSkills.damage, WerewolfSkills.resistance).build(consumer, this.modId("beast3"));
         ResourceLocation beast4 = werewolf(beast3, WerewolfSkills.stun_bite, WerewolfSkills.bleeding_bite).build(consumer, this.modId("beast4"));
         ResourceLocation beast5 = werewolf(beast4, WerewolfSkills.health_after_kill).build(consumer, this.modId("beast5")); //TODO not only health bt also saturation
@@ -34,6 +35,7 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
 
         ResourceLocation survival1 = werewolf(skill2, WerewolfSkills.sixth_sense, WerewolfSkills.sense).build(consumer, this.modId("survival1"));
         ResourceLocation survival2 = werewolf(survival1, WerewolfSkills.survival_form).build(consumer, this.modId("survival2"));
+        ResourceLocation survival3_1 = werewolf(survival2, WerewolfSkills.thick_fur).build(consumer, this.modId("survival3_1"));
         ResourceLocation survival3 = werewolf(survival2, WerewolfSkills.wolf_pawn, WerewolfSkills.speed).build(consumer, this.modId("survival3"));
         ResourceLocation survival4 = werewolf(survival3, WerewolfSkills.leap, WerewolfSkills.climber).build(consumer, this.modId("survival4"));
         ResourceLocation survival5 = werewolf(survival4, WerewolfSkills.movement_tactics).build(consumer, this.modId("survival5"));

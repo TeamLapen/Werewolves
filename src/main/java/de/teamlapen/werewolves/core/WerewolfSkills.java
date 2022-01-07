@@ -46,6 +46,7 @@ public class WerewolfSkills {
     public static final ISkill fear = getNull();
     public static final ISkill sixth_sense = getNull();
     public static final ISkill health_reg = getNull();
+    public static final ISkill thick_fur = getNull();
 
 
     @SuppressWarnings("deprecation")
@@ -81,5 +82,6 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("free_will", true));
         registry.register(new SimpleWerewolfSkill("wear_armor").defaultDescWithFormRequirement(() -> human_form));
         registry.register(new SimpleWerewolfSkill("silver_blooded", true));
+        registry.register(new SimpleWerewolfSkill("thick_fur", true));
     }
 }

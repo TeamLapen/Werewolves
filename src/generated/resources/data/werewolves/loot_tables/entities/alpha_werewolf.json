@@ -1,3 +1,44 @@
 {
-  "type": "minecraft:entity"
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "name": "general",
+      "rolls": {
+        "min": 1.0,
+        "max": 2.0,
+        "type": "minecraft:uniform"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:werewolf_tooth"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        }
+      ]
+    },
+    {
+      "name": "vampire_book",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "vampirism:vampire_book"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        },
+        {
+          "condition": "minecraft:random_chance_with_looting",
+          "chance": 0.1,
+          "looting_multiplier": 0.1
+        }
+      ]
+    }
+  ]
 }
