@@ -10,6 +10,7 @@ import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
+import de.teamlapen.werewolves.util.DamageSourceExtended;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
@@ -50,7 +51,6 @@ public class ModEntityEventHandler {
 
     @SubscribeEvent
     public void onEntityAttacked(AttackEntityEvent event) {
-
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
             if (ModTags.Items.SILVER_TOOL.contains(event.getPlayer().getMainHandItem().getItem())) {
                 ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
@@ -65,6 +65,11 @@ public class ModEntityEventHandler {
 
     @SubscribeEvent
     public void onEntityAttack(LivingHurtEvent event) {
+        if (event.getSource().getEntity() != null) {
+            if (Helper.isWerewolf(event.getSource().getEntity())) {
+                ((DamageSourceExtended) event.getSource()).setArmorIgnorePerc(0.8f);
+            }
+        }
         if (Helper.isWerewolf(event.getEntity())) {
             Pair<Float, Float> damageReduction = FormHelper.getForm(event.getEntityLiving()).getDamageReduction();
             float multiplier = event.getEntityLiving() instanceof PlayerEntity ? WerewolfPlayer.getOpt(((PlayerEntity) event.getEntityLiving())).filter(a -> a.getSkillHandler().isSkillEnabled(WerewolfSkills.thick_fur)).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
