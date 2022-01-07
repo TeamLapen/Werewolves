@@ -3,7 +3,13 @@ package de.teamlapen.werewolves.util;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
+import de.teamlapen.werewolves.entities.werewolf.IWerewolfDataholder;
+import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
+import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -30,6 +36,15 @@ public class FormHelper {
     public static boolean isInWerewolfBiome(IWorld world, BlockPos pos) {
         ResourceLocation loc = world.getBiome(pos).getRegistryName();
         return noWerewolfFormTickingBiomes.contains(loc);
+    }
+
+    public static WerewolfForm getForm(LivingEntity entity) {
+        if (entity instanceof PlayerEntity) {
+            return WerewolfPlayer.getOpt(((PlayerEntity) entity)).map(WerewolfPlayer::getForm).orElse(WerewolfForm.NONE);
+        } else if (entity instanceof IWerewolfDataholder) {
+            return ((IWerewolfDataholder) entity).getForm();
+        }
+        return WerewolfForm.NONE;
     }
 
     public static boolean isWerewolfFormTicking(World world, BlockPos pos) {
