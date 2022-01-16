@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.entities.player;
 
-import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
+import de.teamlapen.vampirism.items.VampirismItemBloodFood;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.UnWerewolfEffectInstance;
@@ -236,19 +236,6 @@ public class ModPlayerEventHandler {
                     }
                 }
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onLivingDamage(LivingDamageEvent event) {
-        if (event.getSource() instanceof EntityDamageSource) {
-            WerewolfPlayer.getOptEx(event.getSource().getEntity()).filter(w -> w.getForm() == WerewolfForm.BEAST).filter(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.throat_seeker) && !UtilLib.canReallySee(event.getEntityLiving(), w.getRepresentingPlayer(), true)).ifPresent(werewolf -> {
-                if (event.getEntityLiving().getHealth() / event.getEntityLiving().getMaxHealth() < 0.25) {
-                    if (werewolf.getRepresentingPlayer().getRandom().nextInt(4) < 1) {
-                        event.setAmount(10000f);
-                    }
-                }
-            });
         }
     }
 }

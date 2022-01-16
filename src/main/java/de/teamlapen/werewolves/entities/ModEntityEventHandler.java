@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.entities;
 
+import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.tileentity.TotemHelper;
 import de.teamlapen.vampirism.tileentity.TotemTileEntity;
 import de.teamlapen.werewolves.WerewolvesMod;
@@ -10,11 +11,8 @@ import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
-import de.teamlapen.werewolves.util.DamageSourceExtended;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
-import de.teamlapen.werewolves.util.FormHelper;
-import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.WReference;
+import de.teamlapen.werewolves.util.*;
 import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.entity.EntityType;
@@ -27,9 +25,11 @@ import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -127,7 +127,7 @@ public class ModEntityEventHandler {
             e.targetSelector.removeGoal(target);
             EntityType<? extends T> type = (EntityType<? extends T>) e.getType();
             if (typeCheck.test(type)) {
-                e.targetSelector.addGoal(attackPriority, replacement.apply(e, nonWerewolfCheck.and(((Q)target).targetConditions.selector)));
+                e.targetSelector.addGoal(attackPriority, replacement.apply(e, nonWerewolfCheck.and(((Q) target).targetConditions.selector)));
             }
         } else {
             if (entityAIReplacementWarnMap.getOrDefault(name, true)) {
@@ -135,6 +135,19 @@ public class ModEntityEventHandler {
                 entityAIReplacementWarnMap.put(name, false);
             }
 
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingDamage(LivingDamageEvent event) {
+        if (event.getSource() instanceof EntityDamageSource) {
+            WerewolfPlayer.getOptEx(event.getSource().getEntity()).filter(w -> w.getForm() == WerewolfForm.BEAST).filter(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.throat_seeker) && !UtilLib.canReallySee(event.getEntityLiving(), w.getRepresentingPlayer(), true)).ifPresent(werewolf -> {
+                if (event.getEntityLiving().getHealth() / event.getEntityLiving().getMaxHealth() < 0.25) {
+                    if (werewolf.getRepresentingPlayer().getRandom().nextInt(4) < 1) {
+                        event.setAmount(10000f);
+                    }
+                }
+            });
         }
     }
 }
