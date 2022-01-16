@@ -85,6 +85,16 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         return opt;
     }
 
+    /**
+     * gets werewolf player optional
+     * <p>
+     * already filters if the entity is a werewolf player
+     */
+    public static LazyOptional<WerewolfPlayer> getOptEx(@Nullable Entity entity) {
+        if (!(entity instanceof PlayerEntity) || !Helper.isWerewolf(((PlayerEntity) entity))) return LazyOptional.empty();
+        return getOpt(((PlayerEntity) entity));
+    }
+
     //-- player --------------------------------------------------------------------------------------------------------
 
     @Nonnull
@@ -190,7 +200,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 if(this.player.level.getGameTime() % 10 == 0) {
                     if(this.specialAttributes.werewolfTime > 0 && !FormHelper.isWerewolfFormTicking(this.player.level, this.player.blockPosition())) {
                         this.specialAttributes.werewolfTime -= 7 * player.getAttribute(ModAttributes.time_regain).getValue();
-                        --this.specialAttributes.werewolfTime;
                         sync = true;
                         syncPacket.putLong("werewolfTime", this.specialAttributes.werewolfTime);
                     }
