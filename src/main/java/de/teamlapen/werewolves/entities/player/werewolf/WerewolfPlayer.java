@@ -38,6 +38,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -59,7 +60,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
-    private static final UUID RAGE_FURY = UUID.fromString("aeb05d51-2388-412c-a164-fb75cab0ab95");
 
     @CapabilityInject(IWerewolfPlayer.class)
     public static Capability<IWerewolfPlayer> CAP = getNull();
@@ -70,7 +70,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         } catch (Exception e) {
             LOGGER.error(e);
         }
-        this.player.getAttribute(ModAttributes.time_regain).setBaseValue(1.0);
     }
 
     public static WerewolfPlayer get(@Nonnull PlayerEntity playerEntity) {
@@ -192,18 +191,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public void onUpdate() {
         this.player.getCommandSenderWorld().getProfiler().push("werewolves_werewolfplayer");
-        if (!isRemote()) {
-            if (getLevel() > 0) {
+        if (getLevel() > 0) {
+            if (!isRemote()) {
                 boolean sync = false;
                 boolean syncToAll = false;
                 CompoundNBT syncPacket = new CompoundNBT();
-                if(this.player.level.getGameTime() % 10 == 0) {
-                    if(this.specialAttributes.werewolfTime > 0 && !FormHelper.isWerewolfFormTicking(this.player.level, this.player.blockPosition())) {
-                        this.specialAttributes.werewolfTime -= 7 * player.getAttribute(ModAttributes.time_regain).getValue();
-                        sync = true;
-                        syncPacket.putLong("werewolfTime", this.specialAttributes.werewolfTime);
-                    }
-                }
                 if (this.actionHandler.updateActions()) {
                     sync = true;
                     syncToAll = true;
@@ -213,18 +205,23 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     sync = true;
                     skillHandler.writeUpdateForClient(syncPacket);
                 }
-
-                if (this.player.level.getGameTime() % 20 == 0) {
-                    if (Helper.isFullMoon(this.getRepresentingPlayer().getCommandSenderWorld())) {
-                        if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will)) {
-                            Optional<? extends IAction> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
-                            action.ifPresent(this.actionHandler::toggleAction);
-                        }
+                if (this.player.level.getGameTime() % 10 == 0) {
+                    if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
+                        this.specialAttributes.transformationTime = MathHelper.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.time_regain).getValue(), 0, 1);
+                        syncPacket.putDouble("transformationTime", this.specialAttributes.transformationTime);
                     }
+                    if (this.player.level.getGameTime() % 20 == 0) {
+                        if (Helper.isFullMoon(this.getRepresentingPlayer().getCommandSenderWorld())) {
+                            if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will)) {
+                                Optional<? extends IAction> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
+                                action.ifPresent(this.actionHandler::toggleAction);
+                            }
+                        }
 
-                    if (this.form.isTransformed()) {
-                        if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover)) {
-                            this.player.addEffect(new EffectInstance(Effects.WEAKNESS, 21, 0, true, true));
+                        if (this.form.isTransformed()) {
+                            if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover)) {
+                                this.player.addEffect(new EffectInstance(Effects.WEAKNESS, 21, 0, true, true));
+                            }
                         }
                     }
                 }
@@ -243,39 +240,39 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     }
                     this.checkArmorModifer = false;
                 }
-            }
 
-            EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
-            if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
-                if (!(effect instanceof WerewolfNightVisionEffect)) {
-                    if (effect != null) {
-                        player.removeEffect(effect.getEffect());
+                EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
+                if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
+                    if (!(effect instanceof WerewolfNightVisionEffect)) {
+                        if (effect != null) {
+                            player.removeEffect(effect.getEffect());
+                        }
+                        player.addEffect(new WerewolfNightVisionEffect());
                     }
-                    player.addEffect(new WerewolfNightVisionEffect());
+                } else {
+                    if (effect instanceof WerewolfNightVisionEffect) {
+                        this.player.removeEffect(effect.getEffect());
+                        effect = ((EffectInstanceWithSource) effect).getHiddenEffect();
+                        if (effect != null) {
+                            this.player.addEffect(effect);
+                        }
+                    }
                 }
             } else {
-                if (effect instanceof WerewolfNightVisionEffect) {
-                    this.player.removeEffect(effect.getEffect());
-                    effect = ((EffectInstanceWithSource) effect).getHiddenEffect();
-                    if (effect != null) {
-                        this.player.addEffect(effect);
-                    }
-                }
-            }
-        } else {
-            if (getLevel() > 0) {
-                if (this.player.level.getGameTime() % 10 == 0) {
-                    if (this.specialAttributes.werewolfTime > 0 && !FormHelper.isFormActionActive(this)) {
-                        this.specialAttributes.werewolfTime -= 10 * player.getAttribute(ModAttributes.time_regain).getValue();
-                    }
-                }
+
                 this.actionHandler.updateActions();
+
+                if (this.player.level.getGameTime() % 10 == 0) {
+                    if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
+                        this.specialAttributes.transformationTime = MathHelper.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.time_regain).getValue()), 0, 1);
+                    }
+                }
             }
+
+            this.specialAttributes.biteTicks = Math.max(0, this.specialAttributes.biteTicks - 1);
+
+
         }
-
-        this.specialAttributes.biteTicks = Math.max(0, this.specialAttributes.biteTicks-1);
-
-
         this.player.getCommandSenderWorld().getProfiler().pop();
     }
 
@@ -466,7 +463,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             if (newLevel > 0) {
                 if (oldLevel == 0) {
                     this.skillHandler.enableRootSkill();
-                    this.specialAttributes.werewolfTime = 0;
                 }
             } else {
                 this.actionHandler.resetTimers();
@@ -557,7 +553,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.actionHandler.saveToNbt(compound);
         this.skillHandler.saveToNbt(compound);
         this.levelHandler.saveToNbt(compound);
-        compound.putLong("werewolfTime", this.specialAttributes.werewolfTime);
         compound.putString("form", this.form.getName());
         if (this.lastFormAction != null) {
             compound.putString("lastFormAction", this.lastFormAction.getRegistryName().toString());
@@ -572,6 +567,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         CompoundNBT glowingEye = new CompoundNBT();
         this.glowingEyes.forEach((key, value) -> glowingEye.putBoolean(key.getName(), value));
         compound.put("glowingEyes", glowingEye);
+        compound.putDouble("transformationTime", this.specialAttributes.transformationTime);
     }
 
     @Override
@@ -588,9 +584,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
             }
         }
-        if (NBTHelper.containsLong(compound,"werewolfTime")) {
-            this.specialAttributes.werewolfTime = compound.getLong("werewolfTime");
-        }
         if (NBTHelper.containsString(compound, "form")) {
             this.switchForm(WerewolfForm.getForm(compound.getString("form")));
         }
@@ -604,6 +597,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         skin.getAllKeys().forEach(string -> this.skinType.put(WerewolfForm.getForm(string), skin.getInt(string)));
         CompoundNBT glowingEyes = compound.getCompound("glowingEyes");
         glowingEyes.getAllKeys().forEach(string -> this.glowingEyes.put(WerewolfForm.getForm(string), glowingEyes.getBoolean(string)));
+        if (compound.contains("transformationTime")) {
+            this.specialAttributes.transformationTime = compound.getFloat("transformationTime");
+        }
     }
 
     @Override
@@ -611,7 +607,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
         this.levelHandler.saveToNbt(nbt);
-        nbt.putLong("werewolfTime", this.specialAttributes.werewolfTime);
         nbt.putString("form", this.form.getName());
         nbt.putInt("biteTicks", this.specialAttributes.biteTicks);
         CompoundNBT eye = new CompoundNBT();
@@ -623,6 +618,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         CompoundNBT glowingEye = new CompoundNBT();
         this.glowingEyes.forEach((key, value) -> glowingEye.putBoolean(key.getName(), value));
         nbt.put("glowingEyes", glowingEye);
+        nbt.putDouble("transformationTime", this.specialAttributes.transformationTime);
     }
 
     @Override
@@ -630,9 +626,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
         this.levelHandler.loadFromNbt(nbt);
-        if (NBTHelper.containsLong(nbt,"werewolfTime")) {
-            this.specialAttributes.werewolfTime = nbt.getLong("werewolfTime");
-        }
         if (NBTHelper.containsString(nbt, "form")) {
             this.switchForm(WerewolfForm.getForm(nbt.getString("form")));
         }
@@ -650,6 +643,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (nbt.contains("glowingEyes")) {
             CompoundNBT glowingEyes = nbt.getCompound("glowingEyes");
             glowingEyes.getAllKeys().forEach(string -> this.glowingEyes.put(WerewolfForm.getForm(string), glowingEyes.getBoolean(string)));
+        }
+        if (nbt.contains("transformationTime")) {
+            this.specialAttributes.transformationTime = nbt.getFloat("transformationTime");
         }
     }
 

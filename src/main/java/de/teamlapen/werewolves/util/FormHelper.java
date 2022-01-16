@@ -6,8 +6,6 @@ import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.entities.werewolf.IWerewolfDataholder;
-import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
-import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +15,7 @@ import net.minecraft.world.World;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class FormHelper {
@@ -47,12 +46,13 @@ public class FormHelper {
         return WerewolfForm.NONE;
     }
 
-    public static boolean isWerewolfFormTicking(World world, BlockPos pos) {
-        return !Helper.isNight(world) && !isInWerewolfBiome(world, pos);
-    }
-
     public static boolean isFormActionActive(IWerewolfPlayer player) {
         return WerewolfFormAction.isWerewolfFormActionActive(player.getActionHandler());
+    }
+
+    public static Optional<WerewolfFormAction> getActiveFormAction(IWerewolfPlayer werewolf) {
+        // werewolf form actions can not be enabled at the same time
+        return WerewolfFormAction.getAllAction().stream().filter(action -> werewolf.getActionHandler().isActionActive(action)).findAny();
     }
 
     public static void deactivateWerewolfActions(IWerewolfPlayer player) {

@@ -29,12 +29,17 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
-        return Integer.MAX_VALUE;
+    public boolean consumesWerewolfTime() {
+        return false;
     }
 
     @Override
-    protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
-        return false;
+    protected void removeArmorModifier(IWerewolfPlayer werewolfPlayer) {
+        if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor)) return;
+        super.removeArmorModifier(werewolfPlayer);
+    }
+
+    @Override
+    protected void addArmorModifier(IWerewolfPlayer werewolfPlayer) {
     }
 }

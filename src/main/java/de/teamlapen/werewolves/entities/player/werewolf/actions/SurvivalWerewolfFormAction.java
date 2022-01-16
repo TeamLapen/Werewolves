@@ -24,10 +24,10 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolfPlayer) {
-        if (super.activate(werewolfPlayer)) {
-            if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)) {
-                werewolfPlayer.getRepresentingPlayer().maxUpStep = 1.0f;
+    protected boolean activate(IWerewolfPlayer werewolf) {
+        if (super.activate(werewolf)) {
+            if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)) {
+                werewolf.getRepresentingPlayer().maxUpStep = 1.0f;
             }
             return true;
         } else {
@@ -40,15 +40,13 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
         super.onActivatedClient(werewolfPlayer);
         if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)) {
             werewolfPlayer.getRepresentingPlayer().maxUpStep = 1.0f;
-//            WerewolvesMod.proxy.toggleStepHeight(true);
         }
     }
 
     @Override
-    public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
-        super.onDeactivated(werewolfPlayer);
-        werewolfPlayer.getRepresentingPlayer().maxUpStep = 0.6f;
-//        WerewolvesMod.proxy.toggleStepHeight(false);
+    public void onDeactivated(IWerewolfPlayer werewolf) {
+        super.onDeactivated(werewolf);
+        werewolf.getRepresentingPlayer().maxUpStep = 0.6f;
     }
 
     @Override
@@ -62,18 +60,17 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
-        int limit =super.getWerewolfTimeLimit(werewolf);
+    public int getTimeModifier(IWerewolfPlayer werewolf) {
+        int limit = super.getTimeModifier(werewolf);
         boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_survival_1);
         boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_survival_2);
         if (duration1 || duration2) {
             if (duration2) {
-                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_survival_1.get() * 20;
-            } else {
                 limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_survival_2.get() * 20;
+            } else {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_survival_1.get() * 20;
             }
         }
         return limit;
     }
-
 }

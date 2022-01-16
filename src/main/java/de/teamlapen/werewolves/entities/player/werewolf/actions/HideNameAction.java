@@ -14,7 +14,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer iWerewolfPlayer) {
+    protected boolean activate(IWerewolfPlayer werewolf) {
         return true;
     }
 
@@ -24,20 +24,20 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
-    public void onActivatedClient(IWerewolfPlayer iWerewolfPlayer) {
+    public void onActivatedClient(IWerewolfPlayer werewolf) {
     }
 
     @Override
-    public void onDeactivated(IWerewolfPlayer iWerewolfPlayer) {
+    public void onDeactivated(IWerewolfPlayer werewolf) {
     }
 
     @Override
-    public void onReActivated(IWerewolfPlayer iWerewolfPlayer) {
+    public void onReActivated(IWerewolfPlayer werewolf) {
     }
 
     @Override
-    public boolean onUpdate(IWerewolfPlayer iWerewolfPlayer) {
-        return false;
+    public boolean onUpdate(IWerewolfPlayer werewolf) {
+        return werewolf.getForm().isTransformed();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
-    public boolean canBeUsedBy(IWerewolfPlayer player) {
-        return player.getForm().isTransformed();
+    public boolean canBeUsedBy(IWerewolfPlayer werewolf) {
+        return werewolf.getForm().isTransformed();
     }
 }

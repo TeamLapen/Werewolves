@@ -227,15 +227,15 @@ public class ModHUDOverlay extends ExtendedGui {
         PlayerEntity player = mc.player;
         if(Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-            if (werewolf.getSpecialAttributes().werewolfTime > 0) {
-                float perc = WerewolfFormAction.getDurationPercentage(werewolf, null);
-                float trans = FormHelper.isFormActionActive(werewolf)?1f:0.7f;
+            if (werewolf.getSpecialAttributes().transformationTime > 0) {
+                double perc = 1-werewolf.getSpecialAttributes().transformationTime;
+                float trans = FormHelper.getActiveFormAction(werewolf).map(WerewolfFormAction::consumesWerewolfTime).orElse(false)?1f:0.7f;
                 renderExpBar(event.getMatrixStack(), perc, trans);
             }
         }
     }
 
-    private void renderExpBar(MatrixStack matrixStack, float perc, float transparency) {
+    private void renderExpBar(MatrixStack matrixStack, double perc, float transparency) {
         int scaledWidth = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledWidth();
         int scaledHeight = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledHeight();
         int x = scaledWidth / 2 - 91;
@@ -255,7 +255,7 @@ public class ModHUDOverlay extends ExtendedGui {
     private void renderActionCooldown(MatrixStack matrixStack) {
         if (Helper.isWerewolf(this.mc.player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
-            List<IAction> actions = new ArrayList<>();
+            ArrayList<IAction> actions = new ArrayList<>();
             actions.addAll(werewolf.getActionHandler().getUnlockedActions());
             actions.removeIf(action -> !(action instanceof IActionCooldownMenu));
             actions.removeIf(action -> !(werewolf.getActionHandler().isActionOnCooldown(action)));

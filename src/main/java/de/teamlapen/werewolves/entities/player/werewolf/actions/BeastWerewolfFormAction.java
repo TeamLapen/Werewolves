@@ -34,15 +34,15 @@ public class BeastWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
-        int limit =super.getWerewolfTimeLimit(werewolf);
+    public int getTimeModifier(IWerewolfPlayer werewolf) {
+        int limit = super.getTimeModifier(werewolf);
         boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_beast_1);
         boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_beast_2);
         if (duration1 || duration2) {
             if (duration2) {
-                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_beast_1.get() * 20;
-            } else {
                 limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_beast_2.get() * 20;
+            } else {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_beast_1.get() * 20;
             }
         }
         return limit;

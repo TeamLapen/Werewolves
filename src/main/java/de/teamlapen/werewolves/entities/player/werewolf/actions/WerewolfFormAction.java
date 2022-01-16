@@ -4,15 +4,14 @@ import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModRefinements;
-import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfForm;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
@@ -20,7 +19,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -28,29 +26,12 @@ import java.util.function.Supplier;
 public abstract class WerewolfFormAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
     private static final Set<WerewolfFormAction> ALL_ACTION = new HashSet<>();
 
-
     public static boolean isWerewolfFormActionActive(IActionHandler<IWerewolfPlayer> handler) {
         return ALL_ACTION.stream().anyMatch(handler::isActionActive);
     }
 
     public static Set<WerewolfFormAction> getAllAction() {
         return Collections.unmodifiableSet(ALL_ACTION);
-    }
-
-    public static float getDurationPercentage(IWerewolfPlayer player, @Nullable WerewolfFormAction action) {
-        if (action == null) {
-            action = ((WerewolfPlayer) player).getLastFormAction();
-            if (action == null) {
-                return 1;
-            }
-        }
-        return MathHelper.clamp(1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / (long) action.getWerewolfTimeLimit(player),0,1);
-    }
-    /**
-     * @return how much percentage is left
-     */
-    public float getDurationPercentage(IWerewolfPlayer player) {
-        return MathHelper.clamp(1 - (float) ((WerewolfPlayer) player).getSpecialAttributes().werewolfTime / (long) getWerewolfTimeLimit(player),0,1);
     }
 
     protected static class Modifier {
@@ -96,17 +77,23 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolfPlayer) {
-        if (FormHelper.isFormActionActive(werewolfPlayer)) {
-            FormHelper.deactivateWerewolfActions(werewolfPlayer);
+    protected boolean activate(IWerewolfPlayer werewolf) {
+        if (isWerewolfFormActionActive(werewolf.getActionHandler())) {
+            FormHelper.deactivateWerewolfActions(werewolf);
         }
-        ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
-        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form.isHumanLike())) {
-            ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
-        }
-        this.applyModifier(werewolfPlayer);
-        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
+        ((WerewolfPlayer) werewolf).setForm(this, this.form);
+        this.removeArmorModifier(werewolf);
+        this.applyModifier(werewolf);
+        werewolf.getRepresentingPlayer().refreshDisplayName();
         return true;
+    }
+
+    protected void removeArmorModifier(IWerewolfPlayer werewolfPlayer) {
+        ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
+    }
+
+    protected void addArmorModifier(IWerewolfPlayer werewolfPlayer) {
+        ((WerewolfPlayer) werewolfPlayer).addArmorModifier();
     }
 
     @Override
@@ -116,55 +103,38 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    public void onDeactivated(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).setForm(this, WerewolfForm.NONE);
-        ((WerewolfPlayer) werewolfPlayer).addArmorModifier();
-        this.removeModifier(werewolfPlayer);
-        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
-        if (werewolfPlayer.getActionHandler().isActionActive(ModActions.hide_name)) {
-            werewolfPlayer.getActionHandler().toggleAction(ModActions.hide_name);
-        }
+    public void onDeactivated(IWerewolfPlayer werewolf) {
+        ((WerewolfPlayer) werewolf).setForm(this, WerewolfForm.NONE);
+        this.addArmorModifier(werewolf);
+        this.removeModifier(werewolf);
+        werewolf.getRepresentingPlayer().refreshDisplayName();
     }
 
     @Override
-    public void onReActivated(IWerewolfPlayer werewolfPlayer) {
-        if (!(werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && this.form.isHumanLike())) {
-            ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
-        }
-        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
+    public void onReActivated(IWerewolfPlayer werewolf) {
+        this.removeArmorModifier(werewolf);
+        werewolf.getRepresentingPlayer().refreshDisplayName();
     }
 
     @Override
     public boolean onUpdate(IWerewolfPlayer werewolfPlayer) {
-        if (!werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld().isClientSide) {
-            checkDayNightModifier(werewolfPlayer);
-
-            if (!FormHelper.isWerewolfFormTicking(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld(), werewolfPlayer.getRepresentingPlayer().blockPosition())) {
-                return false;
+            if (werewolfPlayer.getRepresentingPlayer().level.getGameTime() % 20 == 0) {
+                checkDayNightModifier(werewolfPlayer);
             }
 
-            return increaseWerewolfTime(werewolfPlayer);
+            if (!usesTransformationTime(werewolfPlayer.getRepresentingPlayer())) {
+                return false;
+            }
+        return increaseWerewolfTime(werewolfPlayer);
+    }
 
-        }
-        return false;
+    protected boolean usesTransformationTime(LivingEntity player) {
+        return !Helper.isNight(player.level) && !FormHelper.isInWerewolfBiome(player.level, player.blockPosition());
     }
 
     protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
-        return ++((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().werewolfTime > WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-    }
-
-    protected int getWerewolfTimeLimit(IWerewolfPlayer werewolf) {
-        int limit = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_1);
-        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_2);
-        if (duration1 || duration2) {
-            if (duration2) {
-                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_2.get() * 20;
-            } else {
-                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_1.get() * 20;
-            }
-        }
-        return limit;
+        if(!consumesWerewolfTime()) return false;
+        return (((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime = MathHelper.clamp(((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime + ((double) 1 / (double) getTimeModifier(werewolfPlayer)),0,1)) == 1;
     }
 
     public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
@@ -210,6 +180,27 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         boolean active = player.getActionHandler().isActionActive(this);
         if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active)
             return false;
-        return player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()) == ModBiomes.werewolf_heaven || (getDurationPercentage(player) > 0.3) || active;
+        return player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()) == ModBiomes.werewolf_heaven || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || active;
+    }
+
+    public boolean consumesWerewolfTime() {
+        return true;
+    }
+
+    /**
+     * ticks this action can be used
+     */
+    public int getTimeModifier(IWerewolfPlayer werewolf) {
+        int limit = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
+        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_1);
+        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_2);
+        if (duration1 || duration2) {
+            if (duration2) {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_2.get() * 20;
+            } else {
+                limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_1.get() * 20;
+            }
+        }
+        return limit;
     }
 }

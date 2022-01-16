@@ -16,6 +16,6 @@ public class ModAttributes {
 
     static void registerAttributes(IForgeRegistry<Attribute> registry) {
         registry.register(new RangedAttribute("werewolves.bite_damage", 5D, 0D, 100D).setRegistryName(REFERENCE.MODID, "bite_damage"));
-        registry.register(new RangedAttribute("werewolves.werewolf_form_time_gain", 1D, 0D, 2D).setRegistryName(REFERENCE.MODID, "time_regain"));
+        registry.register(new RangedAttribute("werewolves.werewolf_form_time_gain", 0.01D, 0D, 1D).setRegistryName(REFERENCE.MODID, "time_regain"));
     }
 }
