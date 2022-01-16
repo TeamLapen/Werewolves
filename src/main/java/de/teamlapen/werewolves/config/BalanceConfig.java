@@ -198,7 +198,7 @@ public class BalanceConfig {
             this.beast_form_enabled = builder.define("beast_form_enabled", true);
             this.beast_form_cooldown = builder.comment("In seconds").defineInRange("beast_form_cooldown", 0, 0, 10000);
             this.beast_form_speed_amount = builder.defineInRange("beast_form_speed_amount", 0.4, 0, 5);
-            this.beast_form_attack_damage = builder.defineInRange("beast_form_attack_damage", 4D, 0, 100);
+            this.beast_form_attack_damage = builder.defineInRange("beast_form_attack_damage", 3D, 0, 100);
             this.beast_form_armor = builder.defineInRange("beast_form_armor", 20, 0, 20.0);
             this.beast_form_armor_toughness = builder.defineInRange("beast_form_armor_toughness", 8, 0, 10.0);
             this.beast_form_health = builder.defineInRange("beast_form_health", 8.0, 0.0, 20.0);
@@ -209,7 +209,7 @@ public class BalanceConfig {
             this.survival_form_enabled = builder.define("survival_form_enabled", true);
             this.survival_form_cooldown = builder.comment("In seconds").defineInRange("survival_form_cooldown", 0, 0, 10000);
             this.survival_form_speed_amount = builder.defineInRange("survival_form_speed_amount", 0.5, 0, 5);
-            this.survival_form_attack_damage = builder.defineInRange("survival_form_attack_damage", 2D, 0, 100);
+            this.survival_form_attack_damage = builder.defineInRange("survival_form_attack_damage", 1.5D, 0, 100);
             this.survival_form_armor = builder.defineInRange("survival_form_armor", 16, 0, 20.0);
             this.survival_form_armor_toughness = builder.defineInRange("survival_form_armor_toughness", 6, 0, 10.0);
             this.survival_form_bite_damage = builder.defineInRange("survival_form_bite_damage", 3.0, 0.0, Double.MAX_VALUE);
@@ -251,8 +251,8 @@ public class BalanceConfig {
             builder.push("rage");
             this.rage_enabled = builder.define("rage_enabled", true);
             this.rage_duration = builder.comment("In seconds").defineInRange("rage_duration", 10, 0, Integer.MAX_VALUE);
-            this.rage_cooldown = builder.comment("In seconds").defineInRange("rage_cooldown", 10, 0, Integer.MAX_VALUE);
-            this.rage_bite_damage = builder.defineInRange("rage_bite_damage", 2,0, Double.MAX_VALUE);
+            this.rage_cooldown = builder.comment("In seconds").defineInRange("rage_cooldown", 30, 0, Integer.MAX_VALUE);
+            this.rage_bite_damage = builder.defineInRange("rage_bite_damage", 2, 0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("sense");

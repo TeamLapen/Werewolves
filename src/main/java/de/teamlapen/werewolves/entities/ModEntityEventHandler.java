@@ -67,7 +67,7 @@ public class ModEntityEventHandler {
     public void onEntityAttack(LivingHurtEvent event) {
         if (event.getSource().getEntity() != null) {
             if (Helper.isWerewolf(event.getSource().getEntity())) {
-                ((DamageSourceExtended) event.getSource()).setArmorIgnorePerc(0.8f);
+                ((DamageSourceExtended) event.getSource()).setArmorIgnorePerc(0.9f);
             }
         }
         if (Helper.isWerewolf(event.getEntity())) {
