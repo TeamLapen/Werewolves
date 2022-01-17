@@ -19,7 +19,7 @@ curseforge {
             changelog = "This version should not be used in your 'productive' world. It contains the latest features, but also the latest bugs.\n Probably not all features are finished.\n To see what might have changed browse the latest commits."
         }
         addGameVersion project.minecraft_version
-        addGameVersion "Forge"
+
 
         mainArtifact(jar) {
             displayName = "Werewolves-${project.minecraft_version}-${project.vampirism_version_simple}-${project.mod_version}"
