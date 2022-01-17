@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.entities.player;
 
-import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
@@ -75,10 +74,7 @@ public class ModPlayerEventHandler {
                 ((PlayerEntity) event.getEntityLiving()).getFoodData().eat(event.getItem().getItem(), event.getItem());
             }
             if (event.getItem().getItem() instanceof VampirismItemBloodFood) {
-                EffectInstance effect = event.getEntityLiving().getEffect(Effects.CONFUSION);
-                if (effect != null && effect.getDuration() == 400) {
-                    ((EffectInstanceWithSource) effect).removeEffect();
-                }
+                event.getEntityLiving().removeEffect(Effects.CONFUSION);
             }
         }
     }
