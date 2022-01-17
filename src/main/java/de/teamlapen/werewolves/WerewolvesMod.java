@@ -15,7 +15,6 @@ import de.teamlapen.werewolves.entities.player.ModPlayerEventHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.items.WerewolfRefinementItem;
-import de.teamlapen.werewolves.modcompat.Obfuscate;
 import de.teamlapen.werewolves.modcompat.guide.WerewolvesGuideBook;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.proxy.ClientProxy;
@@ -86,8 +85,6 @@ public class WerewolvesMod {
         if (ModList.get().isLoaded("guideapi-vp")) {
             MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
         }
-
-        Obfuscate.check();
 
         WerewolvesConfig.registerConfigs();
         Permissions.init();
