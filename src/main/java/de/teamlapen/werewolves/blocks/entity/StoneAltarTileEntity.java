@@ -170,6 +170,10 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
     }
 
     public void endRitual() {
+        WerewolfPlayer.getOpt(this.player).ifPresent(werewolf -> {
+            werewolf.getLevelHandler().reset();
+            werewolf.syncLevelHandler();
+        });
         FactionPlayerHandler handler = FactionPlayerHandler.get(this.player);
         int lvl = handler.getCurrentLevel() + 1;
         handler.setFactionLevel(WReference.WEREWOLF_FACTION, lvl);
@@ -179,10 +183,6 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         WerewolfLevelConf.StoneAltarRequirement requirement = ((WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(FactionPlayerHandler.get(this.player).getCurrentLevel() + 1));
         this.getItem(0).shrink(requirement.liverAmount);
         this.getItem(1).shrink(requirement.bonesAmount);
-        WerewolfPlayer.getOpt(this.player).ifPresent(werewolf -> {
-            werewolf.getLevelHandler().reset();
-            werewolf.syncLevelHandler();
-        });
     }
 
     public Phase getCurrentPhase() {

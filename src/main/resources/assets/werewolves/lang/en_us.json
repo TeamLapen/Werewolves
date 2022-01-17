@@ -136,6 +136,8 @@
   "text.werewolves.stone_altar.ritual_structures_missing": "Missing Structures",
   "text.werewolves.stone_altar.ritual_less_lit_structures": "The structures are not burning",
   "text.werewolves.stone_altar.ritual_to_less_prey": "You need to snatch more prey",
+  "text.werewolves.stone_altar.empty_hand": "Use an empty hand to open the inventory",
+  "text.werewolves.stone_altar.can_not_burn": "The altar can not burn",
   "text.werewolves.injection.in_use": "You have already injected yourself",
   "text.werewolves.injection.not_use": "You can not inject yourself",
   "text.werewolves.no_longer_werewolf": "You are now a human",

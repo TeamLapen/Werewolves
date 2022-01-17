@@ -147,6 +147,8 @@ public class StoneAltarBlock extends ContainerBlock implements IWaterLoggable {
                     case IS_RUNNING:
                         player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_still_running"), true);
                         return ActionResultType.CONSUME;
+                }
+                switch (result) {
                     case NIGHT_ONLY:
                         player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.ritual_night_only"), true);
                         return ActionResultType.CONSUME;
@@ -171,24 +173,28 @@ public class StoneAltarBlock extends ContainerBlock implements IWaterLoggable {
                         }))).append(" " + integer));
 
                         player.displayClientMessage(s, true);
+                        player.openMenu(te);
                         break;
                     case OK:
                         if (state.getValue(WATERLOGGED)) {
-                            break;
+                            player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.can_not_burn"), true);
+                            player.openMenu(te);
+                            return ActionResultType.CONSUME;
                         }
                         te.setPlayer(player);
                         if (heldItem.getItem() == Items.TORCH || heldItem.getItem() == Items.SOUL_TORCH) {
                             worldIn.setBlock(pos, state.setValue(LIT, true).setValue(SOUL_FIRE, heldItem.getItem() == Items.SOUL_TORCH), 5);
                             return ActionResultType.CONSUME;
                         }
+                        if (heldItem.isEmpty()) {
+                            player.openMenu(te);
+                            return ActionResultType.CONSUME;
+                        } else {
+                            player.displayClientMessage(new TranslationTextComponent("text.werewolves.stone_altar.empty_hand"), true);
+                            return ActionResultType.PASS;
+                        }
                 }
-
             }
-            if (heldItem.isEmpty()) {
-                player.openMenu(te);
-                return ActionResultType.CONSUME;
-            }
-            return ActionResultType.PASS;
         }
         return ActionResultType.SUCCESS;
     }

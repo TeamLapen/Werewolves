@@ -373,7 +373,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             this.player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,40, 1));
             this.actionHandler.extendActionTimer(ModActions.rage, WerewolvesConfig.BALANCE.REFINEMENTS.rage_fury_timer_extend.get());
         }
-        this.levelHandler.increaseProgress((int) (victim.getMaxHealth() * 0.1));
+        this.levelHandler.increaseProgress((int) (victim.getMaxHealth() * 0.2));
         this.syncLevelHandler();
     }
 
