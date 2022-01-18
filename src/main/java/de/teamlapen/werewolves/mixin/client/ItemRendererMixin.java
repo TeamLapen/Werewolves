@@ -48,7 +48,7 @@ public abstract class ItemRendererMixin {
         return builder;
     }
 
-    @Inject( method = "renderGuiItemDecorations(Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item;showDurabilityBar(Lnet/minecraft/item/ItemStack;)Z", shift = At.Shift.BEFORE))
+    @Inject(method = "renderGuiItemDecorations(Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;getInstance()Lnet/minecraft/client/Minecraft;", shift = At.Shift.BEFORE, ordinal = 0))
     private void renderOil(FontRenderer font, ItemStack itemStack, int x, int y, String string, CallbackInfo ci) {
         WeaponOilHelper.oilOpt(itemStack).ifPresent((pair) -> {
             double perc = (float) pair.getRight() / (float) pair.getLeft().getMaxDuration(itemStack);
