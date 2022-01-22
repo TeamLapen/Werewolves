@@ -28,7 +28,8 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, IServerWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
         if (!spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random)) return false;
-        if (world.canSeeSkyFromBelowWater(blockPos) && MonsterEntity.isDarkEnoughToSpawn(world, blockPos, random))  {
+        if (spawnReason == SpawnReason.EVENT) return true;
+        if (world.canSeeSky(blockPos) && MonsterEntity.isDarkEnoughToSpawn(world, blockPos, random)) {
             return true;
         }
         return FormHelper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();

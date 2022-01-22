@@ -451,13 +451,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     public static class Beast extends BasicWerewolfEntity {
-        public Beast(EntityType<? extends BasicWerewolfEntity> type, World world) {
+        public Beast(EntityType<? extends Beast> type, World world) {
             super(type, world, WerewolfForm.BEAST);
         }
     }
 
     public static class Survivalist extends BasicWerewolfEntity {
-        public Survivalist(EntityType<? extends BasicWerewolfEntity> type, World world) {
+        public Survivalist(EntityType<? extends Survivalist> type, World world) {
             super(type, world, WerewolfForm.SURVIVALIST);
         }
     }
