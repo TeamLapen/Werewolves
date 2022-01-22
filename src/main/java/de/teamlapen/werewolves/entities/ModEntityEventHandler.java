@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.entities;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.tileentity.TotemHelper;
-import de.teamlapen.vampirism.tileentity.TotemTileEntity;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModTags;
@@ -39,7 +38,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -95,10 +93,9 @@ public class ModEntityEventHandler {
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getEntity().level.isClientSide()) return;
         if (event.getEntity() instanceof VillagerEntity) {
-            Optional<TotemTileEntity> totemOpt = TotemHelper.getTotemNearPos(((ServerWorld) event.getWorld()), event.getEntity().blockPosition(), true);
-            totemOpt.ifPresent(totem -> {
+            TotemHelper.getTotemNearPos(((ServerWorld) event.getWorld()), event.getEntity().blockPosition(), true).ifPresent(totem -> {
                 if (WReference.WEREWOLF_FACTION.equals(totem.getControllingFaction())) {
-                    if (((VillagerEntity) event.getEntity()).getRandom().nextBoolean()) {
+                    if (((VillagerEntity) event.getEntity()).getRandom().nextInt(6) == 0) {
                         ((IVillagerTransformable) event.getEntity()).setWerewolfFaction(true);
                     }
                 }

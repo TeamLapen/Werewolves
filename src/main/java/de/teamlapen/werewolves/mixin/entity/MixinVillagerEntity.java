@@ -44,6 +44,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     @Deprecated
     public MixinVillagerEntity(EntityType<? extends AbstractVillagerEntity> type, World worldIn) {
         super(type, worldIn);
+        this.form = this.getRandom().nextBoolean() ? WerewolfForm.SURVIVALIST : WerewolfForm.BEAST;
     }
 
     @Override
@@ -66,13 +67,13 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
 
     @Override
     public boolean canTransform() {
-        boolean can = this instanceof IVampire || ExtendedCreature.getSafe(this).map(IExtendedCreatureVampirism::hasPoisonousBlood).orElse(false);
-        return !can && this.rage > this.getMaxHealth() * 4 && this.werewolf;
+        boolean otherFaction = this instanceof IVampire || ExtendedCreature.getSafe(this).map(IExtendedCreatureVampirism::hasPoisonousBlood).orElse(false);
+        return this.werewolf && !otherFaction && this.rage > this.getMaxHealth() * 4;
     }
 
     @Override
     public boolean hurt(@Nonnull DamageSource source, float amount) {
-        if (super.hurt(source, amount)) {
+        if (super.hurt(source, amount) && this.werewolf) {
             this.rage += amount * 10;
             return true;
         } else {
@@ -83,7 +84,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     @Override
     public void aiStep() {
         super.aiStep();
-        if (this.rage > 150) {
+        if (this.werewolf && this.rage > 150) {
             WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
             ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
         }
@@ -127,7 +128,6 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     @Override
     public void setWerewolfFaction(boolean werewolf) {
         this.werewolf = werewolf;
-        this.form = this.getRandom().nextBoolean() ? WerewolfForm.SURVIVALIST : WerewolfForm.BEAST;
     }
 
     @Override
@@ -147,9 +147,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     public void addAdditionalSaveData(CompoundNBT compound, CallbackInfo ci) {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putBoolean("werewolf", this.werewolf);
-        if (form != null) {
-            nbt.putString("form", this.form.getName());
-        }
+        nbt.putString("form", this.form.getName());
         nbt.putInt("type", this.getSkinType());
         if (this.entityclass != null) {
             nbt.putInt("entityclasstype", EntityClassType.getID(this.entityclass));
@@ -161,7 +159,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     public void readAdditionalSaveData(CompoundNBT compound, CallbackInfo ci) {
         CompoundNBT nbt = compound.getCompound("werewolves");
         this.werewolf = nbt.getBoolean("werewolf");
-        if (compound.contains("form")) {
+        if (nbt.contains("form")) {
             this.form = WerewolfForm.getForm(nbt.getString("form"));
         }
         if (nbt.contains("type")) {

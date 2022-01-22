@@ -76,7 +76,7 @@ public class ModTasks {
         {
             registry.register(werewolfBuilder()
                     .setReward(new LordLevelReward(1))
-                    .unlockedBy(new LvlUnlocker(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL))
+                    .unlockedBy(new LvlUnlocker(REFERENCE.HIGHEST_WEREWOLF_LEVEL))
                     .addRequirement("vampire", ModTags.Entities.VAMPIRE, 10)
                     .addRequirement("hunter", ModTags.Entities.HUNTER, 10)
                     .addRequirement("werewolf_tooth", new ItemStack(ModItems.werewolf_tooth, 2))

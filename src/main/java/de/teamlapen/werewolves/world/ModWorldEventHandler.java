@@ -24,14 +24,10 @@ public class ModWorldEventHandler {
         List<MobEntity> werewolves = world.getEntitiesOfClass(MobEntity.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
         if (WReference.WEREWOLF_FACTION.equals(event.getControllingFaction())) {
             werewolves.forEach(e -> {
-                if (e instanceof IVillagerTransformable) {
-                    ((IVillagerTransformable) e).setWerewolfFaction(true);
-                } else {
-                    if (((WerewolfTransformable) e).canTransform()) {
-                        ((WerewolfTransformable) e).transformBack();
-                    } else if (event.isForced()) {
-                        spawnEntity(world, getCaptureEntity(event.getCapturingFaction(), world), e, true);
-                    }
+                if (((WerewolfTransformable) e).canTransform()) {
+                    ((WerewolfTransformable) e).transformBack();
+                } else if (event.isForced()) {
+                    spawnEntity(world, getCaptureEntity(event.getCapturingFaction(), world), e, true);
                 }
             });
         } else {
@@ -47,7 +43,7 @@ public class ModWorldEventHandler {
     @SubscribeEvent
     public void onVillageSpawnNewVillager(VampirismVillageEvent.SpawnNewVillager event) {
         if (event.getControllingFaction() == WReference.WEREWOLF_FACTION) {
-            if (event.getNewVillager().getRandom().nextInt(4) == 0) {
+            if (event.getNewVillager().getRandom().nextInt(6) == 0) {
                 ((IVillagerTransformable) event.getNewVillager()).setWerewolfFaction(true);
             }
         }
