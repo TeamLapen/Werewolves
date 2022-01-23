@@ -11,12 +11,18 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
-import de.teamlapen.werewolves.util.*;
+import de.teamlapen.werewolves.util.FormHelper;
+import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.WReference;
+import de.teamlapen.werewolves.util.WerewolfForm;
 import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
@@ -38,6 +44,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -46,6 +53,7 @@ public class ModEntityEventHandler {
     private final static Logger LOGGER = LogManager.getLogger();
     private static final Predicate<LivingEntity> nonWerewolfCheck = entity -> !Helper.isWerewolf(entity);
     private static final Object2BooleanMap<String> entityAIReplacementWarnMap = new Object2BooleanArrayMap<>();
+    private static final UUID ARMOR_REDUCTION = UUID.fromString("5b7612e9-1847-435c-b4eb-a455af4ce8c7");
 
     @SubscribeEvent
     public void onEntityAttacked(AttackEntityEvent event) {
@@ -63,9 +71,16 @@ public class ModEntityEventHandler {
 
     @SubscribeEvent
     public void onEntityAttack(LivingHurtEvent event) {
-        if (event.getSource().getEntity() != null) {
-            if (Helper.isWerewolf(event.getSource().getEntity())) {
-                ((DamageSourceExtended) event.getSource()).setArmorIgnorePerc(0.9f);
+        if (event.getSource().getEntity() != null && Helper.isWerewolf(event.getSource().getEntity()) && !Helper.isVampire(event.getEntityLiving())) {
+            ModifiableAttributeInstance s = event.getEntityLiving().getAttribute(Attributes.ARMOR);
+            if (s != null) {
+                float levelModifier = WerewolfPlayer.getOptEx(event.getSource().getEntity()).map(player -> player.getLevel() / (float) player.getMaxLevel()).orElse(1f);
+                s.addTransientModifier(new AttributeModifier(ARMOR_REDUCTION, "werewolf_attack", -0.2 * levelModifier, AttributeModifier.Operation.MULTIPLY_TOTAL));
+            }
+        } else {
+            ModifiableAttributeInstance s = event.getEntityLiving().getAttribute(Attributes.ARMOR);
+            if (s != null) {
+                s.removeModifier(ARMOR_REDUCTION);
             }
         }
         if (Helper.isWerewolf(event.getEntity())) {
@@ -137,6 +152,10 @@ public class ModEntityEventHandler {
 
     @SubscribeEvent
     public void onLivingDamage(LivingDamageEvent event) {
+        ModifiableAttributeInstance s = event.getEntityLiving().getAttribute(Attributes.ARMOR);
+        if (s != null) {
+            s.removeModifier(ARMOR_REDUCTION);
+        }
         if (event.getSource() instanceof EntityDamageSource) {
             WerewolfPlayer.getOptEx(event.getSource().getEntity()).filter(w -> w.getForm() == WerewolfForm.BEAST).filter(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.throat_seeker) && !UtilLib.canReallySee(event.getEntityLiving(), w.getRepresentingPlayer(), true)).ifPresent(werewolf -> {
                 if (event.getEntityLiving().getHealth() / event.getEntityLiving().getMaxHealth() < 0.25) {

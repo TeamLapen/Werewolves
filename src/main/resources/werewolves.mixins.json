@@ -6,7 +6,6 @@
   "mixins": [
     "ArmorItemAccessor",
     "BlocksInvoker",
-    "DamageSourceMixin",
     "FireBlockInvoker",
     "FoodStatsAccessor",
     "LivingEntityInvoker",
@@ -14,7 +13,6 @@
     "MobEntityMixin",
     "PlayerEntityMixin",
     "PointOfInterestTypeInvoker",
-    "entity.LivingEntityMixin",
     "entity.MixinVillagerEntity"
   ],
   "client": [
