@@ -70,17 +70,13 @@ public class ModEntityEventHandler {
     }
 
     @SubscribeEvent
-    public void onEntityAttack(LivingHurtEvent event) {
-        if (event.getSource().getEntity() != null && Helper.isWerewolf(event.getSource().getEntity()) && !Helper.isVampire(event.getEntityLiving())) {
-            ModifiableAttributeInstance s = event.getEntityLiving().getAttribute(Attributes.ARMOR);
-            if (s != null) {
+    public void onLivingHurt(LivingHurtEvent event) {
+        ModifiableAttributeInstance s = event.getEntityLiving().getAttribute(Attributes.ARMOR);
+        if (s != null) {
+            s.removeModifier(ARMOR_REDUCTION);
+            if (event.getSource().getEntity() != null && Helper.isWerewolf(event.getSource().getEntity()) && !Helper.isVampire(event.getEntityLiving())) {
                 float levelModifier = WerewolfPlayer.getOptEx(event.getSource().getEntity()).map(player -> player.getLevel() / (float) player.getMaxLevel()).orElse(1f);
                 s.addTransientModifier(new AttributeModifier(ARMOR_REDUCTION, "werewolf_attack", -0.2 * levelModifier, AttributeModifier.Operation.MULTIPLY_TOTAL));
-            }
-        } else {
-            ModifiableAttributeInstance s = event.getEntityLiving().getAttribute(Attributes.ARMOR);
-            if (s != null) {
-                s.removeModifier(ARMOR_REDUCTION);
             }
         }
         if (Helper.isWerewolf(event.getEntity())) {
