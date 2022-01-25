@@ -63,8 +63,9 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
 
     @Override
     public boolean canTransform() {
+        if (!this.werewolf) return false;
         boolean otherFaction = this instanceof IVampire || ExtendedCreature.getSafe(this).map(IExtendedCreatureVampirism::hasPoisonousBlood).orElse(false);
-        return this.werewolf && !otherFaction && this.rage > this.getMaxHealth() * 4;
+        return !otherFaction && this.rage > this.getMaxHealth() * 4;
     }
 
     @Override
@@ -80,16 +81,18 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     @Override
     public void aiStep() {
         super.aiStep();
-        if (this.werewolf && this.rage > 150) {
-            WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
-            ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
-        }
-        if (this.level.getGameTime() % 400 == 10) {
-            if (Helper.isFullMoon(this.level)) {
-                this.transformToWerewolf(TransformType.FULL_MOON);
+        if (this.werewolf) {
+            if (this.rage > 150) {
+                WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
+                ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
             }
-            if (rage > 10) {
-                this.rage -= 10;
+            if (this.level.getGameTime() % 400 == 10) {
+                if (Helper.isFullMoon(this.level)) {
+                    this.transformToWerewolf(TransformType.FULL_MOON);
+                }
+                if (rage > 10) {
+                    this.rage -= 10;
+                }
             }
         }
     }
