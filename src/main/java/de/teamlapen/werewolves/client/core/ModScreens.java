@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ModScreens {
 
-    public static void registerScreens() {
+    public static void registerScreensUnsafe() {
         ScreenManager.register(ModContainer.stone_altar_container, StoneAltarScreen::new);
     }
 }

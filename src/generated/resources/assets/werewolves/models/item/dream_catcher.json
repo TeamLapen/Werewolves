@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "werewolves:item/dream_catcher"
+    "layer0": "werewolves:item/dream_catcher_layer0",
+    "layer1": "werewolves:item/dream_catcher_layer1"
   }
 }

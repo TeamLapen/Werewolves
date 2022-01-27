@@ -47,7 +47,6 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModItems.werewolf_minion_upgrade_special);
             add(ModItems.silver_oil);
             add(ModItems.silver_nugget);
-            add(ModItems.dream_catcher);
             add(ModItems.bone_necklace);
             add(ModItems.charm_bracelet);
         }};
@@ -72,6 +71,8 @@ public class ItemModelGenerator extends ItemModelProvider {
         this.withExistingParent(ModItems.werewolf_beast_spawn_egg, this.mcLoc("item/template_spawn_egg"));
         this.withExistingParent(ModItems.werewolf_survivalist_spawn_egg, this.mcLoc("item/template_spawn_egg"));
         this.withExistingParent(ModItems.human_werewolf_spawn_egg, this.mcLoc("item/template_spawn_egg"));
+
+        this.item(ModItems.dream_catcher, modLoc("item/dream_catcher_layer0"), modLoc("item/dream_catcher_layer1"));
     }
 
     @Nonnull
