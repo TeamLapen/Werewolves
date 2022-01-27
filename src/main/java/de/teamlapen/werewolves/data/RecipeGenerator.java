@@ -43,7 +43,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .requires(ModBlocks.jacaranda_log).unlockedBy("has_jacaranda_log", has(ModBlocks.jacaranda_log))
                 .save(consumer, modId("oak_planks_from_jacaranda_log"));
         ShapelessRecipeBuilder.shapeless(Items.BONE, 2)
-                .requires(ModItems.bone).unlockedBy("has_bone", has(ModItems.bone))
+                .requires(ModItems.cracked_bone).unlockedBy("has_broken_bone", has(ModItems.cracked_bone))
                 .save(consumer);
         ShapelessRecipeBuilder.shapeless(Items.PURPLE_DYE)
                 .requires(ModBlocks.wolfsbane).unlockedBy("has_wolfsbane", has(ModBlocks.wolfsbane))

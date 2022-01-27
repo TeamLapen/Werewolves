@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_bone": {
+    "has_broken_bone": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "werewolves:bone"
+            "item": "werewolves:cracked_bone"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_bone",
+      "has_broken_bone",
       "has_the_recipe"
     ]
   ]

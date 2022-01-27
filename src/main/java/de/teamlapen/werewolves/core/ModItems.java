@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -31,7 +32,7 @@ public class ModItems {
     public static final SilverSword silver_sword = getNull();
     public static final CrossbowArrowItem crossbow_arrow_silver_bolt = getNull();
     public static final LiverItem liver = getNull();
-    public static final Item bone = getNull();
+    public static final Item cracked_bone = getNull();
     public static final UnWerewolfInjectionItem injection_un_werewolf = getNull();
     public static final WerewolfToothItem werewolf_tooth = getNull();
     public static final Item silver_nugget = getNull();
@@ -77,7 +78,7 @@ public class ModItems {
         }));
 
         registry.register(new LiverItem().setRegistryName(REFERENCE.MODID, "liver"));
-        registry.register(new Item(new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "bone"));
+        registry.register(new Item(new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "cracked_bone"));
         registry.register(new UnWerewolfInjectionItem());
         registry.register(new SpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
         registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
@@ -85,15 +86,25 @@ public class ModItems {
         registry.register(new WerewolfToothItem().setRegistryName(REFERENCE.MODID, "werewolf_tooth"));
 
         registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "werewolf_minion_charm"));
-        registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(),1, 2).setRegistryName(REFERENCE.MODID,"werewolf_minion_upgrade_simple"));
-        registry.register(new WerewolfMinionUpgradeItem( creativeTabProps(),3, 4).setRegistryName(REFERENCE.MODID,"werewolf_minion_upgrade_enhanced"));
-        registry.register(new WerewolfMinionUpgradeItem( creativeTabProps(),5, 6).setRegistryName(REFERENCE.MODID,"werewolf_minion_upgrade_special"));
+        registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 1, 2).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_simple"));
+        registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 3, 4).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_enhanced"));
+        registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 5, 6).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_special"));
 
         registry.register(new SilverOilItem(creativeTabProps()).setRegistryName(REFERENCE.MODID, "silver_oil"));
         registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "silver_nugget"));
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET).setRegistryName(REFERENCE.MODID, "bone_necklace"));
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING).setRegistryName(REFERENCE.MODID, "charm_bracelet"));
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.OBI_BELT).setRegistryName(REFERENCE.MODID, "dream_catcher"));
+    }
+
+    public static void remapItems(RegistryEvent.MissingMappings<Item> event) {
+        event.getAllMappings().forEach(missingMapping -> {
+            switch (missingMapping.key.toString()) {
+                case "werewolves:bone":
+                    missingMapping.remap(ModItems.cracked_bone);
+                    break;
+            }
+        });
     }
 
     static void registerRecipes() {

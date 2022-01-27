@@ -41,8 +41,8 @@ public class ModMinionTasks {
                         new WeightedRandomItem<>(new ItemStack(Items.BEEF), 2),
                         new WeightedRandomItem<>(new ItemStack(Items.ROTTEN_FLESH), 1),
                         new WeightedRandomItem<>(new ItemStack(Items.MUTTON), 1),
-                        new WeightedRandomItem<>(new ItemStack(ModItems.bone), 2),
-                        new WeightedRandomItem<>(new ItemStack(ModItems.werewolf_tooth),1),
+                        new WeightedRandomItem<>(new ItemStack(ModItems.cracked_bone), 2),
+                        new WeightedRandomItem<>(new ItemStack(ModItems.werewolf_tooth), 1),
                         new WeightedRandomItem<>(new ItemStack(ModItems.V.human_heart), 1)))
                 .setRegistryName(REFERENCE.MODID, "collect_werewolf_items"));
     }

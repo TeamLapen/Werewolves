@@ -76,6 +76,11 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
+    public void onMissingItem(RegistryEvent.MissingMappings<Item> event) {
+        ModItems.remapItems(event);
+    }
+
+    @SubscribeEvent
     public void onRegisterBiomes(RegistryEvent.Register<Biome> event) {
         ModBiomes.registerBiomes(event.getRegistry());
     }

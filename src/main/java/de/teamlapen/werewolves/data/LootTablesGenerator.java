@@ -92,7 +92,7 @@ public class LootTablesGenerator extends LootTableProvider {
                             .when(KilledByPlayer.killedByPlayer())
                             .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantRange.exactly(1))
-                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(40))
+                            .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(40))
                             .add(ItemLootEntry.lootTableItem(ModItems.werewolf_tooth).setWeight(1)));
             this.add(ModEntities.werewolf_survivalist, werewolf);
             this.add(ModEntities.werewolf_beast, werewolf);
@@ -108,7 +108,7 @@ public class LootTablesGenerator extends LootTableProvider {
                             .when(KilledByPlayer.killedByPlayer())
                             .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantRange.exactly(1))
-                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(6)))
+                            .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(6)))
                     .withPool(LootPool.lootPool()
                             .name("hunter")
                             .when(KilledByPlayer.killedByPlayer())
@@ -148,7 +148,7 @@ public class LootTablesGenerator extends LootTableProvider {
                             .add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1).when(RandomChance.randomChance(0.5f)))));
             consumer.accept(ModLootTables.skeleton, LootTable.lootTable()
                     .withPool(LootPool.lootPool().name("bones").setRolls(ConstantRange.exactly(1))
-                            .add(ItemLootEntry.lootTableItem(ModItems.bone).setWeight(1).when(RandomChance.randomChance(0.1f)))));
+                            .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(1).when(RandomChance.randomChance(0.1f)))));
         }
     }
 

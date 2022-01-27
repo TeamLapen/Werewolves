@@ -28,7 +28,7 @@
         {
           "type": "minecraft:item",
           "weight": 6,
-          "name": "werewolves:bone"
+          "name": "werewolves:cracked_bone"
         }
       ],
       "conditions": [

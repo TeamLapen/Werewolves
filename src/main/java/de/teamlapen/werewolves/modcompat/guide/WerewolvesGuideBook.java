@@ -89,10 +89,10 @@ public class WerewolvesGuideBook {
         levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(new StringTextComponent(stone_altar)), new ResourceLocation("guide.werewolves.blocks.stone_altar"), new ResourceLocation("guide.werewolves.blocks.stone_altar_fire_bowl")));
         levelingPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.structure", loc(ModBlocks.stone_altar), loc(ModBlocks.stone_altar_fire_bowl),loc(ModBlocks.stone_altar), loc(ModBlocks.stone_altar_fire_bowl), loc(Items.FLINT_AND_STEEL))));
         levelingPages.add(new PageTextImage(translateComponent(base + "leveling.stone.image1"), new ResourceLocation(IMAGE_BASE + "stone1.png"), false));
-        String item = loc(ModItems.liver) +", " + loc(ModItems.bone);
+        String item = loc(ModItems.liver) + ", " + loc(ModItems.cracked_bone);
         levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.items", item)), new ResourceLocation("guide.werewolves.items.liver"), new ResourceLocation("guide.werewolves.items.bone")));
         PageTable.Builder requirementBuilder = new PageTable.Builder(3);
-        requirementBuilder.addUnlocLine("text.vampirism.level_short", loc(ModItems.liver), loc(ModItems.bone));
+        requirementBuilder.addUnlocLine("text.vampirism.level_short", loc(ModItems.liver), loc(ModItems.cracked_bone));
         for (int i = 2; i <= 14; i++) {
             //noinspection ConstantConditions
             requirementBuilder.addLine(i, WerewolfLevelConf.getInstance().getStoneRequirement(i).liverAmount,WerewolfLevelConf.getInstance().getStoneRequirement(i).bonesAmount);
@@ -123,7 +123,7 @@ public class WerewolvesGuideBook {
     private static void buildItems(Map<ResourceLocation, EntryAbstract> entriesIn, BookHelper helper) {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
         helper.info(ModItems.liver).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
-        helper.info(ModItems.bone).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
+        helper.info(ModItems.cracked_bone).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
         entriesIn.putAll(entries);
     }
 

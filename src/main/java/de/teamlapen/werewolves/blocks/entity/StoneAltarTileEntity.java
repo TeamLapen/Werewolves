@@ -253,13 +253,13 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
 
     private boolean checkItemRequirements(PlayerEntity player) {
         WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(this.targetLevel);
-        ItemStack missing = InventoryHelper.checkItems(this, new Item[]{ModItems.liver, ModItems.bone}, new int[]{req.liverAmount, req.bonesAmount});
+        ItemStack missing = InventoryHelper.checkItems(this, new Item[]{ModItems.liver, ModItems.cracked_bone}, new int[]{req.liverAmount, req.bonesAmount});
         return missing.isEmpty();
     }
 
     public Map<Item, Integer> getMissingItems() {
         WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(this.targetLevel);
-        return Helper.getMissingItems(this, new Item[]{ModItems.liver, ModItems.bone}, new int[]{req.liverAmount, req.bonesAmount});
+        return Helper.getMissingItems(this, new Item[]{ModItems.liver, ModItems.cracked_bone}, new int[]{req.liverAmount, req.bonesAmount});
     }
 
     @Nonnull

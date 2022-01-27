@@ -38,7 +38,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         Set<Item> itemsLayer = new HashSet<Item>() {{
             add(ModItems.silver_ingot);
             add(ModItems.liver);
-            add(ModItems.bone);
+            add(ModItems.cracked_bone);
             add(ModItems.injection_un_werewolf);
             add(ModItems.werewolf_tooth);
             add(ModItems.werewolf_minion_charm);
