@@ -10,6 +10,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.Permissions;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -17,6 +18,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.server.permission.PermissionAPI;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -125,7 +127,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             if (!usesTransformationTime(werewolfPlayer.getRepresentingPlayer())) {
                 return false;
             }
-        return increaseWerewolfTime(werewolfPlayer);
+        return increaseWerewolfTime(werewolfPlayer) || !PermissionAPI.hasPermission(werewolfPlayer.getRepresentingPlayer(), Permissions.FORM);
     }
 
     protected boolean usesTransformationTime(LivingEntity player) {
@@ -177,9 +179,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        boolean active = player.getActionHandler().isActionActive(this);
-        if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active)
+        if (!PermissionAPI.hasPermission(player.getRepresentingPlayer(), Permissions.TRANSFORMATION) || !PermissionAPI.hasPermission(player.getRepresentingPlayer(), Permissions.FORM))
             return false;
+        boolean active = player.getActionHandler().isActionActive(this);
+        if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active) return false;
         return player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()) == ModBiomes.werewolf_heaven || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || active;
     }
 

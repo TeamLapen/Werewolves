@@ -4,7 +4,6 @@ import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.network.InputEventPacket;
-import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
@@ -49,23 +48,21 @@ public class ModKeys {
         Optional<KeyBinding> keyOpt = getPressedKeyBinding();
         keyOpt.ifPresent(key -> {
             PlayerEntity player = Minecraft.getInstance().player;
-            LazyOptional<WerewolfPlayer> werewolfOpt = WerewolfPlayer.getOpt(Minecraft.getInstance().player);
+            LazyOptional<WerewolfPlayer> werewolfOpt = WerewolfPlayer.getOptEx(Minecraft.getInstance().player);
             if (key == LEAP) {
-                if (Helper.isWerewolf(player)) {
-                    werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.leap) && w.getForm().isTransformed()).ifPresent(w -> {
-                        WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.LEAP, ""));
-                        WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.leap);
-                    });
-                }
+                werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.leap) && w.getForm().isTransformed()).ifPresent(w -> {
+                    WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.LEAP, ""));
+                    WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.leap);
+                });
             } else if (key == BITE) {
-                if (Helper.isWerewolf(player)) {
+                werewolfOpt.ifPresent(werewolf -> {
                     RayTraceResult mouseOver = Minecraft.getInstance().hitResult;
-                    Entity entity = mouseOver instanceof EntityRayTraceResult? ((EntityRayTraceResult) mouseOver).getEntity():null;
-                    if (entity instanceof LivingEntity && werewolfOpt.map(w -> w.getForm().isTransformed() && w.getLevel() > 0 && w.canBite() && w.canBiteEntity(((LivingEntity) entity))).orElse(false)) {
+                    Entity entity = mouseOver instanceof EntityRayTraceResult ? ((EntityRayTraceResult) mouseOver).getEntity() : null;
+                    if (entity instanceof LivingEntity && werewolf.canBite() && werewolf.canBiteEntity(((LivingEntity) entity))) {
                         WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getId()));
                         clientEventHandler.onZoomPressed();
                     }
-                }
+                });
             }
         });
     }

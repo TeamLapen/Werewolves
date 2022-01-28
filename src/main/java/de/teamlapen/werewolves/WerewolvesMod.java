@@ -87,7 +87,6 @@ public class WerewolvesMod {
         }
 
         WerewolvesConfig.registerConfigs();
-        Permissions.init();
     }
 
     private void checkDevEnv() {
@@ -130,6 +129,9 @@ public class WerewolvesMod {
 
         MinecraftForge.EVENT_BUS.register(new ModEntityEventHandler());
         MinecraftForge.EVENT_BUS.register(new ModPlayerEventHandler());
+        MinecraftForge.EVENT_BUS.register(new GeneralEventHandler());
+
+        Permissions.init();
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event) {

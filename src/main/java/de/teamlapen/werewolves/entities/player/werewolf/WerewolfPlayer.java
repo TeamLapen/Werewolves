@@ -46,6 +46,7 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -406,11 +407,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     public boolean canBiteEntity(LivingEntity entity) {
-        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue()+1;
+        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1 && (!(entity instanceof PlayerEntity) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
     }
 
     public boolean canBite(){
-        return this.form.isTransformed() && !this.player.isSpectator() && this.getLevel() > 0 && this.specialAttributes.biteTicks <= 0;
+        return this.form.isTransformed() && !this.player.isSpectator() && this.getLevel() > 0 && this.specialAttributes.biteTicks <= 0 && PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.BITE);
     }
 
     public boolean bite(int entityId) {
@@ -422,9 +423,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     private boolean bite(LivingEntity entity) {
-        if (this.specialAttributes.biteTicks > 0)return false;
+        if (this.specialAttributes.biteTicks > 0) return false;
         if (!this.form.isTransformed()) return false;
-        if (entity.distanceTo(this.player) > this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue()+1) return false;
+        if (!canBite()) return false;
+        if (!canBiteEntity(entity)) return false;
         double damage = this.player.getAttribute(ModAttributes.bite_damage).getValue() + this.player.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         boolean flag = entity.hurt(Helper.causeWerewolfDamage(this.player), (float) damage);
         if (flag) {
@@ -437,10 +439,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 }
                 entity.addEffect(new EffectInstance(ModEffects.V.freeze, duration));
             } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
-                entity.addEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.bleeding_bite)?3:0));
+                entity.addEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.bleeding_bite) ? 3 : 0));
             }
-            this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)),false);
-            LupusSanguinemEffect.addSanguinemEffectRandom(entity);
+            this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)), false);
+            if (!(entity instanceof PlayerEntity) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.INFECT_PLAYER)) {
+                LupusSanguinemEffect.addSanguinemEffectRandom(entity);
+            }
         }
         return flag;
     }
