@@ -4,38 +4,43 @@
 You should be able to include it with the following in your `build.gradle`:
 ```gradle
 repositories {
-    //Maven repo for Werewolves
-    maven {
-        url = "https://maven.paube.de"
-    }
     //Maven repo for Vampirism
     maven {
         url = "https://maxanier.de/maven2"
     }
+    
+    //Maven repo for Werewolves
+    maven {
+        url = "https://maven.paube.de/releases" // for full versions
+    }
+    maven {
+        url = "https://maven.paube.de/snapshots" // for snapshot version
+    }
 }
 dependencies {
-    compile "de.teamlapen.vampirism:Vampirism:${mc_version}-${vampirism_version}"
-    compile "de.teamlapen.werewolves:Werewolves:${mc_version}-${werewolves_version}"
+    implementation "de.teamlapen.vampirism:Vampirism:${mc_version}-${vampirism_version}"
+    implementation "de.teamlapen.werewolves:Werewolves:${mc_version}-${werewolves_version}"
 }
 ```
 
 #### Choose a version
-`${mc_version}` gets replaced by the current Minecraft version. (i.e. `1.14.4`)
-`${vampirism_version}` gets replaced by the version of Vampirism you want to use (i.e `1.7.0`)
-`${werewolves_version}` gets replaced by the version of Werewolves you want to use (i.e `1.0.0`)
 
-These properties can be set in a file named `gradle.properties`, placed in the same directory as your `build.gradle` file.
-Example `gradle.properties`:
+`${mc_version}` gets replaced by the current Minecraft version. (i.e. `1.16.5`)
+`${vampirism_version}` gets replaced by the version of Vampirism you want to use (i.e `1.8.0`)
+`${werewolves_version}` gets replaced by the version of Werewolves you want to use (i.e `0.5.6`)
+
+These properties can be set in a file named `gradle.properties`, placed in the same directory as your `build.gradle`
+file. Example `gradle.properties`:
+
 ```
-mc_version=1.14.4
-vampirism_version=1.6.3
-werewolves_version=1.0.0
+mc_version=11.16.5
+vampirism_version=1.8.0
+werewolves_version=0.5.6
 ```
 
 #### Rerun Gradle setup commands
-Please run the commands that you used to setup your development environment again.
-E.g. `gradlew` or `gradlew --refresh-dependencies`
-Refresh/Restart your IDE afterwards.
+
+Please re-import the gradle project
 
 ## Setting up the development environment
 If you would like to compile your own versions or even contribute to Werewolves's development you need to setup a dev environment.
