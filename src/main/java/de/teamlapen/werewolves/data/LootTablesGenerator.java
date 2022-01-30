@@ -92,8 +92,7 @@ public class LootTablesGenerator extends LootTableProvider {
                             .when(KilledByPlayer.killedByPlayer())
                             .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantRange.exactly(1))
-                            .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(40))
-                            .add(ItemLootEntry.lootTableItem(ModItems.werewolf_tooth).setWeight(1)));
+                            .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(40)));
             this.add(ModEntities.werewolf_survivalist, werewolf);
             this.add(ModEntities.werewolf_beast, werewolf);
             this.add(ModEntities.human_werewolf, LootTable.lootTable()

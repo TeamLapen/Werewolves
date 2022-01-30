@@ -29,10 +29,6 @@
           "type": "minecraft:item",
           "weight": 40,
           "name": "werewolves:cracked_bone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "werewolves:werewolf_tooth"
         }
       ],
       "conditions": [
