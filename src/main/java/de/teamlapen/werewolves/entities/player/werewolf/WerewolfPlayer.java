@@ -554,6 +554,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void saveData(CompoundNBT compound) {
+        super.saveData(compound);
         this.actionHandler.saveToNbt(compound);
         this.skillHandler.saveToNbt(compound);
         this.levelHandler.saveToNbt(compound);
@@ -576,6 +577,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void loadData(CompoundNBT compound) {
+        super.loadData(compound);
         this.actionHandler.loadFromNbt(compound);
         this.skillHandler.loadFromNbt(compound);
         this.levelHandler.loadFromNbt(compound);
@@ -608,6 +610,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     protected void writeFullUpdate(CompoundNBT nbt) {
+        super.writeFullUpdate(nbt);
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
         this.levelHandler.saveToNbt(nbt);
@@ -627,6 +630,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     protected void loadUpdate(CompoundNBT nbt) {
+        super.loadUpdate(nbt);
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
         this.levelHandler.loadFromNbt(nbt);
