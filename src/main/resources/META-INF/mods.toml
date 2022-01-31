@@ -10,7 +10,7 @@ version = "${version}"
 displayName = "Werewolves"
 displayURL = "https://werewolves.cheaterpaul.de"
 logoFile = "logo.png"
-credits = "RebelT (models/textures), Maxanier (Vampirism)"
+credits = "RebelT (models/textures), Maxanier (Vampirism), Йода (Textures), CritterCarnival (Textures), Talonerd (Textures)"
 authors = "Cheaterpaul"
 [[dependencies.werewolves]]
 modId = "forge"

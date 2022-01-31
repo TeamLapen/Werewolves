@@ -21,6 +21,9 @@ Vampirism:
 ## Special Thanks to
 - [maxanier](https://maxanier.de) _Vampirism_
 - [PixelEyeStudios](https://github.com/PixelEyeStudios) _Werewolf Model & Textures_
+- Йода _Textures_
+- CritterCarnival _Textures_
+- Talonerd _Textures_
 
 ## Setup Gradle build script
 
