@@ -222,7 +222,7 @@ public class BalanceConfig {
             builder.push("howling");
             this.howling_enabled = builder.define("howling_enabled", true);
             this.howling_attackspeed_amount = builder.defineInRange("howling_attackspeed_amount", 2.0, 0.0, 5.0);
-            this.howling_cooldown = builder.comment("In seconds").defineInRange("howling_cooldown", 10, 1, Integer.MAX_VALUE);
+            this.howling_cooldown = builder.comment("In seconds").defineInRange("howling_cooldown", 35, 1, Integer.MAX_VALUE);
             this.howling_duration = builder.comment("Howling effect duration", "In seconds").defineInRange("howling_duration", 10, 1, Integer.MAX_VALUE);
             this.howling_disabled_duration = builder.comment("Duration that cancels new howling effects", "In seconds").defineInRange("howling_disabled_duration", 10, 1, Integer.MAX_VALUE);
             builder.pop();
@@ -257,13 +257,13 @@ public class BalanceConfig {
 
             builder.push("sense");
             this.sense_enabled = builder.define("sense_enabled", true);
-            this.sense_radius = builder.defineInRange("sense_radius", 15, 1, 400);
+            this.sense_radius = builder.defineInRange("sense_radius", 25, 1, 400);
             this.sense_duration = builder.comment("In seconds").defineInRange("sense_duration", 30, 1, Integer.MAX_VALUE);
-            this.sense_cooldown = builder.comment("In seconds").defineInRange("sense_cooldown", 60, 1, Integer.MAX_VALUE);
+            this.sense_cooldown = builder.comment("In seconds").defineInRange("sense_cooldown", 90, 1, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("stun_bite");
-            this.stun_bite_duration = builder.comment("In ticks").defineInRange("stun_bite_duration", 40, 0, Integer.MAX_VALUE);
+            this.stun_bite_duration = builder.comment("In ticks").defineInRange("stun_bite_duration", 30, 0, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("bleeding_bite");
@@ -276,13 +276,13 @@ public class BalanceConfig {
 
             builder.push("fear_action");
             this.fear_action_enabled = builder.define("fear_action_enabled", true);
-            this.fear_action_cooldown = builder.comment("In seconds").defineInRange("fear_action_cooldown", 20, 1, Integer.MAX_VALUE);
+            this.fear_action_cooldown = builder.comment("In seconds").defineInRange("fear_action_cooldown", 25, 1, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("hide_name");
             this.hide_name_enabled = builder.define("hide_name_enabled", true);
             this.hide_name_cooldown = builder.comment("In seconds").defineInRange("hide_name_cooldown", 1, 1, Integer.MAX_VALUE);
-            this.hide_name_duration = builder.comment("Intended for unlimited usage", "In ticks").defineInRange("hide_name_duration", 1000000, 1, Integer.MAX_VALUE);
+            this.hide_name_duration = builder.comment("Intended for unlimited usage", "In ticks").defineInRange("hide_name_duration", Integer.MAX_VALUE, 1, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("leap");
@@ -293,12 +293,12 @@ public class BalanceConfig {
             builder.push("sixth_sense");
             this.sixth_sense_enabled = builder.define("sixth_sense_enabled", true);
             this.sixth_sense_cooldown = builder.comment("In seconds").defineInRange("sixth_sense_cooldown", 30, 1, Integer.MAX_VALUE);
-            this.sixth_sense_duration = builder.comment("Intended for unlimited usage", "In ticks").defineInRange("sixth_sense_duration", 1000000, 1, Integer.MAX_VALUE);
+            this.sixth_sense_duration = builder.comment("Intended for unlimited usage", "In ticks").defineInRange("sixth_sense_duration", Integer.MAX_VALUE, 1, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("wolf_pack");
             this.wolf_pack_enabled = builder.define("wolf_pack_enabled", true);
-            this.wolf_pack_cooldown = builder.comment("In seconds").defineInRange("wolf_pack_cooldown", 60, 1, Integer.MAX_VALUE);
+            this.wolf_pack_cooldown = builder.comment("In seconds").defineInRange("wolf_pack_cooldown", 120, 1, Integer.MAX_VALUE);
             this.wolf_pack_wolf_duration = builder.comment("In seconds").defineInRange("wolf_pack_wolf_duration", 25, 1, Integer.MAX_VALUE);
             this.wolf_pack_wolf_amount = builder.comment("Spawned wolves when the wolf pack skill is unlocked").defineInRange("wolf_pack_wolf_amount", 2,0, 10);
             builder.pop();
@@ -329,18 +329,18 @@ public class BalanceConfig {
         public final ForgeConfigSpec.IntValue stun_bite_duration_extend;
 
         public Refinements(ForgeConfigSpec.Builder builder) {
-            this.greater_doge_chance = builder.comment("Increased doge chance for movement tactics skill").defineInRange("greater_doge_chance", 0.1,0,1);
-            this.more_wolves = builder.comment("Increased wolf spawning for the howling action").defineInRange("more_wolves", 1,0,5);
-            this.werewolf_form_duration_general_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_1", 20,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_general_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_2", 40,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_human_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_1", 20,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_human_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_2", 30,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_survival_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_1", 20,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_survival_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_2", 30,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_beast_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast_1", 20,0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_beast_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast_2", 30,0, Integer.MAX_VALUE);
-            this.rage_fury_timer_extend = builder.comment("In Ticks").defineInRange("rage_fury_timer_extend", 40,0,Integer.MAX_VALUE);
-            this.stun_bite_duration_extend = builder.comment("In Ticks").defineInRange("stun_bite_duration_extend", 20,0,Integer.MAX_VALUE);
+            this.greater_doge_chance = builder.comment("Increased doge chance for movement tactics skill").defineInRange("greater_doge_chance", 0.1, 0, 1);
+            this.more_wolves = builder.comment("Increased wolf spawning for the howling action").defineInRange("more_wolves", 1, 0, 5);
+            this.werewolf_form_duration_general_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_1", 20, 0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_general_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_2", 40, 0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_human_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_1", 20, 0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_human_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_2", 30, 0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_survival_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_1", 20, 0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_survival_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_2", 30, 0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_beast_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast_1", 20, 0, Integer.MAX_VALUE);
+            this.werewolf_form_duration_beast_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast_2", 30, 0, Integer.MAX_VALUE);
+            this.rage_fury_timer_extend = builder.comment("In Ticks").defineInRange("rage_fury_timer_extend", 60, 0, Integer.MAX_VALUE);
+            this.stun_bite_duration_extend = builder.comment("In Ticks").defineInRange("stun_bite_duration_extend", 20, 0, Integer.MAX_VALUE);
         }
     }
 
