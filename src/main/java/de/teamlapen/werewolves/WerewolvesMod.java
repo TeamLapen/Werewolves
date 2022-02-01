@@ -21,12 +21,14 @@ import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.proxy.Proxy;
 import de.teamlapen.werewolves.proxy.ServerProxy;
 import de.teamlapen.werewolves.util.*;
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -75,6 +77,7 @@ public class WerewolvesMod {
         bus.addListener(this::enqueueIMC);
         bus.addListener(this::gatherData);
         bus.addListener(this::setUpClient);
+        bus.addGenericListener(Block.class, this::blockRegister); // First event after mod init. Faction can only be registered after VampirismMod's constructor
         bus.register(registryManager);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -116,6 +119,10 @@ public class WerewolvesMod {
             WReference.WEREWOLF_CREATURE_ATTRIBUTES = WerewolvesMod.WEREWOLF_CREATURE_ATTRIBUTES;
             setupAPI = true;
         }
+    }
+
+    private void blockRegister(RegistryEvent.Register<Block> event) {
+        setupAPI();
     }
 
 
