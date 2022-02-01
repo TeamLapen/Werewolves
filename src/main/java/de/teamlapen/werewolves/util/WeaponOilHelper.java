@@ -6,9 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.Optional;
-import java.util.function.BiConsumer;
 
 public class WeaponOilHelper {
 
@@ -49,9 +49,9 @@ public class WeaponOilHelper {
         stack.getOrCreateTag().remove("weapon_oil");
     }
 
-    public static void executeAndReduce(ItemStack stack, BiConsumer<IWeaponOil, Integer> consumer) {
+    public static void executeAndReduce(ItemStack stack, TriConsumer<ItemStack, IWeaponOil, Integer> consumer) {
         oilOpt(stack).ifPresent(oil -> {
-            consumer.accept(oil.getLeft(), oil.getRight());
+            consumer.accept(stack, oil.getLeft(), oil.getRight());
             if (oil.getRight() > 1) {
                 setWeaponOils(stack, oil.getLeft(), oil.getRight() - 1);
             } else {
