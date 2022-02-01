@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "werewolves:item/bone_necklace"
+    "layer0": "werewolves:item/bone_necklace_layer0",
+    "layer1": "werewolves:item/bone_necklace_layer1"
   }
 }

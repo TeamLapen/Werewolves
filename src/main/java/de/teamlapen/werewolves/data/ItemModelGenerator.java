@@ -47,8 +47,6 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModItems.werewolf_minion_upgrade_special);
             add(ModItems.silver_oil);
             add(ModItems.silver_nugget);
-            add(ModItems.bone_necklace);
-            add(ModItems.charm_bracelet);
         }};
         Set<Block> blockLayer = new HashSet<Block>() {{
             add(ModBlocks.jacaranda_sapling);
@@ -73,6 +71,8 @@ public class ItemModelGenerator extends ItemModelProvider {
         this.withExistingParent(ModItems.human_werewolf_spawn_egg, this.mcLoc("item/template_spawn_egg"));
 
         this.item(ModItems.dream_catcher, modLoc("item/dream_catcher_layer0"), modLoc("item/dream_catcher_layer1"));
+        this.item(ModItems.charm_bracelet, modLoc("item/charm_bracelet_layer0"), modLoc("item/charm_bracelet_layer1"));
+        this.item(ModItems.bone_necklace, modLoc("item/bone_necklace_layer0"), modLoc("item/bone_necklace_layer1"));
     }
 
     @Nonnull

@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "werewolves:item/charm_bracelet"
+    "layer0": "werewolves:item/charm_bracelet_layer0",
+    "layer1": "werewolves:item/charm_bracelet_layer1"
   }
 }

@@ -30,6 +30,6 @@ public class ModItemRenderer {
                 }
             }
             return 0xFFFFFF;
-        }, ModItems.dream_catcher);
+        }, ModItems.dream_catcher, ModItems.charm_bracelet, ModItems.bone_necklace);
     }
 }
