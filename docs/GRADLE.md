@@ -1,5 +1,5 @@
 [Back home](../README.md)
-#### Setup Gradle build script
+### Setup Gradle build script
 
 You should be able to include it with the following in your `build.gradle`:
 ```gradle
