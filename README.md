@@ -7,7 +7,7 @@ Werewolves for Minecraft 1.16 - Latest branch
 
 ---
 
-![](dev_resources/project/werewolves-title.svg)
+![](dev_resources/project/werewolves-title.png)
 
 ## Mod Description
 
