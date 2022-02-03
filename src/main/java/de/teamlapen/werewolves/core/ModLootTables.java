@@ -19,14 +19,29 @@ public class ModLootTables {
 
     private static final Map<ResourceLocation, ResourceLocation> INJECTION_TABLES = Maps.newHashMap();
 
+    // entities
     public static final ResourceLocation villager = entity(EntityType.VILLAGER);
     public static final ResourceLocation skeleton = entity(EntityType.SKELETON);
+
+    // chests
+    public static final ResourceLocation abandoned_mineshaft = chest("abandoned_mineshaft");
+    public static final ResourceLocation jungle_temple = chest("jungle_temple");
+    public static final ResourceLocation stronghold_corridor = chest("stronghold_corridor");
+    public static final ResourceLocation desert_pyramid = chest("desert_pyramid");
+    public static final ResourceLocation stronghold_library = chest("stronghold_library");
 
     public static final GlobalLootModifierSerializer<MobLootModifier> mob_modifier = new MobLootModifier.ModLootModifierSerializer();
 
     static ResourceLocation entity(EntityType<?> type) {
         ResourceLocation loc = type.getDefaultLootTable();
-        ResourceLocation newLoc = new ResourceLocation(REFERENCE.MODID, "inject/" + loc.getPath());
+        ResourceLocation newLoc = new ResourceLocation(REFERENCE.MODID, "inject/entity/" + loc.getPath());
+        INJECTION_TABLES.put(loc, newLoc);
+        return newLoc;
+    }
+
+    static ResourceLocation chest(String chest) {
+        ResourceLocation loc = new ResourceLocation("chests/" + chest);
+        ResourceLocation newLoc = new ResourceLocation(REFERENCE.MODID, "inject/chest/" + chest);
         INJECTION_TABLES.put(loc, newLoc);
         return newLoc;
     }
@@ -36,7 +51,7 @@ public class ModLootTables {
         if (INJECTION_TABLES.containsKey(event.getName())) {
             try {
                 event.getTable().addPool(getInjectPool(event.getName()));
-            } catch (NullPointerException ignored){
+            } catch (NullPointerException ignored) {
 
             }
         }

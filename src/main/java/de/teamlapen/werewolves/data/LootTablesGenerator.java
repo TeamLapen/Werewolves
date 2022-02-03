@@ -2,10 +2,12 @@ package de.teamlapen.werewolves.data;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
+import de.teamlapen.vampirism.world.loot.RefinementSetFunction;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModLootTables;
+import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
@@ -37,7 +39,12 @@ public class LootTablesGenerator extends LootTableProvider {
     @Nonnull
     @Override
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootParameterSet>> getTables() {
-        return ImmutableList.of(Pair.of(ModBlockLootTables::new, LootParameterSets.BLOCK), Pair.of(ModEntityLootTables::new, LootParameterSets.ENTITY), Pair.of(InjectLootTables::new, LootParameterSets.ENTITY));
+        return ImmutableList.of(
+                Pair.of(ModBlockLootTables::new, LootParameterSets.BLOCK),
+                Pair.of(ModEntityLootTables::new, LootParameterSets.ENTITY),
+                Pair.of(InjectLootTables::new, LootParameterSets.ENTITY),
+                Pair.of(ChestLootTables::new, LootParameterSets.CHEST)
+        );
     }
 
     @Override
@@ -92,7 +99,15 @@ public class LootTablesGenerator extends LootTableProvider {
                             .when(KilledByPlayer.killedByPlayer())
                             .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantRange.exactly(1))
-                            .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(40)));
+                            .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(40)))
+                    .withPool(LootPool.lootPool()
+                            .name("accessories")
+                            .when(KilledByPlayer.killedByPlayer())
+                            .when(RandomChance.randomChance(0.05f))
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.bone_necklace).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                            .add(ItemLootEntry.lootTableItem(ModItems.charm_bracelet).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                            .add(ItemLootEntry.lootTableItem(ModItems.dream_catcher).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION))));
             this.add(ModEntities.werewolf_survivalist, werewolf);
             this.add(ModEntities.werewolf_beast, werewolf);
             this.add(ModEntities.human_werewolf, LootTable.lootTable()
@@ -148,6 +163,54 @@ public class LootTablesGenerator extends LootTableProvider {
             consumer.accept(ModLootTables.skeleton, LootTable.lootTable()
                     .withPool(LootPool.lootPool().name("bones").setRolls(ConstantRange.exactly(1))
                             .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(1).when(RandomChance.randomChance(0.1f)))));
+        }
+    }
+
+    private static class ChestLootTables implements Consumer<BiConsumer<ResourceLocation, LootTable.Builder>> {
+
+        @Override
+        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+            LootPool.Builder accessories = LootPool.lootPool()
+                    .name("accessories")
+                    .setRolls(ConstantRange.exactly(1))
+                    .add(ItemLootEntry.lootTableItem(ModItems.bone_necklace).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                    .add(ItemLootEntry.lootTableItem(ModItems.charm_bracelet).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                    .add(ItemLootEntry.lootTableItem(ModItems.dream_catcher).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)));
+            consumer.accept(ModLootTables.abandoned_mineshaft, LootTable.lootTable()
+                    .withPool(accessories)
+                    .withPool(LootPool.lootPool()
+                            .name("main")
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(5))
+                            .add(EmptyLootEntry.emptyItem().setWeight(10)))
+            );
+            consumer.accept(ModLootTables.desert_pyramid, LootTable.lootTable()
+                    .withPool(accessories)
+                    .withPool(LootPool.lootPool()
+                            .name("main")
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(5))
+                            .add(EmptyLootEntry.emptyItem().setWeight(10)))
+            );
+            consumer.accept(ModLootTables.jungle_temple, LootTable.lootTable()
+                    .withPool(accessories)
+                    .withPool(LootPool.lootPool()
+                            .name("main")
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.cracked_bone).setWeight(5))
+                            .add(EmptyLootEntry.emptyItem().setWeight(10)))
+            );
+            consumer.accept(ModLootTables.stronghold_corridor, LootTable.lootTable()
+                    .withPool(accessories)
+                    .withPool(LootPool.lootPool()
+                            .name("main")
+                            .setRolls(ConstantRange.exactly(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.werewolf_tooth).setWeight(5))
+                            .add(EmptyLootEntry.emptyItem().setWeight(10)))
+            );
+            consumer.accept(ModLootTables.stronghold_library, LootTable.lootTable()
+                    .withPool(accessories)
+            );
         }
     }
 

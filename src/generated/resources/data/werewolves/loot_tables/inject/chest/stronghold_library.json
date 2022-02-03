@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "name": "accessories",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "vampirism:add_refinement_set",
+              "faction": "werewolves:werewolf"
+            }
+          ],
+          "name": "werewolves:bone_necklace"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "vampirism:add_refinement_set",
+              "faction": "werewolves:werewolf"
+            }
+          ],
+          "name": "werewolves:charm_bracelet"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "vampirism:add_refinement_set",
+              "faction": "werewolves:werewolf"
+            }
+          ],
+          "name": "werewolves:dream_catcher"
+        }
+      ]
+    }
+  ]
+}

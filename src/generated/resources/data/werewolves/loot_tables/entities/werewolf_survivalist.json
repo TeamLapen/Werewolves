@@ -41,6 +41,51 @@
           "looting_multiplier": 0.05
         }
       ]
+    },
+    {
+      "name": "accessories",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "vampirism:add_refinement_set",
+              "faction": "werewolves:werewolf"
+            }
+          ],
+          "name": "werewolves:bone_necklace"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "vampirism:add_refinement_set",
+              "faction": "werewolves:werewolf"
+            }
+          ],
+          "name": "werewolves:charm_bracelet"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "vampirism:add_refinement_set",
+              "faction": "werewolves:werewolf"
+            }
+          ],
+          "name": "werewolves:dream_catcher"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        },
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.05
+        }
+      ]
     }
   ]
 }
