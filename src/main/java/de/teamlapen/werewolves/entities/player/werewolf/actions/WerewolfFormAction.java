@@ -80,12 +80,14 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolf) {
+        float healthPerc = werewolf.getRepresentingPlayer().getHealth() / werewolf.getRepresentingPlayer().getMaxHealth();
         if (isWerewolfFormActionActive(werewolf.getActionHandler())) {
             FormHelper.deactivateWerewolfActions(werewolf);
         }
         ((WerewolfPlayer) werewolf).setForm(this, this.form);
         this.removeArmorModifier(werewolf);
         this.applyModifier(werewolf);
+        werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
         werewolf.getRepresentingPlayer().refreshDisplayName();
         return true;
     }
@@ -106,9 +108,11 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public void onDeactivated(IWerewolfPlayer werewolf) {
+        float healthPerc = werewolf.getRepresentingPlayer().getHealth() / werewolf.getRepresentingPlayer().getMaxHealth();
         ((WerewolfPlayer) werewolf).setForm(this, WerewolfForm.NONE);
         this.addArmorModifier(werewolf);
         this.removeModifier(werewolf);
+        werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
         werewolf.getRepresentingPlayer().refreshDisplayName();
     }
 

@@ -41,5 +41,7 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
 
     @Override
     protected void addArmorModifier(IWerewolfPlayer werewolfPlayer) {
+        if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor)) return;
+        super.addArmorModifier(werewolfPlayer);
     }
 }
