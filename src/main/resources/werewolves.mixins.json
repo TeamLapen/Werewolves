@@ -11,7 +11,8 @@
     "LivingEntityInvoker",
     "LootTableManagerMixin",
     "PointOfInterestTypeInvoker",
-    "entity.MixinVillagerEntity"
+    "entity.MixinVillagerEntity",
+    "entity.PlayerEntityMixin"
   ],
   "client": [
     "client.BipedArmorLayerMixin",
