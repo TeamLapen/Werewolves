@@ -1,10 +1,12 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
 import de.teamlapen.vampirism.core.ModStats;
 import de.teamlapen.vampirism.core.ModTags;
 import de.teamlapen.vampirism.player.tasks.TaskBuilder;
 import de.teamlapen.vampirism.player.tasks.reward.LordLevelReward;
+import de.teamlapen.vampirism.player.tasks.reward.RefinementItemReward;
 import de.teamlapen.vampirism.player.tasks.unlock.LordLvlUnlocker;
 import de.teamlapen.vampirism.player.tasks.unlock.LvlUnlocker;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -13,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
+import net.minecraft.stats.Stats;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -39,21 +42,21 @@ public class ModTasks {
 
         //Werewolf minion
         {
-            registry.register(werewolfBuilder()
+            registry.register(werewolf()
                     .setReward(new ItemStack(ModItems.werewolf_minion_charm))
                     .unlockedBy(new LordLvlUnlocker(1))
                     .addRequirement("advanced_hunter", ModTags.Entities.ADVANCED_HUNTER, 4)
                     .addRequirement("advanced_vampire", ModTags.Entities.ADVANCED_VAMPIRE, 6)
                     .addRequirement("gold", new ItemStack(Items.GOLD_INGOT, 32))
-                    .build(REFERENCE.MODID,"werewolf_minion_binding"));
-            registry.register(werewolfBuilder()
+                    .build(REFERENCE.MODID, "werewolf_minion_binding"));
+            registry.register(werewolf()
                     .setReward(new ItemStack(ModItems.werewolf_minion_upgrade_simple))
                     .unlockedBy(new LordLvlUnlocker(2))
                     .addRequirement("advanced_hunter", ModTags.Entities.ADVANCED_HUNTER, 6)
                     .addRequirement("advanced_vampire", ModTags.Entities.ADVANCED_VAMPIRE, 8)
                     .addRequirement("gold", new ItemStack(Items.GOLD_BLOCK, 16))
-                    .build(REFERENCE.MODID,"werewolf_minion_upgrade_simple"));
-            registry.register(werewolfBuilder()
+                    .build(REFERENCE.MODID, "werewolf_minion_upgrade_simple"));
+            registry.register(werewolf()
                     .setReward(new ItemStack(ModItems.werewolf_minion_upgrade_enhanced))
                     .unlockedBy(new LordLvlUnlocker(3))
                     .addRequirement("advanced_hunter", ModTags.Entities.ADVANCED_HUNTER, 8)
@@ -61,8 +64,8 @@ public class ModTasks {
                     .addRequirement("liver", new ItemStack(ModItems.liver, 16))
                     .addRequirement("tooth", new ItemStack(ModItems.werewolf_tooth))
                     .addRequirement("diamond", new ItemStack(Items.DIAMOND_BLOCK, 3))
-                    .build(REFERENCE.MODID,"werewolf_minion_upgrade_enhanced"));
-            registry.register(werewolfBuilder()
+                    .build(REFERENCE.MODID, "werewolf_minion_upgrade_enhanced"));
+            registry.register(werewolf()
                     .setReward(new ItemStack(ModItems.werewolf_minion_upgrade_special))
                     .unlockedBy(new LordLvlUnlocker(5))
                     .addRequirement("advanced_hunter", ModTags.Entities.ADVANCED_HUNTER, 10)
@@ -70,11 +73,11 @@ public class ModTasks {
                     .addRequirement("liver", new ItemStack(ModItems.liver, 32))
                     .addRequirement("tooth", new ItemStack(ModItems.werewolf_tooth, 5))
                     .addRequirement("diamond", new ItemStack(Items.DIAMOND_BLOCK, 8))
-                    .build(REFERENCE.MODID,"werewolf_minion_upgrade_special"));
+                    .build(REFERENCE.MODID, "werewolf_minion_upgrade_special"));
         }
         //Werewolf lord
         {
-            registry.register(werewolfBuilder()
+            registry.register(werewolf()
                     .setReward(new LordLevelReward(1))
                     .unlockedBy(new LvlUnlocker(REFERENCE.HIGHEST_WEREWOLF_LEVEL))
                     .addRequirement("vampire", ModTags.Entities.VAMPIRE, 10)
@@ -84,7 +87,7 @@ public class ModTasks {
                     .addRequirement("village", ModStats.win_village_capture, 3)
                     .setUnique()
                     .build(REFERENCE.MODID, "werewolf_lord1"));
-            registry.register(werewolfBuilder()
+            registry.register(werewolf()
                     .setReward(new LordLevelReward(2))
                     .unlockedBy(new LordLvlUnlocker(1, true))
                     .addRequirement("vampire", ModTags.Entities.VAMPIRE, 20)
@@ -93,7 +96,7 @@ public class ModTasks {
                     .addRequirement("gold", new ItemStack(Items.GOLD_INGOT, 32))
                     .setUnique()
                     .build(REFERENCE.MODID, "werewolf_lord2"));
-            registry.register(werewolfBuilder()
+            registry.register(werewolf()
                     .setReward(new LordLevelReward(3))
                     .unlockedBy(new LordLvlUnlocker(2, true))
                     .addRequirement("vampire", ModTags.Entities.VAMPIRE, 20)
@@ -102,7 +105,7 @@ public class ModTasks {
                     .addRequirement("gold", new ItemStack(Items.GOLD_INGOT, 32))
                     .setUnique()
                     .build(REFERENCE.MODID, "werewolf_lord3"));
-            registry.register(werewolfBuilder()
+            registry.register(werewolf()
                     .setReward(new LordLevelReward(4))
                     .unlockedBy(new LordLvlUnlocker(3, true))
                     .addRequirement("vampire", ModTags.Entities.VAMPIRE, 35)
@@ -111,7 +114,7 @@ public class ModTasks {
                     .addRequirement("gold", new ItemStack(Items.GOLD_INGOT, 64)).
                     setUnique()
                     .build(REFERENCE.MODID, "werewolf_lord4"));
-            registry.register(werewolfBuilder()
+            registry.register(werewolf()
                     .setReward(new LordLevelReward(5))
                     .unlockedBy(new LordLvlUnlocker(4, true))
                     .addRequirement("vampire", ModTags.Entities.VAMPIRE, 50)
@@ -131,9 +134,17 @@ public class ModTasks {
                     .addRequirement("heart", new ItemStack(ModItems.V.human_heart))
                     .build(REFERENCE.MODID, "oblivion_potion"));
         }
+
+        //vampire refinement items
+        {
+            registry.register(werewolf().addRequirement("hunter", ModTags.Entities.ADVANCED_HUNTER, 10).addRequirement("gold", new ItemStack(Items.GOLD_INGOT, 2)).setReward(new RefinementItemReward(WReference.WEREWOLF_FACTION)).build("random_refinement1"));
+            registry.register(werewolf().addRequirement("alphas", ModEntities.alpha_werewolf, 3).addRequirement("gold", new ItemStack(Items.GOLD_INGOT, 2)).setReward(new RefinementItemReward(WReference.WEREWOLF_FACTION, IRefinementSet.Rarity.EPIC)).build("random_refinement2"));
+            registry.register(werewolf().addRequirement("trades", Stats.TRADED_WITH_VILLAGER, 15).addRequirement("gold", new ItemStack(Items.GOLD_INGOT, 2)).setReward(new RefinementItemReward(WReference.WEREWOLF_FACTION)).build("random_refinement3"));
+            registry.register(werewolf().addRequirement("raid", Stats.RAID_WIN, 1).setReward(new RefinementItemReward(WReference.WEREWOLF_FACTION, IRefinementSet.Rarity.RARE)).build("random_rare_refinement"));
+        }
     }
 
-    protected static TaskBuilder werewolfBuilder() {
+    protected static TaskBuilder werewolf() {
         return TaskBuilder.builder().withFaction(WReference.WEREWOLF_FACTION);
     }
 }
