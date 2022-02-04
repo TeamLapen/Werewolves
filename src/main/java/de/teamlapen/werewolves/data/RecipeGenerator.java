@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.data;
 
+import de.teamlapen.vampirism.data.recipebuilder.ShapedWeaponTableRecipeBuilder;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModRecipes;
@@ -12,6 +13,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 
@@ -32,6 +34,9 @@ public class RecipeGenerator extends RecipeProvider {
         ITag<Item> sticks = Tags.Items.RODS_WOODEN;
         ITag<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
         ITag<Item> silver_nugget = ModTags.Items.SILVER_NUGGET;
+        ITag<Item> iron_ingot = Tags.Items.INGOTS_IRON;
+        ITag<Item> feathers = Tags.Items.FEATHERS;
+        IItemProvider crossbow_arrow = ModItems.V.crossbow_arrow_normal;
 
         CookingRecipeBuilder.smelting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 200).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer);
         CookingRecipeBuilder.blasting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer, modId("silver_ingot_from_blasting"));
@@ -91,6 +96,15 @@ public class RecipeGenerator extends RecipeProvider {
                 .save(consumer, modId("silver_ingot_from_nuggets"));
 
         CustomRecipeBuilder.special(ModRecipes.weapon_oil).save(consumer, REFERENCE.MODID + ":weapon_oil");
+
+        ShapedWeaponTableRecipeBuilder.shapedWeaponTable(ModItems.crossbow_arrow_silver_bolt, 3).pattern(" X ").pattern("XYX").pattern(" S ").pattern(" F ")
+                .lava(1)
+                .define('S', sticks).unlockedBy("hasSticks", has(sticks))
+                .define('X', silver_nugget).unlockedBy("has_silver_nugget", has(silver_nugget))
+                .define('F', feathers).unlockedBy("has_feathers", has(feathers))
+                .define('Y', iron_ingot).unlockedBy("has_iron", has(iron_ingot))
+                .unlockedBy("has_crossbow_arrow", has(crossbow_arrow))
+                .save(consumer, modId("crossbow_arrow_silver_bolt"));
     }
 
 }

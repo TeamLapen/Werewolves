@@ -58,6 +58,7 @@ public class ModItems {
         public static final Item weak_human_heart = getNull();
         public static final Item oblivion_potion = getNull();
         public static final Item vampire_book = getNull();
+        public static final Item crossbow_arrow_normal = getNull();
     }
 
     static void registerItems(IForgeRegistry<Item> registry) {
@@ -108,8 +109,7 @@ public class ModItems {
     }
 
     static void registerRecipes() {
-        BrewingRecipeRegistry.addRecipe(new OilBrewingRecipe(Ingredient.of(new ItemStack(Items.POTION)), ModTags.Items.SILVER_NUGGET, new ItemStack(ModItems.silver_oil)));
-
+        BrewingRecipeRegistry.addRecipe(new OilBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), ModTags.Items.SILVER_INGOT, new ItemStack(ModItems.silver_oil)));
     }
 
     private static Item.Properties creativeTabProps() {

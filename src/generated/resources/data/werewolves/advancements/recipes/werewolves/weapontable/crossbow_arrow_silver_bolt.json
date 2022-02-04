@@ -1,0 +1,83 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "werewolves:weapontable/crossbow_arrow_silver_bolt"
+    ]
+  },
+  "criteria": {
+    "hasSticks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:rods/wooden"
+          }
+        ]
+      }
+    },
+    "has_silver_nugget": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:nuggets/silver"
+          }
+        ]
+      }
+    },
+    "has_feathers": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:feathers"
+          }
+        ]
+      }
+    },
+    "has_iron": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/iron"
+          }
+        ]
+      }
+    },
+    "has_crossbow_arrow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "vampirism:crossbow_arrow_normal"
+          }
+        ]
+      }
+    },
+    "has_skill": {
+      "trigger": "vampirism:skill_unlocked",
+      "conditions": {
+        "skill": "vampirism:weapon_table"
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "werewolves:weapontable/crossbow_arrow_silver_bolt"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hasSticks",
+      "has_silver_nugget",
+      "has_feathers",
+      "has_iron",
+      "has_crossbow_arrow",
+      "has_skill",
+      "has_the_recipe"
+    ]
+  ]
+}
