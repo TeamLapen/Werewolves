@@ -67,11 +67,11 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return missing;
     }
 
-    public static WerewolfDamageSource causeWerewolfDamage(String cause, Entity entity) {
-        return new WerewolfDamageSource(cause, entity);
+    public static BiteDamageSource causeWerewolfDamage(String cause, Entity entity) {
+        return new BiteDamageSource(cause, entity);
     }
 
-    public static WerewolfDamageSource causeWerewolfDamage(PlayerEntity entity) {
+    public static BiteDamageSource causeWerewolfDamage(PlayerEntity entity) {
         return causeWerewolfDamage("player", entity);
     }
 

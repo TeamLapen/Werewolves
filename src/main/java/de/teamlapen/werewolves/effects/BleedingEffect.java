@@ -5,11 +5,11 @@ import de.teamlapen.vampirism.api.entity.vampire.IVampire;
 import de.teamlapen.vampirism.player.vampire.VampirePlayer;
 import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectType;
-import net.minecraft.util.DamageSource;
 
 public class BleedingEffect extends WerewolvesEffect {
 
@@ -35,7 +35,7 @@ public class BleedingEffect extends WerewolvesEffect {
         }
 
         if (entityLivingBaseIn.getHealth() > 1.0F) {
-            entityLivingBaseIn.hurt(DamageSource.MAGIC, 0.3F);
+            entityLivingBaseIn.hurt(WUtils.OPEN_WOUND_DAMAGE_SOURCE, 0.3F);
             if (entityLivingBaseIn.getRandom().nextInt(4) == 0) {
                 if (Helper.isVampire(entityLivingBaseIn)) {
                     if (entityLivingBaseIn instanceof PlayerEntity) {

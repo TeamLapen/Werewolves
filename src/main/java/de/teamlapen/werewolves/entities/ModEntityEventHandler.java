@@ -31,9 +31,7 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -80,10 +78,10 @@ public class ModEntityEventHandler {
         ModifiableAttributeInstance s = event.getEntityLiving().getAttribute(Attributes.ARMOR);
         if (s != null) {
             s.removeModifier(ARMOR_REDUCTION);
-            if (event.getSource().getEntity() != null && Helper.isWerewolf(event.getSource().getEntity())) {
+            if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() != null && Helper.isWerewolf(event.getSource().getEntity())) {
                 double value = Stream.concat(Arrays.stream(ArmorItem.ARMOR_MODIFIER_UUID_PER_SLOT), Arrays.stream(VAMPIRISM_ARMOR_MODIFIER)).map(s::getModifier).filter(Objects::nonNull).mapToDouble(AttributeModifier::getAmount).sum();
                 float levelModifier = WerewolfPlayer.getOptEx(event.getSource().getEntity()).map(player -> player.getLevel() / (float) player.getMaxLevel()).orElse(1f);
-                s.addTransientModifier(new AttributeModifier(ARMOR_REDUCTION, "werewolf_attack", -value * (0.3 * levelModifier), AttributeModifier.Operation.ADDITION));
+                s.addTransientModifier(new AttributeModifier(ARMOR_REDUCTION, "werewolf_attack", -value * ((event.getSource() instanceof BiteDamageSource ? 0.8 : 0.3) * levelModifier), AttributeModifier.Operation.ADDITION));
             }
         }
         if (Helper.isWerewolf(event.getEntity())) {

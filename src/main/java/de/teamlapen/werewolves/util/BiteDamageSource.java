@@ -5,9 +5,9 @@ import net.minecraft.util.EntityDamageSource;
 
 import javax.annotation.Nullable;
 
-public class WerewolfDamageSource extends EntityDamageSource {
+public class BiteDamageSource extends EntityDamageSource {
 
-    public WerewolfDamageSource(String damageTypeIn, @Nullable Entity damageSourceEntityIn) {
+    public BiteDamageSource(String damageTypeIn, @Nullable Entity damageSourceEntityIn) {
         super(damageTypeIn, damageSourceEntityIn);
     }
 }

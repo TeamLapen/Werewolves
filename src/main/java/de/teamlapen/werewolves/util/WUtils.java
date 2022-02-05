@@ -9,6 +9,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.loot.LootTableManager;
 import net.minecraft.scoreboard.ScoreCriteria;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.util.DamageSource;
 
 import javax.annotation.Nonnull;
 
@@ -55,6 +56,7 @@ public class WUtils {
         }
     };
     public static LootTableManager LOOT_TABLE_MANAGER;
+    public static DamageSource OPEN_WOUND_DAMAGE_SOURCE = new DamageSource("blood_loss").bypassArmor().bypassMagic();
 
     public static void init() {
     }
