@@ -2,16 +2,14 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModEffects;
-import de.teamlapen.werewolves.core.ModEntities;
-import de.teamlapen.werewolves.core.ModRefinements;
-import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -36,7 +34,8 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
         bb.inflate(10);
         List<LivingEntity> entities = player.getCommandSenderWorld().getEntitiesOfClass(LivingEntity.class, bb);
         entities.forEach(entity -> entity.addEffect(new EffectInstance(ModEffects.howling, (WerewolvesConfig.BALANCE.SKILLS.howling_duration.get() + WerewolvesConfig.BALANCE.SKILLS.howling_disabled_duration.get()) * 20, 0, true, false, true)));
-
+        werewolfPlayer.getRepresentingPlayer().playSound(ModSounds.entity_werewolf_howl, 1.0F, 1.0F);
+        werewolfPlayer.getRepresentingPlayer().playNotifySound(ModSounds.entity_werewolf_howl, SoundCategory.PLAYERS, 1.0F, 1.0F);
         if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pack)) {
             World world = player.getCommandSenderWorld();
 

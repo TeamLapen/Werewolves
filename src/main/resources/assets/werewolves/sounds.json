@@ -1,0 +1,17 @@
+{
+  "entity.werewolf.bite": {
+    "sounds": [
+      "werewolves:entity/werewolf/bite"
+    ]
+  },
+  "entity.werewolf.howl": {
+    "sounds": [
+      "werewolves:entity/werewolf/howl"
+    ]
+  },
+  "entity.werewolf.growl": {
+    "sounds": [
+      "werewolves:entity/werewolf/growl"
+    ]
+  }
+}

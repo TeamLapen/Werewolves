@@ -8,6 +8,7 @@ import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.vampire.VampireBaseEntity;
 import de.teamlapen.vampirism.util.Helper;
 import de.teamlapen.werewolves.core.ModBiomes;
+import de.teamlapen.werewolves.core.ModSounds;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -20,6 +21,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -137,6 +139,14 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     @Override
     public boolean shouldShowName() {
         return true;
+    }
+
+    public int getAmbientSoundInterval() {
+        return 240;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ModSounds.entity_werewolf_growl;
     }
 
     @Override

@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.Feature;
@@ -160,7 +161,12 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
-    public void onRegisterRefinements(RegistryEvent.Register<IRefinement> event){
+    public void onRegisterRefinements(RegistryEvent.Register<IRefinement> event) {
         ModRefinements.register(event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void onRegisterSoundEvents(RegistryEvent.Register<SoundEvent> event) {
+        ModSounds.registerSounds(event.getRegistry());
     }
 }

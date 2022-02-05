@@ -41,10 +41,20 @@ Vampirism [Curseforge](https://www.curseforge.com/minecraft/mc-mods/vampirism-be
 [Gradle setup](docs/GRADLE.md)
 
 ## Licence
+
 This mod is licenced under [LGPLv3](https://raw.githubusercontent.com/TeamLapen/Werewolves/master/LICENSE)
 
 ##### Textures
+
 ```
 Any textures (and models) included in the mod may be used, remixed and distributed for anything related to Vampirism or Werewolves (fan art, addon mods, forks, reviews, ...) excluding resource packs.
 If you want to use them in a resource/texture pack, you must credit the Werewolves project or the individual creator where applicable and it must not be used commercially.
 ```
+
+##### Sounds
+
+This mod these sounds from freesound.org:
+
+- monster020a by missozzy - https://freesound.org/people/missozzy/sounds/169985/ -- License: CC Attribution
+- wolf by Robinhood76 - https://freesound.org/people/maljwilliams/sounds/565848/
+- Lake Monster 27 by Debsound - https://freesound.org/people/Debsound/sounds/332487/ -- License: CC Attribution

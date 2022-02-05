@@ -430,6 +430,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         double damage = this.player.getAttribute(ModAttributes.bite_damage).getValue() + this.player.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         boolean flag = entity.hurt(Helper.causeWerewolfDamage(this.player), (float) damage);
         if (flag) {
+            this.getRepresentingPlayer().playSound(ModSounds.entity_werewolf_bite, 1.0F, 1.0F);
+            this.getRepresentingPlayer().playNotifySound(ModSounds.entity_werewolf_bite, SoundCategory.PLAYERS, 1.0F, 1.0F);
             this.eatEntity(entity);
             this.specialAttributes.biteTicks = WerewolvesConfig.BALANCE.PLAYER.bite_cooldown.get();
             if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {

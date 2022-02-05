@@ -21,6 +21,7 @@ import de.teamlapen.vampirism.world.MinionWorldData;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
+import de.teamlapen.werewolves.core.ModSounds;
 import de.teamlapen.werewolves.entities.IEntityFollower;
 import de.teamlapen.werewolves.entities.goals.DefendLeaderGoal;
 import de.teamlapen.werewolves.entities.goals.FollowAlphaWerewolfGoal;
@@ -48,6 +49,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -385,6 +387,14 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     public AxisAlignedBB getTargetVillageArea() {
         return this.villageAttributes == null ? null : this.villageAttributes.getVillageArea();
+    }
+
+    public int getAmbientSoundInterval() {
+        return 240;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ModSounds.entity_werewolf_growl;
     }
 
     @Nullable
