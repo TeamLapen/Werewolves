@@ -39,7 +39,6 @@ import net.minecraft.entity.monster.PatrollerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -242,12 +241,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             if (level == 2) {
                 this.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 1000000, 1));
             }
-            if (level == 1) {
-                this.setItemSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.IRON_SWORD));
-            } else {
-                this.setItemSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
-            }
-
+            this.setItemSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
         }
     }
 
