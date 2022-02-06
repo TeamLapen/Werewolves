@@ -27,7 +27,7 @@ import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ArmorItem;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
@@ -44,12 +44,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public class ModEntityEventHandler {
 
@@ -57,7 +56,6 @@ public class ModEntityEventHandler {
     private static final Predicate<LivingEntity> nonWerewolfCheck = entity -> !Helper.isWerewolf(entity);
     private static final Object2BooleanMap<String> entityAIReplacementWarnMap = new Object2BooleanArrayMap<>();
     private static final UUID ARMOR_REDUCTION = UUID.fromString("5b7612e9-1847-435c-b4eb-a455af4ce8c7");
-    protected static final UUID[] VAMPIRISM_ARMOR_MODIFIER = new UUID[]{UUID.fromString("f0b9a417-0cec-4629-8623-053cd0feec3c"), UUID.fromString("e54474a9-62a0-48ee-baaf-7efddca3d711"), UUID.fromString("ac0c33f4-ebbf-44fe-9be3-a729f7633329"), UUID.fromString("8839e157-d576-4cff-bf34-0a788131fe0f")};
 
     @SubscribeEvent
     public void onEntityAttacked(AttackEntityEvent event) {
@@ -79,7 +77,15 @@ public class ModEntityEventHandler {
         if (s != null) {
             s.removeModifier(ARMOR_REDUCTION);
             if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() != null && Helper.isWerewolf(event.getSource().getEntity())) {
-                double value = Stream.concat(Arrays.stream(ArmorItem.ARMOR_MODIFIER_UUID_PER_SLOT), Arrays.stream(VAMPIRISM_ARMOR_MODIFIER)).map(s::getModifier).filter(Objects::nonNull).mapToDouble(AttributeModifier::getAmount).sum();
+                Set<AttributeModifier> modifiers = new HashSet<>();
+                int i = 0;
+                for (ItemStack stack : event.getEntityLiving().getArmorSlots()) {
+                    modifiers.addAll(stack.getAttributeModifiers(EquipmentSlotType.byTypeAndIndex(EquipmentSlotType.Group.ARMOR, i++)).get(Attributes.ARMOR));
+                }
+                ModifiableAttributeInstance tmp = new ModifiableAttributeInstance(Attributes.ARMOR, (a -> {
+                }));
+                s.getModifiers().stream().filter(modifiers::contains).forEach(tmp::addTransientModifier);
+                double value = s.getValue() - (s.getValue() - tmp.getValue());
                 float levelModifier = WerewolfPlayer.getOptEx(event.getSource().getEntity()).map(player -> player.getLevel() / (float) player.getMaxLevel()).orElse(1f);
                 s.addTransientModifier(new AttributeModifier(ARMOR_REDUCTION, "werewolf_attack", -value * ((event.getSource() instanceof BiteDamageSource ? 0.8 : 0.3) * levelModifier), AttributeModifier.Operation.ADDITION));
             }

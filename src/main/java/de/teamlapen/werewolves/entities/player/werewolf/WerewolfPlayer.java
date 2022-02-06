@@ -425,7 +425,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (!this.form.isTransformed()) return false;
         if (!canBite()) return false;
         if (!canBiteEntity(entity)) return false;
-        double damage = this.player.getAttribute(ModAttributes.bite_damage).getValue() + this.player.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
+        double damage = this.player.getAttribute(ModAttributes.bite_damage).getValue();
         boolean flag = entity.hurt(Helper.causeWerewolfDamage(this.player), (float) damage);
         if (flag) {
             this.getRepresentingPlayer().playSound(ModSounds.entity_werewolf_bite, 1.0F, 1.0F);
