@@ -87,12 +87,8 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
         if (!this.isInsideVisionRendering && this.shouldRenderVision()) {
             LivingEntity entity = event.getEntity();
 
-            boolean flag = true;
             double dist = this.mc.player.distanceToSqr(entity);
-            if (dist > VampirismConfig.BALANCE.vsBloodVisionDistanceSq.get()) {
-                flag = false;
-            }
-            if (flag) {
+            if (!(dist > VampirismConfig.BALANCE.vsBloodVisionDistanceSq.get() || entity.isInWater())) {
                 int color = 0xA0A0A0;
                 if (entity instanceof IFactionEntity) {
                     color = ((IFactionEntity) entity).getFaction().getColor().getRGB();
