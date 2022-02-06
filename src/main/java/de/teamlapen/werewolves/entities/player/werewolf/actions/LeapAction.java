@@ -1,7 +1,9 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
+import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +23,12 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     public int getCooldown() {
-        return WerewolvesConfig.BALANCE.SKILLS.leap_cooldown.get() * 20;
+        return 0;
+    }
+
+    @Override
+    public int getCooldown(IFactionPlayer player) {
+        return player.getSkillHandler().isRefinementEquipped(ModRefinements.no_leap_cooldown) ? 0 : WerewolvesConfig.BALANCE.SKILLS.leap_cooldown.get() * 20;
     }
 
     @Override
