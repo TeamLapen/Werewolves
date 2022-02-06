@@ -31,7 +31,7 @@ Vampirism [Curseforge](https://www.curseforge.com/minecraft/mc-mods/vampirism-be
 ## Special Thanks to
 
 - [maxanier](https://maxanier.de) _Vampirism_
-- [PixelEyeStudios](https://github.com/PixelEyeStudios) _Werewolf Model & Textures_
+- [RebelT](https://github.com/TheRebelT) _Models & Textures_
 - Йода _Textures_
 - CritterCarnival _Textures_
 - Talonerd _Textures_
