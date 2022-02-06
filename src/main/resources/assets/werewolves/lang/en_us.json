@@ -114,7 +114,7 @@
   "skill.werewolves.climber.desc": "Automatically step up blocks when in Survivalist Form",
   "skill.werewolves.wolf_pawn.desc": "Receive no damage from blocks like cacti, berry bushes & magma blocks and receive less damage from falling",
   "skill.werewolves.not_meat.desc": "Be able to eat food that's not meat",
-  "skill.werewolves.water_lover.desc": "Receive no debuff from being in water",
+  "skill.werewolves.water_lover.desc": "Receive no de-buff from being under water",
   "skill.werewolves.free_will.desc": "You are no longer forced into werewolf form at full moon",
   "skill.werewolves.wear_armor.desc": "You are able to wear armor",
   "skill.werewolves.silver_blooded.desc": "The effect silver has on you is reduced",

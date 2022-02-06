@@ -219,10 +219,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                             }
                         }
 
-                        if (this.form.isTransformed()) {
-                            if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover)) {
-                                this.player.addEffect(new EffectInstance(Effects.WEAKNESS, 21, 0, true, true));
-                            }
+                        if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover)) {
+                            this.player.addEffect(new EffectInstance(Effects.WEAKNESS, 50, 0, true, true));
                         }
                     }
                 }
