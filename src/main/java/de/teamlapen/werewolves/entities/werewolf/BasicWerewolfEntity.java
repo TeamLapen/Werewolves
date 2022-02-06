@@ -230,7 +230,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     @Override
     public boolean hasGlowingEyes() {
-        return false; //TODO
+        return true; //TODO
     }
 
     @Override

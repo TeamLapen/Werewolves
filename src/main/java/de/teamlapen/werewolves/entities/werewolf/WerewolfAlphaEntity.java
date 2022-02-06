@@ -224,7 +224,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     public boolean hasGlowingEyes() {
-        return false;
+        return true;
     }
 
     protected void updateEntityAttributes() { //TODO different values
