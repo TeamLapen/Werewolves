@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.data;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
+import de.teamlapen.vampirism.world.loot.AddBookNbt;
 import de.teamlapen.vampirism.world.loot.RefinementSetFunction;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModEntities;
@@ -142,7 +143,7 @@ public class LootTablesGenerator extends LootTableProvider {
                             .when(KilledByPlayer.killedByPlayer())
                             .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.1f, 0.1f))
                             .setRolls(ConstantRange.exactly(1))
-                            .add(ItemLootEntry.lootTableItem(ModItems.V.vampire_book).setWeight(1))
+                            .add(ItemLootEntry.lootTableItem(ModItems.V.vampire_book).apply(AddBookNbt.builder()).setWeight(1))
                     )
             );
         }
