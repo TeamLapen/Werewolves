@@ -81,7 +81,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     @Override
     public void aiStep() {
         super.aiStep();
-        if (this.werewolf) {
+        if (canTransform()) {
             if (this.rage > 150) {
                 WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
                 ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
