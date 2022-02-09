@@ -95,6 +95,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         return this.werewolfForm.getSize(poseIn).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(poseIn));
     }
 
+    @Override
+    public boolean isPersistenceRequired() {
+        return super.isPersistenceRequired() || this.transformed != null;
+    }
+
     @Nonnull
     @Override
     public WerewolfForm getForm() {
