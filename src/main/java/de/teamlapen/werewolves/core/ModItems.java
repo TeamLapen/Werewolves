@@ -4,7 +4,7 @@ import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
-import de.teamlapen.werewolves.inventory.recipes.OilBrewingRecipe;
+import de.teamlapen.werewolves.inventory.recipes.TagBrewingRecipe;
 import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -109,7 +109,7 @@ public class ModItems {
     }
 
     static void registerRecipes() {
-        BrewingRecipeRegistry.addRecipe(new OilBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), ModTags.Items.SILVER_INGOT, new ItemStack(ModItems.silver_oil)));
+        BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), ModTags.Items.SILVER_INGOT, new ItemStack(ModItems.silver_oil)));
     }
 
     private static Item.Properties creativeTabProps() {
