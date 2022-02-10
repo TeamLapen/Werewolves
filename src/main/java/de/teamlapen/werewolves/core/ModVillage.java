@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableSet;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.entity.FactionVillagerProfession;
 import de.teamlapen.vampirism.world.FactionPointOfInterestType;
-import de.teamlapen.werewolves.mixin.PointOfInterestTypeInvoker;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -42,9 +41,7 @@ public class ModVillage {
     }
 
     static void registerPointOfInterestTypes(IForgeRegistry<PointOfInterestType> registry) {
-        PointOfInterestType werewolf_faction = new FactionPointOfInterestType("werewolf_faction", getAllStates(ModBlocks.totem_top_werewolves_werewolf, ModBlocks.totem_top_werewolves_werewolf_crafted), 1, 1).setRegistryName(REFERENCE.MODID, "werewolf_faction");
-        registry.register(werewolf_faction);
-        PointOfInterestTypeInvoker.registerBlockStates_werewolves(werewolf_faction);
+        registry.register(new FactionPointOfInterestType("werewolf_faction", getAllStates(ModBlocks.totem_top_werewolves_werewolf, ModBlocks.totem_top_werewolves_werewolf_crafted), 1, 1).setRegistryName(REFERENCE.MODID, "werewolf_faction"));
     }
 
     private static Set<BlockState> getAllStates(Block... blocks) {
