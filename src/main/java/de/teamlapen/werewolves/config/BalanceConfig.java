@@ -10,6 +10,7 @@ public class BalanceConfig {
     public final Refinements REFINEMENTS;
     public final Potions POTIONS;
     public final Util UTIL;
+    public final Oils OILS;
 
     BalanceConfig(ForgeConfigSpec.Builder builder) {
 
@@ -30,6 +31,9 @@ public class BalanceConfig {
         builder.pop();
         builder.push("refinements");
         REFINEMENTS = new Refinements(builder);
+        builder.pop();
+        builder.push("oils");
+        OILS = new Oils(builder);
         builder.pop();
     }
 
@@ -362,6 +366,17 @@ public class BalanceConfig {
             this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 4, 1, Integer.MAX_VALUE);
             this.silverItemEffectDuration = builder.comment("in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
             this.skeletonIgnoreWerewolves = builder.comment("if skeletons should ignore werewolves").define("skeletonIgnoreWerewolves", true);
+        }
+    }
+
+    public static class Oils {
+
+        public final ForgeConfigSpec.IntValue silverOil1Duration;
+        public final ForgeConfigSpec.IntValue silverOil2Duration;
+
+        public Oils(ForgeConfigSpec.Builder builder) {
+            this.silverOil1Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil1Duration", 15, 1, Integer.MAX_VALUE);
+            this.silverOil2Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil2Duration", 40, 1, Integer.MAX_VALUE);
         }
     }
 }

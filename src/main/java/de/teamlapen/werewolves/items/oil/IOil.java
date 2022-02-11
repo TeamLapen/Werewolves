@@ -2,9 +2,12 @@ package de.teamlapen.werewolves.items.oil;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public interface IWeaponOil extends IForgeRegistryEntry<IWeaponOil> {
+import java.util.List;
+
+public interface IOil extends IForgeRegistryEntry<IOil> {
 
     /**
      * whether the entity should be effected by the oil
@@ -16,7 +19,13 @@ public interface IWeaponOil extends IForgeRegistryEntry<IWeaponOil> {
      */
     float getAdditionalDamage(ItemStack stack, LivingEntity entity, float damage);
 
+    String getName(String item);
+
     int getMaxDuration(ItemStack stack);
 
-    int getDuration(ItemStack stack);
+    void getDescription(ItemStack stack, List<ITextComponent> tooltips);
+
+    boolean canBeAppliedTo(ItemStack stack);
+
+    int getColor();
 }

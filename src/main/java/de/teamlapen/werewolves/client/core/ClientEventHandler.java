@@ -118,7 +118,7 @@ public class ClientEventHandler {
         if (event.getItemStack().hasTag()) {
             if (shouldShowInTooltip(flags, ItemStack.TooltipDisplayFlags.ENCHANTMENTS)) position.add(event.getItemStack().getEnchantmentTags().size());
             WeaponOilHelper.oilOpt(event.getItemStack()).ifPresent((oil) -> {
-                event.getToolTip().add(position.getAndIncrement()-1, new TranslationTextComponent("weapon_oil." + oil.getLeft().getRegistryName().getNamespace() + "." + oil.getLeft().getRegistryName().getPath()).withStyle(TextFormatting.GOLD));
+                event.getToolTip().add(position.getAndIncrement() - 1, new TranslationTextComponent("oil." + oil.getLeft().getRegistryName().getNamespace() + "." + oil.getLeft().getRegistryName().getPath()).withStyle(TextFormatting.GOLD));
             });
         }
     }
