@@ -69,6 +69,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         this.withExistingParent(ModItems.werewolf_beast_spawn_egg, this.mcLoc("item/template_spawn_egg"));
         this.withExistingParent(ModItems.werewolf_survivalist_spawn_egg, this.mcLoc("item/template_spawn_egg"));
         this.withExistingParent(ModItems.human_werewolf_spawn_egg, this.mcLoc("item/template_spawn_egg"));
+        this.withExistingParent(ModItems.alpha_werewolf_spawn_egg, this.mcLoc("item/template_spawn_egg"));
 
         this.item(ModItems.dream_catcher, modLoc("item/dream_catcher_layer0"), modLoc("item/dream_catcher_layer1"));
         this.item(ModItems.charm_bracelet, modLoc("item/charm_bracelet_layer0"), modLoc("item/charm_bracelet_layer1"));

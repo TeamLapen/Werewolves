@@ -45,6 +45,7 @@ public class ModItems {
     public static final SpawnEggItem werewolf_beast_spawn_egg = getNull();
     public static final SpawnEggItem werewolf_survivalist_spawn_egg = getNull();
     public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
+    public static final SpawnEggItem alpha_werewolf_spawn_egg = getNull();
 
     public static final SilverOilItem silver_oil = getNull();
     public static final WerewolfRefinementItem bone_necklace = getNull();
@@ -84,6 +85,7 @@ public class ModItems {
         registry.register(new SpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
         registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
         registry.register(new SpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
+        registry.register(new SpawnEggItem(ModEntities.alpha_werewolf, 0xffc800, 0xca0f00, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "alpha_werewolf_spawn_egg"));
         registry.register(new WerewolfToothItem().setRegistryName(REFERENCE.MODID, "werewolf_tooth"));
 
         registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "werewolf_minion_charm"));
