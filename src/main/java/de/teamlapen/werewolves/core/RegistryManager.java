@@ -53,7 +53,7 @@ public class RegistryManager implements IInitListener {
                 event.enqueueWork(ModCommands::registerArgumentTypesUsages);
                 WerewolvesBiomeFeatures.init();
                 ModBiomes.removeStructuresFromBiomes();
-                ModItems.registerRecipes();
+                ModItems.registerOilRecipes();
                 break;
             case LOAD_COMPLETE:
                 break;

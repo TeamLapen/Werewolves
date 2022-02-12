@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraftforge.common.brewing.BrewingRecipe;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -115,8 +114,8 @@ public class ModItems {
         });
     }
 
-    static void registerRecipes() {
-        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.WHEAT_SEEDS), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)));
+    static void registerOilRecipes() {
+        BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.WHEAT_SEEDS), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)));
         BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)));
         BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_2)));
     }
