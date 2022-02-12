@@ -112,9 +112,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     public WerewolfTransformable _transformBack() {
         if (this.transformed == null) return this;
-        WerewolfTransformable.copyData(((MobEntity) this.transformed), this);
+        ((MobEntity) this.transformed).copyPosition(this);
         ((MobEntity) this.transformed).revive();
         this.level.addFreshEntity(((MobEntity) this.transformed));
+        this.remove(false);
+        ((MobEntity) this.transformed).setHealth(this.getHealth() / this.getMaxHealth() * ((MobEntity) this.transformed).getMaxHealth());
         return this.transformed;
     }
 

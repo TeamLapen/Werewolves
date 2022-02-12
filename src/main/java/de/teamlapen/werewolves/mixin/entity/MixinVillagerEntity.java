@@ -63,9 +63,11 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
 
     @Override
     public boolean canTransform() {
-        if (!this.werewolf) return false;
-        boolean otherFaction = this instanceof IVampire || ExtendedCreature.getSafe(this).map(IExtendedCreatureVampirism::hasPoisonousBlood).orElse(false);
-        return !otherFaction && this.rage > this.getMaxHealth() * 4;
+        return isWerewolf() && this.rage > this.getMaxHealth() * 4;
+    }
+
+    private boolean isWerewolf() {
+        return this.werewolf && !(this instanceof IVampire || ExtendedCreature.getSafe(this).map(IExtendedCreatureVampirism::hasPoisonousBlood).orElse(false));
     }
 
     @Override
@@ -81,7 +83,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     @Override
     public void aiStep() {
         super.aiStep();
-        if (canTransform()) {
+        if (this.isWerewolf()) {
             if (this.rage > 150) {
                 WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
                 ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
