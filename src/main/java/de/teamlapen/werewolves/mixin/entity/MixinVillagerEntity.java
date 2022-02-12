@@ -72,8 +72,10 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
 
     @Override
     public boolean hurt(@Nonnull DamageSource source, float amount) {
-        if (super.hurt(source, amount) && this.werewolf) {
-            this.rage += amount * 10;
+        if (super.hurt(source, amount)) {
+            if (isWerewolf()) {
+                this.rage += amount * 10;
+            }
             return true;
         } else {
             return false;
