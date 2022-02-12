@@ -45,14 +45,12 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -196,6 +194,17 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         if (nbt.contains("transformType")) {
             this.transformType = TransformType.valueOf(nbt.getString("transformType"));
         }
+        if (nbt.contains("transformed")) {
+            ResourceLocation id = new ResourceLocation(nbt.getString("transformed_id"));
+            EntityType<?> type = ForgeRegistries.ENTITIES.getValue(id);
+            if (type != null) {
+                Entity entity = type.create(this.level);
+                if (entity instanceof LivingEntity && entity instanceof WerewolfTransformable) {
+                    ((LivingEntity) entity).readAdditionalSaveData(nbt.getCompound("transformed"));
+                    this.transformed = ((WerewolfTransformable) entity);
+                }
+            }
+        }
     }
 
     @Override
@@ -212,7 +221,12 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         nbt.putInt("type", this.getSkinType());
         nbt.putInt("eyeType", this.getEyeType());
         nbt.putBoolean("attack", this.attack);
-
+        if (this.transformed != null) {
+            CompoundNBT transformed = new CompoundNBT();
+            ((LivingEntity) this.transformed).saveWithoutId(transformed);
+            nbt.put("transformed", transformed);
+            nbt.putString("transformed_id", ((LivingEntity) this.transformed).getType().getRegistryName().toString());
+        }
     }
 
     @Override
