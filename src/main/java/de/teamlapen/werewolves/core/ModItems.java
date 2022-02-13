@@ -10,14 +10,23 @@ import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
@@ -89,7 +98,14 @@ public class ModItems {
         registry.register(new SpawnEggItem(ModEntities.alpha_werewolf, 0xffc800, 0xca0f00, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "alpha_werewolf_spawn_egg"));
         registry.register(new WerewolfToothItem().setRegistryName(REFERENCE.MODID, "werewolf_tooth"));
 
-        registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "werewolf_minion_charm"));
+        registry.register(new Item(creativeTabProps()) {
+            @Override
+            public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> tooltips, @Nonnull ITooltipFlag flag) {
+                super.appendHoverText(stack, level, tooltips, flag);
+                tooltips.add(new TranslationTextComponent("item.werewolves.moon_charm.desc").withStyle(TextFormatting.DARK_GRAY));
+
+            }
+        }.setRegistryName(REFERENCE.MODID, "werewolf_minion_charm"));
         registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 1, 2).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_simple"));
         registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 3, 4).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_enhanced"));
         registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 5, 6).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_special"));
