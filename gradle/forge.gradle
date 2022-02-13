@@ -23,7 +23,7 @@ dependencies {
     implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
 
     //Utility
-    compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}:api") //API for compile (not POM)
+    compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //API for compile (not POM)
     runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //Full for runtime (not POM)
     runtimeOnly fg.deobf("curse.maven:hwyla-253449:${hwyla_curse_version}")
 

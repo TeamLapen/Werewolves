@@ -7,6 +7,7 @@ import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.inventory.recipes.TagBrewingRecipe;
 import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.Entity;
@@ -47,7 +48,7 @@ public class ModItems {
     public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
     public static final SpawnEggItem alpha_werewolf_spawn_egg = getNull();
 
-    public static final SilverOilItem silver_oil = getNull();
+    public static final OilItem oil_bottle = getNull();
     public static final WerewolfRefinementItem bone_necklace = getNull();
     public static final WerewolfRefinementItem charm_bracelet = getNull();
     public static final WerewolfRefinementItem dream_catcher = getNull();
@@ -93,7 +94,7 @@ public class ModItems {
         registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 3, 4).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_enhanced"));
         registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 5, 6).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_special"));
 
-        registry.register(new SilverOilItem(creativeTabProps()).setRegistryName(REFERENCE.MODID, "silver_oil"));
+        registry.register(new OilItem(creativeTabProps()).setRegistryName(REFERENCE.MODID, "oil_bottle"));
         registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "silver_nugget"));
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET).setRegistryName(REFERENCE.MODID, "bone_necklace"));
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING).setRegistryName(REFERENCE.MODID, "charm_bracelet"));
@@ -106,12 +107,17 @@ public class ModItems {
                 case "werewolves:bone":
                     missingMapping.remap(ModItems.cracked_bone);
                     break;
+                case "werewolves:silver_oil":
+                    missingMapping.remap(ModItems.oil_bottle);
+                    break;
             }
         });
     }
 
-    static void registerRecipes() {
-        BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), ModTags.Items.SILVER_INGOT, new ItemStack(ModItems.silver_oil)));
+    static void registerOilRecipes() {
+        BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.WHEAT_SEEDS), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)));
+        BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)));
+        BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_2)));
     }
 
     private static Item.Properties creativeTabProps() {

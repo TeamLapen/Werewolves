@@ -8,7 +8,7 @@ import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
-import de.teamlapen.werewolves.items.oil.IWeaponOil;
+import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -53,7 +53,7 @@ public class RegistryManager implements IInitListener {
                 event.enqueueWork(ModCommands::registerArgumentTypesUsages);
                 WerewolvesBiomeFeatures.init();
                 ModBiomes.removeStructuresFromBiomes();
-                ModItems.registerRecipes();
+                ModItems.registerOilRecipes();
                 break;
             case LOAD_COMPLETE:
                 break;
@@ -146,8 +146,8 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
-    public void onRegisterWeaponOils(RegistryEvent.Register<IWeaponOil> event) {
-        ModWeaponOils.register(event.getRegistry());
+    public void onRegisterWeaponOils(RegistryEvent.Register<IOil> event) {
+        ModOils.register(event.getRegistry());
     }
 
     @SubscribeEvent
