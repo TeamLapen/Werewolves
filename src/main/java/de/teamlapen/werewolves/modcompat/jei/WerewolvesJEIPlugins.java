@@ -39,7 +39,7 @@ public class WerewolvesJEIPlugins implements IModPlugin {
     @Override
     public void registerItemSubtypes(@Nonnull ISubtypeRegistration registration) {
         registration.registerSubtypeInterpreter(ModItems.oil_bottle, (stack, context) -> {
-            return OilUtils.getOilOpt(stack).map(iOil -> iOil.getRegistryName().toString()).orElse("");
+            return OilUtils.getOil(stack).getRegistryName().toString();
         });
     }
 

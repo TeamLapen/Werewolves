@@ -20,7 +20,7 @@ public class ModOils {
     public static void register(IForgeRegistry<IOil> registry) {
         registry.register(new SilverOil(0x999999).setRegistryName(REFERENCE.MODID, "silver_oil_1"));
         registry.register(new SilverOil(0xaaaaaa).setRegistryName(REFERENCE.MODID, "silver_oil_2"));
-        registry.register(new Oil(0).setRegistryName(REFERENCE.MODID, "empty"));
+        registry.register(new Oil(16253176).setRegistryName(REFERENCE.MODID, "empty"));
         registry.register(new Oil(0x7e6d27).setRegistryName(REFERENCE.MODID, "plant_oil"));
     }
 }

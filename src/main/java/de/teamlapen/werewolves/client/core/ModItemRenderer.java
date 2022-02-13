@@ -36,9 +36,7 @@ public class ModItemRenderer {
         colors.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
                 IOil oil = OilUtils.getOil(stack);
-                if (oil != null) {
-                    return oil.getColor();
-                }
+                return oil.getColor();
             }
             return 0xFFFFFF;
         }, ModItems.oil_bottle);

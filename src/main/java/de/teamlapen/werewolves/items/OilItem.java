@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class OilItem extends Item {
+public class OilItem extends Item implements IOilItem {
 
     public OilItem(Properties properties) {
         super(properties);
@@ -26,13 +26,13 @@ public class OilItem extends Item {
     @Nonnull
     @Override
     public ItemStack getDefaultInstance() {
-        return OilUtils.setOil(super.getDefaultInstance(), ModOils.plant_oil);
+        return OilUtils.setOil(super.getDefaultInstance(), ModOils.empty);
     }
 
     @Nonnull
     @Override
     public String getDescriptionId(@Nonnull ItemStack stack) {
-        return OilUtils.getOilOpt(stack).map(oil -> oil.getName(this.getDescriptionId() + ".oil.")).orElseGet(this::getDescriptionId);
+        return getOil(stack).getName(this.getDescriptionId() + ".oil.");
     }
 
     @Override
@@ -44,9 +44,7 @@ public class OilItem extends Item {
     public void fillItemCategory(@Nonnull ItemGroup itemGroup, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowdedIn(itemGroup)) {
             for (IOil value : ModRegistries.WEAPON_OILS.getValues()) {
-                if (value != ModOils.empty) {
-                    items.add(OilUtils.setOil(new ItemStack(this), value));
-                }
+                items.add(OilUtils.setOil(new ItemStack(this), value));
             }
         }
     }

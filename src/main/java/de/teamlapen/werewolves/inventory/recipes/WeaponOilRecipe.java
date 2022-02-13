@@ -1,9 +1,8 @@
 package de.teamlapen.werewolves.inventory.recipes;
 
 import de.teamlapen.werewolves.core.ModRecipes;
-import de.teamlapen.werewolves.items.OilItem;
+import de.teamlapen.werewolves.items.IOilItem;
 import de.teamlapen.werewolves.items.oil.IOil;
-import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.WeaponOilHelper;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
@@ -27,9 +26,9 @@ public class WeaponOilRecipe extends SpecialRecipe {
         for (int i = 0; i < inventory.getContainerSize(); i++) {
             ItemStack stack = inventory.getItem(i);
             if (!stack.isEmpty()) {
-                if (stack.getItem() instanceof OilItem) {
+                if (stack.getItem() instanceof IOilItem) {
                     if (oil != null) return false;
-                    oil = OilUtils.getOil(stack);
+                    oil = ((IOilItem) stack.getItem()).getOil(stack);
                 } else {
                     if (tool != null) return false;
                     tool = stack;
@@ -42,23 +41,22 @@ public class WeaponOilRecipe extends SpecialRecipe {
     @Nonnull
     @Override
     public ItemStack assemble(@Nonnull CraftingInventory inventory) {
-        ItemStack oil = ItemStack.EMPTY;
-        ItemStack tool = ItemStack.EMPTY;
+        ItemStack oilStack = ItemStack.EMPTY;
+        ItemStack toolStack = ItemStack.EMPTY;
         for (int i = 0; i < inventory.getContainerSize(); i++) {
             ItemStack stack = inventory.getItem(i);
             if (!stack.isEmpty()) {
-                if (stack.getItem() instanceof OilItem) {
-                    oil = stack;
+                if (stack.getItem() instanceof IOilItem) {
+                    oilStack = stack;
                 } else {
-                    tool = stack;
+                    toolStack = stack;
                 }
             }
         }
-        ItemStack result = tool.copy();
-        if (oil.isEmpty() || tool.isEmpty()) return result;
-        OilUtils.getOilOpt(oil).ifPresent(weaponOil -> {
-            WeaponOilHelper.setWeaponOils(result, weaponOil, weaponOil.getMaxDuration(result));
-        });
+        ItemStack result = toolStack.copy();
+        if (oilStack.isEmpty() || toolStack.isEmpty()) return result;
+        IOil oil = ((IOilItem) oilStack.getItem()).getOil(oilStack);
+        WeaponOilHelper.setWeaponOils(result, oil, oil.getMaxDuration(result));
         return result;
     }
 
