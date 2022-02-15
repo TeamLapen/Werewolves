@@ -22,13 +22,13 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
         super(REG_NAME, EffectType.HARMFUL, 0xe012ef);
     }
 
-    public static void addSanguinemEffectRandom(LivingEntity entity) {
-        if (entity.getRandom().nextFloat() < 0.05) {
+    public static void addSanguinemEffectRandom(@Nonnull LivingEntity entity, float percentage) {
+        if (entity.getRandom().nextFloat() < percentage) {
             addSanguinemEffect(entity);
         }
     }
 
-    public static void addSanguinemEffect(LivingEntity entity) {
+    public static void addSanguinemEffect(@Nonnull LivingEntity entity) {
         boolean canBecomeWerewolf = false; //TODO other entities
         if (entity instanceof PlayerEntity) {
             canBecomeWerewolf = Helper.canBecomeWerewolf(((PlayerEntity) entity));

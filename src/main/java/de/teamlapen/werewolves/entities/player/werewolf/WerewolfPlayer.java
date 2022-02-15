@@ -443,7 +443,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)), false);
             if (!(entity instanceof PlayerEntity) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.INFECT_PLAYER)) {
-                LupusSanguinemEffect.addSanguinemEffectRandom(entity);
+                LupusSanguinemEffect.addSanguinemEffectRandom(entity, 0.1f);
             }
         }
         return flag;
