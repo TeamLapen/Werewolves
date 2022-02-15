@@ -246,7 +246,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                         if (effect != null) {
                             player.removeEffect(effect.getEffect());
                         }
-                        player.addEffect(new WerewolfNightVisionEffect());
+                        player.addEffect(new WerewolfNightVisionEffect(effect));
                     }
                 } else {
                     if (effect instanceof WerewolfNightVisionEffect) {
