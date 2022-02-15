@@ -9,6 +9,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Items;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class ModTagsProvider {
@@ -43,6 +44,10 @@ public class ModTagsProvider {
         @Override
         protected void addTags() {
             this.copy(ModTags.Blocks.SILVER_ORE, ModTags.Items.SILVER_ORE);
+            this.copy(BlockTags.PLANKS, ItemTags.PLANKS);
+            this.copy(BlockTags.LEAVES, ItemTags.LEAVES);
+            this.copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
+            this.copy(BlockTags.LOGS, ItemTags.LOGS);
             this.tag(ModTags.Items.SILVER_INGOT).add(ModItems.silver_ingot);
             this.tag(ModTags.Items.SILVER_NUGGET).add(ModItems.silver_nugget);
             this.tag(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver, ModItems.V.human_heart, ModItems.V.weak_human_heart, Items.SALMON, Items.TROPICAL_FISH, Items.COD);
