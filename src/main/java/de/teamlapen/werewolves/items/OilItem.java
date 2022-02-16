@@ -11,6 +11,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -31,8 +32,9 @@ public class OilItem extends Item implements IOilItem {
 
     @Nonnull
     @Override
-    public String getDescriptionId(@Nonnull ItemStack stack) {
-        return getOil(stack).getName(this.getDescriptionId() + ".oil.");
+    public ITextComponent getName(@Nonnull ItemStack stack) {
+        IOil oil = OilUtils.getOil(stack);
+        return new TranslationTextComponent("oil." + oil.getRegistryName().getNamespace() + "." + oil.getRegistryName().getPath()).append(" ").append(new TranslationTextComponent(this.getDescriptionId(stack)));
     }
 
     @Override
