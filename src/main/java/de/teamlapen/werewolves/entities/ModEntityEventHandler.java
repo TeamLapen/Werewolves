@@ -24,7 +24,9 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
+import net.minecraft.entity.monster.StrayEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -134,8 +136,8 @@ public class ModEntityEventHandler {
             });
         }
         if (WerewolvesConfig.BALANCE.UTIL.skeletonIgnoreWerewolves.get()) {
-            if (event.getEntity() instanceof SkeletonEntity) {
-                makeWerewolfFriendly("skeleton", (SkeletonEntity) event.getEntity(), NearestAttackableTargetGoal.class, PlayerEntity.class, 2, (entity, predicate) -> new NearestAttackableTargetGoal<>(entity, PlayerEntity.class, 10, true, false, predicate), type -> type == EntityType.SKELETON);
+            if (event.getEntity() instanceof SkeletonEntity || event.getEntity() instanceof StrayEntity) {
+                makeWerewolfFriendly("skeleton", (AbstractSkeletonEntity) event.getEntity(), NearestAttackableTargetGoal.class, PlayerEntity.class, 2, (entity, predicate) -> new NearestAttackableTargetGoal<>(entity, PlayerEntity.class, 10, true, false, predicate), type -> type == EntityType.SKELETON || type == EntityType.STRAY);
             }
         }
     }
