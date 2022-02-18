@@ -145,27 +145,35 @@ public class ModEntityEventHandler {
     /**
      * copy from {@link de.teamlapen.vampirism.entity.ModEntityEventHandler#makeVampireFriendly(String, MobEntity, Class, Class, int, BiFunction, Predicate)}
      */
-    public static <T extends MobEntity, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, T e, Class<Q> targetClass, Class<S> targetEntityClass, int attackPriority, BiFunction<T, Predicate<LivingEntity>, Q> replacement, Predicate<EntityType<? extends T>> typeCheck) {
-        Goal target = null;
-        for (PrioritizedGoal t : e.targetSelector.availableGoals) {
-            Goal g = t.getGoal();
-            if (targetClass.equals(g.getClass()) && t.getPriority() == attackPriority && targetEntityClass.equals(((NearestAttackableTargetGoal<?>) g).targetType)) {
-                target = g;
-                break;
+    public static <T extends MobEntity, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, T entity, Class<Q> targetClass, Class<S> targetEntityClass, int attackPriority, BiFunction<T, Predicate<LivingEntity>, Q> replacement, Predicate<EntityType<? extends T>> typeCheck) {
+        try {
+            Goal target = null;
+            for (PrioritizedGoal t : entity.targetSelector.availableGoals) {
+                Goal g = t.getGoal();
+                if (targetClass.equals(g.getClass()) && t.getPriority() == attackPriority && targetEntityClass.equals(((NearestAttackableTargetGoal<?>) g).targetType)) {
+                    target = g;
+                    break;
+                }
             }
-        }
-        if (target != null) {
-            e.targetSelector.removeGoal(target);
-            EntityType<? extends T> type = (EntityType<? extends T>) e.getType();
-            if (typeCheck.test(type)) {
-                e.targetSelector.addGoal(attackPriority, replacement.apply(e, nonWerewolfCheck.and(((Q) target).targetConditions.selector)));
-            }
-        } else {
-            if (entityAIReplacementWarnMap.getOrDefault(name, true)) {
-                LOGGER.warn("Could not replace {} attack target task for {}", name, e.getType().getDescription());
-                entityAIReplacementWarnMap.put(name, false);
-            }
+            if (target != null) {
 
+                entity.targetSelector.removeGoal(target);
+                EntityType<? extends T> type = (EntityType<? extends T>) entity.getType();
+                if (typeCheck.test(type)) {
+                    Predicate<LivingEntity> newPredicate = nonWerewolfCheck;
+                    if (((Q) target).targetConditions.selector != null) {
+                        newPredicate = newPredicate.and(((NearestAttackableTargetGoal<?>) target).targetConditions.selector);
+                    }
+                    entity.targetSelector.addGoal(attackPriority, replacement.apply(entity, newPredicate));
+                }
+            } else {
+                if (entityAIReplacementWarnMap.getOrDefault(name, true)) {
+                    LOGGER.warn("Could not replace {} attack target task for {}", name, entity.getType().getDescription());
+                    entityAIReplacementWarnMap.put(name, false);
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("Could not replace " + name + " attack target task for " + entity.getType().getDescription(), e);
         }
     }
 
