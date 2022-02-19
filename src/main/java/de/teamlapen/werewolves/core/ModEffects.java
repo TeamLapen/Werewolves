@@ -1,7 +1,10 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import de.teamlapen.vampirism.effects.BadOmenEffect;
 import de.teamlapen.werewolves.effects.*;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.potion.Effect;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
@@ -16,6 +19,7 @@ public class ModEffects {
     public static final SilverEffect silver = getNull();
     public static final BleedingEffect bleeding = getNull();
     public static final UnWerewolfEffect un_werewolf = getNull();
+    public static final Effect bad_omen_werewolf = getNull();
 
     @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
     public static class V {
@@ -29,5 +33,11 @@ public class ModEffects {
         registry.register(new SilverEffect());
         registry.register(new BleedingEffect());
         registry.register(new UnWerewolfEffect());
+        registry.register(new BadOmenEffect(REFERENCE.MODID, REFERENCE.WEREWOLF_PLAYER_KEY) {
+            @Override
+            public IFaction<?> getFaction() {
+                return WReference.WEREWOLF_FACTION;
+            }
+        });
     }
 }

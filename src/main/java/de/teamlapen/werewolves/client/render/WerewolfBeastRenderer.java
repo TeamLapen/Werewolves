@@ -5,6 +5,7 @@ import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.layers.HeadLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,5 +15,6 @@ public class WerewolfBeastRenderer<T extends BasicWerewolfEntity> extends Werewo
 
     public WerewolfBeastRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new WerewolfBeastModel<>(), 1.0f, Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).toArray(ResourceLocation[]::new));
+        this.addLayer(new HeadLayer<>(this));
     }
 }

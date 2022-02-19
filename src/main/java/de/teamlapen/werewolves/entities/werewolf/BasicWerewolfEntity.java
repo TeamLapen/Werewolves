@@ -10,6 +10,7 @@ import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IActionHandlerEntity;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.world.ICaptureAttributes;
+import de.teamlapen.vampirism.effects.BadOmenEffect;
 import de.teamlapen.vampirism.entity.action.ActionHandlerEntity;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
@@ -31,6 +32,7 @@ import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfForm;
+import de.teamlapen.werewolves.util.WerewolfVillageData;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
@@ -48,6 +50,8 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -75,8 +79,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private IEntityLeader entityLeader;
 
     @Nullable
-    private ICaptureAttributes villageAttributes;
-    private boolean attack;
+    protected ICaptureAttributes villageAttributes;
+    protected boolean attack;
 
     public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, World world, WerewolfForm werewolfForm) {
         super(type, world);
@@ -478,6 +482,23 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public static class Beast extends BasicWerewolfEntity {
         public Beast(EntityType<? extends Beast> type, World world) {
             super(type, world, WerewolfForm.BEAST);
+        }
+
+        @Override
+        public void die(@Nonnull DamageSource cause) {
+            if (this.villageAttributes == null) {
+                BadOmenEffect.handlePotentialBannerKill(cause.getEntity(), this);
+            }
+            super.die(cause);
+        }
+
+        @Nullable
+        @Override
+        public ILivingEntityData finalizeSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT nbt) {
+            if (!(reason == SpawnReason.SPAWN_EGG || reason == SpawnReason.BUCKET || reason == SpawnReason.CONVERSION || reason == SpawnReason.COMMAND) && this.getRandom().nextInt(50) == 0) {
+                this.setItemSlot(EquipmentSlotType.HEAD, WerewolfVillageData.createBanner());
+            }
+            return super.finalizeSpawn(world, difficulty, reason, spawnData, nbt);
         }
     }
 

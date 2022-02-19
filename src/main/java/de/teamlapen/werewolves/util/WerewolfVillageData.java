@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import de.teamlapen.vampirism.api.entity.CaptureEntityEntry;
 import de.teamlapen.vampirism.api.entity.factions.IFactionVillageBuilder;
 import de.teamlapen.werewolves.core.ModBlocks;
+import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModVillage;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
@@ -23,6 +24,7 @@ public class WerewolfVillageData {
                 .factionVillagerProfession(() -> ModVillage.werewolf_expert)
                 .guardSuperClass(WerewolfBaseEntity.class)
                 .taskMaster(() -> ModEntities.task_master_werewolf)
+                .badOmenEffect(() -> ModEffects.bad_omen_werewolf)
                 .totem(() -> ModBlocks.totem_top_werewolves_werewolf, () -> ModBlocks.totem_top_werewolves_werewolf_crafted)
                 .banner(WerewolfVillageData::createBanner);
     }
