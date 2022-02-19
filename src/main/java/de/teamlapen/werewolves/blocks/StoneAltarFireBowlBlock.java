@@ -3,11 +3,13 @@ package de.teamlapen.werewolves.blocks;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particles.ParticleTypes;
@@ -15,6 +17,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -34,7 +37,7 @@ import java.util.Random;
 
 import static net.minecraft.block.CampfireBlock.makeParticles;
 
-public class StoneAltarFireBowlBlock extends Block implements IWaterLoggable {
+public class StoneAltarFireBowlBlock extends HorizontalBlock implements IWaterLoggable {
     public static final String REG_NAME = "stone_altar_fire_bowl";
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -42,26 +45,16 @@ public class StoneAltarFireBowlBlock extends Block implements IWaterLoggable {
     protected static final VoxelShape SHAPE = makeShape();
 
     public StoneAltarFireBowlBlock() {
-        super(Block.Properties.of(Material.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT)?14:0));
-        this.registerDefaultState(this.getStateDefinition().any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false));
+        super(Block.Properties.of(Material.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT) ? 14 : 0));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false).setValue(FACING, Direction.NORTH));
     }
 
     protected static VoxelShape makeShape() {
-        VoxelShape a = Block.box(4, 0, 4, 12, 8, 12);
+        VoxelShape a = Block.box(0, 0, 0, 16, 5, 16);
+        VoxelShape b = Block.box(2, 5, 2, 14, 9, 14);
+        VoxelShape c = Block.box(0, 9, 0, 16, 14, 16);
 
-        VoxelShape b = Block.box(2, 8, 2, 14, 10, 14);
-
-        VoxelShape c = Block.box(2, 10, 2, 4, 15, 4);
-        VoxelShape d = Block.box(12, 10, 12, 14, 15, 14);
-        VoxelShape e = Block.box(2, 10, 12, 4, 15, 14);
-        VoxelShape f = Block.box(12, 10, 2, 14, 15, 4);
-
-        VoxelShape g = Block.box(3, 10, 3, 13, 14, 3.1);
-        VoxelShape h = Block.box(3, 10, 3, 3.1, 14, 13);
-        VoxelShape i = Block.box(13, 10, 13, 12.9, 14, 3);
-        VoxelShape j = Block.box(13, 10, 13, 3, 14, 12.9);
-
-        return VoxelShapes.or(a, b, c, d, e, f, g, h, i, j);
+        return VoxelShapes.or(a, b, c);
     }
 
     @Nonnull
@@ -87,7 +80,7 @@ public class StoneAltarFireBowlBlock extends Block implements IWaterLoggable {
 
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(LIT).add(WATERLOGGED).add(SOUL_FIRE);
+        builder.add(LIT).add(WATERLOGGED).add(SOUL_FIRE).add(FACING);
     }
 
     @Nonnull
@@ -137,5 +130,12 @@ public class StoneAltarFireBowlBlock extends Block implements IWaterLoggable {
             double d2 = (double) pos.getZ() + rand.nextDouble();
             worldIn.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
+    }
+
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
     }
 }

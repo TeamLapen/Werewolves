@@ -32,6 +32,7 @@ Vampirism [Curseforge](https://www.curseforge.com/minecraft/mc-mods/vampirism-be
 
 - [maxanier](https://maxanier.de) _Vampirism_
 - [RebelT](https://github.com/TheRebelT) _Models & Textures_
+- [1LiterZinalco](https://lunofe.de/) _Models_
 - Йода _Textures_
 - CritterCarnival _Textures_
 - Talonerd _Textures_
