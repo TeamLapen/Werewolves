@@ -141,7 +141,7 @@
   "__comment": "tile",
   "container.werewolves.stone_altar": "Stone Altar",
   "__comment": "texts",
-  "text.werewolves.skill_screen.prey_snatched": "%s %% Prey Snatched",
+  "text.werewolves.skill_screen.prey_snatched": "%s/%s Prey Snatched",
   "text.werewolves.skill_screen.level_progression_label": "Level Progress:",
   "text.werewolves.stone_altar.ritual_wrong_level": "You can not progress further at this altar",
   "text.werewolves.stone_altar.ritual_night_only": "The ritual is only working at night",

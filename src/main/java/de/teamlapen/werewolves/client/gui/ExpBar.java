@@ -2,19 +2,17 @@ package de.teamlapen.werewolves.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
-import de.teamlapen.vampirism.client.gui.SkillsScreen;
 import de.teamlapen.vampirism.client.gui.VampirismScreen;
+import de.teamlapen.werewolves.entities.player.werewolf.LevelHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
@@ -57,7 +55,8 @@ public class ExpBar extends Widget {
         if (mouseX > this.x && mouseX < this.x + 15 && mouseY > this.y && mouseY < this.y + 123) {
             List<IReorderingProcessor> tooltips = new ArrayList<>();
             tooltips.add(new TranslationTextComponent("text.werewolves.skill_screen.level_progression_label").getVisualOrderText());
-            tooltips.add(new TranslationTextComponent("text.werewolves.skill_screen.prey_snatched", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100) ).getVisualOrderText());
+            LevelHandler handler = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler();
+            tooltips.add(new TranslationTextComponent("text.werewolves.skill_screen.prey_snatched", handler.getLevelProgress(), handler.getNeededProgress()).getVisualOrderText());
             this.screen.renderTooltip(stack, tooltips, mouseX, mouseY);
         }
     }

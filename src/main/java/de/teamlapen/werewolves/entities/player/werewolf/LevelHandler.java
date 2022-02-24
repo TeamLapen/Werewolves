@@ -15,14 +15,12 @@ public class LevelHandler {
         this.player = player;
     }
 
-    @SuppressWarnings("ConstantConditions")
     public boolean canLevelUp() {
-        return player.getLevel() != player.getMaxLevel() && levelProgress >= WerewolfLevelConf.getInstance().getRequirement(player.getLevel() + 1).xpAmount;
+        return this.player.getLevel() != this.player.getMaxLevel() && this.levelProgress >= getNeededProgress();
     }
 
-    @SuppressWarnings("ConstantConditions")
     public float getLevelPerc() {
-        return MathHelper.clamp((float) levelProgress / WerewolfLevelConf.getInstance().getRequirement(player.getLevel() + 1).xpAmount, 0, 1);
+        return MathHelper.clamp((float) this.levelProgress / getNeededProgress(), 0, 1);
     }
 
     public void saveToNbt(@Nonnull CompoundNBT compound) {
@@ -33,6 +31,14 @@ public class LevelHandler {
 
     public void loadFromNbt(@Nonnull CompoundNBT compound) {
         this.levelProgress = compound.getCompound("level").getInt("progress");
+    }
+
+    public int getLevelProgress() {
+        return this.levelProgress;
+    }
+
+    public int getNeededProgress() {
+        return WerewolfLevelConf.getInstance().getRequirementOpt(this.player.getLevel() + 1).map(x -> x.xpAmount).orElse(Integer.MAX_VALUE);
     }
 
     public void increaseProgress(int amount) {

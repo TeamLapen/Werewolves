@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class WerewolfLevelConf {
 
@@ -37,10 +38,15 @@ public class WerewolfLevelConf {
         return levelRequirementMap.get(level);
     }
 
+    @Nonnull
+    public Optional<LevelRequirement> getRequirementOpt(int level) {
+        return Optional.ofNullable(getRequirement(level));
+    }
+
     @Nullable
-    public StoneAltarRequirement getStoneRequirement(int level){
+    public StoneAltarRequirement getStoneRequirement(int level) {
         LevelRequirement req = levelRequirementMap.get(level);
-        return req instanceof StoneAltarRequirement? (StoneAltarRequirement) req :null;
+        return req instanceof StoneAltarRequirement ? (StoneAltarRequirement) req : null;
     }
 
     public static class LevelRequirement {
