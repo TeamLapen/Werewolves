@@ -13,9 +13,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,11 +94,16 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     public static IWerewolf asIWerewolf(LivingEntity entity) {
         if (entity instanceof IWerewolf) {
             return ((IWerewolf) entity);
-        } if (entity instanceof PlayerEntity) {
+        }
+        if (entity instanceof PlayerEntity) {
             return WerewolfPlayer.get(((PlayerEntity) entity));
         } else {
             return null;
         }
+    }
+
+    public static boolean matchesItem(Ingredient ingredient, ItemStack searchStack) {
+        return Arrays.stream(ingredient.getItems()).anyMatch(stack -> stack.sameItem(searchStack) && stack.areShareTagsEqual(searchStack));
     }
 
 }

@@ -4,7 +4,7 @@ import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
-import de.teamlapen.werewolves.inventory.recipes.TagBrewingRecipe;
+import de.teamlapen.werewolves.inventory.recipes.TagNBTBrewingRecipe;
 import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.OilUtils;
@@ -110,7 +110,7 @@ public class ModItems {
         registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 3, 4).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_enhanced"));
         registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 5, 6).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_special"));
 
-        registry.register(new OilItem(creativeTabProps()).setRegistryName(REFERENCE.MODID, "oil_bottle"));
+        registry.register(new OilItem(creativeTabProps().stacksTo(1)).setRegistryName(REFERENCE.MODID, "oil_bottle"));
         registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "silver_nugget"));
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET).setRegistryName(REFERENCE.MODID, "bone_necklace"));
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING).setRegistryName(REFERENCE.MODID, "charm_bracelet"));
@@ -131,9 +131,9 @@ public class ModItems {
     }
 
     static void registerOilRecipes() {
-        BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.WHEAT_SEEDS), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)));
-        BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)));
-        BrewingRecipeRegistry.addRecipe(new TagBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_2)));
+        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.WHEAT_SEEDS), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)));
+        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)));
+        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_2)));
     }
 
     private static Item.Properties creativeTabProps() {

@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.modcompat.jei;
 
 import com.google.common.base.Objects;
 import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.inventory.recipes.TagBrewingRecipe;
+import de.teamlapen.werewolves.inventory.recipes.TagNBTBrewingRecipe;
 import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
 import mezz.jei.Internal;
@@ -48,8 +48,8 @@ public class WerewolvesJEIPlugins implements IModPlugin {
         BrewingRecipeUtil util = new BrewingRecipeUtil(Internal.getIngredientManager().getIngredientHelper(VanillaTypes.ITEM));
         Set<IJeiBrewingRecipe> recipes = new HashSet<>();
         BrewingRecipeRegistry.getRecipes().stream()
-                .filter(TagBrewingRecipe.class::isInstance)
-                .map(TagBrewingRecipe.class::cast)
+                .filter(TagNBTBrewingRecipe.class::isInstance)
+                .map(TagNBTBrewingRecipe.class::cast)
                 .forEach(brewingRecipe -> recipes.add(new OilJeiBrewingRecipe(Arrays.asList(brewingRecipe.getIngredient()), Arrays.asList(brewingRecipe.getInput().getItems()), brewingRecipe.getOutput(), util)));
         registration.addRecipes(recipes, VanillaRecipeCategoryUid.BREWING);
     }

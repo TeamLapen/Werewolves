@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.inventory.recipes;
 
 import com.mojang.datafixers.util.Either;
+import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -9,19 +10,19 @@ import net.minecraftforge.common.brewing.IBrewingRecipe;
 
 import javax.annotation.Nonnull;
 
-public class TagBrewingRecipe implements IBrewingRecipe {
+public class TagNBTBrewingRecipe implements IBrewingRecipe {
 
     private final Ingredient input;
     private final Either<ITag<Item>, Ingredient> ingredient;
     private final ItemStack output;
 
-    public TagBrewingRecipe(Ingredient input, ITag<Item> ingredient, ItemStack output) {
+    public TagNBTBrewingRecipe(Ingredient input, ITag<Item> ingredient, ItemStack output) {
         this.input = input;
         this.ingredient = Either.left(ingredient);
         this.output = output;
     }
 
-    public TagBrewingRecipe(Ingredient input, Ingredient ingredient, ItemStack output) {
+    public TagNBTBrewingRecipe(Ingredient input, Ingredient ingredient, ItemStack output) {
         this.input = input;
         this.ingredient = Either.right(ingredient);
         this.output = output;
@@ -29,7 +30,7 @@ public class TagBrewingRecipe implements IBrewingRecipe {
 
     @Override
     public boolean isInput(@Nonnull ItemStack input) {
-        return this.input.test(input);
+        return Helper.matchesItem(this.input, input);
     }
 
     @Override
