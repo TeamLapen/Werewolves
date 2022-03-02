@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.blocks.entity;
 
 import de.teamlapen.lib.lib.inventory.InventoryHelper;
 import de.teamlapen.lib.lib.tile.InventoryTileEntity;
+import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.core.ModParticles;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.blocks.StoneAltarBlock;
@@ -90,7 +91,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
                         this.ticks = 90;
                         this.player.addEffect(new EffectInstance(Effects.BLINDNESS, 120, 3, false, false));
                         this.setChanged();
-                        this.level.setBlockAndUpdate(this.worldPosition, ModBlocks.stone_altar.defaultBlockState().setValue(StoneAltarBlock.LIT, false));
+                        this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(StoneAltarBlock.LIT, false));
                     } else if (this.ticks % 10 == 0) {
                         ModParticles.spawnParticlesServer(this.level, ParticleTypes.MYCELIUM, this.worldPosition.getX() + Math.random(), this.worldPosition.getY() + 1, this.worldPosition.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
                         if (fire_bowls != null) {
@@ -207,7 +208,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
             return Result.NIGHT_ONLY;
         } else if (!checkItemRequirements(player)) {
             return Result.INV_MISSING;
-        } else if (!WerewolfPlayer.getOpt(player).map(w -> w.getLevelHandler().canLevelUp()).orElse(false)) {
+        } else if (!WerewolfPlayer.getOpt(player).map(w -> w.getLevelHandler().canLevelUp()).orElse(false) && !VampirismMod.inDev) {
             return Result.TO_LESS_BLOOD;
         }
         return Result.OK;
