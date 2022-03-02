@@ -29,20 +29,7 @@ public class StoneAltarTESR extends TileEntityRenderer<StoneAltarTileEntity> {
     @Override
     public void render(@Nonnull StoneAltarTileEntity tileEntityIn, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (!tileEntityIn.getItem(0).isEmpty()) {
-            matrixStackIn.pushPose();
-            matrixStackIn.translate(0.5, 0.67, 0.5); // translate to middle
-            matrixStackIn.scale(0.4f, 0.4f, 0.4f); // adjust item size
-            switch (tileEntityIn.getBlockState().getValue(StoneAltarBlock.HORIZONTAL_FACING)) { // rotated based on facing
-                case WEST:
-                    matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 270, true));
-                    break;
-                case SOUTH:
-                    matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 180, true));
-                    break;
-                case EAST:
-                    matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 90, true));
-                    break;
-            }
+            renderItem(tileEntityIn, matrixStackIn);
             matrixStackIn.translate(-0.5, 0, 0.5); // translate to final location
             matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 22.5f, true)); // rotate final
             matrixStackIn.mulPose(new Quaternion(new Vector3f(-1, 0, 0), 90f, true)); // rotate to flat
@@ -50,25 +37,29 @@ public class StoneAltarTESR extends TileEntityRenderer<StoneAltarTileEntity> {
             matrixStackIn.popPose();
         }
         if (!tileEntityIn.getItem(1).isEmpty()) {
-            matrixStackIn.pushPose();
-            matrixStackIn.translate(0.5, 0.67, 0.5); // translate to middle
-            matrixStackIn.scale(0.4f, 0.4f, 0.4f); // adjust item size
-            switch (tileEntityIn.getBlockState().getValue(StoneAltarBlock.HORIZONTAL_FACING)) { // rotated based on facing
-                case WEST:
-                    matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 270, true));
-                    break;
-                case SOUTH:
-                    matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 180, true));
-                    break;
-                case EAST:
-                    matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 90, true));
-                    break;
-            }
+            renderItem(tileEntityIn, matrixStackIn);
             matrixStackIn.translate(0.5, 0, 0.5); // translate to final location
             matrixStackIn.mulPose(new Quaternion(new Vector3f(0, -1, 0), 22.5f, true)); // rotate final
             matrixStackIn.mulPose(new Quaternion(new Vector3f(-1, 0, 0), 90f, true)); // rotate to flat
             Minecraft.getInstance().getItemRenderer().renderStatic(BONE_STACK, ItemCameraTransforms.TransformType.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
             matrixStackIn.popPose();
+        }
+    }
+
+    private void renderItem(@Nonnull StoneAltarTileEntity tileEntityIn, @Nonnull MatrixStack matrixStackIn) {
+        matrixStackIn.pushPose();
+        matrixStackIn.translate(0.5, 0.67, 0.5); // translate to middle
+        matrixStackIn.scale(0.4f, 0.4f, 0.4f); // adjust item size
+        switch (tileEntityIn.getBlockState().getValue(StoneAltarBlock.HORIZONTAL_FACING)) { // rotated based on facing
+            case WEST:
+                matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 90, true));
+                break;
+            case SOUTH:
+                matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 180, true));
+                break;
+            case EAST:
+                matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 270, true));
+                break;
         }
     }
 }
