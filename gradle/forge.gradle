@@ -33,7 +33,7 @@ dependencies {
     }
 
     //Blame for debugging
-    runtimeOnly fg.deobf("com.telepathicgrunt:Blame:${project.blame_version}")
+//    runtimeOnly fg.deobf("com.telepathicgrunt:Blame:${project.blame_version}")
 }
 
 minecraft {
