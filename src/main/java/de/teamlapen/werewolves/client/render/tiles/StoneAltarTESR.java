@@ -48,7 +48,7 @@ public class StoneAltarTESR extends TileEntityRenderer<StoneAltarTileEntity> {
 
     private void renderItem(@Nonnull StoneAltarTileEntity tileEntityIn, @Nonnull MatrixStack matrixStackIn) {
         matrixStackIn.pushPose();
-        matrixStackIn.translate(0.5, 0.67, 0.5); // translate to middle
+        matrixStackIn.translate(0.5, 0.64, 0.5); // translate to middle
         matrixStackIn.scale(0.4f, 0.4f, 0.4f); // adjust item size
         switch (tileEntityIn.getBlockState().getValue(StoneAltarBlock.HORIZONTAL_FACING)) { // rotated based on facing
             case WEST:
