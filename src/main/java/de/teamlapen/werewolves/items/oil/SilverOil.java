@@ -2,6 +2,8 @@ package de.teamlapen.werewolves.items.oil;
 
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModOils;
+import de.teamlapen.werewolves.core.ModTags;
+import de.teamlapen.werewolves.items.ISilverItem;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -24,6 +26,11 @@ public class SilverOil extends WeaponOil {
 
     public float getAdditionalDamage(ItemStack stack, LivingEntity entity, float damage) {
         return damage * getDamageModifier();
+    }
+
+    @Override
+    public boolean canBeAppliedTo(ItemStack stack) {
+        return super.canBeAppliedTo(stack) && !(stack.getItem() instanceof ISilverItem || ModTags.Items.SILVER_TOOL.contains(stack.getItem()));
     }
 
     public float getDamageModifier() {
