@@ -27,8 +27,9 @@ public class PlayerRendererMixin {
     @Inject(method = "renderLeftHand(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;ILnet/minecraft/client/entity/player/AbstractClientPlayerEntity;)V", at = @At("HEAD"), cancellable = true)
     private void leftArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn, CallbackInfo ci) {
         if (Helper.isWerewolf(playerIn) && WerewolfPlayer.get(playerIn).getForm().isTransformed()) {
-            ModEntityRenderer.render.renderLeftArm(matrixStackIn, bufferIn, combinedLightIn, playerIn);
-            ci.cancel();
+            if (ModEntityRenderer.render.renderLeftArm(matrixStackIn, bufferIn, combinedLightIn, playerIn)) {
+                ci.cancel();
+            }
         }
     }
 }

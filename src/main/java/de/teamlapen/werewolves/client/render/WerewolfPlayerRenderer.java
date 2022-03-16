@@ -13,8 +13,14 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.Hand;
+import net.minecraft.util.HandSide;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientPlayerEntity> {
@@ -32,7 +38,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         this.skipPlayerModel = getWrapper(type).skipPlayerModel;
     }
 
-    private void setModelVisible(AbstractClientPlayerEntity clientPlayer) {
+    private void setModelVisible(@Nonnull AbstractClientPlayerEntity clientPlayer) {
         WerewolfBaseModel<AbstractClientPlayerEntity> playerModel = this.getModel();
         if (clientPlayer.isSpectator()) {
             playerModel.setAllVisible(false);
@@ -45,22 +51,26 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
 
     public boolean renderRightArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn) {
         WerewolfForm form = WerewolfPlayer.get(playerIn).getForm();
-        if (form == WerewolfForm.SURVIVALIST) return true;
+        if (!form.isHumanLike()) {
+            form = WerewolfForm.BEAST;
+        }
         this.switchModel(form);
         ModelRenderer arm = this.getModel().getRightArmModel();
         if (arm != null) {
-            if (form == WerewolfForm.BEAST) {
+            if (shouldRenderArm(HandSide.RIGHT, playerIn)) {
                 matrixStackIn.pushPose();
                 matrixStackIn.scale(1.2f, 1f, 1.2f);
                 matrixStackIn.translate(0, 0.2, 0.4);
                 this.renderItem(matrixStackIn, bufferIn, combinedLightIn, playerIn, arm);
                 matrixStackIn.popPose();
+            } else {
+                return false;
             }
         }
         return !form.isHumanLike();
     }
 
-    public void renderLeftArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn) {
+    public boolean renderLeftArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn) {
         WerewolfForm form = WerewolfPlayer.get(playerIn).getForm();
         if (!form.isHumanLike()) {
             form = WerewolfForm.BEAST;
@@ -68,13 +78,33 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         this.switchModel(form);
         ModelRenderer arm = this.getModel().getLeftArmModel();
         if (arm != null) {
-            matrixStackIn.scale(1.2f,1f,1.2f);
-            matrixStackIn.translate(0,0.2,-0.4);
-            this.renderItem(matrixStackIn, bufferIn, combinedLightIn, playerIn, arm);
+
+            if (shouldRenderArm(HandSide.LEFT, playerIn)) {
+                matrixStackIn.pushPose();
+                matrixStackIn.scale(1.2f, 1f, 1.2f);
+                matrixStackIn.translate(0, 0.2, 0.4);
+                this.renderItem(matrixStackIn, bufferIn, combinedLightIn, playerIn, arm);
+                matrixStackIn.popPose();
+            } else {
+                return false;
+            }
+        }
+        return !form.isHumanLike();
+    }
+
+    private boolean shouldRenderArm(HandSide armSide, @Nonnull AbstractClientPlayerEntity player) {
+        HandSide side = player.getMainArm();
+        ItemStack mainStack = player.getItemInHand(Hand.MAIN_HAND);
+        ItemStack offStack = player.getItemInHand(Hand.OFF_HAND);
+
+        if (armSide == side) {
+            return mainStack.getItem() != Items.FILLED_MAP;
+        } else {
+            return !(offStack.getItem() == Items.FILLED_MAP || (offStack.isEmpty() && mainStack.getItem() == Items.FILLED_MAP));
         }
     }
 
-    private void renderItem(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn, ModelRenderer rendererArmIn) {
+    private void renderItem(MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn, @Nonnull ModelRenderer rendererArmIn) {
         WerewolfBaseModel<AbstractClientPlayerEntity> model = this.getModel();
         this.setModelVisible(playerIn);
         model.attackTime = 0F;
@@ -89,15 +119,15 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
     /**
      * @return if the player model should be renderer
      */
-    public boolean render(WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    public boolean render(@Nonnull WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         WerewolfForm form = entity.getForm();
         if (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen) {
             form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).getActiveForm();
         }
         this.switchModel(form);
         if (this.model != null && this.skipPlayerModel) {
-                this.render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-                return true;
+            this.render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+            return true;
         }
         return false;
     }
@@ -114,7 +144,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
      */
     @Deprecated
     @Override
-    public void render(AbstractClientPlayerEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    public void render(@Nonnull AbstractClientPlayerEntity entity, float entityYaw, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn) {
         if (!entity.isLocalPlayer() || this.entityRenderDispatcher.camera.getEntity() == entity) {
             this.setModelVisible(entity);
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

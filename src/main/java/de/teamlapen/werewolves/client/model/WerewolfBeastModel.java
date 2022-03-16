@@ -316,7 +316,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     @Nullable
     @Override
     public ModelRenderer getLeftArmModel() {
-        return this.legLeft2;
+        return this.armLeft2;
     }
 
     @Nullable
