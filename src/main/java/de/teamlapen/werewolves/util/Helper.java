@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
@@ -104,6 +105,14 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static boolean matchesItem(Ingredient ingredient, ItemStack searchStack) {
         return Arrays.stream(ingredient.getItems()).anyMatch(stack -> stack.sameItem(searchStack) && stack.areShareTagsEqual(searchStack));
+    }
+
+    public static IFormattableTextComponent joinComponents(String delimiter, IFormattableTextComponent... components) {
+        IFormattableTextComponent comp = components[0];
+        for (int i = 1; i < components.length; i++) {
+            comp.append(delimiter).append(components[i]);
+        }
+        return comp;
     }
 
 }

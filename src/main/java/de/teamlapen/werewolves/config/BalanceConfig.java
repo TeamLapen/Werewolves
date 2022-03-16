@@ -256,7 +256,7 @@ public class BalanceConfig {
             this.rage_enabled = builder.define("rage_enabled", true);
             this.rage_duration = builder.comment("In seconds").defineInRange("rage_duration", 10, 0, Integer.MAX_VALUE);
             this.rage_cooldown = builder.comment("In seconds").defineInRange("rage_cooldown", 30, 0, Integer.MAX_VALUE);
-            this.rage_bite_damage = builder.defineInRange("rage_bite_damage", 2, 0, Double.MAX_VALUE);
+            this.rage_bite_damage = builder.defineInRange("rage_bite_damage", 4, 0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("sense");
@@ -350,9 +350,11 @@ public class BalanceConfig {
 
     public static class Potions {
         public final ForgeConfigSpec.DoubleValue silverStatsReduction;
+        public final ForgeConfigSpec.DoubleValue bleedingEffectDamage;
 
         public Potions(ForgeConfigSpec.Builder builder) {
-            this.silverStatsReduction = builder.comment("How much a Werewolf should be weakened by a silver item").defineInRange("silverStatsReduction",-0.2,-1,0);
+            this.silverStatsReduction = builder.comment("How much a Werewolf should be weakened by a silver item").defineInRange("silverStatsReduction", -0.2, -1, 0);
+            this.bleedingEffectDamage = builder.comment("How much damage the bleeding effect should do per damaging tick").defineInRange("bleedingEffectDamage", 0.4, 0, Double.MAX_VALUE);
         }
     }
 

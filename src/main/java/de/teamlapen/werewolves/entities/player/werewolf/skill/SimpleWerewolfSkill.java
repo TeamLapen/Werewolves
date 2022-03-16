@@ -4,27 +4,33 @@ import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.player.skills.VampirismSkill;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
+import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
+
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
     public SimpleWerewolfSkill(String id) {
         this(new ResourceLocation(REFERENCE.MODID, id), false);
     }
 
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
     public SimpleWerewolfSkill(String id, boolean desc) {
         this(new ResourceLocation(REFERENCE.MODID, id), desc);
@@ -50,16 +56,23 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         return this;
     }
 
-    public SimpleWerewolfSkill defaultDescWithExtra(TranslationTextComponent prefix, Supplier<ISkill> skill) {
-        this.setDescription(() -> new TranslationTextComponent(this.getTranslationKey() + ".desc").append("\n").append(prefix.withStyle(TextFormatting.AQUA)).append(" ").append(new TranslationTextComponent(skill.get().getTranslationKey()).withStyle(TextFormatting.AQUA)));
+    @SafeVarargs
+    public final SimpleWerewolfSkill defaultDescWithExtra(TranslationTextComponent prefix, Supplier<ISkill>... skills) {
+        this.setDescription(() -> {
+            IFormattableTextComponent text = new TranslationTextComponent(this.getTranslationKey() + ".desc").append("\n").append(prefix.withStyle(TextFormatting.AQUA)).append(" ");
+            text.append(Helper.joinComponents(", ", Arrays.stream(skills).map(skill -> new TranslationTextComponent(skill.get().getTranslationKey())).toArray(IFormattableTextComponent[]::new)).withStyle(TextFormatting.AQUA));
+            return text;
+        });
         return this;
     }
 
-    public SimpleWerewolfSkill defaultDescWithFormRequirement(Supplier<ISkill> skill) {
-        return defaultDescWithExtra(new TranslationTextComponent("text.werewolves.skills.only_applies"), skill);
+    @SafeVarargs
+    public final SimpleWerewolfSkill defaultDescWithFormRequirement(Supplier<ISkill>... skills) {
+        return defaultDescWithExtra(new TranslationTextComponent("text.werewolves.skills.only_applies"), skills);
     }
 
-    public SimpleWerewolfSkill defaultDescWithEnhancement(Supplier<ISkill> skill) {
+    @SafeVarargs
+    public final SimpleWerewolfSkill defaultDescWithEnhancement(Supplier<ISkill>... skill) {
         return defaultDescWithExtra(new TranslationTextComponent("text.werewolves.skills.upgrade"), skill);
     }
 

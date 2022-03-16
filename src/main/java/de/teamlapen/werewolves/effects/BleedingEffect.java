@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.effects;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.vampire.IVampire;
 import de.teamlapen.vampirism.player.vampire.VampirePlayer;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WUtils;
@@ -35,7 +36,7 @@ public class BleedingEffect extends WerewolvesEffect {
         }
 
         if (entityLivingBaseIn.getHealth() > 1.0F) {
-            entityLivingBaseIn.hurt(WUtils.OPEN_WOUND_DAMAGE_SOURCE, 0.3F);
+            entityLivingBaseIn.hurt(WUtils.OPEN_WOUND_DAMAGE_SOURCE, WerewolvesConfig.BALANCE.POTIONS.bleedingEffectDamage.get().floatValue());
             if (entityLivingBaseIn.getRandom().nextInt(4) == 0) {
                 if (Helper.isVampire(entityLivingBaseIn)) {
                     if (entityLivingBaseIn instanceof PlayerEntity) {

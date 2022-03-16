@@ -82,6 +82,6 @@ public class WerewolfSkills {
         registry.register(new SimpleWerewolfSkill("free_will", true));
         registry.register(new SimpleWerewolfSkill("wear_armor").defaultDescWithFormRequirement(() -> human_form));
         registry.register(new SimpleWerewolfSkill("silver_blooded", true));
-        registry.register(new SimpleWerewolfSkill("thick_fur", true));
+        registry.register(new SimpleWerewolfSkill("thick_fur").defaultDescWithFormRequirement(() -> beast_form, () -> survival_form));
     }
 }

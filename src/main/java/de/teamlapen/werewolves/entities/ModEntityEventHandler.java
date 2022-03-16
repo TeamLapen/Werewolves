@@ -42,7 +42,6 @@ import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -93,9 +92,16 @@ public class ModEntityEventHandler {
             }
         }
         if (Helper.isWerewolf(event.getEntity())) {
-            Pair<Float, Float> damageReduction = FormHelper.getForm(event.getEntityLiving()).getDamageReduction();
-            float multiplier = event.getEntityLiving() instanceof PlayerEntity ? WerewolfPlayer.getOpt(((PlayerEntity) event.getEntityLiving())).filter(a -> a.getSkillHandler().isSkillEnabled(WerewolfSkills.thick_fur)).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
-            event.setAmount(MathHelper.clamp(event.getAmount() - event.getAmount() * damageReduction.getLeft() * multiplier, 0, Float.MAX_VALUE));
+            if (!event.getSource().isMagic()) {
+                float damage = event.getAmount();
+                float damageReduction = FormHelper.getForm(event.getEntityLiving()).getDamageReduction().getLeft();
+                damageReduction *= event.getEntityLiving() instanceof PlayerEntity ? WerewolfPlayer.getOpt(((PlayerEntity) event.getEntityLiving())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(WerewolfSkills.thick_fur)).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
+                if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {
+                    damageReduction *= 0.3;
+                }
+                damage -= event.getAmount() * damageReduction;
+                event.setAmount(MathHelper.clamp(damage, 0, Float.MAX_VALUE));
+            }
         }
 
         if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof LivingEntity) {
