@@ -46,6 +46,7 @@ public class OilItem extends Item implements IOilItem {
     public void fillItemCategory(@Nonnull ItemGroup itemGroup, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowdedIn(itemGroup)) {
             for (IOil value : ModRegistries.WEAPON_OILS.getValues()) {
+                if (value == ModOils.empty) continue;
                 items.add(OilUtils.setOil(new ItemStack(this), value));
             }
         }
