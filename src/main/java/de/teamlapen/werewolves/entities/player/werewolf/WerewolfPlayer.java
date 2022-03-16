@@ -244,7 +244,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
                     if (!(effect instanceof WerewolfNightVisionEffect)) {
                         if (effect != null) {
-                            player.removeEffect(effect.getEffect());
+                            player.removeEffectNoUpdate(effect.getEffect());
                         }
                         player.addEffect(new WerewolfNightVisionEffect(effect));
                     }
@@ -266,10 +266,15 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                         this.specialAttributes.transformationTime = MathHelper.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.time_regain).getValue()), 0, 1);
                     }
                 }
+
+                EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
+                if (this.getForm().isTransformed() && this.specialAttributes.night_vision && !(effect instanceof WerewolfNightVisionEffect)) {
+                    player.removeEffectNoUpdate(Effects.NIGHT_VISION);
+                    player.addEffect(new WerewolfNightVisionEffect());
+                }
             }
 
             this.specialAttributes.biteTicks = Math.max(0, this.specialAttributes.biteTicks - 1);
-
 
         }
         this.player.getCommandSenderWorld().getProfiler().pop();

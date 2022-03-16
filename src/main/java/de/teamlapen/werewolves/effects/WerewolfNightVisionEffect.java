@@ -50,4 +50,9 @@ public class WerewolfNightVisionEffect extends EffectInstance {
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         return nbt;
     }
+
+    @Override
+    public boolean shouldRender() {
+        return false;
+    }
 }
