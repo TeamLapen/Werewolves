@@ -30,8 +30,7 @@ public class FearAction extends DefaultWerewolfAction implements IActionCooldown
     }
 
     @Override
-    public int getCooldown() {
+    public int getCooldown(IWerewolfPlayer iWerewolfPlayer) {
         return WerewolvesConfig.BALANCE.SKILLS.fear_action_cooldown.get() * 20;
     }
-
 }

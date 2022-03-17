@@ -29,7 +29,7 @@ public class BeastWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    public int getCooldown() {
+    public int getCooldown(IWerewolfPlayer werewolf) {
         return WerewolvesConfig.BALANCE.SKILLS.beast_form_cooldown.get() * 20;
     }
 

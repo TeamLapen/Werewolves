@@ -5,7 +5,7 @@ import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 

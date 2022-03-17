@@ -8,8 +8,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
-import java.util.function.Supplier;
-
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 
 @ObjectHolder(REFERENCE.MODID)
@@ -22,7 +20,7 @@ public class ModTiles {
     }
 
     @SuppressWarnings("ConstantConditions")
-    private static <T extends BlockEntity> BlockEntityType<?> create(String id, Supplier<? extends T> factoryIn, Block... blocks) {
+    private static <T extends BlockEntity> BlockEntityType<?> create(String id, BlockEntityType.BlockEntitySupplier<? extends T> factoryIn, Block... blocks) {
         return BlockEntityType.Builder.of(factoryIn, blocks).build(null).setRegistryName(REFERENCE.MODID, id);
     }
 }

@@ -14,18 +14,18 @@ import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import de.teamlapen.werewolves.util.WerewolfForm;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -195,7 +195,7 @@ public class ModPlayerEventHandler {
                     if (used) {
                         stack.shrink(1);
                         if (stack.isEmpty()) {
-                            player.inventory.removeItem(stack);
+                            player.getInventory().removeItem(stack);
                         }
                     }
                 }
@@ -207,7 +207,7 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void playerSize(EntityEvent.Size event) {
-        if (event.getEntity() instanceof Player && ((Player) event.getEntity()).inventory != null) {
+        if (event.getEntity() instanceof Player) {
             LazyOptional<WerewolfPlayer> werewolf = WerewolfPlayer.getOpt(((Player) event.getEntity()));
             Optional<EntityDimensions> size = werewolf.map(WerewolfPlayer::getForm).flatMap(form -> form.getSize(event.getPose()));
             if (size.isPresent()) {

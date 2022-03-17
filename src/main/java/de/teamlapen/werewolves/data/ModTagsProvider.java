@@ -4,12 +4,12 @@ import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.world.item.Items;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class ModTagsProvider {
@@ -33,6 +33,8 @@ public class ModTagsProvider {
             this.tag(BlockTags.LEAVES).add(ModBlocks.jacaranda_leaves, ModBlocks.magic_leaves);
             this.tag(BlockTags.PLANKS).add(ModBlocks.magic_planks);
             this.tag(BlockTags.CAMPFIRES).add(ModBlocks.stone_altar_fire_bowl, ModBlocks.stone_altar);
+            this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.stone_altar, ModBlocks.stone_altar_fire_bowl);
+            this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.jacaranda_log, ModBlocks.magic_log, ModBlocks.magic_planks);
         }
     }
 

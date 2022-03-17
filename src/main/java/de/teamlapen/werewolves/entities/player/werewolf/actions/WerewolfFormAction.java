@@ -12,12 +12,13 @@ import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.Permissions;
 import de.teamlapen.werewolves.util.WerewolfForm;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.util.Mth;
 import net.minecraftforge.server.permission.PermissionAPI;
 
 import javax.annotation.Nonnull;
@@ -131,7 +132,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             if (!usesTransformationTime(werewolfPlayer.getRepresentingPlayer())) {
                 return false;
             }
-        return increaseWerewolfTime(werewolfPlayer) || !PermissionAPI.hasPermission(werewolfPlayer.getRepresentingPlayer(), Permissions.FORM);
+        return increaseWerewolfTime(werewolfPlayer) || !(werewolfPlayer.getRepresentingPlayer() instanceof ServerPlayer) || !PermissionAPI.getPermission((ServerPlayer) werewolfPlayer.getRepresentingPlayer(), Permissions.FORM);
     }
 
     protected boolean usesTransformationTime(LivingEntity player) {
@@ -177,13 +178,13 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    public int getDuration(int level) {
+    public int getDuration(IWerewolfPlayer werewolf) {
         return Integer.MAX_VALUE - 1;
     }
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        if (!PermissionAPI.hasPermission(player.getRepresentingPlayer(), Permissions.TRANSFORMATION) || !PermissionAPI.hasPermission(player.getRepresentingPlayer(), Permissions.FORM))
+        if (player.getRepresentingPlayer() instanceof ServerPlayer && (!PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.TRANSFORMATION) || !PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.FORM)))
             return false;
         boolean active = player.getActionHandler().isActionActive(this);
         if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active) return false;

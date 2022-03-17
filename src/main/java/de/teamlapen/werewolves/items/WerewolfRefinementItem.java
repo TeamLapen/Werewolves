@@ -5,11 +5,9 @@ import de.teamlapen.vampirism.api.items.IRefinementItem;
 import de.teamlapen.vampirism.items.VampireRefinementItem;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.util.WReference;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
-
-import de.teamlapen.vampirism.api.items.IRefinementItem.AccessorySlotType;
-import net.minecraft.world.item.Item.Properties;
 
 public class WerewolfRefinementItem extends VampireRefinementItem implements IRefinementItem {
 
@@ -30,7 +28,7 @@ public class WerewolfRefinementItem extends VampireRefinementItem implements IRe
 
     @Nonnull
     @Override
-    public IFaction<?> getExclusiveFaction() {
+    public IFaction<?> getExclusiveFaction(@Nonnull ItemStack stack) {
         return WReference.WEREWOLF_FACTION;
     }
 }

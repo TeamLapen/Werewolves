@@ -1,36 +1,29 @@
 package de.teamlapen.werewolves.client.core;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
 import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
-import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.entities.player.werewolf.actions.IActionCooldownMenu;
-import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.items.ISilverItem;
-import de.teamlapen.werewolves.mixin.client.InGameGuiAccessor;
-import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.CameraType;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -45,7 +38,6 @@ public class ModHUDOverlay extends ExtendedGui {
 
     private final Minecraft mc = Minecraft.getInstance();
     private final ResourceLocation ICONS = new ResourceLocation(REFERENCE.MODID, "textures/gui/hud.png");
-    private final ResourceLocation FUR = new ResourceLocation(REFERENCE.MODID, "textures/gui/overlay/werewolf_fur_border.png");
     protected static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
 
     private int screenColor = 0;
@@ -80,37 +72,15 @@ public class ModHUDOverlay extends ExtendedGui {
     }
 
     @SubscribeEvent
-    public void onRenderGui(RenderGameOverlayEvent.Pre event) {
-        if (mc.player == null || !mc.player.isAlive()) {
+    public void onRenderGui(RenderGameOverlayEvent.PreLayer event) {
+        if (mc.player == null || !mc.player.isAlive() || event.getOverlay() != ForgeIngameGui.CROSSHAIR_ELEMENT) {
             return;
         }
-        switch (event.getType()) {
-            case CROSSHAIRS:
-                this.renderCrosshair(event);
-                break;
-            case ALL:
-                this.renderFur(event.getMatrixStack());
-                break;
-        }
-    }
-
-    @SubscribeEvent
-    public void onRenderGui(RenderGameOverlayEvent.Post event) {
-        if (mc.player == null || !mc.player.isAlive()) {
-            return;
-        }
-        switch (event.getType()) {
-            case EXPERIENCE:
-                this.renderExperienceBar(event);
-                break;
-            case ALL:
-                //this.renderActionCooldown(event.getMatrixStack());
-                break;
-        }
+        this.renderCrosshair(event);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public void onRenderWorldLast(RenderWorldLastEvent event) {
+    public void onRenderWorldLast(RenderGameOverlayEvent.Pre event) {
         int percentages = 0;
         int color = 0;
         if (this.screenPercentage > 0) {
@@ -122,14 +92,14 @@ public class ModHUDOverlay extends ExtendedGui {
         }
 
         if (percentages > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
-            RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
+            RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX); //TODO make right
             PoseStack stack = new PoseStack();
             stack.pushPose();
-            RenderSystem.matrixMode(GL11.GL_PROJECTION);
-            RenderSystem.loadIdentity();
-            RenderSystem.ortho(0.0D, this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), 0.0D, 1D, -1D);
-            RenderSystem.matrixMode(GL11.GL_MODELVIEW);
-            RenderSystem.loadIdentity();
+//            RenderSystem.matrixMode(GL11.GL_PROJECTION);
+//            RenderSystem.loadIdentity();
+//            RenderSystem.ortho(0.0D, this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), 0.0D, 1D, -1D);
+//            RenderSystem.matrixMode(GL11.GL_MODELVIEW);
+//            RenderSystem.loadIdentity();
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             int w = (this.mc.getWindow().getGuiScaledWidth());
             int h = (this.mc.getWindow().getGuiScaledHeight());
@@ -183,7 +153,8 @@ public class ModHUDOverlay extends ExtendedGui {
     }
 
     private void renderFangs(PoseStack matrixStack, int width, int height, @Nullable Entity entity) {
-        this.mc.getTextureManager().bind(ICONS);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, ICONS);
         int left = width / 2 - 9;
         int top = height / 2 - 6;
         boolean silver = false;
@@ -196,19 +167,9 @@ public class ModHUDOverlay extends ExtendedGui {
             }
         }
         GL11.glEnable(GL11.GL_BLEND);
-        RenderSystem.color4f(1f, 1f, 1f, 1f);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         blit(matrixStack, left, top, this.getBlitOffset(), silver ? 30 : 15, 0, 15, 15, 256, 256);//other option is 18x18 - 307x307
         GL11.glDisable(GL11.GL_BLEND);
-    }
-
-    private void renderFur(PoseStack matrixStack) {
-        if (WerewolvesConfig.CLIENT.disableScreenFurRendering.get())return;
-        if (this.mc.options.getCameraType() == CameraType.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(FormHelper::isFormActionActive).orElse(false)) {
-            this.mc.getTextureManager().bind(FUR);
-            RenderSystem.enableBlend();
-            blit(matrixStack, 0, 0, this.getBlitOffset(), 0, 0, this.mc.getWindow().getScreenWidth(), this.mc.getWindow().getScreenHeight(), this.mc.getWindow().getGuiScaledHeight(), this.mc.getWindow().getGuiScaledWidth());
-            RenderSystem.disableBlend();
-        }
     }
 
     private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
@@ -222,63 +183,4 @@ public class ModHUDOverlay extends ExtendedGui {
             }
         }
     }
-
-    private void renderExperienceBar(RenderGameOverlayEvent.Post event) {
-        Player player = mc.player;
-        if(Helper.isWerewolf(player)) {
-            WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-            if (werewolf.getSpecialAttributes().transformationTime > 0) {
-                double perc = 1-werewolf.getSpecialAttributes().transformationTime;
-                float trans = FormHelper.getActiveFormAction(werewolf).map(WerewolfFormAction::consumesWerewolfTime).orElse(false)?1f:0.7f;
-                renderExpBar(event.getMatrixStack(), perc, trans);
-            }
-        }
-    }
-
-    private void renderExpBar(PoseStack matrixStack, double perc, float transparency) {
-        int scaledWidth = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledWidth();
-        int scaledHeight = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledHeight();
-        int x = scaledWidth / 2 - 91;
-        this.mc.getProfiler().push("werewolfActionDurationBar");
-        this.mc.getTextureManager().bind(GuiComponent.GUI_ICONS_LOCATION);
-
-        RenderSystem.enableBlend();
-        RenderSystem.color4f(1f, 0.1f, 0f, transparency);
-
-        int k = (int) ((1 - perc) * 183.0F);
-        int l = scaledHeight - 32 + 3;
-        this.blit(matrixStack, x, l, 0, 64, 182, 5);
-        this.blit(matrixStack, x + k, l, k, 69, 182 - k, 5);
-        this.mc.getProfiler().pop();
-    }
-
-    private void renderActionCooldown(PoseStack matrixStack) {
-        if (Helper.isWerewolf(this.mc.player)) {
-            WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
-            ArrayList<IAction> actions = new ArrayList<>();
-            actions.addAll(werewolf.getActionHandler().getUnlockedActions());
-            actions.removeIf(action -> !(action instanceof IActionCooldownMenu));
-            actions.removeIf(action -> !(werewolf.getActionHandler().isActionOnCooldown(action)));
-
-
-            int x = 12;
-            int y = this.mc.getWindow().getGuiScaledHeight() - 27;
-            for (IAction action : actions) {
-                ResourceLocation loc = new ResourceLocation(action.getRegistryName().getNamespace(), "textures/actions/" + action.getRegistryName().getPath() + ".png");
-                this.mc.getTextureManager().bind(loc);
-                int perc = (int) ((1 - - werewolf.getActionHandler().getPercentageForAction(action)) * 16);
-                //render gray transparent background for remaining cooldown
-                this.fillGradient(matrixStack, x, y + perc, x + 16, y + 16, 0x44888888/*Color.GRAY - 0xBB000000 */, 0x44888888/*Color.GRAY - 0xBB000000 */);
-                //render action icon transparent
-                RenderSystem.enableBlend();
-                RenderSystem.color4f(1, 1, 1, 0.4f);
-                blit(matrixStack, x, y, this.getBlitOffset(), 0, 0, 16, 16, 16, 16);
-                //render action icon full for remaining cooldown
-                RenderSystem.color4f(1, 1, 1, 1);
-                blit(matrixStack, x, y + perc, this.getBlitOffset(), 0, perc, 16, 16 - perc, 16, 16);
-                x += 16;
-            }
-        }
-    }
-
 }

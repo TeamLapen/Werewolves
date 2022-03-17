@@ -22,22 +22,22 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -115,7 +115,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
     @Override
     public Predicate<ItemStack> getEquipmentPredicate(EquipmentSlot slotType) {
-        return itemStack -> ((itemStack.getItem() instanceof IFactionExclusiveItem) && ((IFactionExclusiveItem) itemStack.getItem()).getExclusiveFaction().equals(WReference.WEREWOLF_FACTION)) || itemStack.getUseAnimation() == UseAnim.DRINK || itemStack.getUseAnimation() == UseAnim.EAT;
+        return itemStack -> ((itemStack.getItem() instanceof IFactionExclusiveItem) && ((IFactionExclusiveItem) itemStack.getItem()).getExclusiveFaction(itemStack).equals(WReference.WEREWOLF_FACTION)) || itemStack.getUseAnimation() == UseAnim.DRINK || itemStack.getUseAnimation() == UseAnim.EAT;
     }
 
     @Override
@@ -125,7 +125,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             if (heldItem.getItem() instanceof WerewolfMinionUpgradeItem && ((WerewolfMinionUpgradeItem) heldItem.getItem()).getFaction() == this.getFaction()) {
                 if (this.minionData.level + 1 >= ((WerewolfMinionUpgradeItem) heldItem.getItem()).getMinLevel() && this.minionData.level + 1 <= ((WerewolfMinionUpgradeItem) heldItem.getItem()).getMaxLevel()) {
                     this.minionData.level++;
-                    if (!player.abilities.instabuild) heldItem.shrink(1);
+                    if (!player.getAbilities().instabuild) heldItem.shrink(1);
                     player.displayClientMessage(new TranslatableComponent("text.werewolves.werewolf_minion.equipment_upgrade"), false);
                     HelperLib.sync(this);
                 } else {
@@ -218,7 +218,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
         @Override
         public MutableComponent getFormattedName() {
-            return super.getFormattedName().withStyle(WReference.WEREWOLF_FACTION.getChatColor());
+            return super.getFormattedName().withStyle(style -> style.withColor(WReference.WEREWOLF_FACTION.getChatColor()));
         }
 
         public int getHealthLevel() {

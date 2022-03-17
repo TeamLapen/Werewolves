@@ -21,13 +21,13 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfLevelConf;
 import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.level.block.Block;
 
 import java.util.*;
 
@@ -113,7 +113,7 @@ public class WerewolvesGuideBook {
         entries.put(new ResourceLocation(base + "leveling"), new EntryText(levelingPages, translateComponent(base + "leveling")));
 
         List<IPage> skillPages = new ArrayList<>();
-        skillPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "skills.text", UtilLib.translate(ModKeys.getKeyBinding(ModKeys.KEY.SKILL).saveString()))));
+        skillPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "skills.text", UtilLib.translate(ModKeys.SUCK.saveString()))));
         skillPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "skills.decision")));
         entries.put(new ResourceLocation(base + "skills"), new EntryText(skillPages, translateComponent(base + "skills")));
 
@@ -128,7 +128,7 @@ public class WerewolvesGuideBook {
         lordTitleBuilder.addLine(5, WReference.WEREWOLF_FACTION.getLordTitle(5, false).getString());
         werewolfLord.add(lordTitleBuilder.build());
         werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "lord.minion", loc(ModItems.werewolf_minion_charm), loc(ModItems.werewolf_minion_upgrade_simple), loc(ModItems.werewolf_minion_upgrade_enhanced), loc(ModItems.werewolf_minion_upgrade_special))), new ResourceLocation("guide.werewolves.items.werewolf_minion_charm")));
-        werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent("guide.vampirism.common.minion_control", translate(ModKeys.getKeyBinding(ModKeys.KEY.MINION).saveString()), translate("text.vampirism.minion.call_single"), translate("text.vampirism.minion.respawn")))));
+        werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent("guide.vampirism.common.minion_control", translate(ModKeys.MINION.saveString()), translate("text.vampirism.minion.call_single"), translate("text.vampirism.minion.respawn")))));
         entries.put(new ResourceLocation(base + "lord"), new EntryText(werewolfLord, translateComponent(base + "lord")));
 
         List<IPage> unWerewolf = new ArrayList<>();

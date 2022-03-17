@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.client.core;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.werewolves.core.ModActions;
@@ -7,32 +8,28 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OutlineBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import com.mojang.blaze3d.pipeline.RenderTarget;
-import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.PostChain;
+import net.minecraft.client.renderer.PostPass;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.resource.IResourceType;
-import net.minecraftforge.resource.ISelectiveResourceReloadListener;
-import net.minecraftforge.resource.VanillaResourceType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.function.Predicate;
 
-public class RenderHandler implements ISelectiveResourceReloadListener {
+public class RenderHandler implements ResourceManagerReloadListener {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int ENTITY_NEAR_SQ_DISTANCE = 100;
 
@@ -56,12 +53,6 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
 
     public RenderHandler(@Nonnull Minecraft mc) {
         this.mc = mc;
-    }
-
-    @Nullable
-    @Override
-    public IResourceType getResourceType() {
-        return VanillaResourceType.SHADERS;
     }
 
     @SubscribeEvent
@@ -91,7 +82,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
             if (!(dist > VampirismConfig.BALANCE.vsBloodVisionDistanceSq.get() || entity.isInWater())) {
                 int color = 0xA0A0A0;
                 if (entity instanceof IFactionEntity) {
-                    color = ((IFactionEntity) entity).getFaction().getColor().getRGB();
+                    color = ((IFactionEntity) entity).getFaction().getColor();
                 } else {
                     if (!entity.isInvertedHealAndHarm()) {
                         color = 0xFF0000;
@@ -104,12 +95,12 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
                 int r = color >> 16 & 255;
                 int g = color >> 8 & 255;
                 int b = color & 255;
-                int alpha = (int) ((dist > ENTITY_NEAR_SQ_DISTANCE ? 50 : (dist / (double) ENTITY_NEAR_SQ_DISTANCE * 50d)) * getVisionProgress(event.getPartialRenderTick()));
+                int alpha = (int) ((dist > ENTITY_NEAR_SQ_DISTANCE ? 50 : (dist / (double) ENTITY_NEAR_SQ_DISTANCE * 50d)) * getVisionProgress(event.getPartialTick()));
                 this.visionBuffer.setColor(r, g, b, alpha);
-                float f = Mth.lerp(event.getPartialRenderTick(), entity.yRotO, entity.yRot);
+                float f = Mth.lerp(event.getPartialTick(), entity.yRotO, entity.getYRot());
                 this.isInsideVisionRendering = true;
                 EntityRenderer<? super Entity> entityRenderer = renderManager.getRenderer(entity);
-                entityRenderer.render(entity, f, event.getPartialRenderTick(), event.getMatrixStack(), this.visionBuffer, renderManager.getPackedLightCoords(entity, event.getPartialRenderTick()));
+                entityRenderer.render(entity, f, event.getPartialTick(), event.getPoseStack(), this.visionBuffer, renderManager.getPackedLightCoords(entity, event.getPartialTick()));
                 this.mc.getMainRenderTarget().bindWrite(false);
                 this.isInsideVisionRendering = false;
 
@@ -128,7 +119,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
     }
 
     @SubscribeEvent
-    public void onRenderWorldLast(RenderWorldLastEvent event) {
+    public void onRenderWorldLast(RenderLevelLastEvent event) {
         if (mc.level == null) return;
 
         /*
@@ -168,7 +159,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
     }
 
     @Override
-    public void onResourceManagerReload(@Nonnull ResourceManager resourceManager, @Nonnull Predicate<IResourceType> resourcePredicate) {
+    public void onResourceManagerReload(ResourceManager p_10758_) {
         this.reMakeShader();
     }
 

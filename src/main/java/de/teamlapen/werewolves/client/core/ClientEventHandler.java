@@ -25,9 +25,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.ScreenOpenEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -45,7 +45,7 @@ public class ClientEventHandler {
     public void onRenderPlayer(RenderPlayerEvent.Pre event) {
         AbstractClientPlayer player = (AbstractClientPlayer) event.getPlayer();
         if (shouldRenderWerewolfForm(player)) {
-            event.setCanceled(ModEntityRenderer.render.render(WerewolfPlayer.get(player), Mth.lerp(event.getPartialRenderTick(), player.yRotO, player.yRot), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight()));
+            event.setCanceled(ModEntityRenderer.render.render(WerewolfPlayer.get(player), Mth.lerp(event.getPartialTick(), player.yRotO, player.getYRot()), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
         }
     }
 
@@ -53,7 +53,7 @@ public class ClientEventHandler {
     public void onRenderPlayerPost(RenderPlayerEvent.Post event) {
         AbstractClientPlayer player = (AbstractClientPlayer) event.getPlayer();
         if (shouldRenderWerewolfForm(player)) {
-            ModEntityRenderer.render.renderPost(event.getRenderer().getModel(), WerewolfPlayer.get(player), Mth.lerp(event.getPartialRenderTick(), player.yRotO, player.yRot), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight());
+            ModEntityRenderer.render.renderPost(event.getRenderer().getModel(), WerewolfPlayer.get(player), Mth.lerp(event.getPartialTick(), player.yRotO, player.getYRot()), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
         }
     }
 
@@ -62,7 +62,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onFOVModifier(EntityViewRenderEvent.FOVModifier event) {
+    public void onFOVModifier(EntityViewRenderEvent.FieldOfView event) {
         if (this.zoomTime > 0) {
             event.setFOV(event.getFOV() - this.zoomModifier);
             this.zoomModifier -= this.zoomAmount;
@@ -72,20 +72,19 @@ public class ClientEventHandler {
 
 
     @SubscribeEvent
-    public void onGuiInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
-        if (event.getGui() instanceof VampirismScreen) {
-            VampirismScreen screen = ((VampirismScreen) event.getGui());
+    public void onGuiInitPost(ScreenOpenEvent event) {
+        if (event.getScreen() instanceof VampirismScreen screen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 ResourceLocation icon = new ResourceLocation(REFERENCE.MODID, "textures/gui/appearance_button.png");
-                ((ScreenAccessor) event.getGui()).invokeAddButton_werewolves(new ImageButton(((VampirismScreen) event.getGui()).getGuiLeft() + 47, ((VampirismScreen) event.getGui()).getGuiTop() + 90, 20, 20, 0, 0, 20, icon, 20, 40, (context) -> {
-                    Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getGui()));
+                ((ScreenAccessor) screen).invokeAddRenderableWidget_werewolves(new ImageButton(screen.getGuiLeft() + 47, screen.getGuiTop() + 90, 20, 20, 0, 0, 20, icon, 20, 40, (context) -> {
+                    Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(screen));
                 }, (button1, matrixStack, mouseX, mouseY) -> {
-                    event.getGui().renderTooltip(matrixStack, new TranslatableComponent("gui.vampirism.vampirism_menu.appearance_menu"), mouseX, mouseY);
+                    screen.renderTooltip(matrixStack, new TranslatableComponent("gui.vampirism.vampirism_menu.appearance_menu"), mouseX, mouseY);
                 }, TextComponent.EMPTY));
 
                 WerewolfPlayer.getOpt(Minecraft.getInstance().player).ifPresent(werewolf -> {
                     if (werewolf.getMaxLevel() == werewolf.getLevel()) return;
-                    ((ScreenAccessor) screen).invokeAddButton_werewolves(new ExpBar(screen.getGuiLeft()-14, screen.getGuiTop(), screen));
+                    ((ScreenAccessor) screen).invokeAddRenderableWidget_werewolves(new ExpBar(screen.getGuiLeft() - 14, screen.getGuiTop(), screen));
                 });
             }
         }

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerRenderer.class)
 public class PlayerRendererMixin {
 
-    @Inject(method = "renderRightHand(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;ILnet/minecraft/client/entity/player/AbstractClientPlayerEntity;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderRightHand(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;)V", at = @At(value = "HEAD", shift = At.Shift.BY, by = 1), cancellable = true)
     private void rightArm(PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn, CallbackInfo ci) {
         if (Helper.isWerewolf(playerIn) && WerewolfPlayer.get(playerIn).getForm().isTransformed()) {
             if(ModEntityRenderer.render.renderRightArm(matrixStackIn, bufferIn, combinedLightIn, playerIn)) {
@@ -24,7 +24,7 @@ public class PlayerRendererMixin {
         }
     }
 
-    @Inject(method = "renderLeftHand(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;ILnet/minecraft/client/entity/player/AbstractClientPlayerEntity;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderLeftHand(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;)V", at = @At(value = "HEAD", shift = At.Shift.BY, by = 1), cancellable = true)
     private void leftArm(PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn, CallbackInfo ci) {
         if (Helper.isWerewolf(playerIn) && WerewolfPlayer.get(playerIn).getForm().isTransformed()) {
             if (ModEntityRenderer.render.renderLeftArm(matrixStackIn, bufferIn, combinedLightIn, playerIn)) {

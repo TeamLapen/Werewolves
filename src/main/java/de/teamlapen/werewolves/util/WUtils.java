@@ -2,20 +2,20 @@ package de.teamlapen.werewolves.util;
 
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModTags;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.damagesource.DamageSource;
 
 import javax.annotation.Nonnull;
 
 public class WUtils {
     public static final BooleanProperty SOUL_FIRE = BooleanProperty.create("soulfire");
-    public static final ObjectiveCriteria WEREWOLF_LEVEL_CRITERIA = new ObjectiveCriteria("werewolves:werewolf");
+    public static final ObjectiveCriteria WEREWOLF_LEVEL_CRITERIA = ObjectiveCriteria.registerCustom("werewolves:werewolf");
     public static final CreativeModeTab creativeTab = new CreativeModeTab(REFERENCE.MODID) {
         @Nonnull
         @Override

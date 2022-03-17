@@ -18,39 +18,39 @@ import static de.teamlapen.werewolves.util.SkillUtils.SPEED_SKILL;
 @ObjectHolder(REFERENCE.MODID)
 public class WerewolfSkills {
 
-    public static final ISkill human_form = getNull();
-    public static final ISkill night_vision = getNull();
-    public static final ISkill rage = getNull();
-    public static final ISkill beast_form = getNull();
-    public static final ISkill stun_bite = getNull();
-    public static final ISkill bleeding_bite = getNull();
-    public static final ISkill damage = getNull();
-    public static final ISkill resistance = getNull();
-    public static final ISkill health_after_kill = getNull();
-    public static final ISkill howling = getNull();
-    public static final ISkill sense = getNull();
-    public static final ISkill survival_form = getNull();
-    public static final ISkill speed = getNull();
-    public static final ISkill leap = getNull();
-    public static final ISkill wolf_pack = getNull();
-    public static final ISkill movement_tactics = getNull();
-    public static final ISkill throat_seeker = getNull();
-    public static final ISkill climber = getNull();
-    public static final ISkill wolf_pawn = getNull(); //TODO maybe add soul sand & slime & ice & webs as blocks that do not affect movement speed
-    public static final ISkill not_meat = getNull();
-    public static final ISkill water_lover = getNull();
-    public static final ISkill free_will = getNull();
-    public static final ISkill wear_armor = getNull();
-    public static final ISkill silver_blooded = getNull();
-    public static final ISkill hide_name = getNull();
-    public static final ISkill fear = getNull();
-    public static final ISkill sixth_sense = getNull();
-    public static final ISkill health_reg = getNull();
-    public static final ISkill thick_fur = getNull();
+    public static final ISkill<?> human_form = getNull();
+    public static final ISkill<?> night_vision = getNull();
+    public static final ISkill<?> rage = getNull();
+    public static final ISkill<?> beast_form = getNull();
+    public static final ISkill<?> stun_bite = getNull();
+    public static final ISkill<?> bleeding_bite = getNull();
+    public static final ISkill<?> damage = getNull();
+    public static final ISkill<?> resistance = getNull();
+    public static final ISkill<?> health_after_kill = getNull();
+    public static final ISkill<?> howling = getNull();
+    public static final ISkill<?> sense = getNull();
+    public static final ISkill<?> survival_form = getNull();
+    public static final ISkill<?> speed = getNull();
+    public static final ISkill<?> leap = getNull();
+    public static final ISkill<?> wolf_pack = getNull();
+    public static final ISkill<?> movement_tactics = getNull();
+    public static final ISkill<?> throat_seeker = getNull();
+    public static final ISkill<?> climber = getNull();
+    public static final ISkill<?> wolf_pawn = getNull(); //TODO maybe add soul sand & slime & ice & webs as blocks that do not affect movement speed
+    public static final ISkill<?> not_meat = getNull();
+    public static final ISkill<?> water_lover = getNull();
+    public static final ISkill<?> free_will = getNull();
+    public static final ISkill<?> wear_armor = getNull();
+    public static final ISkill<?> silver_blooded = getNull();
+    public static final ISkill<?> hide_name = getNull();
+    public static final ISkill<?> fear = getNull();
+    public static final ISkill<?> sixth_sense = getNull();
+    public static final ISkill<?> health_reg = getNull();
+    public static final ISkill<?> thick_fur = getNull();
 
 
     @SuppressWarnings("deprecation")
-    static void registerWerewolfSkills(IForgeRegistry<ISkill> registry) {
+    static void registerWerewolfSkills(IForgeRegistry<ISkill<?>> registry) {
         registry.register(new SimpleWerewolfSkill(REFERENCE.WEREWOLF_PLAYER_KEY));
         registry.register(new ActionSkill<>(ModActions.human_form, true));
         registry.register(new SimpleWerewolfSkill("night_vision", true).setToggleActions(

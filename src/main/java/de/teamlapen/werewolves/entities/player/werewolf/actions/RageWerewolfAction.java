@@ -4,9 +4,9 @@ import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 import java.util.UUID;
 
@@ -21,14 +21,14 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolf) {
-        addEffectInstance(werewolf,new MobEffectInstance(MobEffects.MOVEMENT_SPEED, this.getDuration(werewolf.getLevel()), 1, false, false) );
-        addEffectInstance(werewolf,new MobEffectInstance(MobEffects.DAMAGE_BOOST, this.getDuration(werewolf.getLevel()), 0, false, false));
+        addEffectInstance(werewolf,new MobEffectInstance(MobEffects.MOVEMENT_SPEED, this.getDuration(werewolf), 1, false, false) );
+        addEffectInstance(werewolf,new MobEffectInstance(MobEffects.DAMAGE_BOOST, this.getDuration(werewolf), 0, false, false));
         werewolf.getRepresentingPlayer().getAttribute(ModAttributes.bite_damage).addPermanentModifier(new AttributeModifier(BITE_MODIFIER, "rage_bite_modifier", WerewolvesConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADDITION));
         return true;
     }
 
     @Override
-    public int getDuration(int i) {
+    public int getDuration(IWerewolfPlayer werewolf) {
         return WerewolvesConfig.BALANCE.SKILLS.rage_duration.get() * 20;
     }
 
@@ -54,7 +54,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
     }
 
     @Override
-    public int getCooldown() {
+    public int getCooldown(IWerewolfPlayer werewolf) {
         return WerewolvesConfig.BALANCE.SKILLS.rage_cooldown.get() * 20;
     }
 

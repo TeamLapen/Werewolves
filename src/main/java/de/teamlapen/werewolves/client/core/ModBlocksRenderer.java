@@ -3,17 +3,16 @@ package de.teamlapen.werewolves.client.core;
 import de.teamlapen.werewolves.client.render.tiles.StoneAltarTESR;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModTiles;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 
 @OnlyIn(Dist.CLIENT)
 public class ModBlocksRenderer {
     public static void register() {
         registerRenderType();
-        registerTileRenderer();
     }
 
     private static void registerRenderType() {
@@ -30,7 +29,7 @@ public class ModBlocksRenderer {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.potted_wolfsbane, RenderType.cutoutMipped());
     }
 
-    private static void registerTileRenderer() {
-        ClientRegistry.bindTileEntityRenderer(ModTiles.stone_altar, StoneAltarTESR::new);
+    public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(ModTiles.stone_altar, StoneAltarTESR::new);
     }
 }

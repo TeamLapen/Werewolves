@@ -10,17 +10,17 @@ import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
 import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
@@ -28,8 +28,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-import de.teamlapen.lib.lib.util.IInitListener.Step;
 
 @SuppressWarnings("unused")
 public class RegistryManager implements IInitListener {
@@ -63,7 +61,7 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
-    public void onRegisterSkills(RegistryEvent.Register<ISkill> event) {
+    public void onRegisterSkills(RegistryEvent.Register<ISkill<?>> event) {
         WerewolfSkills.registerWerewolfSkills(event.getRegistry());
     }
 
@@ -94,7 +92,7 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
-    public void onRegisterActions(RegistryEvent.Register<IAction> event) {
+    public void onRegisterActions(RegistryEvent.Register<IAction<?>> event) {
         ModActions.registerActions(event.getRegistry());
     }
 

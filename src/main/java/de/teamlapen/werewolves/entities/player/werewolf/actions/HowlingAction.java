@@ -59,7 +59,7 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
     }
 
     @Override
-    public int getCooldown() {
+    public int getCooldown(IWerewolfPlayer werewolf) {
         return WerewolvesConfig.BALANCE.SKILLS.howling_cooldown.get() * 20;
     }
 }

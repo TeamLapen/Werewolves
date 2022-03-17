@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.network;
 import de.teamlapen.lib.network.IMessage;
 import de.teamlapen.werewolves.WerewolvesMod;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 

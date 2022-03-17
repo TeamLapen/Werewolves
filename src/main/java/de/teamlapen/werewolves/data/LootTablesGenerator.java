@@ -13,14 +13,12 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.EntityLoot;
 import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.LootTables;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.ConstantIntValue;
-import net.minecraft.world.level.storage.loot.RandomValueBounds;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -29,6 +27,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -102,19 +102,19 @@ public class LootTablesGenerator extends LootTableProvider {
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.liver)))
                     .withPool(LootPool.lootPool()
                             .name("general2")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.cracked_bone).setWeight(40)))
                     .withPool(LootPool.lootPool()
                             .name("accessories")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceCondition.randomChance(0.05f))
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.bone_necklace).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
                             .add(LootItem.lootTableItem(ModItems.charm_bracelet).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
                             .add(LootItem.lootTableItem(ModItems.dream_catcher).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION))));
@@ -125,19 +125,19 @@ public class LootTablesGenerator extends LootTableProvider {
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.liver)))
                     .withPool(LootPool.lootPool()
                             .name("general2")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.cracked_bone).setWeight(6)))
                     .withPool(LootPool.lootPool()
                             .name("hunter")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.1f, 0.1f))
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.V.vampire_book).setWeight(1)))
             );
             this.add(ModEntities.wolf, LootTable.lootTable());
@@ -145,13 +145,13 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(LootPool.lootPool()
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                            .setRolls(RandomValueBounds.between(1,2))
+                            .setRolls(UniformGenerator.between(1,2))
                             .add(LootItem.lootTableItem(ModItems.werewolf_tooth)))
                     .withPool(LootPool.lootPool()
                             .name("vampire_book")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.1f, 0.1f))
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.V.vampire_book).apply(AddBookNbt.builder()).setWeight(1))
                     )
             );
@@ -168,10 +168,10 @@ public class LootTablesGenerator extends LootTableProvider {
         @Override
         public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             consumer.accept(ModLootTables.villager, LootTable.lootTable()
-                    .withPool(LootPool.lootPool().name("liver").setRolls(ConstantIntValue.exactly(1))
+                    .withPool(LootPool.lootPool().name("liver").setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.liver).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.5f)))));
             consumer.accept(ModLootTables.skeleton, LootTable.lootTable()
-                    .withPool(LootPool.lootPool().name("bones").setRolls(ConstantIntValue.exactly(1))
+                    .withPool(LootPool.lootPool().name("bones").setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.cracked_bone).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.1f)))));
         }
     }
@@ -182,7 +182,7 @@ public class LootTablesGenerator extends LootTableProvider {
         public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             LootPool.Builder accessories = LootPool.lootPool()
                     .name("accessories")
-                    .setRolls(ConstantIntValue.exactly(1))
+                    .setRolls(ConstantValue.exactly(1))
                     .add(LootItem.lootTableItem(ModItems.bone_necklace).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
                     .add(LootItem.lootTableItem(ModItems.charm_bracelet).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
                     .add(LootItem.lootTableItem(ModItems.dream_catcher).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)));
@@ -190,7 +190,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(accessories)
                     .withPool(LootPool.lootPool()
                             .name("main")
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.cracked_bone).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
             );
@@ -198,7 +198,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(accessories)
                     .withPool(LootPool.lootPool()
                             .name("main")
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.liver).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
             );
@@ -206,7 +206,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(accessories)
                     .withPool(LootPool.lootPool()
                             .name("main")
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.cracked_bone).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
             );
@@ -214,7 +214,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(accessories)
                     .withPool(LootPool.lootPool()
                             .name("main")
-                            .setRolls(ConstantIntValue.exactly(1))
+                            .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.werewolf_tooth).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
             );

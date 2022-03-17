@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.blocks.entity;
 
+import de.teamlapen.lib.lib.blockentity.InventoryBlockEntity;
 import de.teamlapen.lib.lib.inventory.InventoryHelper;
-import de.teamlapen.lib.lib.tile.InventoryTileEntity;
 import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.core.ModParticles;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
@@ -15,25 +15,25 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.inventory.container.StoneAltarContainer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class StoneAltarTileEntity extends InventoryTileEntity implements TickableBlockEntity {
+public class StoneAltarTileEntity extends InventoryBlockEntity {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Component NAME = new TranslatableComponent("container.werewolves.stone_altar");
     private int targetLevel;
@@ -61,59 +61,56 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements Tickabl
     private final LazyOptional<IItemHandler> itemHandlerOptional = LazyOptional.of(this::createWrapper);
     private List<BlockPos> fire_bowls;
 
-    public StoneAltarTileEntity() {
-        super(ModTiles.stone_altar, 2, StoneAltarContainer.SELECTOR_INFOS);
+    public StoneAltarTileEntity(BlockPos pos, BlockState state) {
+        super(ModTiles.stone_altar, pos, state, 2, StoneAltarContainer.SELECTOR_INFOS);
     }
 
-    @Override
-    public void tick() {
-        if (this.level != null && !this.level.isClientSide) {
-            if (this.playerUuid != null) {
-                if (!loadRitual(this.playerUuid)) return;
-                this.playerUuid = null;
-                this.setChanged();
-                BlockState state = this.level.getBlockState(this.worldPosition);
-                this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
+    public static void tick(Level level, BlockPos pos, BlockState state, StoneAltarTileEntity blockEntity) {
+        if (level != null && !level.isClientSide) {
+            if (blockEntity.playerUuid != null) {
+                if (!blockEntity.loadRitual(blockEntity.playerUuid)) return;
+                blockEntity.playerUuid = null;
+                blockEntity.setChanged();
+                level.sendBlockUpdated(pos, state, state, 3);
             }
-            BlockState state = this.level.getBlockState(this.worldPosition);
-            switch (this.phase) {
+            switch (blockEntity.phase) {
                 case STARTING:
-                    if (ticks == 0) {
-                        this.phase = Phase.FOG;
-                        this.ticks = 300;
-                        this.setChanged();
-                        this.level.sendBlockUpdated(getBlockPos(), state, state, 3); //Notify client about started ritual
+                    if (blockEntity.ticks == 0) {
+                        blockEntity.phase = Phase.FOG;
+                        blockEntity.ticks = 300;
+                        blockEntity.setChanged();
+                        level.sendBlockUpdated(pos, state, state, 3); //Notify client about started ritual
                     }
                     break;
                 case FOG:
-                    if (ticks == 0) {
-                        this.phase = Phase.ENDING;
-                        this.ticks = 90;
-                        this.player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 120, 3, false, false));
-                        this.setChanged();
-                        this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(StoneAltarBlock.LIT, false));
-                    } else if (this.ticks % 10 == 0) {
-                        ModParticles.spawnParticlesServer(this.level, ParticleTypes.MYCELIUM, this.worldPosition.getX() + Math.random(), this.worldPosition.getY() + 1, this.worldPosition.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
-                        if (fire_bowls != null) {
-                            for (BlockPos fire_bowl : fire_bowls) {
-                                ModParticles.spawnParticlesServer(this.level, ParticleTypes.MYCELIUM, fire_bowl.getX() + Math.random(), fire_bowl.getY() + 1, fire_bowl.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
+                    if (blockEntity.ticks == 0) {
+                        blockEntity.phase = Phase.ENDING;
+                        blockEntity.ticks = 90;
+                        blockEntity.player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 120, 3, false, false));
+                        blockEntity.setChanged();
+                        level.setBlockAndUpdate(pos, state.setValue(StoneAltarBlock.LIT, false));
+                    } else if (blockEntity.ticks % 10 == 0) {
+                        ModParticles.spawnParticlesServer(level, ParticleTypes.MYCELIUM, pos.getX() + Math.random(), pos.getY() + 1, pos.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
+                        if (blockEntity.fire_bowls != null) {
+                            for (BlockPos fire_bowl : blockEntity.fire_bowls) {
+                                ModParticles.spawnParticlesServer(level, ParticleTypes.MYCELIUM, fire_bowl.getX() + Math.random(), fire_bowl.getY() + 1, fire_bowl.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
                             }
                         }
                     }
                     break;
                 case ENDING:
-                    if (ticks == 0) {
-                        this.phase = Phase.NOT_RUNNING;
-                        this.endRitual();
-                        this.cleanup();
-                        this.setChanged();
-                        this.level.sendBlockUpdated(getBlockPos(), state, state, 3); //Notify client about started ritual
+                    if (blockEntity.ticks == 0) {
+                        blockEntity.phase = Phase.NOT_RUNNING;
+                        blockEntity.endRitual();
+                        blockEntity.cleanup();
+                        blockEntity.setChanged();
+                        level.sendBlockUpdated(pos, state, state, 3); //Notify client about started ritual
                     }
                     break;
                 case NOT_RUNNING:
                     return;
             }
-            --ticks;
+            --blockEntity.ticks;
         }
     }
 
@@ -139,7 +136,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements Tickabl
     }
 
     /**
-     * Needs to be called after {@link #setPlayer(PlayerEntity)}
+     * Needs to be called after {@link #setPlayer(Player)}
      */
     public void startRitual(BlockState state) {
         if (this.player == null) {
@@ -278,29 +275,34 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements Tickabl
     @Nullable
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 12, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
+    @Nonnull
     @Override
     public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
+        CompoundTag tag = new CompoundTag();
+        this.saveAdditional(new CompoundTag());
+        return tag;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
-        this.load(null, pkt.getTag());//TODO check
+        if (pkt.getTag() != null) {
+            this.load(pkt.getTag());//TODO check
+        }
     }
 
     @Override
-    public void handleUpdateTag(BlockState state, CompoundTag tag) {
-        load(state, tag);
+    public void handleUpdateTag(CompoundTag tag) {
+        super.handleUpdateTag(tag);
     }
 
     @Override
-    public void load(BlockState state, CompoundTag tagCompound) {
-        super.load(state, tagCompound);
+    public void load(@Nonnull CompoundTag tagCompound) {
+        super.load(tagCompound);
         if (tagCompound.hasUUID("player")) {
             UUID playerUuid = tagCompound.getUUID("player");
             if (!this.loadRitual(playerUuid)) {
@@ -312,13 +314,13 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements Tickabl
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
+    public void saveAdditional(CompoundTag compound) {
         if (player != null) {
             compound.putUUID("player", player.getUUID());
         }
         compound.putInt("ticks", this.ticks);
         compound.putString("phase", this.phase.name());
-        return super.save(compound);
+        super.saveAdditional(compound);
     }
 
     public enum Result {

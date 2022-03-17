@@ -11,37 +11,31 @@ import de.teamlapen.vampirism.util.Helper;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModSounds;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 
 public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolfAlpha {
     public static final int MAX_LEVEL = 4;
@@ -69,7 +63,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     @Override
     public void addAdditionalSaveData(CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
-        nbt.putInt("level", getLevel());
+        nbt.putInt("level", getEntityLevel());
     }
 
     @Override
@@ -83,7 +77,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public void setLevel(int level) {
+    public void setEntityLevel(int level) {
         level = Mth.clamp(level,0,MAX_LEVEL);
         if (level >= 0) {
             getEntityData().set(LEVEL,level);
@@ -95,12 +89,12 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public int getLevel() {
+    public int getEntityLevel() {
         return getEntityData().get(LEVEL);
     }
 
     @Override
-    public int getMaxLevel() {
+    public int getMaxEntityLevel() {
         return MAX_LEVEL;
     }
 
@@ -116,7 +110,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     public int getMaxFollowerCount() {
-        return (int)((BalanceMobProps.mobProps.ADVANCED_VAMPIRE_MAX_FOLLOWER) * ((this.getLevel()+1)/(float)(this.getMaxLevel()+1)));
+        return (int)((BalanceMobProps.mobProps.ADVANCED_VAMPIRE_MAX_FOLLOWER) * ((this.getEntityLevel()+1)/(float)(this.getMaxEntityLevel()+1)));
     }
 
     @Override
@@ -144,7 +138,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     @Override
     public void readAdditionalSaveData(CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
-        setLevel(nbt.getInt("level"));
+        setEntityLevel(nbt.getInt("level"));
     }
 
     @Override
@@ -161,7 +155,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public int suggestLevel(Difficulty d) {
+    public int suggestEntityLevel(Difficulty d) {
         int avg = Math.round(((d.avgPercLevel) / 100F - 5 / 14F) / (1F - 5 / 14F) * MAX_LEVEL);
         int max = Math.round(((d.maxPercLevel) / 100F - 5 / 14F) / (1F - 5 / 14F) * MAX_LEVEL);
         int min = Math.round(((d.minPercLevel) / 100F - 5 / 14F) / (1F - 5 / 14F) * (MAX_LEVEL));
@@ -191,7 +185,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     protected int getExperienceReward(Player player) {
-        return 20 + 5 * getLevel();
+        return 20 + 5 * getEntityLevel();
     }
 
     @Override
@@ -214,7 +208,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     private boolean isLowerLevel(LivingEntity player) {
         if (player instanceof Player) {
             int playerLevel = FactionPlayerHandler.getOpt((Player) player).map(FactionPlayerHandler::getCurrentLevel).orElse(0);
-            return (playerLevel - 8) / 2F - this.getLevel() <= 0;
+            return (playerLevel - 8) / 2F - this.getEntityLevel() <= 0;
         }
         return false;
     }
@@ -242,8 +236,8 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     protected void updateEntityAttributes() { //TODO different values
         this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(20D);
-        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_BARON_MOVEMENT_SPEED * Math.pow((BalanceMobProps.mobProps.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL - 1) / 5 + 1, (getLevel())));
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_BARON_MAX_HEALTH * Math.pow(BalanceMobProps.mobProps.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL, getLevel()));
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_BARON_ATTACK_DAMAGE * Math.pow(BalanceMobProps.mobProps.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL, getLevel()));
+        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_BARON_MOVEMENT_SPEED * Math.pow((BalanceMobProps.mobProps.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL - 1) / 5 + 1, (getEntityLevel())));
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_BARON_MAX_HEALTH * Math.pow(BalanceMobProps.mobProps.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL, getEntityLevel()));
+        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_BARON_ATTACK_DAMAGE * Math.pow(BalanceMobProps.mobProps.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL, getEntityLevel()));
     }
 }

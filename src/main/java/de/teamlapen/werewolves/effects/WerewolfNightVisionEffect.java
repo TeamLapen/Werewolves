@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.effects;
 
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -49,10 +49,5 @@ public class WerewolfNightVisionEffect extends MobEffectInstance {
     @Nonnull
     public CompoundTag save(@Nonnull CompoundTag nbt) {
         return nbt;
-    }
-
-    @Override
-    public boolean shouldRender() {
-        return false;
     }
 }

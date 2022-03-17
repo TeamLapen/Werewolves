@@ -11,6 +11,8 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -33,14 +35,15 @@ public class ExpBar extends AbstractWidget {
     @Override
     public void render(@Nonnull PoseStack stack, int p_render_1_, int p_render_2_, float p_render_3_) {
         if (this.visible) {
-            Minecraft.getInstance().textureManager.bind(ICON);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, ICON);
             this.blit(stack, this.x, this.y, 10, 0, 15, 123);
 
             float perc = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc();
 
             int ySize = ((int) (111 * perc));
-            Color color = VampirismAPI.getFactionPlayerHandler(Minecraft.getInstance().player).map(IFactionPlayerHandler::getCurrentFaction).map(IFaction::getColor).orElse(Color.WHITE);
-            RenderSystem.color4f(color.getRed()/255F, color.getGreen() / 255F, color.getBlue() / 255F, 1.0F);
+            int color = VampirismAPI.getFactionPlayerHandler(Minecraft.getInstance().player).map(IFactionPlayerHandler::getCurrentFaction).map(IFaction::getColor).orElse(Color.WHITE.getRGB());
+            RenderSystem.setShaderColor(((color >> 16) & 0xFF)/255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, 1.0F);
 
             blit(stack, this.x + 5, this.y + 6, 0, 0, 5, 111);
             blit(stack, this.x + 5, this.y + 6 + (111 - ySize), 5, (111 - ySize), 5, ySize);
@@ -59,5 +62,10 @@ public class ExpBar extends AbstractWidget {
             tooltips.add(new TranslatableComponent("text.werewolves.skill_screen.prey_snatched", handler.getLevelProgress(), handler.getNeededProgress()).getVisualOrderText());
             this.screen.renderTooltip(stack, tooltips, mouseX, mouseY);
         }
+    }
+
+    @Override
+    public void updateNarration(NarrationElementOutput p_169152_) {
+
     }
 }

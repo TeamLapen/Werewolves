@@ -1,9 +1,13 @@
 package de.teamlapen.werewolves;
 
 import de.teamlapen.lib.HelperRegistry;
+import de.teamlapen.lib.lib.entity.IPlayerEventListener;
 import de.teamlapen.lib.lib.network.AbstractPacketDispatcher;
+import de.teamlapen.lib.lib.network.ISyncable;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.werewolves.client.core.ModBlocksRenderer;
+import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModCommands;
@@ -21,12 +25,15 @@ import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.proxy.Proxy;
 import de.teamlapen.werewolves.proxy.ServerProxy;
 import de.teamlapen.werewolves.util.*;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.ChatFormatting;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -38,6 +45,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -79,11 +87,18 @@ public class WerewolvesMod {
         bus.addListener(this::setUpClient);
         bus.addGenericListener(Block.class, this::blockRegister); // First event after mod init. Faction can only be registered after VampirismMod's constructor
         bus.register(registryManager);
+        bus.addListener(this::registerCapability);
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+            bus.addListener(ModModelRender::onRegisterRenderers);
+            bus.addListener(ModModelRender::onRegisterLayers);
+            bus.addListener(ModBlocksRenderer::registerBlockEntityRenderers);
+        });
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ModBiomes::onBiomeLoadingEventAdditions);
         MinecraftForge.EVENT_BUS.addListener(ModLootTables::onLootLoad);
+        MinecraftForge.EVENT_BUS.register(Permissions.class);
 
         if (ModList.get().isLoaded("guideapi-vp")) {
             MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
@@ -105,7 +120,7 @@ public class WerewolvesMod {
         if (!setupAPI) {
             WReference.WEREWOLF_FACTION = VampirismAPI.factionRegistry()
                     .createPlayableFaction(REFERENCE.WEREWOLF_PLAYER_KEY, IWerewolfPlayer.class, () -> WerewolfPlayer.CAP)
-                    .color(Color.orange)
+                    .color(Color.orange.getRGB())
                     .hostileTowardsNeutral()
                     .highestLevel(REFERENCE.HIGHEST_WEREWOLF_LEVEL)
                     .lordLevel(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL)
@@ -128,7 +143,6 @@ public class WerewolvesMod {
 
     private void setup(final FMLCommonSetupEvent event) {
         setupAPI();
-        WerewolfPlayer.registerCapability();
 
         dispatcher.registerPackets();
         registryManager.onInitStep(IInitListener.Step.COMMON_SETUP, event);
@@ -137,8 +151,6 @@ public class WerewolvesMod {
         MinecraftForge.EVENT_BUS.register(new ModEntityEventHandler());
         MinecraftForge.EVENT_BUS.register(new ModPlayerEventHandler());
         MinecraftForge.EVENT_BUS.register(new GeneralEventHandler());
-
-        Permissions.init();
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event) {
@@ -151,9 +163,14 @@ public class WerewolvesMod {
         proxy.onInitStep(IInitListener.Step.PROCESS_IMC, event);
     }
 
+    @SuppressWarnings("unchecked")
     private void enqueueIMC(final InterModEnqueueEvent event) {
-        HelperRegistry.registerPlayerEventReceivingCapability(WerewolfPlayer.CAP, WerewolfPlayer.class);
-        HelperRegistry.registerSyncablePlayerCapability(WerewolfPlayer.CAP, REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.class);
+        HelperRegistry.registerPlayerEventReceivingCapability((Capability<IPlayerEventListener>) (Object) WerewolfPlayer.CAP, WerewolfPlayer.class);
+        HelperRegistry.registerSyncablePlayerCapability((Capability<ISyncable.ISyncableEntityCapabilityInst>) (Object) WerewolfPlayer.CAP, REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.class);
+    }
+
+    private void registerCapability(RegisterCapabilitiesEvent event) {
+        event.register(IWerewolfPlayer.class);
     }
 
     private void gatherData(final GatherDataEvent event) {

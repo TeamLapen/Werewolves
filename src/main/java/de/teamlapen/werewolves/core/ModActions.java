@@ -21,7 +21,7 @@ public class ModActions {
     public static final LeapAction leap = getNull();
     public static final HideNameAction hide_name = getNull();
 
-    static void registerActions(IForgeRegistry<IAction> registry) {
+    static void registerActions(IForgeRegistry<IAction<?>> registry) {
         registry.register(new HumanWerewolfFormAction().setRegistryName(REFERENCE.MODID, "human_form"));
         registry.register(new BeastWerewolfFormAction().setRegistryName(REFERENCE.MODID, "beast_form"));
         registry.register(new SurvivalWerewolfFormAction().setRegistryName(REFERENCE.MODID, "survival_form"));

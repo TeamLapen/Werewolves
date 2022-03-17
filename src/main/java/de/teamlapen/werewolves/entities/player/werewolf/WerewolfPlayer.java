@@ -10,8 +10,8 @@ import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.core.ModRegistries;
+import de.teamlapen.vampirism.player.FactionBasePlayer;
 import de.teamlapen.vampirism.player.LevelAttributeModifier;
-import de.teamlapen.vampirism.player.VampirismPlayer;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
@@ -23,23 +23,28 @@ import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormActi
 import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.util.*;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.*;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.Difficulty;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodData;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
@@ -55,22 +60,13 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.food.FoodData;
-
-public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements IWerewolfPlayer {
+public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implements IWerewolfPlayer {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
 
-    @CapabilityInject(IWerewolfPlayer.class)
-    public static Capability<IWerewolfPlayer> CAP = getNull();
+    public static final Capability<IWerewolfPlayer> CAP = CapabilityManager.get(new CapabilityToken<>() {
+    });
 
     private void applyEntityAttributes() {
         try {
@@ -147,7 +143,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     @Override
-    protected VampirismPlayer<IWerewolfPlayer> copyFromPlayer(Player playerEntity) {
+    protected FactionBasePlayer<IWerewolfPlayer> copyFromPlayer(Player playerEntity) {
         WerewolfPlayer oldWerewolf = get(playerEntity);
         CompoundTag nbt = new CompoundTag();
         oldWerewolf.saveData(nbt);
@@ -417,11 +413,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     public boolean canBiteEntity(LivingEntity entity) {
-        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1 && (!(entity instanceof Player) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
+        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1 && (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer)this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
     }
 
     public boolean canBite(){
-        return this.form.isTransformed() && !this.player.isSpectator() && this.getLevel() > 0 && this.specialAttributes.biteTicks <= 0 && PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.BITE);
+        return this.form.isTransformed() && !this.player.isSpectator() && this.getLevel() > 0 && this.specialAttributes.biteTicks <= 0 && (!(player instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer)this.getRepresentingPlayer(), Permissions.BITE));
     }
 
     public boolean bite(int entityId) {
@@ -454,7 +450,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 entity.addEffect(new MobEffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.bleeding_bite) ? 3 : 0));
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)), false);
-            if (!(entity instanceof Player) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.INFECT_PLAYER)) {
+            if (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.INFECT_PLAYER)) {
                 LupusSanguinemEffect.addSanguinemEffectRandom(entity, 0.1f);
             }
         }
@@ -671,15 +667,10 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     //-- capability ----------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings("deprecation")
-    public static void registerCapability() {
-        CapabilityManager.INSTANCE.register(IWerewolfPlayer.class, new Storage(), WerewolfPlayerDefaultImpl::new);
-    }
-
-    public static ICapabilityProvider createNewCapability(final Player playerEntity) {
+    public static ICapabilityProvider createNewCapability(final Player player) {
         return new ICapabilitySerializable<CompoundTag>() {
 
-            final IWerewolfPlayer inst = new WerewolfPlayer(playerEntity);
+            final WerewolfPlayer inst = new WerewolfPlayer(player);
             final LazyOptional<IWerewolfPlayer> opt = LazyOptional.of(() -> inst);
 
             @Nonnull
@@ -690,12 +681,14 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
             @Override
             public CompoundTag serializeNBT() {
-                return (CompoundTag) CAP.getStorage().writeNBT(CAP, inst, null);
+                CompoundTag tag = new CompoundTag();
+                inst.saveData(tag);
+                return tag;
             }
 
             @Override
             public void deserializeNBT(CompoundTag nbt) {
-                CAP.getStorage().readNBT(CAP, inst, null, nbt);
+                inst.loadData(nbt);
             }
         };
     }
@@ -713,20 +706,5 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public boolean hasGlowingEyes() {
         return this.glowingEyes.getOrDefault(this.form, false);
-    }
-
-    private static class Storage implements Capability.IStorage<IWerewolfPlayer> {
-        @Nullable
-        @Override
-        public Tag writeNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side) {
-            CompoundTag compound = new CompoundTag();
-            ((WerewolfPlayer) instance).saveData(compound);
-            return compound;
-        }
-
-        @Override
-        public void readNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side, Tag compound) {
-            ((WerewolfPlayer) instance).loadData((CompoundTag) compound);
-        }
     }
 }

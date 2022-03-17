@@ -14,17 +14,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
-public abstract class ClientPlayerEntityMixin extends AbstractClientPlayer {
+public abstract class AbstractClientPlayerMixin extends AbstractClientPlayer {
 
     @Shadow
     private boolean autoJumpEnabled;
 
-    public ClientPlayerEntityMixin(ClientLevel world, GameProfile profile) {
+    public AbstractClientPlayerMixin(ClientLevel world, GameProfile profile) {
         super(world, profile);
     }
 
     @Inject(method = "sendPosition()V", at = @At("RETURN"))
-    public void sendPosition(CallbackInfo ci){
+    public void sendPosition(CallbackInfo ci) {
         if (!isControlledCamera()) return;
         if (!this.isAlive()) return;
         if (!WerewolfPlayer.getOpt(this).map(w -> w.getForm() == WerewolfForm.SURVIVALIST && w.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)).orElse(false)) {

@@ -19,7 +19,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
-    public int getDuration(int i) {
+    public int getDuration(IWerewolfPlayer werewolf) {
         return WerewolvesConfig.BALANCE.SKILLS.hide_name_duration.get();
     }
 
@@ -41,7 +41,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
-    public int getCooldown() {
+    public int getCooldown(IWerewolfPlayer werewolf) {
         return WerewolvesConfig.BALANCE.SKILLS.hide_name_cooldown.get() * 20;
     }
 

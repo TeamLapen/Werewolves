@@ -3,11 +3,12 @@ package de.teamlapen.werewolves.core;
 import com.google.common.collect.Maps;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.loot.MobLootModifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.RandomValueBounds;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -59,7 +60,7 @@ public class ModLootTables {
 
     private static LootPool getInjectPool(ResourceLocation loc) {
         LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1);
-        return LootPool.lootPool().name("werewolves_inject_pool").bonusRolls(0,1).setRolls(new RandomValueBounds(1)).add(LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
+        return LootPool.lootPool().name("werewolves_inject_pool").setBonusRolls(UniformGenerator.between(0,1)).setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
     }
 
     public static void registerLootModifier(IForgeRegistry<GlobalLootModifierSerializer<?>> registry){

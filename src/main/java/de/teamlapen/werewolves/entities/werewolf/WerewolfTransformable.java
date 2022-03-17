@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.entities.werewolf;
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.werewolves.util.WerewolfForm;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 
@@ -22,7 +23,7 @@ public interface WerewolfTransformable extends IWerewolfDataholder {
         entity.restoreFrom(oldEntity);
         entity.setUUID(uuid);
         entity.getCommandSenderWorld().addFreshEntity(entity);
-        oldEntity.remove(true);
+        oldEntity.remove(Entity.RemovalReason.DISCARDED);
         entity.setHealth(oldEntity.getHealth() / oldEntity.getMaxHealth() * entity.getMaxHealth());
         return entity;
     }

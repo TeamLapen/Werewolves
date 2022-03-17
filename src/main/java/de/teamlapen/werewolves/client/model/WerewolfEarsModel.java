@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nonnull;
@@ -14,35 +16,40 @@ import javax.annotation.Nullable;
  * Created using Tabula 7.1.0
  */
 public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
-    public ModelPart dummyBipedHead;
+
+    public static String CLAWS_LEFT = "clawsLeft";
+    public static String CLAWS_RIGHT = "clawsRight";
+    public static String EAR_RIGHT = "earRight";
+    public static String EAR_LEFT = "earLeft";
+
     public ModelPart clawsLeft;
     public ModelPart clawsRight;
     public ModelPart earRight;
     public ModelPart earLeft;
 
-    public WerewolfEarsModel() {
-        this.texWidth = 64;
-        this.texHeight = 32;
-        this.dummyBipedHead = new ModelPart(this, 0, 0);
-        this.dummyBipedHead.copyFrom(this.head);
+    @SuppressWarnings("unused")
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition mesh = WerewolfBaseModel.createMesh(CubeDeformation.NONE);
+        PartDefinition root = mesh.getRoot();
 
-        this.earRight = new ModelPart(this, 16, 0);
-        this.earRight.addBox(-4.5F, -8.0F, -2.5F, 1, 6, 3, 0.0F);
-        this.setRotateAngle(earRight, -0.4886921905584123F, -0.2617993877991494F, 0.0F);
-        this.dummyBipedHead.addChild(this.earRight);
+        PartDefinition head = root.getChild("head");
+        PartDefinition earRight = head.addOrReplaceChild(EAR_RIGHT, CubeListBuilder.create().texOffs(16, 0).addBox(-4.5F, -8.0F, -2.5F, 1, 6, 3), PartPose.rotation(-0.4886921905584123F, -0.2617993877991494F, 0.0F));
+        PartDefinition earLeft = head.addOrReplaceChild(EAR_LEFT, CubeListBuilder.create().texOffs(16, 0).addBox(3.5F, -8.0F, -2.5F, 1, 6, 3), PartPose.rotation(-0.4886921905584123F, 0.2617993877991494F, 0.0F));
 
-        this.earLeft = new ModelPart(this, 16, 9);
-        this.earLeft.addBox(3.5F, -8.0F, -2.5F, 1, 6, 3, 0.0F);
-        this.setRotateAngle(earLeft, -0.4886921905584123F, 0.2617993877991494F, 0.0F);
-        this.dummyBipedHead.addChild(this.earLeft);
+        PartDefinition clawsRight = root.getChild("right_arm").addOrReplaceChild(CLAWS_RIGHT, CubeListBuilder.create().texOffs(0, 0).addBox(-3.0F, 10.0F, -2.0F, 4, 3, 4), PartPose.ZERO);
+        PartDefinition clawsLeft = root.getChild("left_arm").addOrReplaceChild(CLAWS_LEFT, CubeListBuilder.create().texOffs(0, 7).addBox(-1F, 10.0F, -2.0F, 4, 3, 4), PartPose.ZERO);
+        return LayerDefinition.create(mesh, 64, 32);
+    }
 
-        this.clawsRight = new ModelPart(this, 0, 0);
-        this.clawsRight.addBox(-3.0F, 10.0F, -2.0F, 4, 3, 4, 0.0F);
-        this.rightArm.addChild(this.clawsRight);
-
-        this.clawsLeft = new ModelPart(this, 0, 7);
-        this.clawsLeft.addBox(-1F, 10.0F, -2.0F, 4, 3, 4, 0.0F);
-        this.leftArm.addChild(this.clawsLeft);
+    public WerewolfEarsModel(ModelPart part) {
+        super(part);
+        ModelPart head = part.getChild("head");
+        this.earRight = head.getChild(EAR_RIGHT);
+        this.earLeft = head.getChild(EAR_LEFT);
+        ModelPart rightArm = part.getChild("right_arm");
+        ModelPart leftArm = part.getChild("left_arm");
+        this.clawsRight = rightArm.getChild(CLAWS_RIGHT);
+        this.clawsLeft = leftArm.getChild(CLAWS_LEFT);
     }
 
     @Nullable
@@ -54,7 +61,7 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
     @Nullable
     @Override
     public ModelPart getHeadModel() {
-        return this.dummyBipedHead;
+        return null;
     }
 
     @Nullable
@@ -72,7 +79,7 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
     @Nonnull
     @Override
     protected Iterable<ModelPart> headParts() {
-        return ImmutableList.of(this.dummyBipedHead);
+        return ImmutableList.of(this.clawsRight, this.clawsLeft);
     }
 
     @Nonnull
@@ -83,7 +90,7 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
 
     @Override
     public void renderToBuffer(@Nonnull PoseStack matrixStackIn, @Nonnull VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.dummyBipedHead.copyFrom(this.playerModel.head);
+        this.head.copyFrom(this.playerModel.head);
         this.rightArm.copyFrom(this.playerModel.rightArm);
         this.leftArm.copyFrom(this.playerModel.leftArm);
         super.renderToBuffer(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);

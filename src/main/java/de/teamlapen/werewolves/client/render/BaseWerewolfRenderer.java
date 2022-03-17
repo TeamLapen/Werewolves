@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
+import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
@@ -11,7 +12,7 @@ import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @param <T> must extend {@link IWerewolf} or be {@link net.minecraft.entity.player.PlayerEntity}
+ * @param <T> must extend {@link IWerewolf} or be {@link net.minecraft.world.entity.player.Player}
  */
 public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends LivingEntityRenderer<T, WerewolfBaseModel<T>> {
 
@@ -34,19 +35,19 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
     protected List<ResourceLocation> textures;
     protected WerewolfForm form = WerewolfForm.NONE;
 
-    public BaseWerewolfRenderer(EntityRenderDispatcher rendererManager, float size) {
+    public BaseWerewolfRenderer(EntityRendererProvider.Context context, float size) {
         //noinspection ConstantConditions
-        super(rendererManager, null, 0f);
+        super(context, null, 0f);
         this.eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
         for (int i = 0; i < this.eyeOverlays.length; i++) {
             this.eyeOverlays[i] = new ResourceLocation(REFERENCE.MODID + ":textures/entity/werewolf/eye/eye_" + (i) + ".png");
         }
 
-        this.models.put(WerewolfForm.NONE, new WerewolfModelWrapper<>(()->null, null, 0, false));
-        this.models.put(WerewolfForm.HUMAN, new WerewolfModelWrapper<>(WerewolfEarsModel::new, (renderer) -> Collections.emptyList(), WerewolfModelWrapper::getHumanTextures, size, false));
-        this.models.put(WerewolfForm.BEAST, new WerewolfModelWrapper<>(WerewolfBeastModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer, eyeOverlays)), WerewolfModelWrapper::getBeastTextures, 2.6f * size, true));
-        this.models.put(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper<>(WerewolfSurvivalistModel::new, (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer,eyeOverlays)), WerewolfModelWrapper::getSurvivalTextures, size, true));
-        this.models.forEach((a,b)-> b.refresh(this));
+        this.models.put(WerewolfForm.NONE, new WerewolfModelWrapper<>(() -> null, null, 0, false));
+        this.models.put(WerewolfForm.HUMAN, new WerewolfModelWrapper<>(() -> new WerewolfEarsModel<>(context.bakeLayer(ModModelRender.EARS_CLAWS)), (renderer) -> Collections.emptyList(), WerewolfModelWrapper::getHumanTextures, size, false));
+        this.models.put(WerewolfForm.BEAST, new WerewolfModelWrapper<>(() -> new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer, eyeOverlays)), WerewolfModelWrapper::getBeastTextures, 2.6f * size, true));
+        this.models.put(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper<>(() -> new WerewolfSurvivalistModel<>(context.bakeLayer(ModModelRender.WEREWOLF_SURVIVALIST)), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer, eyeOverlays)), WerewolfModelWrapper::getSurvivalTextures, size, true));
+        this.models.forEach((a, b) -> b.refresh(this));
     }
 
     public void switchModel(WerewolfForm type) {
@@ -68,7 +69,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
     protected void setupRotations(@Nonnull T entityLiving, @Nonnull PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
         super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
         if (entityLiving.getSwimAmount(partialTicks) > 0.0F && this.form.isHumanLike()) {
-            float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.xRot : -90.0F;
+            float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.getXRot() : -90.0F;
             float f4 = Mth.lerp(entityLiving.getSwimAmount(partialTicks), 0.0F, f3);
             matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(f4));
             if (entityLiving.isVisuallySwimming()) {

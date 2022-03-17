@@ -4,8 +4,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -17,8 +19,12 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
 
     protected PlayerModel<T> playerModel;
 
-    public WerewolfBaseModel() {
-        super(0, false);
+    public static MeshDefinition createMesh(CubeDeformation deformation) {
+        return PlayerModel.createMesh(deformation, false);
+    }
+
+    public WerewolfBaseModel(ModelPart part) {
+        super(part, false);
     }
 
     /**

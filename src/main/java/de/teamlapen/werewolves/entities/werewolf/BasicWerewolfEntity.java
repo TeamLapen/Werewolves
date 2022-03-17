@@ -17,7 +17,7 @@ import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.vampirism.entity.minion.management.MinionTasks;
 import de.teamlapen.vampirism.entity.minion.management.PlayerMinionController;
-import de.teamlapen.vampirism.player.VampirismPlayer;
+import de.teamlapen.vampirism.player.FactionBasePlayer;
 import de.teamlapen.vampirism.world.MinionWorldData;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
@@ -33,33 +33,24 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import de.teamlapen.werewolves.util.WerewolfVillageData;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.ai.goal.BreakDoorGoal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.PatrollingMonster;
 import net.minecraft.world.entity.player.Player;
@@ -133,7 +124,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         ((Mob) this.transformed).copyPosition(this);
         ((Mob) this.transformed).revive();
         this.level.addFreshEntity(((Mob) this.transformed));
-        this.remove(false);
+        this.remove(RemovalReason.DISCARDED);
         ((Mob) this.transformed).setHealth(this.getHealth() / this.getMaxHealth() * ((Mob) this.transformed).getMaxHealth());
         return this.transformed;
     }
@@ -192,7 +183,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public void readAdditionalSaveData(CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
         if (nbt.contains("level")) {
-            this.setLevel(nbt.getInt("level"));
+            this.setEntityLevel(nbt.getInt("level"));
         }
         if (nbt.contains("type")) {
             int t = nbt.getInt("type");
@@ -237,7 +228,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         if (this.transformType != null) {
             nbt.putString("transformType", this.transformType.name());
         }
-        nbt.putInt("level", this.getLevel());
+        nbt.putInt("level", this.getEntityLevel());
         nbt.putInt("type", this.getSkinType());
         nbt.putInt("eyeType", this.getEyeType());
         nbt.putBoolean("attack", this.attack);
@@ -263,7 +254,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public int getLevel() {
+    public int getEntityLevel() {
         return getEntityData().get(LEVEL);
     }
 
@@ -273,7 +264,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void setLevel(int level) {
+    public void setEntityLevel(int level) {
         if (level >= 0) {
             getEntityData().set(LEVEL, level);
             this.updateEntityAttributes();
@@ -287,13 +278,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Nonnull
     @Override
     protected InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
-        int werewolfLevel = WerewolfPlayer.getOpt(player).map(VampirismPlayer::getLevel).orElse(0);
+        int werewolfLevel = WerewolfPlayer.getOpt(player).map(FactionBasePlayer::getLevel).orElse(0);
         if (werewolfLevel > 0) {
             FactionPlayerHandler.getOpt(player).ifPresent(fph -> {
                 if (fph.getMaxMinions() > 0) {
                     ItemStack heldItem = player.getItemInHand(hand);
 
-                    if (this.getLevel() > 0) {
+                    if (this.getEntityLevel() > 0) {
                         if (heldItem.getItem() == ModItems.werewolf_minion_charm) {
                             player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.unavailable"), true);
                         }
@@ -306,7 +297,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                             } else {
                                 player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.start_serving"), false);
                                 convertToMinion(player);
-                                if (!player.abilities.instabuild) heldItem.shrink(1);
+                                if (!player.getAbilities().instabuild) heldItem.shrink(1);
                             }
                         } else if (freeSlot) {
                             player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.werewolf_minion_charm.getDescriptionId())), false);
@@ -355,7 +346,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public int getMaxLevel() {
+    public int getMaxEntityLevel() {
         return MAX_LEVEL;
     }
 
@@ -365,7 +356,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public int suggestLevel(Difficulty difficulty) {
+    public int suggestEntityLevel(Difficulty difficulty) {
         switch (this.random.nextInt(5)) {
             case 0:
                 return (int) (difficulty.minPercLevel / 100F * MAX_LEVEL);
@@ -379,7 +370,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     protected void updateEntityAttributes() {
-        int l = Math.max(getLevel(), 0);
+        int l = Math.max(getEntityLevel(), 0);
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(WerewolvesConfig.BALANCE.MOBPROPS.werewolf_max_health.get() + WerewolvesConfig.BALANCE.MOBPROPS.werewolf_max_health_pl.get() * l);
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(WerewolvesConfig.BALANCE.MOBPROPS.werewolf_attack_damage.get() + WerewolvesConfig.BALANCE.MOBPROPS.werewolf_attack_damage_pl.get() * l);
         this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(WerewolvesConfig.BALANCE.MOBPROPS.werewolf_speed.get());

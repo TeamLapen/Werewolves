@@ -1,8 +1,10 @@
 package de.teamlapen.werewolves.mixin.client;
 
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.components.AbstractWidget;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -13,6 +15,10 @@ public interface ScreenAccessor {
     @Accessor("font")
     Font getFont();
 
-    @Invoker("addButton")
-    <T extends AbstractWidget> T invokeAddButton_werewolves(T button);
+    @Invoker("addRenderableWidget")
+    <T extends GuiEventListener & Widget & NarratableEntry> T invokeAddRenderableWidget_werewolves(T button);
+
+    @Invoker("removeWidget")
+    void removeWidget_werewolves(GuiEventListener listener);
+
 }

@@ -3,63 +3,59 @@ package de.teamlapen.werewolves.world;
 import de.teamlapen.vampirism.world.biome.VampirismBiomeFeatures;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModEntities;
-import net.minecraft.world.biome.*;
-import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilder;
-
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
-import net.minecraft.world.level.biome.AmbientMoodSettings;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeGenerationSettings;
-import net.minecraft.world.level.biome.BiomeSpecialEffects;
-import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.biome.*;
 
 public class WerewolfHeavenBiome {
 
     public static Biome createWerewolfHeavenBiome() {
-        return new Biome.BiomeBuilder().precipitation(Biome.Precipitation.NONE).biomeCategory(Biome.BiomeCategory.FOREST).depth(0.2f).scale(0.5f).temperature(0.3f).downfall(0)
-                .specialEffects(getAmbienceBuilder().build())
-                .mobSpawnSettings(getMobSpawnBuilder().build())
-                .generationSettings(getGenerationBuilder().build())
-                .build();
+        return addAttributes(createGenerationBuilder(), createMobSpawnBuilder(), createEffectBuilder()).build();
     }
 
-    public static MobSpawnSettings.Builder getMobSpawnBuilder() {
-        MobSpawnSettings.Builder mob_builder = new MobSpawnSettings.Builder();
-        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.alpha_werewolf, 10, 1, 1));
-        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.werewolf_beast, 70, 1, 2));
-        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.werewolf_survivalist, 70, 1, 2));
-        return mob_builder;
+    public static Biome.BiomeBuilder addAttributes(BiomeGenerationSettings.Builder featureBuilder, MobSpawnSettings.Builder spawnBuilder, BiomeSpecialEffects.Builder ambienceBuilder) {
+        return new Biome.BiomeBuilder()
+                .precipitation(Biome.Precipitation.NONE)
+                .biomeCategory(Biome.BiomeCategory.FOREST)
+                .temperature(0.3f)
+                .downfall(0)
+                .specialEffects(ambienceBuilder.build())
+                .mobSpawnSettings(spawnBuilder.build())
+                .generationSettings(featureBuilder.build());
     }
 
-    public static BiomeSpecialEffects.Builder getAmbienceBuilder() {
-        BiomeSpecialEffects.Builder ambienceBuilder = new BiomeSpecialEffects.Builder();
-        ambienceBuilder.waterColor(0x4CCCFF);
-        ambienceBuilder.waterFogColor(0x4CCCFF);
-        ambienceBuilder.skyColor(0x66DBFF);
-        ambienceBuilder.fogColor(0x4CCCFF);//TODO
-        ambienceBuilder.foliageColorOverride(0x70E0B5);
-        ambienceBuilder.grassColorOverride(0x69CFDB);
-        ambienceBuilder.ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
-        return ambienceBuilder;
+    public static MobSpawnSettings.Builder createMobSpawnBuilder() {
+        return new MobSpawnSettings.Builder()
+                .addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.alpha_werewolf, 10, 1, 1))
+                .addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.werewolf_beast, 70, 1, 2))
+                .addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.werewolf_survivalist, 70, 1, 2));
     }
 
-    public static BiomeGenerationSettings.Builder getGenerationBuilder() {
-        BiomeGenerationSettings.Builder biomeGeneratorSettings = new BiomeGenerationSettings.Builder().surfaceBuilder(SurfaceBuilder.DEFAULT.configured(SurfaceBuilder.CONFIG_GRASS));
+    public static BiomeSpecialEffects.Builder createEffectBuilder() {
+        return new BiomeSpecialEffects.Builder()
+                .waterColor(0x4CCCFF)
+                .waterFogColor(0x4CCCFF)
+                .skyColor(0x66DBFF)
+                .fogColor(0x4CCCFF) //TODO
+                .foliageColorOverride(0x70E0B5)
+                .grassColorOverride(0x69CFDB)
+                .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
+    }
 
-        BiomeDefaultFeatures.addDefaultCarvers(biomeGeneratorSettings);
+    public static BiomeGenerationSettings.Builder createGenerationBuilder() {
+        BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder();
+        BiomeDefaultFeatures.addDefaultCarversAndLakes(builder);
+        BiomeDefaultFeatures.addForestGrass(builder);
+        WerewolvesBiomeFeatures.addWerewolfBiomeTrees(builder);
 
-        BiomeDefaultFeatures.addForestGrass(biomeGeneratorSettings);
-        WerewolvesBiomeFeatures.addWerewolfBiomeTrees(biomeGeneratorSettings);
-
-        BiomeDefaultFeatures.addDefaultSoftDisks(biomeGeneratorSettings);
-        BiomeDefaultFeatures.addDefaultUndergroundVariety(biomeGeneratorSettings);
-        BiomeDefaultFeatures.addDefaultMonsterRoom(biomeGeneratorSettings);
-        BiomeDefaultFeatures.addDefaultOres(biomeGeneratorSettings);
-        BiomeDefaultFeatures.addSparseBerryBushes(biomeGeneratorSettings);
-        VampirismBiomeFeatures.addModdedWaterLake(biomeGeneratorSettings);
-        BiomeDefaultFeatures.addDefaultFlowers(biomeGeneratorSettings);
-        BiomeDefaultFeatures.addSavannaGrass(biomeGeneratorSettings);
-        return biomeGeneratorSettings;
+        BiomeDefaultFeatures.addDefaultSoftDisks(builder);
+        BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
+        BiomeDefaultFeatures.addDefaultMonsterRoom(builder);
+        BiomeDefaultFeatures.addDefaultOres(builder);
+        BiomeDefaultFeatures.addRareBerryBushes(builder);
+        VampirismBiomeFeatures.addModdedWaterLake(builder);
+        BiomeDefaultFeatures.addDefaultFlowers(builder);
+        BiomeDefaultFeatures.addSavannaGrass(builder);
+        return builder;
     }
 
 }

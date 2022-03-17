@@ -24,7 +24,7 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    public int getCooldown() {
+    public int getCooldown(IWerewolfPlayer werewolfPlayer) {
         return WerewolvesConfig.BALANCE.SKILLS.human_form_cooldown.get() * 20;
     }
 

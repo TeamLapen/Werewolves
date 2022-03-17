@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.network;
 import de.teamlapen.lib.lib.network.AbstractPacketDispatcher;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.network.NetworkRegistry;
 
 public class ModPacketDispatcher extends AbstractPacketDispatcher {
 

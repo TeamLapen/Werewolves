@@ -1,15 +1,18 @@
 package de.teamlapen.werewolves.client.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.inventory.container.StoneAltarContainer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class StoneAltarScreen extends AbstractContainerScreen<StoneAltarContainer> {
@@ -18,27 +21,23 @@ public class StoneAltarScreen extends AbstractContainerScreen<StoneAltarContaine
 
     public StoneAltarScreen(StoneAltarContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
+    public void render(@Nonnull PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(stack);
+        super.render(stack, mouseX, mouseY, partialTicks);
+        this.renderTooltip(stack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
-        this.font.draw(matrixStack, this.title.getString(), (float) (this.imageWidth / 2 - this.font.width(this.title.getString()) / 2), 6.0F, 4210752);
-        this.font.draw(matrixStack, this.inventory.getDisplayName().getString(), 8.0F, (float) (this.imageHeight - 94), 4210752);
-    }
-
-    @Override
-    protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bind(altarGuiTextures);
+    protected void renderBg(@Nonnull PoseStack stack, float partialTicks, int mouseX, int mouseY) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, altarGuiTextures);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int k = (this.width - this.imageWidth) / 2;
         int l = (this.height - this.imageHeight) / 2;
-        this.blit(matrixStack, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        this.blit(stack, k, l, 0, 0, this.imageWidth, this.imageHeight);
     }
 }

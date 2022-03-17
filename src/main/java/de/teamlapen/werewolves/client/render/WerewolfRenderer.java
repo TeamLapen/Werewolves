@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.client.render;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.render.layer.WerewolfEntityFaceOverlayLayer;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,8 +16,8 @@ public class WerewolfRenderer<T extends WerewolfBaseEntity> extends MobRenderer<
 
     private final ResourceLocation[] textures;
 
-    public WerewolfRenderer(EntityRenderDispatcher renderManagerIn, WerewolfBaseModel<T> entityModelIn, float shadowSizeIn, ResourceLocation[] textures) {
-        super(renderManagerIn, entityModelIn, shadowSizeIn);
+    public WerewolfRenderer(EntityRendererProvider.Context context, WerewolfBaseModel<T> entityModelIn, float shadowSizeIn, ResourceLocation[] textures) {
+        super(context, entityModelIn, shadowSizeIn);
         this.addLayer(new WerewolfEntityFaceOverlayLayer<>(this));
         this.textures = textures;
     }

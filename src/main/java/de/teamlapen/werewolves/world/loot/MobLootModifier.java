@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.minecraft.loot.LootSerializers.createLootTableSerializer;
+import static net.minecraft.world.level.storage.loot.Deserializers.createLootTableSerializer;
+import static net.minecraft.world.level.storage.loot.LootTable.createStackSplitter;
 
 @ParametersAreNonnullByDefault
 public class MobLootModifier extends LootModifier {

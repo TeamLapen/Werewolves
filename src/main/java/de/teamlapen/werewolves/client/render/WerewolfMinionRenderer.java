@@ -4,14 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
 import javax.annotation.Nonnull;
 
 public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionEntity> {
 
-    public WerewolfMinionRenderer(EntityRenderDispatcher renderManagerIn) {
-        super(renderManagerIn, 0.3f);
+    public WerewolfMinionRenderer(EntityRendererProvider.Context context) {
+        super(context, 0.3f);
     }
 
     @Override

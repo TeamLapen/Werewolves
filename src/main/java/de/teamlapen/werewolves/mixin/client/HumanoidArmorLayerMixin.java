@@ -18,15 +18,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(HumanoidArmorLayer.class)
-public class BipedArmorLayerMixin<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> {
+public class HumanoidArmorLayerMixin<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> {
 
-    @Inject(method = "renderArmorPiece(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/inventory/EquipmentSlotType;ILnet/minecraft/client/renderer/entity/model/BipedModel;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/BipedArmorLayer;setPartVisibility(Lnet/minecraft/client/renderer/entity/model/BipedModel;Lnet/minecraft/inventory/EquipmentSlotType;)V", shift = At.Shift.AFTER))
-    private void renderArmorPiece(PoseStack matrixStack, MultiBufferSource renderBuffer, T entity, EquipmentSlot equipmentSlotType, int p_241739_5_, A model, CallbackInfo ci){
-        if (!(entity instanceof Player))return;
-        if (!Helper.isWerewolf(((Player) entity)))return;
+    @Inject(method = "renderArmorPiece(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/model/HumanoidModel;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;setPartVisibility(Lnet/minecraft/client/model/HumanoidModel;Lnet/minecraft/world/entity/EquipmentSlot;)V", shift = At.Shift.AFTER))
+    private void renderArmorPiece(PoseStack matrixStack, MultiBufferSource renderBuffer, T entity, EquipmentSlot equipmentSlotType, int p_241739_5_, A model, CallbackInfo ci) {
+        if (!(entity instanceof Player)) return;
+        if (!Helper.isWerewolf(((Player) entity))) return;
         WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) entity));
         if (!FormHelper.isFormActionActive(werewolf)) return;
-        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && werewolf.getActionHandler().isActionActive(ModActions.human_form)) return;
+        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && werewolf.getActionHandler().isActionActive(ModActions.human_form))
+            return;
         model.setAllVisible(false);
     }
 }

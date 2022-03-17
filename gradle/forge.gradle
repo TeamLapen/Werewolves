@@ -28,7 +28,7 @@ dependencies {
 
     //Mixin preprocessor
     if (System.getProperty("idea.sync.active") != "true") {
-        annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
+        annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     }
 
     //Blame for debugging
@@ -42,14 +42,12 @@ minecraft {
     runs {
         client {
             taskName 'runClient'
-            main 'net.minecraftforge.userdev.LaunchTesting'
             property 'mixin.env.disableRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'
             property 'forge.logging.markers', 'REGISTRIES'
             workingDirectory project.file('run/client').canonicalPath
             jvmArg '-ea:de.teamlapen...'
-            arg "-mixin.config=werewolves.mixins.json"
 
             mods {
                 werewolves {
@@ -61,7 +59,7 @@ minecraft {
         client2 {
             parent runs.client
             taskName 'runClient2'
-            args "-mixin.config=werewolves.mixins.json", '--username', 'Dev2'
+            arg '--username=Dev2'
         }
         server {
             property 'mixin.env.disableRefMap', 'true'
@@ -70,7 +68,6 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/server').canonicalPath
             jvmArg '-ea:de.teamlapen...'
-            arg "-mixin.config=werewolves.mixins.json"
 
             mods {
                 werewolves {
@@ -86,7 +83,7 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             workingDirectory project.file('run/data').canonicalPath
-            args "-mixin.config=werewolves.mixins.json", '--mod', 'werewolves', '--all', '--output', file('src/generated/resources/'),  '--existing', sourceSets.main.resources.srcDirs[0]
+            args '--mod', 'werewolves', '--all', '--output', file('src/generated/resources/'),  '--existing', sourceSets.main.resources.srcDirs[0]
             mods {
                 werewolves {
                     source sourceSets.main
@@ -140,11 +137,7 @@ task crowdin(type: Copy){
     }
 }
 
-processResources {
-    filesMatching("**/mods.toml") {
-        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'jei_version': jei_version, 'guideapi_version': guideapi_version, 'vampirism_version': vampirism_version
-    }
-}
+
 
 jar {
     dependsOn 'crowdin'
@@ -180,8 +173,39 @@ jar {
 
 }
 
+//Replace strings in IDEA folders as well
+def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
+def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
+def replaceProperties = ['version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'jei_version': jei_version, 'guideapi_version': guideapi_version, 'vampirism_version': vampirism_version]
+processResources {
+    inputs.properties replaceProperties
+    replaceProperties.put 'project', project
+
+    filesMatching(resourceTargets) {
+        expand replaceProperties
+    }
+
+    intoTargets.each { target ->
+        if (file(target).exists()) {
+            copy {
+                from(sourceSets.main.resources) {
+                    include resourceTargets
+                    expand replaceProperties
+                }
+                into target
+            }
+        }
+    }
+    exclude '**/Thumbs.db'
+
+}
+
 apply plugin: 'org.spongepowered.mixin'
 
 mixin {
     add sourceSets.main, "werewolves.refmap.json"
+    config 'werewolves.mixins.json'
+
+    debug.verbose = true
+    debug.export = true
 }
