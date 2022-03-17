@@ -5,12 +5,12 @@ import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.items.ISilverItem;
 import de.teamlapen.werewolves.util.Helper;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.List;
 
@@ -43,9 +43,9 @@ public class SilverOil extends WeaponOil {
     }
 
     @Override
-    public void getDescription(ItemStack stack, List<ITextComponent> tooltips) {
+    public void getDescription(ItemStack stack, List<Component> tooltips) {
         super.getDescription(stack, tooltips);
-        tooltips.add(new TranslationTextComponent("text.werewolves.oil.when_applied").withStyle(TextFormatting.GRAY));
-        tooltips.add(new StringTextComponent(" ").append(new TranslationTextComponent("text.werewolves.oil.silver.more_damage", getDamageModifier() * 100).withStyle(TextFormatting.DARK_GREEN)));
+        tooltips.add(new TranslatableComponent("text.werewolves.oil.when_applied").withStyle(ChatFormatting.GRAY));
+        tooltips.add(new TextComponent(" ").append(new TranslatableComponent("text.werewolves.oil.silver.more_damage", getDamageModifier() * 100).withStyle(ChatFormatting.DARK_GREEN)));
     }
 }

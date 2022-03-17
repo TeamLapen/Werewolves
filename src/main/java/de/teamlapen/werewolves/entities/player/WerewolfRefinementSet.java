@@ -8,6 +8,8 @@ import de.teamlapen.werewolves.util.WReference;
 import javax.annotation.Nonnull;
 import java.util.Set;
 
+import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet.Rarity;
+
 public class WerewolfRefinementSet extends RefinementSet {
 
     public WerewolfRefinementSet(Rarity rarity, int color, Set<IRefinement> refinements) {

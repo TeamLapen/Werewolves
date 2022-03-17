@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
@@ -10,12 +11,11 @@ import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * @param <T> must extend {@link IWerewolf} or be {@link net.minecraft.entity.player.PlayerEntity}
  */
-public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends LivingRenderer<T, WerewolfBaseModel<T>> {
+public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends LivingEntityRenderer<T, WerewolfBaseModel<T>> {
 
     private final Map<WerewolfForm, WerewolfModelWrapper<T>> models = new HashMap<>();
 
@@ -34,7 +34,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
     protected List<ResourceLocation> textures;
     protected WerewolfForm form = WerewolfForm.NONE;
 
-    public BaseWerewolfRenderer(EntityRendererManager rendererManager, float size) {
+    public BaseWerewolfRenderer(EntityRenderDispatcher rendererManager, float size) {
         //noinspection ConstantConditions
         super(rendererManager, null, 0f);
         this.eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
@@ -65,11 +65,11 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
     }
 
     @Override
-    protected void setupRotations(@Nonnull T entityLiving, @Nonnull MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void setupRotations(@Nonnull T entityLiving, @Nonnull PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
         super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
         if (entityLiving.getSwimAmount(partialTicks) > 0.0F && this.form.isHumanLike()) {
             float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.xRot : -90.0F;
-            float f4 = MathHelper.lerp(entityLiving.getSwimAmount(partialTicks), 0.0F, f3);
+            float f4 = Mth.lerp(entityLiving.getSwimAmount(partialTicks), 0.0F, f3);
             matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(f4));
             if (entityLiving.isVisuallySwimming()) {
                 matrixStackIn.translate(0.0D, -1.0D, 0.3F);

@@ -7,7 +7,7 @@ import de.teamlapen.werewolves.items.CrossbowArrowItem;
 import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.util.OilUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.color.item.ItemColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

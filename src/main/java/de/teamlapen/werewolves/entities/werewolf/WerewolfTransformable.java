@@ -3,8 +3,8 @@ package de.teamlapen.werewolves.entities.werewolf;
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -12,11 +12,11 @@ import java.util.UUID;
 public interface WerewolfTransformable extends IWerewolfDataholder {
     int TYPES = 126;
 
-    static <T extends MobEntity> T copyData(EntityType<T> newEntity, MobEntity oldEntity) {
+    static <T extends Mob> T copyData(EntityType<T> newEntity, Mob oldEntity) {
         return copyData(newEntity.create(oldEntity.getCommandSenderWorld()), oldEntity);
     }
 
-    static <T extends MobEntity> T copyData(T entity, MobEntity oldEntity) {
+    static <T extends Mob> T copyData(T entity, Mob oldEntity) {
         UUID uuid = entity.getUUID();
         entity.copyPosition(oldEntity);
         entity.restoreFrom(oldEntity);

@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.client.core;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
 import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
@@ -19,14 +19,14 @@ import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.settings.PointOfView;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.CameraType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -123,7 +123,7 @@ public class ModHUDOverlay extends ExtendedGui {
 
         if (percentages > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
             RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
-            MatrixStack stack = new MatrixStack();
+            PoseStack stack = new PoseStack();
             stack.pushPose();
             RenderSystem.matrixMode(GL11.GL_PROJECTION);
             RenderSystem.loadIdentity();
@@ -182,7 +182,7 @@ public class ModHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void renderFangs(MatrixStack matrixStack, int width, int height, @Nullable Entity entity) {
+    private void renderFangs(PoseStack matrixStack, int width, int height, @Nullable Entity entity) {
         this.mc.getTextureManager().bind(ICONS);
         int left = width / 2 - 9;
         int top = height / 2 - 6;
@@ -201,9 +201,9 @@ public class ModHUDOverlay extends ExtendedGui {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    private void renderFur(MatrixStack matrixStack) {
+    private void renderFur(PoseStack matrixStack) {
         if (WerewolvesConfig.CLIENT.disableScreenFurRendering.get())return;
-        if (this.mc.options.getCameraType() == PointOfView.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(FormHelper::isFormActionActive).orElse(false)) {
+        if (this.mc.options.getCameraType() == CameraType.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(FormHelper::isFormActionActive).orElse(false)) {
             this.mc.getTextureManager().bind(FUR);
             RenderSystem.enableBlend();
             blit(matrixStack, 0, 0, this.getBlitOffset(), 0, 0, this.mc.getWindow().getScreenWidth(), this.mc.getWindow().getScreenHeight(), this.mc.getWindow().getGuiScaledHeight(), this.mc.getWindow().getGuiScaledWidth());
@@ -214,8 +214,8 @@ public class ModHUDOverlay extends ExtendedGui {
     private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
         if (WerewolvesConfig.CLIENT.disableFangCrosshairRendering.get())return;
         if (Helper.isWerewolf(this.mc.player)) {
-            RayTraceResult p = Minecraft.getInstance().hitResult;
-            Entity entity = p instanceof EntityRayTraceResult?((EntityRayTraceResult) p).getEntity():null;
+            HitResult p = Minecraft.getInstance().hitResult;
+            Entity entity = p instanceof EntityHitResult?((EntityHitResult) p).getEntity():null;
             if (WerewolfPlayer.get(mc.player).canBite()) {
                 renderFangs(event.getMatrixStack(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), entity);
                 event.setCanceled(true);
@@ -224,7 +224,7 @@ public class ModHUDOverlay extends ExtendedGui {
     }
 
     private void renderExperienceBar(RenderGameOverlayEvent.Post event) {
-        PlayerEntity player = mc.player;
+        Player player = mc.player;
         if(Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if (werewolf.getSpecialAttributes().transformationTime > 0) {
@@ -235,12 +235,12 @@ public class ModHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void renderExpBar(MatrixStack matrixStack, double perc, float transparency) {
+    private void renderExpBar(PoseStack matrixStack, double perc, float transparency) {
         int scaledWidth = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledWidth();
         int scaledHeight = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledHeight();
         int x = scaledWidth / 2 - 91;
         this.mc.getProfiler().push("werewolfActionDurationBar");
-        this.mc.getTextureManager().bind(AbstractGui.GUI_ICONS_LOCATION);
+        this.mc.getTextureManager().bind(GuiComponent.GUI_ICONS_LOCATION);
 
         RenderSystem.enableBlend();
         RenderSystem.color4f(1f, 0.1f, 0f, transparency);
@@ -252,7 +252,7 @@ public class ModHUDOverlay extends ExtendedGui {
         this.mc.getProfiler().pop();
     }
 
-    private void renderActionCooldown(MatrixStack matrixStack) {
+    private void renderActionCooldown(PoseStack matrixStack) {
         if (Helper.isWerewolf(this.mc.player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
             ArrayList<IAction> actions = new ArrayList<>();

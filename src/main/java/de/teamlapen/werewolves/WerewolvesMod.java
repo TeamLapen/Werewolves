@@ -21,11 +21,11 @@ import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.proxy.Proxy;
 import de.teamlapen.werewolves.proxy.ServerProxy;
 import de.teamlapen.werewolves.util.*;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.ChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -52,8 +52,8 @@ public class WerewolvesMod {
 
     public static final AbstractPacketDispatcher dispatcher = new ModPacketDispatcher();
     public static final Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-    public static final EntityClassification WEREWOLF_CREATURE_TYPE = EntityClassification.create("werewolves_werewolf", "werewolves_werewolf", 8, false, false, 128);
-    private static final CreatureAttribute WEREWOLF_CREATURE_ATTRIBUTES = new CreatureAttribute();
+    public static final MobCategory WEREWOLF_CREATURE_TYPE = MobCategory.create("werewolves_werewolf", "werewolves_werewolf", 8, false, false, 128);
+    private static final MobType WEREWOLF_CREATURE_ATTRIBUTES = new MobType();
     public static WerewolvesMod instance;
     public static boolean inDev = false;
     public final RegistryManager registryManager = new RegistryManager();
@@ -111,7 +111,7 @@ public class WerewolvesMod {
                     .lordLevel(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL)
                     .lordTitle(LordTitles::getWerewolfTitle)
                     .village(WerewolfVillageData::werewolfVillage)
-                    .chatColor(TextFormatting.GOLD)
+                    .chatColor(ChatFormatting.GOLD)
                     .name("text.werewolves.werewolf")
                     .namePlural("text.vampirism.werewolves")
                     .refinementItems(WerewolfRefinementItem::getRefinementItem)

@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 

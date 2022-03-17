@@ -4,9 +4,9 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class FearAction extends DefaultWerewolfAction implements IActionCooldown
     @Override
     protected boolean activate(IWerewolfPlayer iWerewolfPlayer) {
         WerewolfPlayer player = ((WerewolfPlayer) iWerewolfPlayer);
-        List<MobEntity> entities = player.getRepresentingPlayer().level.getEntitiesOfClass(MobEntity.class, new AxisAlignedBB(player.getRepresentingEntity().blockPosition()).inflate(10, 3, 10), (entity -> !(Helper.isWerewolf(entity))));
-        for (MobEntity entity : entities) {
+        List<Mob> entities = player.getRepresentingPlayer().level.getEntitiesOfClass(Mob.class, new AABB(player.getRepresentingEntity().blockPosition()).inflate(10, 3, 10), (entity -> !(Helper.isWerewolf(entity))));
+        for (Mob entity : entities) {
             entity.setTarget(null);
             entity.getNavigation().stop();
             Path path = entity.getNavigation().createPath(entity.blockPosition().offset(Helper.multiplyBlockPos(entity.blockPosition().subtract(player.getRepresentingEntity().blockPosition()), 3)), 0);

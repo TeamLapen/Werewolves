@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.items.oil;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public interface IOil extends IForgeRegistryEntry<IOil> {
 
     int getMaxDuration(ItemStack stack);
 
-    void getDescription(ItemStack stack, List<ITextComponent> tooltips);
+    void getDescription(ItemStack stack, List<Component> tooltips);
 
     boolean canBeAppliedTo(ItemStack stack);
 

@@ -2,9 +2,9 @@ package de.teamlapen.werewolves.util;
 
 import de.teamlapen.werewolves.core.ModRegistries;
 import de.teamlapen.werewolves.items.oil.IOil;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.util.TriConsumer;
 
@@ -14,9 +14,9 @@ public class WeaponOilHelper {
 
     public static IOil getOil(ItemStack stack) {
         if (!stack.hasTag()) return null;
-        CompoundNBT tag = stack.getTag();
+        CompoundTag tag = stack.getTag();
         if (!tag.contains("weapon_oil")) return null;
-        CompoundNBT oilTag = stack.getTag().getCompound("weapon_oil");
+        CompoundTag oilTag = stack.getTag().getCompound("weapon_oil");
         ResourceLocation loc = new ResourceLocation(oilTag.getString("oil"));
         return ModRegistries.WEAPON_OILS.getValue(loc);
     }
@@ -27,9 +27,9 @@ public class WeaponOilHelper {
 
     public static int getDuration(ItemStack stack) {
         if (!stack.hasTag()) return 0;
-        CompoundNBT tag = stack.getTag();
+        CompoundTag tag = stack.getTag();
         if (!tag.contains("weapon_oil")) return 0;
-        CompoundNBT oilTag = stack.getTag().getCompound("weapon_oil");
+        CompoundTag oilTag = stack.getTag().getCompound("weapon_oil");
         return oilTag.getInt("duration");
     }
 
@@ -38,7 +38,7 @@ public class WeaponOilHelper {
     }
 
     public static ItemStack setWeaponOils(ItemStack stack, IOil oil, int duration) {
-        CompoundNBT oilTag = new CompoundNBT();
+        CompoundTag oilTag = new CompoundTag();
         oilTag.putString("oil", oil.getRegistryName().toString());
         oilTag.putInt("duration", duration);
         stack.getOrCreateTag().put("weapon_oil", oilTag);

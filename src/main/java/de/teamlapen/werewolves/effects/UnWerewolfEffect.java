@@ -1,16 +1,16 @@
 package de.teamlapen.werewolves.effects;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
 import de.teamlapen.werewolves.util.Helper;
-import net.minecraft.client.gui.DisplayEffectsScreen;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.EffectType;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,17 +20,17 @@ public class UnWerewolfEffect extends WerewolvesEffect {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public UnWerewolfEffect() {
-        super("un_werewolf", EffectType.NEUTRAL, 0xdc9417);
+        super("un_werewolf", MobEffectCategory.NEUTRAL, 0xdc9417);
     }
 
     @Override
     public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
         if (!entityLivingBaseIn.getCommandSenderWorld().isClientSide()) {
-            if (entityLivingBaseIn instanceof PlayerEntity) {
-                PlayerEntity player = ((PlayerEntity) entityLivingBaseIn);
+            if (entityLivingBaseIn instanceof Player) {
+                Player player = ((Player) entityLivingBaseIn);
                 if (Helper.isWerewolf(player)) {
                     FactionPlayerHandler.get(player).setFactionAndLevel(null, 0);
-                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.no_longer_werewolf"), true);
+                    player.displayClientMessage(new TranslatableComponent("text.werewolves.no_longer_werewolf"), true);
                     LOGGER.debug("Player {} left faction", player);
                 }
             }
@@ -43,12 +43,12 @@ public class UnWerewolfEffect extends WerewolvesEffect {
     }
 
     @Override
-    public boolean shouldRenderInvText(EffectInstance effect) {
+    public boolean shouldRenderInvText(MobEffectInstance effect) {
         return false;
     }
 
     @Override
-    public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, MatrixStack mStack, int x, int y, float z) {
+    public void renderInventoryEffect(MobEffectInstance effect, EffectRenderingInventoryScreen<?> gui, PoseStack mStack, int x, int y, float z) {
         super.renderInventoryEffect(effect, gui, mStack, x, y, z);
         String s = UtilLib.translate(effect.getEffect().getDescriptionId());
         ((ScreenAccessor) gui).getFont().drawShadow(mStack, s, (float) (x + 10 + 18), (float) (y + 6), 16777215);

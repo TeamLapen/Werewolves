@@ -1,11 +1,11 @@
 package de.teamlapen.werewolves.items.oil;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ public class WeaponOil extends Oil {
     }
 
     @Override
-    public void getDescription(ItemStack stack, List<ITextComponent> tooltips) {
-        tooltips.add(new TranslationTextComponent("oil." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".desc").append(" (" + getMaxDuration(stack) + ")").withStyle(TextFormatting.GOLD));
-        tooltips.add(StringTextComponent.EMPTY);
-        tooltips.add(new TranslationTextComponent("text.werewolves.oil.applied_to").withStyle(TextFormatting.GRAY));
-        tooltips.add(new StringTextComponent(" ").append(new TranslationTextComponent("text.werewolves.swords").withStyle(TextFormatting.DARK_GREEN)));
+    public void getDescription(ItemStack stack, List<Component> tooltips) {
+        tooltips.add(new TranslatableComponent("oil." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".desc").append(" (" + getMaxDuration(stack) + ")").withStyle(ChatFormatting.GOLD));
+        tooltips.add(TextComponent.EMPTY);
+        tooltips.add(new TranslatableComponent("text.werewolves.oil.applied_to").withStyle(ChatFormatting.GRAY));
+        tooltips.add(new TextComponent(" ").append(new TranslatableComponent("text.werewolves.swords").withStyle(ChatFormatting.DARK_GREEN)));
     }
 }

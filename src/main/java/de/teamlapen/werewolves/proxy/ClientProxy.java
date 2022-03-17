@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.proxy;
 import de.teamlapen.werewolves.client.core.*;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,7 +22,7 @@ public class ClientProxy extends CommonProxy {
         //Minecraft.instance is null during runData.
         //noinspection ConstantConditions
         if (Minecraft.getInstance() != null)
-            ((IReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener(renderHandler); // Must be added before initial resource manager load
+            ((ReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener(renderHandler); // Must be added before initial resource manager load
     }
 
     @Override

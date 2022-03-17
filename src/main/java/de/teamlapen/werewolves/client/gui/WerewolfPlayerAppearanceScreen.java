@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.client.gui.widget.ScrollableArrayTextComponentList;
 import de.teamlapen.lib.lib.client.gui.widget.ScrollableListWidget;
 import de.teamlapen.vampirism.client.gui.AppearanceScreen;
@@ -11,21 +11,21 @@ import de.teamlapen.werewolves.network.WerewolfAppearancePacket;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.button.CheckboxButton;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Checkbox;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 
-public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntity> {
+public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
 
-    private static final ITextComponent NAME = new TranslationTextComponent("gui.vampirism.appearance");
+    private static final Component NAME = new TranslatableComponent("gui.vampirism.appearance");
 
     private final WerewolfPlayer werewolf;
 
@@ -40,11 +40,11 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
     private Button beast;
     private Button survival;
 
-    private ScrollableListWidget<Pair<Integer, ITextComponent>> eyeList;
-    private ScrollableListWidget<Pair<Integer, ITextComponent>> skinList;
+    private ScrollableListWidget<Pair<Integer, Component>> eyeList;
+    private ScrollableListWidget<Pair<Integer, Component>> skinList;
     private ExtendedButton eyeButton;
     private ExtendedButton skinButton;
-    private CheckboxButton glowingEyesButton;
+    private Checkbox glowingEyesButton;
 
     public WerewolfPlayerAppearanceScreen(@Nullable Screen backScreen) {
         super(NAME, Minecraft.getInstance().player, backScreen);
@@ -72,7 +72,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
     @Override
     protected void init() {
         super.init();
-        Button.ITooltip notUnlocked = (button, stack, mouseX, mouseY) -> renderTooltip(stack,new TranslationTextComponent("text.werewolves.not_unlocked"), mouseX, mouseY);
+        Button.OnTooltip notUnlocked = (button, stack, mouseX, mouseY) -> renderTooltip(stack,new TranslatableComponent("text.werewolves.not_unlocked"), mouseX, mouseY);
         boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.beast_form);
         boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.survival_form);
         this.human = this.addButton(new Button( this.guiLeft + 5, this.guiTop + 20, 67,20, WerewolfForm.HUMAN.getTextComponent(), (button1)-> switchToForm(WerewolfForm.HUMAN)));
@@ -131,15 +131,15 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
         this.eyeType = werewolf.getEyeType();
         this.glowingEyes = werewolf.hasGlowingEyes();
 
-        this.eyeList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100, 20, REFERENCE.EYE_TYPE_COUNT, new TranslationTextComponent("text.werewolves.appearance.eye"), this::eye, this::hoverEye));
-        this.skinList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft+20, this.guiTop+50+19+20, 99, 80, 20, form.getSkinTypes(),new TranslationTextComponent("text.werewolves.appearance.skin"),this::skin, this::hoverSkin));
-        this.eyeButton = this.addButton(new ExtendedButton(eyeList.x, eyeList.y - 20, eyeList.getWidth() + 1, 20, new StringTextComponent(""), (b) -> {
+        this.eyeList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100, 20, REFERENCE.EYE_TYPE_COUNT, new TranslatableComponent("text.werewolves.appearance.eye"), this::eye, this::hoverEye));
+        this.skinList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft+20, this.guiTop+50+19+20, 99, 80, 20, form.getSkinTypes(),new TranslatableComponent("text.werewolves.appearance.skin"),this::skin, this::hoverSkin));
+        this.eyeButton = this.addButton(new ExtendedButton(eyeList.x, eyeList.y - 20, eyeList.getWidth() + 1, 20, new TextComponent(""), (b) -> {
             this.setEyeListVisibility(!eyeList.visible);
         }));
-        this.skinButton = this.addButton(new ExtendedButton(skinList.x, skinList.y - 20, skinList.getWidth() + 1, 20, new StringTextComponent(""), (b) -> {
+        this.skinButton = this.addButton(new ExtendedButton(skinList.x, skinList.y - 20, skinList.getWidth() + 1, 20, new TextComponent(""), (b) -> {
             this.setSkinListVisibility(!skinList.visible);
         }));
-        this.glowingEyesButton = this.addButton(new CheckboxButton(this.guiLeft + 20, this.guiTop + 90, 99, 20, new TranslationTextComponent("gui.vampirism.appearance.glowing_eye"), this.glowingEyes) {
+        this.glowingEyesButton = this.addButton(new Checkbox(this.guiLeft + 20, this.guiTop + 90, 99, 20, new TranslatableComponent("gui.vampirism.appearance.glowing_eye"), this.glowingEyes) {
             public void onPress() {
                 super.onPress();
                 glowingEyes = this.selected();
@@ -152,7 +152,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<PlayerEntit
     }
 
     @Override
-    public void render(MatrixStack mStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack mStack, int mouseX, int mouseY, float partialTicks) {
         this.renderForm = true;
         super.render(mStack, mouseX, mouseY, partialTicks);
         this.eyeList.render(mStack, mouseX, mouseY, partialTicks);

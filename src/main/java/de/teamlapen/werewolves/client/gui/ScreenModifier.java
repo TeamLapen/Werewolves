@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.client.gui;
 
-import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.components.AbstractWidget;
 
 public interface ScreenModifier {
 
-    <T extends Widget> void removeButton(T button);
+    <T extends AbstractWidget> void removeButton(T button);
 }

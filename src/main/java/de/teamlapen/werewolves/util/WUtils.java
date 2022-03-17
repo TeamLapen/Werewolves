@@ -2,28 +2,28 @@ package de.teamlapen.werewolves.util;
 
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModTags;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.loot.LootTableManager;
-import net.minecraft.scoreboard.ScoreCriteria;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.storage.loot.LootTables;
+import net.minecraft.world.scores.criteria.ObjectiveCriteria;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.damagesource.DamageSource;
 
 import javax.annotation.Nonnull;
 
 public class WUtils {
     public static final BooleanProperty SOUL_FIRE = BooleanProperty.create("soulfire");
-    public static final ScoreCriteria WEREWOLF_LEVEL_CRITERIA = new ScoreCriteria("werewolves:werewolf");
-    public static final ItemGroup creativeTab = new ItemGroup(REFERENCE.MODID) {
+    public static final ObjectiveCriteria WEREWOLF_LEVEL_CRITERIA = new ObjectiveCriteria("werewolves:werewolf");
+    public static final CreativeModeTab creativeTab = new CreativeModeTab(REFERENCE.MODID) {
         @Nonnull
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(ModItems.liver);
         }
     };
-    public static final IItemTier SILVER_ITEM_TIER = new IItemTier() {
+    public static final Tier SILVER_ITEM_TIER = new Tier() {
         @Override
         public int getUses() {
             return 250;
@@ -55,7 +55,7 @@ public class WUtils {
             return Ingredient.of(ModTags.Items.SILVER_INGOT);
         }
     };
-    public static LootTableManager LOOT_TABLE_MANAGER;
+    public static LootTables LOOT_TABLE_MANAGER;
     public static DamageSource OPEN_WOUND_DAMAGE_SOURCE = new DamageSource("blood_loss").bypassArmor().bypassMagic();
 
     public static void init() {

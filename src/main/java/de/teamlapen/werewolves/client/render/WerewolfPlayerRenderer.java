@@ -1,33 +1,33 @@
 package de.teamlapen.werewolves.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Hand;
-import net.minecraft.util.HandSide;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientPlayerEntity> {
+public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientPlayer> {
 
     private boolean skipPlayerModel;
 
-    public WerewolfPlayerRenderer(EntityRendererManager rendererManager) {
+    public WerewolfPlayerRenderer(EntityRenderDispatcher rendererManager) {
         super(rendererManager, 0.5f);
     }
 
@@ -38,8 +38,8 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         this.skipPlayerModel = getWrapper(type).skipPlayerModel;
     }
 
-    private void setModelVisible(@Nonnull AbstractClientPlayerEntity clientPlayer) {
-        WerewolfBaseModel<AbstractClientPlayerEntity> playerModel = this.getModel();
+    private void setModelVisible(@Nonnull AbstractClientPlayer clientPlayer) {
+        WerewolfBaseModel<AbstractClientPlayer> playerModel = this.getModel();
         if (clientPlayer.isSpectator()) {
             playerModel.setAllVisible(false);
             playerModel.head.visible = true;
@@ -49,15 +49,15 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         }
     }
 
-    public boolean renderRightArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn) {
+    public boolean renderRightArm(PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn) {
         WerewolfForm form = WerewolfPlayer.get(playerIn).getForm();
         if (!form.isHumanLike()) {
             form = WerewolfForm.BEAST;
         }
         this.switchModel(form);
-        ModelRenderer arm = this.getModel().getRightArmModel();
+        ModelPart arm = this.getModel().getRightArmModel();
         if (arm != null) {
-            if (shouldRenderArm(HandSide.RIGHT, playerIn)) {
+            if (shouldRenderArm(HumanoidArm.RIGHT, playerIn)) {
                 matrixStackIn.pushPose();
                 matrixStackIn.scale(1.2f, 1f, 1.2f);
                 matrixStackIn.translate(0, 0.2, 0.4);
@@ -70,16 +70,16 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         return !form.isHumanLike();
     }
 
-    public boolean renderLeftArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn) {
+    public boolean renderLeftArm(PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn) {
         WerewolfForm form = WerewolfPlayer.get(playerIn).getForm();
         if (!form.isHumanLike()) {
             form = WerewolfForm.BEAST;
         }
         this.switchModel(form);
-        ModelRenderer arm = this.getModel().getLeftArmModel();
+        ModelPart arm = this.getModel().getLeftArmModel();
         if (arm != null) {
 
-            if (shouldRenderArm(HandSide.LEFT, playerIn)) {
+            if (shouldRenderArm(HumanoidArm.LEFT, playerIn)) {
                 matrixStackIn.pushPose();
                 matrixStackIn.scale(1.2f, 1f, 1.2f);
                 matrixStackIn.translate(0, 0.2, 0.4);
@@ -92,10 +92,10 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         return !form.isHumanLike();
     }
 
-    private boolean shouldRenderArm(HandSide armSide, @Nonnull AbstractClientPlayerEntity player) {
-        HandSide side = player.getMainArm();
-        ItemStack mainStack = player.getItemInHand(Hand.MAIN_HAND);
-        ItemStack offStack = player.getItemInHand(Hand.OFF_HAND);
+    private boolean shouldRenderArm(HumanoidArm armSide, @Nonnull AbstractClientPlayer player) {
+        HumanoidArm side = player.getMainArm();
+        ItemStack mainStack = player.getItemInHand(InteractionHand.MAIN_HAND);
+        ItemStack offStack = player.getItemInHand(InteractionHand.OFF_HAND);
 
         if (armSide == side) {
             return mainStack.getItem() != Items.FILLED_MAP;
@@ -104,8 +104,8 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         }
     }
 
-    private void renderItem(MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn, @Nonnull ModelRenderer rendererArmIn) {
-        WerewolfBaseModel<AbstractClientPlayerEntity> model = this.getModel();
+    private void renderItem(PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn, @Nonnull ModelPart rendererArmIn) {
+        WerewolfBaseModel<AbstractClientPlayer> model = this.getModel();
         this.setModelVisible(playerIn);
         model.attackTime = 0F;
         model.crouching = false;
@@ -119,23 +119,23 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
     /**
      * @return if the player model should be renderer
      */
-    public boolean render(@Nonnull WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    public boolean render(@Nonnull WerewolfPlayer entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         WerewolfForm form = entity.getForm();
         if (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen) {
             form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).getActiveForm();
         }
         this.switchModel(form);
         if (this.model != null && this.skipPlayerModel) {
-            this.render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+            this.render(((AbstractClientPlayer) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             return true;
         }
         return false;
     }
 
-    public void renderPost(PlayerModel<AbstractClientPlayerEntity> entityModel, WerewolfPlayer entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    public void renderPost(PlayerModel<AbstractClientPlayer> entityModel, WerewolfPlayer entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         if (this.model != null && !this.skipPlayerModel) {
             this.model.setPlayerModel(entityModel);
-            render(((AbstractClientPlayerEntity) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+            render(((AbstractClientPlayer) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         }
     }
 
@@ -144,7 +144,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
      */
     @Deprecated
     @Override
-    public void render(@Nonnull AbstractClientPlayerEntity entity, float entityYaw, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn) {
+    public void render(@Nonnull AbstractClientPlayer entity, float entityYaw, float partialTicks, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn) {
         if (!entity.isLocalPlayer() || this.entityRenderDispatcher.camera.getEntity() == entity) {
             this.setModelVisible(entity);
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

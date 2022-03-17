@@ -2,14 +2,14 @@ package de.teamlapen.werewolves.items;
 
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,12 +29,12 @@ public class WerewolfMinionUpgradeItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@Nonnull ItemStack stack, @Nullable World worldIn, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
+    public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("item.werewolves.moon_charm.desc").withStyle(TextFormatting.DARK_GRAY));
-        tooltip.add(StringTextComponent.EMPTY);
-        tooltip.add(new TranslationTextComponent("item.vampirism.minion_upgrade_item.desc").withStyle(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("text.vampirism.for_to_levels", minLevel + 1, maxLevel + 1).withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("item.werewolves.moon_charm.desc").withStyle(ChatFormatting.DARK_GRAY));
+        tooltip.add(TextComponent.EMPTY);
+        tooltip.add(new TranslatableComponent("item.vampirism.minion_upgrade_item.desc").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("text.vampirism.for_to_levels", minLevel + 1, maxLevel + 1).withStyle(ChatFormatting.GRAY));
     }
 
     public IFaction<?> getFaction() {

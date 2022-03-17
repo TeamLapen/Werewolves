@@ -33,27 +33,41 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import de.teamlapen.werewolves.util.WerewolfVillageData;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.AbstractSkeletonEntity;
-import net.minecraft.entity.monster.PatrollerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.*;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
+import net.minecraft.entity.ai.goal.BreakDoorGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.PatrollingMonster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -61,9 +75,9 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IEntityActionUser, IVillageCaptureEntity, IEntityFollower {
-    protected static final DataParameter<Integer> SKINTYPE = EntityDataManager.defineId(BasicWerewolfEntity.class, DataSerializers.INT);
-    protected static final DataParameter<Integer> EYETYPE = EntityDataManager.defineId(BasicWerewolfEntity.class, DataSerializers.INT);
-    private static final DataParameter<Integer> LEVEL = EntityDataManager.defineId(BasicWerewolfEntity.class, DataSerializers.INT);
+    protected static final EntityDataAccessor<Integer> SKINTYPE = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
+    protected static final EntityDataAccessor<Integer> EYETYPE = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
     private static final int MAX_LEVEL = 2;
 
     private final WerewolfForm werewolfForm;
@@ -82,7 +96,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     protected ICaptureAttributes villageAttributes;
     protected boolean attack;
 
-    public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, World world, WerewolfForm werewolfForm) {
+    public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, Level world, WerewolfForm werewolfForm) {
         super(type, world);
         this.werewolfForm = werewolfForm;
         this.entityClass = EntityClassType.getRandomClass(world.random);
@@ -93,7 +107,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     @Nonnull
     @Override
-    public EntitySize getDimensions(@Nonnull Pose poseIn) {
+    public EntityDimensions getDimensions(@Nonnull Pose poseIn) {
         return this.werewolfForm.getSize(poseIn).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(poseIn));
     }
 
@@ -116,11 +130,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     public WerewolfTransformable _transformBack() {
         if (this.transformed == null) return this;
-        ((MobEntity) this.transformed).copyPosition(this);
-        ((MobEntity) this.transformed).revive();
-        this.level.addFreshEntity(((MobEntity) this.transformed));
+        ((Mob) this.transformed).copyPosition(this);
+        ((Mob) this.transformed).revive();
+        this.level.addFreshEntity(((Mob) this.transformed));
         this.remove(false);
-        ((MobEntity) this.transformed).setHealth(this.getHealth() / this.getMaxHealth() * ((MobEntity) this.transformed).getMaxHealth());
+        ((Mob) this.transformed).setHealth(this.getHealth() / this.getMaxHealth() * ((Mob) this.transformed).getMaxHealth());
         return this.transformed;
     }
 
@@ -175,7 +189,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT nbt) {
+    public void readAdditionalSaveData(CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
         if (nbt.contains("level")) {
             this.setLevel(nbt.getInt("level"));
@@ -214,7 +228,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT nbt) {
+    public void addAdditionalSaveData(CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("transformedDuration", this.transformedDuration);
         if (this.entityActionHandler != null) {
@@ -228,7 +242,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         nbt.putInt("eyeType", this.getEyeType());
         nbt.putBoolean("attack", this.attack);
         if (this.transformed != null) {
-            CompoundNBT transformed = new CompoundNBT();
+            CompoundTag transformed = new CompoundTag();
             ((LivingEntity) this.transformed).saveWithoutId(transformed);
             nbt.put("transformed", transformed);
             nbt.putString("transformed_id", ((LivingEntity) this.transformed).getType().getRegistryName().toString());
@@ -264,15 +278,15 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             getEntityData().set(LEVEL, level);
             this.updateEntityAttributes();
             if (level == 2) {
-                this.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 1000000, 1));
+                this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1000000, 1));
             }
-            this.setItemSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+            this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
         }
     }
 
     @Nonnull
     @Override
-    protected ActionResultType mobInteract(@Nonnull PlayerEntity player, @Nonnull Hand hand) {
+    protected InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
         int werewolfLevel = WerewolfPlayer.getOpt(player).map(VampirismPlayer::getLevel).orElse(0);
         if (werewolfLevel > 0) {
             FactionPlayerHandler.getOpt(player).ifPresent(fph -> {
@@ -281,26 +295,26 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
                     if (this.getLevel() > 0) {
                         if (heldItem.getItem() == ModItems.werewolf_minion_charm) {
-                            player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.unavailable"), true);
+                            player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.unavailable"), true);
                         }
                     } else {
                         boolean freeSlot = MinionWorldData.getData(player.level).map(data -> data.getOrCreateController(fph)).map(PlayerMinionController::hasFreeMinionSlot).orElse(false);
-                        player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.available"), false);
+                        player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.available"), false);
                         if (heldItem.getItem() == ModItems.werewolf_minion_charm) {
                             if (!freeSlot) {
-                                player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.no_free_slot"), false);
+                                player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.no_free_slot"), false);
                             } else {
-                                player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.start_serving"), false);
+                                player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.start_serving"), false);
                                 convertToMinion(player);
                                 if (!player.abilities.instabuild) heldItem.shrink(1);
                             }
                         } else if (freeSlot) {
-                            player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.werewolf_minion_charm.getDescriptionId())), false);
+                            player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.werewolf_minion_charm.getDescriptionId())), false);
                         }
                     }
                 }
             });
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }
@@ -308,7 +322,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     /**
      * Assumes preconditions as been met. Checks conditions but does not give feedback to user
      */
-    public void convertToMinion(PlayerEntity lord) {
+    public void convertToMinion(Player lord) {
         FactionPlayerHandler.getOpt(lord).ifPresent(fph -> {
             if (fph.getMaxMinions() > 0) {
                 MinionWorldData.getData(lord.level).map(w -> w.getOrCreateController(fph)).ifPresent(controller -> {
@@ -404,7 +418,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     @Nullable
     @Override
-    public AxisAlignedBB getTargetVillageArea() {
+    public AABB getTargetVillageArea() {
         return this.villageAttributes == null ? null : this.villageAttributes.getVillageArea();
     }
 
@@ -440,23 +454,23 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new BreakDoorGoal(this, (difficulty) -> difficulty == net.minecraft.world.Difficulty.HARD));//Only break doors on hard difficulty
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
         this.goalSelector.addGoal(6, new FollowAlphaWerewolfGoal<>(this, 0.8));
-        this.goalSelector.addGoal(9, new RandomWalkingGoal(this, 0.7));
-        this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, PlayerEntity.class, 20F, 0.6F));
-        this.goalSelector.addGoal(10, new LookAtGoal(this, HunterBaseEntity.class, 17F));
-        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(9, new RandomStrollGoal(this, 0.7));
+        this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, Player.class, 20F, 0.6F));
+        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, HunterBaseEntity.class, 17F));
+        this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
 
 
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(4, new WerewolfAttackVillageGoal<>(this));
         this.targetSelector.addGoal(4, new WerewolfDefendVillageGoal<>(this));//Should automatically be mutually exclusive with  attack village
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, false, true, true, null)));
-        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, CreatureEntity.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));
-        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollerEntity.class, 5, true, true, (living) -> UtilLib.isInsideStructure(living, Structure.VILLAGE)));
-        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, AbstractSkeletonEntity.class, false));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Player.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, false, true, true, null)));
+        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, PathfinderMob.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));
+        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollingMonster.class, 5, true, true, (living) -> UtilLib.isInsideStructure(living, StructureFeature.VILLAGE)));
+        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, AbstractSkeleton.class, false));
         this.targetSelector.addGoal(8, new DefendLeaderGoal<>(this));
     }
 
@@ -480,7 +494,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     public static class Beast extends BasicWerewolfEntity {
-        public Beast(EntityType<? extends Beast> type, World world) {
+        public Beast(EntityType<? extends Beast> type, Level world) {
             super(type, world, WerewolfForm.BEAST);
         }
 
@@ -494,16 +508,16 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
         @Nullable
         @Override
-        public ILivingEntityData finalizeSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT nbt) {
-            if (!(reason == SpawnReason.SPAWN_EGG || reason == SpawnReason.BUCKET || reason == SpawnReason.CONVERSION || reason == SpawnReason.COMMAND) && this.getRandom().nextInt(50) == 0) {
-                this.setItemSlot(EquipmentSlotType.HEAD, WerewolfVillageData.createBanner());
+        public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag nbt) {
+            if (!(reason == MobSpawnType.SPAWN_EGG || reason == MobSpawnType.BUCKET || reason == MobSpawnType.CONVERSION || reason == MobSpawnType.COMMAND) && this.getRandom().nextInt(50) == 0) {
+                this.setItemSlot(EquipmentSlot.HEAD, WerewolfVillageData.createBanner());
             }
             return super.finalizeSpawn(world, difficulty, reason, spawnData, nbt);
         }
     }
 
     public static class Survivalist extends BasicWerewolfEntity {
-        public Survivalist(EntityType<? extends Survivalist> type, World world) {
+        public Survivalist(EntityType<? extends Survivalist> type, Level world) {
             super(type, world, WerewolfForm.SURVIVALIST);
         }
     }

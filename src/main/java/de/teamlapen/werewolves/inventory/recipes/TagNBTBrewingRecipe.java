@@ -2,10 +2,10 @@ package de.teamlapen.werewolves.inventory.recipes;
 
 import com.mojang.datafixers.util.Either;
 import de.teamlapen.werewolves.util.Helper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 
 import javax.annotation.Nonnull;
@@ -13,10 +13,10 @@ import javax.annotation.Nonnull;
 public class TagNBTBrewingRecipe implements IBrewingRecipe {
 
     private final Ingredient input;
-    private final Either<ITag<Item>, Ingredient> ingredient;
+    private final Either<Tag<Item>, Ingredient> ingredient;
     private final ItemStack output;
 
-    public TagNBTBrewingRecipe(Ingredient input, ITag<Item> ingredient, ItemStack output) {
+    public TagNBTBrewingRecipe(Ingredient input, Tag<Item> ingredient, ItemStack output) {
         this.input = input;
         this.ingredient = Either.left(ingredient);
         this.output = output;

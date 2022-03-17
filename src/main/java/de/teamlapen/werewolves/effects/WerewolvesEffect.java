@@ -1,12 +1,12 @@
 package de.teamlapen.werewolves.effects;
 
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectType;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 
 
-public class WerewolvesEffect extends Effect {
-    public WerewolvesEffect(String name, EffectType typeIn, int liquidColorIn) {
+public class WerewolvesEffect extends MobEffect {
+    public WerewolvesEffect(String name, MobEffectCategory typeIn, int liquidColorIn) {
         super(typeIn, liquidColorIn);
         this.setRegistryName(REFERENCE.MODID, name);
     }

@@ -5,12 +5,12 @@ import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.EffectType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectCategory;
 
 import javax.annotation.Nonnull;
 
@@ -19,7 +19,7 @@ public class SilverEffect extends WerewolvesEffect {
     private static final String ARMOR = "19435a2e-9f5b-4d3b-952e-b1f561e06cab";
 
     public SilverEffect() {
-        super("silver", EffectType.HARMFUL, 0xC0C0C0);
+        super("silver", MobEffectCategory.HARMFUL, 0xC0C0C0);
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
         this.addAttributeModifier(Attributes.ARMOR, ARMOR, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
@@ -28,12 +28,12 @@ public class SilverEffect extends WerewolvesEffect {
     public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
     }
 
-    public static EffectInstance createEffect(LivingEntity entity, int defaultDuration) {
-        if (entity instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) entity))) {
-            if (WerewolfPlayer.getOpt(((PlayerEntity) entity)).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.silver_blooded)).orElse(false)) {
+    public static MobEffectInstance createEffect(LivingEntity entity, int defaultDuration) {
+        if (entity instanceof Player && Helper.isWerewolf(((Player) entity))) {
+            if (WerewolfPlayer.getOpt(((Player) entity)).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.silver_blooded)).orElse(false)) {
                 defaultDuration /= 3f;
             }
         }
-        return new EffectInstance(ModEffects.silver, defaultDuration);
+        return new MobEffectInstance(ModEffects.silver, defaultDuration);
     }
 }

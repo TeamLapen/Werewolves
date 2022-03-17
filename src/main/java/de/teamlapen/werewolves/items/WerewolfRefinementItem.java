@@ -8,6 +8,9 @@ import de.teamlapen.werewolves.util.WReference;
 
 import javax.annotation.Nonnull;
 
+import de.teamlapen.vampirism.api.items.IRefinementItem.AccessorySlotType;
+import net.minecraft.world.item.Item.Properties;
+
 public class WerewolfRefinementItem extends VampireRefinementItem implements IRefinementItem {
 
     public static WerewolfRefinementItem getRefinementItem(IRefinementItem.AccessorySlotType type){

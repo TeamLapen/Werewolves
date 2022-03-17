@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.items.oil;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class Oil extends ForgeRegistryEntry<IOil> implements IOil {
 
     private final int color;
-    private ITextComponent desc;
+    private Component desc;
 
     public Oil(int color) {
         this.color = color;
@@ -42,7 +42,7 @@ public class Oil extends ForgeRegistryEntry<IOil> implements IOil {
     }
 
     @Override
-    public void getDescription(ItemStack stack, List<ITextComponent> tooltips) {
+    public void getDescription(ItemStack stack, List<Component> tooltips) {
     }
 
     @Override

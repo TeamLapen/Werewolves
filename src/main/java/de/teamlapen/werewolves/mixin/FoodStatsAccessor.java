@@ -1,10 +1,10 @@
 package de.teamlapen.werewolves.mixin;
 
-import net.minecraft.util.FoodStats;
+import net.minecraft.world.food.FoodData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(FoodStats.class)
+@Mixin(FoodData.class)
 public interface FoodStatsAccessor {
 
     @Accessor("tickTimer")

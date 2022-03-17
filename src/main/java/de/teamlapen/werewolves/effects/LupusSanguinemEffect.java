@@ -1,16 +1,16 @@
 package de.teamlapen.werewolves.effects;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.client.gui.DisplayEffectsScreen;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.EffectType;
+import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 import javax.annotation.Nonnull;
 
@@ -19,7 +19,7 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     private static final String REG_NAME = "lupus_sanguinem";
 
     public LupusSanguinemEffect() {
-        super(REG_NAME, EffectType.HARMFUL, 0xe012ef);
+        super(REG_NAME, MobEffectCategory.HARMFUL, 0xe012ef);
     }
 
     public static void addSanguinemEffectRandom(@Nonnull LivingEntity entity, float percentage) {
@@ -30,8 +30,8 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
 
     public static void addSanguinemEffect(@Nonnull LivingEntity entity) {
         boolean canBecomeWerewolf = false; //TODO other entities
-        if (entity instanceof PlayerEntity) {
-            canBecomeWerewolf = Helper.canBecomeWerewolf(((PlayerEntity) entity));
+        if (entity instanceof Player) {
+            canBecomeWerewolf = Helper.canBecomeWerewolf(((Player) entity));
         }
         if (canBecomeWerewolf) {
             entity.addEffect(new LupusSanguinemEffectInstance(Integer.MAX_VALUE));
@@ -40,8 +40,8 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
 
     @Override
     public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
-        if (entityLivingBaseIn instanceof PlayerEntity) {
-            FactionPlayerHandler.get((PlayerEntity) entityLivingBaseIn).joinFaction(WReference.WEREWOLF_FACTION);
+        if (entityLivingBaseIn instanceof Player) {
+            FactionPlayerHandler.get((Player) entityLivingBaseIn).joinFaction(WReference.WEREWOLF_FACTION);
         }
     }
 
@@ -51,12 +51,12 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     }
 
     @Override
-    public boolean shouldRenderInvText(EffectInstance effect) {
+    public boolean shouldRenderInvText(MobEffectInstance effect) {
         return false;
     }
 
     @Override
-    public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, MatrixStack mStack, int x, int y, float z) {
+    public void renderInventoryEffect(MobEffectInstance effect, EffectRenderingInventoryScreen<?> gui, PoseStack mStack, int x, int y, float z) {
         super.renderInventoryEffect(effect, gui, mStack, x, y, z);
         String s = UtilLib.translate(effect.getEffect().getDescriptionId());
         ((ScreenAccessor) gui).getFont().drawShadow(mStack, s, (float) (x + 10 + 18), (float) (y + 6), 16777215);

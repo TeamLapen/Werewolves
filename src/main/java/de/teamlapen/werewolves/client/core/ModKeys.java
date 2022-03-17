@@ -5,13 +5,13 @@ import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.network.InputEventPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
@@ -28,8 +28,8 @@ public class ModKeys {
     private static final String LEAP_KEY = "keys.werewolves.leap";
     private static final String BITE_KEY = "keys.werewolves.bite";
 
-    private static final KeyBinding LEAP = new KeyBinding(LEAP_KEY, KeyConflictContext.IN_GAME, KeyModifier.CONTROL, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_SPACE, CATEGORY);
-    private static final KeyBinding BITE = new KeyBinding(BITE_KEY, KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY);
+    private static final KeyMapping LEAP = new KeyMapping(LEAP_KEY, KeyConflictContext.IN_GAME, KeyModifier.CONTROL, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_SPACE, CATEGORY);
+    private static final KeyMapping BITE = new KeyMapping(BITE_KEY, KeyConflictContext.IN_GAME, KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY);
 
     public static void register(ClientEventHandler clientEventHandler) {
         MinecraftForge.EVENT_BUS.register(new ModKeys(clientEventHandler));
@@ -45,9 +45,9 @@ public class ModKeys {
 
     @SubscribeEvent
     public void handleInputEvent(InputEvent event) {
-        Optional<KeyBinding> keyOpt = getPressedKeyBinding();
+        Optional<KeyMapping> keyOpt = getPressedKeyBinding();
         keyOpt.ifPresent(key -> {
-            PlayerEntity player = Minecraft.getInstance().player;
+            Player player = Minecraft.getInstance().player;
             LazyOptional<WerewolfPlayer> werewolfOpt = WerewolfPlayer.getOptEx(Minecraft.getInstance().player);
             if (key == LEAP) {
                 werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.leap) && w.getForm().isTransformed()).ifPresent(w -> {
@@ -56,10 +56,10 @@ public class ModKeys {
                 });
             } else if (key == BITE) {
                 werewolfOpt.ifPresent(werewolf -> {
-                    RayTraceResult mouseOver = Minecraft.getInstance().hitResult;
-                    Entity entity = mouseOver instanceof EntityRayTraceResult ? ((EntityRayTraceResult) mouseOver).getEntity() : null;
+                    HitResult mouseOver = Minecraft.getInstance().hitResult;
+                    Entity entity = mouseOver instanceof EntityHitResult ? ((EntityHitResult) mouseOver).getEntity() : null;
                     if (entity instanceof LivingEntity && werewolf.canBite() && werewolf.canBiteEntity(((LivingEntity) entity))) {
-                        WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityRayTraceResult) mouseOver).getEntity().getId()));
+                        WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityHitResult) mouseOver).getEntity().getId()));
                         clientEventHandler.onZoomPressed();
                     }
                 });
@@ -67,7 +67,7 @@ public class ModKeys {
         });
     }
 
-    public Optional<KeyBinding> getPressedKeyBinding() {
+    public Optional<KeyMapping> getPressedKeyBinding() {
         if (LEAP.consumeClick()) {
             return Optional.of(LEAP);
         } else if (BITE.consumeClick()) {

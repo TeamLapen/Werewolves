@@ -3,15 +3,15 @@ package de.teamlapen.werewolves.world.loot;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import de.teamlapen.werewolves.util.WUtils;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.conditions.Alternative;
-import net.minecraft.loot.conditions.EntityHasProperty;
-import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.predicates.AlternativeLootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
@@ -23,14 +23,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import static net.minecraft.loot.LootSerializers.createLootTableSerializer;
-import static net.minecraft.loot.LootTable.createStackSplitter;
 
 @ParametersAreNonnullByDefault
 public class MobLootModifier extends LootModifier {
 
     private final LootTable lootTable;
 
-    public MobLootModifier(ILootCondition[] conditionsIn, LootTable lootTable) {
+    public MobLootModifier(LootItemCondition[] conditionsIn, LootTable lootTable) {
         super(conditionsIn);
         this.lootTable = lootTable;
     }
@@ -68,7 +67,7 @@ public class MobLootModifier extends LootModifier {
             if (this.entityTypes.isEmpty()) {
                 throw new IllegalStateException("You must specify target entities");
             }
-            return new MobLootModifier(new ILootCondition[]{this.entityTypes.stream().map(type -> EntityHasProperty.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(type))).collect(Alternative.Builder::new, Alternative.Builder::or, Alternative.Builder::or).build()}, this.lootTable);
+            return new MobLootModifier(new LootItemCondition[]{this.entityTypes.stream().map(type -> LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(type))).collect(AlternativeLootItemCondition.Builder::new, AlternativeLootItemCondition.Builder::or, AlternativeLootItemCondition.Builder::or).build()}, this.lootTable);
         }
 
     }
@@ -77,7 +76,7 @@ public class MobLootModifier extends LootModifier {
         private static final Gson LOOT_TABLE_SERIALIZER = createLootTableSerializer().create();
 
         @Override
-        public MobLootModifier read(ResourceLocation location, JsonObject object, ILootCondition[] lootConditions) {
+        public MobLootModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] lootConditions) {
             return new MobLootModifier(lootConditions, ForgeHooks.loadLootTable(LOOT_TABLE_SERIALIZER, location, object.get("loottable"), true, WUtils.LOOT_TABLE_MANAGER));
         }
         @Override

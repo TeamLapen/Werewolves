@@ -6,7 +6,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class LeapAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
 
@@ -32,7 +32,7 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
     }
 
     @Override
-    public boolean showInSelectAction(PlayerEntity player) {
+    public boolean showInSelectAction(Player player) {
         return false;
     }
 

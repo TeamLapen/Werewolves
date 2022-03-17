@@ -13,10 +13,10 @@ import de.teamlapen.werewolves.util.WUtils;
 import de.teamlapen.werewolves.world.JacarandaTree;
 import de.teamlapen.werewolves.world.MagicTree;
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -25,6 +25,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.SoundType;
 
 @ObjectHolder(REFERENCE.MODID)
 public class ModBlocks {

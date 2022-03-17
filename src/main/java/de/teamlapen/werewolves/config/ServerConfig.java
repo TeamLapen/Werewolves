@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.config;
 
 import de.teamlapen.lib.lib.util.UtilLib;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Collections;

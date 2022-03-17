@@ -4,10 +4,10 @@ import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,15 +22,15 @@ public class WerewolfModelWrapper<T extends LivingEntity> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private WerewolfBaseModel<T> model;
-    private Collection<LayerRenderer<T, WerewolfBaseModel<T>>> layers;
+    private Collection<RenderLayer<T, WerewolfBaseModel<T>>> layers;
     public List<ResourceLocation> textures;
     public final Supplier<WerewolfBaseModel<T>> modelSupplier;
-    private final Function<LivingRenderer<T, WerewolfBaseModel<T>>, Collection<LayerRenderer<T, WerewolfBaseModel<T>>>> layersFactory;
+    private final Function<LivingEntityRenderer<T, WerewolfBaseModel<T>>, Collection<RenderLayer<T, WerewolfBaseModel<T>>>> layersFactory;
     public final Supplier<List<ResourceLocation>> texturesSupplier;
     public final float shadow;
     public final boolean skipPlayerModel;
 
-    public WerewolfModelWrapper(Supplier<WerewolfBaseModel<T>> model, Function<LivingRenderer<T, WerewolfBaseModel<T>>, Collection<LayerRenderer<T, WerewolfBaseModel<T>>>> layersFactory, Supplier<List<ResourceLocation>> texturesSupplier, float shadow, boolean skipPlayerModel) {
+    public WerewolfModelWrapper(Supplier<WerewolfBaseModel<T>> model, Function<LivingEntityRenderer<T, WerewolfBaseModel<T>>, Collection<RenderLayer<T, WerewolfBaseModel<T>>>> layersFactory, Supplier<List<ResourceLocation>> texturesSupplier, float shadow, boolean skipPlayerModel) {
         this.modelSupplier = model;
         this.texturesSupplier = texturesSupplier;
         this.shadow = shadow;
@@ -38,7 +38,7 @@ public class WerewolfModelWrapper<T extends LivingEntity> {
         this.layersFactory = layersFactory;
     }
 
-    public WerewolfModelWrapper(Supplier<WerewolfBaseModel<T>> model, Function<LivingRenderer<T, WerewolfBaseModel<T>>, Collection<LayerRenderer<T, WerewolfBaseModel<T>>>> layersFactory, ResourceLocation texture, float shadow, boolean skipPlayerModel) {
+    public WerewolfModelWrapper(Supplier<WerewolfBaseModel<T>> model, Function<LivingEntityRenderer<T, WerewolfBaseModel<T>>, Collection<RenderLayer<T, WerewolfBaseModel<T>>>> layersFactory, ResourceLocation texture, float shadow, boolean skipPlayerModel) {
         this(model, layersFactory, () -> Collections.singletonList(texture), shadow, skipPlayerModel);
     }
 
@@ -46,13 +46,13 @@ public class WerewolfModelWrapper<T extends LivingEntity> {
         this(model, (a) -> Collections.emptyList(), () -> Collections.singletonList(textures), shadow, skipPlayerModel);
     }
 
-    public void refresh(LivingRenderer<T, WerewolfBaseModel<T>> renderer) {
+    public void refresh(LivingEntityRenderer<T, WerewolfBaseModel<T>> renderer) {
         this.layers = Collections.unmodifiableCollection(layersFactory.apply(renderer));
         this.model = modelSupplier.get();
         this.textures = texturesSupplier.get();
     }
 
-    public Collection<LayerRenderer<T, WerewolfBaseModel<T>>> getLayers() {
+    public Collection<RenderLayer<T, WerewolfBaseModel<T>>> getLayers() {
         return layers;
     }
 

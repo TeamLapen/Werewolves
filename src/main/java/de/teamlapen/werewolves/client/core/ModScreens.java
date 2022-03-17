@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.werewolves.client.gui.StoneAltarScreen;
 import de.teamlapen.werewolves.core.ModContainer;
-import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -10,6 +10,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ModScreens {
 
     public static void registerScreensUnsafe() {
-        ScreenManager.register(ModContainer.stone_altar_container, StoneAltarScreen::new);
+        MenuScreens.register(ModContainer.stone_altar_container, StoneAltarScreen::new);
     }
 }

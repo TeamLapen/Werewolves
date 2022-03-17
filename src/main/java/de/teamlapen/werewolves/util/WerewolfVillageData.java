@@ -8,14 +8,14 @@ import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModVillage;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.tileentity.BannerPattern;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class WerewolfVillageData {
 
@@ -31,8 +31,8 @@ public class WerewolfVillageData {
 
     public static ItemStack createBanner() {
         ItemStack itemStack = new ItemStack(Items.YELLOW_BANNER);
-        CompoundNBT compoundNBT = itemStack.getOrCreateTagElement("BlockEntityTag");
-        ListNBT listNBT = new BannerPattern.Builder()
+        CompoundTag compoundNBT = itemStack.getOrCreateTagElement("BlockEntityTag");
+        ListTag listNBT = new BannerPattern.Builder()
                 .addPattern(BannerPattern.RHOMBUS_MIDDLE, DyeColor.BLACK)
                 .addPattern(BannerPattern.TRIANGLE_BOTTOM, DyeColor.BLACK)
                 .addPattern(BannerPattern.BORDER, DyeColor.BLACK)
@@ -40,8 +40,8 @@ public class WerewolfVillageData {
                 .addPattern(BannerPattern.TRIANGLES_TOP, DyeColor.BROWN)
                 .toListTag();
         compoundNBT.put("Patterns", listNBT);
-        itemStack.hideTooltipPart(ItemStack.TooltipDisplayFlags.ADDITIONAL);
-        itemStack.setHoverName((new TranslationTextComponent("block.minecraft.ominous_banner")).withStyle(TextFormatting.GOLD));
+        itemStack.hideTooltipPart(ItemStack.TooltipPart.ADDITIONAL);
+        itemStack.setHoverName((new TranslatableComponent("block.minecraft.ominous_banner")).withStyle(ChatFormatting.GOLD));
         return itemStack;
     }
 }

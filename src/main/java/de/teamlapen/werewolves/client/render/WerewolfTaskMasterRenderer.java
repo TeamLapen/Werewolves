@@ -1,14 +1,14 @@
 package de.teamlapen.werewolves.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism.client.render.layers.TaskMasterTypeLayer;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTaskMasterEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.model.VillagerModel;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.model.VillagerModel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -17,7 +17,7 @@ public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEn
     private final static ResourceLocation texture = new ResourceLocation("textures/entity/villager/villager.png");
     private final static ResourceLocation overlay = new ResourceLocation("vampirism", "textures/entity/vampire_task_master_overlay.png");
 
-    public WerewolfTaskMasterRenderer(EntityRendererManager renderManagerIn) {
+    public WerewolfTaskMasterRenderer(EntityRenderDispatcher renderManagerIn) {
         super(renderManagerIn, new VillagerModel<>(0f), 0.5f);
         this.addLayer(new TaskMasterTypeLayer<>(this, overlay));
     }
@@ -28,7 +28,7 @@ public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEn
     }
 
     @Override
-    protected void renderNameTag(WerewolfTaskMasterEntity entityIn, ITextComponent displayNameIn, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    protected void renderNameTag(WerewolfTaskMasterEntity entityIn, Component displayNameIn, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         double dist = this.entityRenderDispatcher.distanceToSqr(entityIn);
         if (dist <= 128) {
             super.renderNameTag(entityIn, displayNameIn, matrixStackIn, bufferIn, packedLightIn);

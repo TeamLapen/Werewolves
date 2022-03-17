@@ -7,11 +7,11 @@ import de.teamlapen.vampirism.core.ModBlocks;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.util.WeighedRandom;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.List;
@@ -20,8 +20,8 @@ public class ModWorldEventHandler {
 
     @SubscribeEvent
     public void onVillageCaptureFinish(VampirismVillageEvent.VillagerCaptureFinish.Pre event) {
-        World world = ((TileEntity) event.getTotem()).getLevel();
-        List<MobEntity> werewolves = world.getEntitiesOfClass(MobEntity.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
+        Level world = ((BlockEntity) event.getTotem()).getLevel();
+        List<Mob> werewolves = world.getEntitiesOfClass(Mob.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
         if (WReference.WEREWOLF_FACTION.equals(event.getControllingFaction())) {
             werewolves.forEach(e -> {
                 if (((WerewolfTransformable) e).canTransform()) {
@@ -31,7 +31,7 @@ public class ModWorldEventHandler {
                 }
             });
         } else {
-            for (MobEntity werewolf : werewolves) {
+            for (Mob werewolf : werewolves) {
                 if (werewolf instanceof IVillagerTransformable) {
                     ((IVillagerTransformable) werewolf).transformBack();
                     ((IVillagerTransformable) werewolf).setWerewolfFaction(false);
@@ -51,7 +51,7 @@ public class ModWorldEventHandler {
     @SubscribeEvent
     public void onVillageReplaceBlock(VampirismVillageEvent.ReplaceBlock event) {
         if (event.getState().getBlock() == ModBlocks.cursed_earth) {
-            ((TileEntity) event.getTotem()).getLevel().setBlockAndUpdate(event.getBlockPos(), ((TileEntity) event.getTotem()).getLevel().getBiome(event.getBlockPos()).getGenerationSettings().getSurfaceBuilderConfig().getTopMaterial());
+            ((BlockEntity) event.getTotem()).getLevel().setBlockAndUpdate(event.getBlockPos(), ((BlockEntity) event.getTotem()).getLevel().getBiome(event.getBlockPos()).getGenerationSettings().getSurfaceBuilderConfig().getTopMaterial());
         }
     }
     @SubscribeEvent
@@ -62,15 +62,15 @@ public class ModWorldEventHandler {
         }
     }
 
-    private void spawnEntity(World world, MobEntity newEntity, MobEntity oldEntity, boolean replaceOld) {
+    private void spawnEntity(Level world, Mob newEntity, Mob oldEntity, boolean replaceOld) {
         newEntity.restoreFrom(oldEntity);
-        newEntity.setUUID(MathHelper.createInsecureUUID());
+        newEntity.setUUID(Mth.createInsecureUUID());
         if (replaceOld) oldEntity.remove();
         world.addFreshEntity(newEntity);
     }
 
-    private MobEntity getCaptureEntity(IFaction<?> faction, World world) {
+    private Mob getCaptureEntity(IFaction<?> faction, Level world) {
         List<CaptureEntityEntry> entry = faction.getVillageData().getCaptureEntries();
-        return WeightedRandom.getRandomItem(world.getRandom(), entry).getEntity().create(world);
+        return WeighedRandom.getRandomItem(world.getRandom(), entry).getEntity().create(world);
     }
 }

@@ -1,17 +1,17 @@
 package de.teamlapen.werewolves.entities.goals;
 
 import de.teamlapen.vampirism.api.entity.IEntityLeader;
-import de.teamlapen.vampirism.entity.vampire.BasicVampireEntity;
 import de.teamlapen.werewolves.entities.IEntityFollower;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.TargetGoal;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal.Flag;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 import java.util.EnumSet;
 import java.util.Optional;
 
-public class DefendLeaderGoal<T extends MobEntity & IEntityFollower> extends TargetGoal {
+public class DefendLeaderGoal<T extends Mob & IEntityFollower> extends TargetGoal {
 
     private final T entity;
     private LivingEntity attacker;
@@ -31,7 +31,7 @@ public class DefendLeaderGoal<T extends MobEntity & IEntityFollower> extends Tar
         } else {
             this.attacker = leader.get().getRepresentingEntity().getLastHurtByMob();
             int i = leader.get().getRepresentingEntity().getLastHurtByMobTimestamp();
-            return i != this.timestamp && this.canAttack(this.attacker, EntityPredicate.DEFAULT);
+            return i != this.timestamp && this.canAttack(this.attacker, TargetingConditions.DEFAULT);
         }
     }
 

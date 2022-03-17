@@ -7,14 +7,14 @@ import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.werewolves.command.*;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
 import de.teamlapen.werewolves.command.arguments.serializer.WerewolfFormArgumentSerializer;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.arguments.ArgumentTypes;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.synchronization.ArgumentTypes;
 
 import java.util.List;
 
 public class ModCommands {
 
-    public static void registerCommands(CommandDispatcher<CommandSource> dispatcher) {
+    public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
         List<String> main = Lists.newArrayList("werewolves");
         List<String> test = Lists.newArrayList("vampirism-test");
         if (VampirismMod.inDev) {
@@ -24,7 +24,7 @@ public class ModCommands {
 
         for (String s : main) {
             dispatcher.register(
-                    LiteralArgumentBuilder.<CommandSource>literal(s)
+                    LiteralArgumentBuilder.<CommandSourceStack>literal(s)
                             .then(WerewolfEyeCommand.register())
                             .then(WerewolfSkinCommand.register())
                             .then(WerewolfGlowingEyeCommand.register())
@@ -32,7 +32,7 @@ public class ModCommands {
         }
 
         for (String s : test) {
-            dispatcher.register(LiteralArgumentBuilder.<CommandSource>literal(s)
+            dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(s)
                     .then(MinionCommand.register())
                     .then(WerewolfTransformCommand.register()));
         }

@@ -5,18 +5,20 @@ import de.teamlapen.werewolves.core.ModRegistries;
 import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.items.oil.WeaponOil;
 import de.teamlapen.werewolves.util.OilUtils;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+
+import net.minecraft.world.item.Item.Properties;
 
 public class OilItem extends Item implements IOilItem {
 
@@ -32,18 +34,18 @@ public class OilItem extends Item implements IOilItem {
 
     @Nonnull
     @Override
-    public ITextComponent getName(@Nonnull ItemStack stack) {
+    public Component getName(@Nonnull ItemStack stack) {
         IOil oil = OilUtils.getOil(stack);
-        return new TranslationTextComponent("oil." + oil.getRegistryName().getNamespace() + "." + oil.getRegistryName().getPath()).append(" ").append(new TranslationTextComponent(this.getDescriptionId(stack)));
+        return new TranslatableComponent("oil." + oil.getRegistryName().getNamespace() + "." + oil.getRegistryName().getPath()).append(" ").append(new TranslatableComponent(this.getDescriptionId(stack)));
     }
 
     @Override
-    public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> tooltips, @Nonnull ITooltipFlag flag) {
+    public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level level, @Nonnull List<Component> tooltips, @Nonnull TooltipFlag flag) {
         OilUtils.addOilTooltip(stack, tooltips);
     }
 
     @Override
-    public void fillItemCategory(@Nonnull ItemGroup itemGroup, @Nonnull NonNullList<ItemStack> items) {
+    public void fillItemCategory(@Nonnull CreativeModeTab itemGroup, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowdedIn(itemGroup)) {
             for (IOil value : ModRegistries.WEAPON_OILS.getValues()) {
                 if (value == ModOils.empty) continue;

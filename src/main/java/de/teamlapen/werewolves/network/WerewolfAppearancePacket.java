@@ -4,14 +4,14 @@ import de.teamlapen.lib.network.IMessage;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 public class WerewolfAppearancePacket implements IMessage {
 
-    static void encode(WerewolfAppearancePacket msg, PacketBuffer buf) {
+    static void encode(WerewolfAppearancePacket msg, FriendlyByteBuf buf) {
         buf.writeVarInt(msg.entityId);
         buf.writeUtf(msg.name);
         buf.writeUtf(msg.form.getName());
@@ -21,7 +21,7 @@ public class WerewolfAppearancePacket implements IMessage {
         }
     }
 
-    static WerewolfAppearancePacket decode(PacketBuffer buf) {
+    static WerewolfAppearancePacket decode(FriendlyByteBuf buf) {
         int entityId = buf.readVarInt();
         String newName = buf.readUtf(MinionData.MAX_NAME_LENGTH);
         String form = buf.readUtf(32767);

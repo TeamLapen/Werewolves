@@ -22,23 +22,23 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
@@ -53,12 +53,12 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         MinionData.registerDataType(WerewolfMinionEntity.WerewolfMinionData.ID, WerewolfMinionEntity.WerewolfMinionData::new);
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributeBuilder() {
+    public static AttributeSupplier.Builder getAttributeBuilder() {
         return BasicHunterEntity.getAttributeBuilder();
     }
 
-    public WerewolfMinionEntity(EntityType<? extends VampirismEntity> type, World world) {
-        super(type, world, VampirismAPI.factionRegistry().getPredicate(WReference.WEREWOLF_FACTION, true, true, false, false, null).or(e -> !(e instanceof IFactionEntity) && (e instanceof IMob) && !(e instanceof CreeperEntity)));
+    public WerewolfMinionEntity(EntityType<? extends VampirismEntity> type, Level world) {
+        super(type, world, VampirismAPI.factionRegistry().getPredicate(WReference.WEREWOLF_FACTION, true, true, false, false, null).or(e -> !(e instanceof IFactionEntity) && (e instanceof Enemy) && !(e instanceof Creeper)));
     }
 
     @Override
@@ -99,7 +99,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
     @Nonnull
     @Override
-    public ItemStack eat(@Nonnull World world, @Nonnull ItemStack stack) {
+    public ItemStack eat(@Nonnull Level world, @Nonnull ItemStack stack) {
         if (stack.isEdible() && Helper.isRawMeat(stack)) {
             float healAmount = stack.getItem().getFoodProperties().getNutrition() / 2f;
             this.heal(healAmount);
@@ -114,25 +114,25 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     @Override
-    public Predicate<ItemStack> getEquipmentPredicate(EquipmentSlotType slotType) {
-        return itemStack -> ((itemStack.getItem() instanceof IFactionExclusiveItem) && ((IFactionExclusiveItem) itemStack.getItem()).getExclusiveFaction().equals(WReference.WEREWOLF_FACTION)) || itemStack.getUseAnimation() == UseAction.DRINK || itemStack.getUseAnimation() == UseAction.EAT;
+    public Predicate<ItemStack> getEquipmentPredicate(EquipmentSlot slotType) {
+        return itemStack -> ((itemStack.getItem() instanceof IFactionExclusiveItem) && ((IFactionExclusiveItem) itemStack.getItem()).getExclusiveFaction().equals(WReference.WEREWOLF_FACTION)) || itemStack.getUseAnimation() == UseAnim.DRINK || itemStack.getUseAnimation() == UseAnim.EAT;
     }
 
     @Override
-    protected ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (!this.level.isClientSide() && isLord(player) && minionData != null) {
             ItemStack heldItem = player.getItemInHand(hand);
             if (heldItem.getItem() instanceof WerewolfMinionUpgradeItem && ((WerewolfMinionUpgradeItem) heldItem.getItem()).getFaction() == this.getFaction()) {
                 if (this.minionData.level + 1 >= ((WerewolfMinionUpgradeItem) heldItem.getItem()).getMinLevel() && this.minionData.level + 1 <= ((WerewolfMinionUpgradeItem) heldItem.getItem()).getMaxLevel()) {
                     this.minionData.level++;
                     if (!player.abilities.instabuild) heldItem.shrink(1);
-                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.werewolf_minion.equipment_upgrade"), false);
+                    player.displayClientMessage(new TranslatableComponent("text.werewolves.werewolf_minion.equipment_upgrade"), false);
                     HelperLib.sync(this);
                 } else {
-                    player.displayClientMessage(new TranslationTextComponent("text.werewolves.werewolf_minion.equipment_wrong"), false);
+                    player.displayClientMessage(new TranslatableComponent("text.werewolves.werewolf_minion.equipment_wrong"), false);
 
                 }
-                return ActionResultType.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
         return super.mobInteract(player, hand);
@@ -217,7 +217,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public IFormattableTextComponent getFormattedName() {
+        public MutableComponent getFormattedName() {
             return super.getFormattedName().withStyle(WReference.WEREWOLF_FACTION.getChatColor());
         }
 
@@ -334,7 +334,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void deserializeNBT(CompoundNBT nbt) {
+        public void deserializeNBT(CompoundTag nbt) {
             super.deserializeNBT(nbt);
             this.level = nbt.getInt("level");
             this.inventoryLevel = nbt.getInt("l_inv");
@@ -348,7 +348,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void serializeNBT(CompoundNBT tag) {
+        public void serializeNBT(CompoundTag tag) {
             super.serializeNBT(tag);
             tag.putInt("level", this.level);
             tag.putInt("l_inv", this.inventoryLevel);

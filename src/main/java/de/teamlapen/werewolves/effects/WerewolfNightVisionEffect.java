@@ -1,25 +1,25 @@
 package de.teamlapen.werewolves.effects;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
 
-public class WerewolfNightVisionEffect extends EffectInstance {
+public class WerewolfNightVisionEffect extends MobEffectInstance {
 
     public WerewolfNightVisionEffect() {
         this(null);
     }
 
-    public WerewolfNightVisionEffect(EffectInstance otherEffect) {
-        super(Effects.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false, false, otherEffect);
+    public WerewolfNightVisionEffect(MobEffectInstance otherEffect) {
+        super(MobEffects.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false, false, otherEffect);
         this.setCurativeItems(Collections.emptyList());
     }
 
-    public boolean update(@Nonnull EffectInstance other) {
+    public boolean update(@Nonnull MobEffectInstance other) {
         return false;
     }
 
@@ -47,7 +47,7 @@ public class WerewolfNightVisionEffect extends EffectInstance {
     }
 
     @Nonnull
-    public CompoundNBT save(@Nonnull CompoundNBT nbt) {
+    public CompoundTag save(@Nonnull CompoundTag nbt) {
         return nbt;
     }
 

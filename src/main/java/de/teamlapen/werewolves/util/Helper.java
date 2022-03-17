@@ -7,16 +7,16 @@ import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return WReference.WEREWOLF_FACTION.equals(VampirismAPI.factionRegistry().getFaction(entity));
     }
 
-    public static boolean isWerewolf(PlayerEntity entity) {
+    public static boolean isWerewolf(Player entity) {
         return VampirismAPI.getFactionPlayerHandler((entity)).map(h -> WReference.WEREWOLF_FACTION.equals(h.getCurrentFaction())).orElse(false);
     }
 
@@ -42,21 +42,21 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return new BlockPos(pos.getX() * amount, pos.getY() * amount, pos.getZ() * amount);
     }
 
-    public static boolean canBecomeWerewolf(PlayerEntity player) {
+    public static boolean canBecomeWerewolf(Player player) {
         return FactionPlayerHandler.getOpt(player).map((v) -> v.canJoin(WReference.WEREWOLF_FACTION)).orElse(false);
     }
 
-    public static boolean isNight(World world) {
+    public static boolean isNight(Level world) {
         long time = world.getDayTime() % 24000;
         return !world.dimensionType().hasFixedTime() && time > 12786 && time < 23216;
     }
 
-    public static boolean isFullMoon(World world) {
+    public static boolean isFullMoon(Level world) {
         long time = world.getDayTime() % 192000;
         return !world.dimensionType().hasFixedTime() && time > 12786 && time < 23216;
     }
 
-    public static Map<Item, Integer> getMissingItems(IInventory inventory, Item[] items, int[] amount){
+    public static Map<Item, Integer> getMissingItems(Container inventory, Item[] items, int[] amount){
         Map<Item, Integer> missing = new HashMap<>();
         for (int i = 0; i < items.length; i++) {
             missing.put(items[i], amount[i]);
@@ -74,7 +74,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return new BiteDamageSource(cause, entity);
     }
 
-    public static BiteDamageSource causeWerewolfDamage(PlayerEntity entity) {
+    public static BiteDamageSource causeWerewolfDamage(Player entity) {
         return causeWerewolfDamage("player", entity);
     }
 
@@ -83,7 +83,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return !stack.isEdible() || ModTags.Items.COOKEDMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()) || ModTags.Items.RAWMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()) || stack.getItem().getFoodProperties().isMeat();
     }
 
-    public static boolean canWerewolfPlayerEatItem(PlayerEntity player, ItemStack stack) {
+    public static boolean canWerewolfPlayerEatItem(Player player, ItemStack stack) {
         return canWerewolfEatItem(stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false);
     }
 
@@ -96,8 +96,8 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         if (entity instanceof IWerewolf) {
             return ((IWerewolf) entity);
         }
-        if (entity instanceof PlayerEntity) {
-            return WerewolfPlayer.get(((PlayerEntity) entity));
+        if (entity instanceof Player) {
+            return WerewolfPlayer.get(((Player) entity));
         } else {
             return null;
         }
@@ -107,8 +107,8 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return Arrays.stream(ingredient.getItems()).anyMatch(stack -> stack.sameItem(searchStack) && stack.areShareTagsEqual(searchStack));
     }
 
-    public static IFormattableTextComponent joinComponents(String delimiter, IFormattableTextComponent... components) {
-        IFormattableTextComponent comp = components[0];
+    public static MutableComponent joinComponents(String delimiter, MutableComponent... components) {
+        MutableComponent comp = components[0];
         for (int i = 1; i < components.length; i++) {
             comp.append(delimiter).append(components[i]);
         }

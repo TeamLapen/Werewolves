@@ -23,25 +23,25 @@ import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormActi
 import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.util.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
@@ -56,6 +56,13 @@ import java.util.*;
 import java.util.function.Predicate;
 
 import static de.teamlapen.lib.lib.util.UtilLib.getNull;
+
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.food.FoodData;
 
 public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements IWerewolfPlayer {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -73,11 +80,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         }
     }
 
-    public static WerewolfPlayer get(@Nonnull PlayerEntity playerEntity) {
+    public static WerewolfPlayer get(@Nonnull Player playerEntity) {
         return (WerewolfPlayer) playerEntity.getCapability(CAP).orElseThrow(() -> new IllegalStateException("Cannot get werewolf player capability from player" + playerEntity));
     }
 
-    public static LazyOptional<WerewolfPlayer> getOpt(@Nonnull PlayerEntity playerEntity) {
+    public static LazyOptional<WerewolfPlayer> getOpt(@Nonnull Player playerEntity) {
         LazyOptional<WerewolfPlayer> opt = playerEntity.getCapability(CAP).cast();
         if (!opt.isPresent()) {
             LOGGER.warn("Cannot get Werewolf player capability. This might break mod functionality.", new Throwable().fillInStackTrace());
@@ -91,8 +98,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
      * already filters if the entity is a werewolf player
      */
     public static LazyOptional<WerewolfPlayer> getOptEx(@Nullable Entity entity) {
-        if (!(entity instanceof PlayerEntity) || !Helper.isWerewolf(((PlayerEntity) entity))) return LazyOptional.empty();
-        return getOpt(((PlayerEntity) entity));
+        if (!(entity instanceof Player) || !Helper.isWerewolf(((Player) entity))) return LazyOptional.empty();
+        return getOpt(((Player) entity));
     }
 
     //-- player --------------------------------------------------------------------------------------------------------
@@ -114,7 +121,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private final Map<WerewolfForm, Integer> skinType = new HashMap<>();
     private final Map<WerewolfForm, Boolean> glowingEyes = new HashMap<>();
 
-    public WerewolfPlayer(@Nonnull PlayerEntity player) {
+    public WerewolfPlayer(@Nonnull Player player) {
         super(player);
         this.actionHandler = new ActionHandler<>(this);
         this.skillHandler = new SkillHandler<>(this, WReference.WEREWOLF_FACTION);
@@ -140,9 +147,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     @Override
-    protected VampirismPlayer<IWerewolfPlayer> copyFromPlayer(PlayerEntity playerEntity) {
+    protected VampirismPlayer<IWerewolfPlayer> copyFromPlayer(Player playerEntity) {
         WerewolfPlayer oldWerewolf = get(playerEntity);
-        CompoundNBT nbt = new CompoundNBT();
+        CompoundTag nbt = new CompoundTag();
         oldWerewolf.saveData(nbt);
         this.loadData(nbt);
         return oldWerewolf;
@@ -163,13 +170,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         Set<UUID> uuids = Sets.newHashSet(ArmorItemAccessor.getARMOR_MODIFIERS());
         int i = 0;
         for (ItemStack stack : this.player.getArmorSlots()) {
-            EquipmentSlotType slotType = EquipmentSlotType.byTypeAndIndex(EquipmentSlotType.Group.ARMOR, i);
+            EquipmentSlot slotType = EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i);
             ++i;
             Multimap<Attribute, AttributeModifier> map = stack.getAttributeModifiers(slotType);
             for (Map.Entry<Attribute, Collection<AttributeModifier>> entry : map.asMap().entrySet()) {
                 for (AttributeModifier modifier : entry.getValue()) {
                     if (uuids.contains(modifier.getId())) {
-                        ModifiableAttributeInstance attribute = this.player.getAttribute(entry.getKey());
+                        AttributeInstance attribute = this.player.getAttribute(entry.getKey());
                         if (!attribute.hasModifier(modifier)) {
                             attribute.addPermanentModifier(modifier);
                         }
@@ -180,7 +187,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     @Override
-    public void onChangedDimension(RegistryKey<World> registryKey, RegistryKey<World> registryKey1) {
+    public void onChangedDimension(ResourceKey<Level> registryKey, ResourceKey<Level> registryKey1) {
 
     }
 
@@ -196,7 +203,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             if (!isRemote()) {
                 boolean sync = false;
                 boolean syncToAll = false;
-                CompoundNBT syncPacket = new CompoundNBT();
+                CompoundTag syncPacket = new CompoundTag();
                 if (this.actionHandler.updateActions()) {
                     sync = true;
                     syncToAll = true;
@@ -208,7 +215,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 }
                 if (this.player.level.getGameTime() % 10 == 0) {
                     if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
-                        this.specialAttributes.transformationTime = MathHelper.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.time_regain).getValue(), 0, 1);
+                        this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.time_regain).getValue(), 0, 1);
                         syncPacket.putDouble("transformationTime", this.specialAttributes.transformationTime);
                     }
                     if (this.player.level.getGameTime() % 20 == 0) {
@@ -220,7 +227,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                         }
 
                         if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover)) {
-                            this.player.addEffect(new EffectInstance(Effects.WEAKNESS, 50, 0, true, true));
+                            this.player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 50, 0, true, true));
                         }
                     }
                 }
@@ -240,7 +247,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     this.checkArmorModifer = false;
                 }
 
-                EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
+                MobEffectInstance effect = this.player.getEffect(MobEffects.NIGHT_VISION);
                 if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
                     if (!(effect instanceof WerewolfNightVisionEffect)) {
                         if (effect != null) {
@@ -263,13 +270,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
                 if (this.player.level.getGameTime() % 10 == 0) {
                     if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
-                        this.specialAttributes.transformationTime = MathHelper.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.time_regain).getValue()), 0, 1);
+                        this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.time_regain).getValue()), 0, 1);
                     }
                 }
 
-                EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
+                MobEffectInstance effect = this.player.getEffect(MobEffects.NIGHT_VISION);
                 if (this.getForm().isTransformed() && this.specialAttributes.night_vision && !(effect instanceof WerewolfNightVisionEffect)) {
-                    player.removeEffectNoUpdate(Effects.NIGHT_VISION);
+                    player.removeEffectNoUpdate(MobEffects.NIGHT_VISION);
                     player.addEffect(new WerewolfNightVisionEffect());
                 }
             }
@@ -283,7 +290,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private void tickFoodStats() {
         Difficulty difficulty = this.player.level.getDifficulty();
         boolean flag = this.player.level.getGameRules().getBoolean(GameRules.RULE_NATURAL_REGENERATION);
-        FoodStats stats = this.player.getFoodData();
+        FoodData stats = this.player.getFoodData();
         if (flag && stats.getSaturationLevel() > 0.0F && player.isHurt() && stats.getFoodLevel() >= 20) {
             if (((FoodStatsAccessor) stats).getFoodTimer() >= 9) {
                 float f = Math.min(stats.getSaturationLevel(), 6.0F);
@@ -309,8 +316,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (on != this.glowingEyes.getOrDefault(form, false)) {
             this.glowingEyes.put(form, on);
             if (!isRemote()) {
-                CompoundNBT nbt = new CompoundNBT();
-                CompoundNBT glowingEyes = new CompoundNBT();
+                CompoundTag nbt = new CompoundTag();
+                CompoundTag glowingEyes = new CompoundTag();
                 this.glowingEyes.forEach((key, value) -> glowingEyes.putBoolean(key.getName(), value));
                 nbt.put("glowingEyes", glowingEyes);
                 this.sync(nbt, true);
@@ -324,8 +331,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (type != this.eyeType.getOrDefault(form, -1)) {
             this.eyeType.put(form, type);
             if (!isRemote()) {
-                CompoundNBT nbt = new CompoundNBT();
-                CompoundNBT eye = new CompoundNBT();
+                CompoundTag nbt = new CompoundTag();
+                CompoundTag eye = new CompoundTag();
                 this.eyeType.forEach((key, value) -> eye.putInt(key.getName(), value));
                 nbt.put("eyeTypes", eye);
                 this.sync(nbt, true);
@@ -339,8 +346,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (type != this.skinType.getOrDefault(form,-1)) {
             this.skinType.put(form, type);
             if (!isRemote()) {
-                CompoundNBT nbt = new CompoundNBT();
-                CompoundNBT skin = new CompoundNBT();
+                CompoundTag nbt = new CompoundTag();
+                CompoundTag skin = new CompoundTag();
                 this.skinType.forEach((key, value) -> skin.putInt(key.getName(), value));
                 nbt.put("skinTypes", skin);
                 this.sync(nbt, true);
@@ -374,7 +381,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     @Override
     public void onEntityKilled(LivingEntity victim, DamageSource src) {
         if (this.getSkillHandler().isRefinementEquipped(ModRefinements.rage_fury)) {
-            this.player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,40, 1));
+            this.player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40, 1));
             this.actionHandler.extendActionTimer(ModActions.rage, WerewolvesConfig.BALANCE.REFINEMENTS.rage_fury_timer_extend.get());
         }
         this.levelHandler.increaseProgress((int) (victim.getMaxHealth() * 0.2));
@@ -389,7 +396,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     public void syncLevelHandler() {
-        CompoundNBT sync = new CompoundNBT();
+        CompoundTag sync = new CompoundTag();
         this.levelHandler.saveToNbt(sync);
         this.sync(sync, false);
     }
@@ -410,7 +417,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     public boolean canBiteEntity(LivingEntity entity) {
-        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1 && (!(entity instanceof PlayerEntity) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
+        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1 && (!(entity instanceof Player) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
     }
 
     public boolean canBite(){
@@ -434,7 +441,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         boolean flag = entity.hurt(Helper.causeWerewolfDamage(this.player), (float) damage);
         if (flag) {
             this.getRepresentingPlayer().playSound(ModSounds.entity_werewolf_bite, 1.0F, 1.0F);
-            this.getRepresentingPlayer().playNotifySound(ModSounds.entity_werewolf_bite, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            this.getRepresentingPlayer().playNotifySound(ModSounds.entity_werewolf_bite, SoundSource.PLAYERS, 1.0F, 1.0F);
             this.eatEntity(entity);
             this.specialAttributes.biteTicks = WerewolvesConfig.BALANCE.PLAYER.bite_cooldown.get();
             if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {
@@ -442,12 +449,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 if (this.skillHandler.isRefinementEquipped(ModRefinements.stun_bite)) {
                     duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
                 }
-                entity.addEffect(new EffectInstance(ModEffects.V.freeze, duration));
+                entity.addEffect(new MobEffectInstance(ModEffects.V.freeze, duration));
             } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
-                entity.addEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.bleeding_bite) ? 3 : 0));
+                entity.addEffect(new MobEffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.bleeding_bite) ? 3 : 0));
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)), false);
-            if (!(entity instanceof PlayerEntity) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.INFECT_PLAYER)) {
+            if (!(entity instanceof Player) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.INFECT_PLAYER)) {
                 LupusSanguinemEffect.addSanguinemEffectRandom(entity, 0.1f);
             }
         }
@@ -558,7 +565,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     //-- load/save -----------------------------------------------------------------------------------------------------
 
     @Override
-    public void saveData(CompoundNBT compound) {
+    public void saveData(CompoundTag compound) {
         super.saveData(compound);
         this.actionHandler.saveToNbt(compound);
         this.skillHandler.saveToNbt(compound);
@@ -568,29 +575,29 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             compound.putString("lastFormAction", this.lastFormAction.getRegistryName().toString());
         }
         compound.putInt("biteTicks", this.specialAttributes.biteTicks);
-        CompoundNBT eye = new CompoundNBT();
+        CompoundTag eye = new CompoundTag();
         this.eyeType.forEach((key, value) -> eye.putInt(key.getName(), value));
         compound.put("eyeTypes", eye);
-        CompoundNBT skin = new CompoundNBT();
+        CompoundTag skin = new CompoundTag();
         this.skinType.forEach((key, value) -> skin.putInt(key.getName(), value));
         compound.put("skinTypes", skin);
-        CompoundNBT glowingEye = new CompoundNBT();
+        CompoundTag glowingEye = new CompoundTag();
         this.glowingEyes.forEach((key, value) -> glowingEye.putBoolean(key.getName(), value));
         compound.put("glowingEyes", glowingEye);
         compound.putDouble("transformationTime", this.specialAttributes.transformationTime);
     }
 
     @Override
-    public void loadData(CompoundNBT compound) {
+    public void loadData(CompoundTag compound) {
         super.loadData(compound);
         this.actionHandler.loadFromNbt(compound);
         this.skillHandler.loadFromNbt(compound);
         this.levelHandler.loadFromNbt(compound);
-        CompoundNBT armor = compound.getCompound("armor");
+        CompoundTag armor = compound.getCompound("armor");
         for (int i = 0; i < armor.size(); i++) {
             try { //TODO remove
                 ItemStack stack = ItemStack.of(armor.getCompound("" + i));
-                this.player.setItemSlot(EquipmentSlotType.values()[i],stack);
+                this.player.setItemSlot(EquipmentSlot.values()[i],stack);
             } catch (Exception ignored) {
 
             }
@@ -602,11 +609,11 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             this.lastFormAction = ((WerewolfFormAction) ModRegistries.ACTIONS.getValue(new ResourceLocation(compound.getString("lastFormAction"))));
         }
         this.specialAttributes.biteTicks = compound.getInt("biteTicks");
-        CompoundNBT eye = compound.getCompound("eyeTypes");
+        CompoundTag eye = compound.getCompound("eyeTypes");
         eye.getAllKeys().forEach(string -> this.eyeType.put(WerewolfForm.getForm(string), eye.getInt(string)));
-        CompoundNBT skin = compound.getCompound("skinTypes");
+        CompoundTag skin = compound.getCompound("skinTypes");
         skin.getAllKeys().forEach(string -> this.skinType.put(WerewolfForm.getForm(string), skin.getInt(string)));
-        CompoundNBT glowingEyes = compound.getCompound("glowingEyes");
+        CompoundTag glowingEyes = compound.getCompound("glowingEyes");
         glowingEyes.getAllKeys().forEach(string -> this.glowingEyes.put(WerewolfForm.getForm(string), glowingEyes.getBoolean(string)));
         if (compound.contains("transformationTime")) {
             this.specialAttributes.transformationTime = compound.getFloat("transformationTime");
@@ -614,27 +621,27 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     @Override
-    protected void writeFullUpdate(CompoundNBT nbt) {
+    protected void writeFullUpdate(CompoundTag nbt) {
         super.writeFullUpdate(nbt);
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
         this.levelHandler.saveToNbt(nbt);
         nbt.putString("form", this.form.getName());
         nbt.putInt("biteTicks", this.specialAttributes.biteTicks);
-        CompoundNBT eye = new CompoundNBT();
+        CompoundTag eye = new CompoundTag();
         this.eyeType.forEach((key, value) -> eye.putInt(key.getName(), value));
         nbt.put("eyeTypes", eye);
-        CompoundNBT skin = new CompoundNBT();
+        CompoundTag skin = new CompoundTag();
         this.skinType.forEach((key, value) -> skin.putInt(key.getName(), value));
         nbt.put("skinTypes", skin);
-        CompoundNBT glowingEye = new CompoundNBT();
+        CompoundTag glowingEye = new CompoundTag();
         this.glowingEyes.forEach((key, value) -> glowingEye.putBoolean(key.getName(), value));
         nbt.put("glowingEyes", glowingEye);
         nbt.putDouble("transformationTime", this.specialAttributes.transformationTime);
     }
 
     @Override
-    protected void loadUpdate(CompoundNBT nbt) {
+    protected void loadUpdate(CompoundTag nbt) {
         super.loadUpdate(nbt);
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
@@ -646,15 +653,15 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             this.specialAttributes.biteTicks = nbt.getInt("biteTicks");
         }
         if (nbt.contains("eyeTypes")){
-            CompoundNBT eye = nbt.getCompound("eyeTypes");
+            CompoundTag eye = nbt.getCompound("eyeTypes");
             eye.getAllKeys().forEach(string -> this.eyeType.put(WerewolfForm.getForm(string), eye.getInt(string)));
         }
         if (nbt.contains("skinTypes")){
-            CompoundNBT skin = nbt.getCompound("skinTypes");
+            CompoundTag skin = nbt.getCompound("skinTypes");
             skin.getAllKeys().forEach(string -> this.skinType.put(WerewolfForm.getForm(string), skin.getInt(string)));
         }
         if (nbt.contains("glowingEyes")) {
-            CompoundNBT glowingEyes = nbt.getCompound("glowingEyes");
+            CompoundTag glowingEyes = nbt.getCompound("glowingEyes");
             glowingEyes.getAllKeys().forEach(string -> this.glowingEyes.put(WerewolfForm.getForm(string), glowingEyes.getBoolean(string)));
         }
         if (nbt.contains("transformationTime")) {
@@ -669,8 +676,8 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         CapabilityManager.INSTANCE.register(IWerewolfPlayer.class, new Storage(), WerewolfPlayerDefaultImpl::new);
     }
 
-    public static ICapabilityProvider createNewCapability(final PlayerEntity playerEntity) {
-        return new ICapabilitySerializable<CompoundNBT>() {
+    public static ICapabilityProvider createNewCapability(final Player playerEntity) {
+        return new ICapabilitySerializable<CompoundTag>() {
 
             final IWerewolfPlayer inst = new WerewolfPlayer(playerEntity);
             final LazyOptional<IWerewolfPlayer> opt = LazyOptional.of(() -> inst);
@@ -682,12 +689,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
 
             @Override
-            public CompoundNBT serializeNBT() {
-                return (CompoundNBT) CAP.getStorage().writeNBT(CAP, inst, null);
+            public CompoundTag serializeNBT() {
+                return (CompoundTag) CAP.getStorage().writeNBT(CAP, inst, null);
             }
 
             @Override
-            public void deserializeNBT(CompoundNBT nbt) {
+            public void deserializeNBT(CompoundTag nbt) {
                 CAP.getStorage().readNBT(CAP, inst, null, nbt);
             }
         };
@@ -711,15 +718,15 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {
         @Nullable
         @Override
-        public INBT writeNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side) {
-            CompoundNBT compound = new CompoundNBT();
+        public Tag writeNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side) {
+            CompoundTag compound = new CompoundTag();
             ((WerewolfPlayer) instance).saveData(compound);
             return compound;
         }
 
         @Override
-        public void readNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side, INBT compound) {
-            ((WerewolfPlayer) instance).loadData((CompoundNBT) compound);
+        public void readNBT(Capability<IWerewolfPlayer> capability, IWerewolfPlayer instance, Direction side, Tag compound) {
+            ((WerewolfPlayer) instance).loadData((CompoundTag) compound);
         }
     }
 }

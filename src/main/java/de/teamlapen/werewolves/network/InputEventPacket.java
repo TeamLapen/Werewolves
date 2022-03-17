@@ -3,8 +3,8 @@ package de.teamlapen.werewolves.network;
 import de.teamlapen.lib.network.IMessage;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
@@ -31,11 +31,11 @@ public class InputEventPacket implements IMessage {
 
     }
 
-    static void encode(InputEventPacket msg, PacketBuffer buf) {
+    static void encode(InputEventPacket msg, FriendlyByteBuf buf) {
         buf.writeUtf(msg.action + SPLIT + msg.param);
     }
 
-    static InputEventPacket decode(PacketBuffer buf) {
+    static InputEventPacket decode(FriendlyByteBuf buf) {
         String[] s = buf.readUtf(50).split(SPLIT);
         InputEventPacket msg = new InputEventPacket();
         msg.action = s[0];
@@ -50,7 +50,7 @@ public class InputEventPacket implements IMessage {
     public static void handle(final InputEventPacket msg, Supplier<NetworkEvent.Context> contextSupplier) {
         final NetworkEvent.Context ctx = contextSupplier.get();
         Validate.notNull(msg.action);
-        ServerPlayerEntity player = ctx.getSender();
+        ServerPlayer player = ctx.getSender();
         Validate.notNull(player);
         ctx.enqueueWork(() -> {
             if (BITE.equals(msg.action)) {

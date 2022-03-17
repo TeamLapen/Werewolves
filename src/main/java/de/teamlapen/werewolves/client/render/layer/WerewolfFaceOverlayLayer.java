@@ -1,36 +1,36 @@
 package de.teamlapen.werewolves.client.render.layer;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
-public class WerewolfFaceOverlayLayer<T extends LivingEntity> extends LayerRenderer<T, WerewolfBaseModel<T>> {
+public class WerewolfFaceOverlayLayer<T extends LivingEntity> extends RenderLayer<T, WerewolfBaseModel<T>> {
 
     private final ResourceLocation[] eyeOverlays;
 
-    public WerewolfFaceOverlayLayer(LivingRenderer<T, WerewolfBaseModel<T>> renderer, ResourceLocation[] overlays) {
+    public WerewolfFaceOverlayLayer(LivingEntityRenderer<T, WerewolfBaseModel<T>> renderer, ResourceLocation[] overlays) {
         super(renderer);
         this.eyeOverlays = overlays;
     }
 
     @Override
-    public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        IWerewolf werewolf = entity instanceof IWerewolf ? (IWerewolf) entity : WerewolfPlayer.get(((PlayerEntity) entity));
+    public void render(@Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        IWerewolf werewolf = entity instanceof IWerewolf ? (IWerewolf) entity : WerewolfPlayer.get(((Player) entity));
         int eyeType = Math.max(0, Math.min(werewolf.getEyeType(), eyeOverlays.length - 1));
         RenderType renderType = werewolf.hasGlowingEyes() ? RenderType.eyes(eyeOverlays[eyeType]) : RenderType.entityCutoutNoCull(eyeOverlays[eyeType]);
-        IVertexBuilder vertexBuilderEye = bufferIn.getBuffer(renderType);
-        int packerOverlay = LivingRenderer.getOverlayCoords(entity, 0);
+        VertexConsumer vertexBuilderEye = bufferIn.getBuffer(renderType);
+        int packerOverlay = LivingEntityRenderer.getOverlayCoords(entity, 0);
         this.getParentModel().getModelRenderer().render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
     }
 }

@@ -10,49 +10,55 @@ import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.OpenDoorGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTransformable {
-    private static final DataParameter<Integer> FORM = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.INT);
-    private static final DataParameter<Integer> SKIN_TYPE = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.INT);
-    private static final DataParameter<Integer> EYE_TYPE = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.INT);
-    private static final DataParameter<Boolean> GLOWING_EYES = EntityDataManager.defineId(HumanWerewolfEntity.class, DataSerializers.BOOLEAN);
+public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransformable {
+    private static final EntityDataAccessor<Integer> FORM = SynchedEntityData.defineId(HumanWerewolfEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> SKIN_TYPE = SynchedEntityData.defineId(HumanWerewolfEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> EYE_TYPE = SynchedEntityData.defineId(HumanWerewolfEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> GLOWING_EYES = SynchedEntityData.defineId(HumanWerewolfEntity.class, EntityDataSerializers.BOOLEAN);
 
     private final EntityClassType classType;
     private final EntityActionTier actionTier;
 
     protected int rage;
 
-    public HumanWerewolfEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public HumanWerewolfEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
         this.classType = EntityClassType.getRandomClass(this.getRandom());
         this.actionTier = EntityActionTier.Medium;
     }
 
-    public static boolean spawnPredicateHumanWerewolf(EntityType<? extends CreatureEntity> entityType, IServerWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
+    public static boolean spawnPredicateHumanWerewolf(EntityType<? extends PathfinderMob> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, Random random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
-        if (!MobEntity.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
+        if (!Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
         if (random.nextInt(3) != 0) return false;
-        if (world.canSeeSkyFromBelowWater(blockPos) && MonsterEntity.isDarkEnoughToSpawn(world, blockPos, random))  {
+        if (world.canSeeSkyFromBelowWater(blockPos) && Monster.isDarkEnoughToSpawn(world, blockPos, random))  {
             return true;
         }
         return FormHelper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
@@ -69,15 +75,15 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new OpenDoorGoal(this, true));
         this.goalSelector.addGoal(2, new PanicGoal(this, 1.2));
 
-        this.goalSelector.addGoal(9, new RandomWalkingGoal(this, 0.7));
-        this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, PlayerEntity.class, 20F, 0.6F));
-        this.goalSelector.addGoal(10, new LookAtGoal(this, HunterBaseEntity.class, 17F));
-        this.goalSelector.addGoal(10, new LookAtGoal(this, VampireBaseEntity.class, 17F));
-        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(9, new RandomStrollGoal(this, 0.7));
+        this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, Player.class, 20F, 0.6F));
+        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, HunterBaseEntity.class, 17F));
+        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, VampireBaseEntity.class, 17F));
+        this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
@@ -97,7 +103,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
         super.aiStep();
         if (this.rage > 150) {
             WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
-            ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
+            ((Mob) werewolf).setLastHurtByMob(this.getTarget());
         }
         if (this.level.getGameTime() % 400 == 10) {
             if (Helper.isFullMoon(this.level)) {
@@ -112,8 +118,8 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
         this.rage = 0;
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributeBuilder() {
-        return CreatureEntity.createMobAttributes()
+    public static AttributeSupplier.Builder getAttributeBuilder() {
+        return PathfinderMob.createMobAttributes()
                 .add(Attributes.MOVEMENT_SPEED, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_speed.get())
                 .add(Attributes.FOLLOW_RANGE, 48.0D)
                 .add(Attributes.ATTACK_DAMAGE, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_attack_damage.get())
@@ -121,7 +127,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundNBT compound) {
+    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("form")) {
             int t = compound.getInt("form");
@@ -141,7 +147,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundNBT compound) {
+    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("form", this.getEntityData().get(FORM));
         compound.putInt("type", this.getEntityData().get(SKIN_TYPE));

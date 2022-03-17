@@ -12,12 +12,12 @@ import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.Permissions;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.Mth;
 import net.minecraftforge.server.permission.PermissionAPI;
 
 import javax.annotation.Nonnull;
@@ -140,11 +140,11 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
         if(!consumesWerewolfTime()) return false;
-        return (((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime = MathHelper.clamp(((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime + ((double) 1 / (double) getTimeModifier(werewolfPlayer)),0,1)) == 1;
+        return (((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime = Mth.clamp(((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime + ((double) 1 / (double) getTimeModifier(werewolfPlayer)),0,1)) == 1;
     }
 
     public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
-        PlayerEntity player = werewolfPlayer.getRepresentingPlayer();
+        Player player = werewolfPlayer.getRepresentingPlayer();
         boolean night = Helper.isNight(player.getCommandSenderWorld());
         for (Modifier attribute : this.attributes) {
             if (player.getAttribute(attribute.attribute).getModifier(!night ? attribute.nightUuid : attribute.dayUuid) != null) {
@@ -155,10 +155,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     public void applyModifier(IWerewolfPlayer werewolf) {
-        PlayerEntity player = werewolf.getRepresentingPlayer();
+        Player player = werewolf.getRepresentingPlayer();
         boolean night = Helper.isNight(player.getCommandSenderWorld());
         for (Modifier attribute : this.attributes) {
-            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
+            AttributeInstance ins = player.getAttribute(attribute.attribute);
             if (ins != null && ins.getModifier(attribute.dayUuid) == null) {
                 ins.addPermanentModifier(attribute.create(werewolf, night));
             }
@@ -166,9 +166,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     public void removeModifier(IWerewolfPlayer werewolf) {
-        PlayerEntity player = werewolf.getRepresentingPlayer();
+        Player player = werewolf.getRepresentingPlayer();
         for (Modifier attribute : this.attributes) {
-            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
+            AttributeInstance ins = player.getAttribute(attribute.attribute);
             if (ins != null) {
                 ins.removeModifier(attribute.dayUuid);
                 ins.removeModifier(attribute.nightUuid);

@@ -15,25 +15,25 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.inventory.container.StoneAltarContainer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -50,12 +50,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class StoneAltarTileEntity extends InventoryTileEntity implements ITickableTileEntity {
+public class StoneAltarTileEntity extends InventoryTileEntity implements TickableBlockEntity {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final ITextComponent NAME = new TranslationTextComponent("container.werewolves.stone_altar");
+    private static final Component NAME = new TranslatableComponent("container.werewolves.stone_altar");
     private int targetLevel;
     private Phase phase = Phase.NOT_RUNNING;
-    private PlayerEntity player;
+    private Player player;
     private UUID playerUuid;
     private int ticks;
     private final LazyOptional<IItemHandler> itemHandlerOptional = LazyOptional.of(this::createWrapper);
@@ -89,7 +89,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
                     if (ticks == 0) {
                         this.phase = Phase.ENDING;
                         this.ticks = 90;
-                        this.player.addEffect(new EffectInstance(Effects.BLINDNESS, 120, 3, false, false));
+                        this.player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 120, 3, false, false));
                         this.setChanged();
                         this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(StoneAltarBlock.LIT, false));
                     } else if (this.ticks % 10 == 0) {
@@ -154,7 +154,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         }
     }
 
-    public void setPlayer(PlayerEntity player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
@@ -190,7 +190,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         return phase;
     }
 
-    public Result canActivate(PlayerEntity player) {
+    public Result canActivate(Player player) {
         if (phase != Phase.NOT_RUNNING) {
             return Result.IS_RUNNING;
         }
@@ -218,7 +218,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         List<BlockPos> i = new ArrayList<>();
         List<BlockPos> h = new ArrayList<>();
 
-        AxisAlignedBB aabb = new AxisAlignedBB(this.worldPosition).inflate(3);
+        AABB aabb = new AABB(this.worldPosition).inflate(3);
         for (double x = aabb.minX; x <= aabb.maxX; ++x) {
             for (double y = aabb.minY; y <= aabb.maxY; ++y) {
                 for (double z = aabb.minZ; z <= aabb.maxZ; ++z) {
@@ -252,7 +252,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
         return targetLevel >= WerewolfLevelConf.StoneAltarRequirement.START_LVL && targetLevel <= WerewolfLevelConf.StoneAltarRequirement.LAST_LVL;
     }
 
-    private boolean checkItemRequirements(PlayerEntity player) {
+    private boolean checkItemRequirements(Player player) {
         WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(this.targetLevel);
         ItemStack missing = InventoryHelper.checkItems(this, new Item[]{ModItems.liver, ModItems.cracked_bone}, new int[]{req.liverAmount, req.bonesAmount});
         return missing.isEmpty();
@@ -265,41 +265,41 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
 
     @Nonnull
     @Override
-    protected ITextComponent getDefaultName() {
+    protected Component getDefaultName() {
         return NAME;
     }
 
     @Nonnull
     @Override
-    protected Container createMenu(int id, @Nonnull PlayerInventory playerInventory) {
-        return new StoneAltarContainer(id, playerInventory, this, this.level == null ? IWorldPosCallable.NULL : IWorldPosCallable.create(this.level, this.worldPosition));
+    protected AbstractContainerMenu createMenu(int id, @Nonnull Inventory playerInventory) {
+        return new StoneAltarContainer(id, playerInventory, this, this.level == null ? ContainerLevelAccess.NULL : ContainerLevelAccess.create(this.level, this.worldPosition));
     }
 
     @Nullable
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.worldPosition, 12, this.getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return new ClientboundBlockEntityDataPacket(this.worldPosition, 12, this.getUpdateTag());
     }
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        return this.save(new CompoundNBT());
+    public CompoundTag getUpdateTag() {
+        return this.save(new CompoundTag());
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
         this.load(null, pkt.getTag());//TODO check
     }
 
     @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+    public void handleUpdateTag(BlockState state, CompoundTag tag) {
         load(state, tag);
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT tagCompound) {
+    public void load(BlockState state, CompoundTag tagCompound) {
         super.load(state, tagCompound);
         if (tagCompound.hasUUID("player")) {
             UUID playerUuid = tagCompound.getUUID("player");
@@ -312,7 +312,7 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT compound) {
+    public CompoundTag save(CompoundTag compound) {
         if (player != null) {
             compound.putUUID("player", player.getUUID());
         }

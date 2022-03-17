@@ -1,11 +1,11 @@
 package de.teamlapen.werewolves.client.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.HandSide;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -38,16 +38,16 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
     }
 
     @Nullable
-    public abstract ModelRenderer getModelRenderer();
+    public abstract ModelPart getModelRenderer();
 
     @Nullable
-    public abstract ModelRenderer getHeadModel();
+    public abstract ModelPart getHeadModel();
 
     @Nullable
-    public abstract ModelRenderer getLeftArmModel();
+    public abstract ModelPart getLeftArmModel();
 
     @Nullable
-    public abstract ModelRenderer getRightArmModel();
+    public abstract ModelPart getRightArmModel();
 
 
     public void setPlayerModel(PlayerModel<T> model) {
@@ -56,16 +56,16 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
 
     @Nonnull
     @Override
-    protected abstract Iterable<ModelRenderer> bodyParts();
+    protected abstract Iterable<ModelPart> bodyParts();
 
     @Deprecated
     @Override
-    public void renderEars(@Nonnull MatrixStack stack, @Nonnull IVertexBuilder builder, int p_228287_3_, int p_228287_4_) {
+    public void renderEars(@Nonnull PoseStack stack, @Nonnull VertexConsumer builder, int p_228287_3_, int p_228287_4_) {
     }
 
     @Deprecated
     @Override
-    public void renderCloak(@Nonnull MatrixStack stack, @Nonnull IVertexBuilder builder, int p_228289_3_, int p_228289_4_) {
+    public void renderCloak(@Nonnull PoseStack stack, @Nonnull VertexConsumer builder, int p_228289_3_, int p_228289_4_) {
     }
 
     @Override
@@ -78,6 +78,6 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
     }
 
     @Override
-    public void translateToHand(@Nonnull HandSide p_225599_1_, @Nonnull MatrixStack p_225599_2_) {
+    public void translateToHand(@Nonnull HumanoidArm p_225599_1_, @Nonnull PoseStack p_225599_2_) {
     }
 }

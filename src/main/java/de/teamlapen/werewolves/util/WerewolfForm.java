@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.util;
 
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.Pose;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
@@ -21,14 +21,14 @@ public class WerewolfForm {
     @Nonnull
     private final String name;
     @Nullable
-    private final Map<Pose, EntitySize> sizeMap;
+    private final Map<Pose, EntityDimensions> sizeMap;
     private final boolean humanLike;
     private final boolean transformed;
     private final int skinTypes;
-    private final ITextComponent textComponent;
+    private final Component textComponent;
     private final Pair<Float,Float>  damageReduction;
 
-    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntitySize> sizeMap, boolean humanLike, boolean transformed, int skinTypes, Pair<Float,Float> damageReduction) {
+    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, Pair<Float,Float> damageReduction) {
         if (REGISTRY.containsKey(name)) throw new IllegalStateException("this name already exists");
         REGISTRY.put(name, this);
         if (sizeMap == null) {
@@ -39,7 +39,7 @@ public class WerewolfForm {
         this.humanLike = humanLike;
         this.transformed = transformed;
         this.skinTypes = skinTypes;
-        this.textComponent = new TranslationTextComponent("form.werewolves." + name);
+        this.textComponent = new TranslatableComponent("form.werewolves." + name);
         this.damageReduction = damageReduction;
     }
 
@@ -64,7 +64,7 @@ public class WerewolfForm {
         return name;
     }
 
-    public Optional<EntitySize> getSize(Pose pose) {
+    public Optional<EntityDimensions> getSize(Pose pose) {
         if (sizeMap != null) {
             return Optional.ofNullable(this.sizeMap.getOrDefault(pose, this.sizeMap.get(Pose.STANDING)));
         } else {
@@ -72,7 +72,7 @@ public class WerewolfForm {
         }
     }
 
-    public ITextComponent getTextComponent() {
+    public Component getTextComponent() {
         return textComponent.plainCopy();
     }
 

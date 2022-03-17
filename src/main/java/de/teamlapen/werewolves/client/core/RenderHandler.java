@@ -6,17 +6,17 @@ import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OutlineLayerBuffer;
+import net.minecraft.client.renderer.OutlineBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.client.shader.Shader;
-import net.minecraft.client.shader.ShaderGroup;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import com.mojang.blaze3d.pipeline.RenderTarget;
+import net.minecraft.client.renderer.PostPass;
+import net.minecraft.client.renderer.PostChain;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.TickEvent;
@@ -40,18 +40,18 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
     private final Minecraft mc;
     private final int VISION_FADE_TICKS = 30;
 
-    private OutlineLayerBuffer visionBuffer;
+    private OutlineBufferSource visionBuffer;
 
     private int ticks;
     private int lastTicks;
     @Nullable
-    private ShaderGroup blurShader;
+    private PostChain blurShader;
 
     private int displayHeight, displayWidth;
     private boolean isInsideVisionRendering = false;
 
 
-    private Shader blit0;
+    private PostPass blit0;
 
 
     public RenderHandler(@Nonnull Minecraft mc) {
@@ -97,16 +97,16 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
                         color = 0xFF0000;
                     }
                 }
-                EntityRendererManager renderManager = this.mc.getEntityRenderDispatcher();
+                EntityRenderDispatcher renderManager = this.mc.getEntityRenderDispatcher();
                 if (this.visionBuffer == null) {
-                    this.visionBuffer = new OutlineLayerBuffer(this.mc.renderBuffers().bufferSource());
+                    this.visionBuffer = new OutlineBufferSource(this.mc.renderBuffers().bufferSource());
                 }
                 int r = color >> 16 & 255;
                 int g = color >> 8 & 255;
                 int b = color & 255;
                 int alpha = (int) ((dist > ENTITY_NEAR_SQ_DISTANCE ? 50 : (dist / (double) ENTITY_NEAR_SQ_DISTANCE * 50d)) * getVisionProgress(event.getPartialRenderTick()));
                 this.visionBuffer.setColor(r, g, b, alpha);
-                float f = MathHelper.lerp(event.getPartialRenderTick(), entity.yRotO, entity.yRot);
+                float f = Mth.lerp(event.getPartialRenderTick(), entity.yRotO, entity.yRot);
                 this.isInsideVisionRendering = true;
                 EntityRenderer<? super Entity> entityRenderer = renderManager.getRenderer(entity);
                 entityRenderer.render(entity, f, event.getPartialRenderTick(), event.getMatrixStack(), this.visionBuffer, renderManager.getPackedLightCoords(entity, event.getPartialRenderTick()));
@@ -152,7 +152,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
 
     private void adjustVisionShaders(float progress) {
         if (blit0 == null) return;
-        progress = MathHelper.clamp(progress, 0, 1);
+        progress = Mth.clamp(progress, 0, 1);
         blit0.getEffect().safeGetUniform("ColorModulate").set((1 - 0.4F * progress), (1 - 0.5F * progress), (1 - 0.3F * progress), 1);
 
     }
@@ -168,7 +168,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
     }
 
     @Override
-    public void onResourceManagerReload(@Nonnull IResourceManager resourceManager, @Nonnull Predicate<IResourceType> resourcePredicate) {
+    public void onResourceManagerReload(@Nonnull ResourceManager resourceManager, @Nonnull Predicate<IResourceType> resourcePredicate) {
         this.reMakeShader();
     }
 
@@ -178,8 +178,8 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
         }
         ResourceLocation resourcelocationBlur = new ResourceLocation(REFERENCE.VMODID, "shaders/blank.json");
         try {
-            this.blurShader = new ShaderGroup(this.mc.getTextureManager(), this.mc.getResourceManager(), this.mc.getMainRenderTarget(), resourcelocationBlur);
-            Framebuffer swap = this.blurShader.getTempTarget("swap");
+            this.blurShader = new PostChain(this.mc.getTextureManager(), this.mc.getResourceManager(), this.mc.getMainRenderTarget(), resourcelocationBlur);
+            RenderTarget swap = this.blurShader.getTempTarget("swap");
 
             blit0 = blurShader.addPass("blit", swap, this.mc.getMainRenderTarget());
 

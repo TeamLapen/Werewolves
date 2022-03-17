@@ -6,19 +6,26 @@ import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModRecipes;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.data.*;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.SpecialRecipeBuilder;
 
 public class RecipeGenerator extends RecipeProvider {
     public RecipeGenerator(DataGenerator generatorIn) {
@@ -30,16 +37,16 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(@Nonnull Consumer<IFinishedRecipe> consumer) {
-        ITag<Item> sticks = Tags.Items.RODS_WOODEN;
-        ITag<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
-        ITag<Item> silver_nugget = ModTags.Items.SILVER_NUGGET;
-        ITag<Item> iron_ingot = Tags.Items.INGOTS_IRON;
-        ITag<Item> feathers = Tags.Items.FEATHERS;
-        IItemProvider crossbow_arrow = ModItems.V.crossbow_arrow_normal;
+    protected void buildShapelessRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
+        Tag<Item> sticks = Tags.Items.RODS_WOODEN;
+        Tag<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
+        Tag<Item> silver_nugget = ModTags.Items.SILVER_NUGGET;
+        Tag<Item> iron_ingot = Tags.Items.INGOTS_IRON;
+        Tag<Item> feathers = Tags.Items.FEATHERS;
+        ItemLike crossbow_arrow = ModItems.V.crossbow_arrow_normal;
 
-        CookingRecipeBuilder.smelting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 200).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer);
-        CookingRecipeBuilder.blasting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer, modId("silver_ingot_from_blasting"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 200).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer);
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer, modId("silver_ingot_from_blasting"));
 
         ShapelessRecipeBuilder.shapeless(ModBlocks.magic_planks, 4)
                 .requires(ModBlocks.magic_log).unlockedBy("has_magic_log", has(ModBlocks.magic_log))
@@ -95,7 +102,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('#', silver_nugget).unlockedBy("has_silver_nugget", has(silver_nugget))
                 .save(consumer, modId("silver_ingot_from_nuggets"));
 
-        CustomRecipeBuilder.special(ModRecipes.weapon_oil).save(consumer, REFERENCE.MODID + ":weapon_oil");
+        SpecialRecipeBuilder.special(ModRecipes.weapon_oil).save(consumer, REFERENCE.MODID + ":weapon_oil");
 
         ShapedWeaponTableRecipeBuilder.shapedWeaponTable(ModItems.crossbow_arrow_silver_bolt, 3).pattern(" X ").pattern("XYX").pattern(" S ").pattern(" F ")
                 .lava(1)

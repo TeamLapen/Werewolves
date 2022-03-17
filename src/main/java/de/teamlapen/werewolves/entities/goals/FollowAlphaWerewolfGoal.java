@@ -3,8 +3,8 @@ package de.teamlapen.werewolves.entities.goals;
 import de.teamlapen.vampirism.api.entity.IEntityLeader;
 import de.teamlapen.werewolves.entities.IEntityFollower;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
-import net.minecraft.command.arguments.EntityAnchorArgument;
-import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class FollowAlphaWerewolfGoal<T extends WerewolfBaseEntity & IEntityFollo
             this.delayCounter = 10;
             this.entity.getLeader().ifPresent(leader -> {
                 this.entity.getNavigation().moveTo(leader.getRepresentingEntity(), this.speed);
-                this.entity.lookAt(EntityAnchorArgument.Type.EYES, leader.getRepresentingEntity().position().add(0, leader.getRepresentingEntity().getEyeHeight(), 0));
+                this.entity.lookAt(EntityAnchorArgument.Anchor.EYES, leader.getRepresentingEntity().position().add(0, leader.getRepresentingEntity().getEyeHeight(), 0));
             });
         }
     }

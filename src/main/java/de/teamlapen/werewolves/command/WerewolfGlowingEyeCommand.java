@@ -6,13 +6,13 @@ import de.teamlapen.lib.lib.util.BasicCommand;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.world.entity.player.Player;
 
 public class WerewolfGlowingEyeCommand extends BasicCommand {
 
-    public static ArgumentBuilder<CommandSource,?> register() {
+    public static ArgumentBuilder<CommandSourceStack,?> register() {
         return Commands.literal("glowingEye")
                 .then(Commands.argument("form", WerewolfFormArgument.nonHumanForms())
                         .then(Commands.argument("on", BoolArgumentType.bool())
@@ -21,7 +21,7 @@ public class WerewolfGlowingEyeCommand extends BasicCommand {
                                 })));
     }
 
-    private static int setGlowingEyes(PlayerEntity playerEntity, boolean on, WerewolfForm form) {
+    private static int setGlowingEyes(Player playerEntity, boolean on, WerewolfForm form) {
         WerewolfPlayer.getOpt(playerEntity).ifPresent(w -> w.setGlowingEyes(form, on));
         return 0;
     }

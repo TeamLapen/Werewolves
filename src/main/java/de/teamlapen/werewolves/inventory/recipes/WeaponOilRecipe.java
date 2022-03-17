@@ -4,23 +4,23 @@ import de.teamlapen.werewolves.core.ModRecipes;
 import de.teamlapen.werewolves.items.IOilItem;
 import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.util.WeaponOilHelper;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 
-public class WeaponOilRecipe extends SpecialRecipe {
+public class WeaponOilRecipe extends CustomRecipe {
 
     public WeaponOilRecipe(ResourceLocation id) {
         super(id);
     }
 
     @Override
-    public boolean matches(CraftingInventory inventory, @Nonnull World world) {
+    public boolean matches(CraftingContainer inventory, @Nonnull Level world) {
         IOil oil = null;
         ItemStack tool = null;
         for (int i = 0; i < inventory.getContainerSize(); i++) {
@@ -40,7 +40,7 @@ public class WeaponOilRecipe extends SpecialRecipe {
 
     @Nonnull
     @Override
-    public ItemStack assemble(@Nonnull CraftingInventory inventory) {
+    public ItemStack assemble(@Nonnull CraftingContainer inventory) {
         ItemStack oilStack = ItemStack.EMPTY;
         ItemStack toolStack = ItemStack.EMPTY;
         for (int i = 0; i < inventory.getContainerSize(); i++) {
@@ -67,7 +67,7 @@ public class WeaponOilRecipe extends SpecialRecipe {
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipes.weapon_oil;
     }
 }

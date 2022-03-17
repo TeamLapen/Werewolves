@@ -4,17 +4,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.command.arguments.IArgumentSerializer;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.commands.synchronization.ArgumentSerializer;
+import net.minecraft.network.FriendlyByteBuf;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class WerewolfFormArgumentSerializer implements IArgumentSerializer<WerewolfFormArgument> {
+public class WerewolfFormArgumentSerializer implements ArgumentSerializer<WerewolfFormArgument> {
     @Override
-    public void serializeToNetwork(@Nonnull WerewolfFormArgument argument, @Nonnull PacketBuffer buffer) {
+    public void serializeToNetwork(@Nonnull WerewolfFormArgument argument, @Nonnull FriendlyByteBuf buffer) {
         Collection<WerewolfForm> forms = argument.getAllowedForms();
         buffer.writeVarInt(forms.size());
         forms.forEach(form -> buffer.writeUtf(form.getName()));
@@ -22,7 +22,7 @@ public class WerewolfFormArgumentSerializer implements IArgumentSerializer<Werew
 
     @Nonnull
     @Override
-    public WerewolfFormArgument deserializeFromNetwork(@Nonnull PacketBuffer buffer) {
+    public WerewolfFormArgument deserializeFromNetwork(@Nonnull FriendlyByteBuf buffer) {
         List<WerewolfForm> forms = new ArrayList<>();
         int amount = buffer.readVarInt();
         for (int i = 0; i < amount; i++) {

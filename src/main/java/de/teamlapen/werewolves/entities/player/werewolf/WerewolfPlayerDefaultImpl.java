@@ -6,8 +6,8 @@ import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.api.entity.player.task.ITaskManager;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,7 +56,7 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     }
 
     @Override
-    public PlayerEntity getRepresentingPlayer() {
+    public Player getRepresentingPlayer() {
         return null;
     }
 

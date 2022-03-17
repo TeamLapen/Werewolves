@@ -8,19 +8,19 @@ import de.teamlapen.vampirism.network.AppearancePacket;
 import de.teamlapen.werewolves.client.render.WerewolfMinionRenderer;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.CheckboxButton;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Checkbox;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 
 import javax.annotation.Nullable;
 
 public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMinionEntity> {
 
-    private static final ITextComponent NAME = new TranslationTextComponent("gui.vampirism.minion_appearance");
+    private static final Component NAME = new TranslatableComponent("gui.vampirism.minion_appearance");
 
     private int skinType;
     private int eyeType;
@@ -29,8 +29,8 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
     private ScrollableArrayTextComponentList eyeList;
     private ExtendedButton skinButton;
     private ExtendedButton eyeButton;
-    private CheckboxButton glowingEyeButton;
-    private TextFieldWidget nameWidget;
+    private Checkbox glowingEyeButton;
+    private EditBox nameWidget;
 
     public WerewolfMinionAppearanceScreen(WerewolfMinionEntity entity, @Nullable Screen backScreen) {
         super(NAME, entity, backScreen);
@@ -39,7 +39,7 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
     @Override
     protected void init() {
         super.init();
-        this.nameWidget = this.addButton(new TextFieldWidget(font, this.guiLeft + 21, this.guiTop + 29, 98, 12, new TranslationTextComponent("gui.vampirism.minion_appearance.name")));
+        this.nameWidget = this.addButton(new EditBox(font, this.guiLeft + 21, this.guiTop + 29, 98, 12, new TranslatableComponent("gui.vampirism.minion_appearance.name")));
         this.nameWidget.setValue(entity.getMinionData().map(MinionData::getName).orElse("Minion"));
         this.nameWidget.setTextColorUneditable(-1);
         this.nameWidget.setTextColor(-1);
@@ -53,7 +53,7 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
         this.skinType = this.entity.getSkinType();
         this.glowingEyes = this.entity.hasGlowingEyes();
 
-        this.glowingEyeButton = this.addButton(new CheckboxButton(this.guiLeft + 20, this.guiTop + 86, 99, 20, new TranslationTextComponent("gui.werewolves.minion_appearance.glowing_eyes"), glowingEyes) {
+        this.glowingEyeButton = this.addButton(new Checkbox(this.guiLeft + 20, this.guiTop + 86, 99, 20, new TranslatableComponent("gui.werewolves.minion_appearance.glowing_eyes"), glowingEyes) {
             @Override
             public void onPress() {
                 super.onPress();
@@ -61,10 +61,10 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
                 entity.setGlowingEyes(glowingEyes);
             }
         });
-        this.skinList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 43 + 19, 99, 80, 20, skinCount, new TranslationTextComponent("gui.vampirism.minion_appearance.skin"), this::setSkinType, this::previewSkin));
-        this.eyeList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 64 + 19, 99, 60, 20, eyeCount, new TranslationTextComponent("gui.vampirism.minion_appearance.hat"), this::setEyeType, this::previewEye));
-        this.skinButton = this.addButton(new ExtendedButton(this.skinList.x, this.skinList.y - 20, this.skinList.getWidth() + 1, 20, new StringTextComponent(""), (b) -> setSkinListVisibility(!this.skinList.visible)));
-        this.eyeButton = this.addButton(new ExtendedButton(this.eyeList.x, this.eyeList.y - 20, this.eyeList.getWidth() + 1, 20, new StringTextComponent(""), (b) -> setHatListVisibility(!this.eyeList.visible)));
+        this.skinList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 43 + 19, 99, 80, 20, skinCount, new TranslatableComponent("gui.vampirism.minion_appearance.skin"), this::setSkinType, this::previewSkin));
+        this.eyeList = this.addButton(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 64 + 19, 99, 60, 20, eyeCount, new TranslatableComponent("gui.vampirism.minion_appearance.hat"), this::setEyeType, this::previewEye));
+        this.skinButton = this.addButton(new ExtendedButton(this.skinList.x, this.skinList.y - 20, this.skinList.getWidth() + 1, 20, new TextComponent(""), (b) -> setSkinListVisibility(!this.skinList.visible)));
+        this.eyeButton = this.addButton(new ExtendedButton(this.eyeList.x, this.eyeList.y - 20, this.eyeList.getWidth() + 1, 20, new TextComponent(""), (b) -> setHatListVisibility(!this.eyeList.visible)));
 
         this.setSkinListVisibility(false);
         this.setHatListVisibility(false);
@@ -84,7 +84,7 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
     public void removed() {
         String name = this.nameWidget.getValue();
         if (name.isEmpty()) {
-            name = new TranslationTextComponent("text.vampirism.minion").toString() + this.entity.getMinionId().orElse(0);
+            name = new TranslatableComponent("text.vampirism.minion").toString() + this.entity.getMinionId().orElse(0);
         }
         VampirismMod.dispatcher.sendToServer(new AppearancePacket(this.entity.getId(), name, this.skinType, this.eyeType, this.glowingEyes ? 1 : 0));
         super.removed();

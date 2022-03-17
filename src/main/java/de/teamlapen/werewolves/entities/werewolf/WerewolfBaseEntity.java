@@ -6,30 +6,30 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.Level;
 
 import java.util.Random;
 
 public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob {
 
-    public WerewolfBaseEntity(EntityType<? extends VampirismEntity> type, World world) {
+    public WerewolfBaseEntity(EntityType<? extends VampirismEntity> type, Level world) {
         super(type, world);
     }
 
-    public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, IServerWorld world, SpawnReason spawnReason, BlockPos blockPos, Random random) {
+    public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, Random random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
         if (!spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random)) return false;
-        if (spawnReason == SpawnReason.EVENT) return true;
-        if (world.canSeeSky(blockPos) && MonsterEntity.isDarkEnoughToSpawn(world, blockPos, random)) {
+        if (spawnReason == MobSpawnType.EVENT) return true;
+        if (world.canSeeSky(blockPos) && Monster.isDarkEnoughToSpawn(world, blockPos, random)) {
             return true;
         }
         return FormHelper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
@@ -41,7 +41,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     }
 
     @Override
-    public EntityClassification getClassification(boolean forSpawnCount) {
+    public MobCategory getClassification(boolean forSpawnCount) {
         return super.getClassification(forSpawnCount);
     }
 
@@ -55,7 +55,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
         return this;
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributeBuilder() {
+    public static AttributeSupplier.Builder getAttributeBuilder() {
         return VampirismEntity.getAttributeBuilder()
                 .add(Attributes.MAX_HEALTH, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_max_health.get())
                 .add(Attributes.ATTACK_DAMAGE, WerewolvesConfig.BALANCE.MOBPROPS.werewolf_attack_damage.get())

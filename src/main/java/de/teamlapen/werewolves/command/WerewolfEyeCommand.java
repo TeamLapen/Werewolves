@@ -8,12 +8,12 @@ import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.world.entity.player.Player;
 
 public class WerewolfEyeCommand extends BasicCommand {
-    public static ArgumentBuilder<CommandSource, ?> register() {
+    public static ArgumentBuilder<CommandSourceStack, ?> register() {
         return Commands.literal("eye")
                 .then(Commands.argument("form", WerewolfFormArgument.transformedForms())
                         .then(Commands.argument("type", IntegerArgumentType.integer(0, REFERENCE.EYE_TYPE_COUNT-1))
@@ -22,7 +22,7 @@ public class WerewolfEyeCommand extends BasicCommand {
                         })));
     }
 
-    private static int setEye(CommandContext<CommandSource> context, PlayerEntity playerEntity, int type, WerewolfForm form) {
+    private static int setEye(CommandContext<CommandSourceStack> context, Player playerEntity, int type, WerewolfForm form) {
         WerewolfPlayer.getOpt(playerEntity).ifPresent(w -> w.setEyeType(form, type));
         return 0;
     }

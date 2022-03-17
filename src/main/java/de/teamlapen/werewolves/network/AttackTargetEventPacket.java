@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.network;
 
 import de.teamlapen.lib.network.IMessage;
 import de.teamlapen.werewolves.WerewolvesMod;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -15,11 +15,11 @@ public class AttackTargetEventPacket implements IMessage {
         this.entityId = entityId;
     }
 
-    static void encode(AttackTargetEventPacket msg, PacketBuffer packetBuffer) {
+    static void encode(AttackTargetEventPacket msg, FriendlyByteBuf packetBuffer) {
         packetBuffer.writeVarInt(msg.entityId);
     }
 
-    static AttackTargetEventPacket decode(PacketBuffer packetBuffer) {
+    static AttackTargetEventPacket decode(FriendlyByteBuf packetBuffer) {
         return new AttackTargetEventPacket(packetBuffer.readVarInt());
     }
 

@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.items;
 
 import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.util.OilUtils;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public interface IOilItem {
 

@@ -25,7 +25,6 @@ dependencies {
     //Utility
     compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //API for compile (not POM)
     runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //Full for runtime (not POM)
-    runtimeOnly fg.deobf("curse.maven:hwyla-253449:${hwyla_curse_version}")
 
     //Mixin preprocessor
     if (System.getProperty("idea.sync.active") != "true") {

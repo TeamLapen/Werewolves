@@ -11,16 +11,16 @@ import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfForm;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,9 +28,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nonnull;
 
-@Mixin(VillagerEntity.class)
-public abstract class MixinVillagerEntity extends AbstractVillagerEntity implements IVillagerTransformable {
-    private static final DataParameter<Integer> TYPE = EntityDataManager.defineId(VillagerEntity.class, DataSerializers.INT);
+@Mixin(Villager.class)
+public abstract class MixinVillagerEntity extends AbstractVillager implements IVillagerTransformable {
+    private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(Villager.class, EntityDataSerializers.INT);
 
     private boolean werewolf;
     private WerewolfForm form = WerewolfForm.BEAST;
@@ -39,7 +39,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     protected int rage;
 
     @Deprecated
-    public MixinVillagerEntity(EntityType<? extends AbstractVillagerEntity> type, World worldIn) {
+    public MixinVillagerEntity(EntityType<? extends AbstractVillager> type, Level worldIn) {
         super(type, worldIn);
     }
 
@@ -88,7 +88,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
         if (this.isWerewolf()) {
             if (this.rage > 150) {
                 WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
-                ((MobEntity) werewolf).setLastHurtByMob(this.getTarget());
+                ((Mob) werewolf).setLastHurtByMob(this.getTarget());
             }
             if (this.level.getGameTime() % 400 == 10) {
                 if (Helper.isFullMoon(this.level)) {
@@ -150,8 +150,8 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
-    public void werewolves_addAdditionalSaveData(CompoundNBT compound, CallbackInfo ci) {
-        CompoundNBT nbt = new CompoundNBT();
+    public void werewolves_addAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
+        CompoundTag nbt = new CompoundTag();
         nbt.putBoolean("werewolf", this.werewolf);
         if (this.form != null) {
             nbt.putString("form", this.form.getName());
@@ -164,8 +164,8 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
-    public void werewolves_readAdditionalSaveData(CompoundNBT compound, CallbackInfo ci) {
-        CompoundNBT nbt = compound.getCompound("werewolves");
+    public void werewolves_readAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
+        CompoundTag nbt = compound.getCompound("werewolves");
         this.werewolf = nbt.getBoolean("werewolf");
         if (nbt.contains("form")) {
             this.form = WerewolfForm.getForm(nbt.getString("form"));

@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
@@ -10,28 +10,28 @@ import de.teamlapen.werewolves.entities.player.werewolf.LevelHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpBar extends Widget {
+public class ExpBar extends AbstractWidget {
     private static final ResourceLocation ICON = new ResourceLocation(REFERENCE.MODID, "textures/gui/exp_bar.png");
 
     private final VampirismScreen screen;
 
     public ExpBar(int xIn, int yIn, VampirismScreen screen) {
-        super(xIn, yIn, 10, 202, new TranslationTextComponent("text.werewolves.skill_screen.level_progression", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100)));
+        super(xIn, yIn, 10, 202, new TranslatableComponent("text.werewolves.skill_screen.level_progression", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100)));
         this.screen = screen;
     }
 
     @Override
-    public void render(@Nonnull MatrixStack stack, int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(@Nonnull PoseStack stack, int p_render_1_, int p_render_2_, float p_render_3_) {
         if (this.visible) {
             Minecraft.getInstance().textureManager.bind(ICON);
             this.blit(stack, this.x, this.y, 10, 0, 15, 123);
@@ -51,12 +51,12 @@ public class ExpBar extends Widget {
 
 
     @Override
-    public void renderToolTip(@Nonnull MatrixStack stack, int mouseX, int mouseY) {
+    public void renderToolTip(@Nonnull PoseStack stack, int mouseX, int mouseY) {
         if (mouseX > this.x && mouseX < this.x + 15 && mouseY > this.y && mouseY < this.y + 123) {
-            List<IReorderingProcessor> tooltips = new ArrayList<>();
-            tooltips.add(new TranslationTextComponent("text.werewolves.skill_screen.level_progression_label").getVisualOrderText());
+            List<FormattedCharSequence> tooltips = new ArrayList<>();
+            tooltips.add(new TranslatableComponent("text.werewolves.skill_screen.level_progression_label").getVisualOrderText());
             LevelHandler handler = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler();
-            tooltips.add(new TranslationTextComponent("text.werewolves.skill_screen.prey_snatched", handler.getLevelProgress(), handler.getNeededProgress()).getVisualOrderText());
+            tooltips.add(new TranslatableComponent("text.werewolves.skill_screen.prey_snatched", handler.getLevelProgress(), handler.getNeededProgress()).getVisualOrderText());
             this.screen.renderTooltip(stack, tooltips, mouseX, mouseY);
         }
     }
