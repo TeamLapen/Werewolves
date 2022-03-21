@@ -112,6 +112,7 @@ public class ModPlayerEventHandler {
             if (Helper.isWerewolf(((Player) event.getEntity()))) {
                 if (WerewolfPlayer.get(((Player) event.getEntity())).getForm().isTransformed()) {
                     if (event.getTo().isEmpty()) { // see WerewolfFormAction#applyModifier
+                        //noinspection StatementWithEmptyBody
                         if (((Player) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
 //                            double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
 //                            if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {

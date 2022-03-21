@@ -53,7 +53,6 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty SOUL_FIRE = WUtils.SOUL_FIRE;
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
-    ;
     public static final String REG_NAME = "stone_altar";
 
     public StoneAltarBlock() {
@@ -70,12 +69,12 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
 
     @Nonnull
     @Override
-    public RenderShape getRenderShape(BlockState state) {
+    public RenderShape getRenderShape(@Nonnull BlockState state) {
         return RenderShape.MODEL;
     }
 
     @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, @Nonnull Level worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             this.dropItems(worldIn, pos);
             super.onRemove(state, worldIn, pos, newState, isMoving);
@@ -88,7 +87,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState state, FluidState fluid) {
+    public boolean placeLiquid(@Nonnull LevelAccessor world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull FluidState fluid) {
         if (SimpleWaterloggedBlock.super.placeLiquid(world, pos, state, fluid)){
             if (state.getValue(LIT)) {
                 world.setBlock(pos, state.setValue(LIT, false), 3);
@@ -106,7 +105,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState state2, boolean p_220082_5_) {
+    public void onPlace(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state2, boolean p_220082_5_) {
         super.onPlace(state, world, pos, state2, p_220082_5_);
         if (state.getValue(LIT) && state2.getBlock() == this && !state2.getValue(LIT)) {
             ((StoneAltarTileEntity) world.getBlockEntity(pos)).startRitual(state);
@@ -121,48 +120,53 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
 
     @Nonnull
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult use(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand handIn, @Nonnull BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(handIn);
         StoneAltarTileEntity te = ((StoneAltarTileEntity) worldIn.getBlockEntity(pos));
         if (!worldIn.isClientSide && te != null) {
             StoneAltarTileEntity.Result result = te.canActivate(player);
             if (!state.getValue(LIT)) {
                 switch (result) {
-                    case OTHER_FACTION:
+                    case OTHER_FACTION -> {
                         player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.wrong_faction"), true);
                         return InteractionResult.CONSUME;
-                    case IS_RUNNING:
+                    }
+                    case IS_RUNNING -> {
                         player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_still_running"), true);
                         return InteractionResult.CONSUME;
+                    }
                 }
                 switch (result) {
-                    case NIGHT_ONLY:
+                    case NIGHT_ONLY -> {
                         player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_night_only"), true);
                         return InteractionResult.CONSUME;
-                    case WRONG_LEVEL:
+                    }
+                    case WRONG_LEVEL -> {
                         player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_wrong_level"), true);
                         return InteractionResult.CONSUME;
-                    case STRUCTURE_LESS:
+                    }
+                    case STRUCTURE_LESS -> {
                         player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_structures_missing"), true);
                         return InteractionResult.CONSUME;
-                    case STRUCTURE_LIT:
+                    }
+                    case STRUCTURE_LIT -> {
                         player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_less_lit_structures"), true);
                         return InteractionResult.CONSUME;
-                    case TO_LESS_BLOOD:
+                    }
+                    case TO_LESS_BLOOD -> {
                         player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_to_less_prey"), true);
                         return InteractionResult.CONSUME;
-                    case INV_MISSING:
+                    }
+                    case INV_MISSING -> {
                         Map<Item, Integer> missing = te.getMissingItems();
-
                         MutableComponent s = new TranslatableComponent("text.werewolves.stone_altar.ritual_missing_items");
                         missing.forEach((item, integer) -> s.append(" ").append(new TranslatableComponent(item.getDescriptionId()).withStyle((style -> {
                             return style.withColor(ChatFormatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemStackInfo(new ItemStack(item, integer))));
                         }))).append(" " + integer));
-
                         player.displayClientMessage(s, true);
                         player.openMenu(te);
-                        break;
-                    case OK:
+                    }
+                    case OK -> {
                         if (state.getValue(WATERLOGGED)) {
                             player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.can_not_burn"), true);
                             player.openMenu(te);
@@ -180,6 +184,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
                             player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.empty_hand"), true);
                             return InteractionResult.PASS;
                         }
+                    }
                 }
             }
         }
@@ -201,9 +206,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     private void dropItems(Level world, BlockPos pos) {
         Random rand = new Random();
         BlockEntity tileEntity = world.getBlockEntity(pos);
-        if (tileEntity instanceof Container) {
-            Container inventory = (Container) tileEntity;
-
+        if (tileEntity instanceof Container inventory) {
             for (int i = 0; i < inventory.getContainerSize(); ++i) {
                 ItemStack item = inventory.getItem(i);
                 if (!item.isEmpty()) {
@@ -248,7 +251,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
+    public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull Random rand) {
         if (stateIn.getValue(LIT)) {
             Vector3f offset = getTorchOffset(stateIn);
             worldIn.addParticle(stateIn.getValue(SOUL_FIRE) ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME, pos.getX() + offset.x(), pos.getY() + offset.y(), pos.getZ() + offset.z(), 0.0D, 0.0D, 0.0D);
@@ -258,18 +261,10 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     private Vector3f getTorchOffset(BlockState stateIn) {
         Vector3f vec = new Vector3f(0.5f, 15.4f / 16, 0.5f);
         switch (stateIn.getValue(HORIZONTAL_FACING)) {
-            case EAST:
-                vec.add(new Vector3f(4.5f / 16, 0, 4.5f / 16));
-                break;
-            case SOUTH:
-                vec.add(new Vector3f(-4.5f / 16, 0, 4.5f / 16));
-                break;
-            case WEST:
-                vec.add(new Vector3f(-4.5f / 16, 0, -4.5f / 16));
-                break;
-            default:
-                vec.add(new Vector3f(4.5f / 16, 0, -4.5f / 16));
-                break;
+            case EAST -> vec.add(new Vector3f(4.5f / 16, 0, 4.5f / 16));
+            case SOUTH -> vec.add(new Vector3f(-4.5f / 16, 0, 4.5f / 16));
+            case WEST -> vec.add(new Vector3f(-4.5f / 16, 0, -4.5f / 16));
+            default -> vec.add(new Vector3f(4.5f / 16, 0, -4.5f / 16));
         }
         return vec;
     }

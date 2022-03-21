@@ -23,6 +23,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.Optional;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class ModKeys {
     private static final String CATEGORY = "keys.werewolves.category";
     private static final String LEAP_KEY = "keys.werewolves.leap";

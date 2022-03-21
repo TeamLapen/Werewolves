@@ -53,7 +53,7 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
 
     }
 
-    public static SkillNodeBuilder werewolf(ResourceLocation parent, ISkill... skills) {
+    public static SkillNodeBuilder werewolf(ResourceLocation parent, ISkill<?>... skills) {
         return SkillNodeBuilder.skill(parent, skills).faction(WReference.WEREWOLF_FACTION);
     }
 

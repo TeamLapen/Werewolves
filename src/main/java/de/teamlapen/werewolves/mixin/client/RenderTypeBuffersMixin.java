@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(RenderBuffers.class)
 public abstract class RenderTypeBuffersMixin {
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Inject(method = "lambda$new$1(Lit/unimi/dsi/fastutil/objects/Object2ObjectLinkedOpenHashMap;)V", at = @At("TAIL"))
     private void addOwn(Object2ObjectLinkedOpenHashMap p_228485_1_, CallbackInfo ci){
         put(p_228485_1_, ModClient.OIL_GLINT);

@@ -14,19 +14,13 @@ public class LordTitles extends de.teamlapen.vampirism.util.LordTitles {
     private static final Component EMPTY = new TextComponent("");
 
     public static Component getWerewolfTitle(int level, boolean female) {
-        switch (level) {
-            case 1:
-                return WEREWOLF_1;
-            case 2:
-                return WEREWOLF_2;
-            case 3:
-                return WEREWOLF_3;
-            case 4:
-                return WEREWOLF_4;
-            case 5:
-                return WEREWOLF_5;
-
-        }
-        return EMPTY;
+        return switch (level) {
+            case 1 -> WEREWOLF_1;
+            case 2 -> WEREWOLF_2;
+            case 3 -> WEREWOLF_3;
+            case 4 -> WEREWOLF_4;
+            case 5 -> WEREWOLF_5;
+            default -> EMPTY;
+        };
     }
 }

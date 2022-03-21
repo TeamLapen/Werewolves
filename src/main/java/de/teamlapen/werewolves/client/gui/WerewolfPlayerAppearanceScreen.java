@@ -60,7 +60,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     }
 
     @Override
-    public void resize(Minecraft minecraft, int width, int height) {
+    public void resize(@Nonnull Minecraft minecraft, int width, int height) {
         updateServer();
         WerewolfForm form = this.activeForm;
         super.resize(minecraft, width, height);

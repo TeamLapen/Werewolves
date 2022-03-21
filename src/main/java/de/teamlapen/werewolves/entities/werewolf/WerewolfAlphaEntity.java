@@ -61,7 +61,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag nbt) {
+    public void addAdditionalSaveData(@Nonnull CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("level", getEntityLevel());
     }
@@ -128,7 +128,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public void killed(ServerLevel p_241847_1_, LivingEntity p_241847_2_) {
+    public void killed(@Nonnull ServerLevel p_241847_1_, @Nonnull LivingEntity p_241847_2_) {
         super.killed(p_241847_1_, p_241847_2_);
         if (p_241847_2_ instanceof WerewolfAlphaEntity) {
             this.setHealth(this.getMaxHealth());
@@ -136,7 +136,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
+    public void readAdditionalSaveData(@Nonnull CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
         setEntityLevel(nbt.getInt("level"));
     }
@@ -160,21 +160,14 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
         int max = Math.round(((d.maxPercLevel) / 100F - 5 / 14F) / (1F - 5 / 14F) * MAX_LEVEL);
         int min = Math.round(((d.minPercLevel) / 100F - 5 / 14F) / (1F - 5 / 14F) * (MAX_LEVEL));
 
-        switch (random.nextInt(7)) {
-            case 0:
-                return min;
-            case 1:
-                return max + 1;
-            case 2:
-                return avg;
-            case 3:
-                return avg + 1;
-            case 4:
-            case 5:
-                return random.nextInt(MAX_LEVEL + 1);
-            default:
-                return random.nextInt(max + 2 - min) + min;
-        }
+        return switch (random.nextInt(7)) {
+            case 0 -> min;
+            case 1 -> max + 1;
+            case 2 -> avg;
+            case 3 -> avg + 1;
+            case 4, 5 -> random.nextInt(MAX_LEVEL + 1);
+            default -> random.nextInt(max + 2 - min) + min;
+        };
     }
 
     @Override
@@ -184,7 +177,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    protected int getExperienceReward(Player player) {
+    protected int getExperienceReward(@Nonnull Player player) {
         return 20 + 5 * getEntityLevel();
     }
 

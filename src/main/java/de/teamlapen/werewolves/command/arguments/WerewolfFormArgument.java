@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
 
     private static final DynamicCommandExceptionType FORM_NOT_FOUND = new DynamicCommandExceptionType((id) -> {

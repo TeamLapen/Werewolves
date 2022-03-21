@@ -21,7 +21,7 @@ public class BlockStateGenerator extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        Set<Block> blocks = new HashSet<Block>() {{
+        Set<Block> blocks = new HashSet<>() {{
             add(ModBlocks.silver_ore);
             add(ModBlocks.silver_block);
             add(ModBlocks.magic_planks);

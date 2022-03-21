@@ -9,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class WerewolfAppearancePacket implements IMessage {
+public record WerewolfAppearancePacket(int entityId, String name, WerewolfForm form, int... data) implements IMessage {
 
     static void encode(WerewolfAppearancePacket msg, FriendlyByteBuf buf) {
         buf.writeVarInt(msg.entityId);
@@ -38,15 +38,4 @@ public class WerewolfAppearancePacket implements IMessage {
         ctx.setPacketHandled(true);
     }
 
-    public final int entityId;
-    public final String name;
-    public final WerewolfForm form;
-    public final int[] data;
-
-    public WerewolfAppearancePacket(int entityId, String name, WerewolfForm form, int... data) {
-        this.entityId = entityId;
-        this.name = name;
-        this.form = form;
-        this.data = data;
-    }
 }

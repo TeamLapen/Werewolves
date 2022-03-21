@@ -26,7 +26,7 @@ public class DefendLeaderGoal<T extends Mob & IEntityFollower> extends TargetGoa
     @Override
     public boolean canUse() {
         Optional<IEntityLeader> leader = this.entity.getLeader();
-        if (!leader.isPresent()) {
+        if (leader.isEmpty()) {
             return false;
         } else {
             this.attacker = leader.get().getRepresentingEntity().getLastHurtByMob();

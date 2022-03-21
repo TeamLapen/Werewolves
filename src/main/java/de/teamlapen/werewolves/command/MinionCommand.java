@@ -58,6 +58,7 @@ public class MinionCommand extends BasicCommand {
         return spawnNewMinion(ctx, WReference.WEREWOLF_FACTION, data, ModEntities.werewolf_minion);
     }
 
+    @SuppressWarnings({"SameParameterValue", "SameReturnValue"})
     private static <T extends MinionData> int spawnNewMinion(CommandSourceStack ctx, IPlayableFaction<?> faction, T data, EntityType<? extends MinionEntity<T>> type) throws CommandSyntaxException {
         Player p = ctx.getPlayerOrException();
         FactionPlayerHandler fph = FactionPlayerHandler.get(p);

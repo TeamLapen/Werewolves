@@ -159,7 +159,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @Override
-    public void onResourceManagerReload(ResourceManager p_10758_) {
+    public void onResourceManagerReload(@Nonnull ResourceManager p_10758_) {
         this.reMakeShader();
     }
 

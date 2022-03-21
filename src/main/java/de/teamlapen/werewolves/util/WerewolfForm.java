@@ -53,11 +53,10 @@ public class WerewolfForm {
 
     /**
      * first value is the percentage reduction and second is max damage reduction
-     * @return
      */
     public Pair<Float,Float> getDamageReduction() {
         return damageReduction;
-    }
+    } //TODO modify and remove obsolete values
 
     @Nonnull
     public String getName() {

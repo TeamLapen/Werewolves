@@ -57,7 +57,7 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     }
 
     @SafeVarargs
-    public final SimpleWerewolfSkill defaultDescWithExtra(TranslatableComponent prefix, Supplier<ISkill>... skills) {
+    public final SimpleWerewolfSkill defaultDescWithExtra(TranslatableComponent prefix, Supplier<ISkill<?>>... skills) {
         this.setDescription(() -> {
             MutableComponent text = new TranslatableComponent(this.getTranslationKey() + ".desc").append("\n").append(prefix.withStyle(ChatFormatting.AQUA)).append(" ");
             text.append(Helper.joinComponents(", ", Arrays.stream(skills).map(skill -> new TranslatableComponent(skill.get().getTranslationKey())).toArray(MutableComponent[]::new)).withStyle(ChatFormatting.AQUA));
@@ -67,12 +67,12 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     }
 
     @SafeVarargs
-    public final SimpleWerewolfSkill defaultDescWithFormRequirement(Supplier<ISkill>... skills) {
+    public final SimpleWerewolfSkill defaultDescWithFormRequirement(Supplier<ISkill<?>>... skills) {
         return defaultDescWithExtra(new TranslatableComponent("text.werewolves.skills.only_applies"), skills);
     }
 
     @SafeVarargs
-    public final SimpleWerewolfSkill defaultDescWithEnhancement(Supplier<ISkill>... skill) {
+    public final SimpleWerewolfSkill defaultDescWithEnhancement(Supplier<ISkill<?>>... skill) {
         return defaultDescWithExtra(new TranslatableComponent("text.werewolves.skills.upgrade"), skill);
     }
 

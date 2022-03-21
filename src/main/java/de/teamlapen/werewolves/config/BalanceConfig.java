@@ -323,8 +323,6 @@ public class BalanceConfig {
         public final ForgeConfigSpec.IntValue more_wolves;
         public final ForgeConfigSpec.IntValue werewolf_form_duration_general_1;
         public final ForgeConfigSpec.IntValue werewolf_form_duration_general_2;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_human_1;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_human_2;
         public final ForgeConfigSpec.IntValue werewolf_form_duration_survival_1;
         public final ForgeConfigSpec.IntValue werewolf_form_duration_survival_2;
         public final ForgeConfigSpec.IntValue werewolf_form_duration_beast_1;
@@ -337,8 +335,6 @@ public class BalanceConfig {
             this.more_wolves = builder.comment("Increased wolf spawning for the howling action").defineInRange("more_wolves", 1, 0, 5);
             this.werewolf_form_duration_general_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_1", 20, 0, Integer.MAX_VALUE);
             this.werewolf_form_duration_general_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_2", 40, 0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_human_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_1", 20, 0, Integer.MAX_VALUE);
-            this.werewolf_form_duration_human_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_human_2", 30, 0, Integer.MAX_VALUE);
             this.werewolf_form_duration_survival_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_1", 20, 0, Integer.MAX_VALUE);
             this.werewolf_form_duration_survival_2 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_survival_2", 30, 0, Integer.MAX_VALUE);
             this.werewolf_form_duration_beast_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_beast_1", 20, 0, Integer.MAX_VALUE);

@@ -18,8 +18,6 @@ import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 public class ClientProxy extends CommonProxy {
 
     private ModHUDOverlay hudOverlay;
-    private ClientEventHandler clientHandler;
-    private boolean autoJump;
 
     public ClientProxy() {
         RenderHandler renderHandler = new RenderHandler(Minecraft.getInstance());
@@ -33,8 +31,9 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         super.onInitStep(step, event);
+        ClientEventHandler clientHandler;
         switch (step) {
-            case CLIENT_SETUP:
+            case CLIENT_SETUP -> {
                 ModBlocksRenderer.register();
                 MinecraftForge.EVENT_BUS.register(clientHandler = new ClientEventHandler());
                 MinecraftForge.EVENT_BUS.register(hudOverlay = new ModHUDOverlay());
@@ -42,18 +41,18 @@ public class ClientProxy extends CommonProxy {
                 OverlayRegistry.registerOverlayBottom("werewolves_fur_border", new FurOverlay());
                 OverlayRegistry.registerOverlayBottom("werewolves_action_cooldown", new ActionCooldownOverlay());
                 OverlayRegistry.registerOverlayAbove(ForgeIngameGui.EXPERIENCE_BAR_ELEMENT, "werewolves_fur_border", new WerewolfFormDurationOverlay());
-                break;
-            case LOAD_COMPLETE:
+            }
+            case LOAD_COMPLETE -> {
                 event.enqueueWork(ModItemRenderer::registerColorsUnsafe);
                 event.enqueueWork(ModScreens::registerScreensUnsafe);
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
     }
 
     @Override
     public void handleAttackTargetEventPacket(AttackTargetEventPacket packet) {
-        this.hudOverlay.attackTriggered(packet.entityId);
+        this.hudOverlay.attackTriggered(packet.entityId());
     }
 }

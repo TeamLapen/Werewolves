@@ -180,7 +180,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
+    public void readAdditionalSaveData(@Nonnull CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
         if (nbt.contains("level")) {
             this.setEntityLevel(nbt.getInt("level"));
@@ -219,7 +219,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag nbt) {
+    public void addAdditionalSaveData(@Nonnull CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("transformedDuration", this.transformedDuration);
         if (this.entityActionHandler != null) {
@@ -357,16 +357,12 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     @Override
     public int suggestEntityLevel(Difficulty difficulty) {
-        switch (this.random.nextInt(5)) {
-            case 0:
-                return (int) (difficulty.minPercLevel / 100F * MAX_LEVEL);
-            case 1:
-                return (int) (difficulty.avgPercLevel / 100F * MAX_LEVEL);
-            case 2:
-                return (int) (difficulty.maxPercLevel / 100F * MAX_LEVEL);
-            default:
-                return this.random.nextInt(MAX_LEVEL + 1);
-        }
+        return switch (this.random.nextInt(5)) {
+            case 0 -> (int) (difficulty.minPercLevel / 100F * MAX_LEVEL);
+            case 1 -> (int) (difficulty.avgPercLevel / 100F * MAX_LEVEL);
+            case 2 -> (int) (difficulty.maxPercLevel / 100F * MAX_LEVEL);
+            default -> this.random.nextInt(MAX_LEVEL + 1);
+        };
     }
 
     protected void updateEntityAttributes() {
@@ -391,8 +387,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.entityClass = entity.getEntityClass();
         this.entityTier = entity.getEntityTier();
         this.transformed = entity;
-//        this.getDataManager().set(SKINTYPE, entity.getSkinType());
-//        this.getDataManager().set(EYETYPE, entity.getEyeType());
     }
 
     @Override

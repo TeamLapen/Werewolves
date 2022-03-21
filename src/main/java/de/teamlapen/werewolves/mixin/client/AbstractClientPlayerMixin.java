@@ -13,13 +13,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@SuppressWarnings("unused")
 @Mixin(LocalPlayer.class)
 public abstract class AbstractClientPlayerMixin extends AbstractClientPlayer {
 
     @Shadow
     private boolean autoJumpEnabled;
 
-    public AbstractClientPlayerMixin(ClientLevel world, GameProfile profile) {
+    private AbstractClientPlayerMixin(ClientLevel world, GameProfile profile) {
         super(world, profile);
     }
 

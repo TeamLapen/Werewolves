@@ -12,6 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
 public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEntity, VillagerModel<WerewolfTaskMasterEntity>> {
     private final static ResourceLocation texture = new ResourceLocation("textures/entity/villager/villager.png");
@@ -22,13 +24,14 @@ public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEn
         this.addLayer(new TaskMasterTypeLayer<>(this, overlay));
     }
 
+    @Nonnull
     @Override
-    public ResourceLocation getTextureLocation(WerewolfTaskMasterEntity entity) {
+    public ResourceLocation getTextureLocation(@Nonnull WerewolfTaskMasterEntity entity) {
         return texture;
     }
 
     @Override
-    protected void renderNameTag(WerewolfTaskMasterEntity entityIn, Component displayNameIn, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+    protected void renderNameTag(@Nonnull WerewolfTaskMasterEntity entityIn, @Nonnull Component displayNameIn, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn) {
         double dist = this.entityRenderDispatcher.distanceToSqr(entityIn);
         if (dist <= 128) {
             super.renderNameTag(entityIn, displayNameIn, matrixStackIn, bufferIn, packedLightIn);

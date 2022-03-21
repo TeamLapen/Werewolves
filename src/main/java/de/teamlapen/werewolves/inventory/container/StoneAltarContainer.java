@@ -13,6 +13,8 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 
 import de.teamlapen.lib.lib.inventory.InventoryContainer.SelectorInfo;
 
+import javax.annotation.Nonnull;
+
 public class StoneAltarContainer extends InventoryContainer {
     public static final SelectorInfo[] SELECTOR_INFOS;
 
@@ -28,7 +30,7 @@ public class StoneAltarContainer extends InventoryContainer {
     }
 
     @Override
-    public boolean stillValid(Player playerIn) {
+    public boolean stillValid(@Nonnull Player playerIn) {
         return stillValid(this.worldPos, playerIn, ModBlocks.stone_altar);
     }
 

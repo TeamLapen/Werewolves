@@ -15,6 +15,7 @@ public class ModRegistries {
         WEAPON_OILS = new RegistryBuilder<IOil>().setName(WEAPON_OIL_ID).setType(IOil.class).setMaxID(Integer.MAX_VALUE >> 5).create();
     }
 
+    @SuppressWarnings("EmptyMethod")
     static void init() {
     }
 }

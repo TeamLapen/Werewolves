@@ -68,6 +68,7 @@ public abstract class ItemRendererMixin {
         });
     }
 
+    @SuppressWarnings("SameParameterValue")
     @Shadow
     private void fillRect(BufferBuilder p_181565_1_, int p_181565_2_, int p_181565_3_, int p_181565_4_, int p_181565_5_, int p_181565_6_, int p_181565_7_, int p_181565_8_, int p_181565_9_) {
 

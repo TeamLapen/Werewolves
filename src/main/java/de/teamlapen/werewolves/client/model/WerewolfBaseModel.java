@@ -28,7 +28,7 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
     }
 
     /**
-     * copied from {@link net.minecraft.client.renderer.entity.model.BipedModel}
+     * copied from {@link net.minecraft.client.model.HumanoidModel}
      */
     protected float rotlerpRad(float p_205060_1_, float p_205060_2_, float p_205060_3_) {
         float f = (p_205060_2_ - p_205060_1_) % ((float) Math.PI * 2F);

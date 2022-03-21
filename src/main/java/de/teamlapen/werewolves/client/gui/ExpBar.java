@@ -65,7 +65,7 @@ public class ExpBar extends AbstractWidget {
     }
 
     @Override
-    public void updateNarration(NarrationElementOutput p_169152_) {
+    public void updateNarration(@Nonnull NarrationElementOutput p_169152_) {
 
     }
 }

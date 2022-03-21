@@ -21,6 +21,7 @@ public class WerewolfGlowingEyeCommand extends BasicCommand {
                                 })));
     }
 
+    @SuppressWarnings("SameReturnValue")
     private static int setGlowingEyes(Player playerEntity, boolean on, WerewolfForm form) {
         WerewolfPlayer.getOpt(playerEntity).ifPresent(w -> w.setGlowingEyes(form, on));
         return 0;

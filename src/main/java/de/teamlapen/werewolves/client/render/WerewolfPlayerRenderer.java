@@ -140,7 +140,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
     }
 
     /**
-     * use {@link #render(WerewolfPlayer, float, float, MatrixStack, IRenderTypeBuffer, int)}
+     * use {@link #render(WerewolfPlayer, float, float, PoseStack, MultiBufferSource, int)}
      */
     @Deprecated
     @Override

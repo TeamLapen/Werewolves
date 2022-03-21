@@ -18,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -91,10 +92,10 @@ public class ModItems {
         registry.register(new LiverItem().setRegistryName(REFERENCE.MODID, "liver"));
         registry.register(new Item(new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "cracked_bone"));
         registry.register(new UnWerewolfInjectionItem());
-        registry.register(new SpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().tab(CreativeModeTab.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
-        registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().tab(CreativeModeTab.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
-        registry.register(new SpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().tab(CreativeModeTab.TAB_MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
-        registry.register(new SpawnEggItem(ModEntities.alpha_werewolf, 0xffc800, 0xca0f00, new Item.Properties().tab(CreativeModeTab.TAB_MISC)).setRegistryName(REFERENCE.MODID, "alpha_werewolf_spawn_egg"));
+        registry.register(new ForgeSpawnEggItem(() -> ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().tab(CreativeModeTab.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
+        registry.register(new ForgeSpawnEggItem(() -> ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().tab(CreativeModeTab.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
+        registry.register(new ForgeSpawnEggItem(() -> ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().tab(CreativeModeTab.TAB_MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
+        registry.register(new ForgeSpawnEggItem(() -> ModEntities.alpha_werewolf, 0xffc800, 0xca0f00, new Item.Properties().tab(CreativeModeTab.TAB_MISC)).setRegistryName(REFERENCE.MODID, "alpha_werewolf_spawn_egg"));
         registry.register(new WerewolfToothItem().setRegistryName(REFERENCE.MODID, "werewolf_tooth"));
 
         registry.register(new Item(creativeTabProps()) {
@@ -119,12 +120,8 @@ public class ModItems {
     public static void remapItems(RegistryEvent.MissingMappings<Item> event) {
         event.getAllMappings().forEach(missingMapping -> {
             switch (missingMapping.key.toString()) {
-                case "werewolves:bone":
-                    missingMapping.remap(ModItems.cracked_bone);
-                    break;
-                case "werewolves:silver_oil":
-                    missingMapping.remap(ModItems.oil_bottle);
-                    break;
+                case "werewolves:bone" -> missingMapping.remap(ModItems.cracked_bone);
+                case "werewolves:silver_oil" -> missingMapping.remap(ModItems.oil_bottle);
             }
         });
     }

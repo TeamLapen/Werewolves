@@ -217,7 +217,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     if (this.player.level.getGameTime() % 20 == 0) {
                         if (Helper.isFullMoon(this.getRepresentingPlayer().getCommandSenderWorld())) {
                             if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will)) {
-                                Optional<? extends IAction> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
+                                Optional<? extends IAction<IWerewolfPlayer>> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
                                 action.ifPresent(this.actionHandler::toggleAction);
                             }
                         }
@@ -515,6 +515,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return null;
     }
 
+    @Nonnull
     @Override
     public IPlayableFaction<IWerewolfPlayer> getFaction() {
         return WReference.WEREWOLF_FACTION;

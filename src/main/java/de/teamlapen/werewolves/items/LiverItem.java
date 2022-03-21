@@ -24,8 +24,7 @@ public class LiverItem extends Item {
     public ItemStack finishUsingItem(@Nonnull ItemStack stack, @Nonnull Level worldIn, @Nonnull LivingEntity entityLiving) {
         //copied from VampirismItemBloodFood
         assert stack.getItem().getFoodProperties() != null;
-        if (entityLiving instanceof Player) {
-            Player player = (Player) entityLiving;
+        if (entityLiving instanceof Player player) {
             VampirePlayer.getOpt(player).ifPresent((v) -> {
                 v.drinkBlood(stack.getItem().getFoodProperties().getNutrition(), stack.getItem().getFoodProperties().getSaturationModifier());
             });

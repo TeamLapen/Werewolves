@@ -13,19 +13,17 @@ public class CommonProxy implements Proxy {
 
     @Override
     public void onInitStep(Step step, ParallelDispatchEvent event) {
-        switch (step) {
-            case COMMON_SETUP:
-                MinecraftForge.EVENT_BUS.register(new ModWorldEventHandler());
-                break;
+        if (step == Step.COMMON_SETUP) {
+            MinecraftForge.EVENT_BUS.register(new ModWorldEventHandler());
         }
     }
 
     @Override
     public void handleAppearancePacket(ServerPlayer sender, WerewolfAppearancePacket msg) {
-        Entity entity = sender.level.getEntity(msg.entityId);
+        Entity entity = sender.level.getEntity(msg.entityId());
         if (entity instanceof Player) {
             WerewolfPlayer.getOpt(((Player) entity)).ifPresent(werewolf -> {
-                werewolf.setSkinData(msg.form, msg.data);
+                werewolf.setSkinData(msg.form(), msg.data());
             });
         }
     }

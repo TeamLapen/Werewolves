@@ -68,16 +68,16 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
     private static final String FINGER_RIGHT_4 = "fingerRight4";
     private static final String THUMB_RIGHT = "thumbRight";
 
-    public ModelPart body;
-    public ModelPart head;
-    public ModelPart armRight;
-    public ModelPart armLeft;
-    public ModelPart legRight;
-    public ModelPart legLeft;
-    public ModelPart tail1;
-    public ModelPart jaw;
-    public ModelPart earLeft;
-    public ModelPart earRight;
+    public final ModelPart body;
+    public final ModelPart head;
+    public final ModelPart armRight;
+    public final ModelPart armLeft;
+    public final ModelPart legRight;
+    public final ModelPart legLeft;
+    public final ModelPart tail1;
+    public final ModelPart jaw;
+    public final ModelPart earLeft;
+    public final ModelPart earRight;
 
     public Werewolf4LModel(ModelPart part) {
         super(part);
@@ -96,7 +96,7 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
         this.jaw = this.head.getChild(JAW);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DuplicatedCode"})
     public static LayerDefinition createBodyLayer() {
         MeshDefinition mesh = WerewolfBaseModel.createMesh(CubeDeformation.NONE);
         PartDefinition part = mesh.getRoot();
@@ -177,7 +177,6 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
 
         //reset tail rotation angle
         this.tail1.xRot = 0.045553093477052F;
-        this.tail1.yRot = 0F;
 
         //idle rotations
         this.tail1.xRot -= 0.035f;

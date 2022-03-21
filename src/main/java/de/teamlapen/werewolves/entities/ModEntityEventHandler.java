@@ -104,8 +104,7 @@ public class ModEntityEventHandler {
             }
         }
 
-        if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof LivingEntity) {
-            LivingEntity source = ((LivingEntity) event.getSource().getEntity());
+        if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof LivingEntity source) {
             ItemStack handStack = source.getItemInHand(InteractionHand.MAIN_HAND);
             WeaponOilHelper.executeAndReduce(handStack, (stack, oil, duration) -> {
                 if (oil.canEffect(stack, event.getEntityLiving())) {
@@ -143,6 +142,7 @@ public class ModEntityEventHandler {
         }
         if (WerewolvesConfig.BALANCE.UTIL.skeletonIgnoreWerewolves.get()) {
             if (event.getEntity() instanceof Skeleton || event.getEntity() instanceof Stray) {
+                //noinspection unchecked
                 makeWerewolfFriendly("skeleton", (AbstractSkeleton) event.getEntity(), NearestAttackableTargetGoal.class, Player.class, 2, (entity, predicate) -> new NearestAttackableTargetGoal<>(entity, Player.class, 10, true, false, predicate), type -> type == EntityType.SKELETON || type == EntityType.STRAY);
             }
         }
@@ -151,6 +151,7 @@ public class ModEntityEventHandler {
     /**
      * copy from {@link de.teamlapen.vampirism.entity.ModEntityEventHandler#makeVampireFriendly(String, Mob, Class, Class, int, BiFunction, Predicate)}
      */
+    @SuppressWarnings("unchecked")
     public static <T extends Mob, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, T entity, Class<Q> targetClass, Class<S> targetEntityClass, int attackPriority, BiFunction<T, Predicate<LivingEntity>, Q> replacement, Predicate<EntityType<? extends T>> typeCheck) {
         try {
             Goal target = null;
@@ -168,6 +169,7 @@ public class ModEntityEventHandler {
                 if (typeCheck.test(type)) {
                     Predicate<LivingEntity> newPredicate = nonWerewolfCheck;
                     if (((Q) target).targetConditions.selector != null) {
+                        //noinspection ConstantConditions
                         newPredicate = newPredicate.and(((NearestAttackableTargetGoal<?>) target).targetConditions.selector);
                     }
                     entity.targetSelector.addGoal(attackPriority, replacement.apply(entity, newPredicate));

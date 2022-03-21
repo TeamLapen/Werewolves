@@ -118,8 +118,9 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         return itemStack -> ((itemStack.getItem() instanceof IFactionExclusiveItem) && ((IFactionExclusiveItem) itemStack.getItem()).getExclusiveFaction(itemStack).equals(WReference.WEREWOLF_FACTION)) || itemStack.getUseAnimation() == UseAnim.DRINK || itemStack.getUseAnimation() == UseAnim.EAT;
     }
 
+    @Nonnull
     @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+    protected InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
         if (!this.level.isClientSide() && isLord(player) && minionData != null) {
             ItemStack heldItem = player.getItemInHand(hand);
             if (heldItem.getItem() instanceof WerewolfMinionUpgradeItem && ((WerewolfMinionUpgradeItem) heldItem.getItem()).getFaction() == this.getFaction()) {
@@ -306,30 +307,35 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             }
             assert entity instanceof WerewolfMinionEntity;
             switch (statId) {
-                case 0:
+                case 0 -> {
                     if (inventoryLevel >= MAX_LEVEL_INVENTORY) return false;
                     inventoryLevel++;
                     this.getInventory().setAvailableSize(getInventorySize());
                     return true;
-                case 1:
+                }
+                case 1 -> {
                     if (healthLevel >= MAX_LEVEL_HEALTH) return false;
                     healthLevel++;
                     ((WerewolfMinionEntity) entity).updateAttributes();
                     entity.setHealth(entity.getMaxHealth());
                     return true;
-                case 2:
+                }
+                case 2 -> {
                     if (strengthLevel >= MAX_LEVEL_STRENGTH) return false;
                     strengthLevel++;
                     ((WerewolfMinionEntity) entity).updateAttributes();
                     return true;
-                case 3:
+                }
+                case 3 -> {
                     if (resourceEfficiencyLevel >= MAX_LEVEL_RESOURCES) return false;
                     this.resourceEfficiencyLevel++;
                     ((WerewolfMinionEntity) entity).updateAttributes();
                     return true;
-                default:
+                }
+                default -> {
                     LOGGER.warn("Cannot upgrade minion stat {} as it does not exist", statId);
                     return false;
+                }
             }
         }
 

@@ -7,13 +7,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class AttackTargetEventPacket implements IMessage {
-
-    public final int entityId;
-
-    public AttackTargetEventPacket(int entityId) {
-        this.entityId = entityId;
-    }
+public record AttackTargetEventPacket(int entityId) implements IMessage {
 
     static void encode(AttackTargetEventPacket msg, FriendlyByteBuf packetBuffer) {
         packetBuffer.writeVarInt(msg.entityId);

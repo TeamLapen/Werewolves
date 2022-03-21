@@ -12,14 +12,11 @@ import javax.annotation.Nonnull;
 public class WerewolfRefinementItem extends VampireRefinementItem implements IRefinementItem {
 
     public static WerewolfRefinementItem getRefinementItem(IRefinementItem.AccessorySlotType type){
-        switch (type){
-            case AMULET:
-                return ModItems.bone_necklace;
-            case RING:
-                return ModItems.charm_bracelet;
-            default:
-                return ModItems.dream_catcher;
-        }
+        return switch (type) {
+            case AMULET -> ModItems.bone_necklace;
+            case RING -> ModItems.charm_bracelet;
+            default -> ModItems.dream_catcher;
+        };
     }
 
     public WerewolfRefinementItem(@Nonnull Properties properties, @Nonnull AccessorySlotType type) {

@@ -17,15 +17,15 @@ import javax.annotation.Nullable;
  */
 public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
 
-    public static String CLAWS_LEFT = "clawsLeft";
-    public static String CLAWS_RIGHT = "clawsRight";
-    public static String EAR_RIGHT = "earRight";
-    public static String EAR_LEFT = "earLeft";
+    public static final String CLAWS_LEFT = "clawsLeft";
+    public static final String CLAWS_RIGHT = "clawsRight";
+    public static final String EAR_RIGHT = "earRight";
+    public static final String EAR_LEFT = "earLeft";
 
-    public ModelPart clawsLeft;
-    public ModelPart clawsRight;
-    public ModelPart earRight;
-    public ModelPart earLeft;
+    public final ModelPart clawsLeft;
+    public final ModelPart clawsRight;
+    public final ModelPart earRight;
+    public final ModelPart earLeft;
 
     @SuppressWarnings("unused")
     public static LayerDefinition createBodyLayer() {

@@ -50,15 +50,9 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarTileEntity>
         matrixStackIn.translate(0.5, 0.64, 0.5); // translate to middle
         matrixStackIn.scale(0.4f, 0.4f, 0.4f); // adjust item size
         switch (tileEntityIn.getBlockState().getValue(StoneAltarBlock.HORIZONTAL_FACING)) { // rotated based on facing
-            case WEST:
-                matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 90, true));
-                break;
-            case SOUTH:
-                matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 180, true));
-                break;
-            case EAST:
-                matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 270, true));
-                break;
+            case WEST -> matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 90, true));
+            case SOUTH -> matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 180, true));
+            case EAST -> matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 270, true));
         }
     }
 }

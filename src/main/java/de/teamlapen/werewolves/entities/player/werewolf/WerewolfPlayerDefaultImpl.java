@@ -35,6 +35,7 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
         return null;
     }
 
+    @Nonnull
     @Override
     public IPlayableFaction<IWerewolfPlayer> getFaction() {
         return null;

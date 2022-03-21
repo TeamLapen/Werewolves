@@ -17,6 +17,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob {
@@ -45,6 +46,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
         return super.getClassification(forSpawnCount);
     }
 
+    @Nonnull
     @Override
     public IFaction<?> getFaction() {
         return WReference.WEREWOLF_FACTION;

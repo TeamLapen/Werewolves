@@ -20,50 +20,50 @@ import javax.annotation.Nullable;
  */
 @OnlyIn(Dist.CLIENT)
 public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
-    public static String BODY = "body";
-    public static String HIP = "hip";
-    public static String NECK = "neck";
-    public static String ARM_LEFT = "armLeft";
-    public static String ARM_RIGHT = "armRight";
-    public static String BODY_FLUFF = "bodyFluff";
-    public static String LEG_LEFT = "legLeft";
-    public static String LEG_RIGHT = "legRight";
-    public static String TAIL = "tail";
-    public static String LEG_LEFT_2 = "legLeft2";
-    public static String FOOT_LEFT = "footLeft";
-    public static String LEG_RIGHT_2 = "legRight2";
-    public static String FOOT_RIGHT = "footRight";
-    public static String TAIL_2 = "tail2";
-    public static String TAIL_3 = "tail3";
-    public static String JOINT = "joint";
-    public static String NECK_FLUFF = "neckFluff";
-    public static String NECK_FLUFF_LEFT = "neckFluffLeft";
+    public static final String BODY = "body";
+    public static final String HIP = "hip";
+    public static final String NECK = "neck";
+    public static final String ARM_LEFT = "armLeft";
+    public static final String ARM_RIGHT = "armRight";
+    public static final String BODY_FLUFF = "bodyFluff";
+    public static final String LEG_LEFT = "legLeft";
+    public static final String LEG_RIGHT = "legRight";
+    public static final String TAIL = "tail";
+    public static final String LEG_LEFT_2 = "legLeft2";
+    public static final String FOOT_LEFT = "footLeft";
+    public static final String LEG_RIGHT_2 = "legRight2";
+    public static final String FOOT_RIGHT = "footRight";
+    public static final String TAIL_2 = "tail2";
+    public static final String TAIL_3 = "tail3";
+    public static final String JOINT = "joint";
+    public static final String NECK_FLUFF = "neckFluff";
+    public static final String NECK_FLUFF_LEFT = "neckFluffLeft";
     public static String NECK_FLUFF_RIGHT = "neckFluffRight";
-    public static String NECK_FLUFF_BOTTOM = "neckFluffBottom";
-    public static String HEAD = "head";
-    public static String EAR_LEFT = "earLeft";
-    public static String EAR_RIGHT = "earRight";
-    public static String SNOUT = "snout";
-    public static String JAW = "jaw";
-    public static String HEAD_FLUFF = "headFluff";
-    public static String HEAD_SIDEBURNS_LEFT = "headSideburnsLeft";
-    public static String HEAD_SIDEBURNS_RIGHT = "headSideburnsRight";
-    public static String NOSE = "nose";
-    public static String SNOUT_TEETH = "snoutTeeth";
-    public static String JAW_TEETH = "jawTeeth";
-    public static String JAW_FLUFF = "jawFluff";
-    public static String ARM_LEFT_2 = "armLeft2";
-    public static String FOOT_LEFT_1 = "footLeft_1";
-    public static String ARM_RIGHT_2 = "armRight2";
-    public static String FOOT_LEFT_2 = "footLeft_2";
+    public static final String NECK_FLUFF_BOTTOM = "neckFluffBottom";
+    public static final String HEAD = "head";
+    public static final String EAR_LEFT = "earLeft";
+    public static final String EAR_RIGHT = "earRight";
+    public static final String SNOUT = "snout";
+    public static final String JAW = "jaw";
+    public static final String HEAD_FLUFF = "headFluff";
+    public static final String HEAD_SIDEBURNS_LEFT = "headSideburnsLeft";
+    public static final String HEAD_SIDEBURNS_RIGHT = "headSideburnsRight";
+    public static final String NOSE = "nose";
+    public static final String SNOUT_TEETH = "snoutTeeth";
+    public static final String JAW_TEETH = "jawTeeth";
+    public static final String JAW_FLUFF = "jawFluff";
+    public static final String ARM_LEFT_2 = "armLeft2";
+    public static final String FOOT_LEFT_1 = "footLeft_1";
+    public static final String ARM_RIGHT_2 = "armRight2";
+    public static final String FOOT_LEFT_2 = "footLeft_2";
 
-    public ModelPart head;
-    public ModelPart body;
-    public ModelPart armLeft;
-    public ModelPart armRight;
-    public ModelPart legRight;
-    public ModelPart legLeft;
-    public ModelPart tail;
+    public final ModelPart head;
+    public final ModelPart body;
+    public final ModelPart armLeft;
+    public final ModelPart armRight;
+    public final ModelPart legRight;
+    public final ModelPart legLeft;
+    public final ModelPart tail;
 
 
     public WerewolfSurvivalistModel(ModelPart part) {
@@ -81,7 +81,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     }
 
     @Nonnull
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DuplicatedCode"})
     public static LayerDefinition createBodyLayer() {
         MeshDefinition mesh = WerewolfBaseModel.createMesh(CubeDeformation.NONE);
         PartDefinition root = mesh.getRoot();
@@ -192,7 +192,6 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
 
         //reset tail rotation angle
         this.tail.xRot = -0.22759093446006054F;
-        this.tail.yRot = 0F;
 
         //idle rotations
         this.tail.xRot -= 0.035f;

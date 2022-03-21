@@ -14,10 +14,10 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class ModModelRender {
 
-    public static ModelLayerLocation WEREWOLF_BEAST = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_beast"), "main");
-    public static ModelLayerLocation WEREWOLF_SURVIVALIST = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_survivalist"), "main");
-    public static ModelLayerLocation WEREWOLF_4L = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_four_legged"), "main");
-    public static ModelLayerLocation EARS_CLAWS = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "main");
+    public static final ModelLayerLocation WEREWOLF_BEAST = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_beast"), "main");
+    public static final ModelLayerLocation WEREWOLF_SURVIVALIST = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_survivalist"), "main");
+    public static final ModelLayerLocation WEREWOLF_4L = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_four_legged"), "main");
+    public static final ModelLayerLocation EARS_CLAWS = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "main");
 
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.alpha_werewolf, WerewolfAlphaRenderer::new);

@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
+import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.IActionCooldownMenu;
 import de.teamlapen.werewolves.util.Helper;
@@ -13,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.client.gui.IIngameOverlay;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ActionCooldownOverlay extends GuiComponent implements IIngameOverlay {
 
@@ -23,19 +24,16 @@ public class ActionCooldownOverlay extends GuiComponent implements IIngameOverla
     public void render(ForgeIngameGui gui, PoseStack mStack, float partialTicks, int width, int height) {
         if (Helper.isWerewolf(this.mc.player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
-            ArrayList<IAction> actions = new ArrayList<>();
-            actions.addAll(werewolf.getActionHandler().getUnlockedActions());
-            actions.removeIf(action -> !(action instanceof IActionCooldownMenu));
-            actions.removeIf(action -> !(werewolf.getActionHandler().isActionOnCooldown(action)));
+            List<IAction<IWerewolfPlayer>> actions = werewolf.getActionHandler().getUnlockedActions().stream().filter(action -> action instanceof IActionCooldownMenu).filter(action -> werewolf.getActionHandler().isActionOnCooldown(action)).toList();
 
 
             int x = 12;
             int y = this.mc.getWindow().getGuiScaledHeight() - 27;
-            for (IAction action : actions) {
+            for (IAction<IWerewolfPlayer> action : actions) {
                 ResourceLocation loc = new ResourceLocation(action.getRegistryName().getNamespace(), "textures/actions/" + action.getRegistryName().getPath() + ".png");
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderTexture(0, loc);
-                int perc = (int) ((1 - -werewolf.getActionHandler().getPercentageForAction(action)) * 16);
+                int perc = (int) ((1 + werewolf.getActionHandler().getPercentageForAction(action)) * 16);
                 //render gray transparent background for remaining cooldown
                 this.fillGradient(mStack, x, y + perc, x + 16, y + 16, 0x44888888/*Color.GRAY - 0xBB000000 */, 0x44888888/*Color.GRAY - 0xBB000000 */);
                 //render action icon transparent

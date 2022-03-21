@@ -22,6 +22,7 @@ public class WerewolfTransformCommand extends BasicCommand {
                         .executes(context -> transformFromWerewolf(context.getSource().getPlayerOrException())));
     }
 
+    @SuppressWarnings("SameReturnValue")
     private static int transformToWerewolf(Player player) {
         try {
             List<LivingEntity> entites = player.level.getEntitiesOfClass(LivingEntity.class, new AABB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
@@ -32,6 +33,7 @@ public class WerewolfTransformCommand extends BasicCommand {
         return 0;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private static int transformFromWerewolf(Player player) {
         List<LivingEntity> entites = player.level.getEntitiesOfClass(LivingEntity.class, new AABB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
         entites.forEach(entity -> ((WerewolfTransformable) entity).transformBack());

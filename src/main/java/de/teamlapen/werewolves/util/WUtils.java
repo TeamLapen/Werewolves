@@ -56,8 +56,9 @@ public class WUtils {
         }
     };
     public static LootTables LOOT_TABLE_MANAGER;
-    public static DamageSource OPEN_WOUND_DAMAGE_SOURCE = new DamageSource("blood_loss").bypassArmor().bypassMagic();
+    public static final DamageSource OPEN_WOUND_DAMAGE_SOURCE = new DamageSource("blood_loss").bypassArmor().bypassMagic();
 
+    @SuppressWarnings("EmptyMethod")
     public static void init() {
     }
 }

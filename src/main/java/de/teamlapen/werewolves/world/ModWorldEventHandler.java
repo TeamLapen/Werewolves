@@ -60,6 +60,7 @@ public class ModWorldEventHandler {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void spawnEntity(Level world, Mob newEntity, Mob oldEntity, boolean replaceOld) {
         newEntity.restoreFrom(oldEntity);
         newEntity.setUUID(Mth.createInsecureUUID());

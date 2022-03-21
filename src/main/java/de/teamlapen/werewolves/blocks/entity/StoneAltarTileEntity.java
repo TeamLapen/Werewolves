@@ -156,7 +156,7 @@ public class StoneAltarTileEntity extends InventoryBlockEntity {
     }
 
     @Override
-    public void setItem(int slot, ItemStack stack) {
+    public void setItem(int slot, @Nonnull ItemStack stack) {
         super.setItem(slot, stack);
         BlockState state = this.level.getBlockState(worldPosition);
         this.level.sendBlockUpdated(getBlockPos(), state, state, 3); //Notify client about started ritual
@@ -240,7 +240,7 @@ public class StoneAltarTileEntity extends InventoryBlockEntity {
         }
     }
 
-    @Nullable
+    @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.itemHandlerOptional.cast() : super.getCapability(cap, side);
     }

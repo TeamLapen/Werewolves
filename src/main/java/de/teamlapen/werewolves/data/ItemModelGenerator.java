@@ -24,7 +24,7 @@ public class ItemModelGenerator extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        Set<Block> blockParent = new HashSet<Block>() {{
+        Set<Block> blockParent = new HashSet<>() {{
             add(ModBlocks.silver_ore);
             add(ModBlocks.silver_block);
             add(ModBlocks.jacaranda_leaves);
@@ -35,7 +35,7 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModBlocks.totem_top_werewolves_werewolf);
             add(ModBlocks.totem_top_werewolves_werewolf_crafted);
         }};
-        Set<Item> itemsLayer = new HashSet<Item>() {{
+        Set<Item> itemsLayer = new HashSet<>() {{
             add(ModItems.silver_ingot);
             add(ModItems.liver);
             add(ModItems.cracked_bone);
@@ -47,12 +47,12 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModItems.werewolf_minion_upgrade_special);
             add(ModItems.silver_nugget);
         }};
-        Set<Block> blockLayer = new HashSet<Block>() {{
+        Set<Block> blockLayer = new HashSet<>() {{
             add(ModBlocks.jacaranda_sapling);
             add(ModBlocks.magic_sapling);
             add(ModBlocks.wolfsbane);
         }};
-        Set<Item> itemsHandHeld = new HashSet<Item>() {{
+        Set<Item> itemsHandHeld = new HashSet<>() {{
             add(ModItems.silver_axe);
             add(ModItems.silver_pickaxe);
             add(ModItems.silver_sword);
