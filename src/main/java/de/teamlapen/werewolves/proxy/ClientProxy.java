@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.proxy;
 
 import de.teamlapen.werewolves.client.core.*;
+import de.teamlapen.werewolves.client.gui.overlay.ActionCooldownOverlay;
 import de.teamlapen.werewolves.client.gui.overlay.FurOverlay;
 import de.teamlapen.werewolves.client.gui.overlay.WerewolfFormDurationOverlay;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
@@ -38,7 +39,8 @@ public class ClientProxy extends CommonProxy {
                 MinecraftForge.EVENT_BUS.register(clientHandler = new ClientEventHandler());
                 MinecraftForge.EVENT_BUS.register(hudOverlay = new ModHUDOverlay());
                 ModKeys.register(clientHandler);
-                OverlayRegistry.registerOverlayTop("werewolves_fur_border", new FurOverlay());
+                OverlayRegistry.registerOverlayBottom("werewolves_fur_border", new FurOverlay());
+                OverlayRegistry.registerOverlayBottom("werewolves_action_cooldown", new ActionCooldownOverlay());
                 OverlayRegistry.registerOverlayAbove(ForgeIngameGui.EXPERIENCE_BAR_ELEMENT, "werewolves_fur_border", new WerewolfFormDurationOverlay());
                 break;
             case LOAD_COMPLETE:

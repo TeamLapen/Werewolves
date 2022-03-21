@@ -46,6 +46,7 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'
             property 'forge.logging.markers', 'REGISTRIES'
+            property 'vampirism_target', 'dev_client'
             workingDirectory project.file('run/client').canonicalPath
             jvmArg '-ea:de.teamlapen...'
 
@@ -66,6 +67,7 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'vampirism_target', 'dev_server'
             workingDirectory project.file('run/server').canonicalPath
             jvmArg '-ea:de.teamlapen...'
 
@@ -82,6 +84,7 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'vampirism_target', 'dev_data'
             workingDirectory project.file('run/data').canonicalPath
             args '--mod', 'werewolves', '--all', '--output', file('src/generated/resources/'),  '--existing', sourceSets.main.resources.srcDirs[0]
             mods {

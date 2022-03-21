@@ -63,12 +63,10 @@ public class WerewolvesMod {
     public static final MobCategory WEREWOLF_CREATURE_TYPE = MobCategory.create("werewolves_werewolf", "werewolves_werewolf", 8, false, false, 128);
     private static final MobType WEREWOLF_CREATURE_ATTRIBUTES = new MobType();
     public static WerewolvesMod instance;
-    public static boolean inDev = false;
     public final RegistryManager registryManager = new RegistryManager();
 
     public WerewolvesMod() {
         WerewolvesMod.instance = this;
-        checkDevEnv();
         WUtils.init();
 
         Optional<? extends ModContainer> opt = ModList.get().getModContainerById(REFERENCE.VMODID);
@@ -105,13 +103,6 @@ public class WerewolvesMod {
         }
 
         WerewolvesConfig.registerConfigs();
-    }
-
-    private void checkDevEnv() {
-        String launchTarget = System.getenv().get("target");
-        if (launchTarget != null && launchTarget.contains("dev")) {
-            WerewolvesMod.inDev = true;
-        }
     }
 
     private boolean setupAPI;

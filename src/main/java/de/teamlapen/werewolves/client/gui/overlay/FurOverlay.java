@@ -26,7 +26,7 @@ public class FurOverlay extends GuiComponent implements IIngameOverlay {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, FUR);
             RenderSystem.enableBlend();
-            blit(mStack, 0, 0, this.getBlitOffset(), 0, 0, this.mc.getWindow().getScreenWidth(), this.mc.getWindow().getScreenHeight(), this.mc.getWindow().getGuiScaledHeight(), this.mc.getWindow().getGuiScaledWidth());
+            blit(mStack, 0, 0, this.getBlitOffset(), 0, 0, this.mc.getWindow().getScreenWidth(), this.mc.getWindow().getScreenHeight(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight());
             RenderSystem.disableBlend();
         }
     }

@@ -132,7 +132,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             if (!usesTransformationTime(werewolfPlayer.getRepresentingPlayer())) {
                 return false;
             }
-        return increaseWerewolfTime(werewolfPlayer) || !(werewolfPlayer.getRepresentingPlayer() instanceof ServerPlayer) || !PermissionAPI.getPermission((ServerPlayer) werewolfPlayer.getRepresentingPlayer(), Permissions.FORM);
+        return increaseWerewolfTime(werewolfPlayer) || (werewolfPlayer.getRepresentingPlayer() instanceof ServerPlayer && !PermissionAPI.getPermission((ServerPlayer) werewolfPlayer.getRepresentingPlayer(), Permissions.FORM));
     }
 
     protected boolean usesTransformationTime(LivingEntity player) {
@@ -179,7 +179,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public int getDuration(IWerewolfPlayer werewolf) {
-        return Integer.MAX_VALUE - 1;
+        return 10000;
     }
 
     @Override
