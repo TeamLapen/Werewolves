@@ -7,7 +7,7 @@ import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.client.render.layer.WerewolfFaceOverlayLayer;
+import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
 import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -45,8 +45,8 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
 
         this.models.put(WerewolfForm.NONE, new WerewolfModelWrapper<>(() -> null, null, 0, false));
         this.models.put(WerewolfForm.HUMAN, new WerewolfModelWrapper<>(() -> new WerewolfEarsModel<>(context.bakeLayer(ModModelRender.EARS_CLAWS)), (renderer) -> Collections.emptyList(), WerewolfModelWrapper::getHumanTextures, size, false));
-        this.models.put(WerewolfForm.BEAST, new WerewolfModelWrapper<>(() -> new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer, eyeOverlays)), WerewolfModelWrapper::getBeastTextures, 2.6f * size, true));
-        this.models.put(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper<>(() -> new WerewolfSurvivalistModel<>(context.bakeLayer(ModModelRender.WEREWOLF_SURVIVALIST)), (renderer) -> Collections.singleton(new WerewolfFaceOverlayLayer<>(renderer, eyeOverlays)), WerewolfModelWrapper::getSurvivalTextures, size, true));
+        this.models.put(WerewolfForm.BEAST, new WerewolfModelWrapper<>(() -> new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)), (renderer) -> Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST, renderer, eyeOverlays)), WerewolfModelWrapper::getBeastTextures, 2.6f * size, true));
+        this.models.put(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper<>(() -> new WerewolfSurvivalistModel<>(context.bakeLayer(ModModelRender.WEREWOLF_SURVIVALIST)), (renderer) -> Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.SURVIVALIST, renderer, eyeOverlays)), WerewolfModelWrapper::getSurvivalTextures, size, true));
         this.models.forEach((a, b) -> b.refresh(this));
     }
 
@@ -81,6 +81,6 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
     @Nonnull
     @Override
     public ResourceLocation getTextureLocation(@Nonnull T entity) {
-        return this.textures.get(Helper.asIWerewolf(entity).getSkinType() % this.form.getSkinTypes());
+        return this.textures.get(Helper.asIWerewolf(entity).getSkinType(this.form) % this.form.getSkinTypes());
     }
 }

@@ -27,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @Mixin(Villager.class)
 public abstract class MixinVillagerEntity extends AbstractVillager implements IVillagerTransformable {
@@ -123,7 +124,7 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     }
 
     @Override
-    public int getSkinType() {
+    public int getSkinType(@Nullable WerewolfForm form) {
         int i = getEntityData().get(TYPE);
         return Math.max(i, 0);
     }

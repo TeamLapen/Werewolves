@@ -35,6 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolfAlpha {
@@ -213,17 +214,17 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public int getSkinType() {
+    public int getSkinType(@Nullable WerewolfForm form) {
         return 0;
     }
 
     @Override
-    public int getEyeType() {
+    public int getEyeType(@Nullable WerewolfForm form) {
         return 0;
     }
 
     @Override
-    public boolean hasGlowingEyes() {
+    public boolean hasGlowingEyes(WerewolfForm form) {
         return true;
     }
 

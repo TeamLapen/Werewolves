@@ -30,6 +30,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransformable {
@@ -166,19 +167,19 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
-    public int getSkinType() {
+    public int getSkinType(@Nullable WerewolfForm form) {
         int i = this.getEntityData().get(SKIN_TYPE);
         return Math.max(i, 0);
     }
 
     @Override
-    public int getEyeType() {
+    public int getEyeType(@Nullable WerewolfForm form) {
         int i = this.getEntityData().get(EYE_TYPE);
         return Math.max(i, 0);
     }
 
     @Override
-    public boolean hasGlowingEyes() {
+    public boolean hasGlowingEyes(WerewolfForm form) {
         return this.getEntityData().get(GLOWING_EYES);
     }
 

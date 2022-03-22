@@ -49,10 +49,6 @@ public interface WerewolfTransformable extends IWerewolfDataholder {
 
     EntityActionTier getEntityTier();
 
-    int getSkinType();
-
-    int getEyeType();
-
     default void reset() {
     }
 

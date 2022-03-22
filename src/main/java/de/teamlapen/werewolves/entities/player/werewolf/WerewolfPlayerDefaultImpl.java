@@ -103,17 +103,17 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     }
 
     @Override
-    public int getSkinType() {
+    public int getSkinType(WerewolfForm form) {
         return 0;
     }
 
     @Override
-    public int getEyeType() {
+    public int getEyeType(WerewolfForm form) {
         return 0;
     }
 
     @Override
-    public boolean hasGlowingEyes() {
+    public boolean hasGlowingEyes(WerewolfForm form) {
         return false;
     }
 }

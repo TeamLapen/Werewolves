@@ -695,17 +695,17 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    public int getEyeType() {
-        return this.eyeType.getOrDefault(this.form, 0);
+    public int getEyeType(WerewolfForm form) {
+        return this.eyeType.getOrDefault(form, 0);
     }
 
     @Override
-    public int getSkinType() {
-        return this.skinType.getOrDefault(this.form, 0);
+    public int getSkinType(WerewolfForm form) {
+        return this.skinType.getOrDefault(form, 0);
     }
 
     @Override
-    public boolean hasGlowingEyes() {
-        return this.glowingEyes.getOrDefault(this.form, false);
+    public boolean hasGlowingEyes(WerewolfForm form) {
+        return this.glowingEyes.getOrDefault(form, false);
     }
 }
