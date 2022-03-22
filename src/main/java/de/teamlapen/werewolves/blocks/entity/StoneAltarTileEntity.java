@@ -282,7 +282,7 @@ public class StoneAltarTileEntity extends InventoryBlockEntity {
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
-        this.saveAdditional(new CompoundTag());
+        this.saveAdditional(tag);
         return tag;
     }
 

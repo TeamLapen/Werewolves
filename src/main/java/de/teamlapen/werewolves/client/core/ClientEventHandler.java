@@ -27,7 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.ScreenOpenEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -72,7 +72,7 @@ public class ClientEventHandler {
 
 
     @SubscribeEvent
-    public void onGuiInitPost(ScreenOpenEvent event) {
+    public void onGuiInitPost(ScreenEvent.InitScreenEvent.Post event) {
         if (event.getScreen() instanceof VampirismScreen screen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 ResourceLocation icon = new ResourceLocation(REFERENCE.MODID, "textures/gui/appearance_button.png");
