@@ -222,7 +222,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
         return switch (this.getEntityData().get(FORM)) {
             case 0 -> WerewolfForm.BEAST;
             case 1 -> WerewolfForm.SURVIVALIST;
-            default -> throw new IllegalStateException("Werewolf form is not set");
+            default -> WerewolfForm.HUMAN;
         };
     }
 }
