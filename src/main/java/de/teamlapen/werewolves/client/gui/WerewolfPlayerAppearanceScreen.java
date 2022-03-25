@@ -124,17 +124,17 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
             ((ScreenAccessor) this).removeWidget_werewolves(this.skinList);
             ((ScreenAccessor) this).removeWidget_werewolves(this.glowingEyesButton);
         }
-        if (this.activeForm != null){
+        if (this.activeForm != null) {
             this.updateServer();
         }
 
         this.activeForm = form;
-        this.skinType = werewolf.getSkinType();
-        this.eyeType = werewolf.getEyeType();
-        this.glowingEyes = werewolf.hasGlowingEyes();
+        this.skinType = werewolf.getSkinType(form);
+        this.eyeType = werewolf.getEyeType(form);
+        this.glowingEyes = werewolf.hasGlowingEyes(form);
 
         this.eyeList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100, 20, REFERENCE.EYE_TYPE_COUNT, new TranslatableComponent("text.werewolves.appearance.eye"), this::eye, this::hoverEye));
-        this.skinList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft+20, this.guiTop+50+19+20, 99, 80, 20, form.getSkinTypes(),new TranslatableComponent("text.werewolves.appearance.skin"),this::skin, this::hoverSkin));
+        this.skinList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 50 + 19 + 20, 99, 80, 20, form.getSkinTypes(), new TranslatableComponent("text.werewolves.appearance.skin"), this::skin, this::hoverSkin));
         this.eyeButton = this.addRenderableWidget(new ExtendedButton(eyeList.x, eyeList.y - 20, eyeList.getWidth() + 1, 20, new TextComponent(""), (b) -> {
             this.setEyeListVisibility(!eyeList.visible);
         }));
@@ -145,7 +145,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
             public void onPress() {
                 super.onPress();
                 glowingEyes = this.selected();
-                werewolf.hasGlowingEyes();
+                werewolf.setGlowingEyes(form, glowingEyes);
             }
         });
         this.setEyeListVisibility(false);
