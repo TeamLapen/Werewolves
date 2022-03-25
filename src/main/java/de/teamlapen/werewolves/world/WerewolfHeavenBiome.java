@@ -44,18 +44,18 @@ public class WerewolfHeavenBiome {
     public static BiomeGenerationSettings.Builder createGenerationBuilder() {
         BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder();
         BiomeDefaultFeatures.addDefaultCarversAndLakes(builder);
-        BiomeDefaultFeatures.addForestGrass(builder);
-        WerewolvesBiomeFeatures.addWerewolfBiomeTrees(builder);
-
-        BiomeDefaultFeatures.addDefaultSoftDisks(builder);
-        BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
-        BiomeDefaultFeatures.addDefaultMonsterRoom(builder);
-        BiomeDefaultFeatures.addDefaultOres(builder);
-        BiomeDefaultFeatures.addRareBerryBushes(builder);
         VampirismBiomeFeatures.addModdedWaterLake(builder);
+        BiomeDefaultFeatures.addDefaultMonsterRoom(builder);
+        BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
+        BiomeDefaultFeatures.addDefaultOres(builder);
+        BiomeDefaultFeatures.addDefaultSoftDisks(builder);
+
+
+        WerewolvesBiomeFeatures.addWerewolfBiomeTrees(builder);
         BiomeDefaultFeatures.addDefaultFlowers(builder);
+        BiomeDefaultFeatures.addForestGrass(builder);
         BiomeDefaultFeatures.addSavannaGrass(builder);
+        BiomeDefaultFeatures.addRareBerryBushes(builder);
         return builder;
     }
-
 }

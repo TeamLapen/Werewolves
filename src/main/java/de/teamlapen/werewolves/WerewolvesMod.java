@@ -20,6 +20,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.items.WerewolfRefinementItem;
 import de.teamlapen.werewolves.modcompat.guide.WerewolvesGuideBook;
+import de.teamlapen.werewolves.modcompat.terrablender.TerraBlenderCompat;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.proxy.Proxy;
@@ -142,11 +143,13 @@ public class WerewolvesMod {
         MinecraftForge.EVENT_BUS.register(new ModEntityEventHandler());
         MinecraftForge.EVENT_BUS.register(new ModPlayerEventHandler());
         MinecraftForge.EVENT_BUS.register(new GeneralEventHandler());
+        event.enqueueWork(TerraBlenderCompat::registerBiomeProviderIfPresentUnsafe);
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event) {
         registryManager.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
         proxy.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
+        event.enqueueWork(ModBiomes::addBiomesToOverworldUnsafe);
     }
 
     private void processIMC(final InterModProcessEvent event) {

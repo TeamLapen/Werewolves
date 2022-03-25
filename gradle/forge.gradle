@@ -31,7 +31,12 @@ dependencies {
         annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     }
 
-    //Blame for debugging
+    // Terrablender for biome addition
+    compileOnly fg.deobf("com.github.glitchfiend:TerraBlender-forge:${project.terrablender_version}")
+    // Only enable for testing
+//    runtimeOnly fg.deobf("com.github.glitchfiend:TerraBlender-forge:${project.terrablender_version}")
+
+    // Blame for debugging
 //    runtimeOnly fg.deobf("com.telepathicgrunt:Blame:${project.blame_version}")
 }
 
