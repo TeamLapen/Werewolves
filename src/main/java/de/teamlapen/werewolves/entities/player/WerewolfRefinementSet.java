@@ -3,12 +3,10 @@ package de.teamlapen.werewolves.entities.player;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
 import de.teamlapen.vampirism.player.refinements.RefinementSet;
-import de.teamlapen.werewolves.util.WReference;
+import de.teamlapen.werewolves.api.WReference;
 
 import javax.annotation.Nonnull;
 import java.util.Set;
-
-import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet.Rarity;
 
 public class WerewolfRefinementSet extends RefinementSet {
 

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import de.teamlapen.werewolves.blocks.StoneAltarBlock;
-import de.teamlapen.werewolves.blocks.entity.StoneAltarTileEntity;
+import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.core.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarTileEntity> {
+public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity> {
     private static final ItemStack LIVER_STACK = new ItemStack(ModItems.liver, 1);
     private static final ItemStack BONE_STACK = new ItemStack(ModItems.cracked_bone, 1);
 
@@ -26,7 +26,7 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarTileEntity>
     }
 
     @Override
-    public void render(@Nonnull StoneAltarTileEntity tileEntityIn, float partialTicks, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(@Nonnull StoneAltarBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (!tileEntityIn.getItem(0).isEmpty()) {
             renderItem(tileEntityIn, matrixStackIn);
             matrixStackIn.translate(-0.5, 0, 0.5); // translate to final location
@@ -45,7 +45,7 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarTileEntity>
         }
     }
 
-    private void renderItem(@Nonnull StoneAltarTileEntity tileEntityIn, @Nonnull PoseStack matrixStackIn) {
+    private void renderItem(@Nonnull StoneAltarBlockEntity tileEntityIn, @Nonnull PoseStack matrixStackIn) {
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5, 0.64, 0.5); // translate to middle
         matrixStackIn.scale(0.4f, 0.4f, 0.4f); // adjust item size

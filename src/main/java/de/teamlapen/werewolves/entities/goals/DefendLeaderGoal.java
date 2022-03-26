@@ -1,10 +1,9 @@
 package de.teamlapen.werewolves.entities.goals;
 
 import de.teamlapen.vampirism.api.entity.IEntityLeader;
-import de.teamlapen.werewolves.entities.IEntityFollower;
+import de.teamlapen.werewolves.api.entities.IEntityFollower;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.goal.Goal.Flag;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 

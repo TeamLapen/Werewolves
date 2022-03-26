@@ -39,7 +39,7 @@ public class ModItems {
     public static final ShovelItem silver_shovel = getNull();
     public static final AxeItem silver_axe = getNull();
     public static final PickaxeItem silver_pickaxe = getNull();
-    public static final SilverSword silver_sword = getNull();
+    public static final SilverSwordItem silver_sword = getNull();
     public static final CrossbowArrowItem crossbow_arrow_silver_bolt = getNull();
     public static final LiverItem liver = getNull();
     public static final Item cracked_bone = getNull();
@@ -79,7 +79,7 @@ public class ModItems {
         registry.register(new ShovelItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_shovel"));
         registry.register(new AxeItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_axe"));
         registry.register(new PickaxeItem(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_pickaxe"));
-        registry.register(new SilverSword(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_sword"));
+        registry.register(new SilverSwordItem(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_sword"));
         registry.register(new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
             @Override
             public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {

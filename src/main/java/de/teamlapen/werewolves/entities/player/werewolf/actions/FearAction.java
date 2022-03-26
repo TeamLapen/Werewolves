@@ -1,7 +1,8 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.world.entity.Mob;

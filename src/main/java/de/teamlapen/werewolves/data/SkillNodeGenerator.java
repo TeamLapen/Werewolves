@@ -3,9 +3,9 @@ package de.teamlapen.werewolves.data;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.data.recipebuilder.FinishedSkillNode;
 import de.teamlapen.vampirism.data.recipebuilder.SkillNodeBuilder;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 

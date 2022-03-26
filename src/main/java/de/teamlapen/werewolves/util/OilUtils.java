@@ -1,12 +1,12 @@
 package de.teamlapen.werewolves.util;
 
+import de.teamlapen.werewolves.api.items.oil.IOil;
 import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.core.ModRegistries;
-import de.teamlapen.werewolves.items.oil.IOil;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.List;

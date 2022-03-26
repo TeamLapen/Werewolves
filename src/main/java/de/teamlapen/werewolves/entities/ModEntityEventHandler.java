@@ -3,15 +3,21 @@ package de.teamlapen.werewolves.entities;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.blockentity.TotemHelper;
 import de.teamlapen.werewolves.WerewolvesMod;
+import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.entities.werewolf.IVillagerTransformable;
+import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
-import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
-import de.teamlapen.werewolves.util.*;
+import de.teamlapen.werewolves.util.BiteDamageSource;
+import de.teamlapen.werewolves.util.FormHelper;
+import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.WeaponOilHelper;
 import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.server.level.ServerLevel;
@@ -67,7 +73,7 @@ public class ModEntityEventHandler {
         }
         if (event.getTarget() instanceof WerewolfTransformable) {
             if (((WerewolfTransformable) event.getTarget()).canTransform()) {
-                 ((WerewolfTransformable) event.getTarget()).transformToWerewolf(WerewolfTransformable.TransformType.TIME_LIMITED);
+                 ((WerewolfTransformable) event.getTarget()).transformToWerewolf(TransformType.TIME_LIMITED);
             }
         }
     }

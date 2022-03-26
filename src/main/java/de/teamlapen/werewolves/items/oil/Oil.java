@@ -1,8 +1,9 @@
 package de.teamlapen.werewolves.items.oil;
 
+import de.teamlapen.werewolves.api.items.oil.IOil;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Component;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.List;

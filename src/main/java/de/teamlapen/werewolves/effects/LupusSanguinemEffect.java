@@ -1,9 +1,10 @@
 package de.teamlapen.werewolves.effects;
 
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.client.render.util.HiddenDurationEffectRenderer;
+import de.teamlapen.werewolves.effects.inst.LupusSanguinemEffectInstance;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;

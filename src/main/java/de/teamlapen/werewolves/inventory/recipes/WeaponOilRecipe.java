@@ -1,14 +1,14 @@
 package de.teamlapen.werewolves.inventory.recipes;
 
+import de.teamlapen.werewolves.api.items.IOilItem;
+import de.teamlapen.werewolves.api.items.oil.IOil;
 import de.teamlapen.werewolves.core.ModRecipes;
-import de.teamlapen.werewolves.items.IOilItem;
-import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.util.WeaponOilHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;

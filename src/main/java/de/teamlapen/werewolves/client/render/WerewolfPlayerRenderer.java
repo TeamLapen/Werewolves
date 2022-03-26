@@ -1,10 +1,10 @@
 package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;

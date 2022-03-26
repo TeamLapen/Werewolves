@@ -1,11 +1,12 @@
 package de.teamlapen.werewolves.util;
 
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfDataholder;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
-import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
-import de.teamlapen.werewolves.entities.werewolf.IWerewolfDataholder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;

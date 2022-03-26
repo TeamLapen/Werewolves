@@ -2,9 +2,9 @@ package de.teamlapen.werewolves.client.render.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;

@@ -9,13 +9,13 @@ import de.teamlapen.vampirism.player.tasks.reward.LordLevelReward;
 import de.teamlapen.vampirism.player.tasks.reward.RefinementItemReward;
 import de.teamlapen.vampirism.player.tasks.unlock.LordLvlUnlocker;
 import de.teamlapen.vampirism.player.tasks.unlock.LvlUnlocker;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WReference;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.stats.Stats;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 

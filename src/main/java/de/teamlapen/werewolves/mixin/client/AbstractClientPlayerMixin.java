@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.mixin.client;
 
 import com.mojang.authlib.GameProfile;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;

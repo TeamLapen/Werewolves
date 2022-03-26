@@ -1,10 +1,10 @@
 package de.teamlapen.werewolves.modcompat.jei;
 
 import com.google.common.base.Objects;
+import de.teamlapen.werewolves.api.items.oil.IOil;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModRegistries;
 import de.teamlapen.werewolves.inventory.recipes.TagNBTBrewingRecipe;
-import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WeaponOilHelper;
@@ -18,11 +18,11 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.plugins.vanilla.brewing.BrewingRecipeUtil;
 import mezz.jei.plugins.vanilla.brewing.JeiBrewingRecipe;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 @JeiPlugin
 public class WerewolvesJEIPlugins implements IModPlugin {
 

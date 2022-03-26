@@ -1,10 +1,10 @@
 package de.teamlapen.werewolves.items;
 
-import de.teamlapen.werewolves.items.oil.IOil;
+import de.teamlapen.werewolves.api.items.oil.IOil;
 import de.teamlapen.werewolves.util.OilUtils;
 import net.minecraft.world.item.ItemStack;
 
-public interface IOilItem {
+public interface IOilItem extends de.teamlapen.werewolves.api.items.IOilItem {
 
     default IOil getOil(ItemStack stack) {
         return OilUtils.getOil(stack);

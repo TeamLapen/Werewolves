@@ -3,8 +3,8 @@ package de.teamlapen.werewolves.items;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
 import de.teamlapen.vampirism.items.VampireRefinementItem;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;

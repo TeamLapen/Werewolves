@@ -2,10 +2,10 @@ package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.gui.VampirismScreen;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.core.ModActions;
-import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
 import de.teamlapen.werewolves.util.FormHelper;

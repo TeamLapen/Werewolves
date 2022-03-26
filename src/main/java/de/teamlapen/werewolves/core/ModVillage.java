@@ -5,14 +5,14 @@ import com.google.common.collect.ImmutableSet;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.entity.FactionVillagerProfession;
 import de.teamlapen.vampirism.world.FactionPointOfInterestType;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WReference;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 

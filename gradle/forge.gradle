@@ -58,6 +58,7 @@ minecraft {
             mods {
                 werewolves {
                     source sourceSets.main
+                    source sourceSets.api
                 }
             }
 
@@ -79,6 +80,7 @@ minecraft {
             mods {
                 werewolves {
                     source sourceSets.main
+                    source sourceSets.api
                 }
 
 
@@ -95,6 +97,7 @@ minecraft {
             mods {
                 werewolves {
                     source sourceSets.main
+                    source sourceSets.api
                 }
             }
         }
@@ -156,6 +159,8 @@ jar {
 
     from sourceSets.main.output.classesDirs
     from sourceSets.main.output.resourcesDir
+    from sourceSets.api.output.classesDirs
+    from sourceSets.api.output.resourcesDir
 
     from{
         fileTree('build/translations').matching{

@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.network;
 import de.teamlapen.lib.network.IMessage;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.werewolves.WerewolvesMod;
-import de.teamlapen.werewolves.util.WerewolfForm;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 

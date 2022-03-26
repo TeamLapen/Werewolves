@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.items.oil.IOil;
+import de.teamlapen.werewolves.api.items.oil.IOil;
 import de.teamlapen.werewolves.items.oil.Oil;
 import de.teamlapen.werewolves.items.oil.SilverOil;
 import de.teamlapen.werewolves.util.REFERENCE;

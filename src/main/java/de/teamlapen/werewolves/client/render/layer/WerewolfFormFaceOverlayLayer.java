@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.client.render.layer;
 
+import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
-import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
-import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;

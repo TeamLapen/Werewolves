@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.player.skill.ActionSkill;
-import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.skill.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.util.REFERENCE;

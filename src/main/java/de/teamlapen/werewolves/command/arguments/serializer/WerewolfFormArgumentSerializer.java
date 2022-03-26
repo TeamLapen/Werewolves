@@ -2,8 +2,8 @@ package de.teamlapen.werewolves.command.arguments.serializer;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
-import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.commands.synchronization.ArgumentSerializer;
 import net.minecraft.network.FriendlyByteBuf;
 

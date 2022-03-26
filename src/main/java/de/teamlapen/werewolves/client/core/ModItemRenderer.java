@@ -2,9 +2,9 @@ package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
+import de.teamlapen.werewolves.api.items.oil.IOil;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.items.CrossbowArrowItem;
-import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.util.OilUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColors;

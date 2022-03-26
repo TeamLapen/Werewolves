@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.blocks.entity.StoneAltarTileEntity;
+import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,10 +13,10 @@ import static de.teamlapen.lib.lib.util.UtilLib.getNull;
 @ObjectHolder(REFERENCE.MODID)
 public class ModTiles {
 
-    public static final BlockEntityType<StoneAltarTileEntity> stone_altar = getNull();
+    public static final BlockEntityType<StoneAltarBlockEntity> stone_altar = getNull();
 
     static void registerTiles(IForgeRegistry<BlockEntityType<?>> registry) {
-        registry.register(create("stone_altar", StoneAltarTileEntity::new, ModBlocks.stone_altar));
+        registry.register(create("stone_altar", StoneAltarBlockEntity::new, ModBlocks.stone_altar));
     }
 
     @SuppressWarnings("ConstantConditions")

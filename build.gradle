@@ -31,11 +31,14 @@ ext.mod_version="Test"
 ext.type="test"
 
 sourceSets {
+    api
     main {
         resources {
             srcDirs += 'src/generated/resources'
             exclude '.cache'
         }
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
     }
 }
 
@@ -44,6 +47,12 @@ apply from: 'gradle/forge.gradle'
 apply from: 'gradle/artifacts.gradle'
 apply from: 'gradle/maven.gradle'
 apply from: 'gradle/curse.gradle'
+
+configurations {
+    apiCompile.extendsFrom(compile)
+    apiImplementation.extendsFrom(implementation)
+    apiRuntimeOnly.extendsFrom(runtimeOnly)
+}
 
 
 idea {

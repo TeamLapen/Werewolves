@@ -1,8 +1,9 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 
 public class SenseWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
 

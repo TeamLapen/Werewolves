@@ -2,16 +2,16 @@ package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
+import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
-import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;

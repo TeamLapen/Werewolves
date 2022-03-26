@@ -1,10 +1,11 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.lib.lib.util.UtilLib;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
-import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;

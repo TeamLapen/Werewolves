@@ -1,16 +1,17 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModAttributes;
-import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 import java.util.UUID;
 
-public class RageWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu{
+public class RageWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
 
     private static final UUID BITE_MODIFIER = UUID.fromString("0ae51804-eaf4-456e-b4ff-24ed326557f4");
 

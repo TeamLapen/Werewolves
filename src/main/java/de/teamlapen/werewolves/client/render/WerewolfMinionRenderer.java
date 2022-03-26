@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
-import de.teamlapen.werewolves.util.WerewolfForm;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 

@@ -2,20 +2,21 @@ package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.entity.VampirismEntity;
+import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfMob;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.util.FormHelper;
-import de.teamlapen.werewolves.util.WReference;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nonnull;
 import java.util.Random;

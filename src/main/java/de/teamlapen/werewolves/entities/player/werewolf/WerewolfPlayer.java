@@ -15,10 +15,13 @@ import de.teamlapen.vampirism.player.LevelAttributeModifier;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
 import de.teamlapen.vampirism.player.skills.SkillHandler;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
+import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
-import de.teamlapen.werewolves.effects.WerewolfNightVisionEffect;
+import de.teamlapen.werewolves.effects.inst.WerewolfNightVisionEffectInstance;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
@@ -245,14 +248,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
                 MobEffectInstance effect = this.player.getEffect(MobEffects.NIGHT_VISION);
                 if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
-                    if (!(effect instanceof WerewolfNightVisionEffect)) {
+                    if (!(effect instanceof WerewolfNightVisionEffectInstance)) {
                         if (effect != null) {
                             player.removeEffectNoUpdate(effect.getEffect());
                         }
-                        player.addEffect(new WerewolfNightVisionEffect(effect));
+                        player.addEffect(new WerewolfNightVisionEffectInstance(effect));
                     }
                 } else {
-                    if (effect instanceof WerewolfNightVisionEffect) {
+                    if (effect instanceof WerewolfNightVisionEffectInstance) {
                         this.player.removeEffect(effect.getEffect());
                         effect = ((EffectInstanceWithSource) effect).getHiddenEffect();
                         if (effect != null) {
@@ -271,9 +274,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                 }
 
                 MobEffectInstance effect = this.player.getEffect(MobEffects.NIGHT_VISION);
-                if (this.getForm().isTransformed() && this.specialAttributes.night_vision && !(effect instanceof WerewolfNightVisionEffect)) {
+                if (this.getForm().isTransformed() && this.specialAttributes.night_vision && !(effect instanceof WerewolfNightVisionEffectInstance)) {
                     player.removeEffectNoUpdate(MobEffects.NIGHT_VISION);
-                    player.addEffect(new WerewolfNightVisionEffect());
+                    player.addEffect(new WerewolfNightVisionEffectInstance());
                 }
             }
 

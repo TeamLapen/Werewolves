@@ -6,6 +6,8 @@ import de.teamlapen.lib.lib.network.AbstractPacketDispatcher;
 import de.teamlapen.lib.lib.network.ISyncable;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.client.core.ModBlocksRenderer;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -16,7 +18,6 @@ import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.data.*;
 import de.teamlapen.werewolves.entities.ModEntityEventHandler;
 import de.teamlapen.werewolves.entities.player.ModPlayerEventHandler;
-import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.items.WerewolfRefinementItem;
 import de.teamlapen.werewolves.modcompat.guide.WerewolvesGuideBook;
@@ -60,7 +61,7 @@ public class WerewolvesMod {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final AbstractPacketDispatcher dispatcher = new ModPacketDispatcher();
-    public static final Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    public static final Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
     public static final MobCategory WEREWOLF_CREATURE_TYPE = MobCategory.create("werewolves_werewolf", "werewolves_werewolf", 8, false, false, 128);
     private static final MobType WEREWOLF_CREATURE_ATTRIBUTES = new MobType();
     public static WerewolvesMod instance;

@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
-import de.teamlapen.werewolves.entities.action.werewolf.BiteEntityAction;
+import de.teamlapen.werewolves.entities.werewolf.action.BiteEntityAction;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;

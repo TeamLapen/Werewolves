@@ -2,9 +2,9 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.effects.BadOmenEffect;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.effects.*;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;

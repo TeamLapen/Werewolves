@@ -2,11 +2,12 @@ package de.teamlapen.werewolves.util;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
+import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.entities.werewolf.IWerewolf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.Container;

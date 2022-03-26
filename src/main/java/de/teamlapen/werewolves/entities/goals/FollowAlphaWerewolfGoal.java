@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.entities.goals;
 
 import de.teamlapen.vampirism.api.entity.IEntityLeader;
-import de.teamlapen.werewolves.entities.IEntityFollower;
+import de.teamlapen.werewolves.api.entities.IEntityFollower;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.ai.goal.Goal;

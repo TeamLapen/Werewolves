@@ -19,11 +19,14 @@ import de.teamlapen.vampirism.entity.minion.management.MinionTasks;
 import de.teamlapen.vampirism.entity.minion.management.PlayerMinionController;
 import de.teamlapen.vampirism.player.FactionBasePlayer;
 import de.teamlapen.vampirism.world.MinionWorldData;
+import de.teamlapen.werewolves.api.entities.IEntityFollower;
+import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModSounds;
-import de.teamlapen.werewolves.entities.IEntityFollower;
 import de.teamlapen.werewolves.entities.goals.DefendLeaderGoal;
 import de.teamlapen.werewolves.entities.goals.FollowAlphaWerewolfGoal;
 import de.teamlapen.werewolves.entities.goals.WerewolfAttackVillageGoal;
@@ -31,7 +34,6 @@ import de.teamlapen.werewolves.entities.goals.WerewolfDefendVillageGoal;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.WerewolfForm;
 import de.teamlapen.werewolves.util.WerewolfVillageData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -75,7 +77,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private final ActionHandlerEntity<?> entityActionHandler;
     private WerewolfTransformable transformed;
     /**
-     * only used if {@link #transformType} = {@link de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable.TransformType#TIME_LIMITED}
+     * only used if {@link #transformType} = {@link TransformType#TIME_LIMITED}
      */
     private int transformedDuration;
     private TransformType transformType;

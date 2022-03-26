@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.blocks;
 
 import com.mojang.math.Vector3f;
-import de.teamlapen.werewolves.blocks.entity.StoneAltarTileEntity;
+import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.core.ModTiles;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.ChatFormatting;
@@ -96,7 +96,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
                         makeParticles((Level) world, pos.above(1), false, true);
                     }
                 } else {
-                    ((StoneAltarTileEntity) world.getBlockEntity(pos)).aboardRitual();
+                    ((StoneAltarBlockEntity) world.getBlockEntity(pos)).aboardRitual();
                 }
             }
             return true;
@@ -108,7 +108,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     public void onPlace(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state2, boolean p_220082_5_) {
         super.onPlace(state, world, pos, state2, p_220082_5_);
         if (state.getValue(LIT) && state2.getBlock() == this && !state2.getValue(LIT)) {
-            ((StoneAltarTileEntity) world.getBlockEntity(pos)).startRitual(state);
+            ((StoneAltarBlockEntity) world.getBlockEntity(pos)).startRitual(state);
         }
     }
 
@@ -122,9 +122,9 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     @Override
     public InteractionResult use(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand handIn, @Nonnull BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(handIn);
-        StoneAltarTileEntity te = ((StoneAltarTileEntity) worldIn.getBlockEntity(pos));
+        StoneAltarBlockEntity te = ((StoneAltarBlockEntity) worldIn.getBlockEntity(pos));
         if (!worldIn.isClientSide && te != null) {
-            StoneAltarTileEntity.Result result = te.canActivate(player);
+            StoneAltarBlockEntity.Result result = te.canActivate(player);
             if (!state.getValue(LIT)) {
                 switch (result) {
                     case OTHER_FACTION -> {
@@ -272,6 +272,6 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@Nonnull Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-        return createTickerHelper(type, ModTiles.stone_altar, StoneAltarTileEntity::tick);
+        return createTickerHelper(type, ModTiles.stone_altar, StoneAltarBlockEntity::tick);
     }
 }

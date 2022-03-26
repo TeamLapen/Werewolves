@@ -1,24 +1,22 @@
 package de.teamlapen.werewolves.items;
 
+import de.teamlapen.werewolves.api.items.oil.IOil;
 import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.core.ModRegistries;
-import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.items.oil.WeaponOil;
 import de.teamlapen.werewolves.util.OilUtils;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class OilItem extends Item implements IOilItem {
 

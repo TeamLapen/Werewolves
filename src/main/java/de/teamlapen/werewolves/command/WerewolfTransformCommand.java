@@ -2,7 +2,8 @@ package de.teamlapen.werewolves.command;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import de.teamlapen.lib.lib.util.BasicCommand;
-import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
+import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,7 +27,7 @@ public class WerewolfTransformCommand extends BasicCommand {
     private static int transformToWerewolf(Player player) {
         try {
             List<LivingEntity> entites = player.level.getEntitiesOfClass(LivingEntity.class, new AABB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
-            entites.forEach(entity -> ((WerewolfTransformable) entity).transformToWerewolf(WerewolfTransformable.TransformType.TIME_LIMITED));
+            entites.forEach(entity -> ((WerewolfTransformable) entity).transformToWerewolf(TransformType.TIME_LIMITED));
         } catch (Exception e) {
             LogManager.getLogger().error(e);
         }
