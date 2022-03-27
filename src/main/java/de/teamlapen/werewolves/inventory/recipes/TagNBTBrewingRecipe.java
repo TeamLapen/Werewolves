@@ -2,10 +2,10 @@ package de.teamlapen.werewolves.inventory.recipes;
 
 import com.mojang.datafixers.util.Either;
 import de.teamlapen.werewolves.util.Helper;
+import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 
 import javax.annotation.Nonnull;

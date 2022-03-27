@@ -80,6 +80,7 @@ public class MobLootModifier extends LootModifier {
         public MobLootModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] lootConditions) {
             return new MobLootModifier(lootConditions, ForgeHooks.loadLootTable(LOOT_TABLE_SERIALIZER, location, object.get("loottable"), true, WUtils.LOOT_TABLE_MANAGER));
         }
+
         @Override
         public JsonObject write(MobLootModifier instance) {
             JsonObject obj = makeConditions(instance.conditions);

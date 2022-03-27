@@ -46,15 +46,15 @@ public class WerewolvesGuideBook {
         int blockPos = -1;
         for (int i1 = 0; i1 < event.categories.size(); i1++) {
             if (werewolfPos == -1 && event.categories.get(i1).entries.keySet().stream().findAny().map(t -> t.getPath().contains("guide.vampirism.hunter")).orElse(false)) {
-                werewolfPos = i1+1;
+                werewolfPos = i1 + 1;
                 continue;
             }
-            if (itemPos == -1 && event.categories.get(i1).entries.keySet().stream().findAny().map(t -> t.getPath().contains("guide.vampirism.items")).orElse(false)){
-                itemPos = i1 +1;
+            if (itemPos == -1 && event.categories.get(i1).entries.keySet().stream().findAny().map(t -> t.getPath().contains("guide.vampirism.items")).orElse(false)) {
+                itemPos = i1 + 1;
                 continue;
             }
-            if (blockPos == -1 && event.categories.get(i1).entries.keySet().stream().findAny().map(t -> t.getPath().contains("guide.vampirism.blocks")).orElse(false)){
-                blockPos = i1 +1;
+            if (blockPos == -1 && event.categories.get(i1).entries.keySet().stream().findAny().map(t -> t.getPath().contains("guide.vampirism.blocks")).orElse(false)) {
+                blockPos = i1 + 1;
                 continue;
             }
         }
@@ -64,12 +64,12 @@ public class WerewolvesGuideBook {
         CategoryAbstract category = new CategoryItemStack(buildWerewolf(helper), translateComponent("guide.werewolves.entity.werewolf.title"), new ItemStack(ModItems.liver));
         helper.registerLinkablePages(Collections.singletonList(category));
         event.categories.add(werewolfPos, category);
-        if (itemPos >=0) {
+        if (itemPos >= 0) {
             CategoryAbstract items = event.categories.get(itemPos);
             buildItems(items.entries, helper);
             helper.registerLinkablePages(Collections.singletonList(items));
         }
-        if (blockPos >=0) {
+        if (blockPos >= 0) {
             CategoryAbstract blocks = event.categories.get(blockPos);
             buildBlocks(blocks.entries, helper);
             helper.registerLinkablePages(Collections.singletonList(blocks));
@@ -161,8 +161,8 @@ public class WerewolvesGuideBook {
 
     private static void buildBlocks(Map<ResourceLocation, EntryAbstract> entriesIn, BookHelper helper) {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
-        helper.info(ModBlocks.stone_altar).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID,"stone_altar")).build(entries);
-        helper.info(ModBlocks.stone_altar_fire_bowl).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID,"stone_altar_fire_bowl")).build(entries);
+        helper.info(ModBlocks.stone_altar).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID, "stone_altar")).build(entries);
+        helper.info(ModBlocks.stone_altar_fire_bowl).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID, "stone_altar_fire_bowl")).build(entries);
         entriesIn.putAll(entries);
     }
 

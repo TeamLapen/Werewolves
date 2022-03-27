@@ -4,14 +4,12 @@ import de.teamlapen.lib.lib.inventory.InventoryContainer;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModContainer;
 import de.teamlapen.werewolves.core.ModItems;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-
-import de.teamlapen.lib.lib.inventory.InventoryContainer.SelectorInfo;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import javax.annotation.Nonnull;
 

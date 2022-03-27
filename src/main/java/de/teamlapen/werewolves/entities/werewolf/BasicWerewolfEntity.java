@@ -154,7 +154,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     public void start(TransformType type) {
         this.transformType = type;
-        if(type == TransformType.TIME_LIMITED) {
+        if (type == TransformType.TIME_LIMITED) {
             this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get();
         }
     }

@@ -12,11 +12,11 @@ import java.util.*;
 
 public class WerewolfForm {
     private static final Map<String, WerewolfForm> REGISTRY = new HashMap<>();
-    public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false,0, Pair.of(0F, 0F));
-    public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true,3, Pair.of(0.3F,0.5F));
-    public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true,8, Pair.of(0.3F,3F));
-    public static final WerewolfForm BEAST4L = new WerewolfForm("beast4l", WerewolfSize.BEAST, false, true,8, Pair.of(0.3F,3F));
-    public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true,8, Pair.of(0.3F,2.5F));
+    public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false, 0, Pair.of(0F, 0F));
+    public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true, 3, Pair.of(0.3F, 0.5F));
+    public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true, 8, Pair.of(0.3F, 3F));
+    public static final WerewolfForm BEAST4L = new WerewolfForm("beast4l", WerewolfSize.BEAST, false, true, 8, Pair.of(0.3F, 3F));
+    public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true, 8, Pair.of(0.3F, 2.5F));
 
     @Nonnull
     private final String name;
@@ -26,9 +26,9 @@ public class WerewolfForm {
     private final boolean transformed;
     private final int skinTypes;
     private final Component textComponent;
-    private final Pair<Float,Float>  damageReduction;
+    private final Pair<Float, Float> damageReduction;
 
-    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, Pair<Float,Float> damageReduction) {
+    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, Pair<Float, Float> damageReduction) {
         if (REGISTRY.containsKey(name)) throw new IllegalStateException("this name already exists");
         REGISTRY.put(name, this);
         if (sizeMap == null) {
@@ -54,7 +54,7 @@ public class WerewolfForm {
     /**
      * first value is the percentage reduction and second is max damage reduction
      */
-    public Pair<Float,Float> getDamageReduction() {
+    public Pair<Float, Float> getDamageReduction() {
         return damageReduction;
     } //TODO modify and remove obsolete values
 
@@ -79,7 +79,7 @@ public class WerewolfForm {
         return skinTypes;
     }
 
-    public static WerewolfForm getForm(String name){
+    public static WerewolfForm getForm(String name) {
         return REGISTRY.get(name);
     }
 

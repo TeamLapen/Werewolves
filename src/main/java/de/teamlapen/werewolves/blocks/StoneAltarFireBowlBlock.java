@@ -85,7 +85,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
     @Nonnull
     @Override
     public FluidState getFluidState(BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) :super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
 
     @Override
     public boolean placeLiquid(@Nonnull LevelAccessor world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull FluidState fluid) {
-        if (SimpleWaterloggedBlock.super.placeLiquid(world, pos, state, fluid)){
+        if (SimpleWaterloggedBlock.super.placeLiquid(world, pos, state, fluid)) {
             if (state.getValue(LIT)) {
                 world.setBlock(pos, state.setValue(LIT, false), 3);
                 if (world.isClientSide()) {

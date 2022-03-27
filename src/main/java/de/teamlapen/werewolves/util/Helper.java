@@ -57,7 +57,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return !world.dimensionType().hasFixedTime() && time > 12786 && time < 23216;
     }
 
-    public static Map<Item, Integer> getMissingItems(Container inventory, Item[] items, int[] amount){
+    public static Map<Item, Integer> getMissingItems(Container inventory, Item[] items, int[] amount) {
         Map<Item, Integer> missing = new HashMap<>();
         for (int i = 0; i < items.length; i++) {
             missing.put(items[i], amount[i]);
@@ -89,7 +89,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static boolean isRawMeat(ItemStack stack){
+    public static boolean isRawMeat(ItemStack stack) {
         return stack.isEdible() && stack.getItem().getFoodProperties().isMeat() && ModTags.Items.RAWMEATS.contains(stack.getItem());
     }
 

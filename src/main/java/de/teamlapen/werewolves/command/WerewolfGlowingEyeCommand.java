@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 
 public class WerewolfGlowingEyeCommand extends BasicCommand {
 
-    public static ArgumentBuilder<CommandSourceStack,?> register() {
+    public static ArgumentBuilder<CommandSourceStack, ?> register() {
         return Commands.literal("glowingEye")
                 .then(Commands.argument("form", WerewolfFormArgument.nonHumanForms())
                         .then(Commands.argument("on", BoolArgumentType.bool())

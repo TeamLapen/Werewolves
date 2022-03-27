@@ -67,7 +67,7 @@ public class WerewolfModelWrapper<T extends LivingEntity> {
             LOGGER.error("Could not find all textures for the beast werewolf form");
             for (int i = 0; i < WerewolfForm.BEAST.getSkinTypes(); i++) {
                 ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_" + i + ".png");
-                if (!locs.contains(s))  {
+                if (!locs.contains(s)) {
                     locs.add(s);
                 }
             }
@@ -81,7 +81,7 @@ public class WerewolfModelWrapper<T extends LivingEntity> {
             LOGGER.error("Could not find all textures for the survivalist werewolf form");
             for (int i = 0; i < WerewolfForm.SURVIVALIST.getSkinTypes(); i++) {
                 ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_" + i + ".png");
-                if (!locs.contains(s))  {
+                if (!locs.contains(s)) {
                     locs.add(s);
                 }
             }
@@ -95,7 +95,7 @@ public class WerewolfModelWrapper<T extends LivingEntity> {
             LOGGER.error("Could not find all textures for the human werewolf form");
             for (int i = 0; i < WerewolfForm.HUMAN.getSkinTypes(); i++) {
                 ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws_" + i + ".png");
-                if (!locs.contains(s))  {
+                if (!locs.contains(s)) {
                     locs.add(s);
                 }
             }

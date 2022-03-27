@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 
 public class WerewolfRefinementItem extends VampireRefinementItem implements IRefinementItem {
 
-    public static WerewolfRefinementItem getRefinementItem(IRefinementItem.AccessorySlotType type){
+    public static WerewolfRefinementItem getRefinementItem(IRefinementItem.AccessorySlotType type) {
         return switch (type) {
             case AMULET -> ModItems.bone_necklace;
             case RING -> ModItems.charm_bracelet;

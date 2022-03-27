@@ -43,7 +43,7 @@ public class ExpBar extends AbstractWidget {
 
             int ySize = ((int) (111 * perc));
             int color = VampirismAPI.getFactionPlayerHandler(Minecraft.getInstance().player).map(IFactionPlayerHandler::getCurrentFaction).map(IFaction::getColor).orElse(Color.WHITE.getRGB());
-            RenderSystem.setShaderColor(((color >> 16) & 0xFF)/255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, 1.0F);
+            RenderSystem.setShaderColor(((color >> 16) & 0xFF) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, 1.0F);
 
             blit(stack, this.x + 5, this.y + 6, 0, 0, 5, 111);
             blit(stack, this.x + 5, this.y + 6 + (111 - ySize), 5, (111 - ySize), 5, ySize);

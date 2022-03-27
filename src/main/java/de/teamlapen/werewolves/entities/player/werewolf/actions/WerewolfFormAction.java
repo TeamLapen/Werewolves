@@ -125,13 +125,13 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public boolean onUpdate(IWerewolfPlayer werewolfPlayer) {
-            if (werewolfPlayer.getRepresentingPlayer().level.getGameTime() % 20 == 0) {
-                checkDayNightModifier(werewolfPlayer);
-            }
+        if (werewolfPlayer.getRepresentingPlayer().level.getGameTime() % 20 == 0) {
+            checkDayNightModifier(werewolfPlayer);
+        }
 
-            if (!usesTransformationTime(werewolfPlayer.getRepresentingPlayer())) {
-                return false;
-            }
+        if (!usesTransformationTime(werewolfPlayer.getRepresentingPlayer())) {
+            return false;
+        }
         return increaseWerewolfTime(werewolfPlayer) || (werewolfPlayer.getRepresentingPlayer() instanceof ServerPlayer && !PermissionAPI.getPermission((ServerPlayer) werewolfPlayer.getRepresentingPlayer(), Permissions.FORM));
     }
 
@@ -140,8 +140,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
-        if(!consumesWerewolfTime()) return false;
-        return (((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime = Mth.clamp(((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime + ((double) 1 / (double) getTimeModifier(werewolfPlayer)),0,1)) == 1;
+        if (!consumesWerewolfTime()) return false;
+        return (((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime = Mth.clamp(((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime + ((double) 1 / (double) getTimeModifier(werewolfPlayer)), 0, 1)) == 1;
     }
 
     public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {

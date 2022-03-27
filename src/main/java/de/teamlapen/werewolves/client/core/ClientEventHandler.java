@@ -110,12 +110,13 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onItemToolTip(ItemTooltipEvent event)  {
+    public void onItemToolTip(ItemTooltipEvent event) {
         MutableInt position = new MutableInt(1);
         int flags = getHideFlags(event.getItemStack());
         if (shouldShowInTooltip(flags, ItemStack.TooltipPart.ADDITIONAL)) position.increment();
         if (event.getItemStack().hasTag()) {
-            if (shouldShowInTooltip(flags, ItemStack.TooltipPart.ENCHANTMENTS)) position.add(event.getItemStack().getEnchantmentTags().size());
+            if (shouldShowInTooltip(flags, ItemStack.TooltipPart.ENCHANTMENTS))
+                position.add(event.getItemStack().getEnchantmentTags().size());
             WeaponOilHelper.oilOpt(event.getItemStack()).ifPresent((oil) -> {
                 event.getToolTip().add(position.getAndIncrement() - 1, new TranslatableComponent("oil." + oil.getLeft().getRegistryName().getNamespace() + "." + oil.getLeft().getRegistryName().getPath() + ".desc").withStyle(ChatFormatting.GOLD));
             });

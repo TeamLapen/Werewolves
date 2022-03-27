@@ -4,9 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism.client.gui.MinionStatsScreen;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import javax.annotation.Nullable;
 

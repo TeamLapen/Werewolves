@@ -68,18 +68,18 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     }
 
     private void updateServer() {
-        WerewolvesMod.dispatcher.sendToServer(new WerewolfAppearancePacket(this.entity.getId(), "", activeForm, eyeType, skinType, glowingEyes?1:0));
+        WerewolvesMod.dispatcher.sendToServer(new WerewolfAppearancePacket(this.entity.getId(), "", activeForm, eyeType, skinType, glowingEyes ? 1 : 0));
     }
 
     @Override
     protected void init() {
         super.init();
-        Button.OnTooltip notUnlocked = (button, stack, mouseX, mouseY) -> renderTooltip(stack,new TranslatableComponent("text.werewolves.not_unlocked"), mouseX, mouseY);
+        Button.OnTooltip notUnlocked = (button, stack, mouseX, mouseY) -> renderTooltip(stack, new TranslatableComponent("text.werewolves.not_unlocked"), mouseX, mouseY);
         boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.beast_form);
         boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.survival_form);
-        this.human = this.addRenderableWidget(new Button( this.guiLeft + 5, this.guiTop + 20, 67,20, WerewolfForm.HUMAN.getTextComponent(), (button1)-> switchToForm(WerewolfForm.HUMAN)));
-        this.beast = this.addRenderableWidget(new Button( this.guiLeft + 71, this.guiTop + 20, 40,20, WerewolfForm.BEAST.getTextComponent(), (button1)-> switchToForm(WerewolfForm.BEAST), beastUnlocked? Button.NO_TOOLTIP:notUnlocked));
-        this.survival = this.addRenderableWidget(new Button( this.guiLeft + 111, this.guiTop + 20, 55,20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1)-> switchToForm(WerewolfForm.SURVIVALIST), survivalUnlocked? Button.NO_TOOLTIP:notUnlocked));
+        this.human = this.addRenderableWidget(new Button(this.guiLeft + 5, this.guiTop + 20, 67, 20, WerewolfForm.HUMAN.getTextComponent(), (button1) -> switchToForm(WerewolfForm.HUMAN)));
+        this.beast = this.addRenderableWidget(new Button(this.guiLeft + 71, this.guiTop + 20, 40, 20, WerewolfForm.BEAST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.BEAST), beastUnlocked ? Button.NO_TOOLTIP : notUnlocked));
+        this.survival = this.addRenderableWidget(new Button(this.guiLeft + 111, this.guiTop + 20, 55, 20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.SURVIVALIST), survivalUnlocked ? Button.NO_TOOLTIP : notUnlocked));
         this.switchToForm(WerewolfForm.HUMAN);
     }
 

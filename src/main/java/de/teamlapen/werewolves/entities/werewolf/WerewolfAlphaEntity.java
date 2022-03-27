@@ -70,7 +70,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     public void decreaseFollowerCount() {
-        this.followingEntities = Math.max(0, this.followingEntities-1);
+        this.followingEntities = Math.max(0, this.followingEntities - 1);
     }
 
     @Override
@@ -80,9 +80,9 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     public void setEntityLevel(int level) {
-        level = Mth.clamp(level,0,MAX_LEVEL);
+        level = Mth.clamp(level, 0, MAX_LEVEL);
         if (level >= 0) {
-            getEntityData().set(LEVEL,level);
+            getEntityData().set(LEVEL, level);
             this.updateEntityAttributes();
             this.setCustomName(getTypeName().plainCopy().append(new TranslatableComponent("entity.werewolves.alpha_werewolf.level", level + 1)));
         } else {
@@ -112,7 +112,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     public int getMaxFollowerCount() {
-        return (int)((BalanceMobProps.mobProps.ADVANCED_VAMPIRE_MAX_FOLLOWER) * ((this.getEntityLevel()+1)/(float)(this.getMaxEntityLevel()+1)));
+        return (int) ((BalanceMobProps.mobProps.ADVANCED_VAMPIRE_MAX_FOLLOWER) * ((this.getEntityLevel() + 1) / (float) (this.getMaxEntityLevel() + 1)));
     }
 
     @Override

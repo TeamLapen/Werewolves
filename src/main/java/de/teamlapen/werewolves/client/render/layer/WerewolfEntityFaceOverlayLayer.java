@@ -7,14 +7,14 @@ import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
-public class WerewolfEntityFaceOverlayLayer<T extends WerewolfBaseEntity, M extends WerewolfBaseModel<T>> extends RenderLayer<T,M> {
+public class WerewolfEntityFaceOverlayLayer<T extends WerewolfBaseEntity, M extends WerewolfBaseModel<T>> extends RenderLayer<T, M> {
 
     private final ResourceLocation[] eyeOverlays;
 

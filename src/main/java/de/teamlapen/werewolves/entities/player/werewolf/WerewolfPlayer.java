@@ -158,7 +158,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.checkArmorModifer = true;
     }
 
-    public void removeArmorModifier(){
+    public void removeArmorModifier() {
         for (UUID uuid : ArmorItemAccessor.getARMOR_MODIFIERS()) {
             this.player.getAttribute(Attributes.ARMOR_TOUGHNESS).removeModifier(uuid);
             this.player.getAttribute(Attributes.ARMOR).removeModifier(uuid);
@@ -342,7 +342,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     public boolean setSkinType(WerewolfForm form, int type) {
-        if (type != this.skinType.getOrDefault(form,-1)) {
+        if (type != this.skinType.getOrDefault(form, -1)) {
             this.skinType.put(form, type);
             if (!isRemote()) {
                 CompoundTag nbt = new CompoundTag();
@@ -354,7 +354,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
         return true;
     }
-    
+
     public void setSkinData(WerewolfForm form, int[] data) {
         this.setEyeType(form, data[0]);
         this.setSkinType(form, data[1]);
@@ -380,7 +380,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     public void onEntityKilled(LivingEntity victim, DamageSource src) {
         if (this.getSkillHandler().isRefinementEquipped(ModRefinements.rage_fury)) {
-            this.player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40, 1));
+            this.player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 40, 1));
             this.actionHandler.extendActionTimer(ModActions.rage, WerewolvesConfig.BALANCE.REFINEMENTS.rage_fury_timer_extend.get());
         }
         this.levelHandler.increaseProgress((int) (victim.getMaxHealth() * 0.2));
@@ -416,11 +416,11 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     public boolean canBiteEntity(LivingEntity entity) {
-        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1 && (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer)this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
+        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1 && (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
     }
 
-    public boolean canBite(){
-        return this.form.isTransformed() && !this.player.isSpectator() && this.getLevel() > 0 && this.specialAttributes.biteTicks <= 0 && (!(player instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer)this.getRepresentingPlayer(), Permissions.BITE));
+    public boolean canBite() {
+        return this.form.isTransformed() && !this.player.isSpectator() && this.getLevel() > 0 && this.specialAttributes.biteTicks <= 0 && (!(player instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.BITE));
     }
 
     public boolean bite(int entityId) {
@@ -462,8 +462,8 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     private void eatEntity(LivingEntity entity) {
         if (entity.isInvertedHealAndHarm()) return;
-        if (!entity.isAlive() && entity.getType().getCategory().isPersistent()){
-            this.player.getFoodData().eat(1,1);
+        if (!entity.isAlive() && entity.getType().getCategory().isPersistent()) {
+            this.player.getFoodData().eat(1, 1);
         }
     }
 
@@ -597,7 +597,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         for (int i = 0; i < armor.size(); i++) {
             try { //TODO remove
                 ItemStack stack = ItemStack.of(armor.getCompound("" + i));
-                this.player.setItemSlot(EquipmentSlot.values()[i],stack);
+                this.player.setItemSlot(EquipmentSlot.values()[i], stack);
             } catch (Exception ignored) {
 
             }
@@ -652,11 +652,11 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         if (nbt.contains("biteTicks")) {
             this.specialAttributes.biteTicks = nbt.getInt("biteTicks");
         }
-        if (nbt.contains("eyeTypes")){
+        if (nbt.contains("eyeTypes")) {
             CompoundTag eye = nbt.getCompound("eyeTypes");
             eye.getAllKeys().forEach(string -> this.eyeType.put(WerewolfForm.getForm(string), eye.getInt(string)));
         }
-        if (nbt.contains("skinTypes")){
+        if (nbt.contains("skinTypes")) {
             CompoundTag skin = nbt.getCompound("skinTypes");
             skin.getAllKeys().forEach(string -> this.skinType.put(WerewolfForm.getForm(string), skin.getInt(string)));
         }

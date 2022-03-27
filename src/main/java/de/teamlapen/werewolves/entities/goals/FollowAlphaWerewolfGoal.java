@@ -36,7 +36,7 @@ public class FollowAlphaWerewolfGoal<T extends WerewolfBaseEntity & IEntityFollo
             IEntityLeader newLeader = null;
             for (WerewolfBaseEntity entity : list) {
                 IEntityLeader leader = (IEntityLeader) entity;
-                if (entity.isAlive() && leader.getFollowingCount() < leader.getMaxFollowerCount()){
+                if (entity.isAlive() && leader.getFollowingCount() < leader.getMaxFollowerCount()) {
                     double d1 = this.entity.distanceToSqr(entity);
 
                     if (d1 <= d0) {
@@ -46,7 +46,7 @@ public class FollowAlphaWerewolfGoal<T extends WerewolfBaseEntity & IEntityFollo
                 }
             }
 
-            if(newLeader != null) {
+            if (newLeader != null) {
                 this.entity.setLeader(newLeader);
                 newLeader.increaseFollowerCount();
             }

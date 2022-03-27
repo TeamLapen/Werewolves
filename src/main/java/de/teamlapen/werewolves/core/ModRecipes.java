@@ -14,6 +14,6 @@ public class ModRecipes {
     public static final SimpleRecipeSerializer<WeaponOilRecipe> weapon_oil = getNull();
 
     public static void register(IForgeRegistry<RecipeSerializer<?>> event) {
-        event.register(new SimpleRecipeSerializer<>(WeaponOilRecipe::new).setRegistryName(REFERENCE.MODID,"weapon_oil"));
+        event.register(new SimpleRecipeSerializer<>(WeaponOilRecipe::new).setRegistryName(REFERENCE.MODID, "weapon_oil"));
     }
 }

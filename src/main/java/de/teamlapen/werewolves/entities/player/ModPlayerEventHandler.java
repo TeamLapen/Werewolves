@@ -60,7 +60,7 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void onFootEatenStart(LivingEntityUseItemEvent.Start event) {
         if (event.getEntity() instanceof Player && Helper.isWerewolf((Player) event.getEntity())) {
-            if (!Helper.canWerewolfPlayerEatItem(((Player) event.getEntity()), event.getItem())){
+            if (!Helper.canWerewolfPlayerEatItem(((Player) event.getEntity()), event.getItem())) {
                 event.setCanceled(true);
                 ((Player) event.getEntity()).displayClientMessage(new TranslatableComponent("text.werewolves.no_meat"), true);
             }
@@ -84,7 +84,7 @@ public class ModPlayerEventHandler {
         if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getSource().getEntity()))) {
             WerewolfPlayer player = WerewolfPlayer.get(((Player) event.getSource().getEntity()));
             if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_after_kill)) {
-                ((Player) event.getSource().getEntity()).addEffect(new MobEffectInstance(MobEffects.REGENERATION, player.getSkillHandler().isRefinementEquipped(ModRefinements.health_after_kill)?5: 4, 10));
+                ((Player) event.getSource().getEntity()).addEffect(new MobEffectInstance(MobEffects.REGENERATION, player.getSkillHandler().isRefinementEquipped(ModRefinements.health_after_kill) ? 5 : 4, 10));
             }/* else if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.speed_after_kill)) {
                 player.getRepresentingPlayer().addPotionEffect(new EffectInstance(Effects.SPEED, 40));
             }*/
@@ -146,7 +146,7 @@ public class ModPlayerEventHandler {
                     } else {
                         werewolf.getSpecialAttributes().leap = true;
                         Vec3 vector3d = event.getEntity().getDeltaMovement();
-                        event.getEntity().setDeltaMovement(vector3d.x, vector3d.y  + (((LivingEntityInvoker)event.getEntity()).invokeGetJumpPower_werewolves() * 0.3), vector3d.z);
+                        event.getEntity().setDeltaMovement(vector3d.x, vector3d.y + (((LivingEntityInvoker) event.getEntity()).invokeGetJumpPower_werewolves() * 0.3), vector3d.z);
                     }
                 } else {
                     werewolf.getSpecialAttributes().leap = false;

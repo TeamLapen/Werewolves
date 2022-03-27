@@ -173,10 +173,10 @@ public class ModHUDOverlay extends ExtendedGui {
     }
 
     private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
-        if (WerewolvesConfig.CLIENT.disableFangCrosshairRendering.get())return;
+        if (WerewolvesConfig.CLIENT.disableFangCrosshairRendering.get()) return;
         if (Helper.isWerewolf(this.mc.player)) {
             HitResult p = Minecraft.getInstance().hitResult;
-            Entity entity = p instanceof EntityHitResult?((EntityHitResult) p).getEntity():null;
+            Entity entity = p instanceof EntityHitResult ? ((EntityHitResult) p).getEntity() : null;
             if (WerewolfPlayer.get(mc.player).canBite()) {
                 renderFangs(event.getMatrixStack(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), entity);
                 event.setCanceled(true);

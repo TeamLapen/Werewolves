@@ -131,12 +131,12 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
-    public void onRegisterGlobalLootModifierSerializer(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event){
+    public void onRegisterGlobalLootModifierSerializer(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
         ModLootTables.registerLootModifier(event.getRegistry());
     }
 
     @SubscribeEvent
-    public void onRegisterTasks(RegistryEvent.Register<Task> event){
+    public void onRegisterTasks(RegistryEvent.Register<Task> event) {
         ModTasks.registerTasks(event.getRegistry());
     }
 
@@ -151,7 +151,7 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
-    public void onRegisterRecipeSerializer(RegistryEvent.Register<RecipeSerializer<?>> event){
+    public void onRegisterRecipeSerializer(RegistryEvent.Register<RecipeSerializer<?>> event) {
         ModRecipes.register(event.getRegistry());
     }
 

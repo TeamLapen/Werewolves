@@ -56,7 +56,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
         if (!Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
         if (random.nextInt(3) != 0) return false;
-        if (world.canSeeSkyFromBelowWater(blockPos) && Monster.isDarkEnoughToSpawn(world, blockPos, random))  {
+        if (world.canSeeSkyFromBelowWater(blockPos) && Monster.isDarkEnoughToSpawn(world, blockPos, random)) {
             return true;
         }
         return FormHelper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();

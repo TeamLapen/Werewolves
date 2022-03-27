@@ -63,7 +63,7 @@ public class ModRefinements {
         public static final Refinement n_attack_speed3 = getNull();
 
         public static void validate() {
-            if(Arrays.stream(V.class.getFields()).anyMatch(Objects::isNull)) {
+            if (Arrays.stream(V.class.getFields()).anyMatch(Objects::isNull)) {
                 LogManager.getLogger().error("Invalid refinement loaded");
             }
         }

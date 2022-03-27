@@ -24,7 +24,7 @@ public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionE
     @Override
     protected void scale(WerewolfMinionEntity entityIn, PoseStack matrixStack, float float1) {
         float s = entityIn.getScale();
-        matrixStack.scale(s,s,s);
+        matrixStack.scale(s, s, s);
     }
 
     public int getSkinTextureCount(WerewolfForm form) {

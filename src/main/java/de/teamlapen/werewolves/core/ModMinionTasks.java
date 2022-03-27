@@ -32,7 +32,7 @@ public class ModMinionTasks {
         public final static SimpleMinionTask protect_lord = getNull();
     }
 
-    public static void register(IForgeRegistry<IMinionTask<?,?>> registry) {
+    public static void register(IForgeRegistry<IMinionTask<?, ?>> registry) {
         registry.register(new CollectResourcesTask<WerewolfMinionEntity.WerewolfMinionData>(WReference.WEREWOLF_FACTION,
                 data -> (int) (VampirismConfig.BALANCE.miResourceCooldown.get() * (1f - data.getResourceEfficiencyLevel() / WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES * 0.4f)),
                 Arrays.asList(

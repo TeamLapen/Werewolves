@@ -66,9 +66,9 @@ public class RenderHandler implements ResourceManagerReloadListener {
             if (this.ticks < VISION_FADE_TICKS) {
                 this.ticks++;
             }
-        }else {
+        } else {
             if (this.ticks > 0) {
-                this.ticks-=2;
+                this.ticks -= 2;
             }
         }
     }

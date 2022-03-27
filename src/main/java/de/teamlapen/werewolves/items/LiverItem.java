@@ -30,7 +30,7 @@ public class LiverItem extends Item {
             });
             worldIn.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
             entityLiving.eat(worldIn, stack);
-        }else if (entityLiving instanceof IVampire) {
+        } else if (entityLiving instanceof IVampire) {
             ((IVampire) entityLiving).drinkBlood(stack.getItem().getFoodProperties().getNutrition(), stack.getItem().getFoodProperties().getSaturationModifier());
             stack.shrink(1);
         } else {

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LootTableManagerMixin {
 
     @Inject(method = "<init>(Lnet/minecraft/world/level/storage/loot/PredicateManager;)V", at = @At("RETURN"))
-    public void constructor(PredicateManager p_i225887_1_, CallbackInfo ci){
-        WUtils.LOOT_TABLE_MANAGER = (LootTables)(Object) this;
+    public void constructor(PredicateManager p_i225887_1_, CallbackInfo ci) {
+        WUtils.LOOT_TABLE_MANAGER = (LootTables) (Object) this;
     }
 }

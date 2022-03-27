@@ -148,7 +148,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     @Nonnull
     @Override
     public WerewolfForm getForm() {
-        return this.minionData != null ? this.minionData.form: WerewolfForm.NONE;
+        return this.minionData != null ? this.minionData.form : WerewolfForm.NONE;
     }
 
     @Override
@@ -280,7 +280,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         @Override
         public int getInventorySize() {
             int size = this.getDefaultInventorySize();
-            return this.inventoryLevel == 1 ? size + 3: (this.inventoryLevel == 2 ? size + 6:size);
+            return this.inventoryLevel == 1 ? size + 3 : (this.inventoryLevel == 2 ? size + 6 : size);
         }
 
         @Override
@@ -291,7 +291,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             this.glowingEyes = data[2] == 1;
         }
 
-        public boolean setLevel(int level){
+        public boolean setLevel(int level) {
             if (level < 0 || level > MAX_LEVEL) return false;
             boolean levelup = level > this.level;
             this.level = level;
@@ -300,7 +300,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
         @Override
         public boolean upgradeStat(int statId, MinionEntity<?> entity) {
-            if(super.upgradeStat(statId, entity)) return true;
+            if (super.upgradeStat(statId, entity)) return true;
             if (getRemainingStatPoints() == 0) {
                 LOGGER.warn("Cannot upgrade minion stat as no stat points are left");
                 return false;

@@ -304,11 +304,11 @@ public class BalanceConfig {
             this.wolf_pack_enabled = builder.define("wolf_pack_enabled", true);
             this.wolf_pack_cooldown = builder.comment("In seconds").defineInRange("wolf_pack_cooldown", 120, 1, Integer.MAX_VALUE);
             this.wolf_pack_wolf_duration = builder.comment("In seconds").defineInRange("wolf_pack_wolf_duration", 25, 1, Integer.MAX_VALUE);
-            this.wolf_pack_wolf_amount = builder.comment("Spawned wolves when the wolf pack skill is unlocked").defineInRange("wolf_pack_wolf_amount", 2,0, 10);
+            this.wolf_pack_wolf_amount = builder.comment("Spawned wolves when the wolf pack skill is unlocked").defineInRange("wolf_pack_wolf_amount", 2, 0, 10);
             builder.pop();
 
             builder.push("movement tactics");
-            this.movement_tactics_doge_chance = builder.comment("Doge chance for the movement tactics skill").defineInRange("movement_tactics_doge_chance", 0.25D,0D,1D);
+            this.movement_tactics_doge_chance = builder.comment("Doge chance for the movement tactics skill").defineInRange("movement_tactics_doge_chance", 0.25D, 0D, 1D);
             builder.pop();
 
             builder.push("thick_fur");

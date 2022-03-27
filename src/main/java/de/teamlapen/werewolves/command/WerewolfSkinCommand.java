@@ -14,17 +14,17 @@ public class WerewolfSkinCommand extends BasicCommand {
     public static ArgumentBuilder<CommandSourceStack, ?> register() {
         return Commands.literal("skin")
                 .then(Commands.literal("beast")
-                        .then(Commands.argument("type", IntegerArgumentType.integer(0, WerewolfForm.BEAST.getSkinTypes()-1))
+                        .then(Commands.argument("type", IntegerArgumentType.integer(0, WerewolfForm.BEAST.getSkinTypes() - 1))
                                 .executes(context -> {
                                     return setSkin(context, context.getSource().getPlayerOrException(), IntegerArgumentType.getInteger(context, "type"), WerewolfForm.BEAST);
                                 })))
                 .then(Commands.literal("survival")
-                        .then(Commands.argument("type", IntegerArgumentType.integer(0, WerewolfForm.SURVIVALIST.getSkinTypes()-1))
+                        .then(Commands.argument("type", IntegerArgumentType.integer(0, WerewolfForm.SURVIVALIST.getSkinTypes() - 1))
                                 .executes(context -> {
                                     return setSkin(context, context.getSource().getPlayerOrException(), IntegerArgumentType.getInteger(context, "type"), WerewolfForm.SURVIVALIST);
                                 })))
                 .then(Commands.literal("human")
-                        .then(Commands.argument("type", IntegerArgumentType.integer(0, WerewolfForm.HUMAN.getSkinTypes()-1))
+                        .then(Commands.argument("type", IntegerArgumentType.integer(0, WerewolfForm.HUMAN.getSkinTypes() - 1))
                                 .executes(context -> {
                                     return setSkin(context, context.getSource().getPlayerOrException(), IntegerArgumentType.getInteger(context, "type"), WerewolfForm.HUMAN);
                                 })));

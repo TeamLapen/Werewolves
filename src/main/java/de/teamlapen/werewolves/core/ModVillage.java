@@ -30,7 +30,7 @@ public class ModVillage {
     public static final PoiType werewolf_faction = getNull();
 
     static void registerProfessions(IForgeRegistry<VillagerProfession> registry) {
-        VillagerProfession werewolf_expert = new FactionVillagerProfession("werewolf_expert", werewolf_faction, ImmutableSet.of(), ImmutableSet.of(), null){
+        VillagerProfession werewolf_expert = new FactionVillagerProfession("werewolf_expert", werewolf_faction, ImmutableSet.of(), ImmutableSet.of(), null) {
             @Override
             public IFaction<?> getFaction() {
                 return WReference.WEREWOLF_FACTION;

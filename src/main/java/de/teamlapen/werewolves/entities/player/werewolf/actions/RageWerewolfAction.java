@@ -22,8 +22,8 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolf) {
-        addEffectInstance(werewolf,new MobEffectInstance(MobEffects.MOVEMENT_SPEED, this.getDuration(werewolf), 1, false, false) );
-        addEffectInstance(werewolf,new MobEffectInstance(MobEffects.DAMAGE_BOOST, this.getDuration(werewolf), 0, false, false));
+        addEffectInstance(werewolf, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, this.getDuration(werewolf), 1, false, false));
+        addEffectInstance(werewolf, new MobEffectInstance(MobEffects.DAMAGE_BOOST, this.getDuration(werewolf), 0, false, false));
         werewolf.getRepresentingPlayer().getAttribute(ModAttributes.bite_damage).addPermanentModifier(new AttributeModifier(BITE_MODIFIER, "rage_bite_modifier", WerewolvesConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADDITION));
         return true;
     }
@@ -39,8 +39,8 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public void onDeactivated(IWerewolfPlayer werewolf) {
-        removePotionEffect(werewolf,MobEffects.DAMAGE_BOOST);
-        removePotionEffect(werewolf,MobEffects.MOVEMENT_SPEED);
+        removePotionEffect(werewolf, MobEffects.DAMAGE_BOOST);
+        removePotionEffect(werewolf, MobEffects.MOVEMENT_SPEED);
         werewolf.getRepresentingPlayer().getAttribute(ModAttributes.bite_damage).removeModifier(BITE_MODIFIER);
     }
 

@@ -140,7 +140,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
      */
     public void startRitual(BlockState state) {
         if (this.player == null) {
-            this.level.setBlock(this.worldPosition, state.setValue(StoneAltarBlock.LIT, false),11);
+            this.level.setBlock(this.worldPosition, state.setValue(StoneAltarBlock.LIT, false), 11);
             return;
         }
         if (phase == Phase.NOT_RUNNING && state.getValue(StoneAltarBlock.LIT)) {

@@ -73,7 +73,7 @@ public class ModEntityEventHandler {
         }
         if (event.getTarget() instanceof WerewolfTransformable) {
             if (((WerewolfTransformable) event.getTarget()).canTransform()) {
-                 ((WerewolfTransformable) event.getTarget()).transformToWerewolf(TransformType.TIME_LIMITED);
+                ((WerewolfTransformable) event.getTarget()).transformToWerewolf(TransformType.TIME_LIMITED);
             }
         }
     }
@@ -134,7 +134,8 @@ public class ModEntityEventHandler {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOW) //TODO lower priority so that vampirism does not override our ai changes
+    @SubscribeEvent(priority = EventPriority.LOW)
+    //TODO lower priority so that vampirism does not override our ai changes
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getEntity().level.isClientSide()) return;
         if (event.getEntity() instanceof Villager) {

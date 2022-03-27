@@ -145,7 +145,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(LootPool.lootPool()
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                            .setRolls(UniformGenerator.between(1,2))
+                            .setRolls(UniformGenerator.between(1, 2))
                             .add(LootItem.lootTableItem(ModItems.werewolf_tooth)))
                     .withPool(LootPool.lootPool()
                             .name("vampire_book")

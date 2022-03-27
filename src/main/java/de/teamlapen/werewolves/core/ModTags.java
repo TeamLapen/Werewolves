@@ -1,12 +1,12 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.item.Item;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag.Named;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 @SuppressWarnings("SameParameterValue")
 public class ModTags {

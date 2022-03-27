@@ -60,10 +60,10 @@ public class ModLootTables {
 
     private static LootPool getInjectPool(ResourceLocation loc) {
         LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1);
-        return LootPool.lootPool().name("werewolves_inject_pool").setBonusRolls(UniformGenerator.between(0,1)).setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
+        return LootPool.lootPool().name("werewolves_inject_pool").setBonusRolls(UniformGenerator.between(0, 1)).setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
     }
 
-    public static void registerLootModifier(IForgeRegistry<GlobalLootModifierSerializer<?>> registry){
+    public static void registerLootModifier(IForgeRegistry<GlobalLootModifierSerializer<?>> registry) {
         registry.register(mob_modifier.setRegistryName(REFERENCE.MODID, "mob_modifier"));
     }
 }
