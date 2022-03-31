@@ -4,10 +4,11 @@
     {
       "name": "general",
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 1.0,
-        "max": 2.0,
-        "type": "minecraft:uniform"
+        "max": 2.0
       },
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -22,7 +23,8 @@
     },
     {
       "name": "vampire_book",
-      "rolls": 1,
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",

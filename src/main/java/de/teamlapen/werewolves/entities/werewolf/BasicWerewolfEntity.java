@@ -62,6 +62,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -72,6 +74,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     protected static final EntityDataAccessor<Integer> EYETYPE = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
     private static final int MAX_LEVEL = 2;
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final WerewolfForm werewolfForm;
     private final ActionHandlerEntity<?> entityActionHandler;

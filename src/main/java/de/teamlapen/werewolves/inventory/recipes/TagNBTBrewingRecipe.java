@@ -2,21 +2,22 @@ package de.teamlapen.werewolves.inventory.recipes;
 
 import com.mojang.datafixers.util.Either;
 import de.teamlapen.werewolves.util.Helper;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 
 public class TagNBTBrewingRecipe implements IBrewingRecipe {
 
     private final Ingredient input;
-    private final Either<Tag<Item>, Ingredient> ingredient;
+    private final Either<TagKey<Item>, Ingredient> ingredient;
     private final ItemStack output;
 
-    public TagNBTBrewingRecipe(Ingredient input, Tag<Item> ingredient, ItemStack output) {
+    public TagNBTBrewingRecipe(Ingredient input, TagKey<Item> ingredient, ItemStack output) {
         this.input = input;
         this.ingredient = Either.left(ingredient);
         this.output = output;
@@ -35,7 +36,7 @@ public class TagNBTBrewingRecipe implements IBrewingRecipe {
 
     @Override
     public boolean isIngredient(@Nonnull ItemStack ingredient) {
-        return this.ingredient.map(i -> i.contains(ingredient.getItem()), i -> i.test(ingredient));
+        return this.ingredient.map(ingredient::is, i -> i.test(ingredient));
     }
 
     @Nonnull
@@ -45,7 +46,7 @@ public class TagNBTBrewingRecipe implements IBrewingRecipe {
     }
 
     public ItemStack[] getIngredient() {
-        return ingredient.map(i -> i.getValues().stream().map(ItemStack::new).toArray(ItemStack[]::new), Ingredient::getItems);
+        return ingredient.map(i -> ForgeRegistries.ITEMS.tags().getTag(i).stream().map(ItemStack::new).toArray(ItemStack[]::new), Ingredient::getItems);
     }
 
     public Ingredient getInput() {

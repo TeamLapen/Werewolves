@@ -30,7 +30,7 @@ public class SilverOil extends WeaponOil {
 
     @Override
     public boolean canBeAppliedTo(ItemStack stack) {
-        return super.canBeAppliedTo(stack) && !(stack.getItem() instanceof ISilverItem || ModTags.Items.SILVER_TOOL.contains(stack.getItem()));
+        return super.canBeAppliedTo(stack) && !(stack.getItem() instanceof ISilverItem || stack.is(ModTags.Items.SILVER_TOOL));
     }
 
     public float getDamageModifier() {

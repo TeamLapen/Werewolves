@@ -28,6 +28,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.NewRegistryEvent;
 
 @SuppressWarnings("unused")
 public class RegistryManager implements IInitListener {
@@ -40,19 +41,17 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
-    public void onBuildRegistries(RegistryEvent.NewRegistry event) {
-        ModRegistries.init();
+    public void onBuildRegistries(NewRegistryEvent event) {
+        ModRegistries.createRegistries(event);
     }
 
     @Override
     public void onInitStep(Step step, ParallelDispatchEvent event) {
         switch (step) {
             case COMMON_SETUP:
-                event.enqueueWork(ModBiomes::addBiomesToGeneratorUnsafe);
                 ModEntities.registerSpawns();
                 event.enqueueWork(ModCommands::registerArgumentTypesUsages);
                 WerewolvesBiomeFeatures.init();
-                ModBiomes.removeStructuresFromBiomes();
                 ModItems.registerOilRecipes();
                 break;
             case LOAD_COMPLETE:

@@ -10,7 +10,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -32,11 +32,11 @@ public class RecipeGenerator extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
-        Tag<Item> sticks = Tags.Items.RODS_WOODEN;
-        Tag<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
-        Tag<Item> silver_nugget = ModTags.Items.SILVER_NUGGET;
-        Tag<Item> iron_ingot = Tags.Items.INGOTS_IRON;
-        Tag<Item> feathers = Tags.Items.FEATHERS;
+        TagKey<Item> sticks = Tags.Items.RODS_WOODEN;
+        TagKey<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
+        TagKey<Item> silver_nugget = ModTags.Items.SILVER_NUGGET;
+        TagKey<Item> iron_ingot = Tags.Items.INGOTS_IRON;
+        TagKey<Item> feathers = Tags.Items.FEATHERS;
         ItemLike crossbow_arrow = ModItems.V.crossbow_arrow_normal;
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 200).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer);

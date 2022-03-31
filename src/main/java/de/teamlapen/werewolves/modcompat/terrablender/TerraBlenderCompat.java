@@ -25,7 +25,7 @@ public class TerraBlenderCompat {
             return;
         }
         if (ModList.get().isLoaded(MOD_ID)) {
-            TerraBlenderBiomeProvider.register();
+            TerraBlenderRegistration.registerRegions();
             LOGGER.info("TerraBlender is installed. Using it to add vampire Forest to overworld.");
             isUsingTerraBlender = true;
         }

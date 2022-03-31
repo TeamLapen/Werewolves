@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.world.gen;
 
-import de.teamlapen.vampirism.world.biome.VampirismBiomeFeatures;
+import de.teamlapen.vampirism.world.biome.VampirismBiomes;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModEntities;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
@@ -44,7 +44,7 @@ public class WerewolfHeavenBiome {
     public static BiomeGenerationSettings.Builder createGenerationBuilder() {
         BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder();
         BiomeDefaultFeatures.addDefaultCarversAndLakes(builder);
-        VampirismBiomeFeatures.addModdedWaterLake(builder);
+        VampirismBiomes.addModdedWaterLake(builder);
         BiomeDefaultFeatures.addDefaultMonsterRoom(builder);
         BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
         BiomeDefaultFeatures.addDefaultOres(builder);

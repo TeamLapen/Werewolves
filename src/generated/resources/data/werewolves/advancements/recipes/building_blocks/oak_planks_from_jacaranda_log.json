@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "werewolves:jacaranda_log"
+            "items": [
+              "werewolves:jacaranda_log"
+            ]
           }
         ]
       }

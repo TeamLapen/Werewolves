@@ -11,7 +11,6 @@ import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.client.core.ModBlocksRenderer;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModCommands;
 import de.teamlapen.werewolves.core.ModLootTables;
 import de.teamlapen.werewolves.core.RegistryManager;
@@ -27,6 +26,8 @@ import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.proxy.Proxy;
 import de.teamlapen.werewolves.proxy.ServerProxy;
 import de.teamlapen.werewolves.util.*;
+import de.teamlapen.werewolves.world.gen.OverworldModifications;
+import de.teamlapen.werewolves.world.gen.WerewolvesBiomes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.MobCategory;
@@ -96,7 +97,7 @@ public class WerewolvesMod {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ModBiomes::onBiomeLoadingEventAdditions);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, WerewolvesBiomes::onBiomeLoadingEventAdditions);
         MinecraftForge.EVENT_BUS.addListener(ModLootTables::onLootLoad);
         MinecraftForge.EVENT_BUS.register(Permissions.class);
 
@@ -150,7 +151,7 @@ public class WerewolvesMod {
     private void loadComplete(final FMLLoadCompleteEvent event) {
         registryManager.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
         proxy.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
-        event.enqueueWork(ModBiomes::addBiomesToOverworldUnsafe);
+        event.enqueueWork(OverworldModifications::addBiomesToOverworldUnsafe);
     }
 
     private void processIMC(final InterModProcessEvent event) {

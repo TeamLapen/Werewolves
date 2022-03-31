@@ -67,7 +67,7 @@ public class ModEntityEventHandler {
     @SubscribeEvent
     public void onEntityAttacked(AttackEntityEvent event) {
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
-            if (ModTags.Items.SILVER_TOOL.contains(event.getPlayer().getMainHandItem().getItem())) {
+            if (event.getPlayer().getMainHandItem().is(ModTags.Items.SILVER_TOOL)) {
                 ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
             }
         }

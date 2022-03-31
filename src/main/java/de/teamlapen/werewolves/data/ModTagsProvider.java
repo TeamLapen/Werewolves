@@ -1,16 +1,21 @@
 package de.teamlapen.werewolves.data;
 
+import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
 
 public class ModTagsProvider {
 
@@ -18,6 +23,7 @@ public class ModTagsProvider {
         BlockTagsProvider blocks = new ModBlockTagsProvider(generator, existingFileHelper);
         generator.addProvider(blocks);
         generator.addProvider(new ModItemTagsProvider(generator, blocks, existingFileHelper));
+        generator.addProvider(new ModBiomeTagsProvider(generator, existingFileHelper));
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
@@ -55,6 +61,24 @@ public class ModTagsProvider {
             this.tag(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver, ModItems.V.human_heart, ModItems.V.weak_human_heart, Items.SALMON, Items.TROPICAL_FISH, Items.COD);
             this.tag(ModTags.Items.COOKEDMEATS).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
             this.tag(ModTags.Items.SILVER_TOOL).add(ModItems.silver_axe, ModItems.silver_hoe, ModItems.silver_sword, ModItems.silver_pickaxe, ModItems.silver_shovel);
+        }
+    }
+
+    private static class ModBiomeTagsProvider extends BiomeTagsProvider {
+
+        public ModBiomeTagsProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
+            super(generatorIn, REFERENCE.MODID, existingFileHelper);
+        }
+
+        @Override
+        protected void addTags() {
+            this.tag(ModTags.Biomes.WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_HEAVEN);
+        }
+
+        @Nonnull
+        @Override
+        public String getName() {
+            return "Werewoloves " + super.getName();
         }
     }
 }

@@ -93,7 +93,7 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     @Override
     public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor worldIn, @Nonnull DifficultyInstance difficultyIn, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-        this.setBiomeType(VillagerType.byBiome(worldIn.getBiomeName(this.blockPosition())));
+        this.setBiomeType(VillagerType.byBiome(worldIn.getBiome(this.blockPosition())));
         return data;
     }
 

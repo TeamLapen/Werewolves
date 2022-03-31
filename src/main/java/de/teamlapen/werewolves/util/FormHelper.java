@@ -5,13 +5,16 @@ import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfDataholder;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
+import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,12 +32,12 @@ public class FormHelper {
             ResourceLocation id = new ResourceLocation(s);
             noWerewolfFormTickingBiomes.add(id);
         }
-        noWerewolfFormTickingBiomes.add(ModBiomes.WEREWOLF_HEAVEN_KEY.location());
+        noWerewolfFormTickingBiomes.add(ModBiomes.WEREWOLF_HEAVEN.location());
     }
 
     public static boolean isInWerewolfBiome(LevelAccessor world, BlockPos pos) {
-        ResourceLocation loc = world.getBiome(pos).getRegistryName();
-        return noWerewolfFormTickingBiomes.contains(loc);
+        Holder<Biome> biome = world.getBiome(pos);
+        return biome.is(ModTags.Biomes.WEREWOLF_BIOME) || noWerewolfFormTickingBiomes.contains(world.getBiome(pos).value().getRegistryName());
     }
 
     public static WerewolfForm getForm(LivingEntity entity) {

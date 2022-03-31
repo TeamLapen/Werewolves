@@ -81,7 +81,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     @SuppressWarnings("ConstantConditions")
     public static boolean canWerewolfEatItem(ItemStack stack) {
-        return !stack.isEdible() || ModTags.Items.COOKEDMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()) || ModTags.Items.RAWMEATS.contains(stack.getItem()) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()) || stack.getItem().getFoodProperties().isMeat();
+        return !stack.isEdible() || stack.is(ModTags.Items.COOKEDMEATS) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()) || stack.is(ModTags.Items.RAWMEATS) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()) || stack.getItem().getFoodProperties().isMeat();
     }
 
     public static boolean canWerewolfPlayerEatItem(Player player, ItemStack stack) {
@@ -90,7 +90,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     @SuppressWarnings("ConstantConditions")
     public static boolean isRawMeat(ItemStack stack) {
-        return stack.isEdible() && stack.getItem().getFoodProperties().isMeat() && ModTags.Items.RAWMEATS.contains(stack.getItem());
+        return stack.isEdible() && stack.getItem().getFoodProperties().isMeat() && stack.is(ModTags.Items.RAWMEATS);
     }
 
     public static IWerewolf asIWerewolf(LivingEntity entity) {

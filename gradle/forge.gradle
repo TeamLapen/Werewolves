@@ -8,6 +8,7 @@ repositories {
     maven {
         url = "https://maven.maxanier.de"
     }
+    maven { url = "https://maven.paube.de/snapshots"}
     maven {
         url "https://nexus.resourcefulbees.com/repository/maven-public/"
     }

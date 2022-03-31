@@ -3,7 +3,8 @@
   "pools": [
     {
       "name": "accessories",
-      "rolls": 1,
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -39,7 +40,8 @@
     },
     {
       "name": "main",
-      "rolls": 1,
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",

@@ -1,49 +1,55 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag.Named;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 
 @SuppressWarnings("SameParameterValue")
 public class ModTags {
     public static class Blocks extends de.teamlapen.vampirism.core.ModTags.Blocks {
-        public static final Named<Block> SILVER_ORE = forge("ores/silver");
+        public static final TagKey<Block> SILVER_ORE = forge("ores/silver");
 
-        private static Named<Block> getTag(ResourceLocation id) {
-            return BlockTags.bind(id.toString());
+        private static TagKey<Block> mc(ResourceLocation id) {
+            return BlockTags.create(id);
         }
 
-        private static Named<Block> werewolves(String id) {
-            return BlockTags.bind(new ResourceLocation(REFERENCE.MODID, id).toString());
+        private static TagKey<Block> werewolves(String id) {
+            return BlockTags.create(new ResourceLocation(REFERENCE.MODID, id));
         }
 
-        private static Named<Block> forge(String id) {
-            return BlockTags.bind(new ResourceLocation("forge", id).toString());
+        private static TagKey<Block> forge(String id) {
+            return BlockTags.create(new ResourceLocation("forge", id));
         }
     }
 
     public static class Items extends de.teamlapen.vampirism.core.ModTags.Items {
-        public static final Named<Item> SILVER_ORE = forge("ores/silver");
-        public static final Named<Item> SILVER_INGOT = forge("ingots/silver");
-        public static final Named<Item> SILVER_NUGGET = forge("nuggets/silver");
-        public static final Named<Item> RAWMEATS = forge("rawmeats");
-        public static final Named<Item> COOKEDMEATS = forge("cookedmeats");
-        public static final Named<Item> SILVER_TOOL = werewolves("tools/silver");
+        public static final TagKey<Item> SILVER_ORE = forge("ores/silver");
+        public static final TagKey<Item> SILVER_INGOT = forge("ingots/silver");
+        public static final TagKey<Item> SILVER_NUGGET = forge("nuggets/silver");
+        public static final TagKey<Item> RAWMEATS = forge("rawmeats");
+        public static final TagKey<Item> COOKEDMEATS = forge("cookedmeats");
+        public static final TagKey<Item> SILVER_TOOL = werewolves("tools/silver");
 
-        private static Named<Item> getTag(ResourceLocation id) {
-            return ItemTags.bind(id.toString());
+        private static TagKey<Item> mc(ResourceLocation id) {
+            return ItemTags.create(id);
         }
 
-        private static Named<Item> werewolves(String id) {
-            return ItemTags.bind(new ResourceLocation(REFERENCE.MODID, id).toString());
+        private static TagKey<Item> werewolves(String id) {
+            return ItemTags.create(new ResourceLocation(REFERENCE.MODID, id));
         }
 
-        private static Named<Item> forge(String id) {
-            return ItemTags.bind(new ResourceLocation("forge", id).toString());
+        private static TagKey<Item> forge(String id) {
+            return ItemTags.create(new ResourceLocation("forge", id));
         }
+    }
+
+    public static class Biomes {
+        public static final TagKey<Biome> WEREWOLF_BIOME = TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(REFERENCE.MODID, "werewolf_biome"));
     }
 }

@@ -188,7 +188,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             return false;
         boolean active = player.getActionHandler().isActionActive(this);
         if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active) return false;
-        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()) == ModBiomes.werewolf_heaven;
+        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_HEAVEN);
     }
 
     public boolean consumesWerewolfTime() {
