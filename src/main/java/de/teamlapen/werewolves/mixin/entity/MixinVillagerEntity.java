@@ -123,7 +123,7 @@ public abstract class MixinVillagerEntity extends AbstractVillagerEntity impleme
     }
 
     @Override
-    public int getSkinType() {
+    public int getSkinType(WerewolfForm form) {
         int i = getEntityData().get(TYPE);
         return Math.max(i, 0);
     }

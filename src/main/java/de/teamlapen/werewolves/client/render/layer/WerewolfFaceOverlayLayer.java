@@ -27,10 +27,18 @@ public class WerewolfFaceOverlayLayer<T extends LivingEntity> extends LayerRende
     @Override
     public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         IWerewolf werewolf = entity instanceof IWerewolf ? (IWerewolf) entity : WerewolfPlayer.get(((PlayerEntity) entity));
-        int eyeType = Math.max(0, Math.min(werewolf.getEyeType(), eyeOverlays.length - 1));
-        RenderType renderType = werewolf.hasGlowingEyes() ? RenderType.eyes(eyeOverlays[eyeType]) : RenderType.entityCutoutNoCull(eyeOverlays[eyeType]);
+        int eyeType = Math.max(0, Math.min(getEyeType(werewolf), eyeOverlays.length - 1));
+        RenderType renderType = hasGlowingEyes(werewolf) ? RenderType.eyes(eyeOverlays[eyeType]) : RenderType.entityCutoutNoCull(eyeOverlays[eyeType]);
         IVertexBuilder vertexBuilderEye = bufferIn.getBuffer(renderType);
         int packerOverlay = LivingRenderer.getOverlayCoords(entity, 0);
         this.getParentModel().getModelRenderer().render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
+    }
+
+    public int getEyeType(IWerewolf werewolf) {
+        return werewolf.getEyeType();
+    }
+
+    public boolean hasGlowingEyes(IWerewolf werewolf) {
+        return werewolf.hasGlowingEyes();
     }
 }

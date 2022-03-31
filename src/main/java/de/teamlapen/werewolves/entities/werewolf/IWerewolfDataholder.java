@@ -1,17 +1,31 @@
 package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.werewolves.util.WerewolfForm;
+import mcp.MethodsReturnNonnullByDefault;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public interface IWerewolfDataholder {
 
-    @Nonnull
     WerewolfForm getForm();
 
-    int getSkinType();
+    default int getSkinType() {
+        return this.getSkinType(this.getForm());
+    }
 
-    int getEyeType();
+    int getSkinType(WerewolfForm form);
 
-    boolean hasGlowingEyes();
+    default int getEyeType() {
+        return this.getSkinType(this.getForm());
+    }
+
+    int getEyeType(WerewolfForm form);
+
+    default boolean hasGlowingEyes() {
+        return this.hasGlowingEyes(this.getForm());
+    }
+
+    boolean hasGlowingEyes(WerewolfForm form);
 }

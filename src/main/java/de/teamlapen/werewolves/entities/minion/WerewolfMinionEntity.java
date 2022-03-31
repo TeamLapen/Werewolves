@@ -151,17 +151,17 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     @Override
-    public int getSkinType() {
+    public int getSkinType(@Nonnull WerewolfForm form) {
         return this.minionData != null ? this.minionData.skinType : 0;
     }
 
     @Override
-    public int getEyeType() {
-        return this.minionData != null ? this.minionData.eyeType :0;
+    public int getEyeType(@Nonnull WerewolfForm form) {
+        return this.minionData != null ? this.minionData.eyeType : 0;
     }
 
     @Override
-    public boolean hasGlowingEyes() {
+    public boolean hasGlowingEyes(@Nonnull WerewolfForm form) {
         return this.minionData != null && this.minionData.glowingEyes;
     }
 

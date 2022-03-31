@@ -694,18 +694,18 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
     }
 
     @Override
-    public int getEyeType() {
-        return this.eyeType.getOrDefault(this.form, 0);
+    public int getEyeType(@Nonnull WerewolfForm form) {
+        return this.eyeType.getOrDefault(form, 0);
     }
 
     @Override
-    public int getSkinType() {
-        return this.skinType.getOrDefault(this.form, 0);
+    public int getSkinType(@Nonnull WerewolfForm form) {
+        return this.skinType.getOrDefault(form, 0);
     }
 
     @Override
-    public boolean hasGlowingEyes() {
-        return this.glowingEyes.getOrDefault(this.form, false);
+    public boolean hasGlowingEyes(@Nonnull WerewolfForm form) {
+        return this.glowingEyes.getOrDefault(form, false);
     }
 
     private static class Storage implements Capability.IStorage<IWerewolfPlayer> {

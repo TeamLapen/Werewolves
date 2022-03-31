@@ -165,19 +165,19 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public int getSkinType() {
+    public int getSkinType(@Nonnull WerewolfForm form) {
         int i = this.getEntityData().get(SKIN_TYPE);
         return Math.max(i, 0);
     }
 
     @Override
-    public int getEyeType() {
+    public int getEyeType(@Nonnull WerewolfForm form) {
         int i = this.getEntityData().get(EYE_TYPE);
         return Math.max(i, 0);
     }
 
     @Override
-    public boolean hasGlowingEyes() {
+    public boolean hasGlowingEyes(@Nonnull WerewolfForm form) {
         return this.getEntityData().get(GLOWING_EYES);
     }
 

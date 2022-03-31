@@ -135,12 +135,12 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public int getSkinType() {
+    public int getSkinType(@Nonnull WerewolfForm form) {
         return Math.max(0, this.getEntityData().get(SKINTYPE));
     }
 
     @Override
-    public int getEyeType() {
+    public int getEyeType(@Nonnull WerewolfForm form) {
         return Math.max(0, this.getEntityData().get(EYETYPE));
     }
 
@@ -254,7 +254,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public boolean hasGlowingEyes() {
+    public boolean hasGlowingEyes(@Nonnull WerewolfForm form) {
         return true; //TODO
     }
 
