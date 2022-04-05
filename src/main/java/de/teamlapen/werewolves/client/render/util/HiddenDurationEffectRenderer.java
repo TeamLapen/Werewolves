@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.client.render.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.util.UtilLib;
-import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
+import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.world.effect.MobEffectInstance;

@@ -5,10 +5,10 @@ import de.teamlapen.lib.lib.client.gui.widget.ScrollableArrayTextComponentList;
 import de.teamlapen.lib.lib.client.gui.widget.ScrollableListWidget;
 import de.teamlapen.vampirism.client.gui.AppearanceScreen;
 import de.teamlapen.werewolves.WerewolvesMod;
+import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
 import de.teamlapen.werewolves.network.WerewolfAppearancePacket;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -118,11 +118,11 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
      */
     private void switchToForm(WerewolfForm form) {
         if (this.eyeButton != null) {
-            ((ScreenAccessor) this).removeWidget_werewolves(this.eyeButton);
-            ((ScreenAccessor) this).removeWidget_werewolves(this.skinButton);
-            ((ScreenAccessor) this).removeWidget_werewolves(this.eyeList);
-            ((ScreenAccessor) this).removeWidget_werewolves(this.skinList);
-            ((ScreenAccessor) this).removeWidget_werewolves(this.glowingEyesButton);
+            ((ScreenAccessor) this).invokeRemoveWidget(this.eyeButton);
+            ((ScreenAccessor) this).invokeRemoveWidget(this.skinButton);
+            ((ScreenAccessor) this).invokeRemoveWidget(this.eyeList);
+            ((ScreenAccessor) this).invokeRemoveWidget(this.skinList);
+            ((ScreenAccessor) this).invokeRemoveWidget(this.glowingEyesButton);
         }
         if (this.activeForm != null) {
             this.updateServer();
