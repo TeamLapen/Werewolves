@@ -141,12 +141,6 @@ task crowdin(type: Copy){
     }
 }
 
-processResources {
-    filesMatching("**/mods.toml") {
-        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'jei_version': jei_version, 'guideapi_version': guideapi_version, 'vampirism_version': vampirism_version
-    }
-}
-
 jar {
     dependsOn 'crowdin'
     finalizedBy('reobfJar')
@@ -171,13 +165,40 @@ jar {
                 "Specification-Title": "werewolves",
                 "Specification-Vendor": "cheaterpaul",
                 "Specification-Version": "1", // We are version 1 of ourselves
-                "Implementation-Title": project.name,
+                "Implementation-Title": "Werewolves",
                 "Implementation-Version": "${mod_version}",
                 "Implementation-Vendor" :"cheaterpaul",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "MixinConfigs": "werewolves.mixins.json"
         ])
     }
+
+}
+
+//Replace strings in IDEA folders as well
+def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
+def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
+def replaceProperties = ['version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'jei_version': jei_version, 'guideapi_version': guideapi_version, 'vampirism_version': vampirism_version]
+processResources {
+    inputs.properties replaceProperties
+    replaceProperties.put 'project', project
+
+    filesMatching(resourceTargets) {
+        expand replaceProperties
+    }
+
+    intoTargets.each { target ->
+        if (file(target).exists()) {
+            copy {
+                from(sourceSets.main.resources) {
+                    include resourceTargets
+                    expand replaceProperties
+                }
+                into target
+            }
+        }
+    }
+    exclude '**/Thumbs.db'
 
 }
 
