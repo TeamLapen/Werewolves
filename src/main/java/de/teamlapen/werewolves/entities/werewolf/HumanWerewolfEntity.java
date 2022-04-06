@@ -182,12 +182,17 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
     }
 
     @Override
-    public BasicWerewolfEntity _transformToWerewolf() {
+    public WerewolfTransformable _transformToWerewolf() {
         EntityType<? extends BasicWerewolfEntity> type;
-        if (this.getEntityData().get(FORM) == 0) {
-            type = ModEntities.werewolf_beast;
-        } else {
-            type = ModEntities.werewolf_survivalist;
+        switch (this.getEntityData().get(FORM)) {
+            case 0:
+                type = ModEntities.werewolf_beast;
+                break;
+            case 2:
+                type = ModEntities.werewolf_survivalist;
+                break;
+            default:
+                return this;
         }
         BasicWerewolfEntity werewolf = WerewolfTransformable.copyData(type, this);
         werewolf.setSourceEntity(this);
@@ -223,7 +228,7 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
             case 1:
                 return WerewolfForm.SURVIVALIST;
             default:
-                throw new IllegalStateException("Werewolf form is not set");
+                return WerewolfForm.NONE;
         }
     }
 }

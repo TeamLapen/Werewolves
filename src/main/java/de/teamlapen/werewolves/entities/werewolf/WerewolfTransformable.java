@@ -33,8 +33,8 @@ public interface WerewolfTransformable extends IWerewolfDataholder {
         return transformable;
     }
 
-    default BasicWerewolfEntity transformToWerewolf(TransformType type) {
-        BasicWerewolfEntity transformable = _transformToWerewolf();
+    default WerewolfTransformable transformToWerewolf(TransformType type) {
+        WerewolfTransformable transformable = _transformToWerewolf();
         transformable.start(type);
         return transformable;
     }
@@ -54,7 +54,7 @@ public interface WerewolfTransformable extends IWerewolfDataholder {
     default void start(TransformType type) {
     }
 
-    BasicWerewolfEntity _transformToWerewolf();
+    WerewolfTransformable _transformToWerewolf();
 
     WerewolfTransformable _transformBack();
 
