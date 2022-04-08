@@ -1,0 +1,90 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        description: 'Artifact Type'
+        required: true
+        default: 'alpha'
+        type: choice
+        options:
+        - alpha
+        - beta
+        - release
+        - test
+      version:
+        required: false
+        type: text
+
+permissions:
+  contents: read
+
+jobs:
+  publish-test:
+    environment: Testing
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+        cache: 'gradle'
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      with:
+        arguments: build publish curseforge -PMAVEN_URL=${{ env.MAVEN_URL }} -PMAVEN_USER=${{ env.MAVEN_USER }} -PMAVEN_TOKEN=${{ env.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ env.CURSEFORGE_API }} -PCROWDIN_KEY=${{ env.CROWDIN_KEY }} -Ptesting
+
+  publish-alpha:
+    environment: Testing
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+        cache: 'gradle'
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      with:
+        arguments: build publish curseforge -PMAVEN_URL=${{ env.MAVEN_URL }} -PMAVEN_USER=${{ env.MAVEN_USER }} -PMAVEN_TOKEN=${{ env.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ env.CURSEFORGE_API }} -PCROWDIN_KEY=${{ env.CROWDIN_KEY }}
+
+  publish-beta:
+    environment: Testing
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+        cache: 'gradle'
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      with:
+        arguments: build publish curseforge -PMAVEN_URL=${{ env.MAVEN_URL }} -PMAVEN_USER=${{ env.MAVEN_USER }} -PMAVEN_TOKEN=${{ env.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ env.CURSEFORGE_API }} -PCROWDIN_KEY=${{ env.CROWDIN_KEY }} -Pbeta=${{ github.event.input.version }}
+
+  publish-release:
+    environment: Release
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+        cache: 'gradle'
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      with:
+        arguments: build publish curseforge -PMAVEN_URL=${{ env.MAVEN_URL }} -PMAVEN_USER=${{ env.MAVEN_USER }} -PMAVEN_TOKEN=${{ env.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ env.CURSEFORGE_API }} -PCROWDIN_KEY=${{ env.CROWDIN_KEY }} -Prelease
