@@ -4,12 +4,12 @@ if (hasProperty("beta")) {
     project.type = "beta"
 } else if (hasProperty("release")) {
     project.type = "release"
+} else if (hasProperty("testing")) {
+    project.mod_version = project.mod_version + "-test+" + getDate()
+    project.type = "test"
 } else if (System.getenv().CI) {
     project.mod_version = project.mod_version + "-test+" + System.getenv().GIT_BRANCH + "." + System.getenv().GIT_COMMIT
     writeVersion()
-    project.type = "test"
-} else if (hasProperty("testing")) {
-    project.mod_version = project.mod_version + "-test+" + getDate()
     project.type = "test"
 } else {
     project.mod_version = project.mod_version + "-alpha+" + getDate()
@@ -18,8 +18,8 @@ if (hasProperty("beta")) {
 
 version = project.minecraft_version + "-" + project.vampirism_version_simple + "-" + project.mod_version
 
+println( new Date().format('YYYYMMdd-HHmm'))
 logger.lifecycle "Version " + project.mod_version
-
 
 def writeVersion() {
     def file = new File("version.txt")
@@ -29,5 +29,6 @@ def writeVersion() {
 def getDate() {
     def date = new Date()
     def formattedDate = date.format('YYYYMMdd-HHmm')
+
     return formattedDate
 }

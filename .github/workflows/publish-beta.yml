@@ -1,0 +1,31 @@
+name: Publish Beta
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version Indicator'
+        default: '1'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish-beta:
+    environment: Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: 'gradle'
+      - name: Publish
+        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        with:
+          arguments: build publish curseforge -PMAVEN_URL=${{ secrets.MAVEN_URL }} -PMAVEN_USER=${{ secrets.MAVEN_USER }} -PMAVEN_TOKEN=${{ secrets.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ secrets.CURSEFORGE_API }} -PCROWDIN_KEY=${{ secrets.CROWDIN_KEY }} -Pbeta=${{ github.event.input.version }}
