@@ -1,24 +1,32 @@
 project.mod_version = "${project.main_version}.${project.major_version}.${project.minor_version}"
-if (hasProperty("beta")) {
-    project.mod_version = project.mod_version + "-beta." + beta
-    project.type = "beta"
-} else if (hasProperty("release")) {
+if (hasProperty("release")) {
     project.type = "release"
-} else if (hasProperty("testing")) {
-    project.mod_version = project.mod_version + "-test+" + getDate()
-    project.type = "test"
-} else if (System.getenv().CI) {
-    project.mod_version = project.mod_version + "-test+" + System.getenv().GIT_BRANCH + "." + System.getenv().GIT_COMMIT
-    writeVersion()
-    project.type = "test"
-} else {
-    project.mod_version = project.mod_version + "-alpha+" + getDate()
+    project.classification = "public"
+    // version is already correct
+} else if (hasProperty("beta")) {
+    project.type = "beta"
+    project.classification = "public"
+    project.mod_version = project.mod_version + "-beta." + beta
+} else if (hasProperty("alpha")) {
     project.type = "alpha"
+    project.classification = "public"
+    project.mod_version = project.mod_version + "-alpha+" + getDate()
+} else if (hasProperty("testing")) {
+    project.type = "test"
+    project.classification = "private"
+    project.mod_version = project.mod_version + "-test+" + getDate()
+} else if (System.getenv().CI) {
+    project.type = "test"
+    project.classification = "private"
+    project.mod_version = project.mod_version + "-test+" + System.getenv().GIT_BRANCH + "." + System.getenv().GIT_COMMIT
+} else {
+    project.type = "test"
+    project.classification = "test"
+    project.mod_version = project.mod_version + "-build+" + getDate()
 }
 
 version = project.minecraft_version + "-" + project.vampirism_version_simple + "-" + project.mod_version
 
-println( new Date().format('YYYYMMdd-HHmm'))
 logger.lifecycle "Version " + project.mod_version
 
 def writeVersion() {

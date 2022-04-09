@@ -13,7 +13,6 @@ buildscript {
 plugins {
     id 'com.matthewprenger.cursegradle' version '1.2.0'
     id 'de.undercouch.download' version '3.3.0'
-//    id 'com.wynprice.cursemaven' version '2.1.1'
     id 'idea'
 }
 
@@ -27,8 +26,10 @@ archivesBaseName = 'Werewolves'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
+// Declare here to use in gradle/versioning.gradle
 ext.mod_version="Test"
 ext.type="test"
+ext.classification = "test"
 
 sourceSets {
     api
@@ -45,8 +46,7 @@ sourceSets {
 apply from: 'gradle/versioning.gradle'
 apply from: 'gradle/forge.gradle'
 apply from: 'gradle/artifacts.gradle'
-apply from: 'gradle/maven.gradle'
-apply from: 'gradle/curse.gradle'
+apply from: 'gradle/deploy.gradle'
 
 configurations {
     apiCompile.extendsFrom(compile)

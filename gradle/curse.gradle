@@ -1,5 +1,4 @@
-//apply plugin: 'maven'
-
+// include "id 'com.matthewprenger.cursegradle' version '1.2.0'" as plugin
 curseforge {
     if (project.hasProperty("CURSEFORGE_API")) {
         apiKey = project.CURSEFORGE_API
