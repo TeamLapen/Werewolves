@@ -16,7 +16,8 @@ public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionE
 
     @Override
     public void render(WerewolfMinionEntity entity, float p_225623_2_, float p_225623_3_, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int p_225623_6_) {
-        switchModel(entity.getForm());
+        this.switchModel(entity.getForm());
+        //noinspection ConstantConditions
         if (this.model == null) return;
         super.render(entity, p_225623_2_, p_225623_3_, matrixStack, buffer, p_225623_6_);
     }
@@ -28,7 +29,7 @@ public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionE
     }
 
     public int getSkinTextureCount(WerewolfForm form) {
-        return this.getWrapper(form).textures.size();
+        return this.getWrapper(form).textures().size();
     }
 
     public int getEyeTextureCount(WerewolfForm form) {

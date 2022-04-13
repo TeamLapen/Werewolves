@@ -20,6 +20,7 @@
     "client.InGameGuiAccessor",
     "client.ItemRendererMixin",
     "client.LayerRendererAccessor",
+    "client.RenderStateShardAccessor",
     "client.RenderTypeBuffersMixin",
     "client.ScreenMixin",
     "client.WorldRendererMixin"

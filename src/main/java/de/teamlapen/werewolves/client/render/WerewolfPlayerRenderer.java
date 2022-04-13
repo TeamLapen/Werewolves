@@ -35,7 +35,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
     public void switchModel(WerewolfForm type) {
         if (this.form == type) return;
         super.switchModel(type);
-        this.skipPlayerModel = getWrapper(type).skipPlayerModel;
+        this.skipPlayerModel = getWrapper(type).skipPlayerModel();
     }
 
     private void setModelVisible(@Nonnull AbstractClientPlayer clientPlayer) {
@@ -125,6 +125,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
             form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).getActiveForm();
         }
         this.switchModel(form);
+        //noinspection ConstantConditions
         if (this.model != null && this.skipPlayerModel) {
             this.render(((AbstractClientPlayer) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             return true;
@@ -133,6 +134,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
     }
 
     public void renderPost(PlayerModel<AbstractClientPlayer> entityModel, WerewolfPlayer entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+        //noinspection ConstantConditions
         if (this.model != null && !this.skipPlayerModel) {
             this.model.setPlayerModel(entityModel);
             render(((AbstractClientPlayer) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
