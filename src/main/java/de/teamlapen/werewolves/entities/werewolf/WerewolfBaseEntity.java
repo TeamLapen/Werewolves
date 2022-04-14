@@ -8,10 +8,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.util.FormHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
@@ -29,7 +26,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
 
     public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, Random random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
-        if (!spawnPredicateCanSpawn(entityType, world, spawnReason, blockPos, random)) return false;
+        if (!Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
         if (spawnReason == MobSpawnType.EVENT) return true;
         if (world.canSeeSky(blockPos) && Monster.isDarkEnoughToSpawn(world, blockPos, random)) {
             return true;
