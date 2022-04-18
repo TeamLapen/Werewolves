@@ -101,7 +101,7 @@ public class WerewolvesMod {
         MinecraftForge.EVENT_BUS.addListener(ModLootTables::onLootLoad);
         MinecraftForge.EVENT_BUS.register(Permissions.class);
 
-        if (ModList.get().isLoaded("guideapi-vp")) {
+        if (ModList.get().isLoaded("guideapi_vp")) {
             MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
         }
 
