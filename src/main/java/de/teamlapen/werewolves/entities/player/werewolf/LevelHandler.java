@@ -30,7 +30,9 @@ public class LevelHandler {
     }
 
     public void loadFromNbt(@Nonnull CompoundNBT compound) {
-        this.levelProgress = compound.getCompound("level").getInt("progress");
+        if (compound.contains("level")) {
+            this.levelProgress = compound.getCompound("level").getInt("progress");
+        }
     }
 
     public int getLevelProgress() {
