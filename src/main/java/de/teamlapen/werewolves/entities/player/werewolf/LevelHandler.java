@@ -10,7 +10,6 @@ public class LevelHandler {
     private final WerewolfPlayer player;
     private int levelProgress;
 
-
     public LevelHandler(WerewolfPlayer player) {
         this.player = player;
     }
@@ -30,7 +29,9 @@ public class LevelHandler {
     }
 
     public void loadFromNbt(@Nonnull CompoundTag compound) {
-        this.levelProgress = compound.getCompound("level").getInt("progress");
+        if (compound.contains("level")) {
+            this.levelProgress = compound.getCompound("level").getInt("progress");
+        }
     }
 
     public int getLevelProgress() {
