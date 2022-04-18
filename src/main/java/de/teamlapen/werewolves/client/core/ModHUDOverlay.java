@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.core;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.client.gui.ExtendedGui;
+import de.teamlapen.lib.util.OptifineHandler;
 import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
@@ -79,8 +80,9 @@ public class ModHUDOverlay extends ExtendedGui {
         this.renderCrosshair(event);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOW)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onRenderWorldLast(RenderGameOverlayEvent.Pre event) {
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
         int percentages = 0;
         int color = 0;
         if (this.screenPercentage > 0) {
@@ -92,15 +94,8 @@ public class ModHUDOverlay extends ExtendedGui {
         }
 
         if (percentages > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
-            RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX); //TODO make right
-            PoseStack stack = new PoseStack();
+            PoseStack stack = event.getMatrixStack();
             stack.pushPose();
-//            RenderSystem.matrixMode(GL11.GL_PROJECTION);
-//            RenderSystem.loadIdentity();
-//            RenderSystem.ortho(0.0D, this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), 0.0D, 1D, -1D);
-//            RenderSystem.matrixMode(GL11.GL_MODELVIEW);
-//            RenderSystem.loadIdentity();
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
             int w = (this.mc.getWindow().getGuiScaledWidth());
             int h = (this.mc.getWindow().getGuiScaledHeight());
 
@@ -108,10 +103,12 @@ public class ModHUDOverlay extends ExtendedGui {
             int bw = Math.round(w / (float) 8 * percentages / 100);
 
             this.fillGradient(stack, 0, 0, w, bh, color, 0x000);
-            this.fillGradient(stack, 0, h - bh, w, h, 0x00000000, color);
+            if (!OptifineHandler.isShaders()) {
+                this.fillGradient(stack, 0, h - bh, w, h, 0x00000000, color);
+            }
             this.fillGradient2(stack, 0, 0, bw, h, 0x000000, color);
             this.fillGradient2(stack, w - bw, 0, w, h, color, 0x00);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
+
             stack.popPose();
         }
     }
