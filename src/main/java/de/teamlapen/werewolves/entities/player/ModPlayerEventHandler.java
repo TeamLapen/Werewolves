@@ -88,6 +88,7 @@ public class ModPlayerEventHandler {
             }/* else if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.speed_after_kill)) {
                 player.getRepresentingPlayer().addPotionEffect(new EffectInstance(Effects.SPEED, 40));
             }*/
+            ((Player) event.getSource().getEntity()).getFoodData().setSaturation(((Player) event.getSource().getEntity()).getFoodData().getSaturationLevel() + 0.5F);
         }
     }
 

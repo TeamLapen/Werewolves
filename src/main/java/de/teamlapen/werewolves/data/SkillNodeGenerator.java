@@ -27,7 +27,7 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
         ResourceLocation beast3_1 = werewolf(beast2, WerewolfSkills.thick_fur).build(consumer, this.modId("beast3_1"));
         ResourceLocation beast3 = werewolf(beast2, WerewolfSkills.damage, WerewolfSkills.resistance).build(consumer, this.modId("beast3"));
         ResourceLocation beast4 = werewolf(beast3, WerewolfSkills.stun_bite, WerewolfSkills.bleeding_bite).build(consumer, this.modId("beast4"));
-        ResourceLocation beast5 = werewolf(beast4, WerewolfSkills.health_after_kill).build(consumer, this.modId("beast5")); //TODO not only health bt also saturation
+        ResourceLocation beast5 = werewolf(beast4, WerewolfSkills.health_after_kill).build(consumer, this.modId("beast5"));
 
         ResourceLocation beast6 = werewolf(beast5, WerewolfSkills.throat_seeker).build(consumer, this.modId("beast6"));
         ResourceLocation beast7 = werewolf(beast5, WerewolfSkills.fear).build(consumer, this.modId("beast7"));

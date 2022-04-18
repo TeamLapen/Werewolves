@@ -35,7 +35,7 @@ public class WerewolfHeavenBiome {
                 .waterColor(0x4CCCFF)
                 .waterFogColor(0x4CCCFF)
                 .skyColor(0x66DBFF)
-                .fogColor(0x4CCCFF) //TODO
+                .fogColor(0x4CCCFF)
                 .foliageColorOverride(0x70E0B5)
                 .grassColorOverride(0x69CFDB)
                 .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);

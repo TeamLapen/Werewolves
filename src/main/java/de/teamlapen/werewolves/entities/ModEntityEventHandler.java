@@ -100,7 +100,7 @@ public class ModEntityEventHandler {
         if (Helper.isWerewolf(event.getEntity())) {
             if (!event.getSource().isMagic()) {
                 float damage = event.getAmount();
-                float damageReduction = FormHelper.getForm(event.getEntityLiving()).getDamageReduction().getLeft();
+                float damageReduction = FormHelper.getForm(event.getEntityLiving()).getDamageReduction();
                 damageReduction *= event.getEntityLiving() instanceof Player ? WerewolfPlayer.getOpt(((Player) event.getEntityLiving())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(WerewolfSkills.thick_fur)).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
                 if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {
                     damageReduction *= 0.3;
@@ -134,8 +134,7 @@ public class ModEntityEventHandler {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOW)
-    //TODO lower priority so that vampirism does not override our ai changes
+    @SubscribeEvent(priority = EventPriority.LOW) // lower priority so that vampirism does not override our ai changes
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getEntity().level.isClientSide()) return;
         if (event.getEntity() instanceof Villager) {
