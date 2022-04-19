@@ -1,10 +1,12 @@
 package de.teamlapen.werewolves.world.gen;
 
-import de.teamlapen.vampirism.world.biome.VampirismBiomes;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModEntities;
-import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.world.level.biome.*;
+
+import static de.teamlapen.vampirism.world.biome.VampirismBiomes.addModdedWaterLake;
+import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWerewolfBiomeTrees;
+import static net.minecraft.data.worldgen.BiomeDefaultFeatures.*;
 
 public class WerewolfHeavenBiome {
 
@@ -43,19 +45,19 @@ public class WerewolfHeavenBiome {
 
     public static BiomeGenerationSettings.Builder createGenerationBuilder() {
         BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder();
-        BiomeDefaultFeatures.addDefaultCarversAndLakes(builder);
-        VampirismBiomes.addModdedWaterLake(builder);
-        BiomeDefaultFeatures.addDefaultMonsterRoom(builder);
-        BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
-        BiomeDefaultFeatures.addDefaultOres(builder);
-        BiomeDefaultFeatures.addDefaultSoftDisks(builder);
+        addDefaultCarversAndLakes(builder);
+        addModdedWaterLake(builder);
+        addDefaultMonsterRoom(builder);
+        addDefaultUndergroundVariety(builder);
+        addDefaultOres(builder);
+        addDefaultSoftDisks(builder);
 
 
-        WerewolvesBiomeFeatures.addWerewolfBiomeTrees(builder);
-        BiomeDefaultFeatures.addDefaultFlowers(builder);
-        BiomeDefaultFeatures.addForestGrass(builder);
-        BiomeDefaultFeatures.addSavannaGrass(builder);
-        BiomeDefaultFeatures.addRareBerryBushes(builder);
+        addWerewolfBiomeTrees(builder);
+        addDefaultFlowers(builder);
+        addForestGrass(builder);
+//        addSavannaGrass(builder); TODO causing mysterious feature cycle order with Oh the biomes you'll go
+        addRareBerryBushes(builder);
         return builder;
     }
 }
