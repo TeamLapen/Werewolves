@@ -50,6 +50,6 @@ public class ModTags {
     }
 
     public static class Biomes {
-        public static final TagKey<Biome> WEREWOLF_BIOME = TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(REFERENCE.MODID, "werewolf_biome"));
+        public static final TagKey<Biome> IS_WEREWOLF_BIOME = TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(REFERENCE.MODID, "is_werewolf_biome"));
     }
 }

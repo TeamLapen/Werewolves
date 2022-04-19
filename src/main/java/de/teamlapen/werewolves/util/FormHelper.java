@@ -37,7 +37,7 @@ public class FormHelper {
 
     public static boolean isInWerewolfBiome(LevelAccessor world, BlockPos pos) {
         Holder<Biome> biome = world.getBiome(pos);
-        return biome.is(ModTags.Biomes.WEREWOLF_BIOME) || noWerewolfFormTickingBiomes.contains(world.getBiome(pos).value().getRegistryName());
+        return biome.is(ModTags.Biomes.IS_WEREWOLF_BIOME) || noWerewolfFormTickingBiomes.contains(world.getBiome(pos).value().getRegistryName());
     }
 
     public static WerewolfForm getForm(LivingEntity entity) {
