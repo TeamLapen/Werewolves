@@ -15,7 +15,7 @@
   ],
   "client": [
     "client.AbstractClientPlayerMixin",
-    "client.EntityRenderDispatcherMixin",
+    "client.EntityRenderersMixin",
     "client.HumanoidArmorLayerMixin",
     "client.InGameGuiAccessor",
     "client.ItemRendererMixin",
