@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.effects.inst;
 
+import de.teamlapen.werewolves.mixin.MobEffectInstanceAccessor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -40,8 +41,8 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
     }
 
     public boolean tick(@Nonnull LivingEntity entityIn, @Nonnull Runnable p_76455_2_) {
-        if (this.hiddenEffect != null) {
-            this.hiddenEffect.tickDownDuration();
+        if (((MobEffectInstanceAccessor) this).getHiddenEffect() != null) {
+            ((MobEffectInstanceAccessor) ((MobEffectInstanceAccessor) this).getHiddenEffect()).invokeTickDownDuration();
         }
         return true;
     }

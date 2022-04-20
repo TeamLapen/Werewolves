@@ -11,7 +11,7 @@ import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.inst.UnWerewolfEffectInstance;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
-import de.teamlapen.werewolves.mixin.LivingEntityInvoker;
+import de.teamlapen.werewolves.mixin.LivingEntityAccessor;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -147,7 +147,7 @@ public class ModPlayerEventHandler {
                     } else {
                         werewolf.getSpecialAttributes().leap = true;
                         Vec3 vector3d = event.getEntity().getDeltaMovement();
-                        event.getEntity().setDeltaMovement(vector3d.x, vector3d.y + (((LivingEntityInvoker) event.getEntity()).invokeGetJumpPower_werewolves() * 0.3), vector3d.z);
+                        event.getEntity().setDeltaMovement(vector3d.x, vector3d.y + (((LivingEntityAccessor) event.getEntity()).invokeGetJumpPower_werewolves() * 0.3), vector3d.z);
                     }
                 } else {
                     werewolf.getSpecialAttributes().leap = false;

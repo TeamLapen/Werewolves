@@ -13,6 +13,9 @@ import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.mixin.GoalSelectorAccessor;
+import de.teamlapen.werewolves.mixin.NearestAttackabletargetGoalAccessor;
+import de.teamlapen.werewolves.mixin.TargetingConditionsAccessor;
 import de.teamlapen.werewolves.network.AttackTargetEventPacket;
 import de.teamlapen.werewolves.util.BiteDamageSource;
 import de.teamlapen.werewolves.util.FormHelper;
@@ -161,9 +164,9 @@ public class ModEntityEventHandler {
     public static <T extends Mob, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, T entity, Class<Q> targetClass, Class<S> targetEntityClass, int attackPriority, BiFunction<T, Predicate<LivingEntity>, Q> replacement, Predicate<EntityType<? extends T>> typeCheck) {
         try {
             Goal target = null;
-            for (WrappedGoal t : entity.targetSelector.availableGoals) {
+            for (WrappedGoal t : ((GoalSelectorAccessor) entity.targetSelector).getAvailableGoals()) {
                 Goal g = t.getGoal();
-                if (targetClass.equals(g.getClass()) && t.getPriority() == attackPriority && targetEntityClass.equals(((NearestAttackableTargetGoal<?>) g).targetType)) {
+                if (targetClass.equals(g.getClass()) && t.getPriority() == attackPriority && targetEntityClass.equals(((NearestAttackabletargetGoalAccessor<?>) g).getTargetType())) {
                     target = g;
                     break;
                 }
@@ -174,9 +177,8 @@ public class ModEntityEventHandler {
                 EntityType<? extends T> type = (EntityType<? extends T>) entity.getType();
                 if (typeCheck.test(type)) {
                     Predicate<LivingEntity> newPredicate = nonWerewolfCheck;
-                    if (((Q) target).targetConditions.selector != null) {
-                        //noinspection ConstantConditions
-                        newPredicate = newPredicate.and(((NearestAttackableTargetGoal<?>) target).targetConditions.selector);
+                    if (((TargetingConditionsAccessor) ((NearestAttackabletargetGoalAccessor<?>)target).getTargetConditions()).getSelector() != null) {
+                        newPredicate = newPredicate.and(((TargetingConditionsAccessor) ((NearestAttackabletargetGoalAccessor<?>) target).getTargetConditions()).getSelector());
                     }
                     entity.targetSelector.addGoal(attackPriority, replacement.apply(entity, newPredicate));
                 }

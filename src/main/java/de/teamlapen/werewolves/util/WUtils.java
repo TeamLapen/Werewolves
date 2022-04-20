@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.util;
 
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModTags;
+import de.teamlapen.werewolves.mixin.ObjectiveCriteriaAccessor;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +16,7 @@ import javax.annotation.Nonnull;
 
 public class WUtils {
     public static final BooleanProperty SOUL_FIRE = BooleanProperty.create("soulfire");
-    public static final ObjectiveCriteria WEREWOLF_LEVEL_CRITERIA = ObjectiveCriteria.registerCustom("werewolves:werewolf");
+    public static final ObjectiveCriteria WEREWOLF_LEVEL_CRITERIA = ObjectiveCriteriaAccessor.registerCustom("werewolves:werewolf");
     public static final CreativeModeTab creativeTab = new CreativeModeTab(REFERENCE.MODID) {
         @Nonnull
         @Override

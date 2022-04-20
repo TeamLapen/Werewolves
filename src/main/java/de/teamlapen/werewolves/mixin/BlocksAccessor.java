@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Blocks.class)
-public interface BlocksInvoker {
+public interface BlocksAccessor {
 
     @Invoker("log")
     static RotatedPillarBlock createLogBlock_werewolves(MaterialColor topColor, MaterialColor barkColor) {
