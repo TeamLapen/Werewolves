@@ -23,7 +23,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/TeamLapen/Werewolves/tree/wiki/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/TeamLapen/Werewolves/tree/wiki/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
