@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Werewolves',
   tagline: 'Wiki',
-  url: 'https://www.curseforge.com/minecraft/mc-mods/werewolves-become-a-beast',
-  baseUrl: '/',
+  url: 'https://teamlapen.github.io',
+  baseUrl: '/werewolves/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
