@@ -48,10 +48,10 @@ public class OverworldModifications {
             //Setup parameter point (basically the volume in the n-d parameter space) at which the biome should be generated
             //Order of parameters: Temp , humidity, continentalness, erosion, depth, weirdness
             Climate.ParameterPoint[] forestPoints = new Climate.ParameterPoint[]{
-                    Climate.parameters(Climate.Parameter.span(0.19F, 0.4F), Climate.Parameter.span(-0.3F, 0.3F), Climate.Parameter.span(0.2F, 0.55F), Climate.Parameter.span(-0.375F, -0.2225F), Climate.Parameter.point(0), Climate.Parameter.span(-0.2F, 0.2F), 0),
-                    Climate.parameters(Climate.Parameter.span(0.19F, 0.4F), Climate.Parameter.span(-0.3F, 0.3F), Climate.Parameter.span(0.2F, 0.55F), Climate.Parameter.span(-0.375F, -0.2225F), Climate.Parameter.point(1), Climate.Parameter.span(-0.2F, 0.2F), 0),
-                    Climate.parameters(Climate.Parameter.span(0.19F, 0.4F), Climate.Parameter.span(-0.3F, 0.3F), Climate.Parameter.span(0.2F, 0.55F), Climate.Parameter.span(-0.375F, -0.2225F), Climate.Parameter.point(0), Climate.Parameter.span(0.2f, 0.7F), 0),
-                    Climate.parameters(Climate.Parameter.span(0.19F, 0.4F), Climate.Parameter.span(-0.3F, 0.3F), Climate.Parameter.span(0.2F, 0.55F), Climate.Parameter.span(-0.375F, -0.2225F), Climate.Parameter.point(1), Climate.Parameter.span(0.2f, 0.7F), 0)
+                    Climate.parameters(Climate.Parameter.span(0.19F, 0.4F), Climate.Parameter.span(-0.25F, 0.25F), Climate.Parameter.span(0.2F, 0.55F), Climate.Parameter.span(-0.375F, -0.2225F), Climate.Parameter.point(0), Climate.Parameter.span(-0.2F, 0.2F), 0),
+                    Climate.parameters(Climate.Parameter.span(0.19F, 0.4F), Climate.Parameter.span(-0.25F, 0.25F), Climate.Parameter.span(0.2F, 0.55F), Climate.Parameter.span(-0.375F, -0.2225F), Climate.Parameter.point(1), Climate.Parameter.span(-0.2F, 0.2F), 0),
+                    Climate.parameters(Climate.Parameter.span(0.19F, 0.4F), Climate.Parameter.span(-0.25F, 0.25F), Climate.Parameter.span(0.2F, 0.55F), Climate.Parameter.span(-0.375F, -0.2225F), Climate.Parameter.point(0), Climate.Parameter.span(0.2f, 0.6F), 0),
+                    Climate.parameters(Climate.Parameter.span(0.19F, 0.4F), Climate.Parameter.span(-0.25F, 0.25F), Climate.Parameter.span(0.2F, 0.55F), Climate.Parameter.span(-0.375F, -0.2225F), Climate.Parameter.point(1), Climate.Parameter.span(0.2f, 0.6F), 0)
             };
 
 
