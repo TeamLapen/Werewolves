@@ -6,11 +6,11 @@ export const skillPath = '/src/main/resources/assets/werewolves/textures/skills/
 export const actionPath = '/src/main/resources/assets/werewolves/textures/actions/'
 
 
-const SkillImg = ({src, alt}) => (
+export const SkillImg = ({src, alt}) => (
     <img src={src} alt={alt} style={{height: 70, imageRendering: "pixelated"}}/>
 );
 
-const UnlockAction = ({children}) => (
+export const UnlockAction = ({children}) => (
     <span style={{
         color: '#0e9c2f',
         fontStyle: 'italic'
@@ -19,7 +19,7 @@ const UnlockAction = ({children}) => (
     </span>
 );
 
-const UpgradesSkill = ({children}) => (
+export const UpgradesSkill = ({children}) => (
     <span style={{
         color: '#10a8b3',
         fontStyle: 'italic'
@@ -28,7 +28,7 @@ const UpgradesSkill = ({children}) => (
     </span>
 );
 
-const OnlyEffects = ({children}) => (
+export const OnlyEffects = ({children}) => (
     <span style={{
         color: '#bd8e31',
         fontStyle: 'italic'
@@ -37,7 +37,7 @@ const OnlyEffects = ({children}) => (
     </span>
 );
 
-const SkillOrAction = ({children, title, iconPath}) => (
+export const SkillOrAction = ({children, title, iconPath}) => (
     <div style={{ marginBottom: '15px'}}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', marginLeft: '-20px'}}>
             <div className="image">
@@ -53,19 +53,19 @@ const SkillOrAction = ({children, title, iconPath}) => (
     </div>
 );
 
-const Skill = ({children, title, icon, commit=baseCommit})=> (
-    <SkillOrAction title={title} iconPath={baseUrl.concat(commit).concat(skillPath).concat(icon)}>
+export function Skill({children, title, icon, commit=baseCommit}) {
+    return (<SkillOrAction title={title} iconPath={baseUrl.concat(commit).concat(skillPath).concat(icon)}>
         {children}
-    </SkillOrAction>
-);
+    </SkillOrAction>);
+}
 
-const Action = ({children, title, icon, commit=baseCommit})=> (
-    <SkillOrAction title={title} iconPath={baseUrl.concat(commit).concat(actionPath).concat(icon)}>
+export function Action({children, title, icon, commit=baseCommit}) {
+    return(<SkillOrAction title={title} iconPath={baseUrl.concat(commit).concat(actionPath).concat(icon)}>
         {children}
-    </SkillOrAction>
-);
+    </SkillOrAction>);
+}
 
-const SkillBranch = ({children, title}) =>(
+export const SkillBranch = ({children, title}) =>(
     <div>
         <h1>{title}</h1>
         <div style={{ marginLeft: '40px'}}>
@@ -73,11 +73,3 @@ const SkillBranch = ({children, title}) =>(
         </div>
     </div>
 );
-
-const skillImage = (path, commit=baseCommit) => {
-    return baseUrl.concat(commit).concat(skillPath).concat(path);
-}
-
-const actionImage = (path, commit=baseCommit) => {
-    return baseUrl.concat(commit).concat(actionPath).concat(path);
-}
