@@ -3,206 +3,37 @@ sidebar_position: 1
 title: Items
 ---
 
-Just Enough items is recommend
+import {silverToolSource, silverToolImages, liverImage, liverSource, silverIngotImage, silverIngotSource, accessoriesSource, accessoriesImages, silverNuggetCrafting, plantOilImage, plantOilBrewing, silverOilSource, werewolfToothImage, werewolfToothSource, strangeInjectionImage, strangeInjectionSource, crackedBoneImage, crackedBoneSource, minionCharmTextures, minionCharmSource, silverOilImage} from './_recipes.mdx'
 
-### Accessories
-<img src="https://i.ibb.co/FHzGJVM/bone-necklace.png" alt="bone-necklace" border="0" width="100"/>    
-<img src="https://i.ibb.co/p0snzZ1/dream-catcher.png" alt="dream-catcher" border="0" width="100"/>   
-<img src="https://i.ibb.co/hXkL3G7/charm-bracelet.png" alt="charm-bracelet" border="0" width="100"/>
-<p>
+import {Item, Items} from "./_items.mdx";
 
-Accessories are unique equipment for werewolf player which can be equipped in the Vampirism Menu. They each have a special effect (see [Refinements](https://github.com/TeamLapen/Werewolves/wiki/Refinements) for more information about these effects)
+Just Enough items is recommended
 
-<details><summary>how to acquire</summary>
+<Item title="Liver" img={liverImage} source={liverSource}>
+    Livers are used in the leveling ritual for werewolves, but can also be consumed as food source.
+</Item>
 
-All accessories receive random refinements.
+<Items title="Accessories" img={accessoriesImages} source={accessoriesSource}>
+    Accessories are unique equipment for werewolf player which can be equipped in the Vampirism Menu. They each have a special effect (see [Refinements](https://github.com/TeamLapen/Werewolves/wiki/Refinements) for more information about these effects)
+</Items>
 
+<Items title="Silver Tools" img={silverToolImages} source={silverToolSource()}/>
 
-##### Entity Loot
-- Beast Werewolf
-- Survivalist Werewolf
+<Item title="Silver Ingot" img={silverIngotImage} source={silverIngotSource()}/>
 
-##### Chest Loot
-- Abandoned Mineshaft
-- Desert Pyramid
-- Jungle Temple
-- Stronghold Corridor
-- Stronghold Library
+<Item title="Silver Nugget" img={silverIngotImage} source={silverNuggetCrafting}/>
+<Item title="Plant Oil" img={plantOilImage} source={plantOilBrewing}/>
+<Item title="Silver Oil" img={silverOilImage} source={silverOilSource()}>
+    Silver Oil can be applied to Sword to increase their damage against werewolves. It comes in two variants which have different damage boosts and durations.
+    <details><summary>usage</summary>
+        <img src="https://i.ibb.co/CsTj8ZM/silver-apply.png" alt="silver-apply" border="0" width="500"/>
+    </details>
+</Item>
+<Item title="Werewolf Tooth" img={werewolfToothImage} source={werewolfToothSource}>
+    Werewolf Tooth are required for Lord Leveling Tasks.
 
-</details>
-</p>
-
-
-### Silver Tools
-<img src="https://i.ibb.co/wzgH8nf/silver-sword.png" alt="silver-sword" border="0" width="100"/>
-<img src="https://i.ibb.co/wWDh2hS/silver-pickaxe.png" alt="silver-pickaxe" border="0" width="100"/>
-<img src="https://i.ibb.co/pzJsK88/silver-axe.png" alt="silver-axe" border="0" width="100"/>
-<img src="https://i.ibb.co/JzCHKjf/silver-shovel.png" alt="silver-shovel" border="0" width="100"/>
-<img src="https://i.ibb.co/HNrNbQw/silver-hoe.png" alt="silver-hoe" border="0" width="100"/>
-<p>
-
-<details><summary>how to acquire</summary>
-
-
-##### Crafting
-<img src="https://i.ibb.co/d2kM0Yv/silver-sword.png" alt="silver-sword" border="0" width="500"/>
-<img src="https://i.ibb.co/ZJPh95y/silver-pickaxe.png" alt="silver-pickaxe" border="0" width="500"/>
-<img src="https://i.ibb.co/jJ7FKF0/silver-axe.png" alt="silver-axe" border="0" width="500"/>
-<img src="https://i.ibb.co/vm2yRTR/silver-shovel.png" alt="silver-shovel" border="0" width="500"/>
-<img src="https://i.ibb.co/Q8rnPgb/silver-hoe.png" alt="silver-hoe" border="0" width="500"/>
-
-</details>
-</p>
-
-### Silver Ingot
-<img src="https://i.ibb.co/py06J47/silver-ingot.png" alt="silver-ingot" border="0" width="100"/>
-<p>
-
-<details><summary>how to acquire</summary>
-
-
-##### Burning
-<img src="https://i.ibb.co/HD9wS1B/silver-ingot.png" alt="silver-ingot" border="0" width="500"/>
-
-##### Crafting
-<img src="https://i.ibb.co/WBkDm9F/silver-ingot-1.png" alt="silver-ingot-1" border="0" width="500"/>
-<img src="https://i.ibb.co/2FbhJZj/silver-ingot-2.png" alt="silver-ingot-2" border="0" width="500"/>
-
-</details>
-</p>
-
-### Silver Nugget
-<img src="https://i.ibb.co/JjcRHgT/silver-nugget.png" alt="silver-nugget" border="0" width="100"/>
-<p>
-
-<details><summary>how to acquire</summary>
-
-
-##### Crafting
-<img src="https://i.ibb.co/sR1Zxkm/silver-nugget.png" alt="silver-nugget" border="0" width="500"/>
-
-</details>
-</p>
-
-### Plant Oil
-<img src="https://i.ibb.co/HC0z9jk/plant-oil.png" alt="silver-oil" border="0" width="100"/>
-<p>
-
-<details><summary>how to acquire</summary>
-
-
-##### Brewing
-<img src="https://i.ibb.co/tMvnZwK/plant-oil.png" alt="plant-oil" border="0" width="500"/>
-
-</details>
-</p>
-
-### Silver Oil
-<img src="https://i.ibb.co/pbvWxXT/silver-oil.png" alt="silver-oil" border="0" width="100"/>
-<p>
-Silver Oil can be applied to Sword to increase their damage against werewolves. It comes in two variants which have different damage boosts and durations.
-
-<details><summary>usage</summary>
-
-<img src="https://i.ibb.co/CsTj8ZM/silver-apply.png" alt="silver-apply" border="0" width="500"/>
-
-</details>
-</p>
-<p>
-<details><summary>how to acquire</summary>
-
-##### Brewing
-<img src="https://i.ibb.co/mGM6Zpt/silver-oil-1.png" alt="silver-oil-1" border="0" width="500"/>
-<img src="https://i.ibb.co/7vHs196/silver-oil-2.png" alt="silver-oil-2" border="0" width="500"/>
-
-</details>
-</p>
-
-### Liver
-<img src="https://i.ibb.co/XZPmCwW/liver.png" alt="liver" border="0" width="100"/>
-<p>
-Livers are used in the leveling ritual for werewolves, but can also be consumed as food source.
-<details><summary>how to acquire</summary>
-
-
-##### Entity Loot
-- Villager
-- Beast Werewolf
-- Survivalist Werewolf
-- Lycanthrope
-
-##### Chest Loot
-- Desert Pyramid
-
-</details>
-</p>
-
-### Werewolf Tooth
-<img src="https://i.ibb.co/HtGjYGW/werewolf-tooth.png" alt="werewolf-tooth" border="0" width="100"/>
-<p>
-Werewolf Tooth are required for Lord Leveling Tasks.
-
-Right clicking a Werewolf Tooth infects you with Lupus Sanguinem.
-<details><summary>how to acquire</summary>
-
-
-##### Entity Loot
-- Alpha Werewolf
-
-##### Chest Loot
-- Stronghold Corridor
-
-</details>
-</p>
-
-### Strange Injection
-<img src="https://i.ibb.co/JHkg0nW/injection-un-werewolf.png" alt="injection-un-werewolf" border="0" width="100"/>
-<p>
-
-The Strange Injection is used to leave the Werewolves faction by interacting with an injection chair
-
-<details><summary>how to acquire</summary>
-
-##### Interaction
-Click a werewolf with a syringe
-
-</details>
-</p>
-
-### Cracked Bone
-<img src="https://i.ibb.co/s3YbPyp/cracked-bone.png" alt="cracked-bone" border="0" width="100" />
-<p>
-
-<details><summary>how to acquire</summary>
-
-##### Entity Loot
-- Skeleton
-- Beast Werewolf
-- Survivalist Werewolf
-- Lycanthrope
-
-##### Chest Loot
-- Abandoned Mineshaft
-- Jungle Temple
-
-</details>
-</p>
-
-### Minion Charms
-<img src="https://i.ibb.co/MfFcqRJ/werewolf-minion-charm.png" alt="werewolf-minion-charm" border="0" width="100"/>
-<img src="https://i.ibb.co/7nsYn55/werewolf-minion-upgrade-simple.png" alt="werewolf-minion-upgrade-simple" border="0" width="100"/>
-<img src="https://i.ibb.co/BKbB0r8/werewolf-minion-upgrade-enhanced.png" alt="werewolf-minion-upgrade-enhanced" border="0" width="100"/>
-<img src="https://i.ibb.co/3cbGrG0/werewolf-minion-upgrade-special.png" alt="werewolf-minion-upgrade-special" border="0" width="100"/>
-<p>
-
-<details><summary>how to acquire</summary>
-
-
-##### Tasks
-- The Minion Charm can be acquired once reaching lord level 1
-- The Minion Moon Charm Upgrade Tasks is unlocked once reaching lord level 2
-- Enhanced Minion Moon Charm Upgrade Tasks is unlocked once reaching lord level 3
-- Special Minion Moon Charm Upgrade Tasks is unlocked once reaching lord level 5
-
-</details>
-</p>
+    Right clicking a Werewolf Tooth infects you with Lupus Sanguinem.
+</Item>
+<Item title="Strange Injection" img={strangeInjectionImage} source={strangeInjectionSource}/>
+<Item title="Cracked Bone" img={crackedBoneImage} source={crackedBoneSource} />
+    <Items title="Minion Charms" img={minionCharmTextures} source={minionCharmSource}/>

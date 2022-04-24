@@ -1,0 +1,153 @@
+import {sumSource, craftingRecipe, craftingRecipes} from "@site/src/components/Recipes";
+
+export const silverSwordCrafting = craftingRecipe("https://i.ibb.co/d2kM0Yv/silver-sword.png")
+export const silverPickAxeCrafting = craftingRecipe("https://i.ibb.co/ZJPh95y/silver-pickaxe.png")
+export const silverAxeCrafting = craftingRecipe("https://i.ibb.co/jJ7FKF0/silver-axe.png")
+export const silverShovelCrafting = craftingRecipe("https://i.ibb.co/vm2yRTR/silver-shovel.png")
+export const silverHoeCrafting = craftingRecipe("https://i.ibb.co/Q8rnPgb/silver-hoe.png")
+export const silverIngotCrafting = craftingRecipes(["https://i.ibb.co/WBkDm9F/silver-ingot-1.png", "https://i.ibb.co/2FbhJZj/silver-ingot-2.png"])
+export const silverIngotBurning = craftingRecipe("https://i.ibb.co/HD9wS1B/silver-ingot.png", "Burning")
+export const silverNuggetCrafting = craftingRecipe("https://i.ibb.co/sR1Zxkm/silver-nugget.png")
+export const plantOilBrewing = craftingRecipe("https://i.ibb.co/tMvnZwK/plant-oil.png", "Brewing")
+export const silverOil1Brewing = craftingRecipe("https://i.ibb.co/mGM6Zpt/silver-oil-1.png", "Brewing")
+export const silverOil2Brewing = craftingRecipe("https://i.ibb.co/7vHs196/silver-oil-2.png", "Brewing")
+
+export const accessoriesSource = [
+    {
+        type: 'list',
+        title: 'Entity Drops',
+        source: ["Beast Werewolf", "Survivalist Werewolf"]
+    },
+    {
+        type: 'list',
+        title: 'Chest Loot',
+        source: ["Abandoned Mineshaft","Desert Pyramid","Jungle Temple","Stronghold Corridor","Stronghold Library",]
+    },
+];
+export const liverSource = [
+    {
+        type: 'list',
+        title: 'Entity Drops',
+        source: ["Villager", "Beast Werewolf", "Survivalist Werewolf", "Lycanthrope"]
+    },
+    {
+        type: 'list',
+        title: 'Chest Loot',
+        source: ["Desert Pyramid"]
+    },
+];
+export const werewolfToothSource = [
+    {
+        type: 'list',
+        title: 'Entity Drops',
+        source: ["Alpha Werewolf"]
+    },
+    {
+        type: 'list',
+        title: 'Chest Loot',
+        source: ["Stronghold Corridor"]
+    },
+];
+export const crackedBoneSource = [
+    {
+        type: 'list',
+        title: 'Entity Drops',
+        source: ["Skeleton","Beast Werewolf","Survivalist Werewolf","Lycanthrope"]
+    },
+    {
+        type: 'list',
+        title: 'Chest Loot',
+        source: ["Abandoned Mineshaft", "Jungle Temple"]
+    },
+];
+export const minionCharmSource = [
+    {
+        type: 'list',
+        title: 'Tasks',
+        source: ["The Minion Charm can be acquired once reaching lord level 1","The Minion Moon Charm Upgrade Tasks is unlocked once reaching lord level 2","Enhanced Minion Moon Charm Upgrade Tasks is unlocked once reaching lord level 3","Special Minion Moon Charm Upgrade Tasks is unlocked once reaching lord level 5"]
+    },
+];
+export const strangeInjectionSource = [
+    {
+        type: 'list',
+        title: 'Interaction',
+        source: ["Click a werewolf with a syringe"]
+    },
+];
+
+export function silverToolSource() {
+    return sumSource([silverSwordCrafting, silverPickAxeCrafting, silverAxeCrafting, silverShovelCrafting, silverHoeCrafting])
+}
+export function silverIngotSource(){
+    return sumSource([silverIngotBurning, silverIngotCrafting])
+}
+export function silverOilSource(){
+    return sumSource([silverOil1Brewing, silverOil2Brewing])
+}
+
+export const liverImage = "https://raw.githubusercontent.com/TeamLapen/Werewolves/56bb436b2ccc72865ec1c15f0e47a3496069aebc/src/main/resources/assets/werewolves/textures/item/liver.png"
+export const silverIngotImage = "https://i.ibb.co/py06J47/silver-ingot.png"
+export const silverNuggetImage = "https://i.ibb.co/JjcRHgT/silver-nugget.png"
+export const plantOilImage = "https://i.ibb.co/HC0z9jk/plant-oil.png"
+export const silverOilImage = "https://i.ibb.co/pbvWxXT/silver-oil.png"
+export const werewolfToothImage = "https://i.ibb.co/HtGjYGW/werewolf-tooth.png"
+export const strangeInjectionImage = "https://i.ibb.co/JHkg0nW/injection-un-werewolf.png"
+export const crackedBoneImage = "https://i.ibb.co/s3YbPyp/cracked-bone.png"
+export const minionCharmImage = "https://i.ibb.co/MfFcqRJ/werewolf-minion-charm.png"
+export const minionCharmSimpleImage = "https://i.ibb.co/7nsYn55/werewolf-minion-upgrade-simple.png"
+export const minionCharmEnhancedImage = "https://i.ibb.co/BKbB0r8/werewolf-minion-upgrade-enhanced.png"
+export const minionCharmSpecialImage = "https://i.ibb.co/3cbGrG0/werewolf-minion-upgrade-special.png"
+export const silverToolImages = [
+    {
+        src: "https://i.ibb.co/wzgH8nf/silver-sword.png",
+        alt: "silver-sword",
+    },
+    {
+        src: "https://i.ibb.co/wWDh2hS/silver-pickaxe.png",
+        alt: "silver-pickaxe",
+    },
+    {
+        src: "https://i.ibb.co/pzJsK88/silver-axe.png",
+        alt: "silver-axe",
+    },
+    {
+        src: "https://i.ibb.co/JzCHKjf/silver-shovel.png",
+        alt: "silver-shovel",
+    },
+    {
+        src: "https://i.ibb.co/HNrNbQw/silver-hoe.png",
+        alt: "silver-hoe",
+    },
+];
+export const accessoriesImages = [
+    {
+        src: "https://i.ibb.co/FHzGJVM/bone-necklace.png",
+        alt: "bone-necklace"
+    },
+    {
+        src: "https://i.ibb.co/p0snzZ1/dream-catcher.png",
+        alt: "dream-catcher"
+    },
+    {
+        src: "https://i.ibb.co/hXkL3G7/charm-bracelet.png",
+        alt: "charm-bracelet"
+    }
+]
+export const minionCharmTextures = [
+    {
+        src: minionCharmImage,
+        alt: "minionCharm"
+    },
+    {
+        src: minionCharmSimpleImage,
+        alt: "minionCharmSimple"
+    },
+    {
+        src: minionCharmEnhancedImage,
+        alt: "minionCharmEnhanced"
+    },
+    {
+        src: minionCharmSpecialImage,
+        alt: "minionCharmSpecial"
+    }
+]
