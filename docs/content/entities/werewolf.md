@@ -2,3 +2,10 @@
 sidebar_position: 1
 title: Werewolf
 ---
+
+:::caution
+
+WIP
+
+:::
+
