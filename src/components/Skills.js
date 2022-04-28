@@ -38,7 +38,7 @@ export const OnlyEffects = ({children}) => (
 );
 
 export const SkillOrAction = ({children, title, iconPath}) => (
-    <div style={{ marginBottom: '15px'}}>
+    <div style={{ marginBottom: '15px'}} id={title.toLowerCase().replace(' ','-')}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', marginLeft: '-20px'}}>
             <div className="image">
                 <SkillImg src={iconPath} alt={title}/>
