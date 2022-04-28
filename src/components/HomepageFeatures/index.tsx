@@ -10,32 +10,30 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
+    title: 'Extensive',
     Svg: require('@site/static/img/logo.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        A full overview over the features of Werewolves
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Werewolf',
     Svg: require('@site/static/img/logo.svg').default,
+
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Dominate the World as Werewolf
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Powered by Vampirism',
     Svg: require('@site/static/img/logo.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+          Extending the Vamprism factions system
       </>
     ),
   },

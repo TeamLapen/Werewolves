@@ -15,6 +15,8 @@ const config = {
   favicon: 'img/favicon.ico',
   organizationName: 'TeamLapen',
   projectName: 'Werewolves',
+  deploymentBranch: 'gh-pages',
+  trailingSlash: false,
 
   presets: [
     [
