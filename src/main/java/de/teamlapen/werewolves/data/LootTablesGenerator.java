@@ -129,7 +129,7 @@ public class LootTablesGenerator extends LootTableProvider {
                             .when(KilledByPlayer.killedByPlayer())
                             .when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.1f, 0.1f))
                             .setRolls(ConstantRange.exactly(1))
-                            .add(ItemLootEntry.lootTableItem(ModItems.V.vampire_book).setWeight(1)))
+                            .add(ItemLootEntry.lootTableItem(ModItems.V.vampire_book).apply(AddBookNbt.builder()).setWeight(1)))
             );
             this.add(ModEntities.wolf, LootTable.lootTable());
             this.add(ModEntities.alpha_werewolf, LootTable.lootTable()

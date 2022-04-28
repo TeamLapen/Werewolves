@@ -48,6 +48,11 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "vampirism:add_book_nbt"
+            }
+          ],
           "name": "vampirism:vampire_book"
         }
       ],
