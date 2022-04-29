@@ -92,7 +92,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     @Override
     protected boolean canConsume(ItemStack stack) {
         if (!super.canConsume(stack)) return false;
-        if (stack.isEdible() && !Helper.canWerewolfEatItem(stack)) return false;
+        if (stack.isEdible() && !Helper.canWerewolfEatItem(this, stack)) return false;
         boolean fullHealth = this.getHealth() == this.getMaxHealth();
         return !fullHealth || !stack.isEdible();
     }
