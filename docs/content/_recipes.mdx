@@ -85,51 +85,67 @@ export function silverOilSource(){
     return sumSource([silverOil1Brewing, silverOil2Brewing])
 }
 
-export const liverImage = "https://raw.githubusercontent.com/TeamLapen/Werewolves/56bb436b2ccc72865ec1c15f0e47a3496069aebc/src/main/resources/assets/werewolves/textures/item/liver.png"
-export const silverIngotImage = "https://i.ibb.co/py06J47/silver-ingot.png"
-export const silverNuggetImage = "https://i.ibb.co/JjcRHgT/silver-nugget.png"
-export const plantOilImage = "https://i.ibb.co/HC0z9jk/plant-oil.png"
-export const silverOilImage = "https://i.ibb.co/pbvWxXT/silver-oil.png"
-export const werewolfToothImage = "https://i.ibb.co/HtGjYGW/werewolf-tooth.png"
-export const strangeInjectionImage = "https://i.ibb.co/JHkg0nW/injection-un-werewolf.png"
-export const crackedBoneImage = "https://i.ibb.co/s3YbPyp/cracked-bone.png"
-export const minionCharmImage = "https://i.ibb.co/MfFcqRJ/werewolf-minion-charm.png"
-export const minionCharmSimpleImage = "https://i.ibb.co/7nsYn55/werewolf-minion-upgrade-simple.png"
-export const minionCharmEnhancedImage = "https://i.ibb.co/BKbB0r8/werewolf-minion-upgrade-enhanced.png"
-export const minionCharmSpecialImage = "https://i.ibb.co/3cbGrG0/werewolf-minion-upgrade-special.png"
+import plantOilUrl from '../assets/plant_oil.png'
+import silverOilUrl from '../assets/silver_oil.png'
+export const baseUrl = "https://raw.githubusercontent.com/TeamLapen/Werewolves/56bb436b2ccc72865ec1c15f0e47a3496069aebc/src/main/resources/assets/werewolves/textures/item/"
+
+export function image(imageName) {
+    return baseUrl + imageName;
+}
+
+export const liverImage = image("liver.png")
+export const silverIngotImage = image("silver_ingot.png")
+export const silverNuggetImage = image("silver_nugget.png")
+export const plantOilImage = plantOilUrl
+export const silverOilImage = silverOilUrl
+export const werewolfToothImage = image("werewolf_tooth.png")
+export const strangeInjectionImage = image("injection_un_werewolf.png")
+export const crackedBoneImage = image("cracked_bone.png")
+export const minionCharmImage = image("werewolf_minion_charm.png")
+export const minionCharmSimpleImage = image("werewolf_minion_upgrade_simple.png")
+export const minionCharmEnhancedImage = image("werewolf_minion_upgrade_enhanced.png")
+export const minionCharmSpecialImage = image("werewolf_minion_upgrade_special.png")
+export const silverSwordImage = image("silver_sword.png")
+export const silverPickaxeImage = image("silver_pickaxe.png")
+export const silverAxeImage = image("silver_axe.png")
+export const silverShovelImage = image("silver_shovel.png")
+export const silverHoeImage = image("silver_hoe.png")
+export const boneNecklace = "https://i.ibb.co/FHzGJVM/bone-necklace.png"
+export const dreamCatcher = "https://i.ibb.co/p0snzZ1/dream-catcher.png"
+export const charmBracelet = "https://i.ibb.co/hXkL3G7/charm-bracelet.png"
 export const silverToolImages = [
     {
-        src: "https://i.ibb.co/wzgH8nf/silver-sword.png",
+        src: silverSwordImage,
         alt: "silver-sword",
     },
     {
-        src: "https://i.ibb.co/wWDh2hS/silver-pickaxe.png",
+        src: silverPickaxeImage,
         alt: "silver-pickaxe",
     },
     {
-        src: "https://i.ibb.co/pzJsK88/silver-axe.png",
+        src: silverAxeImage,
         alt: "silver-axe",
     },
     {
-        src: "https://i.ibb.co/JzCHKjf/silver-shovel.png",
+        src: silverShovelImage,
         alt: "silver-shovel",
     },
     {
-        src: "https://i.ibb.co/HNrNbQw/silver-hoe.png",
+        src: silverHoeImage,
         alt: "silver-hoe",
     },
 ];
 export const accessoriesImages = [
     {
-        src: "https://i.ibb.co/FHzGJVM/bone-necklace.png",
+        src: boneNecklace,
         alt: "bone-necklace"
     },
     {
-        src: "https://i.ibb.co/p0snzZ1/dream-catcher.png",
+        src: dreamCatcher,
         alt: "dream-catcher"
     },
     {
-        src: "https://i.ibb.co/hXkL3G7/charm-bracelet.png",
+        src: charmBracelet,
         alt: "charm-bracelet"
     }
 ]
