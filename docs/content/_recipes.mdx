@@ -1,16 +1,17 @@
 import {sumSource, craftingRecipe, craftingRecipes} from "@site/src/components/Recipes";
+import {silverSword,silverPickaxe,silverAxe,silverShovel,silverHoe,silverIngot1,silverIngot2,silverIngotFurnace,silverNugget,plantOil,silverOil1,silverOil2} from '../assets/recipes/_recipes.mdx'
 
-export const silverSwordCrafting = craftingRecipe("https://i.ibb.co/d2kM0Yv/silver-sword.png")
-export const silverPickAxeCrafting = craftingRecipe("https://i.ibb.co/ZJPh95y/silver-pickaxe.png")
-export const silverAxeCrafting = craftingRecipe("https://i.ibb.co/jJ7FKF0/silver-axe.png")
-export const silverShovelCrafting = craftingRecipe("https://i.ibb.co/vm2yRTR/silver-shovel.png")
-export const silverHoeCrafting = craftingRecipe("https://i.ibb.co/Q8rnPgb/silver-hoe.png")
-export const silverIngotCrafting = craftingRecipes(["https://i.ibb.co/WBkDm9F/silver-ingot-1.png", "https://i.ibb.co/2FbhJZj/silver-ingot-2.png"])
-export const silverIngotBurning = craftingRecipe("https://i.ibb.co/HD9wS1B/silver-ingot.png", "Burning")
-export const silverNuggetCrafting = craftingRecipe("https://i.ibb.co/sR1Zxkm/silver-nugget.png")
-export const plantOilBrewing = craftingRecipe("https://i.ibb.co/tMvnZwK/plant-oil.png", "Brewing")
-export const silverOil1Brewing = craftingRecipe("https://i.ibb.co/mGM6Zpt/silver-oil-1.png", "Brewing")
-export const silverOil2Brewing = craftingRecipe("https://i.ibb.co/7vHs196/silver-oil-2.png", "Brewing")
+export const silverSwordCrafting = craftingRecipe(silverSword)
+export const silverPickAxeCrafting = craftingRecipe(silverPickaxe)
+export const silverAxeCrafting = craftingRecipe(silverAxe)
+export const silverShovelCrafting = craftingRecipe(silverShovel)
+export const silverHoeCrafting = craftingRecipe(silverHoe)
+export const silverIngotCrafting = craftingRecipes([silverIngot1, silverIngot2])
+export const silverIngotBurning = craftingRecipe(silverIngotFurnace, "Burning")
+export const silverNuggetCrafting = craftingRecipe(silverNugget)
+export const plantOilBrewing = craftingRecipe(plantOil, "Brewing")
+export const silverOil1Brewing = craftingRecipe(silverOil1, "Brewing")
+export const silverOil2Brewing = craftingRecipe(silverOil2, "Brewing")
 
 export const accessoriesSource = [
     {
