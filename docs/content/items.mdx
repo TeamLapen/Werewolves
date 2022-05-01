@@ -3,9 +3,9 @@ sidebar_position: 1
 title: Items
 ---
 
-import {silverToolSource, silverToolImages, liverImage, liverSource, silverIngotImage, silverIngotSource, accessoriesSource, accessoriesImages, silverNuggetCrafting, plantOilImage, plantOilBrewing, silverOilSource, werewolfToothImage, werewolfToothSource, strangeInjectionImage, strangeInjectionSource, crackedBoneImage, crackedBoneSource, minionCharmTextures, minionCharmSource, silverOilImage} from './_recipes.mdx'
-
-import {Item, Items} from "./_items.mdx";
+import {silverToolSource,   liverSource,  silverIngotSource, accessoriesSource,  silverNuggetCrafting,  plantOilBrewing, silverOilSource,  werewolfToothSource,  strangeInjectionSource,  crackedBoneSource,  minionCharmSource} from './_recipes.mdx'
+import {silverToolImages, liverImage, silverIngotImage,accessoriesImages,plantOilImage,werewolfToothImage,strangeInjectionImage,crackedBoneImage,minionCharmTextures,silverOilImage} from '../assets/_images.mdx'
+import {Item, Items} from '@site/src/components/Items.mdx'
 
 Just Enough items is recommended
 
@@ -14,7 +14,8 @@ Just Enough items is recommended
 </Item>
 
 <Items title="Accessories" img={accessoriesImages} source={accessoriesSource}>
-    Accessories are unique equipment for werewolf player which can be equipped in the Vampirism Menu. They each have a special effect (see [Refinements](https://github.com/TeamLapen/Werewolves/wiki/Refinements) for more information about these effects)
+
+Accessories are unique equipment for werewolf player which can be equipped in the Vampirism Menu. They each have a special effect (see [Refinements](./refinements.mdx) for more information about these effects)
 </Items>
 
 <Items title="Silver Tools" img={silverToolImages} source={silverToolSource()}/>
@@ -30,9 +31,9 @@ Just Enough items is recommended
     </details>
 </Item>
 <Item title="Werewolf Tooth" img={werewolfToothImage} source={werewolfToothSource}>
-    Werewolf Tooth are required for Lord Leveling Tasks.
 
-    Right clicking a Werewolf Tooth infects you with Lupus Sanguinem.
+Werewolf Tooth are required for Lord Leveling Tasks.
+Right clicking a Werewolf Tooth infects you with [Lupus Sanguinem](./effects.mdx#lupus-sanguinem).
 </Item>
 <Item title="Strange Injection" img={strangeInjectionImage} source={strangeInjectionSource}/>
 <Item title="Cracked Bone" img={crackedBoneImage} source={crackedBoneSource} />

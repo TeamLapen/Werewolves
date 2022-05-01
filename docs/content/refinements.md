@@ -3,7 +3,7 @@ sidebar_position: 1
 title: Refinements
 ---
 
-Refinements are skill/action/general de-/buffs that can be equipped using [accessories](https://github.com/TeamLapen/Werewolves/wiki/Items#accessories). They always come as set of multiple refinements that contains a buff and a debuff.
+Refinements are skill/action/general de-/buffs that can be equipped using [accessories](./items.mdx#accessories). They always come as set of multiple refinements that contains a buff and a debuff.
 
 For Vampire Refinements go [here](https://github.com/TeamLapen/Vampirism/wiki/Refinements)
 ## Skill/Action Refinements
