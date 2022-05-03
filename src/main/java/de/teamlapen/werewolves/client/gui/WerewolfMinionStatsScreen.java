@@ -45,10 +45,10 @@ public class WerewolfMinionStatsScreen extends MinionStatsScreen<WerewolfMinionE
     @Override
     protected void renderStats(PoseStack mStack, WerewolfMinionEntity.WerewolfMinionData data) {
         renderLevelRow(mStack, data.getLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL + 1);
-        renderStatRow(mStack, 0, this.inventoryLevel, new TextComponent("" + data.getInventorySize()), data.getInventoryLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_INVENTORY + 1);
-        renderStatRow(mStack, 1, this.healthLevel, new TextComponent("" + entity.getAttribute(Attributes.MAX_HEALTH).getBaseValue()), data.getHealthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_HEALTH + 1);
-        renderStatRow(mStack, 2, this.strengthLevel, new TextComponent("" + entity.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()), data.getStrengthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_STRENGTH + 1);
-        renderStatRow(mStack, 3, this.resourceLevel, new TextComponent("" + (int) (Math.ceil((float) (data.getResourceEfficiencyLevel() + 1) / (WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1) * 100)) + "%"), data.getResourceEfficiencyLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1);
+        renderStatRow(mStack, 0, this.inventoryLevel, new TextComponent(String.valueOf(data.getInventorySize())), data.getInventoryLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_INVENTORY + 1);
+        renderStatRow(mStack, 1, this.healthLevel, new TextComponent(String.valueOf(entity.getAttribute(Attributes.MAX_HEALTH).getBaseValue())), data.getHealthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_HEALTH + 1);
+        renderStatRow(mStack, 2, this.strengthLevel, new TextComponent(String.valueOf(entity.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue())), data.getStrengthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_STRENGTH + 1);
+        renderStatRow(mStack, 3, this.resourceLevel, new TextComponent((int) (Math.ceil((float) (data.getResourceEfficiencyLevel() + 1) / (WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1) * 100)) + "%"), data.getResourceEfficiencyLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1);
 
     }
 }
