@@ -169,7 +169,7 @@ public class ModPlayerEventHandler {
         if (event.getPlayer().getItemInHand(event.getHand()).getItem() == ModItems.V.injection_empty) {
             if (event.getTarget() instanceof WerewolfBaseEntity) {
                 event.getPlayer().getItemInHand(event.getHand()).shrink(1);
-                event.getPlayer().addItem(new ItemStack(ModItems.injection_un_werewolf));
+                event.getPlayer().addItem(ModItems.injection_un_werewolf.getDefaultInstance());
             }
         }
     }

@@ -127,9 +127,9 @@ public class ModItems {
     }
 
     static void registerOilRecipes() {
-        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.WHEAT_SEEDS), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)));
-        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)));
-        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_2)));
+        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Ingredient.of(Items.WHEAT_SEEDS), ModItems.oil_bottle.withOil(ModOils.plant_oil)));
+        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)), ModTags.Items.SILVER_INGOT, ModItems.oil_bottle.withOil(ModOils.silver_oil_1)));
+        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)), ModTags.Items.SILVER_INGOT, ModItems.oil_bottle.withOil(ModOils.silver_oil_2)));
     }
 
     private static Item.Properties creativeTabProps() {

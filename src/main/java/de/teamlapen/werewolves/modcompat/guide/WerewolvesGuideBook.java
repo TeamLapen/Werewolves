@@ -19,12 +19,10 @@ import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfLevelConf;
-import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
@@ -61,7 +59,7 @@ public class WerewolvesGuideBook {
         if (werewolfPos < 0) {
             werewolfPos = event.categories.size();
         }
-        CategoryAbstract category = new CategoryItemStack(buildWerewolf(helper), translateComponent("guide.werewolves.entity.werewolf.title"), new ItemStack(ModItems.liver));
+        CategoryAbstract category = new CategoryItemStack(buildWerewolf(helper), translateComponent("guide.werewolves.entity.werewolf.title"), ModItems.liver.getDefaultInstance());
         helper.registerLinkablePages(Collections.singletonList(category));
         event.categories.add(werewolfPos, category);
         if (itemPos >= 0) {
@@ -145,8 +143,8 @@ public class WerewolvesGuideBook {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
         helper.info(ModItems.liver).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
         helper.info(ModItems.cracked_bone).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
-        helper.info(false, Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)).useCustomEntryName().setKeyName("oil_bottle.plant_oil").build(entries);
-        helper.info(false, Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_2)), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)).useCustomEntryName().setKeyName("oil_bottle.silver_oil").build(entries);
+        helper.info(false, Ingredient.of(ModItems.oil_bottle.withOil(ModOils.plant_oil)), ModItems.oil_bottle.withOil(ModOils.plant_oil)).useCustomEntryName().setKeyName("oil_bottle.plant_oil").build(entries);
+        helper.info(false, Ingredient.of(ModItems.oil_bottle.withOil(ModOils.silver_oil_1), ModItems.oil_bottle.withOil(ModOils.silver_oil_2)), ModItems.oil_bottle.withOil(ModOils.silver_oil_1)).useCustomEntryName().setKeyName("oil_bottle.silver_oil").build(entries);
         helper.info(ModItems.werewolf_minion_charm, ModItems.werewolf_minion_upgrade_simple, ModItems.werewolf_minion_upgrade_enhanced, ModItems.werewolf_minion_upgrade_special)
                 .setFormats(loc(ModItems.werewolf_minion_charm),
                         loc(ModItems.werewolf_minion_upgrade_simple), ModItems.werewolf_minion_upgrade_simple.getMinLevel() + 1, ModItems.werewolf_minion_upgrade_simple.getMaxLevel() + 1,

@@ -30,6 +30,10 @@ public class OilItem extends Item implements IOilItem {
         return OilUtils.setOil(super.getDefaultInstance(), ModOils.empty);
     }
 
+    public ItemStack withOil(IOil oil) {
+        return OilUtils.setOil(new ItemStack(this), oil);
+    }
+
     @Nonnull
     @Override
     public Component getName(@Nonnull ItemStack stack) {
@@ -47,7 +51,7 @@ public class OilItem extends Item implements IOilItem {
         if (this.allowdedIn(itemGroup)) {
             for (IOil value : ModRegistries.WEAPON_OILS.getValues()) {
                 if (value == ModOils.empty) continue;
-                items.add(OilUtils.setOil(new ItemStack(this), value));
+                items.add(withOil(value));
             }
         }
     }

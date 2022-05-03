@@ -30,7 +30,7 @@ public class WerewolfVillageData {
     }
 
     public static ItemStack createBanner() {
-        ItemStack itemStack = new ItemStack(Items.YELLOW_BANNER);
+        ItemStack itemStack = Items.YELLOW_BANNER.getDefaultInstance();
         CompoundTag compoundNBT = itemStack.getOrCreateTagElement("BlockEntityTag");
         ListTag listNBT = new BannerPattern.Builder()
                 .addPattern(BannerPattern.RHOMBUS_MIDDLE, DyeColor.BLACK)
