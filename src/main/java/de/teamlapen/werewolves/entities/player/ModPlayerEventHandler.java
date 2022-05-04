@@ -209,7 +209,7 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void playerSize(EntityEvent.Size event) {
-        if (event.getEntity() instanceof Player && event.getEntity().isAlive()) {
+        if (event.getEntity() instanceof Player player && player.getInventory() != null && event.getEntity().isAlive()) {
             LazyOptional<WerewolfPlayer> werewolf = WerewolfPlayer.getOpt(((Player) event.getEntity()));
             Optional<EntityDimensions> size = werewolf.map(WerewolfPlayer::getForm).flatMap(form -> form.getSize(event.getPose()));
             if (size.isPresent()) {

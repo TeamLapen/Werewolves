@@ -73,6 +73,7 @@ public class ModTagsProvider {
         @Override
         protected void addTags() {
             this.tag(ModTags.Biomes.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_HEAVEN);
+            //noinspection unchecked
             tag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME).addTags(ModTags.Biomes.IS_WEREWOLF_BIOME);
         }
 
