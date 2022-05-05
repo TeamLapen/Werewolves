@@ -27,16 +27,16 @@ This form is mode for speed as it provides stronger physical attributes, especia
 ## Leveling
 Leveling is done by performing rituals with the help of sacrifices
 
-[Leveling Page](./leveling.md)
+[Leveling Page](leveling.md)
 
 ## Lord Leveling
 Once reaching level 14 you can become werewolf lord by completing tasks for the werewolf representative in villages
 
-[Lord Page](./lord.md)
+[Lord Page](lord.md)
 
 ## Skills
 Like any other faction Werewolves can unlock several skills
 
-[Werewolf Skills](./skills.mdx)
+[Werewolf Skills](skills.mdx)
 
 [Skill/Action Introduction](https://github.com/TeamLapen/Vampirism/wiki/Skills)

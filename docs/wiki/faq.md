@@ -20,7 +20,7 @@ This site may be extended with more questions
 
 ## I can't level up
 
-Check out the Leveling [Wiki Page](./werewolf/leveling.md)
+Check out the Leveling [Wiki Page](werewolf/leveling.md)
 
 ## Where/How can I equip accessories?
 
