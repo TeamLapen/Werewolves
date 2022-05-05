@@ -75,11 +75,11 @@ public class ModItems {
     static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(new Item((new Item.Properties()).tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
 
-        registry.register(new HoeItem(WUtils.SILVER_ITEM_TIER, 0, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_hoe"));
-        registry.register(new ShovelItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_shovel"));
-        registry.register(new AxeItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_axe"));
-        registry.register(new PickaxeItem(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_pickaxe"));
-        registry.register(new SilverSwordItem(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_sword"));
+        registry.register(new HoeItem(WUtils.SILVER_ITEM_TIER, 1, -1.5f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_hoe"));
+        registry.register(new ShovelItem(WUtils.SILVER_ITEM_TIER, 6.5f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_shovel"));
+        registry.register(new AxeItem(WUtils.SILVER_ITEM_TIER, 5.5f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_axe"));
+        registry.register(new PickaxeItem(WUtils.SILVER_ITEM_TIER, 4, -2.8f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_pickaxe"));
+        registry.register(new SilverSwordItem(WUtils.SILVER_ITEM_TIER, 4, -2.4f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_sword"));
         registry.register(new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
             @Override
             public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
