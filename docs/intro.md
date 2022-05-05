@@ -17,10 +17,6 @@ This mod add a new faction to the Vampirism Mod that allows you to become a Were
 
 The Vampirism Wiki can also be found in the navigation bar
 
-## Issues
+## Issues or Unclear
 
 If you find any issue with the Mod or the Wiki please report them either to the [Discord Server](https://discord.gg/wuamm4P), by creating an Issue at [GitHub](https://github.com/TeamLapen/Werewolves) or at the [Curseforge page](https://www.curseforge.com/minecraft/mc-mods/werewolves-become-a-beast)
-
-## Starting Pages
-
-See the sidebar for the wiki pages

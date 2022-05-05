@@ -7,10 +7,24 @@ import {silverToolSource, liverSource, silverIngotSource, accessoriesSource, sil
 import {silverToolImages, liverImage, silverIngotImage, accessoriesImages, plantOilImage, werewolfToothImage, strangeInjectionImage, crackedBoneImage, minionCharmTextures, silverOilImage,silverNuggetImage} from '../assets/images/_images.mdx'
 import {Item, Items} from '@site/src/components/Items.mdx'
 
+export const ItemStats = ({name,damage, attackspeed, durability}) => (
+    <span>
+        <h2>{name}</h2>
+        <ul>
+            <li>{damage} Damage</li>
+            <li>{attackspeed} Attack Speed</li>
+            <li>{(damage * attackspeed).toFixed(2)} Damage/Second</li>
+            <li>{durability} Durability</li>
+            <li>{damage * durability} Lifetime Damage</li>
+        </ul>
+    </span>
+)
+
 Just Enough items is recommended
 
 <Item title="Liver" img={liverImage} source={liverSource}>
-    Livers are used in the leveling ritual for werewolves, but can also be consumed as food source.
+
+Livers are used in the [leveling ritual](../werewolf/leveling#ritual) for werewolves, but can also be consumed as food.
 </Item>
 
 <Items title="Accessories" img={accessoriesImages} source={accessoriesSource}>
@@ -18,19 +32,43 @@ Just Enough items is recommended
 Accessories are unique equipment for werewolf player which can be equipped in the Vampirism Menu. They each have a special effect (see [Refinements](./refinements.md) for more information about these effects)
 </Items>
 
-<Items title="Silver Tools" img={silverToolImages} source={silverToolSource()}/>
+<Items title="Silver Tools" img={silverToolImages} source={silverToolSource()}>
 
-<Item title="Silver Ingot" img={silverIngotImage} source={silverIngotSource()}/>
+Silver Tools are simple tools make out of silver ingots.
 
-<Item title="Silver Nugget" img={silverNuggetImage} source={silverNuggetCrafting}/>
+<details><summary>Item Stats</summary>
+<ItemStats name="Silver Sword" damage={6} attackspeed={1.6} durability={250}/>
+<ItemStats name="Silver Axe" damage={5.5} attackspeed={0.9} durability={250}/>
+<ItemStats name="Silver Pickaxe" damage={4} attackspeed={1.2} durability={250}/>
+<ItemStats name="Silver Shovel" damage={4} attackspeed={1} durability={250}/>
+<ItemStats name="Silver Hoe" damage={1} attackspeed={2.5} durability={250}/>
 
-<Item title="Plant Oil" img={plantOilImage} source={plantOilBrewing}/>
+</details>
+
+</Items>
+
+<Item title="Silver Ingot" img={silverIngotImage} source={silverIngotSource()}>
+
+The Silver Ingot is the item all other silver items are made from
+</Item>
+
+<Item title="Silver Nugget" img={silverNuggetImage} source={silverNuggetCrafting}>
+
+A Nugget item for the Silver Ingot
+</Item>
+
+<Item title="Plant Oil" img={plantOilImage} source={plantOilBrewing}>
+
+Plant Oil is the base for all other oils. [Oil description](./oils.mdx#plant-oil)
+</Item>
 
 <Item title="Silver Oil" img={silverOilImage} source={silverOilSource()}>
-    Silver Oil can be applied to Sword to increase their damage against werewolves. It comes in two variants which have different damage boosts and durations.
-    <details><summary>usage</summary>
-        <img src="https://i.ibb.co/CsTj8ZM/silver-apply.png" alt="silver-apply" border="0" width="500"/>
-    </details>
+
+Silver Oil can be applied to Sword to increase their damage against werewolves. It comes in two variants which have different damage boosts and durations. [Oil description](./oils.mdx#silver-oil)
+
+<details><summary>Apply Silver Oil</summary>
+    <img src="https://i.ibb.co/CsTj8ZM/silver-apply.png" alt="silver-apply" border="0" width="500"/>
+</details>
 </Item>
 
 <Item title="Werewolf Tooth" img={werewolfToothImage} source={werewolfToothSource}>
@@ -39,8 +77,18 @@ Werewolf Tooth are required for Lord Leveling Tasks.
 Right clicking a Werewolf Tooth infects you with [Lupus Sanguinem](./effects.mdx#lupus-sanguinem).
 </Item>
 
-<Item title="Strange Injection" img={strangeInjectionImage} source={strangeInjectionSource}/>
+<Item title="Strange Injection" img={strangeInjectionImage} source={strangeInjectionSource}>
 
-<Item title="Cracked Bone" img={crackedBoneImage} source={crackedBoneSource} />
+The Strange Injection is used for [leaving the Werewolf faction](../werewolf/leveling.md#un-werewolf).
+</Item>
 
-<Items title="Minion Charms" img={minionCharmTextures} source={minionCharmSource}/>
+<Item title="Cracked Bone" img={crackedBoneImage} source={crackedBoneSource} >
+
+Required as item requirement for the [werewolf leveling ritual](../werewolf/leveling#ritual)
+</Item>
+
+<Items title="Minion Charms" img={minionCharmTextures} source={minionCharmSource}>
+
+When you are a Werewolf Lord you can bind other werewolves to your tribe by providing them with a Moon Charm. Once they accepted you as their leader you can level them up by giving them a appropriate upgraded Moon Charm depending on their needs. More Details on the [Werewolf Lord page](../werewolf/lord.md)
+</Items>
+

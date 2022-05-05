@@ -4,35 +4,65 @@ title: Blocks
 ---
 
 import {
-    jacaranaLog,
-    jacaranaSapling,
+    jacarandaLog,
+    jacarandaSapling,
     magicLeaves,
     magicLogs,
     magicPlanks,
     magicSapling,
-    silverBlock, jacaranaLeaves,
+    silverBlock, jacarandaLeaves,
     silverOre, stoneAltar, stoneAltarFireBowls
 } from "../assets/images/_images.mdx";
 import {Block, Blocks} from "@site/src/components/Blocks.mdx";
 
-:::caution
-
-WIP
-
-:::
 
 
 
 
-<Block title="Jacarana Leaves" img={jacaranaLeaves} />
+<Block title="Jacaranda Leaves" img={jacarandaLeaves} >
 
-<Block title="Jacarana Log" img={jacaranaLog} />
-<Block title="Jacarana Sapling" img={jacaranaSapling} />
-<Block title="Magic Leaves" img={magicLeaves} />
-<Block title="Magic Log" img={magicLogs} />
-<Block title="Magic Planks" img={magicPlanks} />
-<Block title="Magic Sapling" img={magicSapling} />
-<Block title="Silver Block" img={silverBlock} />
-<Block title="Silver Ore" img={silverOre} />
-<Block title="Stone Altar" img={stoneAltar} />
-<Blocks title="Stone Altar Fire Bowl" img={stoneAltarFireBowls} />
+Grows on Jacaranda Trees
+</Block>
+
+<Block title="Jacaranda Log" img={jacarandaLog} >
+
+Log block for the Jacaranda Tree
+</Block>
+<Block title="Jacaranda Sapling" img={jacarandaSapling} >
+
+Grows into a Jacaranda Tree and dropped from [Jacaranda Leaves](#jacaranda-leaves)
+</Block>
+<Block title="Magic Leaves" img={magicLeaves} >
+
+Grows on Magic Trees
+</Block>
+<Block title="Magic Log" img={magicLogs} >
+
+Log block for the Magic Tree
+</Block>
+<Block title="Magic Planks" img={magicPlanks} >
+
+Crafted from [Magic Log](#magic-log)
+</Block>
+<Block title="Magic Sapling" img={magicSapling} >
+
+Grows into a Magic Tree and dropped from [Magic Leaves](#magic-leaves)
+</Block>
+<Block title="Silver Block" img={silverBlock} >
+
+Storage/Decorative Block
+Crafted with 9 [Silver Ingots](./items.mdx#silver-ingot)
+</Block>
+<Block title="Silver Ore" img={silverOre} >
+
+Found underground and can be melted into [Silver Ingots](./items.mdx#silver-ingot)
+</Block>
+<Block title="Stone Altar" img={stoneAltar} >
+
+The Stone Altar is the main block for the werewolf player leveling [ritual](../werewolf/leveling.md#ritual)
+</Block>
+<Blocks title="Stone Altar Fire Bowl" img={stoneAltarFireBowls} >
+
+Support blocks for the Stone Altar
+Can be set on fire with flint and steel or a (soul-) torch
+</Blocks>

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 6
 title: Permissions
 ---
 
@@ -12,4 +12,4 @@ Werewolves utilizes Forge's permissions system for a few actions. Thereby it sho
 - `werewolves.bite` Bite Entities
 - `werewolves.bite.player` Bite Player (just used if `werewolves.bite` permission is given)
 - `werewolves.infect` Infect other Player with Lupus Sanguinem
-- `vampirism.action.*` Allow a player to use the specific action (e.b. `vampirism.action.vampirism.bat`) (inherited from vampirism)
+- `vampirism.action.*` Allow a player to use the specific action (e.b. `vampi~~~~rism.action.vampirism.bat`) (inherited from vampirism)

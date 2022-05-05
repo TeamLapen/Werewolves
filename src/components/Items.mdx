@@ -3,7 +3,7 @@ export const ItemImg = ({src, alt}) => (
 );
 
 export const Items = ({children, title, img, source}) => (
-    <div style={{marginBottom: '50px'}} id={title.toLowerCase().replace(' ', '-')}>
+    <div style={{marginBottom: '50px'}} id={title.toLowerCase().replaceAll(' ', '-')}>
         <div>
             <h1 style={{fontSize: 'xx-large'}}>{title}</h1>
         </div>

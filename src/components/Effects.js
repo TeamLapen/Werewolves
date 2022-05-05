@@ -9,7 +9,7 @@ export const EffectImg = ({src, alt}) => (
 );
 
 export const Effect = ({children, title, icon, commit=baseCommit}) => (
-    <div style={{ marginBottom: '15px'}}>
+    <div style={{ marginBottom: '15px'}} id={title.toLowerCase().replaceAll(' ','-')}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', marginLeft: '-20px'}}>
             <div className="image">
                 <EffectImg src={baseUrl.concat(commit).concat(effectPath).concat(icon)} alt={title}/>
