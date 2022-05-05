@@ -25,7 +25,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/TeamLapen/Werewolves/tree/wiki/',
+          editUrl: 'https://github.com/TeamLapen/Werewolves/tree/gh-pages-source/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
