@@ -9,7 +9,7 @@ const config = {
   title: 'Werewolves',
   tagline: 'Wiki',
   url: 'https://teamlapen.github.io',
-  baseUrl: '/werewolves/',
+  baseUrl: '/Werewolves/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
