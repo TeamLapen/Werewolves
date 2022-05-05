@@ -20,7 +20,8 @@ This mod allows you to become a werewolf with all its benefits and drawbacks.
 ## Links
 
 Download: [Curseforge](https://www.curseforge.com/minecraft/mc-mods/werewolves-become-a-beast)  
-Translate: [Crowdin](https://crowdin.com/project/werewolves)
+Translate: [Crowdin](https://crowdin.com/project/werewolves)  
+Wiki: [Wiki](https://teamlapen.github.io/Werewolves/docs/intro)
 
 Vampirism [Github](https://github.com/TeamLapen/Vampirism)  
 Vampirism [Curseforge](https://www.curseforge.com/minecraft/mc-mods/vampirism-become-a-vampire)
