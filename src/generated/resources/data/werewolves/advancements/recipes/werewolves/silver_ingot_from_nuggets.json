@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:nuggets/silver"
+            "items": [
+              "werewolves:silver_nugget"
+            ]
           }
         ]
       }

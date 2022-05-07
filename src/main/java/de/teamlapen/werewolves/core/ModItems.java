@@ -46,6 +46,7 @@ public class ModItems {
     public static final UnWerewolfInjectionItem injection_un_werewolf = getNull();
     public static final WerewolfToothItem werewolf_tooth = getNull();
     public static final Item silver_nugget = getNull();
+    public static final Item raw_silver = getNull();
 
     public static final Item werewolf_minion_charm = getNull();
     public static final WerewolfMinionUpgradeItem werewolf_minion_upgrade_simple = getNull();
@@ -115,6 +116,7 @@ public class ModItems {
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET).setRegistryName(REFERENCE.MODID, "bone_necklace"));
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING).setRegistryName(REFERENCE.MODID, "charm_bracelet"));
         registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.OBI_BELT).setRegistryName(REFERENCE.MODID, "dream_catcher"));
+        registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "raw_silver"));
     }
 
     public static void remapItems(RegistryEvent.MissingMappings<Item> event) {

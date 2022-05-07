@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.data;
 
+import com.google.common.collect.ImmutableList;
 import de.teamlapen.vampirism.data.recipebuilder.ShapedWeaponTableRecipeBuilder;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
@@ -14,14 +15,20 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCookingSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class RecipeGenerator extends RecipeProvider {
+
+    protected static final ImmutableList<ItemLike> SILVER_SMELTABLES = ImmutableList.of(ModBlocks.silver_ore, ModBlocks.deepslate_silver_ore, ModItems.raw_silver);
+
     public RecipeGenerator(DataGenerator generatorIn) {
         super(generatorIn);
     }
@@ -35,32 +42,21 @@ public class RecipeGenerator extends RecipeProvider {
         TagKey<Item> sticks = Tags.Items.RODS_WOODEN;
         TagKey<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
         TagKey<Item> silver_nugget = ModTags.Items.SILVER_NUGGET;
+        TagKey<Item> raw_silver = ModTags.Items.RAW_MATERIALS_SILVER;
         TagKey<Item> iron_ingot = Tags.Items.INGOTS_IRON;
         TagKey<Item> feathers = Tags.Items.FEATHERS;
         ItemLike crossbow_arrow = ModItems.V.crossbow_arrow_normal;
 
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 200).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer);
-        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModTags.Items.SILVER_ORE), ModItems.silver_ingot, 0.7F, 100).unlockedBy("has_silver_ore", has(ModTags.Items.SILVER_ORE)).save(consumer, modId("silver_ingot_from_blasting"));
+        planksFromLog(consumer, ModBlocks.magic_planks, ModTags.Items.MAGIC_LOGS);
+        ShapelessRecipeBuilder.shapeless(Blocks.OAK_PLANKS, 4).requires(ModTags.Items.MAGIC_LOGS).group("planks").unlockedBy("has_log", has(ModTags.Items.MAGIC_LOGS)).save(consumer, REFERENCE.MODID + ":oak_planks");
 
-        ShapelessRecipeBuilder.shapeless(ModBlocks.magic_planks, 4)
-                .requires(ModBlocks.magic_log).unlockedBy("has_magic_log", has(ModBlocks.magic_log))
-                .save(consumer, modId("magic_planks_from_magic_log"));
-        ShapelessRecipeBuilder.shapeless(Blocks.OAK_PLANKS, 4)
-                .requires(ModBlocks.jacaranda_log).unlockedBy("has_jacaranda_log", has(ModBlocks.jacaranda_log))
-                .save(consumer, modId("oak_planks_from_jacaranda_log"));
+
         ShapelessRecipeBuilder.shapeless(Items.BONE, 2)
                 .requires(ModItems.cracked_bone).unlockedBy("has_broken_bone", has(ModItems.cracked_bone))
                 .save(consumer);
         ShapelessRecipeBuilder.shapeless(Items.PURPLE_DYE)
                 .requires(ModBlocks.wolfsbane).unlockedBy("has_wolfsbane", has(ModBlocks.wolfsbane))
                 .save(consumer);
-        ShapelessRecipeBuilder.shapeless(ModItems.silver_ingot, 9)
-                .requires(ModBlocks.silver_block).unlockedBy("has_silver_block", has(ModBlocks.silver_block))
-                .save(consumer, modId("iron_ingot_from_iron_block"));
-        ShapelessRecipeBuilder.shapeless(ModItems.silver_nugget, 9)
-                .requires(silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
-                .save(consumer, modId("silver_nugget"));
-
 
         ShapedRecipeBuilder.shaped(ModItems.silver_hoe).pattern("XX").pattern(" #").pattern(" #")
                 .define('#', sticks).unlockedBy("has_sticks", has(sticks))
@@ -89,12 +85,13 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('S', Items.STONE_BRICKS).unlockedBy("has_stone_bricks", has(Items.STONE_BRICKS))
                 .define('P', ItemTags.PLANKS).unlockedBy("has_planks", has(ItemTags.PLANKS))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(ModBlocks.silver_block).pattern("###").pattern("###").pattern("###")
-                .define('#', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
-                .save(consumer);
-        ShapedRecipeBuilder.shaped(ModItems.silver_ingot).pattern("###").pattern("###").pattern("###")
-                .define('#', silver_nugget).unlockedBy("has_silver_nugget", has(silver_nugget))
-                .save(consumer, modId("silver_ingot_from_nuggets"));
+        nineBlockStorageRecipes(consumer, ModItems.silver_ingot, ModBlocks.silver_block);
+        nineBlockStorageRecipes(consumer, ModItems.raw_silver, ModBlocks.raw_silver_block);
+        nineBlockStorageRecipesWithCustomPacking(consumer, ModItems.silver_nugget, ModItems.silver_ingot, REFERENCE.MODID + ":silver_ingot_from_nuggets", "silver_ingot");
+        oreSmelting(consumer, SILVER_SMELTABLES, ModItems.silver_ingot, 0.7f, 200, "silver_ingot");
+        oreBlasting(consumer, SILVER_SMELTABLES, ModItems.silver_ingot, 0.7f, 100, "silver_ingot");
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.silver_axe, ModItems.silver_hoe, ModItems.silver_pickaxe, ModItems.silver_shovel, ModItems.silver_sword), ModItems.silver_nugget, 0.1f, 200).unlockedBy("has_silver_axe", has(ModItems.silver_axe)).unlockedBy("has_silver_hoe", has(ModItems.silver_hoe)).unlockedBy("has_silver_pickaxe", has(ModItems.silver_pickaxe)).unlockedBy("has_silver_shovel", has(ModItems.silver_shovel)).unlockedBy("has_silver_sword", has(ModItems.silver_sword)).save(consumer, getSmeltingRecipeName(ModItems.silver_nugget));
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModItems.silver_axe, ModItems.silver_hoe, ModItems.silver_pickaxe, ModItems.silver_shovel, ModItems.silver_sword), ModItems.silver_nugget, 0.1f, 100).unlockedBy("has_silver_axe", has(ModItems.silver_axe)).unlockedBy("has_silver_hoe", has(ModItems.silver_hoe)).unlockedBy("has_silver_pickaxe", has(ModItems.silver_pickaxe)).unlockedBy("has_silver_shovel", has(ModItems.silver_shovel)).unlockedBy("has_silver_sword", has(ModItems.silver_sword)).save(consumer, getBlastingRecipeName(ModItems.silver_nugget));
 
         SpecialRecipeBuilder.special(ModRecipes.weapon_oil).save(consumer, REFERENCE.MODID + ":weapon_oil");
 
@@ -108,4 +105,42 @@ public class RecipeGenerator extends RecipeProvider {
                 .save(consumer, modId("crossbow_arrow_silver_bolt"));
     }
 
+    protected static void nineBlockStorageRecipes(Consumer<FinishedRecipe> p_176744_, ItemLike p_176745_, ItemLike p_176746_) {
+        nineBlockStorageRecipes(p_176744_, p_176745_, p_176746_, getSimpleRecipeName(p_176746_), (String) null, getSimpleRecipeName(p_176745_), (String) null);
+    }
+
+    protected static void nineBlockStorageRecipesWithCustomPacking(Consumer<FinishedRecipe> p_176563_, ItemLike p_176564_, ItemLike p_176565_, String p_176566_, String p_176567_) {
+        nineBlockStorageRecipes(p_176563_, p_176564_, p_176565_, p_176566_, p_176567_, getSimpleRecipeName(p_176564_), (String) null);
+    }
+
+    protected static String getSimpleRecipeName(ItemLike itemLike) {
+        return getItemName(itemLike);
+    }
+
+    protected static String getItemName(ItemLike itemLike) {
+        return itemLike.asItem().getRegistryName().toString();
+    }
+
+    protected static String getBlastingRecipeName(ItemLike p_176669_) {
+        return getItemName(p_176669_) + "_from_blasting";
+    }
+
+    protected static String getSmeltingRecipeName(ItemLike p_176657_) {
+        return getItemName(p_176657_) + "_from_smelting";
+    }
+
+    protected static void oreSmelting(Consumer<FinishedRecipe> p_176592_, List<ItemLike> p_176593_, ItemLike p_176594_, float p_176595_, int p_176596_, String p_176597_) {
+        oreCooking(p_176592_, RecipeSerializer.SMELTING_RECIPE, p_176593_, p_176594_, p_176595_, p_176596_, p_176597_, "_from_smelting");
+    }
+
+    protected static void oreBlasting(Consumer<FinishedRecipe> p_176626_, List<ItemLike> p_176627_, ItemLike p_176628_, float p_176629_, int p_176630_, String p_176631_) {
+        oreCooking(p_176626_, RecipeSerializer.BLASTING_RECIPE, p_176627_, p_176628_, p_176629_, p_176630_, p_176631_, "_from_blasting");
+    }
+
+    protected static void oreCooking(Consumer<FinishedRecipe> p_176534_, SimpleCookingSerializer<?> p_176535_, List<ItemLike> p_176536_, ItemLike p_176537_, float p_176538_, int p_176539_, String p_176540_, String p_176541_) {
+        for (ItemLike itemlike : p_176536_) {
+            SimpleCookingRecipeBuilder.cooking(Ingredient.of(itemlike), p_176537_, p_176538_, p_176539_, p_176535_).group(p_176540_).unlockedBy(getHasName(itemlike), has(itemlike)).save(p_176534_, getItemName(p_176537_) + p_176541_ + "_" + getItemName(itemlike).replace(":", "_"));
+        }
+
+    }
 }

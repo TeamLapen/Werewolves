@@ -37,7 +37,8 @@ Vampirism [Curseforge](https://www.curseforge.com/minecraft/mc-mods/vampirism-be
 - [1LiterZinalco](https://lunofe.de/) _Models_
 - Йода _Textures_
 - CritterCarnival _Textures_
-- Talonerd _Textures_
+- [Talonerd](https://twitter.com/Talonerd) _Textures_
+- [Grid](https://www.curseforge.com/members/gridexpert/projects) _Textures_
 
 ## Setup Gradle build script and Maven mirror
 

@@ -14,6 +14,11 @@ import net.minecraft.world.level.block.Block;
 public class ModTags {
     public static class Blocks extends de.teamlapen.vampirism.core.ModTags.Blocks {
         public static final TagKey<Block> SILVER_ORE = forge("ores/silver");
+        public static final TagKey<Block> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");
+        public static final TagKey<Block> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
+        public static final TagKey<Block> MAGIC_LOGS = forge("magic_logs");
+        public static final TagKey<Block> JACARANDA_LOGS = forge("jacaranda_logs");
+
 
         private static TagKey<Block> mc(ResourceLocation id) {
             return BlockTags.create(id);
@@ -35,6 +40,11 @@ public class ModTags {
         public static final TagKey<Item> RAWMEATS = forge("rawmeats");
         public static final TagKey<Item> COOKEDMEATS = forge("cookedmeats");
         public static final TagKey<Item> SILVER_TOOL = werewolves("tools/silver");
+        public static final TagKey<Item> RAW_MATERIALS_SILVER = forge("raw_materials/iron");
+        public static final TagKey<Item> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");
+        public static final TagKey<Item> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
+        public static final TagKey<Item> MAGIC_LOGS = forge("magic_logs");
+        public static final TagKey<Item> JACARANDA_LOGS = forge("jacaranda_logs");
 
         private static TagKey<Item> mc(ResourceLocation id) {
             return ItemTags.create(id);

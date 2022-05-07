@@ -23,7 +23,9 @@ public class BlockStateGenerator extends BlockStateProvider {
     protected void registerStatesAndModels() {
         Set<Block> blocks = new HashSet<>() {{
             add(ModBlocks.silver_ore);
+            add(ModBlocks.deepslate_silver_ore);
             add(ModBlocks.silver_block);
+            add(ModBlocks.raw_silver_block);
             add(ModBlocks.magic_planks);
         }};
         blocks.forEach(this::simpleBlock);

@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "werewolves:oak_planks_from_jacaranda_log"
+      "werewolves:silver_ingot_from_blasting_werewolves_raw_silver"
     ]
   },
   "criteria": {
-    "has_jacaranda_log": {
+    "has_raw_silver": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "werewolves:jacaranda_log"
+              "werewolves:raw_silver"
             ]
           }
         ]
@@ -21,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "werewolves:oak_planks_from_jacaranda_log"
+        "recipe": "werewolves:silver_ingot_from_blasting_werewolves_raw_silver"
       }
     }
   },
   "requirements": [
     [
-      "has_jacaranda_log",
+      "has_raw_silver",
       "has_the_recipe"
     ]
   ]

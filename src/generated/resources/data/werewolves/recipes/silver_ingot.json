@@ -1,9 +1,12 @@
 {
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/silver"
-  },
-  "result": "werewolves:silver_ingot",
-  "experience": 0.7,
-  "cookingtime": 200
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "werewolves:silver_block"
+    }
+  ],
+  "result": {
+    "item": "werewolves:silver_ingot",
+    "count": 9
+  }
 }

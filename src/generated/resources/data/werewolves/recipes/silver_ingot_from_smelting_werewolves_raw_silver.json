@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "group": "silver_ingot",
+  "ingredient": {
+    "item": "werewolves:raw_silver"
+  },
+  "result": "werewolves:silver_ingot",
+  "experience": 0.7,
+  "cookingtime": 200
+}

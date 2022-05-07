@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "werewolves:silver_ingot_from_smelting_werewolves_raw_silver"
+    ]
+  },
+  "criteria": {
+    "has_raw_silver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "werewolves:raw_silver"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "werewolves:silver_ingot_from_smelting_werewolves_raw_silver"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_raw_silver",
+      "has_the_recipe"
+    ]
+  ]
+}

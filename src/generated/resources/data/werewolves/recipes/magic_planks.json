@@ -1,12 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "group": "planks",
   "ingredients": [
     {
-      "item": "werewolves:jacaranda_log"
+      "tag": "forge:magic_logs"
     }
   ],
   "result": {
-    "item": "minecraft:oak_planks",
+    "item": "werewolves:magic_planks",
     "count": 4
   }
 }

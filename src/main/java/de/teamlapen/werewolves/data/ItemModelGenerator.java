@@ -26,7 +26,9 @@ public class ItemModelGenerator extends ItemModelProvider {
     protected void registerModels() {
         Set<Block> blockParent = new HashSet<>() {{
             add(ModBlocks.silver_ore);
+            add(ModBlocks.deepslate_silver_ore);
             add(ModBlocks.silver_block);
+            add(ModBlocks.raw_silver_block);
             add(ModBlocks.jacaranda_leaves);
             add(ModBlocks.jacaranda_log);
             add(ModBlocks.magic_leaves);
@@ -74,6 +76,8 @@ public class ItemModelGenerator extends ItemModelProvider {
         this.item(ModItems.charm_bracelet, modLoc("item/charm_bracelet_layer0"), modLoc("item/charm_bracelet_layer1"));
         this.item(ModItems.bone_necklace, modLoc("item/bone_necklace_layer0"), modLoc("item/bone_necklace_layer1"));
         this.item(ModItems.oil_bottle, modLoc("item/oil_bottle"), modLoc("item/oil_bottle_overlay"));
+
+        this.item(ModItems.raw_silver);
     }
 
     @Nonnull

@@ -2,6 +2,10 @@
   "replace": false,
   "values": [
     "werewolves:stone_altar",
-    "werewolves:stone_altar_fire_bowl"
+    "werewolves:stone_altar_fire_bowl",
+    "werewolves:deepslate_silver_ore",
+    "werewolves:silver_ore",
+    "werewolves:silver_block",
+    "werewolves:raw_silver_block"
   ]
 }

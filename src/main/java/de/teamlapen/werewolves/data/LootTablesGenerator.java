@@ -72,6 +72,7 @@ public class LootTablesGenerator extends LootTableProvider {
             this.dropSelf(ModBlocks.wolfsbane);
             this.dropSelf(ModBlocks.silver_block);
             this.dropSelf(ModBlocks.silver_ore);
+            this.dropSelf(ModBlocks.raw_silver_block);
             this.dropPottedContents(ModBlocks.potted_wolfsbane);
             this.dropSelf(ModBlocks.jacaranda_log);
             this.dropSelf(ModBlocks.magic_log);
@@ -80,6 +81,12 @@ public class LootTablesGenerator extends LootTableProvider {
             this.add(ModBlocks.jacaranda_leaves, (block -> createLeavesDrops(block, ModBlocks.jacaranda_sapling, DEFAULT_SAPLING_DROP_RATES)));
             this.add(ModBlocks.magic_leaves, (block -> createLeavesDrops(block, ModBlocks.magic_sapling, DEFAULT_SAPLING_DROP_RATES)));
             this.dropSelf(ModBlocks.stone_altar_fire_bowl);
+            this.add(ModBlocks.silver_ore, (block) -> {
+                return createOreDrop(block, ModItems.raw_silver);
+            });
+            this.add(ModBlocks.deepslate_silver_ore, (block) -> {
+                return createOreDrop(block, ModItems.raw_silver);
+            });
         }
 
         @Nonnull

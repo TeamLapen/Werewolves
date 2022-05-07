@@ -2,18 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "werewolves:magic_planks_from_magic_log"
+      "werewolves:oak_planks"
     ]
   },
   "criteria": {
-    "has_magic_log": {
+    "has_log": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "werewolves:magic_log"
-            ]
+            "tag": "forge:magic_logs"
           }
         ]
       }
@@ -21,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "werewolves:magic_planks_from_magic_log"
+        "recipe": "werewolves:oak_planks"
       }
     }
   },
   "requirements": [
     [
-      "has_magic_log",
+      "has_log",
       "has_the_recipe"
     ]
   ]

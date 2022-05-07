@@ -12,6 +12,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,14 +34,20 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags() {
-            this.tag(ModTags.Blocks.SILVER_ORE).add(ModBlocks.silver_ore);
+            this.tag(ModTags.Blocks.SILVER_ORE).add(ModBlocks.silver_ore, ModBlocks.deepslate_silver_ore);
             this.tag(BlockTags.LOGS).add(ModBlocks.jacaranda_log, ModBlocks.magic_log);
             this.tag(BlockTags.SAPLINGS).add(ModBlocks.jacaranda_sapling, ModBlocks.magic_sapling);
             this.tag(BlockTags.LEAVES).add(ModBlocks.jacaranda_leaves, ModBlocks.magic_leaves);
             this.tag(BlockTags.PLANKS).add(ModBlocks.magic_planks);
             this.tag(BlockTags.CAMPFIRES).add(ModBlocks.stone_altar_fire_bowl, ModBlocks.stone_altar);
-            this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.stone_altar, ModBlocks.stone_altar_fire_bowl);
+            this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.stone_altar, ModBlocks.stone_altar_fire_bowl, ModBlocks.deepslate_silver_ore, ModBlocks.silver_ore, ModBlocks.silver_block, ModBlocks.raw_silver_block);
             this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.jacaranda_log, ModBlocks.magic_log, ModBlocks.magic_planks);
+            this.tag(BlockTags.NEEDS_STONE_TOOL).add(ModBlocks.deepslate_silver_ore, ModBlocks.silver_ore, ModBlocks.silver_block, ModBlocks.raw_silver_block);
+            this.tag(Tags.Blocks.ORE_RATES_SINGULAR).add(ModBlocks.deepslate_silver_ore, ModBlocks.silver_ore);
+            this.tag(ModTags.Blocks.STORAGE_BLOCKS_SILVER).add(ModBlocks.silver_block);
+            this.tag(ModTags.Blocks.STORAGE_BLOCKS_RAW_SILVER).add(ModBlocks.raw_silver_block);
+            this.tag(ModTags.Blocks.MAGIC_LOGS).add(ModBlocks.magic_log);
+            this.tag(ModTags.Blocks.JACARANDA_LOGS).add(ModBlocks.jacaranda_log);
         }
     }
 
@@ -52,6 +59,11 @@ public class ModTagsProvider {
         @Override
         protected void addTags() {
             this.copy(ModTags.Blocks.SILVER_ORE, ModTags.Items.SILVER_ORE);
+            this.copy(ModTags.Blocks.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER);
+            this.copy(ModTags.Blocks.STORAGE_BLOCKS_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER);
+            this.copy(ModTags.Blocks.MAGIC_LOGS, ModTags.Items.MAGIC_LOGS);
+            this.copy(ModTags.Blocks.JACARANDA_LOGS, ModTags.Items.JACARANDA_LOGS);
+            this.copy(Tags.Blocks.ORE_RATES_SINGULAR, Tags.Items.ORE_RATES_SINGULAR);
             this.copy(BlockTags.PLANKS, ItemTags.PLANKS);
             this.copy(BlockTags.LEAVES, ItemTags.LEAVES);
             this.copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
@@ -61,6 +73,7 @@ public class ModTagsProvider {
             this.tag(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver, ModItems.V.human_heart, ModItems.V.weak_human_heart, Items.SALMON, Items.TROPICAL_FISH, Items.COD);
             this.tag(ModTags.Items.COOKEDMEATS).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
             this.tag(ModTags.Items.SILVER_TOOL).add(ModItems.silver_axe, ModItems.silver_hoe, ModItems.silver_sword, ModItems.silver_pickaxe, ModItems.silver_shovel);
+            this.tag(ModTags.Items.RAW_MATERIALS_SILVER).add(ModItems.raw_silver);
         }
     }
 

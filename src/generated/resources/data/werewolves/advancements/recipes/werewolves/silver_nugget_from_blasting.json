@@ -1,0 +1,86 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "werewolves:silver_nugget_from_blasting"
+    ]
+  },
+  "criteria": {
+    "has_silver_axe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "werewolves:silver_axe"
+            ]
+          }
+        ]
+      }
+    },
+    "has_silver_hoe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "werewolves:silver_hoe"
+            ]
+          }
+        ]
+      }
+    },
+    "has_silver_pickaxe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "werewolves:silver_pickaxe"
+            ]
+          }
+        ]
+      }
+    },
+    "has_silver_shovel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "werewolves:silver_shovel"
+            ]
+          }
+        ]
+      }
+    },
+    "has_silver_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "werewolves:silver_sword"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "werewolves:silver_nugget_from_blasting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_silver_axe",
+      "has_silver_hoe",
+      "has_silver_pickaxe",
+      "has_silver_shovel",
+      "has_silver_sword",
+      "has_the_recipe"
+    ]
+  ]
+}
