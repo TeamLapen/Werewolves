@@ -103,6 +103,11 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
+      metadata: [
+        { name: 'keywords', content: 'minecraft, werewolf, vampirism, forge, wiki' },
+        { name: 'twitter:card', content: 'summary' }
+      ],
+      image: 'img/werewolves-title.png'
     }),
 };
 

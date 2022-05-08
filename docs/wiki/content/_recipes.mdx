@@ -1,5 +1,5 @@
 import {sumSource, craftingRecipe, craftingRecipes} from "@site/src/components/Recipes";
-import {silverSword,silverPickaxe,silverAxe,silverShovel,silverHoe,silverIngot1,silverIngot2,silverIngotFurnace,silverNugget,plantOil,silverOil1,silverOil2} from '../assets/recipes/_recipes.mdx'
+import {silverSword,silverPickaxe,silverAxe,silverShovel,silverHoe,silverIngot1,silverIngot2,silverNugget,plantOil,silverOil1,silverOil2,silverIngot} from '../assets/recipes/_recipes.mdx'
 
 export const silverSwordCrafting = craftingRecipe(silverSword)
 export const silverPickAxeCrafting = craftingRecipe(silverPickaxe)
@@ -7,7 +7,7 @@ export const silverAxeCrafting = craftingRecipe(silverAxe)
 export const silverShovelCrafting = craftingRecipe(silverShovel)
 export const silverHoeCrafting = craftingRecipe(silverHoe)
 export const silverIngotCrafting = craftingRecipes([silverIngot1, silverIngot2])
-export const silverIngotBurning = craftingRecipe(silverIngotFurnace, "Burning")
+export const silverIngotBurning = craftingRecipe(silverIngot, "Burning")
 export const silverNuggetCrafting = craftingRecipe(silverNugget)
 export const plantOilBrewing = craftingRecipe(plantOil, "Brewing")
 export const silverOil1Brewing = craftingRecipe(silverOil1, "Brewing")

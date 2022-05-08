@@ -30,7 +30,7 @@ export default function Home(): JSX.Element {
   return (
     <Layout
       title={`${siteConfig.title}`}
-      description="Werewolves Mod">
+      description="Werewolves are strong and brutal with sharp teeth and claws.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />
