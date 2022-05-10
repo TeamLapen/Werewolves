@@ -8,11 +8,13 @@ import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.WerewolfSkills;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraftforge.common.ForgeMod;
 
 import java.util.UUID;
 
 public class SurvivalWerewolfFormAction extends WerewolfFormAction {
 
+    public static final UUID CLIMBER_ID = UUID.fromString("df949628-07c5-4e9b-974f-9f005a74ab51");
     public SurvivalWerewolfFormAction() {
         super(WerewolfForm.SURVIVALIST);
         attributes.add(new Modifier(ModAttributes.bite_damage, UUID.fromString("7c2ab40d-b71a-4453-aa95-158f69c87696"), UUID.fromString("913462ef-a612-4d2a-a797-525d0535f8d2"), 1, "survival_form_claw_damage", WerewolvesConfig.BALANCE.SKILLS.survival_form_bite_damage::get, AttributeModifier.Operation.ADDITION));
@@ -27,7 +29,7 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     protected boolean activate(IWerewolfPlayer werewolf) {
         if (super.activate(werewolf)) {
             if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)) {
-                werewolf.getRepresentingPlayer().maxUpStep = 1.0f;
+                werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));
             }
             return true;
         } else {
@@ -36,17 +38,22 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
+    public void onReActivated(IWerewolfPlayer werewolf) {
+        super.onReActivated(werewolf);
+        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)) {
+            werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));
+        }
+    }
+
+    @Override
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
         super.onActivatedClient(werewolfPlayer);
-        if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)) {
-            werewolfPlayer.getRepresentingPlayer().maxUpStep = 1.0f;
-        }
     }
 
     @Override
     public void onDeactivated(IWerewolfPlayer werewolf) {
         super.onDeactivated(werewolf);
-        werewolf.getRepresentingPlayer().maxUpStep = 0.6f;
+        werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).removeModifier(CLIMBER_ID);
     }
 
     @Override
