@@ -184,8 +184,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        if (player.getRepresentingPlayer() instanceof ServerPlayer && (!PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.TRANSFORMATION) || !PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.FORM)))
+        if (player.getRepresentingPlayer() instanceof ServerPlayer && (!PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.TRANSFORMATION) || !PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.FORM))) {
             return false;
+        }
+        if (player.getRepresentingPlayer().isPassenger() && !this.form.isHumanLike()) return false;
         boolean active = player.getActionHandler().isActionActive(this);
         if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active) return false;
         return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_HEAVEN);

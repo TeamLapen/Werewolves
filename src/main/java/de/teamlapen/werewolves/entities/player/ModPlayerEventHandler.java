@@ -29,6 +29,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
@@ -241,6 +242,14 @@ public class ModPlayerEventHandler {
                     }
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onMountEvent(EntityMountEvent event) {
+        if (event.isMounting() && WerewolfPlayer.getOptEx(event.getEntityMounting()).map(p -> !p.getForm().isHumanLike()).orElse(false)) {
+            event.setCanceled(true);
+            ((Player) event.getEntityMounting()).displayClientMessage(new TranslatableComponent("text.werewolves.nomount.transformed"), true);
         }
     }
 }

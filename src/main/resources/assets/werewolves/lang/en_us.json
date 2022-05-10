@@ -7,6 +7,7 @@
   "keys.werewolves.leap": "Leap",
   "keys.werewolves.bite": "Bite",
   "text.werewolves.slayed_creatures": "Creatures",
+  "text.werewolves.nomount.transformed": "Cannot mount while being transformed",
   "__comment": "worldgen",
   "biome.werewolves.werewolf_heaven": "Werewolf Heaven",
   "__comment": "blocks",
