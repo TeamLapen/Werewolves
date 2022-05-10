@@ -4,7 +4,7 @@ title: Items
 ---
 
 import {silverToolSource, liverSource, silverIngotSource, accessoriesSource, silverNuggetCrafting, plantOilBrewing, silverOilSource, werewolfToothSource, strangeInjectionSource, crackedBoneSource, minionCharmSource} from './_recipes.mdx'
-import {silverToolImages, liverImage, silverIngotImage, accessoriesImages, plantOilImage, werewolfToothImage, strangeInjectionImage, crackedBoneImage, minionCharmTextures, silverOilImage,silverNuggetImage} from '../assets/images/_images.mdx'
+import {silverToolImages, liverImage, silverIngotImage, accessoriesImages, plantOilImage, werewolfToothImage, strangeInjectionImage, crackedBoneImage, minionCharmTextures, silverOilImage,silverNuggetImage,rawSilverImage} from '../assets/images/_images.mdx'
 import {Item, Items} from '@site/src/components/Items.mdx'
 
 export const ItemStats = ({name,damage, attackspeed, durability}) => (
@@ -55,6 +55,11 @@ The Silver Ingot is the item all other silver items are made from
 <Item title="Silver Nugget" img={silverNuggetImage} source={silverNuggetCrafting}>
 
 A Nugget item for the Silver Ingot
+</Item>
+
+<Item title="Raw Silver" img={rawSilverImage}>
+
+Dropped by [Silver Ore](./blocks.mdx#silver-ore) ore [Deepslate Silver Ore](./blocks.mdx#deepslate-silver-ore)
 </Item>
 
 <Item title="Plant Oil" img={plantOilImage} source={plantOilBrewing}>
