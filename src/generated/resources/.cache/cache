@@ -84,7 +84,7 @@ de41c28dc273fe6b7f605ffb558b2a916df94dfe data/forge/tags/items/magic_logs.json
 2c4bb8b5c4cdafc632e35e318f028372e0751be3 data/forge/tags/items/nuggets/silver.json
 bee44e88c78a9a413378ff76b534b5a9abfe976e data/forge/tags/items/ore_rates/singular.json
 6a5dd466313f928ebddbcf1960071b3460805cea data/forge/tags/items/ores/silver.json
-f51acfe48c7f91e1657c693757ad19347a1edf27 data/forge/tags/items/raw_materials/iron.json
+f51acfe48c7f91e1657c693757ad19347a1edf27 data/forge/tags/items/raw_materials/silver.json
 7cb71d3327c9ec0928fec436df3fba5a3be05ae9 data/forge/tags/items/rawmeats.json
 5c9a521a0d906e723ed39252828f2a94932581dc data/forge/tags/items/storage_blocks/raw_silver.json
 31ef7d868a9c7c5cde94a060332d04826a3daab6 data/forge/tags/items/storage_blocks/silver.json

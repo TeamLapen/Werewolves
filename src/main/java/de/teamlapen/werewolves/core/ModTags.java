@@ -40,7 +40,7 @@ public class ModTags {
         public static final TagKey<Item> RAWMEATS = forge("rawmeats");
         public static final TagKey<Item> COOKEDMEATS = forge("cookedmeats");
         public static final TagKey<Item> SILVER_TOOL = werewolves("tools/silver");
-        public static final TagKey<Item> RAW_MATERIALS_SILVER = forge("raw_materials/iron");
+        public static final TagKey<Item> RAW_MATERIALS_SILVER = forge("raw_materials/silver");
         public static final TagKey<Item> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");
         public static final TagKey<Item> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
         public static final TagKey<Item> MAGIC_LOGS = forge("magic_logs");
