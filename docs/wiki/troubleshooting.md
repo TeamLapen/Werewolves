@@ -14,6 +14,10 @@ This page will be extended
 ### Epic Fight Mod - Play Werewolf Model is not shown
 Epic Fight Mod cancels any rendering of something else than the original player model
 
+### java.lang.IncompatibleClassChangeError:
+`java.lang.IncompatibleClassChangeError: class de.teamlapen.werewolves.client.model.geom.InvisibleModelPart`  
+this error is not caused by Werewolves. It is a bug in Forge this is shown as error instead of the original error. To see the correct error search for the `IncompatibleClassChangeError` in the debug.log file and take a look above. 
+
 ## Crash-report - If your game crashes we do NEED a crash-report
 If the issue is not know we can not help you when we do not know that happened. We __NEED__ the crash-report to determine what crashed. If you do not provide one we __WILL__ ask for it.
 
