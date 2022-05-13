@@ -3,6 +3,9 @@ contact_links:
   - name: Vampirism/Werewolves Discord
     url: https://discord.gg/wuamm4P
     about: If you are not sure about something, ask on Discord
+  - name: Known Bugs
+    url: https://teamlapen.github.io/Werewolves/docs/wiki/troubleshooting#know-issues
+    about: Known issues that could resolve you issue without the need to create an issue for it
   - name: Github Discussions
     url: https://github.com/TeamLapen/Werewolves/discussions
     about: Another way if you are unsure about creating an issue
