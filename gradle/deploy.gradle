@@ -1,6 +1,5 @@
 apply from: 'gradle/maven.gradle'
 apply from: 'gradle/curse.gradle'
-//apply from: 'modrinth.gradle'
 
 task checkIfPublicVersion{
     doFirst {
@@ -12,4 +11,4 @@ task checkIfPublicVersion{
 
 tasks.publish.dependsOn(checkIfPublicVersion)
 tasks.curseforge.dependsOn(checkIfPublicVersion)
-//tasks.modrinth.dependsOn(checkIfPublicVersion)
+tasks.modrinth.dependsOn(checkIfPublicVersion)
