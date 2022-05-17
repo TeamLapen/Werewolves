@@ -23,7 +23,7 @@ jobs:
         run: |
           if [[ ${{ github.event_name }} = workflow_dispatch ]]; then
             echo ::set-output name=match::true
-          elif [[ ${{ github.event.ref }} =~ ^refs/tags/v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-(0|[1-9]\d*)\.(0|[1-9]\d*)$ ]]; then
+          elif [[ ${{ github.event.ref }} =~ ^refs\/tags\/v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-(0|[1-9]\d*)\.(0|[1-9]\d*)$ ]]; then
             echo ::set-output name=match::true
           fi
       - name: Set up JDK 17
