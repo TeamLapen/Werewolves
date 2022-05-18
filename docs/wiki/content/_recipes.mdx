@@ -1,17 +1,44 @@
 import {sumSource, craftingRecipe, craftingRecipes} from "@site/src/components/Recipes";
-import {silverSword,silverPickaxe,silverAxe,silverShovel,silverHoe,silverIngot1,silverIngot2,silverNugget,plantOil,silverOil1,silverOil2,silverIngot} from '../assets/recipes/_recipes.mdx'
+import {
+    silverSwordRecipe,
+    silverPickaxeRecipe,
+    silverAxeRecipe,
+    silverShovelRecipe,
+    silverHoeRecipe,
+    silverIngotRecipe,
+    silverIngot1Recipe,
+    silverIngot2Recipe,
+    silverIngot3Recipe,
+    silverIngot4Recipe,
+    silverNuggetRecipe,
+    silverNugget2Recipe,
+    plantOilRecipe,
+    silverOil1Recipe,
+    silverOil2Recipe,
+    rawSilverRecipe,
+    rawSilverBlockRecipe,
+    stoneAltarFireBowlRecipe,
+    magicPlanksRecipe, oakPlanksFromJacarandaRecipe, stoneAltarRecipe, silverBlockRecipe
+} from '../assets/recipes/_recipes.mdx'
 
-export const silverSwordCrafting = craftingRecipe(silverSword)
-export const silverPickAxeCrafting = craftingRecipe(silverPickaxe)
-export const silverAxeCrafting = craftingRecipe(silverAxe)
-export const silverShovelCrafting = craftingRecipe(silverShovel)
-export const silverHoeCrafting = craftingRecipe(silverHoe)
-export const silverIngotCrafting = craftingRecipes([silverIngot1, silverIngot2])
-export const silverIngotBurning = craftingRecipe(silverIngot, "Burning")
-export const silverNuggetCrafting = craftingRecipe(silverNugget)
-export const plantOilBrewing = craftingRecipe(plantOil, "Brewing")
-export const silverOil1Brewing = craftingRecipe(silverOil1, "Brewing")
-export const silverOil2Brewing = craftingRecipe(silverOil2, "Brewing")
+export const silverSwordCrafting = craftingRecipe(silverSwordRecipe)
+export const silverPickAxeCrafting = craftingRecipe(silverPickaxeRecipe)
+export const silverAxeCrafting = craftingRecipe(silverAxeRecipe)
+export const silverShovelCrafting = craftingRecipe(silverShovelRecipe)
+export const silverHoeCrafting = craftingRecipe(silverHoeRecipe)
+export const silverIngotCrafting = craftingRecipes([silverIngot3Recipe, silverIngot4Recipe])
+export const silverIngotBurning = craftingRecipes([silverIngotRecipe,silverIngot1Recipe,silverIngot2Recipe], "Burning")
+export const silverNuggetCrafting = craftingRecipes([silverNuggetRecipe, silverNugget2Recipe])
+export const plantOilBrewing = craftingRecipe(plantOilRecipe, "Brewing")
+export const silverOil1Brewing = craftingRecipe(silverOil1Recipe, "Brewing")
+export const silverOil2Brewing = craftingRecipe(silverOil2Recipe, "Brewing")
+export const magicPlanksCrafting = craftingRecipe(magicPlanksRecipe)
+export const oakFromJacarandaCrafting = craftingRecipe(oakPlanksFromJacarandaRecipe)
+export const stoneAltarCrafting = craftingRecipe(stoneAltarRecipe)
+export const stoneAltarFireBowlCrafting = craftingRecipe(stoneAltarFireBowlRecipe)
+export const rawSilverCrafting = craftingRecipe(rawSilverRecipe)
+export const rawSilverBlockCrafting = craftingRecipe(rawSilverBlockRecipe)
+export const silverBlockCrafting = craftingRecipe(silverBlockRecipe)
 
 export const accessoriesSource = [
     {
