@@ -48,7 +48,7 @@ public class RecipeGenerator extends RecipeProvider {
         ItemLike crossbow_arrow = ModItems.V.crossbow_arrow_normal;
 
         planksFromLog(consumer, ModBlocks.magic_planks, ModTags.Items.MAGIC_LOGS);
-        ShapelessRecipeBuilder.shapeless(Blocks.OAK_PLANKS, 4).requires(ModTags.Items.MAGIC_LOGS).group("planks").unlockedBy("has_log", has(ModTags.Items.MAGIC_LOGS)).save(consumer, REFERENCE.MODID + ":oak_planks");
+        ShapelessRecipeBuilder.shapeless(Blocks.OAK_PLANKS, 4).requires(ModTags.Items.JACARANDA_LOGS).group("planks").unlockedBy("has_log", has(ModTags.Items.MAGIC_LOGS)).save(consumer, REFERENCE.MODID + ":oak_planks");
 
 
         ShapelessRecipeBuilder.shapeless(Items.BONE, 2)
