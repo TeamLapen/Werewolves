@@ -4,6 +4,7 @@ modrinth {
     token = findProperty("MODRINTH_API") ?: "DUMMY"
     projectId = '3ElBohKg'
     versionNumber = "${project.minecraft_version}-${project.vampirism_version_simple}-${project.mod_version}"
+    versionName = "Werewolves-${project.minecraft_version}-${project.vampirism_version_simple}-${project.mod_version}"
     uploadFile = jar
     gameVersions = [project.minecraft_version]
     loaders = ['forge']
