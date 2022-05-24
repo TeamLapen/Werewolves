@@ -12,7 +12,3 @@ modrinth {
         optional.project "w5L2PHJU"
     }
 }
-
-modrinth.onlyIf {
-    project.hasProperty("MODRINTH_API") // Only attempt to run this task if the MODRINTH variable is set, otherwise SKIP it
-}

@@ -1,5 +1,6 @@
 apply from: 'gradle/maven.gradle'
 apply from: 'gradle/curse.gradle'
+apply from: 'gradle/modrinth.gradle'
 
 task checkIfPublicVersion{
     doFirst {
