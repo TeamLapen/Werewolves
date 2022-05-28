@@ -18,7 +18,10 @@ import {
     magicPlanksCrafting,
     rawSilverBlockCrafting,
     stoneAltarCrafting,
-    stoneAltarFireBowlCrafting
+    stoneAltarFireBowlCrafting,
+    oakFromJacarandaCrafting,
+    magicLogsCraftingUsage,
+    rawSilverBlockCraftingUsage
 } from './_recipes.mdx'
 import {Block, Blocks} from "@site/src/components/Blocks.mdx";
 
@@ -31,7 +34,7 @@ import {Block, Blocks} from "@site/src/components/Blocks.mdx";
 Grows on Jacaranda Trees
 </Block>
 
-<Block title="Jacaranda Log" img={jacarandaLog} >
+<Block title="Jacaranda Log" img={jacarandaLog} usage={oakFromJacarandaCrafting}>
 
 Log block for the Jacaranda Tree
 </Block>
@@ -43,13 +46,12 @@ Grows into a Jacaranda Tree and dropped from [Jacaranda Leaves](#jacaranda-leave
 
 Grows on Magic Trees
 </Block>
-<Block title="Magic Log" img={magicLogs} >
+<Block title="Magic Log" img={magicLogs} usage={magicLogsCraftingUsage}>
 
 Log block for the Magic Tree
 </Block>
 <Block title="Magic Planks" img={magicPlanks} source={magicPlanksCrafting}>
 
-Crafted from [Magic Log](#magic-log)
 </Block>
 <Block title="Magic Sapling" img={magicSapling} >
 
@@ -60,7 +62,7 @@ Grows into a Magic Tree and dropped from [Magic Leaves](#magic-leaves)
 Storage/Decorative Block
 Crafted with 9 [Silver Ingots](./items.mdx#silver-ingot)
 </Block>
-<Block title="Raw Silver Block" img={rawSilverBlock} source={rawSilverBlockCrafting}>
+<Block title="Raw Silver Block" img={rawSilverBlock} source={rawSilverBlockCrafting} usage={rawSilverBlockCraftingUsage}>
 
 </Block>
 <Block title="Silver Ore" img={silverOre} >
