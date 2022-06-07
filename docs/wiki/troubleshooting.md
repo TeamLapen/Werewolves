@@ -18,8 +18,18 @@ Epic Fight Mod cancels any rendering of something else than the original player 
 When rendering the werewolf model in 3rd person the game crashes
 
 ### java.lang.IncompatibleClassChangeError:
-`java.lang.IncompatibleClassChangeError: class de.teamlapen.werewolves.client.model.geom.InvisibleModelPart`  
-this error is not caused by Werewolves. It is only a bug in Forge why this is shown. To find the actual error you need to take a look at the `debug.log` found in your logs folder. Just search for `IncompatibleClassChangeError` and look above the error to find the real cause. If you are using the curseforge client and do not find a `debug.log` file make sure to enable the logging in the Minecraft setting 
+This is not an actual bug in Werewolves, it is mere a bug in forge that shows this instead of the real bug.  
+To find out what is wrong first make sure all Werewolves requirements are met:
+- use the latest version of Forge
+- use the latest version of Vampirism
+
+If your issue is not resolved there are two ways to continue:  
+1. Remove Werewolves and restart the game and fix all issues the game shows you and re-add Werewolves once the game starts into the main menu. Then the issue should be fixed.  If the issue is not fixed or the game does not show you any issues in the first place go to 2.
+2. For this way you need to take a look at the `debug.log`, which will tell you what exactly is wrong. 
+You can find it in the [logs folder of your minecraft instance](https://help.ggservers.com/en-us/article/where-to-find-client-side-logs-7upje9/)  
+(If there is no `debug.log` or it only contains a few lines, and you use the Curseforge launcher, make sure to enable the logging the Minecraft Settings and crash the game again)  
+Once you have the `debug.log` file, then you can search in it for `net.minecraftforge.fml.ModLoadingException`. Take a look at the text the line shows and fix your minecraft installation accordingly.  
+If you do not know what to do with the `debug.log` you can send it to us (__DO NOT__ post some lines of the log file, put the entire log file)
 
 ## Crash-report - If your game crashes we do NEED a crash-report
 If the issue is not know we can not help you when we do not know that happened. We __NEED__ the crash-report to determine what crashed. If you do not provide one we __WILL__ ask for it.
