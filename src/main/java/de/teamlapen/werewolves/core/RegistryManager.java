@@ -1,28 +1,8 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.lib.lib.util.IInitListener;
-import de.teamlapen.vampirism.api.entity.actions.IEntityAction;
-import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
-import de.teamlapen.vampirism.api.entity.player.actions.IAction;
-import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
-import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet;
-import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
-import de.teamlapen.vampirism.api.entity.player.task.Task;
-import de.teamlapen.werewolves.items.oil.IOil;
 import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.potion.Effect;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.village.PointOfInterestType;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -54,6 +34,8 @@ public class RegistryManager implements IInitListener {
                 WerewolvesBiomeFeatures.init();
                 ModBiomes.removeStructuresFromBiomes();
                 ModItems.registerOilRecipes();
+                event.enqueueWork(ModVillage::villageTradeSetup);
+                event.enqueueWork(ModEntities::initializeEntities);
                 break;
             case LOAD_COMPLETE:
                 break;
@@ -61,112 +43,26 @@ public class RegistryManager implements IInitListener {
     }
 
     @SubscribeEvent
-    public void onRegisterSkills(RegistryEvent.Register<ISkill> event) {
-        WerewolfSkills.registerWerewolfSkills(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterBlocks(RegistryEvent.Register<Block> event) {
-        ModBlocks.registerBlocks(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterItems(RegistryEvent.Register<Item> event) {
-        ModItems.registerItems(event.getRegistry());
-        ModBlocks.registerItemBlocks(event.getRegistry());
-    }
-
-    @SubscribeEvent
     public void onMissingItem(RegistryEvent.MissingMappings<Item> event) {
         ModItems.remapItems(event);
     }
 
-    @SubscribeEvent
-    public void onRegisterBiomes(RegistryEvent.Register<Biome> event) {
-        ModBiomes.registerBiomes(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterEffects(RegistryEvent.Register<Effect> event) {
-        ModEffects.registerEffects(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterActions(RegistryEvent.Register<IAction> event) {
-        ModActions.registerActions(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterEntityTypes(RegistryEvent.Register<EntityType<?>> event) {
-        ModEntities.registerEntities(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterFeatures(RegistryEvent.Register<Feature<?>> event) {
-    }
-
-    @SubscribeEvent
-    public void onRegisterProfessions(RegistryEvent.Register<VillagerProfession> event) {
-        ModVillage.registerProfessions(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterPointOfInterests(RegistryEvent.Register<PointOfInterestType> event) {
-        ModVillage.registerPointOfInterestTypes(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterTiles(RegistryEvent.Register<TileEntityType<?>> event) {
-        ModTiles.registerTiles(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterEntityActions(RegistryEvent.Register<IEntityAction> event) {
-        ModEntityActions.registerEntityActions(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterAttributes(RegistryEvent.Register<Attribute> event) {
-        ModAttributes.registerAttributes(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterGlobalLootModifierSerializer(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event){
-        ModLootTables.registerLootModifier(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterTasks(RegistryEvent.Register<Task> event){
-        ModTasks.registerTasks(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterMinionTasks(RegistryEvent.Register<IMinionTask<?, ?>> event) {
-        ModMinionTasks.register(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterWeaponOils(RegistryEvent.Register<IOil> event) {
-        ModOils.register(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterRecipeSerializer(RegistryEvent.Register<IRecipeSerializer<?>> event){
-        ModRecipes.register(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterRefinementSets(RegistryEvent.Register<IRefinementSet> event) {
-        ModRefinementSets.register(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterRefinements(RegistryEvent.Register<IRefinement> event) {
-        ModRefinements.register(event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void onRegisterSoundEvents(RegistryEvent.Register<SoundEvent> event) {
-        ModSounds.registerSounds(event.getRegistry());
+    public static void setupRegistries(IEventBus bus) {
+        ModActions.registerActions(bus);
+        ModAttributes.registerAttributes(bus);
+        ModBiomes.registerBiomes(bus);
+        ModBlocks.registerBlocks(bus);
+        ModContainer.registerContainers(bus);
+        ModEffects.registerEffects(bus);
+        ModEntities.registerEntities(bus);
+        ModEntityActions.registerEntityActions(bus);
+        ModItems.registerItems(bus);
+        ModMinionTasks.registerMinionTasks(bus);
+        ModOils.registerOils(bus);
+        ModRefinements.registerRefinements(bus);
+        ModRefinementSets.registerRefinementSets(bus);
+        ModTasks.registerTasks(bus);
+        ModVillage.registerVillageObjects(bus);
+        WerewolfSkills.registerSkills(bus);
     }
 }

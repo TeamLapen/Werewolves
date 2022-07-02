@@ -63,7 +63,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
     @Override
     public List<IMinionTask<?, ?>> getAvailableTasks() {
-        return Lists.newArrayList(ModMinionTasks.V.follow_lord, ModMinionTasks.V.defend_area, ModMinionTasks.V.stay, ModMinionTasks.V.protect_lord, ModMinionTasks.collect_werewolf_items);
+        return Lists.newArrayList(ModMinionTasks.V.follow_lord.get(), ModMinionTasks.V.defend_area.get(), ModMinionTasks.V.stay.get(), ModMinionTasks.V.protect_lord.get(), ModMinionTasks.collect_werewolf_items.get());
     }
 
     @Override

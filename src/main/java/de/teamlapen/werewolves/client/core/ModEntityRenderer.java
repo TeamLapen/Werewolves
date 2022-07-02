@@ -18,13 +18,13 @@ public class ModEntityRenderer {
 
     public static void registerEntityRenderer() {
         render = new WerewolfPlayerRenderer(Minecraft.getInstance().getEntityRenderDispatcher());
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_beast, WerewolfBeastRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_survivalist, WerewolfSurvivalistRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.human_werewolf, HumanWerewolfRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.wolf, WolfRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.task_master_werewolf, WerewolfTaskMasterRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_minion, safeFactory(WerewolfMinionRenderer::new));
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.alpha_werewolf, WerewolfAlphaRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_beast.get(), WerewolfBeastRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_survivalist.get(), WerewolfSurvivalistRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.human_werewolf.get(), HumanWerewolfRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.wolf.get(), WolfRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.task_master_werewolf.get(), WerewolfTaskMasterRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_minion.get(), safeFactory(WerewolfMinionRenderer::new));
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.alpha_werewolf.get(), WerewolfAlphaRenderer::new);
     }
 
     private static <T extends Entity> IRenderFactory<? super T> safeFactory(IRenderFactory<? super T> f) {

@@ -19,8 +19,8 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class StoneAltarTESR extends TileEntityRenderer<StoneAltarTileEntity> {
-    private static final ItemStack LIVER_STACK = new ItemStack(ModItems.liver, 1);
-    private static final ItemStack BONE_STACK = new ItemStack(ModItems.cracked_bone, 1);
+    private static final ItemStack LIVER_STACK = new ItemStack(ModItems.liver.get(), 1);
+    private static final ItemStack BONE_STACK = new ItemStack(ModItems.cracked_bone.get(), 1);
 
     public StoneAltarTESR(TileEntityRendererDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn);

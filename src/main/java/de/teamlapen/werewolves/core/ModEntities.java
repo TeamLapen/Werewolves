@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import de.teamlapen.vampirism.entity.hunter.BasicHunterEntity;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
@@ -12,52 +11,49 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-@ObjectHolder(REFERENCE.MODID)
 public class ModEntities {
 
-    private static final Set<EntityType<?>> ALL_ENTITIES = Sets.newHashSet();
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, REFERENCE.MODID);
 
-    public static final EntityType<BasicWerewolfEntity.Beast> werewolf_beast;
-    public static final EntityType<BasicWerewolfEntity.Survivalist> werewolf_survivalist;
-    public static final EntityType<HumanWerewolfEntity> human_werewolf;
-    public static final EntityType<WerewolfTaskMasterEntity> task_master_werewolf = getNull();
-    public static final EntityType<AggressiveWolfEntity> wolf = getNull();
-    public static final EntityType<WerewolfMinionEntity> werewolf_minion = getNull();
-    public static final EntityType<WerewolfAlphaEntity> alpha_werewolf;
+    public static final RegistryObject<EntityType<BasicWerewolfEntity.Beast>> werewolf_beast = ENTITIES.register("werewolf_beast", () -> prepareEntityType("werewolf_beast", EntityType.Builder.of(BasicWerewolfEntity.Beast::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.8f, 2f), true));
+    public static final RegistryObject<EntityType<BasicWerewolfEntity.Survivalist>> werewolf_survivalist = ENTITIES.register("werewolf_survivalist", () -> prepareEntityType("werewolf_survivalist", EntityType.Builder.of(BasicWerewolfEntity.Survivalist::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.8f, 1f), true));
+    public static final RegistryObject<EntityType<HumanWerewolfEntity>> human_werewolf = ENTITIES.register("human_werewolf", () -> prepareEntityType("human_werewolf", EntityType.Builder.of(HumanWerewolfEntity::new, EntityClassification.CREATURE).sized(0.6f, 1.9f), true));
+    public static final RegistryObject<EntityType<WerewolfTaskMasterEntity>> task_master_werewolf = ENTITIES.register("task_master_werewolf", () -> prepareEntityType("task_master_werewolf", EntityType.Builder.of(WerewolfTaskMasterEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.6f, 1.95f), true));
+    public static final RegistryObject<EntityType<AggressiveWolfEntity>> wolf = ENTITIES.register("wolf", () -> prepareEntityType("wolf", EntityType.Builder.of(AggressiveWolfEntity::new, EntityClassification.AMBIENT).sized(0.6F, 0.85F), false));
+    public static final RegistryObject<EntityType<WerewolfMinionEntity>> werewolf_minion = ENTITIES.register("werewolf_minion", () -> prepareEntityType("werewolf_minion", EntityType.Builder.of(WerewolfMinionEntity::new, EntityClassification.CREATURE).sized(0.6f, 1.95f), false));
+    public static final RegistryObject<EntityType<WerewolfAlphaEntity>> alpha_werewolf = ENTITIES.register("alpha_werewolf", () -> prepareEntityType("alpha_werewolf", EntityType.Builder.of(WerewolfAlphaEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.8f, 2f), true));
 
-    @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
     public static class V {
-        public static final EntityType<BasicHunterEntity> hunter = getNull();
-        public static final EntityType<BasicHunterEntity.IMob> hunter_imob = getNull();
+        public static final RegistryObject<EntityType<BasicHunterEntity>> hunter = RegistryObject.of(new ResourceLocation("vampirism", "hunter"), ForgeRegistries.ENTITIES);
+        public static final RegistryObject<EntityType<BasicHunterEntity.IMob>> hunter_imob = RegistryObject.of(new ResourceLocation("vampirism", "hunter_imob"), ForgeRegistries.ENTITIES);
     }
 
-    static void registerEntities(IForgeRegistry<EntityType<?>> registry) {
-        registry.register(werewolf_beast);
-        registry.register(werewolf_survivalist);
-        registry.register(human_werewolf);
-        registry.register(alpha_werewolf);
-        registry.register(prepareEntityType("wolf", EntityType.Builder.of(AggressiveWolfEntity::new, EntityClassification.AMBIENT).sized(0.6F, 0.85F), false));
-        registry.register(prepareEntityType("task_master_werewolf", EntityType.Builder.of(WerewolfTaskMasterEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.6f, 1.95f), true));
-        registry.register(prepareEntityType("werewolf_minion", EntityType.Builder.of(WerewolfMinionEntity::new, EntityClassification.CREATURE).sized(0.6f, 1.95f), false));
+    static void registerEntities(IEventBus bus) {
+        ENTITIES.register(bus);
+    }
+
+    static void initializeEntities() {
         WerewolfMinionEntity.registerMinionData();
     }
 
     static void registerSpawns() {
-        EntitySpawnPlacementRegistry.register(werewolf_beast, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, WerewolfBaseEntity::spawnPredicateWerewolf);
-        EntitySpawnPlacementRegistry.register(werewolf_survivalist, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, WerewolfBaseEntity::spawnPredicateWerewolf);
-        EntitySpawnPlacementRegistry.register(human_werewolf, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HumanWerewolfEntity::spawnPredicateHumanWerewolf);
-        EntitySpawnPlacementRegistry.register(wolf, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (entityType, world, spawnReason, blockPos, random) -> true);
-        EntitySpawnPlacementRegistry.register(alpha_werewolf, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, WerewolfAlphaEntity::spawnPredicateAlpha);
+        EntitySpawnPlacementRegistry.register(werewolf_beast.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, WerewolfBaseEntity::spawnPredicateWerewolf);
+        EntitySpawnPlacementRegistry.register(werewolf_survivalist.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, WerewolfBaseEntity::spawnPredicateWerewolf);
+        EntitySpawnPlacementRegistry.register(human_werewolf.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HumanWerewolfEntity::spawnPredicateHumanWerewolf);
+        EntitySpawnPlacementRegistry.register(wolf.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (entityType, world, spawnReason, blockPos, random) -> true);
+        EntitySpawnPlacementRegistry.register(alpha_werewolf.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, WerewolfAlphaEntity::spawnPredicateAlpha);
     }
 
     private static <T extends Entity> EntityType<T> prepareEntityType(String id, EntityType.Builder<T> builder, boolean spawnable) {
@@ -66,34 +62,25 @@ public class ModEntities {
             type.noSummon();
         EntityType<T> entry = type.build(REFERENCE.MODID + ":" + id);
         entry.setRegistryName(REFERENCE.MODID, id);
-        ALL_ENTITIES.add(entry);
         return entry;
     }
 
     static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {
-        event.put(human_werewolf, HumanWerewolfEntity.getAttributeBuilder().build());
-        event.put(werewolf_beast, BasicWerewolfEntity.getAttributeBuilder().build());
-        event.put(werewolf_survivalist, BasicWerewolfEntity.getAttributeBuilder().build());
-        event.put(wolf, AggressiveWolfEntity.createAttributes().build());
-        event.put(task_master_werewolf, WerewolfTaskMasterEntity.getAttributeBuilder().build());
-        event.put(werewolf_minion, WerewolfMinionEntity.getAttributeBuilder().build());
-        event.put(alpha_werewolf, WerewolfAlphaEntity.getAttributeBuilder().build());
+        event.put(human_werewolf.get(), HumanWerewolfEntity.getAttributeBuilder().build());
+        event.put(werewolf_beast.get(), BasicWerewolfEntity.getAttributeBuilder().build());
+        event.put(werewolf_survivalist.get(), BasicWerewolfEntity.getAttributeBuilder().build());
+        event.put(wolf.get(), AggressiveWolfEntity.createAttributes().build());
+        event.put(task_master_werewolf.get(), WerewolfTaskMasterEntity.getAttributeBuilder().build());
+        event.put(werewolf_minion.get(), WerewolfMinionEntity.getAttributeBuilder().build());
+        event.put(alpha_werewolf.get(), WerewolfAlphaEntity.getAttributeBuilder().build());
     }
 
     static void onModifyEntityTypeAttributes(EntityAttributeModificationEvent event) {
-        event.add(EntityType.PLAYER, ModAttributes.bite_damage);
-        event.add(EntityType.PLAYER, ModAttributes.time_regain);
-    }
-
-    //needed for world gen
-    static {
-        werewolf_beast = prepareEntityType("werewolf_beast", EntityType.Builder.of(BasicWerewolfEntity.Beast::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.8f, 2f), true);
-        werewolf_survivalist = prepareEntityType("werewolf_survivalist", EntityType.Builder.of(BasicWerewolfEntity.Survivalist::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.8f, 1f), true);
-        human_werewolf = prepareEntityType("human_werewolf", EntityType.Builder.of(HumanWerewolfEntity::new, EntityClassification.CREATURE).sized(0.6f, 1.9f), true);
-        alpha_werewolf = prepareEntityType("alpha_werewolf", EntityType.Builder.of(WerewolfAlphaEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.8f, 2f), true);
+        event.add(EntityType.PLAYER, ModAttributes.bite_damage.get());
+        event.add(EntityType.PLAYER, ModAttributes.time_regain.get());
     }
 
     public static Set<EntityType<?>> getAllEntities() {
-        return ImmutableSet.copyOf(ALL_ENTITIES);
+        return ImmutableSet.copyOf(ENTITIES.getEntries().stream().flatMap(RegistryObject::stream).collect(Collectors.toList()));
     }
 }

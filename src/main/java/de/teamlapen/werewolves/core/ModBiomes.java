@@ -19,24 +19,28 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
 
 public class ModBiomes {
-    @ObjectHolder(REFERENCE.MODID + ":werewolf_heaven")
-    public static final Biome werewolf_heaven = getNull();
+
+    public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, REFERENCE.MODID);
+
     public static final RegistryKey<Biome> WEREWOLF_HEAVEN_KEY = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(REFERENCE.MODID, "werewolf_heaven"));
 
-    static void registerBiomes(IForgeRegistry<Biome> registry) {
-        registry.register(WerewolfHeavenBiome.createWerewolfHeavenBiome().setRegistryName(WEREWOLF_HEAVEN_KEY.location()));
+    public static final RegistryObject<Biome> WEREWOLF_HEAVEN = BIOMES.register("werewolf_heaven", WerewolfHeavenBiome::createWerewolfHeavenBiome);
+
+    static void registerBiomes(IEventBus bus) {
+        BIOMES.register(bus);
 
         BiomeDictionary.addTypes(WEREWOLF_HEAVEN_KEY, BiomeDictionary.Type.OVERWORLD, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.HILLS);
+
     }
 
     static void removeStructuresFromBiomes() {
@@ -61,9 +65,9 @@ public class ModBiomes {
         }
 
         if (event.getCategory() == Biome.Category.TAIGA) {
-            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.human_werewolf, 3, 1, 1));
-            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist, 1, 1, 1));
-            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast, 1, 1, 1));
+            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.human_werewolf.get(), 3, 1, 1));
+            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist.get(), 1, 1, 1));
+            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast.get(), 1, 1, 1));
         }
 
     }

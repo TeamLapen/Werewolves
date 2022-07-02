@@ -50,9 +50,9 @@ public class ModKeys {
             PlayerEntity player = Minecraft.getInstance().player;
             LazyOptional<WerewolfPlayer> werewolfOpt = WerewolfPlayer.getOptEx(Minecraft.getInstance().player);
             if (key == LEAP) {
-                werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.leap) && w.getForm().isTransformed()).ifPresent(w -> {
+                werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.leap.get()) && w.getForm().isTransformed()).ifPresent(w -> {
                     WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.LEAP, ""));
-                    WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.leap);
+                    WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.leap.get());
                 });
             } else if (key == BITE) {
                 werewolfOpt.ifPresent(werewolf -> {

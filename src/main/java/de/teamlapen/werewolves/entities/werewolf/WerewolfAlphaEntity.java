@@ -149,7 +149,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     protected SoundEvent getAmbientSound() {
-        return ModSounds.entity_werewolf_growl;
+        return ModSounds.entity_werewolf_growl.get();
     }
 
     @Override

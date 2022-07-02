@@ -83,8 +83,8 @@ public class ModPlayerEventHandler {
     public void onKilled(LivingDeathEvent event) {
         if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getSource().getEntity()))) {
             WerewolfPlayer player = WerewolfPlayer.get(((PlayerEntity) event.getSource().getEntity()));
-            if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_after_kill)) {
-                ((PlayerEntity) event.getSource().getEntity()).addEffect(new EffectInstance(Effects.REGENERATION, player.getSkillHandler().isRefinementEquipped(ModRefinements.health_after_kill)?5: 4, 10));
+            if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.health_after_kill.get())) {
+                ((PlayerEntity) event.getSource().getEntity()).addEffect(new EffectInstance(Effects.REGENERATION, player.getSkillHandler().isRefinementEquipped(ModRefinements.health_after_kill.get())?5: 4, 10));
             }/* else if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.speed_after_kill)) {
                 player.getRepresentingPlayer().addPotionEffect(new EffectInstance(Effects.SPEED, 40));
             }*/
@@ -95,12 +95,12 @@ public class ModPlayerEventHandler {
     public void onFall(LivingFallEvent event) {
         if (event.getEntityLiving() instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) event.getEntityLiving()))) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
-            if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn)) {
+            if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn.get())) {
                 event.setDistance(event.getDistance() * 0.8f);
                 event.setDamageMultiplier(event.getDamageMultiplier() * 0.8f);
             }
             if (werewolf.getSpecialAttributes().leap) {
-                werewolf.getActionHandler().toggleAction(ModActions.leap);
+                werewolf.getActionHandler().toggleAction(ModActions.leap.get());
             }
 
         }
@@ -122,7 +122,7 @@ public class ModPlayerEventHandler {
                     } else {
                         ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).removeModifier(CLAWS);
                     }
-                    WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(werewolf -> !(werewolf.getForm().isHumanLike() && werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor))).ifPresent(WerewolfPlayer::requestArmorEvaluation);
+                    WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(werewolf -> !(werewolf.getForm().isHumanLike() && werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor.get()))).ifPresent(WerewolfPlayer::requestArmorEvaluation);
                 }
             }
         }
@@ -133,15 +133,15 @@ public class ModPlayerEventHandler {
         if (event.getEntity() instanceof PlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
-                if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn)) {
+                if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn.get())) {
                     Vector3d motion = event.getEntity().getDeltaMovement().multiply(1.1, 1.2, 1.1);
                     event.getEntity().setDeltaMovement(motion);
                 }
 
                 //unnecessary leap attribute because LivingFallEvent is not called for creative player
-                if (werewolf.getActionHandler().isActionActive(ModActions.leap)) {
+                if (werewolf.getActionHandler().isActionActive(ModActions.leap.get())) {
                     if (werewolf.getSpecialAttributes().leap) {
-                        werewolf.getActionHandler().toggleAction(ModActions.leap);
+                        werewolf.getActionHandler().toggleAction(ModActions.leap.get());
                     } else {
                         werewolf.getSpecialAttributes().leap = true;
                         Vector3d vector3d = event.getEntity().getDeltaMovement();
@@ -156,18 +156,18 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onWakeUp(PlayerWakeUpEvent event) {
-        if (!event.getPlayer().level.isClientSide && event.getPlayer().getEffect(ModEffects.lupus_sanguinem) != null) {
-            event.getPlayer().getEffect(ModEffects.lupus_sanguinem).applyEffect(event.getPlayer());
-            event.getPlayer().removeEffect(ModEffects.lupus_sanguinem);
+        if (!event.getPlayer().level.isClientSide && event.getPlayer().getEffect(ModEffects.lupus_sanguinem.get()) != null) {
+            event.getPlayer().getEffect(ModEffects.lupus_sanguinem.get()).applyEffect(event.getPlayer());
+            event.getPlayer().removeEffect(ModEffects.lupus_sanguinem.get());
         }
     }
 
     @SubscribeEvent
     public void onItemUseEntity(PlayerInteractEvent.EntityInteract event) {
-        if (event.getPlayer().getItemInHand(event.getHand()).getItem() == ModItems.V.injection_empty) {
+        if (event.getPlayer().getItemInHand(event.getHand()).getItem() == ModItems.V.injection_empty.get()) {
             if (event.getTarget() instanceof WerewolfBaseEntity) {
                 event.getPlayer().getItemInHand(event.getHand()).shrink(1);
-                event.getPlayer().addItem(new ItemStack(ModItems.injection_un_werewolf));
+                event.getPlayer().addItem(new ItemStack(ModItems.injection_un_werewolf.get()));
             }
         }
     }
@@ -175,15 +175,15 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void onItemUseBlock(PlayerInteractEvent.RightClickBlock event) {
         PlayerEntity player = event.getPlayer();
-        if (player.getItemInHand(event.getHand()).getItem() == ModItems.injection_un_werewolf) {
-            if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.V.med_chair) {
+        if (player.getItemInHand(event.getHand()).getItem() == ModItems.injection_un_werewolf.get()) {
+            if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.med_chair.get()) {
                 ItemStack stack = player.getItemInHand(event.getHand());
                 if (player.isAlive()) {
                     IFactionPlayerHandler handler = FactionPlayerHandler.get(event.getPlayer());
                     IPlayableFaction<?> faction = handler.getCurrentFaction();
                     boolean used = false;
                     if (WReference.WEREWOLF_FACTION.equals(faction)) {
-                        if (player.getEffect(ModEffects.un_werewolf) == null) {
+                        if (player.getEffect(ModEffects.un_werewolf.get()) == null) {
                             player.addEffect(new UnWerewolfEffectInstance(2000));
                             used = true;
                         } else {
@@ -223,9 +223,9 @@ public class ModPlayerEventHandler {
             if (Helper.isWerewolf(((PlayerEntity) event.getEntity()))) {
                 if (event.getEntity().isSprinting() && event.getSource() instanceof EntityDamageSource) {
                     WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(w -> w.getForm() == WerewolfForm.SURVIVALIST).map(WerewolfPlayer::getSkillHandler).ifPresent(skillHandler -> {
-                        if (skillHandler.isSkillEnabled(WerewolfSkills.movement_tactics)) {
+                        if (skillHandler.isSkillEnabled(WerewolfSkills.movement_tactics.get())) {
                             float limit = WerewolvesConfig.BALANCE.SKILLS.movement_tactics_doge_chance.get().floatValue();
-                            if (skillHandler.isRefinementEquipped(ModRefinements.greater_doge_chance)) {
+                            if (skillHandler.isRefinementEquipped(ModRefinements.greater_doge_chance.get())) {
                                 limit += WerewolvesConfig.BALANCE.REFINEMENTS.greater_doge_chance.get().floatValue();
                             }
                             if (((PlayerEntity) event.getEntity()).getRandom().nextFloat() < limit) {
@@ -234,7 +234,7 @@ public class ModPlayerEventHandler {
                         }
                     });
                 } else if (event.getSource() == DamageSource.SWEET_BERRY_BUSH || event.getSource() == DamageSource.CACTUS || event.getSource() == DamageSource.HOT_FLOOR) {
-                    if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(w -> w.getForm().isTransformed()).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn)).orElse(false)) {
+                    if (WerewolfPlayer.getOpt(((PlayerEntity) event.getEntity())).filter(w -> w.getForm().isTransformed()).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pawn.get())).orElse(false)) {
                         event.setCanceled(true);
                     }
                 }

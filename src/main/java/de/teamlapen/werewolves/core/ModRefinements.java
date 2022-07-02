@@ -1,93 +1,74 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
+import de.teamlapen.vampirism.core.ModRegistries;
 import de.teamlapen.vampirism.player.refinements.Refinement;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
 
-import java.util.Arrays;
-import java.util.Objects;
-
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-@ObjectHolder(REFERENCE.MODID)
 public class ModRefinements {
 
-    public static final Refinement werewolf_form_duration_general_1 = getNull();
-    public static final Refinement werewolf_form_duration_general_2 = getNull();
-    public static final Refinement werewolf_form_duration_survival_1 = getNull();
-    public static final Refinement werewolf_form_duration_survival_2 = getNull();
-    public static final Refinement werewolf_form_duration_beast_1 = getNull();
-    public static final Refinement werewolf_form_duration_beast_2 = getNull();
-    public static final Refinement rage_fury = getNull();
-    public static final Refinement health_after_kill = getNull();
-    public static final Refinement stun_bite = getNull();
-    public static final Refinement bleeding_bite = getNull();
-    public static final Refinement more_wolves = getNull();
-    public static final Refinement greater_doge_chance = getNull();
-    public static final Refinement no_leap_cooldown = getNull();
+    public static final DeferredRegister<IRefinement> REFINEMENTS = DeferredRegister.create(ModRegistries.REFINEMENTS, REFERENCE.MODID);
 
-    @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
+    public static final RegistryObject<IRefinement> werewolf_form_duration_general_1 = newRefinement("werewolf_form_duration_general_1");
+    public static final RegistryObject<IRefinement> werewolf_form_duration_general_2 = newRefinement("werewolf_form_duration_general_2");
+    public static final RegistryObject<IRefinement> werewolf_form_duration_survival_1 = newRefinement("werewolf_form_duration_survival_1");
+    public static final RegistryObject<IRefinement> werewolf_form_duration_survival_2 = newRefinement("werewolf_form_duration_survival_2");
+    public static final RegistryObject<IRefinement> werewolf_form_duration_beast_1 = newRefinement("werewolf_form_duration_beast_1");
+    public static final RegistryObject<IRefinement> werewolf_form_duration_beast_2 = newRefinement("werewolf_form_duration_beast_2");
+    public static final RegistryObject<IRefinement> rage_fury = newRefinement("rage_fury");
+    public static final RegistryObject<IRefinement> health_after_kill = newRefinement("health_after_kill");
+    public static final RegistryObject<IRefinement> stun_bite = newRefinement("stun_bite");
+    public static final RegistryObject<IRefinement> bleeding_bite = newRefinement("bleeding_bite");
+    public static final RegistryObject<IRefinement> more_wolves = newRefinement("more_wolves");
+    public static final RegistryObject<IRefinement> greater_doge_chance = newRefinement("greater_doge_chance");
+    public static final RegistryObject<IRefinement> no_leap_cooldown = newRefinement("no_leap_cooldown");
+
     public static class V {
-        public static final Refinement armor1 = getNull();
-        public static final Refinement armor2 = getNull();
-        public static final Refinement armor3 = getNull();
-        public static final Refinement n_armor1 = getNull();
-        public static final Refinement n_armor2 = getNull();
-        public static final Refinement n_armor3 = getNull();
-        public static final Refinement speed1 = getNull();
-        public static final Refinement speed2 = getNull();
-        public static final Refinement speed3 = getNull();
-        public static final Refinement n_speed1 = getNull();
-        public static final Refinement n_speed2 = getNull();
-        public static final Refinement n_speed3 = getNull();
-        public static final Refinement health1 = getNull();
-        public static final Refinement health2 = getNull();
-        public static final Refinement health3 = getNull();
-        public static final Refinement n_health1 = getNull();
-        public static final Refinement n_health2 = getNull();
-        public static final Refinement n_health3 = getNull();
-        public static final Refinement damage1 = getNull();
-        public static final Refinement damage2 = getNull();
-        public static final Refinement damage3 = getNull();
-        public static final Refinement n_damage1 = getNull();
-        public static final Refinement n_damage2 = getNull();
-        public static final Refinement n_damage3 = getNull();
-        public static final Refinement attack_speed1 = getNull();
-        public static final Refinement attack_speed2 = getNull();
-        public static final Refinement attack_speed3 = getNull();
-        public static final Refinement n_attack_speed1 = getNull();
-        public static final Refinement n_attack_speed2 = getNull();
-        public static final Refinement n_attack_speed3 = getNull();
+        public static final RegistryObject<IRefinement> armor1 = vRefinements("armor1");
+        public static final RegistryObject<IRefinement> armor2 = vRefinements("armor2");
+        public static final RegistryObject<IRefinement> armor3 = vRefinements("armor3");
+        public static final RegistryObject<IRefinement >n_armor1 = vRefinements("n_armor1");
+        public static final RegistryObject<IRefinement> n_armor2 = vRefinements("n_armor2");
+        public static final RegistryObject<IRefinement> n_armor3 = vRefinements("n_armor3");
+        public static final RegistryObject<IRefinement> speed1 = vRefinements("speed1");
+        public static final RegistryObject<IRefinement> speed2 = vRefinements("speed2");
+        public static final RegistryObject<IRefinement> speed3 = vRefinements("speed3");
+        public static final RegistryObject<IRefinement> n_speed1 = vRefinements("n_speed1");
+        public static final RegistryObject<IRefinement> n_speed2 = vRefinements("n_speed2");
+        public static final RegistryObject<IRefinement> n_speed3 = vRefinements("n_speed3");
+        public static final RegistryObject<IRefinement> health1 = vRefinements("health1");
+        public static final RegistryObject<IRefinement> health2 = vRefinements("health2");
+        public static final RegistryObject<IRefinement> health3 = vRefinements("health3");
+        public static final RegistryObject<IRefinement> n_health1 = vRefinements("n_health1");
+        public static final RegistryObject<IRefinement> n_health2 = vRefinements("n_health2");
+        public static final RegistryObject<IRefinement> n_health3 = vRefinements("n_health3");
+        public static final RegistryObject<IRefinement> damage1 = vRefinements("damage1");
+        public static final RegistryObject<IRefinement> damage2 = vRefinements("damage2");
+        public static final RegistryObject<IRefinement> damage3 = vRefinements("damage3");
+        public static final RegistryObject<IRefinement> n_damage1 = vRefinements("n_damage1");
+        public static final RegistryObject<IRefinement> n_damage2 = vRefinements("n_damage2");
+        public static final RegistryObject<IRefinement> n_damage3 = vRefinements("n_damage3");
+        public static final RegistryObject<IRefinement> attack_speed1 = vRefinements("attack_speed1");
+        public static final RegistryObject<IRefinement> attack_speed2 = vRefinements("attack_speed2");
+        public static final RegistryObject<IRefinement> attack_speed3 = vRefinements("attack_speed3");
+        public static final RegistryObject<IRefinement> n_attack_speed1 = vRefinements("n_attack_speed1");
+        public static final RegistryObject<IRefinement> n_attack_speed2 = vRefinements("n_attack_speed2");
+        public static final RegistryObject<IRefinement> n_attack_speed3 = vRefinements("n_attack_speed3");
 
-        public static void validate() {
-            if(Arrays.stream(V.class.getFields()).anyMatch(Objects::isNull)) {
-                LogManager.getLogger().error("Invalid refinement loaded");
-            }
+        private static RegistryObject<IRefinement> vRefinements(String id) {
+            return RegistryObject.of(new ResourceLocation("vampirism", id), ModRegistries.REFINEMENTS);
         }
     }
 
-    public static void register(IForgeRegistry<IRefinement> registry) {
-        { //simple refinement
-            registry.register(newRefinement("werewolf_form_duration_general_1"));
-            registry.register(newRefinement("werewolf_form_duration_general_2"));
-            registry.register(newRefinement("werewolf_form_duration_survival_1"));
-            registry.register(newRefinement("werewolf_form_duration_survival_2"));
-            registry.register(newRefinement("werewolf_form_duration_beast_1"));
-            registry.register(newRefinement("werewolf_form_duration_beast_2"));
-            registry.register(newRefinement("rage_fury"));
-            registry.register(newRefinement("health_after_kill"));
-            registry.register(newRefinement("stun_bite"));
-            registry.register(newRefinement("bleeding_bite"));
-            registry.register(newRefinement("more_wolves"));
-            registry.register(newRefinement("greater_doge_chance"));
-            registry.register(newRefinement("no_leap_cooldown"));
-        }
+    private static RegistryObject<IRefinement> newRefinement(String id) {
+        return REFINEMENTS.register(id, Refinement::new);
     }
 
-    private static IRefinement newRefinement(String name) {
-        return new Refinement().setRegistryName(REFERENCE.MODID, name);
+    static void registerRefinements(IEventBus bus) {
+        REFINEMENTS.register(bus);
     }
 }

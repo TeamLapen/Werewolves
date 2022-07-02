@@ -5,24 +5,25 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-@ObjectHolder(REFERENCE.MODID)
 public class ModTiles {
 
-    public static final TileEntityType<StoneAltarTileEntity> stone_altar = getNull();
+    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, REFERENCE.MODID);
 
-    static void registerTiles(IForgeRegistry<TileEntityType<?>> registry) {
-        registry.register(create("stone_altar", StoneAltarTileEntity::new, ModBlocks.stone_altar));
+    public static final RegistryObject<TileEntityType<StoneAltarTileEntity>> stone_altar = TILE_ENTITIES.register("stone_altar", () -> create(StoneAltarTileEntity::new, ModBlocks.stone_altar.get()));
+
+    static void registerTiles(IEventBus bus) {
+        TILE_ENTITIES.register(bus);
     }
 
     @SuppressWarnings("ConstantConditions")
-    private static <T extends TileEntity> TileEntityType<?> create(String id, Supplier<? extends T> factoryIn, Block... blocks) {
-        return TileEntityType.Builder.of(factoryIn, blocks).build(null).setRegistryName(REFERENCE.MODID, id);
+    private static <T extends TileEntity> TileEntityType<T> create(Supplier<T> factoryIn, Block... blocks) {
+        return TileEntityType.Builder.of(factoryIn, blocks).build(null);
     }
 }

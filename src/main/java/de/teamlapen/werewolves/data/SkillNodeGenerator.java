@@ -9,7 +9,9 @@ import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGenerator {
 
@@ -53,8 +55,9 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
 
     }
 
-    public static SkillNodeBuilder werewolf(ResourceLocation parent, ISkill... skills) {
-        return SkillNodeBuilder.skill(parent, skills).faction(WReference.WEREWOLF_FACTION);
+    @SafeVarargs
+    public static SkillNodeBuilder werewolf(ResourceLocation parent, Supplier<ISkill>... skills) {
+        return SkillNodeBuilder.skill(parent, Arrays.stream(skills).map(Supplier::get).toArray(ISkill[]::new)).faction(WReference.WEREWOLF_FACTION);
     }
 
     private ResourceLocation modId(String string) {

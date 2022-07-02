@@ -4,16 +4,18 @@ import de.teamlapen.werewolves.inventory.recipes.WeaponOilRecipe;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
-
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModRecipes {
-    @ObjectHolder(REFERENCE.MODID + ":weapon_oil")
-    public static final SpecialRecipeSerializer<WeaponOilRecipe> weapon_oil = getNull();
 
-    public static void register(IForgeRegistry<IRecipeSerializer<?>> event) {
-        event.register(new SpecialRecipeSerializer<>(WeaponOilRecipe::new).setRegistryName(REFERENCE.MODID,"weapon_oil"));
+    public static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, REFERENCE.MODID);
+
+    public static final RegistryObject<SpecialRecipeSerializer<WeaponOilRecipe>> weapon_oil = RECIPES.register("weapon_oil", () -> new SpecialRecipeSerializer<>(WeaponOilRecipe::new));
+
+    static void registerRecipes(IEventBus bus) {
+        RECIPES.register(bus);
     }
 }

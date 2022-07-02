@@ -34,12 +34,12 @@ public class SilverOil extends WeaponOil {
     }
 
     public float getDamageModifier() {
-        return this == ModOils.silver_oil_2 ? 0.2f : 0.125f;
+        return this == ModOils.silver_oil_2.get() ? 0.2f : 0.125f;
     }
 
     @Override
     public int getMaxDuration(ItemStack stack) {
-        return this == ModOils.silver_oil_2 ? WerewolvesConfig.BALANCE.OILS.silverOil2Duration.get() : WerewolvesConfig.BALANCE.OILS.silverOil1Duration.get();
+        return this == ModOils.silver_oil_2.get() ? WerewolvesConfig.BALANCE.OILS.silverOil2Duration.get() : WerewolvesConfig.BALANCE.OILS.silverOil1Duration.get();
     }
 
     @Override

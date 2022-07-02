@@ -68,6 +68,6 @@ public class WeaponOilRecipe extends SpecialRecipe {
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ModRecipes.weapon_oil;
+        return ModRecipes.weapon_oil.get();
     }
 }

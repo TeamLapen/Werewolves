@@ -21,7 +21,7 @@ public class OilUtils {
             String oilStr = stack.getTag().getString("oil");
             oil = ModRegistries.WEAPON_OILS.getValue(new ResourceLocation(oilStr));
         }
-        return oil != null ? oil : ModOils.empty;
+        return oil != null ? oil : ModOils.empty.get();
     }
 
     public static ItemStack setOil(@Nonnull ItemStack stack, @Nonnull IOil oil) {

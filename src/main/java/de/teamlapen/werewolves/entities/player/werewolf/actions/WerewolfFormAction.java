@@ -38,7 +38,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     protected static class Modifier {
 
-        public final Attribute attribute;
+        public final Supplier<Attribute> attribute;
         public final UUID dayUuid;
         public final UUID nightUuid;
         public final String name;
@@ -46,15 +46,15 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         public final AttributeModifier.Operation operation;
         public final double dayModifier;
 
-        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
+        public Modifier(Supplier<Attribute> attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
             this(attribute, dayUuid, nightUuid, dayModifier, name, player -> valueFunction.get(), operation);
         }
 
-        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, ISkill extendedSkill, AttributeModifier.Operation operation) {
-            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill) ? extendedValueFunction.get() : valueFunction.get(), operation);
+        public Modifier(Supplier<Attribute> attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, Supplier<ISkill> extendedSkill, AttributeModifier.Operation operation) {
+            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill.get()) ? extendedValueFunction.get() : valueFunction.get(), operation);
         }
 
-        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Function<IWerewolfPlayer, Double> valueFunction, AttributeModifier.Operation operation) {
+        public Modifier(Supplier<Attribute> attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Function<IWerewolfPlayer, Double> valueFunction, AttributeModifier.Operation operation) {
             this.attribute = attribute;
             this.dayUuid = dayUuid;
             this.nightUuid = nightUuid;
@@ -147,7 +147,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         PlayerEntity player = werewolfPlayer.getRepresentingPlayer();
         boolean night = Helper.isNight(player.getCommandSenderWorld());
         for (Modifier attribute : this.attributes) {
-            if (player.getAttribute(attribute.attribute).getModifier(!night ? attribute.nightUuid : attribute.dayUuid) != null) {
+            if (player.getAttribute(attribute.attribute.get()).getModifier(!night ? attribute.nightUuid : attribute.dayUuid) != null) {
                 removeModifier(werewolfPlayer);
                 applyModifier(werewolfPlayer);
             }
@@ -158,7 +158,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         PlayerEntity player = werewolf.getRepresentingPlayer();
         boolean night = Helper.isNight(player.getCommandSenderWorld());
         for (Modifier attribute : this.attributes) {
-            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
+            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute.get());
             if (ins != null && ins.getModifier(attribute.dayUuid) == null) {
                 ins.addPermanentModifier(attribute.create(werewolf, night));
             }
@@ -168,7 +168,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     public void removeModifier(IWerewolfPlayer werewolf) {
         PlayerEntity player = werewolf.getRepresentingPlayer();
         for (Modifier attribute : this.attributes) {
-            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute);
+            ModifiableAttributeInstance ins = player.getAttribute(attribute.attribute.get());
             if (ins != null) {
                 ins.removeModifier(attribute.dayUuid);
                 ins.removeModifier(attribute.nightUuid);
@@ -187,7 +187,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             return false;
         boolean active = player.getActionHandler().isActionActive(this);
         if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active) return false;
-        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()) == ModBiomes.werewolf_heaven;
+        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()) == ModBiomes.WEREWOLF_HEAVEN.get();
     }
 
     public boolean consumesWerewolfTime() {
@@ -199,8 +199,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
      */
     public int getTimeModifier(IWerewolfPlayer werewolf) {
         int limit = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_1);
-        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_2);
+        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_1.get());
+        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_2.get());
         if (duration1 || duration2) {
             if (duration2) {
                 limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_2.get() * 20;

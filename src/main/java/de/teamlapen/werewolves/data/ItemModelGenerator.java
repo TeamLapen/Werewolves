@@ -25,39 +25,39 @@ public class ItemModelGenerator extends ItemModelProvider {
     @Override
     protected void registerModels() {
         Set<Block> blockParent = new HashSet<Block>() {{
-            add(ModBlocks.silver_ore);
-            add(ModBlocks.silver_block);
-            add(ModBlocks.jacaranda_leaves);
-            add(ModBlocks.jacaranda_log);
-            add(ModBlocks.magic_leaves);
-            add(ModBlocks.magic_log);
-            add(ModBlocks.magic_planks);
-            add(ModBlocks.totem_top_werewolves_werewolf);
-            add(ModBlocks.totem_top_werewolves_werewolf_crafted);
+            add(ModBlocks.silver_ore.get());
+            add(ModBlocks.silver_block.get());
+            add(ModBlocks.jacaranda_leaves.get());
+            add(ModBlocks.jacaranda_log.get());
+            add(ModBlocks.magic_leaves.get());
+            add(ModBlocks.magic_log.get());
+            add(ModBlocks.magic_planks.get());
+            add(ModBlocks.totem_top_werewolves_werewolf.get());
+            add(ModBlocks.totem_top_werewolves_werewolf_crafted.get());
         }};
         Set<Item> itemsLayer = new HashSet<Item>() {{
-            add(ModItems.silver_ingot);
-            add(ModItems.liver);
-            add(ModItems.cracked_bone);
-            add(ModItems.injection_un_werewolf);
-            add(ModItems.werewolf_tooth);
-            add(ModItems.werewolf_minion_charm);
-            add(ModItems.werewolf_minion_upgrade_simple);
-            add(ModItems.werewolf_minion_upgrade_enhanced);
-            add(ModItems.werewolf_minion_upgrade_special);
-            add(ModItems.silver_nugget);
+            add(ModItems.silver_ingot.get());
+            add(ModItems.liver.get());
+            add(ModItems.cracked_bone.get());
+            add(ModItems.injection_un_werewolf.get());
+            add(ModItems.werewolf_tooth.get());
+            add(ModItems.werewolf_minion_charm.get());
+            add(ModItems.werewolf_minion_upgrade_simple.get());
+            add(ModItems.werewolf_minion_upgrade_enhanced.get());
+            add(ModItems.werewolf_minion_upgrade_special.get());
+            add(ModItems.silver_nugget.get());
         }};
         Set<Block> blockLayer = new HashSet<Block>() {{
-            add(ModBlocks.jacaranda_sapling);
-            add(ModBlocks.magic_sapling);
-            add(ModBlocks.wolfsbane);
+            add(ModBlocks.jacaranda_sapling.get());
+            add(ModBlocks.magic_sapling.get());
+            add(ModBlocks.wolfsbane.get());
         }};
         Set<Item> itemsHandHeld = new HashSet<Item>() {{
-            add(ModItems.silver_axe);
-            add(ModItems.silver_pickaxe);
-            add(ModItems.silver_sword);
-            add(ModItems.silver_shovel);
-            add(ModItems.silver_hoe);
+            add(ModItems.silver_axe.get());
+            add(ModItems.silver_pickaxe.get());
+            add(ModItems.silver_sword.get());
+            add(ModItems.silver_shovel.get());
+            add(ModItems.silver_hoe.get());
         }};
 
         blockParent.forEach(this::block);
@@ -65,15 +65,15 @@ public class ItemModelGenerator extends ItemModelProvider {
         blockLayer.forEach(this::blockLayer);
         itemsHandHeld.forEach(item -> item(item, "item/handheld"));
 
-        this.withExistingParent(ModItems.werewolf_beast_spawn_egg, this.mcLoc("item/template_spawn_egg"));
-        this.withExistingParent(ModItems.werewolf_survivalist_spawn_egg, this.mcLoc("item/template_spawn_egg"));
-        this.withExistingParent(ModItems.human_werewolf_spawn_egg, this.mcLoc("item/template_spawn_egg"));
-        this.withExistingParent(ModItems.alpha_werewolf_spawn_egg, this.mcLoc("item/template_spawn_egg"));
+        this.withExistingParent(ModItems.werewolf_beast_spawn_egg.get(), this.mcLoc("item/template_spawn_egg"));
+        this.withExistingParent(ModItems.werewolf_survivalist_spawn_egg.get(), this.mcLoc("item/template_spawn_egg"));
+        this.withExistingParent(ModItems.human_werewolf_spawn_egg.get(), this.mcLoc("item/template_spawn_egg"));
+        this.withExistingParent(ModItems.alpha_werewolf_spawn_egg.get(), this.mcLoc("item/template_spawn_egg"));
 
-        this.item(ModItems.dream_catcher, modLoc("item/dream_catcher_layer0"), modLoc("item/dream_catcher_layer1"));
-        this.item(ModItems.charm_bracelet, modLoc("item/charm_bracelet_layer0"), modLoc("item/charm_bracelet_layer1"));
-        this.item(ModItems.bone_necklace, modLoc("item/bone_necklace_layer0"), modLoc("item/bone_necklace_layer1"));
-        this.item(ModItems.oil_bottle, modLoc("item/oil_bottle"), modLoc("item/oil_bottle_overlay"));
+        this.item(ModItems.dream_catcher.get(), modLoc("item/dream_catcher_layer0"), modLoc("item/dream_catcher_layer1"));
+        this.item(ModItems.charm_bracelet.get(), modLoc("item/charm_bracelet_layer0"), modLoc("item/charm_bracelet_layer1"));
+        this.item(ModItems.bone_necklace.get(), modLoc("item/bone_necklace_layer0"), modLoc("item/bone_necklace_layer1"));
+        this.item(ModItems.oil_bottle.get(), modLoc("item/oil_bottle"), modLoc("item/oil_bottle_overlay"));
     }
 
     @Nonnull

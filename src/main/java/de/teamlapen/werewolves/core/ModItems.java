@@ -15,125 +15,100 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-@SuppressWarnings("unused")
-@ObjectHolder(REFERENCE.MODID)
 public class ModItems {
 
-    public static final Item silver_ingot = getNull();
-    public static final HoeItem silver_hoe = getNull();
-    public static final ShovelItem silver_shovel = getNull();
-    public static final AxeItem silver_axe = getNull();
-    public static final PickaxeItem silver_pickaxe = getNull();
-    public static final SilverSword silver_sword = getNull();
-    public static final CrossbowArrowItem crossbow_arrow_silver_bolt = getNull();
-    public static final LiverItem liver = getNull();
-    public static final Item cracked_bone = getNull();
-    public static final UnWerewolfInjectionItem injection_un_werewolf = getNull();
-    public static final WerewolfToothItem werewolf_tooth = getNull();
-    public static final Item silver_nugget = getNull();
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, REFERENCE.MODID);
 
-    public static final Item werewolf_minion_charm = getNull();
-    public static final WerewolfMinionUpgradeItem werewolf_minion_upgrade_simple = getNull();
-    public static final WerewolfMinionUpgradeItem werewolf_minion_upgrade_enhanced = getNull();
-    public static final WerewolfMinionUpgradeItem werewolf_minion_upgrade_special = getNull();
+    public static final RegistryObject<Item> silver_ingot = ITEMS.register("silver_ingot", () -> new Item((new Item.Properties()).tab(WUtils.creativeTab)));
+    public static final RegistryObject<HoeItem> silver_hoe = ITEMS.register("silver_hoe", () -> new HoeItem(WUtils.SILVER_ITEM_TIER, 0, -3.0f, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<ShovelItem> silver_shovel = ITEMS.register("silver_shovel", () -> new ShovelItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<AxeItem> silver_axe = ITEMS.register("silver_axe", () -> new AxeItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<PickaxeItem> silver_pickaxe = ITEMS.register("silver_pickaxe", () -> new PickaxeItem(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<SilverSword> silver_sword = ITEMS.register("silver_sword", () -> new SilverSword(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<CrossbowArrowItem> crossbow_arrow_silver_bolt = ITEMS.register("crossbow_arrow_silver_bolt", () -> new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
+        @Override
+        public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
+            if (Helper.isWerewolf(entity)) {
+                entity.addEffect(SilverEffect.createEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20));
+            }
+        }
+    }));
+    public static final RegistryObject<LiverItem> liver = ITEMS.register("liver", LiverItem::new);
+    public static final RegistryObject<Item> cracked_bone = ITEMS.register("cracked_bone", () -> new Item(new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<UnWerewolfInjectionItem> injection_un_werewolf = ITEMS.register("injection_un_werewolf", UnWerewolfInjectionItem::new);
+    public static final RegistryObject<WerewolfToothItem> werewolf_tooth = ITEMS.register("werewolf_tooth", WerewolfToothItem::new);
+    public static final RegistryObject<Item> silver_nugget = ITEMS.register("silver_nugget", () -> new Item(new Item.Properties().tab(WUtils.creativeTab)));
 
-    public static final SpawnEggItem werewolf_beast_spawn_egg = getNull();
-    public static final SpawnEggItem werewolf_survivalist_spawn_egg = getNull();
-    public static final SpawnEggItem human_werewolf_spawn_egg = getNull();
-    public static final SpawnEggItem alpha_werewolf_spawn_egg = getNull();
+    public static final RegistryObject<Item> werewolf_minion_charm = ITEMS.register("werewolf_minion_charm", () -> new Item(creativeTabProps()) {
+        @Override
+        public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> tooltips, @Nonnull ITooltipFlag flag) {
+            super.appendHoverText(stack, level, tooltips, flag);
+            tooltips.add(new TranslationTextComponent("item.werewolves.moon_charm.desc").withStyle(TextFormatting.DARK_GRAY));
 
-    public static final OilItem oil_bottle = getNull();
-    public static final WerewolfRefinementItem bone_necklace = getNull();
-    public static final WerewolfRefinementItem charm_bracelet = getNull();
-    public static final WerewolfRefinementItem dream_catcher = getNull();
+        }
+    });
+    public static final RegistryObject<WerewolfMinionUpgradeItem> werewolf_minion_upgrade_simple = ITEMS.register("werewolf_minion_upgrade_simple", () -> new WerewolfMinionUpgradeItem(creativeTabProps(), 1, 2));
+    public static final RegistryObject<WerewolfMinionUpgradeItem> werewolf_minion_upgrade_enhanced = ITEMS.register("werewolf_minion_upgrade_enhanced", () -> new WerewolfMinionUpgradeItem(creativeTabProps(), 3, 4));
+    public static final RegistryObject<WerewolfMinionUpgradeItem> werewolf_minion_upgrade_special = ITEMS.register("werewolf_minion_upgrade_special", () -> new WerewolfMinionUpgradeItem(creativeTabProps(), 5, 6));
 
-    @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
+    public static final RegistryObject<SpawnEggItem> werewolf_beast_spawn_egg = ITEMS.register("werewolf_beast_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<SpawnEggItem> werewolf_survivalist_spawn_egg = ITEMS.register("werewolf_survivalist_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<SpawnEggItem> human_werewolf_spawn_egg = ITEMS.register("human_werewolf_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+    public static final RegistryObject<SpawnEggItem> alpha_werewolf_spawn_egg = ITEMS.register("alpha_werewolf_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.alpha_werewolf, 0xffc800, 0xca0f00, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+
+    public static final RegistryObject<OilItem> oil_bottle = ITEMS.register("oil_bottle", () -> new OilItem(new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<WerewolfRefinementItem> bone_necklace = ITEMS.register("bone_necklace", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET));
+    public static final RegistryObject<WerewolfRefinementItem> charm_bracelet = ITEMS.register("charm_bracelet", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING));
+    public static final RegistryObject<WerewolfRefinementItem> dream_catcher = ITEMS.register("dream_catcher", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.OBI_BELT));
+
+
     public static class V {
-        public static final Item human_heart = getNull();
-        public static final Item injection_empty = getNull();
-        public static final Item weak_human_heart = getNull();
-        public static final Item oblivion_potion = getNull();
-        public static final Item vampire_book = getNull();
-        public static final Item crossbow_arrow_normal = getNull();
+        public static final RegistryObject<Item> human_heart = RegistryObject.of(new ResourceLocation("vampirism", "human_heart"), ForgeRegistries.ITEMS);
+        public static final RegistryObject<Item> injection_empty = RegistryObject.of(new ResourceLocation("vampirism", "injection_empty"), ForgeRegistries.ITEMS);
+        public static final RegistryObject<Item> weak_human_heart = RegistryObject.of(new ResourceLocation("vampirism", "weak_human_heart"), ForgeRegistries.ITEMS);
+        public static final RegistryObject<Item> oblivion_potion = RegistryObject.of(new ResourceLocation("vampirism", "oblivion_potion"), ForgeRegistries.ITEMS);
+        public static final RegistryObject<Item> vampire_book = RegistryObject.of(new ResourceLocation("vampirism", "vampire_book"), ForgeRegistries.ITEMS);
+        public static final RegistryObject<Item> crossbow_arrow_normal = RegistryObject.of(new ResourceLocation("vampirism", "crossbow_arrow_normal"), ForgeRegistries.ITEMS);
     }
 
-    static void registerItems(IForgeRegistry<Item> registry) {
-        registry.register(new Item((new Item.Properties()).tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_ingot"));
-
-        registry.register(new HoeItem(WUtils.SILVER_ITEM_TIER, 0, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_hoe"));
-        registry.register(new ShovelItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_shovel"));
-        registry.register(new AxeItem(WUtils.SILVER_ITEM_TIER, 4f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_axe"));
-        registry.register(new PickaxeItem(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_pickaxe"));
-        registry.register(new SilverSword(WUtils.SILVER_ITEM_TIER, 4, -3.0f, new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "silver_sword"));
-        registry.register(new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
-            @Override
-            public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
-                if (Helper.isWerewolf(entity)) {
-                    entity.addEffect(SilverEffect.createEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20));
-                }
-            }
-        }));
-
-        registry.register(new LiverItem().setRegistryName(REFERENCE.MODID, "liver"));
-        registry.register(new Item(new Item.Properties().tab(WUtils.creativeTab)).setRegistryName(REFERENCE.MODID, "cracked_bone"));
-        registry.register(new UnWerewolfInjectionItem());
-        registry.register(new SpawnEggItem(ModEntities.werewolf_beast, 0xffc800, 0xfaab00, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_beast_spawn_egg"));
-        registry.register(new SpawnEggItem(ModEntities.werewolf_survivalist, 0xffc800, 0xfae700, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "werewolf_survivalist_spawn_egg"));
-        registry.register(new SpawnEggItem(ModEntities.human_werewolf, 0xffc800, 0xa8a8a8, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "human_werewolf_spawn_egg"));
-        registry.register(new SpawnEggItem(ModEntities.alpha_werewolf, 0xffc800, 0xca0f00, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(REFERENCE.MODID, "alpha_werewolf_spawn_egg"));
-        registry.register(new WerewolfToothItem().setRegistryName(REFERENCE.MODID, "werewolf_tooth"));
-
-        registry.register(new Item(creativeTabProps()) {
-            @Override
-            public void appendHoverText(@Nonnull ItemStack stack, @Nullable World level, @Nonnull List<ITextComponent> tooltips, @Nonnull ITooltipFlag flag) {
-                super.appendHoverText(stack, level, tooltips, flag);
-                tooltips.add(new TranslationTextComponent("item.werewolves.moon_charm.desc").withStyle(TextFormatting.DARK_GRAY));
-
-            }
-        }.setRegistryName(REFERENCE.MODID, "werewolf_minion_charm"));
-        registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 1, 2).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_simple"));
-        registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 3, 4).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_enhanced"));
-        registry.register(new WerewolfMinionUpgradeItem(creativeTabProps(), 5, 6).setRegistryName(REFERENCE.MODID, "werewolf_minion_upgrade_special"));
-
-        registry.register(new OilItem(creativeTabProps().stacksTo(1)).setRegistryName(REFERENCE.MODID, "oil_bottle"));
-        registry.register(new Item(creativeTabProps()).setRegistryName(REFERENCE.MODID, "silver_nugget"));
-        registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET).setRegistryName(REFERENCE.MODID, "bone_necklace"));
-        registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING).setRegistryName(REFERENCE.MODID, "charm_bracelet"));
-        registry.register(new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.OBI_BELT).setRegistryName(REFERENCE.MODID, "dream_catcher"));
+    static void registerItems(IEventBus bus) {
+        ITEMS.register(bus);
     }
 
     public static void remapItems(RegistryEvent.MissingMappings<Item> event) {
         event.getAllMappings().forEach(missingMapping -> {
             switch (missingMapping.key.toString()) {
                 case "werewolves:bone":
-                    missingMapping.remap(ModItems.cracked_bone);
+                    missingMapping.remap(ModItems.cracked_bone.get());
                     break;
                 case "werewolves:silver_oil":
-                    missingMapping.remap(ModItems.oil_bottle);
+                    missingMapping.remap(ModItems.oil_bottle.get());
                     break;
             }
         });
     }
 
     static void registerOilRecipes() {
-        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.WHEAT_SEEDS), OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)));
-        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.plant_oil)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)));
-        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_1)), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle), ModOils.silver_oil_2)));
+        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.WHEAT_SEEDS), OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.plant_oil.get())));
+        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.plant_oil.get())), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.silver_oil_1.get())));
+        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.silver_oil_1.get())), ModTags.Items.SILVER_INGOT, OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.silver_oil_2.get())));
     }
 
     private static Item.Properties creativeTabProps() {

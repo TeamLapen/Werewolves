@@ -3,22 +3,21 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-@ObjectHolder(REFERENCE.MODID)
 public class ModSounds {
 
-    public static final SoundEvent entity_werewolf_bite = getNull();
-    public static final SoundEvent entity_werewolf_howl = getNull();
-    public static final SoundEvent entity_werewolf_growl = getNull();
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, REFERENCE.MODID);
 
-    static void registerSounds(IForgeRegistry<SoundEvent> registry) {
-        registry.register(create("entity.werewolf.bite"));
-        registry.register(create("entity.werewolf.howl"));
-        registry.register(create("entity.werewolf.growl"));
+    public static final RegistryObject<SoundEvent> entity_werewolf_bite = SOUNDS.register("entity_werewolf_bite", () -> create("entity.werewolf.bite"));
+    public static final RegistryObject<SoundEvent> entity_werewolf_howl = SOUNDS.register("entity_werewolf_howl", () -> create("entity.werewolf.howl"));
+    public static final RegistryObject<SoundEvent> entity_werewolf_growl = SOUNDS.register("entity_werewolf_growl", () -> create("entity.werewolf.growl"));
+
+    static void registerSounds(IEventBus bus) {
+        SOUNDS.register(bus);
     }
 
     private static SoundEvent create(String soundNameIn) {
