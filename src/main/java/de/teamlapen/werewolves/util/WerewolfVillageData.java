@@ -20,12 +20,12 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 public class WerewolfVillageData {
 
     public static void werewolfVillage(IFactionVillageBuilder builder) {
-        builder.captureEntities(() -> Lists.newArrayList(new CaptureEntityEntry(ModEntities.werewolf_beast, 5), new CaptureEntityEntry(ModEntities.werewolf_survivalist, 5)))
-                .factionVillagerProfession(() -> ModVillage.werewolf_expert)
+        builder.captureEntities(() -> Lists.newArrayList(new CaptureEntityEntry(ModEntities.werewolf_beast.get(), 5), new CaptureEntityEntry(ModEntities.werewolf_survivalist.get(), 5)))
+                .factionVillagerProfession(ModVillage.werewolf_expert)
                 .guardSuperClass(WerewolfBaseEntity.class)
-                .taskMaster(() -> ModEntities.task_master_werewolf)
-                .badOmenEffect(() -> ModEffects.bad_omen_werewolf)
-                .totem(() -> ModBlocks.totem_top_werewolves_werewolf, () -> ModBlocks.totem_top_werewolves_werewolf_crafted)
+                .taskMaster(ModEntities.task_master_werewolf::get)
+                .badOmenEffect(ModEffects.bad_omen_werewolf)
+                .totem(ModBlocks.totem_top_werewolves_werewolf::get, ModBlocks.totem_top_werewolves_werewolf_crafted::get)
                 .banner(WerewolfVillageData::createBanner);
     }
 

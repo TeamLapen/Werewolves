@@ -10,6 +10,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ModScreens {
 
     public static void registerScreensUnsafe() {
-        MenuScreens.register(ModContainer.stone_altar_container, StoneAltarScreen::new);
+        MenuScreens.register(ModContainer.stone_altar_container.get(), StoneAltarScreen::new);
     }
 }

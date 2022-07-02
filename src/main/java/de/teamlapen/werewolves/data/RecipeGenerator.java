@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 
 public class RecipeGenerator extends RecipeProvider {
 
-    protected static final ImmutableList<ItemLike> SILVER_SMELTABLES = ImmutableList.of(ModBlocks.silver_ore, ModBlocks.deepslate_silver_ore, ModItems.raw_silver);
+    protected static final ImmutableList<ItemLike> SILVER_SMELTABLES = ImmutableList.of(ModBlocks.silver_ore.get(), ModBlocks.deepslate_silver_ore.get(), ModItems.raw_silver.get());
 
     public RecipeGenerator(DataGenerator generatorIn) {
         super(generatorIn);
@@ -45,57 +45,57 @@ public class RecipeGenerator extends RecipeProvider {
         TagKey<Item> raw_silver = ModTags.Items.RAW_MATERIALS_SILVER;
         TagKey<Item> iron_ingot = Tags.Items.INGOTS_IRON;
         TagKey<Item> feathers = Tags.Items.FEATHERS;
-        ItemLike crossbow_arrow = ModItems.V.crossbow_arrow_normal;
+        ItemLike crossbow_arrow = ModItems.V.crossbow_arrow_normal.get();
 
-        planksFromLog(consumer, ModBlocks.magic_planks, ModTags.Items.MAGIC_LOGS);
+        planksFromLog(consumer, ModBlocks.magic_planks.get(), ModTags.Items.MAGIC_LOGS);
         ShapelessRecipeBuilder.shapeless(Blocks.OAK_PLANKS, 4).requires(ModTags.Items.JACARANDA_LOGS).group("planks").unlockedBy("has_log", has(ModTags.Items.MAGIC_LOGS)).save(consumer, REFERENCE.MODID + ":oak_planks");
 
 
         ShapelessRecipeBuilder.shapeless(Items.BONE, 2)
-                .requires(ModItems.cracked_bone).unlockedBy("has_broken_bone", has(ModItems.cracked_bone))
+                .requires(ModItems.cracked_bone.get()).unlockedBy("has_broken_bone", has(ModItems.cracked_bone.get()))
                 .save(consumer);
         ShapelessRecipeBuilder.shapeless(Items.PURPLE_DYE)
-                .requires(ModBlocks.wolfsbane).unlockedBy("has_wolfsbane", has(ModBlocks.wolfsbane))
+                .requires(ModBlocks.wolfsbane.get()).unlockedBy("has_wolfsbane", has(ModBlocks.wolfsbane.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.silver_hoe).pattern("XX").pattern(" #").pattern(" #")
+        ShapedRecipeBuilder.shaped(ModItems.silver_hoe.get()).pattern("XX").pattern(" #").pattern(" #")
                 .define('#', sticks).unlockedBy("has_sticks", has(sticks))
                 .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(ModItems.silver_shovel).pattern("X").pattern("#").pattern("#")
+        ShapedRecipeBuilder.shaped(ModItems.silver_shovel.get()).pattern("X").pattern("#").pattern("#")
                 .define('#', sticks).unlockedBy("has_sticks", has(sticks))
                 .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(ModItems.silver_sword).pattern("X").pattern("X").pattern("#")
+        ShapedRecipeBuilder.shaped(ModItems.silver_sword.get()).pattern("X").pattern("X").pattern("#")
                 .define('#', sticks).unlockedBy("has_sticks", has(sticks))
                 .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(ModItems.silver_axe).pattern("XX").pattern("X#").pattern(" #")
+        ShapedRecipeBuilder.shaped(ModItems.silver_axe.get()).pattern("XX").pattern("X#").pattern(" #")
                 .define('#', sticks).unlockedBy("has_sticks", has(sticks))
                 .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(ModItems.silver_pickaxe).pattern("XXX").pattern(" # ").pattern(" # ")
+        ShapedRecipeBuilder.shaped(ModItems.silver_pickaxe.get()).pattern("XXX").pattern(" # ").pattern(" # ")
                 .define('#', sticks).unlockedBy("has_sticks", has(sticks))
                 .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(ModBlocks.stone_altar).pattern("S S").pattern("SSS").pattern("SSS")
+        ShapedRecipeBuilder.shaped(ModBlocks.stone_altar.get()).pattern("S S").pattern("SSS").pattern("SSS")
                 .define('S', Items.STONE_BRICKS).unlockedBy("has_stone_bricks", has(Items.STONE_BRICKS))
                 .save(consumer);
-        ShapedRecipeBuilder.shaped(ModBlocks.stone_altar_fire_bowl).pattern("SPS").pattern("SSS").pattern(" S ")
+        ShapedRecipeBuilder.shaped(ModBlocks.stone_altar_fire_bowl.get()).pattern("SPS").pattern("SSS").pattern(" S ")
                 .define('S', Items.STONE_BRICKS).unlockedBy("has_stone_bricks", has(Items.STONE_BRICKS))
                 .define('P', ItemTags.PLANKS).unlockedBy("has_planks", has(ItemTags.PLANKS))
                 .save(consumer);
-        nineBlockStorageRecipes(consumer, ModItems.silver_ingot, ModBlocks.silver_block);
-        nineBlockStorageRecipes(consumer, ModItems.raw_silver, ModBlocks.raw_silver_block);
-        nineBlockStorageRecipesWithCustomPacking(consumer, ModItems.silver_nugget, ModItems.silver_ingot, REFERENCE.MODID + ":silver_ingot_from_nuggets", "silver_ingot");
-        oreSmelting(consumer, SILVER_SMELTABLES, ModItems.silver_ingot, 0.7f, 200, "silver_ingot");
-        oreBlasting(consumer, SILVER_SMELTABLES, ModItems.silver_ingot, 0.7f, 100, "silver_ingot");
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.silver_axe, ModItems.silver_hoe, ModItems.silver_pickaxe, ModItems.silver_shovel, ModItems.silver_sword), ModItems.silver_nugget, 0.1f, 200).unlockedBy("has_silver_axe", has(ModItems.silver_axe)).unlockedBy("has_silver_hoe", has(ModItems.silver_hoe)).unlockedBy("has_silver_pickaxe", has(ModItems.silver_pickaxe)).unlockedBy("has_silver_shovel", has(ModItems.silver_shovel)).unlockedBy("has_silver_sword", has(ModItems.silver_sword)).save(consumer, getSmeltingRecipeName(ModItems.silver_nugget));
-        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModItems.silver_axe, ModItems.silver_hoe, ModItems.silver_pickaxe, ModItems.silver_shovel, ModItems.silver_sword), ModItems.silver_nugget, 0.1f, 100).unlockedBy("has_silver_axe", has(ModItems.silver_axe)).unlockedBy("has_silver_hoe", has(ModItems.silver_hoe)).unlockedBy("has_silver_pickaxe", has(ModItems.silver_pickaxe)).unlockedBy("has_silver_shovel", has(ModItems.silver_shovel)).unlockedBy("has_silver_sword", has(ModItems.silver_sword)).save(consumer, getBlastingRecipeName(ModItems.silver_nugget));
+        nineBlockStorageRecipes(consumer, ModItems.silver_ingot.get(), ModBlocks.silver_block.get());
+        nineBlockStorageRecipes(consumer, ModItems.raw_silver.get(), ModBlocks.raw_silver_block.get());
+        nineBlockStorageRecipesWithCustomPacking(consumer, ModItems.silver_nugget.get(), ModItems.silver_ingot.get(), REFERENCE.MODID + ":silver_ingot_from_nuggets", "silver_ingot");
+        oreSmelting(consumer, SILVER_SMELTABLES, ModItems.silver_ingot.get(), 0.7f, 200, "silver_ingot");
+        oreBlasting(consumer, SILVER_SMELTABLES, ModItems.silver_ingot.get(), 0.7f, 100, "silver_ingot");
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.silver_axe.get(), ModItems.silver_hoe.get(), ModItems.silver_pickaxe.get(), ModItems.silver_shovel.get(), ModItems.silver_sword.get()), ModItems.silver_nugget.get(), 0.1f, 200).unlockedBy("has_silver_axe", has(ModItems.silver_axe.get())).unlockedBy("has_silver_hoe", has(ModItems.silver_hoe.get())).unlockedBy("has_silver_pickaxe", has(ModItems.silver_pickaxe.get())).unlockedBy("has_silver_shovel", has(ModItems.silver_shovel.get())).unlockedBy("has_silver_sword", has(ModItems.silver_sword.get())).save(consumer, getSmeltingRecipeName(ModItems.silver_nugget.get()));
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModItems.silver_axe.get(), ModItems.silver_hoe.get(), ModItems.silver_pickaxe.get(), ModItems.silver_shovel.get(), ModItems.silver_sword.get()), ModItems.silver_nugget.get(), 0.1f, 100).unlockedBy("has_silver_axe", has(ModItems.silver_axe.get())).unlockedBy("has_silver_hoe", has(ModItems.silver_hoe.get())).unlockedBy("has_silver_pickaxe", has(ModItems.silver_pickaxe.get())).unlockedBy("has_silver_shovel", has(ModItems.silver_shovel.get())).unlockedBy("has_silver_sword", has(ModItems.silver_sword.get())).save(consumer, getBlastingRecipeName(ModItems.silver_nugget.get()));
 
-        SpecialRecipeBuilder.special(ModRecipes.weapon_oil).save(consumer, REFERENCE.MODID + ":weapon_oil");
+        SpecialRecipeBuilder.special(ModRecipes.weapon_oil.get()).save(consumer, REFERENCE.MODID + ":weapon_oil");
 
-        ShapedWeaponTableRecipeBuilder.shapedWeaponTable(ModItems.crossbow_arrow_silver_bolt, 3).pattern(" X ").pattern("XYX").pattern(" S ").pattern(" F ")
+        ShapedWeaponTableRecipeBuilder.shapedWeaponTable(ModItems.crossbow_arrow_silver_bolt.get(), 3).pattern(" X ").pattern("XYX").pattern(" S ").pattern(" F ")
                 .lava(1)
                 .define('S', sticks).unlockedBy("hasSticks", has(sticks))
                 .define('X', silver_nugget).unlockedBy("has_silver_nugget", has(silver_nugget))

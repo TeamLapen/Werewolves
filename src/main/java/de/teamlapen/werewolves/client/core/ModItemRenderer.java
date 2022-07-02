@@ -21,7 +21,7 @@ public class ModItemRenderer {
                 return ((CrossbowArrowItem) stack.getItem()).getType().color;
             }
             return 0xFFFFFF;
-        }, ModItems.crossbow_arrow_silver_bolt);
+        }, ModItems.crossbow_arrow_silver_bolt.get());
         colors.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
                 if (stack.getItem() instanceof IRefinementItem) {
@@ -32,13 +32,13 @@ public class ModItemRenderer {
                 }
             }
             return 0xFFFFFF;
-        }, ModItems.dream_catcher, ModItems.charm_bracelet, ModItems.bone_necklace);
+        }, ModItems.dream_catcher.get(), ModItems.charm_bracelet.get(), ModItems.bone_necklace.get());
         colors.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
                 IOil oil = OilUtils.getOil(stack);
                 return oil.getColor();
             }
             return 0xFFFFFF;
-        }, ModItems.oil_bottle);
+        }, ModItems.oil_bottle.get());
     }
 }

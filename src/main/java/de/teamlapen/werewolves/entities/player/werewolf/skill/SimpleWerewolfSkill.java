@@ -6,12 +6,10 @@ import de.teamlapen.vampirism.player.skills.VampirismSkill;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -24,24 +22,11 @@ import java.util.function.Supplier;
 
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    @Deprecated
-    public SimpleWerewolfSkill(String id) {
-        this(new ResourceLocation(REFERENCE.MODID, id), false);
+    public SimpleWerewolfSkill() {
+        this(false);
     }
 
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    @Deprecated
-    public SimpleWerewolfSkill(String id, boolean desc) {
-        this(new ResourceLocation(REFERENCE.MODID, id), desc);
-    }
-
-    public SimpleWerewolfSkill(ResourceLocation id) {
-        this(id, false);
-    }
-
-    public SimpleWerewolfSkill(ResourceLocation id, boolean desc) {
-        this.setRegistryName(id);
+    public SimpleWerewolfSkill(boolean desc) {
         if (desc) setHasDefaultDescription();
     }
 
@@ -84,7 +69,7 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         private final Function<IWerewolfPlayer, Double> attribute_value;
 
         public AttributeSkill(String id, boolean desc, UUID attributeUUID, Attribute attributeType, AttributeModifier.Operation operation, Function<IWerewolfPlayer, Double> attribute_value) {
-            super(id, desc);
+            super(desc);
             this.attribute = attributeUUID;
             this.attributeType = attributeType;
             this.operation = operation;

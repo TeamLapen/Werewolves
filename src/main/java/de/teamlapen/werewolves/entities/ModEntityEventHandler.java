@@ -104,7 +104,7 @@ public class ModEntityEventHandler {
             if (!event.getSource().isMagic()) {
                 float damage = event.getAmount();
                 float damageReduction = FormHelper.getForm(event.getEntityLiving()).getDamageReduction();
-                damageReduction *= event.getEntityLiving() instanceof Player ? WerewolfPlayer.getOpt(((Player) event.getEntityLiving())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(WerewolfSkills.thick_fur)).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
+                damageReduction *= event.getEntityLiving() instanceof Player ? WerewolfPlayer.getOpt(((Player) event.getEntityLiving())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(WerewolfSkills.thick_fur.get())).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
                 if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {
                     damageReduction *= 0.3;
                 }
@@ -128,7 +128,7 @@ public class ModEntityEventHandler {
         if (event.getTarget() instanceof ServerPlayer) {
             if (Helper.isWerewolf(((Player) event.getTarget()))) {
                 WerewolfPlayer.getOpt(((Player) event.getTarget())).ifPresent(werewolf -> {
-                    if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.sixth_sense)) {
+                    if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.sixth_sense.get())) {
                         WerewolvesMod.dispatcher.sendTo(new AttackTargetEventPacket(event.getEntity().getId()), ((ServerPlayer) event.getTarget()));
                     }
                 });
@@ -200,7 +200,7 @@ public class ModEntityEventHandler {
             s.removeModifier(ARMOR_REDUCTION);
         }
         if (event.getSource() instanceof EntityDamageSource) {
-            WerewolfPlayer.getOptEx(event.getSource().getEntity()).filter(w -> w.getForm() == WerewolfForm.BEAST).filter(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.throat_seeker) && !UtilLib.canReallySee(event.getEntityLiving(), w.getRepresentingPlayer(), true)).ifPresent(werewolf -> {
+            WerewolfPlayer.getOptEx(event.getSource().getEntity()).filter(w -> w.getForm() == WerewolfForm.BEAST).filter(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.throat_seeker.get()) && !UtilLib.canReallySee(event.getEntityLiving(), w.getRepresentingPlayer(), true)).ifPresent(werewolf -> {
                 if (event.getEntityLiving().getHealth() / event.getEntityLiving().getMaxHealth() < 0.25) {
                     if (werewolf.getRepresentingPlayer().getRandom().nextInt(4) < 1) {
                         event.setAmount(10000f);

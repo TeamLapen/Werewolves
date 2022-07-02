@@ -7,7 +7,6 @@ import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.vampire.VampireBaseEntity;
-import de.teamlapen.vampirism.util.Helper;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfAlpha;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.ModBiomes;
@@ -45,7 +44,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
 
     public static boolean spawnPredicateAlpha(EntityType<? extends WerewolfAlphaEntity> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, Random random) {
-        return ModBiomes.WEREWOLF_HEAVEN.location().equals(Helper.getBiomeId(world, blockPos)) && world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateWerewolf(entityType, world, spawnReason, blockPos, random);
+        return world.getBiome(blockPos).is(ModBiomes.WEREWOLF_HEAVEN.getKey()) && world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateWerewolf(entityType, world, spawnReason, blockPos, random);
     }
 
     public static AttributeSupplier.Builder getAttributeBuilder() {
@@ -153,7 +152,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     protected SoundEvent getAmbientSound() {
-        return ModSounds.entity_werewolf_growl;
+        return ModSounds.entity_werewolf_growl.get();
     }
 
     @Override

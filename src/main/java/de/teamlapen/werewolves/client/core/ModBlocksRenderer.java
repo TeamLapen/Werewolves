@@ -17,19 +17,19 @@ public class ModBlocksRenderer {
 
     private static void registerRenderType() {
         RenderType renderType = RenderType.cutout();
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.wolfsbane, renderType);
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.jacaranda_sapling, renderType);
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.magic_sapling, renderType);
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.stone_altar, renderType);
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.stone_altar_fire_bowl, renderType);
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.totem_top_werewolves_werewolf, renderType);
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.totem_top_werewolves_werewolf_crafted, renderType);
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.jacaranda_leaves, RenderType.cutoutMipped());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.magic_leaves, RenderType.cutoutMipped());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.potted_wolfsbane, RenderType.cutoutMipped());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.wolfsbane.get(), renderType);
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.jacaranda_sapling.get(), renderType);
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.magic_sapling.get(), renderType);
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.stone_altar.get(), renderType);
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.stone_altar_fire_bowl.get(), renderType);
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.totem_top_werewolves_werewolf.get(), renderType);
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.totem_top_werewolves_werewolf_crafted.get(), renderType);
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.jacaranda_leaves.get(), RenderType.cutoutMipped());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.magic_leaves.get(), RenderType.cutoutMipped());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.potted_wolfsbane.get(), RenderType.cutoutMipped());
     }
 
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModTiles.stone_altar, StoneAltarTESR::new);
+        event.registerBlockEntityRenderer(ModTiles.stone_altar.get(), StoneAltarTESR::new);
     }
 }

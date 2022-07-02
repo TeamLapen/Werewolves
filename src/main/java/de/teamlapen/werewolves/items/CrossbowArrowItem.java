@@ -4,7 +4,6 @@ import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IVampirismCrossbowArrow;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.CrossbowArrowEntity;
-import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -29,7 +28,6 @@ public class CrossbowArrowItem extends Item implements IVampirismCrossbowArrow<C
     public CrossbowArrowItem(ArrowType type) {
         super(new Item.Properties().tab(WUtils.creativeTab));
         this.type = type;
-        this.setRegistryName(REFERENCE.MODID, "crossbow_arrow_" + type.name);
     }
 
     @Override

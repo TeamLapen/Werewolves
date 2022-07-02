@@ -19,8 +19,8 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity> {
-    private static final ItemStack LIVER_STACK = ModItems.liver.getDefaultInstance();
-    private static final ItemStack BONE_STACK = ModItems.cracked_bone.getDefaultInstance();
+    private static final ItemStack LIVER_STACK = ModItems.liver.get().getDefaultInstance();
+    private static final ItemStack BONE_STACK = ModItems.cracked_bone.get().getDefaultInstance();
 
     public StoneAltarTESR(BlockEntityRendererProvider.Context context) {
     }

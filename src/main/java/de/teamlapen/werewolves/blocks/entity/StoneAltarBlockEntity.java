@@ -62,7 +62,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     private List<BlockPos> fire_bowls;
 
     public StoneAltarBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTiles.stone_altar, pos, state, 2, StoneAltarContainer.SELECTOR_INFOS);
+        super(ModTiles.stone_altar.get(), pos, state, 2, StoneAltarContainer.SELECTOR_INFOS);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, StoneAltarBlockEntity blockEntity) {
@@ -221,7 +221,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
                 for (double z = aabb.minZ; z <= aabb.maxZ; ++z) {
                     BlockPos pos = new BlockPos(x, y, z);
                     BlockState state = this.level.getBlockState(pos);
-                    if (state.getBlock() == ModBlocks.stone_altar_fire_bowl) {
+                    if (state.getBlock() == ModBlocks.stone_altar_fire_bowl.get()) {
                         i.add(pos);
                         if (state.getValue(StoneAltarFireBowlBlock.LIT)) {
                             h.add(pos);
@@ -251,13 +251,13 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
 
     private boolean checkItemRequirements(Player player) {
         WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(this.targetLevel);
-        ItemStack missing = InventoryHelper.checkItems(this, new Item[]{ModItems.liver, ModItems.cracked_bone}, new int[]{req.liverAmount, req.bonesAmount});
+        ItemStack missing = InventoryHelper.checkItems(this, new Item[]{ModItems.liver.get(), ModItems.cracked_bone.get()}, new int[]{req.liverAmount, req.bonesAmount});
         return missing.isEmpty();
     }
 
     public Map<Item, Integer> getMissingItems() {
         WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(this.targetLevel);
-        return Helper.getMissingItems(this, new Item[]{ModItems.liver, ModItems.cracked_bone}, new int[]{req.liverAmount, req.bonesAmount});
+        return Helper.getMissingItems(this, new Item[]{ModItems.liver.get(), ModItems.cracked_bone.get()}, new int[]{req.liverAmount, req.bonesAmount});
     }
 
     @Nonnull

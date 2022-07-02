@@ -190,8 +190,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         }
         if (player.getRepresentingPlayer().isPassenger() && !this.form.isHumanLike()) return false;
         boolean active = player.getActionHandler().isActionActive(this);
-        if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active && !player.getSkillHandler().isSkillEnabled(WerewolfSkills.free_will)) return false;
-        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_HEAVEN);
+        if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active && !player.getSkillHandler().isSkillEnabled(WerewolfSkills.free_will.get())) return false;
+        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_HEAVEN.getKey());
     }
 
     public boolean consumesWerewolfTime() {
@@ -203,8 +203,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
      */
     public int getTimeModifier(IWerewolfPlayer werewolf) {
         int limit = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_1);
-        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_2);
+        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_1.get());
+        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.werewolf_form_duration_general_2.get());
         if (duration1 || duration2) {
             if (duration2) {
                 limit += WerewolvesConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_2.get() * 20;

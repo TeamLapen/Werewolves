@@ -33,12 +33,12 @@ public class WerewolfToothItem extends Item {
             } else {
                 if (Helper.canBecomeWerewolf(player)) {
                     LupusSanguinemEffect.addSanguinemEffect(player);
-                    player.addEffect(new MobEffectInstance(ModEffects.V.poison, 60));
+                    player.addEffect(new MobEffectInstance(ModEffects.V.poison.get(), 60));
                 } else {
                     if (Helper.isWerewolf(player)) {
                         player.displayClientMessage(new TranslatableComponent("text.werewolves.already_werewolf"), true);
                     } else {
-                        player.displayClientMessage(new TranslatableComponent("text.vampirism.immune_to").append(new TranslatableComponent(ModEffects.lupus_sanguinem.getDescriptionId())), true);
+                        player.displayClientMessage(new TranslatableComponent("text.vampirism.immune_to").append(new TranslatableComponent(ModEffects.lupus_sanguinem.get().getDescriptionId())), true);
                     }
                 }
                 stack.shrink(1);

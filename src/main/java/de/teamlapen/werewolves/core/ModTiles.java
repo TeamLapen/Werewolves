@@ -5,22 +5,23 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-@ObjectHolder(REFERENCE.MODID)
 public class ModTiles {
 
-    public static final BlockEntityType<StoneAltarBlockEntity> stone_altar = getNull();
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, REFERENCE.MODID);
 
-    static void registerTiles(IForgeRegistry<BlockEntityType<?>> registry) {
-        registry.register(create("stone_altar", StoneAltarBlockEntity::new, ModBlocks.stone_altar));
+    public static final RegistryObject<BlockEntityType<StoneAltarBlockEntity>> stone_altar = BLOCK_ENTITY_TYPES.register("stone_altar", () -> create(StoneAltarBlockEntity::new, ModBlocks.stone_altar.get()));
+
+    static void register(IEventBus bus) {
+        BLOCK_ENTITY_TYPES.register(bus);
     }
 
     @SuppressWarnings("ConstantConditions")
-    private static <T extends BlockEntity> BlockEntityType<?> create(String id, BlockEntityType.BlockEntitySupplier<? extends T> factoryIn, Block... blocks) {
-        return BlockEntityType.Builder.of(factoryIn, blocks).build(null).setRegistryName(REFERENCE.MODID, id);
+    private static <T extends BlockEntity> BlockEntityType<T> create(BlockEntityType.BlockEntitySupplier<T> factoryIn, Block... blocks) {
+        return BlockEntityType.Builder.of(factoryIn, blocks).build(null);
     }
 }

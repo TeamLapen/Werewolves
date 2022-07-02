@@ -85,7 +85,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean canWerewolfPlayerEatItem(Player player, ItemStack stack) {
-        return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat)).orElse(false);
+        return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat.get())).orElse(false);
     }
 
     @SuppressWarnings("ConstantConditions")

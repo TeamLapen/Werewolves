@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.blocks;
 
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffects;
@@ -19,7 +18,6 @@ import javax.annotation.Nonnull;
 public class WolfsbaneBlock extends FlowerBlock {
     public WolfsbaneBlock() {
         super(MobEffects.BLINDNESS, 5, Properties.of(Material.PLANT).strength(0f).noCollission().sound(SoundType.GRASS));
-        this.setRegistryName(REFERENCE.MODID, "wolfsbane");
     }
 
     @Override

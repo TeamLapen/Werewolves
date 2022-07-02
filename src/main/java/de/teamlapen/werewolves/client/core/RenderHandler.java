@@ -62,7 +62,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
         this.lastTicks = this.ticks;
         WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
 
-        if (werewolf.getActionHandler().isActionActive(ModActions.sense)) {
+        if (werewolf.getActionHandler().isActionActive(ModActions.sense.get())) {
             if (this.ticks < VISION_FADE_TICKS) {
                 this.ticks++;
             }

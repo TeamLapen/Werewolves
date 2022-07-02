@@ -27,6 +27,7 @@ import de.teamlapen.werewolves.proxy.Proxy;
 import de.teamlapen.werewolves.proxy.ServerProxy;
 import de.teamlapen.werewolves.util.*;
 import de.teamlapen.werewolves.world.gen.OverworldModifications;
+import de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures;
 import de.teamlapen.werewolves.world.gen.WerewolvesBiomes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.data.DataGenerator;
@@ -62,7 +63,7 @@ public class WerewolvesMod {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final AbstractPacketDispatcher dispatcher = new ModPacketDispatcher();
-    public static final Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    public static final Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
     public static final MobCategory WEREWOLF_CREATURE_TYPE = MobCategory.create("werewolves_werewolf", "werewolves_werewolf", 8, false, false, 128);
     private static final MobType WEREWOLF_CREATURE_ATTRIBUTES = new MobType();
     public static WerewolvesMod instance;
@@ -104,6 +105,9 @@ public class WerewolvesMod {
         if (ModList.get().isLoaded("guideapi_vp")) {
             MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
         }
+
+        WerewolvesBiomeFeatures.register(FMLJavaModLoadingContext.get().getModEventBus());
+        RegistryManager.setupRegistries(FMLJavaModLoadingContext.get().getModEventBus());
 
         WerewolvesConfig.registerConfigs();
     }

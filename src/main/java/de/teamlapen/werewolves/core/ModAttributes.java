@@ -3,19 +3,19 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-@ObjectHolder(REFERENCE.MODID)
 public class ModAttributes {
 
-    public static final Attribute bite_damage = getNull();
-    public static final Attribute time_regain = getNull();
+    public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.Keys.ATTRIBUTES, REFERENCE.MODID);
 
-    static void registerAttributes(IForgeRegistry<Attribute> registry) {
-        registry.register(new RangedAttribute("werewolves.bite_damage", 5D, 0D, 100D).setRegistryName(REFERENCE.MODID, "bite_damage"));
-        registry.register(new RangedAttribute("werewolves.werewolf_form_time_gain", 0.01D, 0D, 1D).setRegistryName(REFERENCE.MODID, "time_regain"));
+    public static final RegistryObject<Attribute> bite_damage = ATTRIBUTES.register("bite_damage", () -> new RangedAttribute("werewolves.bite_damage", 5D, 0D, 100D));
+    public static final RegistryObject<Attribute> time_regain = ATTRIBUTES.register("time_regain", () -> new RangedAttribute("werewolves.werewolf_form_time_gain", 0.01D, 0D, 1D));
+
+    static void register(IEventBus bus) {
+        ATTRIBUTES.register(bus);
     }
 }

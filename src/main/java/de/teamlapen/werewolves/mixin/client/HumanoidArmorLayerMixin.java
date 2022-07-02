@@ -26,8 +26,9 @@ public class HumanoidArmorLayerMixin<T extends LivingEntity, M extends HumanoidM
         if (!Helper.isWerewolf(((Player) entity))) return;
         WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) entity));
         if (!FormHelper.isFormActionActive(werewolf)) return;
-        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && werewolf.getActionHandler().isActionActive(ModActions.human_form))
+        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor.get()) && werewolf.getActionHandler().isActionActive(ModActions.human_form.get())) {
             return;
+        }
         model.setAllVisible(false);
     }
 }

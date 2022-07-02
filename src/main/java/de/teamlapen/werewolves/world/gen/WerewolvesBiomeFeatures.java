@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.Holder;
-import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -25,42 +25,48 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 import java.util.OptionalInt;
 
 public class WerewolvesBiomeFeatures {
 
-    public static final List<OreConfiguration.TargetBlockState> ORE_SILVER_TARGET_LIST = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ModBlocks.silver_ore.defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, ModBlocks.deepslate_silver_ore.defaultBlockState()));
-    public static final RandomPatchConfiguration WOLFSBANE_CONFIG = FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.wolfsbane)));
-    public static final Holder<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> jacaranda_tree = registerConfiguredFeature("jacaranda_tree", Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(ModBlocks.jacaranda_log.defaultBlockState()), new StraightTrunkPlacer(4, 2, 0), BlockStateProvider.simple(ModBlocks.jacaranda_leaves), new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), new TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build());
-    public static final Holder<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> magic_tree = registerConfiguredFeature("magic_tree", Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(ModBlocks.magic_log.defaultBlockState()), new StraightTrunkPlacer(4, 2, 0), BlockStateProvider.simple(ModBlocks.magic_leaves.defaultBlockState()), new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), new TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build());
-    public static final Holder<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> magic_tree_big = registerConfiguredFeature("magic_tree_big", Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(ModBlocks.magic_log.defaultBlockState()), new FancyTrunkPlacer(3, 11, 0), BlockStateProvider.simple(ModBlocks.magic_leaves.defaultBlockState()), new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4), new TwoLayersFeatureSize(0, 0, 1, OptionalInt.of(4))).ignoreVines().build());
-    public static final Holder<ConfiguredFeature<RandomPatchConfiguration, Feature<RandomPatchConfiguration>>> wolfsbane = registerConfiguredFeature("wolfsbane", Feature.FLOWER, WOLFSBANE_CONFIG);
-    public static final Holder<ConfiguredFeature<OreConfiguration, Feature<OreConfiguration>>> silver_ore = registerConfiguredFeature("silver_ore", Feature.ORE, new OreConfiguration(ORE_SILVER_TARGET_LIST, 7));
+    public static final DeferredRegister<PlacedFeature> PLACED_FEATURE = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, REFERENCE.MODID);
+    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, REFERENCE.MODID);
 
-    public static final Holder<PlacedFeature> jacaranda_tree_placed = PlacementUtils.register(REFERENCE.MODID + ":jacaranda_tree", jacaranda_tree, PlacementUtils.filteredByBlockSurvival(ModBlocks.jacaranda_sapling));
-    public static final Holder<PlacedFeature> magic_tree_placed = PlacementUtils.register(REFERENCE.MODID + ":magic_tree", magic_tree, PlacementUtils.filteredByBlockSurvival(ModBlocks.magic_sapling));
-    public static final Holder<PlacedFeature> magic_tree_big_placed = PlacementUtils.register(REFERENCE.MODID + ":magic_tree_big", magic_tree_big, PlacementUtils.filteredByBlockSurvival(ModBlocks.magic_sapling));
-    public static final Holder<ConfiguredFeature<RandomFeatureConfiguration, ?>> werewolf_heaven_trees = FeatureUtils.register("werewolf_heaven_trees", Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(ImmutableList.of(new WeightedPlacedFeature(jacaranda_tree_placed, 0.4f), new WeightedPlacedFeature(TreePlacements.FANCY_OAK_CHECKED, 0.1f), new WeightedPlacedFeature(magic_tree_big_placed, 0.1f)), magic_tree_placed));
-
-
-    //.tries(32).build()).count(UniformInt.of(-1, 4)).decorated(Features.Decorators.ADD_32).decorated(Features.Decorators.HEIGHTMAP_SQUARE).count(1));
-    public static final Holder<PlacedFeature> wolfsbane_placed = PlacementUtils.register(REFERENCE.MODID + ":wolfsbane", wolfsbane, RarityFilter.onAverageOnceEvery(5), PlacementUtils.HEIGHTMAP, InSquarePlacement.spread());
-    //decorated(Features.Decorators.HEIGHTMAP_SQUARE).decorated(FeatureDecorator.COUNT_EXTRA.configured(new FrequencyWithExtraChanceDecoratorConfiguration(10, 0.1F, 1))));
-    public static final Holder<PlacedFeature> werewolf_haven_trees_placed = PlacementUtils.register(REFERENCE.MODID + ":heaven_trees", werewolf_heaven_trees, VegetationPlacements.treePlacement(PlacementUtils.countExtra(6, 0.2f, 2)));
-    public static final Holder<PlacedFeature> silver_ore_placed = PlacementUtils.register(REFERENCE.MODID + ":silver_ore", silver_ore, commonOrePlacement(48, HeightRangePlacement.triangle(VerticalAnchor.absolute(0), VerticalAnchor.absolute(96))));
-
-    private static <FC extends FeatureConfiguration, F extends Feature<FC>> Holder<ConfiguredFeature<FC, F>> registerConfiguredFeature(String name, F feature, FC config) {
-        return BuiltinRegistries.registerExact(BuiltinRegistries.CONFIGURED_FEATURE, REFERENCE.MODID + ":" + name, new ConfiguredFeature<>(feature, config));
+    public static void register(IEventBus bus) {
+        PLACED_FEATURE.register(bus);
+        CONFIGURED_FEATURES.register(bus);
     }
 
+    public static final List<OreConfiguration.TargetBlockState> ORE_SILVER_TARGET_LIST = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ModBlocks.silver_ore.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, ModBlocks.deepslate_silver_ore.get().defaultBlockState()));
+    public static final RandomPatchConfiguration WOLFSBANE_CONFIG = FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.wolfsbane.get())));
+
+    public static final RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> jacaranda_tree = CONFIGURED_FEATURES.register("jacaranda_tree", () -> new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(ModBlocks.jacaranda_log.get().defaultBlockState()), new StraightTrunkPlacer(4, 2, 0), BlockStateProvider.simple(ModBlocks.jacaranda_leaves.get()), new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), new TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()));
+    public static final RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> magic_tree = CONFIGURED_FEATURES.register("magic_tree", () -> new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(ModBlocks.magic_log.get().defaultBlockState()), new StraightTrunkPlacer(4, 2, 0), BlockStateProvider.simple(ModBlocks.magic_leaves.get().defaultBlockState()), new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), new TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()));
+    public static final RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> magic_tree_big = CONFIGURED_FEATURES.register("magic_tree_big", () -> new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(ModBlocks.magic_log.get().defaultBlockState()), new FancyTrunkPlacer(3, 11, 0), BlockStateProvider.simple(ModBlocks.magic_leaves.get().defaultBlockState()), new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4), new TwoLayersFeatureSize(0, 0, 1, OptionalInt.of(4))).ignoreVines().build()));
+    public static final RegistryObject<ConfiguredFeature<RandomPatchConfiguration, Feature<RandomPatchConfiguration>>> wolfsbane = CONFIGURED_FEATURES.register("wolfsbane", () -> new ConfiguredFeature<>(Feature.FLOWER, WOLFSBANE_CONFIG));
+    public static final RegistryObject<ConfiguredFeature<OreConfiguration, Feature<OreConfiguration>>> silver_ore = CONFIGURED_FEATURES.register("silver_ore", () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ORE_SILVER_TARGET_LIST, 7)));
+
+    public static final RegistryObject<PlacedFeature> jacaranda_tree_placed = PLACED_FEATURE.register("jacaranda_tree", () -> new PlacedFeature(getHolder(jacaranda_tree), List.of(PlacementUtils.filteredByBlockSurvival(ModBlocks.jacaranda_sapling.get()))));
+    public static final RegistryObject<PlacedFeature> magic_tree_placed = PLACED_FEATURE.register("magic_tree", () -> new PlacedFeature(getHolder(magic_tree), List.of(PlacementUtils.filteredByBlockSurvival(ModBlocks.magic_sapling.get()))));
+    public static final RegistryObject<PlacedFeature> magic_tree_big_placed = PLACED_FEATURE.register("magic_tree_big", () -> new PlacedFeature(getHolder(magic_tree_big), List.of(PlacementUtils.filteredByBlockSurvival(ModBlocks.magic_sapling.get()))));
+    public static final RegistryObject<ConfiguredFeature<RandomFeatureConfiguration, Feature<RandomFeatureConfiguration>>> werewolf_heaven_trees = CONFIGURED_FEATURES.register("werewolf_heaven_trees", () -> new ConfiguredFeature<>(Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(ImmutableList.of(new WeightedPlacedFeature(getHolder(jacaranda_tree_placed), 0.4f), new WeightedPlacedFeature(TreePlacements.FANCY_OAK_CHECKED, 0.1f), new WeightedPlacedFeature(getHolder(magic_tree_big_placed), 0.1f)), getHolder(magic_tree_placed))));
+
+
+    public static final RegistryObject<PlacedFeature> wolfsbane_placed = PLACED_FEATURE.register("wolfsbane", () -> new PlacedFeature(getHolder(wolfsbane), List.of(RarityFilter.onAverageOnceEvery(5), PlacementUtils.HEIGHTMAP, InSquarePlacement.spread())));
+    public static final RegistryObject<PlacedFeature> werewolf_haven_trees_placed = PLACED_FEATURE.register("heaven_trees", () -> new PlacedFeature(getHolder(werewolf_heaven_trees), VegetationPlacements.treePlacement(PlacementUtils.countExtra(6, 0.2f, 2))));
+    public static final RegistryObject<PlacedFeature> silver_ore_placed = PLACED_FEATURE.register("silver_ore", () -> new PlacedFeature(getHolder(silver_ore), commonOrePlacement(48, HeightRangePlacement.triangle(VerticalAnchor.absolute(0), VerticalAnchor.absolute(96)))));
+
     public static void addWerewolvesFlowers(BiomeGenerationSettings.Builder biomeGeneratorSettings) {
-        biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, wolfsbane_placed);
+        biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, getHolder(wolfsbane_placed));
     }
 
     public static void addWerewolfBiomeTrees(BiomeGenerationSettings.Builder biomeGeneratorSettings) {
-        biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, werewolf_haven_trees_placed);
+        biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, getHolder(werewolf_haven_trees_placed));
     }
 
     @SuppressWarnings("EmptyMethod")
@@ -79,5 +85,14 @@ public class WerewolvesBiomeFeatures {
 
     private static List<PlacementModifier> rareOrePlacement(int p_195350_, PlacementModifier p_195351_) {
         return orePlacement(RarityFilter.onAverageOnceEvery(p_195350_), p_195351_);
+    }
+
+    /**
+     * Get the holder for the given registry object and strip it of generic
+     * MUST only be used for objects that belong to registries that are guaranteed to be present
+     */
+    @SuppressWarnings({"unchecked"})
+    private static <T> Holder<T> getHolder(RegistryObject<? extends T> object) {
+        return (Holder<T>) object.getHolder().orElseThrow(() -> new IllegalStateException("Registry object " + object.getKey() + " does not have a holder. Something is wrong"));
     }
 }

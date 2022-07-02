@@ -5,39 +5,43 @@ import de.teamlapen.vampirism.effects.BadOmenEffect;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.effects.*;
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-@ObjectHolder(REFERENCE.MODID)
 public class ModEffects {
 
-    public static final LupusSanguinemEffect lupus_sanguinem = getNull();
-    public static final HowlingEffect howling = getNull();
-    public static final SilverEffect silver = getNull();
-    public static final BleedingEffect bleeding = getNull();
-    public static final UnWerewolfEffect un_werewolf = getNull();
-    public static final MobEffect bad_omen_werewolf = getNull();
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, REFERENCE.MODID);
 
-    @ObjectHolder(de.teamlapen.vampirism.REFERENCE.MODID)
+    public static final RegistryObject<LupusSanguinemEffect> lupus_sanguinem = EFFECTS.register("lupus_sanguinem", LupusSanguinemEffect::new);
+    public static final RegistryObject<HowlingEffect> howling = EFFECTS.register("howling", HowlingEffect::new);
+    public static final RegistryObject<SilverEffect> silver = EFFECTS.register("silver", SilverEffect::new);
+    public static final RegistryObject<BleedingEffect> bleeding = EFFECTS.register("bleeding", BleedingEffect::new);
+    public static final RegistryObject<UnWerewolfEffect> un_werewolf = EFFECTS.register("un_werewolf", UnWerewolfEffect::new);
+    public static final RegistryObject<MobEffect> bad_omen_werewolf = EFFECTS.register("bad_omen_werewolf", () -> new BadOmenEffect(REFERENCE.MODID, REFERENCE.WEREWOLF_PLAYER_KEY) {
+        @Override
+        public IFaction<?> getFaction() {
+            return WReference.WEREWOLF_FACTION;
+        }
+    });
+
     public static class V {
-        public static final MobEffect freeze = getNull();
-        public static final MobEffect poison = getNull();
+        public static final RegistryObject<MobEffect> freeze = RegistryObject.create(new ResourceLocation("vampirism", "freeze"), ForgeRegistries.MOB_EFFECTS);
+        public static final RegistryObject<MobEffect> poison = RegistryObject.create(new ResourceLocation("vampirism", "poison"), ForgeRegistries.MOB_EFFECTS);
+
+        static void init() {
+
+        }
     }
 
-    static void registerEffects(IForgeRegistry<MobEffect> registry) {
-        registry.register(new LupusSanguinemEffect());
-        registry.register(new HowlingEffect());
-        registry.register(new SilverEffect());
-        registry.register(new BleedingEffect());
-        registry.register(new UnWerewolfEffect());
-        registry.register(new BadOmenEffect(REFERENCE.MODID, REFERENCE.WEREWOLF_PLAYER_KEY) {
-            @Override
-            public IFaction<?> getFaction() {
-                return WReference.WEREWOLF_FACTION;
-            }
-        });
+    static {
+        V.init();
+    }
+
+    static void register(IEventBus bus) {
+        EFFECTS.register(bus);
     }
 }

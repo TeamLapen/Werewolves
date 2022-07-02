@@ -6,7 +6,9 @@ import de.teamlapen.vampirism.player.refinements.RefinementSet;
 import de.teamlapen.werewolves.api.WReference;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class WerewolfRefinementSet extends RefinementSet {
 
@@ -14,8 +16,9 @@ public class WerewolfRefinementSet extends RefinementSet {
         super(rarity, color, refinements);
     }
 
-    public WerewolfRefinementSet(Rarity rarity, int color, IRefinement... refinements) {
-        super(rarity, color, refinements);
+    @SafeVarargs
+    public WerewolfRefinementSet(Rarity rarity, int color, Supplier<IRefinement>... refinements) {
+        super(rarity, color, Arrays.stream(refinements).map(Supplier::get).toArray(IRefinement[]::new));
     }
 
     @Nonnull

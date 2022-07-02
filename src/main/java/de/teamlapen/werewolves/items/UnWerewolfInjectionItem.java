@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.items;
 
 import de.teamlapen.vampirism.core.ModBlocks;
-import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -18,7 +17,6 @@ public class UnWerewolfInjectionItem extends Item {
 
     public UnWerewolfInjectionItem() {
         super(new Item.Properties().tab(WUtils.creativeTab));
-        this.setRegistryName(REFERENCE.MODID, "injection_un_werewolf");
     }
 
     @Nonnull

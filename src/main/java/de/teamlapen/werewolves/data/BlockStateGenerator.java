@@ -22,31 +22,31 @@ public class BlockStateGenerator extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         Set<Block> blocks = new HashSet<>() {{
-            add(ModBlocks.silver_ore);
-            add(ModBlocks.deepslate_silver_ore);
-            add(ModBlocks.silver_block);
-            add(ModBlocks.raw_silver_block);
-            add(ModBlocks.magic_planks);
+            add(ModBlocks.silver_ore.get());
+            add(ModBlocks.deepslate_silver_ore.get());
+            add(ModBlocks.silver_block.get());
+            add(ModBlocks.raw_silver_block.get());
+            add(ModBlocks.magic_planks.get());
         }};
         blocks.forEach(this::simpleBlock);
 
-        simpleBlock(ModBlocks.wolfsbane, models().cross("wolfsbane", modLoc("block/wolfsbane")));
-        simpleBlock(ModBlocks.potted_wolfsbane, models().withExistingParent(modId("block/potted_wolfsbane"), "minecraft:block/flower_pot_cross").texture("plant", modId("block/wolfsbane")));
-        simpleBlock(ModBlocks.jacaranda_sapling, models().cross("jacaranda_sapling", modLoc("block/jacaranda_sapling")));
-        simpleBlock(ModBlocks.jacaranda_leaves);
-        logBlock(ModBlocks.jacaranda_log);
-        simpleBlock(ModBlocks.magic_sapling, models().cross("magic_sapling", modLoc("block/magic_sapling")));
-        simpleBlock(ModBlocks.magic_leaves);
-        logBlock(ModBlocks.magic_log);
-        simpleBlock(ModBlocks.totem_top_werewolves_werewolf, models().getBuilder("totem_top_werewolves_werewolf").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top"))));
-        simpleBlock(ModBlocks.totem_top_werewolves_werewolf_crafted, models().getBuilder("totem_top_werewolves_werewolf_crafted").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top_crafted"))));
+        simpleBlock(ModBlocks.wolfsbane.get(), models().cross("wolfsbane", modLoc("block/wolfsbane")));
+        simpleBlock(ModBlocks.potted_wolfsbane.get(), models().withExistingParent(modId("block/potted_wolfsbane"), "minecraft:block/flower_pot_cross").texture("plant", modId("block/wolfsbane")));
+        simpleBlock(ModBlocks.jacaranda_sapling.get(), models().cross("jacaranda_sapling", modLoc("block/jacaranda_sapling")));
+        simpleBlock(ModBlocks.jacaranda_leaves.get());
+        logBlock(ModBlocks.jacaranda_log.get());
+        simpleBlock(ModBlocks.magic_sapling.get(), models().cross("magic_sapling", modLoc("block/magic_sapling")));
+        simpleBlock(ModBlocks.magic_leaves.get());
+        logBlock(ModBlocks.magic_log.get());
+        simpleBlock(ModBlocks.totem_top_werewolves_werewolf.get(), models().getBuilder("totem_top_werewolves_werewolf").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top"))));
+        simpleBlock(ModBlocks.totem_top_werewolves_werewolf_crafted.get(), models().getBuilder("totem_top_werewolves_werewolf_crafted").parent(new ModelFile.UncheckedModelFile(vampirismId("block/totem_top_crafted"))));
 
-        getMultipartBuilder(ModBlocks.stone_altar)
+        getMultipartBuilder(ModBlocks.stone_altar.get())
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar"))).addModel().condition(StoneAltarBlock.HORIZONTAL_FACING, Direction.NORTH).end()
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar"))).rotationY(90).addModel().condition(StoneAltarBlock.HORIZONTAL_FACING, Direction.EAST).end()
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar"))).rotationY(180).addModel().condition(StoneAltarBlock.HORIZONTAL_FACING, Direction.SOUTH).end()
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar"))).rotationY(270).addModel().condition(StoneAltarBlock.HORIZONTAL_FACING, Direction.WEST).end();
-        getMultipartBuilder(ModBlocks.stone_altar_fire_bowl)
+        getMultipartBuilder(ModBlocks.stone_altar_fire_bowl.get())
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl"))).addModel().condition(StoneAltarFireBowlBlock.FACING, Direction.NORTH).end()
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl"))).rotationY(90).addModel().condition(StoneAltarFireBowlBlock.FACING, Direction.EAST).end()
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl"))).rotationY(180).addModel().condition(StoneAltarFireBowlBlock.FACING, Direction.SOUTH).end()

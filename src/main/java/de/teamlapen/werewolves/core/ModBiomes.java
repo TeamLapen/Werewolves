@@ -2,21 +2,22 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.gen.WerewolfHeavenBiome;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 
 public class ModBiomes {
 
-    public static final ResourceKey<Biome> WEREWOLF_HEAVEN = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(REFERENCE.MODID, "werewolf_heaven"));
+    public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, REFERENCE.MODID);
 
-    static void registerBiomes(IForgeRegistry<Biome> registry) {
-        registry.register(WerewolfHeavenBiome.createWerewolfHeavenBiome().setRegistryName(WEREWOLF_HEAVEN.location()));
+    public static final RegistryObject<Biome> WEREWOLF_HEAVEN = BIOMES.register("werewolf_heaven", WerewolfHeavenBiome::createWerewolfHeavenBiome);
 
-        BiomeDictionary.addTypes(WEREWOLF_HEAVEN, BiomeDictionary.Type.OVERWORLD, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.HILLS);
+    static void register(IEventBus bus) {
+        BIOMES.register(bus);
+        BiomeDictionary.addTypes(WEREWOLF_HEAVEN.getKey(), BiomeDictionary.Type.OVERWORLD, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.HILLS);
     }
 }
