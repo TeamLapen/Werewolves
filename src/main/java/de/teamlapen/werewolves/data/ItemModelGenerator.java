@@ -73,7 +73,6 @@ public class ItemModelGenerator extends ItemModelProvider {
         this.item(ModItems.dream_catcher.get(), modLoc("item/dream_catcher_layer0"), modLoc("item/dream_catcher_layer1"));
         this.item(ModItems.charm_bracelet.get(), modLoc("item/charm_bracelet_layer0"), modLoc("item/charm_bracelet_layer1"));
         this.item(ModItems.bone_necklace.get(), modLoc("item/bone_necklace_layer0"), modLoc("item/bone_necklace_layer1"));
-        this.item(ModItems.oil_bottle.get(), modLoc("item/oil_bottle"), modLoc("item/oil_bottle_overlay"));
     }
 
     @Nonnull

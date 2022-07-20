@@ -35,9 +35,15 @@ public class ModEntities {
     public static final RegistryObject<EntityType<WerewolfMinionEntity>> werewolf_minion = ENTITIES.register("werewolf_minion", () -> prepareEntityType("werewolf_minion", EntityType.Builder.of(WerewolfMinionEntity::new, EntityClassification.CREATURE).sized(0.6f, 1.95f), false));
     public static final RegistryObject<EntityType<WerewolfAlphaEntity>> alpha_werewolf = ENTITIES.register("alpha_werewolf", () -> prepareEntityType("alpha_werewolf", EntityType.Builder.of(WerewolfAlphaEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.8f, 2f), true));
 
+    static {
+        V.init();
+    }
     public static class V {
         public static final RegistryObject<EntityType<BasicHunterEntity>> hunter = RegistryObject.of(new ResourceLocation("vampirism", "hunter"), ForgeRegistries.ENTITIES);
         public static final RegistryObject<EntityType<BasicHunterEntity.IMob>> hunter_imob = RegistryObject.of(new ResourceLocation("vampirism", "hunter_imob"), ForgeRegistries.ENTITIES);
+
+        static void init() {
+        }
     }
 
     static void registerEntities(IEventBus bus) {
@@ -60,9 +66,7 @@ public class ModEntities {
         EntityType.Builder<T> type = builder.setTrackingRange(80).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true);
         if (!spawnable)
             type.noSummon();
-        EntityType<T> entry = type.build(REFERENCE.MODID + ":" + id);
-        entry.setRegistryName(REFERENCE.MODID, id);
-        return entry;
+        return type.build(REFERENCE.MODID + ":" + id);
     }
 
     static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {

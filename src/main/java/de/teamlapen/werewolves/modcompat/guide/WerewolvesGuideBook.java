@@ -13,12 +13,12 @@ import de.teamlapen.vampirism.client.core.ModKeys;
 import de.teamlapen.vampirism.modcompat.guide.EntryText;
 import de.teamlapen.vampirism.modcompat.guide.VampirismGuideBookCategoriesEvent;
 import de.teamlapen.vampirism.modcompat.guide.pages.PageTable;
+import de.teamlapen.vampirism.util.OilUtils;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfLevelConf;
-import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.block.Block;
@@ -146,8 +146,8 @@ public class WerewolvesGuideBook {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
         helper.info(ModItems.liver.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
         helper.info(ModItems.cracked_bone.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
-        helper.info(false, Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.plant_oil.get())), OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.plant_oil.get())).useCustomEntryName().setKeyName("oil_bottle.plant_oil").build(entries);
-        helper.info(false, Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.silver_oil_1.get()), OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.silver_oil_2.get())), OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), ModOils.silver_oil_1.get())).useCustomEntryName().setKeyName("oil_bottle.silver_oil").build(entries);
+        helper.info(false, Ingredient.of(OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), de.teamlapen.vampirism.core.ModOils.VAMPIRE_BLOOD.get())), OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), de.teamlapen.vampirism.core.ModOils.VAMPIRE_BLOOD.get())).useCustomEntryName().setKeyName("oil_bottle.plant_oil").build(entries);
+        helper.info(false, Ingredient.of(OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), ModOils.silver_oil_1.get()), OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), ModOils.silver_oil_2.get())), OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), ModOils.silver_oil_1.get())).useCustomEntryName().setKeyName("oil_bottle.silver_oil").build(entries);
         helper.info(ModItems.werewolf_minion_charm.get(), ModItems.werewolf_minion_upgrade_simple.get(), ModItems.werewolf_minion_upgrade_enhanced.get(), ModItems.werewolf_minion_upgrade_special.get())
                 .setFormats(loc(ModItems.werewolf_minion_charm.get()),
                         loc(ModItems.werewolf_minion_upgrade_simple.get()), ModItems.werewolf_minion_upgrade_simple.get().getMinLevel() + 1, ModItems.werewolf_minion_upgrade_simple.get().getMaxLevel() + 1,

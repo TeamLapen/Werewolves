@@ -44,7 +44,7 @@ public class ModBiomes {
     }
 
     static void removeStructuresFromBiomes() {
-        VampirismAPI.worldGenRegistry().removeStructureFromBiomes(ModFeatures.hunter_camp.getRegistryName(), Lists.newArrayList(WEREWOLF_HEAVEN_KEY.location()));
+        VampirismAPI.worldGenRegistry().removeStructureFromBiomes(ModFeatures.HUNTER_CAMP.getId(), Lists.newArrayList(WEREWOLF_HEAVEN_KEY.location()));
     }
 
     static void addBiomesToGeneratorUnsafe() {

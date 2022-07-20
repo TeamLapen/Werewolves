@@ -4,7 +4,7 @@ import de.teamlapen.lib.lib.client.gui.widget.ScrollableArrayTextComponentList;
 import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.client.gui.AppearanceScreen;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
-import de.teamlapen.vampirism.network.AppearancePacket;
+import de.teamlapen.vampirism.network.CAppearancePacket;
 import de.teamlapen.werewolves.client.render.WerewolfMinionRenderer;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import net.minecraft.client.Minecraft;
@@ -86,7 +86,7 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
         if (name.isEmpty()) {
             name = new TranslationTextComponent("text.vampirism.minion").toString() + this.entity.getMinionId().orElse(0);
         }
-        VampirismMod.dispatcher.sendToServer(new AppearancePacket(this.entity.getId(), name, this.skinType, this.eyeType, this.glowingEyes ? 1 : 0));
+        VampirismMod.dispatcher.sendToServer(new CAppearancePacket(this.entity.getId(), name, this.skinType, this.eyeType, this.glowingEyes ? 1 : 0));
         super.removed();
     }
 

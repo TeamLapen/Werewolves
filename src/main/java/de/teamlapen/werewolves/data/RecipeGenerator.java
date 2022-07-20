@@ -1,9 +1,11 @@
 package de.teamlapen.werewolves.data;
 
+import de.teamlapen.vampirism.data.recipebuilder.AlchemyTableRecipeBuilder;
 import de.teamlapen.vampirism.data.recipebuilder.ShapedWeaponTableRecipeBuilder;
+import de.teamlapen.vampirism.util.NBTIngredient;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.core.ModRecipes;
+import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.block.Blocks;
@@ -99,8 +101,6 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('#', silver_nugget).unlockedBy("has_silver_nugget", has(silver_nugget))
                 .save(consumer, modId("silver_ingot_from_nuggets"));
 
-        CustomRecipeBuilder.special(ModRecipes.weapon_oil.get()).save(consumer, REFERENCE.MODID + ":weapon_oil");
-
         ShapedWeaponTableRecipeBuilder.shapedWeaponTable(ModItems.crossbow_arrow_silver_bolt.get(), 3).pattern(" X ").pattern("XYX").pattern(" S ").pattern(" F ")
                 .lava(1)
                 .define('S', sticks).unlockedBy("hasSticks", has(sticks))
@@ -109,6 +109,17 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('Y', iron_ingot).unlockedBy("has_iron", has(iron_ingot))
                 .unlockedBy("has_crossbow_arrow", has(crossbow_arrow))
                 .save(consumer, modId("crossbow_arrow_silver_bolt"));
+
+        AlchemyTableRecipeBuilder
+                .builder(ModOils.silver_oil_1)
+                .bloodOilIngredient()
+                .input(Ingredient.of(ModTags.Items.SILVER_INGOT)).withCriterion("has_silver_ingot", has(ModTags.Items.SILVER_INGOT))
+                .build(consumer, modId("silver_oil_1"));
+        AlchemyTableRecipeBuilder
+                .builder(ModOils.silver_oil_2)
+                .ingredient(new NBTIngredient(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get().withOil(ModOils.silver_oil_1.get()))).withCriterion("has_silver_oil_1", has(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()))
+                .input(Ingredient.of(ModTags.Items.SILVER_INGOT)).withCriterion("has_silver_ingot", has(ModTags.Items.SILVER_INGOT))
+                .build(consumer, modId("silver_oil_2"));
     }
 
 }

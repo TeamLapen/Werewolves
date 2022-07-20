@@ -9,17 +9,16 @@ import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 
 import javax.annotation.Nonnull;
 
-public class LupusSanguinemEffect extends WerewolvesEffect {
-
-    private static final String REG_NAME = "lupus_sanguinem";
+public class LupusSanguinemEffect extends Effect {
 
     public LupusSanguinemEffect() {
-        super(REG_NAME, EffectType.HARMFUL, 0xe012ef);
+        super(EffectType.HARMFUL, 0xe012ef);
     }
 
     public static void addSanguinemEffectRandom(@Nonnull LivingEntity entity, float percentage) {

@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.gui.VampirismScreen;
+import de.teamlapen.vampirism.util.OilUtils;
 import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.core.ModActions;
@@ -11,7 +12,6 @@ import de.teamlapen.werewolves.mixin.client.ScreenAccessor;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WeaponOilHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.gui.widget.button.ImageButton;
@@ -108,19 +108,6 @@ public class ClientEventHandler {
         this.zoomTime = 20;
         this.zoomAmount = Minecraft.getInstance().options.fov / 4 / this.zoomTime;
         this.zoomModifier = Minecraft.getInstance().options.fov - Minecraft.getInstance().options.fov / 4;
-    }
-
-    @SubscribeEvent
-    public void onItemToolTip(ItemTooltipEvent event)  {
-        MutableInt position = new MutableInt(1);
-        int flags = getHideFlags(event.getItemStack());
-        if (shouldShowInTooltip(flags, ItemStack.TooltipDisplayFlags.ADDITIONAL)) position.increment();
-        if (event.getItemStack().hasTag()) {
-            if (shouldShowInTooltip(flags, ItemStack.TooltipDisplayFlags.ENCHANTMENTS)) position.add(event.getItemStack().getEnchantmentTags().size());
-            WeaponOilHelper.oilOpt(event.getItemStack()).ifPresent((oil) -> {
-                event.getToolTip().add(position.getAndIncrement() - 1, new TranslationTextComponent("oil." + oil.getLeft().getRegistryName().getNamespace() + "." + oil.getLeft().getRegistryName().getPath() + ".desc").withStyle(TextFormatting.GOLD));
-            });
-        }
     }
 
     private static boolean shouldShowInTooltip(int p_242394_0_, ItemStack.TooltipDisplayFlags p_242394_1_) {

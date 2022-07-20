@@ -13,17 +13,13 @@ import java.util.stream.Collectors;
 
 public class WerewolfRefinementSet extends RefinementSet {
 
-    public WerewolfRefinementSet(Rarity rarity, int color, Set<IRefinement> refinements) {
-        super(rarity, color, refinements);
-    }
-
-    public WerewolfRefinementSet(Rarity rarity, int color, IRefinement... refinements) {
+    public WerewolfRefinementSet(Rarity rarity, int color, Set<RegistryObject<? extends IRefinement>> refinements) {
         super(rarity, color, refinements);
     }
 
     @SafeVarargs
     public WerewolfRefinementSet(Rarity rarity, int color, RegistryObject<IRefinement>... refinements) {
-        super(rarity, color, Arrays.stream(refinements).flatMap(RegistryObject::stream).collect(Collectors.toSet()));
+        super(rarity, color, refinements);
     }
 
     @Nonnull

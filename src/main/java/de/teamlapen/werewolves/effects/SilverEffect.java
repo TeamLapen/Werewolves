@@ -9,17 +9,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 
 import javax.annotation.Nonnull;
 
-public class SilverEffect extends WerewolvesEffect {
+public class SilverEffect extends Effect {
     private static final String MOVEMENT_SPEED = "8ffcfde9-4799-4120-8714-4f479cc6e23e";
     private static final String ARMOR = "19435a2e-9f5b-4d3b-952e-b1f561e06cab";
 
     public SilverEffect() {
-        super("silver", EffectType.HARMFUL, 0xC0C0C0);
+        super(EffectType.HARMFUL, 0xC0C0C0);
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
         this.addAttributeModifier(Attributes.ARMOR, ARMOR, WerewolvesConfig.BALANCE.POTIONS.silverStatsReduction.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
     }

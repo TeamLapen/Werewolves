@@ -53,6 +53,12 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
         ResourceLocation other4 = werewolf(util3, WerewolfSkills.health_reg).build(consumer, this.modId("other4"));
         ResourceLocation other5 = werewolf(other4, WerewolfSkills.hide_name).build(consumer, this.modId("other5"));
 
+        ResourceLocation lord0 = modId("werewolf_lord");
+
+        werewolf(lord0, WerewolfSkills.WEREWOLF_MINION_STATS_INCREASE).build(consumer, this.modId("lord_2"));
+        werewolf(lord0, WerewolfSkills.WEREWOLF_LORD_SPEED, WerewolfSkills.WEREWOLF_LORD_ATTACK_SPEED).build(consumer, this.modId("lord_3"));
+        werewolf(lord0, WerewolfSkills.WEREWOLF_MINION_COLLECT).build(consumer, this.modId("lord_4"));
+        werewolf(lord0, WerewolfSkills.WEREWOLF_MINION_RECOVERY).build(consumer, this.modId("lord_5"));
     }
 
     @SafeVarargs

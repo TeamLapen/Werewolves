@@ -33,9 +33,9 @@ public class RegistryManager implements IInitListener {
                 event.enqueueWork(ModCommands::registerArgumentTypesUsages);
                 WerewolvesBiomeFeatures.init();
                 ModBiomes.removeStructuresFromBiomes();
-                ModItems.registerOilRecipes();
                 event.enqueueWork(ModVillage::villageTradeSetup);
                 event.enqueueWork(ModEntities::initializeEntities);
+                event.enqueueWork(WerewolvesBiomeFeatures::registerBiomeFeatures);
                 break;
             case LOAD_COMPLETE:
                 break;
@@ -64,5 +64,8 @@ public class RegistryManager implements IInitListener {
         ModTasks.registerTasks(bus);
         ModVillage.registerVillageObjects(bus);
         WerewolfSkills.registerSkills(bus);
+        ModTiles.registerTiles(bus);
+        ModLootTables.registerLootModifier(bus);
+        ModSounds.registerSounds(bus);
     }
 }

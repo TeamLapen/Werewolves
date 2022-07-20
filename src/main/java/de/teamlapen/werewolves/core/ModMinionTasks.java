@@ -34,7 +34,7 @@ public class ModMinionTasks {
                     new WeightedRandomItem<>(new ItemStack(Items.MUTTON), 1),
                     new WeightedRandomItem<>(new ItemStack(ModItems.cracked_bone.get()), 2),
                     new WeightedRandomItem<>(new ItemStack(ModItems.werewolf_tooth.get()), 1),
-                    new WeightedRandomItem<>(new ItemStack(ModItems.V.human_heart.get()), 1))));
+                    new WeightedRandomItem<>(new ItemStack(ModItems.V.human_heart.get()), 1)), WerewolfSkills.WEREWOLF_MINION_COLLECT));
 
     public static class V {
         public final static RegistryObject<SimpleMinionTask> follow_lord = v("follow_lord");

@@ -10,12 +10,13 @@ import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 
-public class BleedingEffect extends WerewolvesEffect {
+public class BleedingEffect extends Effect {
 
     public BleedingEffect() {
-        super("bleeding", EffectType.HARMFUL, 0x740000);
+        super(EffectType.HARMFUL, 0x740000);
     }
 
     @Override

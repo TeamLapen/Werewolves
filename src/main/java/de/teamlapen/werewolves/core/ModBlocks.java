@@ -45,6 +45,7 @@ public class ModBlocks {
     public static final RegistryObject<StoneAltarFireBowlBlock> stone_altar_fire_bowl = registerWithItem("stone_altar_fire_bowl", StoneAltarFireBowlBlock::new);
 
     public static final RegistryObject<Block> med_chair = RegistryObject.of(new ResourceLocation("vampirism", "med_chair"), ForgeRegistries.BLOCKS);
+    public static final RegistryObject<Block> cursed_earth = RegistryObject.of(new ResourceLocation("vampirism", "cursed_earth"), ForgeRegistries.BLOCKS);
 
     private static <T extends Block> RegistryObject<T> registerWithItem(String name, Supplier<T> supplier) {
         return registerWithItem(name, supplier, new Item.Properties().tab(WUtils.creativeTab));

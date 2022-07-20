@@ -324,7 +324,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                                 minion.claimMinionSlot(id, controller);
                                 minion.copyPosition(this);
                                 minion.markAsConverted();
-                                controller.activateTask(0, MinionTasks.stay);
+                                controller.activateTask(0, MinionTasks.STAY.get());
                                 UtilLib.replaceEntity(this, minion);
                             });
                         } else {

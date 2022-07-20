@@ -21,7 +21,7 @@ public class ModEffects {
     public static final RegistryObject<SilverEffect> silver = EFFECTS.register("silver", SilverEffect::new);
     public static final RegistryObject<BleedingEffect> bleeding = EFFECTS.register("bleeding", BleedingEffect::new);
     public static final RegistryObject<UnWerewolfEffect> un_werewolf = EFFECTS.register("un_werewolf", UnWerewolfEffect::new);
-    public static final RegistryObject<Effect> bad_omen_werewolf = EFFECTS.register("bad_omen_werewolf", () -> new BadOmenEffect(REFERENCE.MODID, REFERENCE.WEREWOLF_PLAYER_KEY) {
+    public static final RegistryObject<Effect> bad_omen_werewolf = EFFECTS.register("bad_omen_werewolf", () -> new BadOmenEffect() {
         @Override
         public IFaction getFaction() {
             return WReference.WEREWOLF_FACTION;

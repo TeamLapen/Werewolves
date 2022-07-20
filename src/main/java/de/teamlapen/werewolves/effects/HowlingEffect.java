@@ -6,17 +6,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 
 import javax.annotation.Nonnull;
 
 
-public class HowlingEffect extends WerewolvesEffect {
+public class HowlingEffect extends Effect {
 
     public static final String ATTACK_SPEED = "193a0552-7368-4759-8020-3285caaf12f6";
 
     public HowlingEffect() {
-        super("howling", EffectType.BENEFICIAL, 0xFFC90E);
+        super(EffectType.BENEFICIAL, 0xFFC90E);
         this.addAttributeModifier(Attributes.ATTACK_SPEED, ATTACK_SPEED, WerewolvesConfig.BALANCE.SKILLS.howling_attackspeed_amount.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 

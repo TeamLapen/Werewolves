@@ -103,16 +103,6 @@ public class ModEntityEventHandler {
                 event.setAmount(MathHelper.clamp(damage, 0, Float.MAX_VALUE));
             }
         }
-
-        if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof LivingEntity) {
-            LivingEntity source = ((LivingEntity) event.getSource().getEntity());
-            ItemStack handStack = source.getItemInHand(Hand.MAIN_HAND);
-            WeaponOilHelper.executeAndReduce(handStack, (stack, oil, duration) -> {
-                if (oil.canEffect(stack, event.getEntityLiving())) {
-                    event.setAmount(event.getAmount() + oil.getAdditionalDamage(stack, event.getEntityLiving(), event.getAmount()));
-                }
-            });
-        }
     }
 
     @SubscribeEvent

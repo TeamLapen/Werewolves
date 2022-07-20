@@ -2,9 +2,12 @@ package de.teamlapen.werewolves.world;
 
 import de.teamlapen.vampirism.world.biome.VampirismBiomeFeatures;
 import de.teamlapen.werewolves.WerewolvesMod;
+import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModEntities;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 
 public class WerewolfHeavenBiome {
 
@@ -14,6 +17,26 @@ public class WerewolfHeavenBiome {
                 .mobSpawnSettings(getMobSpawnBuilder().build())
                 .generationSettings(getGenerationBuilder().build())
                 .build();
+    }
+
+    public static void addFeatures(BiomeLoadingEvent event) {
+        if (event.getName().equals(ModBiomes.WEREWOLF_HEAVEN.getId())) {
+            BiomeGenerationSettingsBuilder generation = event.getGeneration();
+            DefaultBiomeFeatures.addDefaultCarvers(generation);
+
+            DefaultBiomeFeatures.addForestGrass(generation);
+            WerewolvesBiomeFeatures.addWerewolfBiomeTrees(generation);
+
+            DefaultBiomeFeatures.addDefaultSoftDisks(generation);
+            DefaultBiomeFeatures.addDefaultUndergroundVariety(generation);
+            DefaultBiomeFeatures.addDefaultMonsterRoom(generation);
+            DefaultBiomeFeatures.addDefaultOres(generation);
+            DefaultBiomeFeatures.addSparseBerryBushes(generation);
+            VampirismBiomeFeatures.addModdedWaterLake(generation);
+
+            DefaultBiomeFeatures.addDefaultFlowers(generation);
+            DefaultBiomeFeatures.addSavannaGrass(generation);
+        }
     }
 
     public static MobSpawnInfo.Builder getMobSpawnBuilder() {
@@ -37,22 +60,7 @@ public class WerewolfHeavenBiome {
     }
 
     public static BiomeGenerationSettings.Builder getGenerationBuilder() {
-        BiomeGenerationSettings.Builder biomeGeneratorSettings = new BiomeGenerationSettings.Builder().surfaceBuilder(SurfaceBuilder.DEFAULT.configured(SurfaceBuilder.CONFIG_GRASS));
-
-        DefaultBiomeFeatures.addDefaultCarvers(biomeGeneratorSettings);
-
-        DefaultBiomeFeatures.addForestGrass(biomeGeneratorSettings);
-        WerewolvesBiomeFeatures.addWerewolfBiomeTrees(biomeGeneratorSettings);
-
-        DefaultBiomeFeatures.addDefaultSoftDisks(biomeGeneratorSettings);
-        DefaultBiomeFeatures.addDefaultUndergroundVariety(biomeGeneratorSettings);
-        DefaultBiomeFeatures.addDefaultMonsterRoom(biomeGeneratorSettings);
-        DefaultBiomeFeatures.addDefaultOres(biomeGeneratorSettings);
-        DefaultBiomeFeatures.addSparseBerryBushes(biomeGeneratorSettings);
-        VampirismBiomeFeatures.addModdedWaterLake(biomeGeneratorSettings);
-        DefaultBiomeFeatures.addDefaultFlowers(biomeGeneratorSettings);
-        DefaultBiomeFeatures.addSavannaGrass(biomeGeneratorSettings);
-        return biomeGeneratorSettings;
+        return new BiomeGenerationSettings.Builder().surfaceBuilder(SurfaceBuilder.DEFAULT.configured(SurfaceBuilder.CONFIG_GRASS));
     }
 
 }

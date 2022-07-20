@@ -10,13 +10,16 @@ import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 
 public class ModLootTables {
-
+    public static final DeferredRegister<GlobalLootModifierSerializer<?>> LOOT_MODIFIER_SERIALIZERS = DeferredRegister.create(ForgeRegistries.LOOT_MODIFIER_SERIALIZERS, REFERENCE.MODID);
     private static final Map<ResourceLocation, ResourceLocation> INJECTION_TABLES = Maps.newHashMap();
 
     // entities
@@ -30,8 +33,11 @@ public class ModLootTables {
     public static final ResourceLocation desert_pyramid = chest("desert_pyramid");
     public static final ResourceLocation stronghold_library = chest("stronghold_library");
 
-    public static final GlobalLootModifierSerializer<MobLootModifier> mob_modifier = new MobLootModifier.ModLootModifierSerializer();
+    public static final RegistryObject<GlobalLootModifierSerializer<MobLootModifier>> mob_modifier = LOOT_MODIFIER_SERIALIZERS.register("mob_modifier", MobLootModifier.ModLootModifierSerializer::new);
 
+    static void registerLootModifier(IEventBus bus) {
+        LOOT_MODIFIER_SERIALIZERS.register(bus);
+    }
     static ResourceLocation entity(EntityType<?> type) {
         ResourceLocation loc = type.getDefaultLootTable();
         ResourceLocation newLoc = new ResourceLocation(REFERENCE.MODID, "inject/entity/" + loc.getPath());
@@ -62,7 +68,4 @@ public class ModLootTables {
         return LootPool.lootPool().name("werewolves_inject_pool").bonusRolls(0,1).setRolls(new RandomValueRange(1)).add(TableLootEntry.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
     }
 
-    public static void registerLootModifier(IForgeRegistry<GlobalLootModifierSerializer<?>> registry){
-        registry.register(mob_modifier.setRegistryName(REFERENCE.MODID, "mob_modifier"));
-    }
 }

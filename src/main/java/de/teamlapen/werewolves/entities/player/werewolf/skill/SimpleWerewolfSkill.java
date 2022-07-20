@@ -2,15 +2,15 @@ package de.teamlapen.werewolves.entities.player.werewolf.skill;
 
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
+import de.teamlapen.vampirism.api.entity.player.skills.ISkillType;
+import de.teamlapen.vampirism.api.entity.player.skills.SkillType;
 import de.teamlapen.vampirism.player.skills.VampirismSkill;
 import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WReference;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -24,24 +24,11 @@ import java.util.function.Supplier;
 
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    @Deprecated
-    public SimpleWerewolfSkill(String id) {
-        this(new ResourceLocation(REFERENCE.MODID, id), false);
+    public SimpleWerewolfSkill() {
+        this(false);
     }
 
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    @Deprecated
-    public SimpleWerewolfSkill(String id, boolean desc) {
-        this(new ResourceLocation(REFERENCE.MODID, id), desc);
-    }
-
-    public SimpleWerewolfSkill(ResourceLocation id) {
-        this(id, false);
-    }
-
-    public SimpleWerewolfSkill(ResourceLocation id, boolean desc) {
-        this.setRegistryName(id);
+    public SimpleWerewolfSkill(boolean desc) {
         if (desc) setHasDefaultDescription();
     }
 
@@ -76,6 +63,16 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         return defaultDescWithExtra(new TranslationTextComponent("text.werewolves.skills.upgrade"), skill);
     }
 
+    public static class LordWerewolfSkill extends SimpleWerewolfSkill {
+        public LordWerewolfSkill(boolean desc) {
+            super(desc);
+        }
+
+        public ISkillType getType() {
+            return SkillType.LORD;
+        }
+    }
+
     public static class AttributeSkill extends SimpleWerewolfSkill {
 
         private final UUID attribute;
@@ -83,8 +80,8 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         private final AttributeModifier.Operation operation;
         private final Function<IWerewolfPlayer, Double> attribute_value;
 
-        public AttributeSkill(String id, boolean desc, UUID attributeUUID, Attribute attributeType, AttributeModifier.Operation operation, Function<IWerewolfPlayer, Double> attribute_value) {
-            super(id, desc);
+        public AttributeSkill(boolean desc, UUID attributeUUID, Attribute attributeType, AttributeModifier.Operation operation, Function<IWerewolfPlayer, Double> attribute_value) {
+            super(desc);
             this.attribute = attributeUUID;
             this.attributeType = attributeType;
             this.operation = operation;

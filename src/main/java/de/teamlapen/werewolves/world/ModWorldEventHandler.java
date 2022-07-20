@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.world;
 import de.teamlapen.vampirism.api.entity.CaptureEntityEntry;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
-import de.teamlapen.vampirism.core.ModBlocks;
+import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.util.WReference;
@@ -50,7 +50,7 @@ public class ModWorldEventHandler {
     }
     @SubscribeEvent
     public void onVillageReplaceBlock(VampirismVillageEvent.ReplaceBlock event) {
-        if (event.getState().getBlock() == ModBlocks.cursed_earth) {
+        if (event.getState().getBlock() == ModBlocks.cursed_earth.get()) {
             ((TileEntity) event.getTotem()).getLevel().setBlockAndUpdate(event.getBlockPos(), ((TileEntity) event.getTotem()).getLevel().getBiome(event.getBlockPos()).getGenerationSettings().getSurfaceBuilderConfig().getTopMaterial());
         }
     }

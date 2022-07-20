@@ -93,8 +93,7 @@ public class ModRefinementSets {
 
     @SafeVarargs
     @SuppressWarnings("ConstantConditions")
-    private static RefinementSet werewolf(IRefinementSet.Rarity rarity, RegistryObject<IRefinement>... refinementsSup) {
-        IRefinement[] refinements = Arrays.stream(refinementsSup).flatMap(RegistryObject::stream).toArray(IRefinement[]::new);
+    private static RefinementSet werewolf(IRefinementSet.Rarity rarity, RegistryObject<IRefinement>... refinements) {
         return new WerewolfRefinementSet(rarity, rarity.color.getColor(), refinements);
     }
 }
