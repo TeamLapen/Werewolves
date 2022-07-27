@@ -13,11 +13,11 @@ public class WerewolfRefinementItem extends VampireRefinementItem implements IRe
     public static WerewolfRefinementItem getRefinementItem(IRefinementItem.AccessorySlotType type){
         switch (type){
             case AMULET:
-                return ModItems.bone_necklace.get();
+                return ModItems.BONE_NECKLACE.get();
             case RING:
-                return ModItems.charm_bracelet.get();
+                return ModItems.CHARM_BRACELET.get();
             default:
-                return ModItems.dream_catcher.get();
+                return ModItems.DREAM_CATCHER.get();
         }
     }
 

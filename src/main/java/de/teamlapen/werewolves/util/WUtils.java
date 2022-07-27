@@ -20,7 +20,7 @@ public class WUtils {
         @Nonnull
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(ModItems.liver.get());
+            return new ItemStack(ModItems.LIVER.get());
         }
     };
     public static final IItemTier SILVER_ITEM_TIER = new IItemTier() {

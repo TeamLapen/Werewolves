@@ -65,9 +65,9 @@ public class ModBiomes {
         }
 
         if (event.getCategory() == Biome.Category.TAIGA) {
-            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.human_werewolf.get(), 3, 1, 1));
-            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist.get(), 1, 1, 1));
-            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast.get(), 1, 1, 1));
+            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.HUMAN_WEREWOLF.get(), 3, 1, 1));
+            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_SURVIVALIST.get(), 1, 1, 1));
+            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_BEAST.get(), 1, 1, 1));
         }
 
     }

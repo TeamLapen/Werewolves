@@ -41,9 +41,9 @@ public class WerewolfHeavenBiome {
 
     public static MobSpawnInfo.Builder getMobSpawnBuilder() {
         MobSpawnInfo.Builder mob_builder = new MobSpawnInfo.Builder();
-        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.alpha_werewolf.get(), 10, 1, 1));
-        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_beast.get(), 70, 1, 2));
-        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.werewolf_survivalist.get(), 70, 1, 2));
+        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.ALPHA_WEREWOLF.get(), 10, 1, 1));
+        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_BEAST.get(), 70, 1, 2));
+        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_SURVIVALIST.get(), 70, 1, 2));
         return mob_builder;
     }
 

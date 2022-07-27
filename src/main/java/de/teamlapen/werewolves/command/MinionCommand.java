@@ -55,7 +55,7 @@ public class MinionCommand extends BasicCommand {
 
     private static int spawnNewWerewolfMinion(CommandSource ctx, String name, int skinType, int eyeType, boolean glowingEyes, WerewolfForm form) throws CommandSyntaxException {
         WerewolfMinionEntity.WerewolfMinionData data = new WerewolfMinionEntity.WerewolfMinionData(name, skinType, eyeType, glowingEyes, form);
-        return spawnNewMinion(ctx, WReference.WEREWOLF_FACTION, data, ModEntities.werewolf_minion.get());
+        return spawnNewMinion(ctx, WReference.WEREWOLF_FACTION, data, ModEntities.WEREWOLF_MINION.get());
     }
 
     private static <T extends MinionData> int spawnNewMinion(CommandSource ctx, IPlayableFaction<?> faction, T data, EntityType<? extends MinionEntity<T>> type) throws CommandSyntaxException {

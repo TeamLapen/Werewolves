@@ -13,7 +13,7 @@ public class ModContainer {
 
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, REFERENCE.MODID);
 
-    public static final RegistryObject<ContainerType<StoneAltarContainer>> stone_altar_container = CONTAINERS.register("stone_altar_container", () -> new ContainerType<>(StoneAltarContainer::new));
+    public static final RegistryObject<ContainerType<StoneAltarContainer>> STONE_ALTAR_CONTAINER = CONTAINERS.register("stone_altar_container", () -> new ContainerType<>(StoneAltarContainer::new));
 
     static void registerContainers(IEventBus bus) {
         CONTAINERS.register(bus);

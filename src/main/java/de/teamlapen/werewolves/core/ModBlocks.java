@@ -28,24 +28,28 @@ public class ModBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, REFERENCE.MODID);
 
-    public static final RegistryObject<OreBlock> silver_ore = registerWithItem("silver_ore", () -> new OreBlock(Block.Properties.of(Material.STONE).strength(3.0F, 5.0F)));
-    public static final RegistryObject<WolfsbaneBlock> wolfsbane = registerWithItem("wolfsbane", WolfsbaneBlock::new);
-    public static final RegistryObject<Block> silver_block = registerWithItem("silver_block", () -> new Block(Block.Properties.of(Material.METAL, MaterialColor.METAL).strength(5.0F, 6.0F).sound(SoundType.METAL)));
-    public static final RegistryObject<FlowerPotBlock> potted_wolfsbane = BLOCKS.register("potted_wolfsbane", () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), ModBlocks.wolfsbane, Block.Properties.of(Material.DECORATION).strength(0f)));
-    public static final RegistryObject<TotemTopBlock> totem_top_werewolves_werewolf = registerWithItem("totem_top_werewolves_werewolf", () -> new TotemTopBlock(false, REFERENCE.WEREWOLF_PLAYER_KEY));
-    public static final RegistryObject<TotemTopBlock> totem_top_werewolves_werewolf_crafted = registerWithItem("totem_top_werewolves_werewolf_crafted", () -> new TotemTopBlock(true, REFERENCE.WEREWOLF_PLAYER_KEY));
-    public static final RegistryObject<SaplingBlock> jacaranda_sapling = registerWithItem("jacaranda_sapling", () -> new ModSaplingBlock(new JacarandaTree()));
-    public static final RegistryObject<LeavesBlock> jacaranda_leaves = registerWithItem("jacaranda_leaves", () -> new LeavesBlock(Block.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
-    public static final RegistryObject<RotatedPillarBlock> jacaranda_log = registerWithItem("jacaranda_log", flammable(() -> BlocksInvoker.createLogBlock_werewolves(MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN),5,5));
-    public static final RegistryObject<SaplingBlock> magic_sapling = registerWithItem("magic_sapling", () -> new ModSaplingBlock(new MagicTree()));
-    public static final RegistryObject<LeavesBlock> magic_leaves = registerWithItem("magic_leaves", () -> new LeavesBlock(Block.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
-    public static final RegistryObject<RotatedPillarBlock> magic_log = registerWithItem("magic_log", flammable(() -> BlocksInvoker.createLogBlock_werewolves(MaterialColor.COLOR_BLUE, MaterialColor.COLOR_BLUE),5,5));
-    public static final RegistryObject<Block> magic_planks = registerWithItem("magic_planks", () -> new Block(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-    public static final RegistryObject<StoneAltarBlock> stone_altar = registerWithItem("stone_altar", StoneAltarBlock::new);
-    public static final RegistryObject<StoneAltarFireBowlBlock> stone_altar_fire_bowl = registerWithItem("stone_altar_fire_bowl", StoneAltarFireBowlBlock::new);
+    public static final RegistryObject<OreBlock> SILVER_ORE = registerWithItem("silver_ore", () -> new OreBlock(Block.Properties.of(Material.STONE).strength(3.0F, 5.0F)));
+    public static final RegistryObject<WolfsbaneBlock> WOLFSBANE = registerWithItem("wolfsbane", WolfsbaneBlock::new);
+    public static final RegistryObject<Block> SILVER_BLOCK = registerWithItem("silver_block", () -> new Block(Block.Properties.of(Material.METAL, MaterialColor.METAL).strength(5.0F, 6.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<FlowerPotBlock> POTTED_WOLFSBANE = BLOCKS.register("potted_wolfsbane", () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), ModBlocks.WOLFSBANE, Block.Properties.of(Material.DECORATION).strength(0f)));
+    public static final RegistryObject<TotemTopBlock> TOTEM_TOP_WEREWOLVES_WEREWOLF = registerWithItem("totem_top_werewolves_werewolf", () -> new TotemTopBlock(false, REFERENCE.WEREWOLF_PLAYER_KEY));
+    public static final RegistryObject<TotemTopBlock> TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED = registerWithItem("totem_top_werewolves_werewolf_crafted", () -> new TotemTopBlock(true, REFERENCE.WEREWOLF_PLAYER_KEY));
+    public static final RegistryObject<SaplingBlock> JACARANDA_SAPLING = registerWithItem("jacaranda_sapling", () -> new ModSaplingBlock(new JacarandaTree()));
+    public static final RegistryObject<LeavesBlock> JACARANDA_LEAVES = registerWithItem("jacaranda_leaves", () -> new LeavesBlock(Block.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
+    public static final RegistryObject<RotatedPillarBlock> JACARANDA_LOG = registerWithItem("jacaranda_log", flammable(() -> BlocksInvoker.createLogBlock_werewolves(MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN),5,5));
+    public static final RegistryObject<SaplingBlock> MAGIC_SAPLING = registerWithItem("magic_sapling", () -> new ModSaplingBlock(new MagicTree()));
+    public static final RegistryObject<LeavesBlock> MAGIC_LEAVES = registerWithItem("magic_leaves", () -> new LeavesBlock(Block.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
+    public static final RegistryObject<RotatedPillarBlock> MAGIC_LOG = registerWithItem("magic_log", flammable(() -> BlocksInvoker.createLogBlock_werewolves(MaterialColor.COLOR_BLUE, MaterialColor.COLOR_BLUE),5,5));
+    public static final RegistryObject<Block> MAGIC_PLANKS = registerWithItem("magic_planks", () -> new Block(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+    public static final RegistryObject<StoneAltarBlock> STONE_ALTAR = registerWithItem("stone_altar", StoneAltarBlock::new);
+    public static final RegistryObject<StoneAltarFireBowlBlock> STONE_ALTAR_FIRE_BOWL = registerWithItem("stone_altar_fire_bowl", StoneAltarFireBowlBlock::new);
 
-    public static final RegistryObject<Block> med_chair = RegistryObject.of(new ResourceLocation("vampirism", "med_chair"), ForgeRegistries.BLOCKS);
-    public static final RegistryObject<Block> cursed_earth = RegistryObject.of(new ResourceLocation("vampirism", "cursed_earth"), ForgeRegistries.BLOCKS);
+    public static class V {
+        public static final RegistryObject<Block> MED_CHAIR = RegistryObject.of(new ResourceLocation("vampirism", "med_chair"), ForgeRegistries.BLOCKS);
+        public static final RegistryObject<Block> CURSED_EARTH = RegistryObject.of(new ResourceLocation("vampirism", "cursed_earth"), ForgeRegistries.BLOCKS);
+
+        private static void init() {};
+    }
 
     private static <T extends Block> RegistryObject<T> registerWithItem(String name, Supplier<T> supplier) {
         return registerWithItem(name, supplier, new Item.Properties().tab(WUtils.creativeTab));
@@ -67,6 +71,10 @@ public class ModBlocks {
 
     static void registerBlocks(IEventBus bus) {
         BLOCKS.register(bus);
+    }
+
+    static {
+        V.init();
     }
 
 }

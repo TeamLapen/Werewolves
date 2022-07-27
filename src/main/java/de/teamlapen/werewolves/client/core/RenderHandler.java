@@ -71,7 +71,7 @@ public class RenderHandler implements ISelectiveResourceReloadListener {
         this.lastTicks = this.ticks;
         WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
 
-        if (werewolf.getActionHandler().isActionActive(ModActions.sense.get())) {
+        if (werewolf.getActionHandler().isActionActive(ModActions.SENSE.get())) {
             if (this.ticks < VISION_FADE_TICKS) {
                 this.ticks++;
             }

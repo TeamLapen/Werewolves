@@ -28,7 +28,7 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     public int getCooldown(IFactionPlayer player) {
-        return player.getSkillHandler().isRefinementEquipped(ModRefinements.no_leap_cooldown.get()) ? 0 : WerewolvesConfig.BALANCE.SKILLS.leap_cooldown.get() * 20;
+        return player.getSkillHandler().isRefinementEquipped(ModRefinements.NO_LEAP_COOLDOWN.get()) ? 0 : WerewolvesConfig.BALANCE.SKILLS.leap_cooldown.get() * 20;
     }
 
     @Override

@@ -20,12 +20,12 @@ import net.minecraft.util.text.TranslationTextComponent;
 public class WerewolfVillageData {
 
     public static void werewolfVillage(IFactionVillageBuilder builder) {
-        builder.captureEntities(() -> Lists.newArrayList(new CaptureEntityEntry(ModEntities.werewolf_beast.get(), 5), new CaptureEntityEntry(ModEntities.werewolf_survivalist.get(), 5)))
-                .factionVillagerProfession(ModVillage.werewolf_expert)
+        builder.captureEntities(() -> Lists.newArrayList(new CaptureEntityEntry(ModEntities.WEREWOLF_BEAST.get(), 5), new CaptureEntityEntry(ModEntities.WEREWOLF_SURVIVALIST.get(), 5)))
+                .factionVillagerProfession(ModVillage.WEREWOLF_EXPERT)
                 .guardSuperClass(WerewolfBaseEntity.class)
-                .taskMaster(ModEntities.task_master_werewolf::get)
-                .badOmenEffect(ModEffects.bad_omen_werewolf)
-                .totem(ModBlocks.totem_top_werewolves_werewolf::get, ModBlocks.totem_top_werewolves_werewolf_crafted::get)
+                .taskMaster(ModEntities.TASK_MASTER_WEREWOLF::get)
+                .badOmenEffect(ModEffects.BAD_OMEN_WEREWOLF)
+                .totem(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF::get, ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED::get)
                 .banner(WerewolfVillageData::createBanner);
     }
 

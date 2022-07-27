@@ -50,7 +50,7 @@ public class ModWorldEventHandler {
     }
     @SubscribeEvent
     public void onVillageReplaceBlock(VampirismVillageEvent.ReplaceBlock event) {
-        if (event.getState().getBlock() == ModBlocks.cursed_earth.get()) {
+        if (event.getState().getBlock() == ModBlocks.V.CURSED_EARTH.get()) {
             ((TileEntity) event.getTotem()).getLevel().setBlockAndUpdate(event.getBlockPos(), ((TileEntity) event.getTotem()).getLevel().getBiome(event.getBlockPos()).getGenerationSettings().getSurfaceBuilderConfig().getTopMaterial());
         }
     }

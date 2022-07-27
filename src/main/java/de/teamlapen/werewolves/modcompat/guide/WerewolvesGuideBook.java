@@ -62,7 +62,7 @@ public class WerewolvesGuideBook {
         if (werewolfPos < 0) {
             werewolfPos = event.categories.size();
         }
-        CategoryAbstract category = new CategoryItemStack(buildWerewolf(helper), translateComponent("guide.werewolves.entity.werewolf.title"), new ItemStack(ModItems.liver.get()));
+        CategoryAbstract category = new CategoryItemStack(buildWerewolf(helper), translateComponent("guide.werewolves.entity.werewolf.title"), new ItemStack(ModItems.LIVER.get()));
         helper.registerLinkablePages(Collections.singletonList(category));
         event.categories.add(werewolfPos, category);
         if (itemPos >=0) {
@@ -90,15 +90,15 @@ public class WerewolvesGuideBook {
 
         List<IPage> levelingPages = new ArrayList<>();
         levelingPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "leveling.intro")));
-        String stone_altar = "§l" + locB(ModBlocks.stone_altar) + "§r\n§o" + translate(base + "leveling.stone.reach") + "§r\n";
+        String stone_altar = "§l" + locB(ModBlocks.STONE_ALTAR) + "§r\n§o" + translate(base + "leveling.stone.reach") + "§r\n";
         stone_altar += translate(base + "leveling.stone.intro", loc(Items.FLINT_AND_STEEL), loc(Items.TORCH));
         levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(new StringTextComponent(stone_altar)), new ResourceLocation("guide.werewolves.blocks.stone_altar"), new ResourceLocation("guide.werewolves.blocks.stone_altar_fire_bowl")));
-        levelingPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.structure", locB(ModBlocks.stone_altar), locB(ModBlocks.stone_altar_fire_bowl), locB(ModBlocks.stone_altar), locB(ModBlocks.stone_altar_fire_bowl), loc(Items.FLINT_AND_STEEL))));
+        levelingPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.structure", locB(ModBlocks.STONE_ALTAR), locB(ModBlocks.STONE_ALTAR_FIRE_BOWL), locB(ModBlocks.STONE_ALTAR), locB(ModBlocks.STONE_ALTAR_FIRE_BOWL), loc(Items.FLINT_AND_STEEL))));
         levelingPages.add(new PageTextImage(translateComponent(base + "leveling.stone.image1"), new ResourceLocation(IMAGE_BASE + "stone1.png"), false));
-        String item = locI(ModItems.liver) + ", " + locI(ModItems.cracked_bone);
+        String item = locI(ModItems.LIVER) + ", " + locI(ModItems.CRACKED_BONE);
         levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.items", item)), new ResourceLocation("guide.werewolves.items.liver"), new ResourceLocation("guide.werewolves.items.cracked_bone"), new ResourceLocation("guide.werewolves.werewolf.slayed_creatures")));
         PageTable.Builder requirementBuilder = new PageTable.Builder(4);
-        requirementBuilder.addUnlocLine("text.vampirism.level_short", locI(ModItems.liver), locI(ModItems.cracked_bone), "text.werewolves.slayed_creatures");
+        requirementBuilder.addUnlocLine("text.vampirism.level_short", locI(ModItems.LIVER), locI(ModItems.CRACKED_BONE), "text.werewolves.slayed_creatures");
         for (int i = 2; i <= 14; i++) {
             WerewolfLevelConf.StoneAltarRequirement req = WerewolfLevelConf.getInstance().getStoneRequirement(i);
             //noinspection ConstantConditions
@@ -119,7 +119,7 @@ public class WerewolvesGuideBook {
         entries.put(new ResourceLocation(base + "skills"), new EntryText(skillPages, translateComponent(base + "skills")));
 
         List<IPage> werewolfLord = new ArrayList<>();
-        werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "lord.text", ModEntities.task_master_werewolf.get().getDescription(), WReference.WEREWOLF_FACTION.getLordTitle(1, false), WReference.WEREWOLF_FACTION.getLordTitle(WReference.WEREWOLF_FACTION.getHighestLordLevel(), false))), new ResourceLocation("guide.vampirism.entity.taskmaster")));
+        werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "lord.text", ModEntities.TASK_MASTER_WEREWOLF.get().getDescription(), WReference.WEREWOLF_FACTION.getLordTitle(1, false), WReference.WEREWOLF_FACTION.getLordTitle(WReference.WEREWOLF_FACTION.getHighestLordLevel(), false))), new ResourceLocation("guide.vampirism.entity.taskmaster")));
         PageTable.Builder lordTitleBuilder = new PageTable.Builder(2).setHeadline(translateComponent(base + "lord.titles"));
         lordTitleBuilder.addUnlocLine("text.vampirism.level", "text.vampirism.title");
         lordTitleBuilder.addLine(1, WReference.WEREWOLF_FACTION.getLordTitle(1, false).getString());
@@ -128,12 +128,12 @@ public class WerewolvesGuideBook {
         lordTitleBuilder.addLine(4, WReference.WEREWOLF_FACTION.getLordTitle(4, false).getString());
         lordTitleBuilder.addLine(5, WReference.WEREWOLF_FACTION.getLordTitle(5, false).getString());
         werewolfLord.add(lordTitleBuilder.build());
-        werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "lord.minion", locI(ModItems.werewolf_minion_charm), locI(ModItems.werewolf_minion_upgrade_simple), locI(ModItems.werewolf_minion_upgrade_enhanced), locI(ModItems.werewolf_minion_upgrade_special))), new ResourceLocation("guide.werewolves.items.werewolf_minion_charm")));
+        werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "lord.minion", locI(ModItems.WEREWOLF_MINION_CHARM), locI(ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE), locI(ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED), locI(ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL))), new ResourceLocation("guide.werewolves.items.werewolf_minion_charm")));
         werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent("guide.vampirism.common.minion_control", translate(ModKeys.getKeyBinding(ModKeys.KEY.MINION).saveString()), translate("text.vampirism.minion.call_single"), translate("text.vampirism.minion.respawn")))));
         entries.put(new ResourceLocation(base + "lord"), new EntryText(werewolfLord, translateComponent(base + "lord")));
 
         List<IPage> unWerewolf = new ArrayList<>();
-        unWerewolf.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "un_werewolf.text", locI(ModItems.injection_un_werewolf), loc(ModBlocks.med_chair.get()))), new ResourceLocation("guide.vampirism.items.injection_empty"), new ResourceLocation("guide.vampirism.blocks.item_med_chair")));
+        unWerewolf.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "un_werewolf.text", locI(ModItems.INJECTION_UN_WEREWOLF), loc(ModBlocks.V.MED_CHAIR.get()))), new ResourceLocation("guide.vampirism.items.injection_empty"), new ResourceLocation("guide.vampirism.blocks.item_med_chair")));
         entries.put(new ResourceLocation(base + "un_werewolf"), new EntryText(unWerewolf, translateComponent(base + "un_werewolf")));
 
         List<IPage> creatures = new ArrayList<>();
@@ -144,26 +144,26 @@ public class WerewolvesGuideBook {
 
     private static void buildItems(Map<ResourceLocation, EntryAbstract> entriesIn, BookHelper helper) {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
-        helper.info(ModItems.liver.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
-        helper.info(ModItems.cracked_bone.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
+        helper.info(ModItems.LIVER.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
+        helper.info(ModItems.CRACKED_BONE.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
         helper.info(false, Ingredient.of(OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), de.teamlapen.vampirism.core.ModOils.VAMPIRE_BLOOD.get())), OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), de.teamlapen.vampirism.core.ModOils.VAMPIRE_BLOOD.get())).useCustomEntryName().setKeyName("oil_bottle.plant_oil").build(entries);
-        helper.info(false, Ingredient.of(OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), ModOils.silver_oil_1.get()), OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), ModOils.silver_oil_2.get())), OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), ModOils.silver_oil_1.get())).useCustomEntryName().setKeyName("oil_bottle.silver_oil").build(entries);
-        helper.info(ModItems.werewolf_minion_charm.get(), ModItems.werewolf_minion_upgrade_simple.get(), ModItems.werewolf_minion_upgrade_enhanced.get(), ModItems.werewolf_minion_upgrade_special.get())
-                .setFormats(loc(ModItems.werewolf_minion_charm.get()),
-                        loc(ModItems.werewolf_minion_upgrade_simple.get()), ModItems.werewolf_minion_upgrade_simple.get().getMinLevel() + 1, ModItems.werewolf_minion_upgrade_simple.get().getMaxLevel() + 1,
-                        loc(ModItems.werewolf_minion_upgrade_enhanced.get()), ModItems.werewolf_minion_upgrade_enhanced.get().getMinLevel() + 1, ModItems.werewolf_minion_upgrade_enhanced.get().getMaxLevel() + 1,
-                        loc(ModItems.werewolf_minion_upgrade_special.get()), ModItems.werewolf_minion_upgrade_special.get().getMinLevel() + 1, ModItems.werewolf_minion_upgrade_special.get().getMaxLevel() + 1,
-                        translate(ModEntities.task_master_werewolf.get().getDescriptionId()))
+        helper.info(false, Ingredient.of(OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), ModOils.SILVER_OIL_1.get()), OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), ModOils.SILVER_OIL_2.get())), OilUtils.setOil(new ItemStack(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()), ModOils.SILVER_OIL_1.get())).useCustomEntryName().setKeyName("oil_bottle.silver_oil").build(entries);
+        helper.info(ModItems.WEREWOLF_MINION_CHARM.get(), ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get(), ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED.get(), ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL.get())
+                .setFormats(loc(ModItems.WEREWOLF_MINION_CHARM.get()),
+                        loc(ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get()), ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get().getMinLevel() + 1, ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get().getMaxLevel() + 1,
+                        loc(ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED.get()), ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED.get().getMinLevel() + 1, ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED.get().getMaxLevel() + 1,
+                        loc(ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL.get()), ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL.get().getMinLevel() + 1, ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL.get().getMaxLevel() + 1,
+                        translate(ModEntities.TASK_MASTER_WEREWOLF.get().getDescriptionId()))
                 .setLinks(new ResourceLocation("guide.vampirism.entity.taskmaster"), new ResourceLocation("guide.vampirism.vampire.lord")).build(entries);
-        helper.info(ModItems.werewolf_tooth.get()).setFormats(ModItems.werewolf_tooth.get().getDescription(), ModEntities.alpha_werewolf.get().getDescription()).build(entries);
-        helper.info(ModItems.bone_necklace.get(), ModItems.charm_bracelet.get(), ModItems.dream_catcher.get()).useCustomEntryName().setKeyName("accessories").build(entries);
+        helper.info(ModItems.WEREWOLF_TOOTH.get()).setFormats(ModItems.WEREWOLF_TOOTH.get().getDescription(), ModEntities.ALPHA_WEREWOLF.get().getDescription()).build(entries);
+        helper.info(ModItems.BONE_NECKLACE.get(), ModItems.CHARM_BRACELET.get(), ModItems.DREAM_CATCHER.get()).useCustomEntryName().setKeyName("accessories").build(entries);
         entriesIn.putAll(entries);
     }
 
     private static void buildBlocks(Map<ResourceLocation, EntryAbstract> entriesIn, BookHelper helper) {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
-        helper.info(ModBlocks.stone_altar.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID,"stone_altar")).build(entries);
-        helper.info(ModBlocks.stone_altar_fire_bowl.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID,"stone_altar_fire_bowl")).build(entries);
+        helper.info(ModBlocks.STONE_ALTAR.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID,"stone_altar")).build(entries);
+        helper.info(ModBlocks.STONE_ALTAR_FIRE_BOWL.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID,"stone_altar_fire_bowl")).build(entries);
         entriesIn.putAll(entries);
     }
 

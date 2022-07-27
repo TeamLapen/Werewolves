@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.gui.VampirismScreen;
-import de.teamlapen.vampirism.util.OilUtils;
 import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.core.ModActions;
@@ -20,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,10 +26,8 @@ import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.commons.lang3.mutable.MutableInt;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -97,7 +93,7 @@ public class ClientEventHandler {
             if (Helper.isWerewolf((PlayerEntity) event.getEntity())) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) event.getEntity()));
                 IActionHandler<IWerewolfPlayer> d = werewolf.getActionHandler();
-                if (d.isActionActive(ModActions.hide_name.get()) && FormHelper.isFormActionActive(werewolf)) {
+                if (d.isActionActive(ModActions.HIDE_NAME.get()) && FormHelper.isFormActionActive(werewolf)) {
                     event.setResult(Event.Result.DENY);
                 }
             }

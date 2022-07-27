@@ -18,19 +18,19 @@ public class ModBlocksRenderer {
 
     private static void registerRenderType() {
         RenderType renderType = RenderType.cutout();
-        RenderTypeLookup.setRenderLayer(ModBlocks.wolfsbane.get(), renderType);
-        RenderTypeLookup.setRenderLayer(ModBlocks.jacaranda_sapling.get(), renderType);
-        RenderTypeLookup.setRenderLayer(ModBlocks.magic_sapling.get(), renderType);
-        RenderTypeLookup.setRenderLayer(ModBlocks.stone_altar.get(), renderType);
-        RenderTypeLookup.setRenderLayer(ModBlocks.stone_altar_fire_bowl.get(), renderType);
-        RenderTypeLookup.setRenderLayer(ModBlocks.totem_top_werewolves_werewolf.get(), renderType);
-        RenderTypeLookup.setRenderLayer(ModBlocks.totem_top_werewolves_werewolf_crafted.get(), renderType);
-        RenderTypeLookup.setRenderLayer(ModBlocks.jacaranda_leaves.get(), RenderType.cutoutMipped());
-        RenderTypeLookup.setRenderLayer(ModBlocks.magic_leaves.get(), RenderType.cutoutMipped());
-        RenderTypeLookup.setRenderLayer(ModBlocks.potted_wolfsbane.get(), RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.WOLFSBANE.get(), renderType);
+        RenderTypeLookup.setRenderLayer(ModBlocks.JACARANDA_SAPLING.get(), renderType);
+        RenderTypeLookup.setRenderLayer(ModBlocks.MAGIC_SAPLING.get(), renderType);
+        RenderTypeLookup.setRenderLayer(ModBlocks.STONE_ALTAR.get(), renderType);
+        RenderTypeLookup.setRenderLayer(ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), renderType);
+        RenderTypeLookup.setRenderLayer(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF.get(), renderType);
+        RenderTypeLookup.setRenderLayer(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED.get(), renderType);
+        RenderTypeLookup.setRenderLayer(ModBlocks.JACARANDA_LEAVES.get(), RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.MAGIC_LEAVES.get(), RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.POTTED_WOLFSBANE.get(), RenderType.cutoutMipped());
     }
 
     private static void registerTileRenderer() {
-        ClientRegistry.bindTileEntityRenderer(ModTiles.stone_altar.get(), StoneAltarTESR::new);
+        ClientRegistry.bindTileEntityRenderer(ModTiles.STONE_ALTAR.get(), StoneAltarTESR::new);
     }
 }

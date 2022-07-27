@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 
 public class UnWerewolfEffectInstance extends EffectInstance {
     public UnWerewolfEffectInstance(int durationIn) {
-        super(ModEffects.un_werewolf.get(), durationIn, 0, false, true, false);
+        super(ModEffects.UN_WEREWOLF.get(), durationIn, 0, false, true, false);
     }
 
     @Override

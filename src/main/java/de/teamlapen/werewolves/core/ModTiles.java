@@ -16,7 +16,7 @@ public class ModTiles {
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, REFERENCE.MODID);
 
-    public static final RegistryObject<TileEntityType<StoneAltarTileEntity>> stone_altar = TILE_ENTITIES.register("stone_altar", () -> create(StoneAltarTileEntity::new, ModBlocks.stone_altar.get()));
+    public static final RegistryObject<TileEntityType<StoneAltarTileEntity>> STONE_ALTAR = TILE_ENTITIES.register("stone_altar", () -> create(StoneAltarTileEntity::new, ModBlocks.STONE_ALTAR.get()));
 
     static void registerTiles(IEventBus bus) {
         TILE_ENTITIES.register(bus);

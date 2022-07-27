@@ -18,13 +18,13 @@ public class ModEntityRenderer {
 
     public static void registerEntityRenderer() {
         render = new WerewolfPlayerRenderer(Minecraft.getInstance().getEntityRenderDispatcher());
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_beast.get(), WerewolfBeastRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_survivalist.get(), WerewolfSurvivalistRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.human_werewolf.get(), HumanWerewolfRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.wolf.get(), WolfRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.task_master_werewolf.get(), WerewolfTaskMasterRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.werewolf_minion.get(), safeFactory(WerewolfMinionRenderer::new));
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.alpha_werewolf.get(), WerewolfAlphaRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WEREWOLF_BEAST.get(), WerewolfBeastRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WEREWOLF_SURVIVALIST.get(), WerewolfSurvivalistRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.HUMAN_WEREWOLF.get(), HumanWerewolfRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WOLF.get(), WolfRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.TASK_MASTER_WEREWOLF.get(), WerewolfTaskMasterRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.WEREWOLF_MINION.get(), safeFactory(WerewolfMinionRenderer::new));
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ALPHA_WEREWOLF.get(), WerewolfAlphaRenderer::new);
     }
 
     private static <T extends Entity> IRenderFactory<? super T> safeFactory(IRenderFactory<? super T> f) {

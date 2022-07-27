@@ -20,7 +20,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "hurtArmor(Lnet/minecraft/util/DamageSource;F)V", at = @At("HEAD"), cancellable = true)
     private void doNotHurtArmorIfWerewolf(DamageSource p_230294_1_, float p_230294_2_, CallbackInfo ci) {
-        WerewolfPlayer.getOpt(((PlayerEntity) (Object) this)).filter(w -> w.getLevel() > 0).filter(w -> w.getForm().isTransformed() && (!w.getForm().isHumanLike() || !w.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor.get()))).ifPresent(werewolf -> {
+        WerewolfPlayer.getOpt(((PlayerEntity) (Object) this)).filter(w -> w.getLevel() > 0).filter(w -> w.getForm().isTransformed() && (!w.getForm().isHumanLike() || !w.getSkillHandler().isSkillEnabled(WerewolfSkills.WEAR_ARMOR.get()))).ifPresent(werewolf -> {
             ci.cancel();
         });
     }

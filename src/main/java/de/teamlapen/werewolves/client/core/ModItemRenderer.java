@@ -19,7 +19,7 @@ public class ModItemRenderer {
                 return ((CrossbowArrowItem) stack.getItem()).getType().color;
             }
             return 0xFFFFFF;
-        }, ModItems.crossbow_arrow_silver_bolt.get());
+        }, ModItems.CROSSBOW_ARROW_SILVER_BOLT.get());
         colors.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
                 if (stack.getItem() instanceof IRefinementItem) {
@@ -30,6 +30,6 @@ public class ModItemRenderer {
                 }
             }
             return 0xFFFFFF;
-        }, ModItems.dream_catcher.get(), ModItems.charm_bracelet.get(), ModItems.bone_necklace.get());
+        }, ModItems.DREAM_CATCHER.get(), ModItems.CHARM_BRACELET.get(), ModItems.BONE_NECKLACE.get());
     }
 }

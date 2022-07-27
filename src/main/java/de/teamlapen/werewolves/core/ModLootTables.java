@@ -33,7 +33,7 @@ public class ModLootTables {
     public static final ResourceLocation desert_pyramid = chest("desert_pyramid");
     public static final ResourceLocation stronghold_library = chest("stronghold_library");
 
-    public static final RegistryObject<GlobalLootModifierSerializer<MobLootModifier>> mob_modifier = LOOT_MODIFIER_SERIALIZERS.register("mob_modifier", MobLootModifier.ModLootModifierSerializer::new);
+    public static final RegistryObject<GlobalLootModifierSerializer<MobLootModifier>> MOB_MODIFIER = LOOT_MODIFIER_SERIALIZERS.register("mob_modifier", MobLootModifier.ModLootModifierSerializer::new);
 
     static void registerLootModifier(IEventBus bus) {
         LOOT_MODIFIER_SERIALIZERS.register(bus);

@@ -280,13 +280,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                     ItemStack heldItem = player.getItemInHand(hand);
 
                     if (this.getLevel() > 0) {
-                        if (heldItem.getItem() == ModItems.werewolf_minion_charm.get()) {
+                        if (heldItem.getItem() == ModItems.WEREWOLF_MINION_CHARM.get()) {
                             player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.unavailable"), true);
                         }
                     } else {
                         boolean freeSlot = MinionWorldData.getData(player.level).map(data -> data.getOrCreateController(fph)).map(PlayerMinionController::hasFreeMinionSlot).orElse(false);
                         player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.available"), false);
-                        if (heldItem.getItem() == ModItems.werewolf_minion_charm.get()) {
+                        if (heldItem.getItem() == ModItems.WEREWOLF_MINION_CHARM.get()) {
                             if (!freeSlot) {
                                 player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.no_free_slot"), false);
                             } else {
@@ -295,7 +295,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                                 if (!player.abilities.instabuild) heldItem.shrink(1);
                             }
                         } else if (freeSlot) {
-                            player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.werewolf_minion_charm.get().getDescriptionId())), false);
+                            player.displayClientMessage(new TranslationTextComponent("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.WEREWOLF_MINION_CHARM.get().getDescriptionId())), false);
                         }
                     }
                 }
@@ -315,12 +315,12 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                     if (controller.hasFreeMinionSlot()) {
                         if (fph.getCurrentFaction() == this.getFaction()) {
                             WerewolfMinionEntity.WerewolfMinionData data = new WerewolfMinionEntity.WerewolfMinionData("Minion", this.getSkinType(), this.getEyeType(), this.hasGlowingEyes(), this.getForm());
-                            int id = controller.createNewMinionSlot(data, ModEntities.werewolf_minion.get());
+                            int id = controller.createNewMinionSlot(data, ModEntities.WEREWOLF_MINION.get());
                             if (id < 0) {
                                 LOGGER.error("Failed to get minion slot");
                                 return;
                             }
-                            ModEntities.werewolf_minion.map(a -> a.create(this.level)).ifPresent(minion -> {
+                            ModEntities.WEREWOLF_MINION.map(a -> a.create(this.level)).ifPresent(minion -> {
                                 minion.claimMinionSlot(id, controller);
                                 minion.copyPosition(this);
                                 minion.markAsConverted();
@@ -413,7 +413,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     protected SoundEvent getAmbientSound() {
-        return ModSounds.entity_werewolf_growl.get();
+        return ModSounds.ENTITY_WEREWOLF_GROWL.get();
     }
 
     @Nullable

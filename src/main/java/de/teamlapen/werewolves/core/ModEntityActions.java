@@ -14,7 +14,7 @@ public class ModEntityActions {
 
     public static final DeferredRegister<IEntityAction> ACTIONS = DeferredRegister.create(ModRegistries.ENTITYACTIONS, REFERENCE.MODID);
 
-    public static final RegistryObject<BiteEntityAction<?>> bite = ACTIONS.register("bite", () -> new BiteEntityAction<>(EntityActionTier.Default, EntityClassType.values()));
+    public static final RegistryObject<BiteEntityAction<?>> BITE = ACTIONS.register("bite", () -> new BiteEntityAction<>(EntityActionTier.Default, EntityClassType.values()));
 
     static void registerEntityActions(IEventBus bus) {
         ACTIONS.register(bus);
