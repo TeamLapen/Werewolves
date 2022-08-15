@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Werewolves',
   tagline: 'Wiki',
-  url: 'https://teamlapen.github.io',
-  baseUrl: '/Werewolves/',
+  url: 'https://wiki.werewolves.dev',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -84,7 +84,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/teamlapen/werewolves',
               },
               {
                 label: 'Discord',
