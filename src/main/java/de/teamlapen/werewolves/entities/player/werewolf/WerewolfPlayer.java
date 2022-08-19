@@ -476,10 +476,12 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             } else {
                 this.actionHandler.resetTimers();
                 this.skillHandler.disableAllSkills();
+                this.skillHandler.resetRefinements();
             }
         } else {
             if (newLevel == 0) {
                 this.actionHandler.resetTimers();
+                this.skillHandler.resetRefinements();
             }
         }
     }
