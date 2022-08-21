@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.proxy;
 
 import de.teamlapen.werewolves.client.core.*;
-import de.teamlapen.werewolves.network.AttackTargetEventPacket;
+import de.teamlapen.werewolves.network.ClientboundAttackTargetEventPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,7 +43,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void handleAttackTargetEventPacket(AttackTargetEventPacket packet) {
+    public void handleAttackTargetEventPacket(ClientboundAttackTargetEventPacket packet) {
         this.hudOverlay.attackTriggered(packet.entityId());
     }
 }

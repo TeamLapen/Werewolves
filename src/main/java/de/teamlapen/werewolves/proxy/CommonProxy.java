@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.proxy;
 
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.network.WerewolfAppearancePacket;
+import de.teamlapen.werewolves.network.ServerboundWerewolfAppearancePacket;
 import de.teamlapen.werewolves.world.ModWorldEventHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -19,7 +19,7 @@ public class CommonProxy implements Proxy {
     }
 
     @Override
-    public void handleAppearancePacket(ServerPlayer sender, WerewolfAppearancePacket msg) {
+    public void handleAppearancePacket(ServerPlayer sender, ServerboundWerewolfAppearancePacket msg) {
         Entity entity = sender.level.getEntity(msg.entityId());
         if (entity instanceof Player) {
             WerewolfPlayer.getOpt(((Player) entity)).ifPresent(werewolf -> {

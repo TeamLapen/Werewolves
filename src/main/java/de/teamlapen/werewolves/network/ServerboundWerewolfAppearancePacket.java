@@ -9,9 +9,9 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record WerewolfAppearancePacket(int entityId, String name, WerewolfForm form, int... data) implements IMessage {
+public record ServerboundWerewolfAppearancePacket(int entityId, String name, WerewolfForm form, int... data) implements IMessage {
 
-    static void encode(WerewolfAppearancePacket msg, FriendlyByteBuf buf) {
+    static void encode(ServerboundWerewolfAppearancePacket msg, FriendlyByteBuf buf) {
         buf.writeVarInt(msg.entityId);
         buf.writeUtf(msg.name);
         buf.writeUtf(msg.form.getName());
@@ -21,7 +21,7 @@ public record WerewolfAppearancePacket(int entityId, String name, WerewolfForm f
         }
     }
 
-    static WerewolfAppearancePacket decode(FriendlyByteBuf buf) {
+    static ServerboundWerewolfAppearancePacket decode(FriendlyByteBuf buf) {
         int entityId = buf.readVarInt();
         String newName = buf.readUtf(MinionData.MAX_NAME_LENGTH);
         String form = buf.readUtf(32767);
@@ -29,10 +29,10 @@ public record WerewolfAppearancePacket(int entityId, String name, WerewolfForm f
         for (int i = 0; i < data.length; i++) {
             data[i] = buf.readVarInt();
         }
-        return new WerewolfAppearancePacket(entityId, newName, WerewolfForm.getForm(form), data);
+        return new ServerboundWerewolfAppearancePacket(entityId, newName, WerewolfForm.getForm(form), data);
     }
 
-    public static void handle(final WerewolfAppearancePacket msg, Supplier<NetworkEvent.Context> contextSupplier) {
+    public static void handle(final ServerboundWerewolfAppearancePacket msg, Supplier<NetworkEvent.Context> contextSupplier) {
         final NetworkEvent.Context ctx = contextSupplier.get();
         ctx.enqueueWork(() -> WerewolvesMod.proxy.handleAppearancePacket(ctx.getSender(), msg));
         ctx.setPacketHandled(true);

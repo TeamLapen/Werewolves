@@ -4,7 +4,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.network.InputEventPacket;
+import de.teamlapen.werewolves.network.ServerboundBiteEventPackage;
+import de.teamlapen.werewolves.network.ServerboundSimpleInputEventPacket;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
@@ -55,7 +56,7 @@ public class ModKeys {
             LazyOptional<WerewolfPlayer> werewolfOpt = WerewolfPlayer.getOptEx(Minecraft.getInstance().player);
             if (key == LEAP) {
                 werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.LEAP.get()) && w.getForm().isTransformed()).ifPresent(w -> {
-                    WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.LEAP, ""));
+                    WerewolvesMod.dispatcher.sendToServer(new ServerboundSimpleInputEventPacket(ServerboundSimpleInputEventPacket.Type.LEAP));
                     WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.LEAP.get());
                 });
             } else if (key == BITE) {
@@ -63,7 +64,7 @@ public class ModKeys {
                     HitResult mouseOver = Minecraft.getInstance().hitResult;
                     Entity entity = mouseOver instanceof EntityHitResult ? ((EntityHitResult) mouseOver).getEntity() : null;
                     if (entity instanceof LivingEntity && werewolf.canBite() && werewolf.canBiteEntity(((LivingEntity) entity))) {
-                        WerewolvesMod.dispatcher.sendToServer(new InputEventPacket(InputEventPacket.BITE, "" + ((EntityHitResult) mouseOver).getEntity().getId()));
+                        WerewolvesMod.dispatcher.sendToServer(new ServerboundBiteEventPackage(((EntityHitResult) mouseOver).getEntity().getId()));
                         clientEventHandler.onZoomPressed();
                     }
                 });

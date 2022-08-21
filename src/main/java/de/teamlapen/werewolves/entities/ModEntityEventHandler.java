@@ -16,7 +16,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.mixin.GoalSelectorAccessor;
 import de.teamlapen.werewolves.mixin.NearestAttackabletargetGoalAccessor;
 import de.teamlapen.werewolves.mixin.TargetingConditionsAccessor;
-import de.teamlapen.werewolves.network.AttackTargetEventPacket;
+import de.teamlapen.werewolves.network.ClientboundAttackTargetEventPacket;
 import de.teamlapen.werewolves.util.BiteDamageSource;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
@@ -129,7 +129,7 @@ public class ModEntityEventHandler {
             if (Helper.isWerewolf(((Player) event.getTarget()))) {
                 WerewolfPlayer.getOpt(((Player) event.getTarget())).ifPresent(werewolf -> {
                     if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.SIXTH_SENSE.get())) {
-                        WerewolvesMod.dispatcher.sendTo(new AttackTargetEventPacket(event.getEntity().getId()), ((ServerPlayer) event.getTarget()));
+                        WerewolvesMod.dispatcher.sendTo(new ClientboundAttackTargetEventPacket(event.getEntity().getId()), ((ServerPlayer) event.getTarget()));
                     }
                 });
 

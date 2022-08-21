@@ -9,7 +9,7 @@ import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.network.WerewolfAppearancePacket;
+import de.teamlapen.werewolves.network.ServerboundWerewolfAppearancePacket;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -66,7 +66,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     }
 
     private void updateServer() {
-        WerewolvesMod.dispatcher.sendToServer(new WerewolfAppearancePacket(this.entity.getId(), "", activeForm, eyeType, skinType, glowingEyes ? 1 : 0));
+        WerewolvesMod.dispatcher.sendToServer(new ServerboundWerewolfAppearancePacket(this.entity.getId(), "", activeForm, eyeType, skinType, glowingEyes ? 1 : 0));
     }
 
     @Override
