@@ -20,7 +20,7 @@ public class OilUtils {
             String oilStr = stack.getTag().getString("oil");
             oil = RegUtil.getOil(new ResourceLocation(oilStr));
         }
-        return oil != null ? oil : ModOils.empty.get();
+        return oil != null ? oil : ModOils.EMPTY.get();
     }
 
     public static ItemStack setOil(@Nonnull ItemStack stack, @Nonnull IOil oil) {

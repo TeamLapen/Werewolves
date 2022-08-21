@@ -28,7 +28,7 @@ public class OilItem extends Item implements IOilItem {
     @Nonnull
     @Override
     public ItemStack getDefaultInstance() {
-        return OilUtils.setOil(super.getDefaultInstance(), ModOils.empty.get());
+        return OilUtils.setOil(super.getDefaultInstance(), ModOils.EMPTY.get());
     }
 
     public ItemStack withOil(IOil oil) {
@@ -51,7 +51,7 @@ public class OilItem extends Item implements IOilItem {
     public void fillItemCategory(@Nonnull CreativeModeTab itemGroup, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowedIn(itemGroup)) {
             for (IOil value : RegUtil.values(ModRegistries.OILS)) {
-                if (value == ModOils.empty.get()) continue;
+                if (value == ModOils.EMPTY.get()) continue;
                 items.add(withOil(value));
             }
         }

@@ -12,9 +12,9 @@ public class ModSounds {
 
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, REFERENCE.MODID);
 
-    public static final RegistryObject<SoundEvent> entity_werewolf_bite = create("entity.werewolf.bite");
-    public static final RegistryObject<SoundEvent> entity_werewolf_howl = create("entity.werewolf.howl");
-    public static final RegistryObject<SoundEvent> entity_werewolf_growl = create("entity.werewolf.growl");
+    public static final RegistryObject<SoundEvent> ENTITY_WEREWOLF_BITE = create("entity.werewolf.bite");
+    public static final RegistryObject<SoundEvent> ENTITY_WEREWOLF_HOWL = create("entity.werewolf.howl");
+    public static final RegistryObject<SoundEvent> ENTITY_WEREWOLF_GROWL = create("entity.werewolf.growl");
 
     static void register(IEventBus bus) {
         SOUND_EVENTS.register(bus);

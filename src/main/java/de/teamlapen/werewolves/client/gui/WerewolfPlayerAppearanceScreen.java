@@ -73,8 +73,8 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     protected void init() {
         super.init();
         Button.OnTooltip notUnlocked = (button, stack, mouseX, mouseY) -> renderTooltip(stack, Component.translatable("text.werewolves.not_unlocked"), mouseX, mouseY);
-        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.beast_form.get());
-        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.survival_form.get());
+        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_FORM.get());
+        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.SURVIVAL_FORM.get());
         this.human = this.addRenderableWidget(new Button(this.guiLeft + 5, this.guiTop + 20, 67, 20, WerewolfForm.HUMAN.getTextComponent(), (button1) -> switchToForm(WerewolfForm.HUMAN)));
         this.beast = this.addRenderableWidget(new Button(this.guiLeft + 71, this.guiTop + 20, 40, 20, WerewolfForm.BEAST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.BEAST), beastUnlocked ? Button.NO_TOOLTIP : notUnlocked));
         this.survival = this.addRenderableWidget(new Button(this.guiLeft + 111, this.guiTop + 20, 55, 20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.SURVIVALIST), survivalUnlocked ? Button.NO_TOOLTIP : notUnlocked));
@@ -85,8 +85,8 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
      * disable/enable buttons for the different forms
      */
     private void sync() {
-        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.beast_form.get());
-        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.survival_form.get());
+        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_FORM.get());
+        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.SURVIVAL_FORM.get());
         if (this.activeForm == WerewolfForm.BEAST) {
             this.beast.active = false;
             this.human.active = true;

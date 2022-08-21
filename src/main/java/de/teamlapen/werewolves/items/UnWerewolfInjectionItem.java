@@ -22,7 +22,7 @@ public class UnWerewolfInjectionItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(@Nonnull Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
-        playerIn.displayClientMessage(Component.literal("Please use a ").append(Component.translatable(ModBlocks.V.med_chair.get().getDescriptionId())), true);
+        playerIn.displayClientMessage(Component.literal("Please use a ").append(Component.translatable(ModBlocks.V.MED_CHAIR.get().getDescriptionId())), true);
         return InteractionResultHolder.pass(stack);
     }
 }

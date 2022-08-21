@@ -188,9 +188,9 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     public BasicWerewolfEntity _transformToWerewolf() {
         EntityType<? extends BasicWerewolfEntity> type;
         if (this.getEntityData().get(FORM) == 0) {
-            type = ModEntities.werewolf_beast.get();
+            type = ModEntities.WEREWOLF_BEAST.get();
         } else {
-            type = ModEntities.werewolf_survivalist.get();
+            type = ModEntities.WEREWOLF_SURVIVALIST.get();
         }
         BasicWerewolfEntity werewolf = WerewolfTransformable.copyData(type, this);
         werewolf.setSourceEntity(this);

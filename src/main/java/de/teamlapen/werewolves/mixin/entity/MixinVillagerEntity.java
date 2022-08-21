@@ -50,9 +50,9 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     public BasicWerewolfEntity _transformToWerewolf() {
         EntityType<? extends BasicWerewolfEntity> type;
         if (this.form == WerewolfForm.BEAST) {
-            type = ModEntities.werewolf_beast.get();
+            type = ModEntities.WEREWOLF_BEAST.get();
         } else {
-            type = ModEntities.werewolf_survivalist.get();
+            type = ModEntities.WEREWOLF_SURVIVALIST.get();
         }
         BasicWerewolfEntity entity = WerewolfTransformable.copyData(type, this);
         entity.setSourceEntity(this);

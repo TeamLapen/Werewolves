@@ -23,19 +23,19 @@ public class StoneAltarContainer extends InventoryContainer {
     }
 
     public StoneAltarContainer(int id, Inventory playerInventory, Container inventory, ContainerLevelAccess worldPos) {
-        super(ModContainer.stone_altar_container.get(), id, playerInventory, worldPos, inventory, SELECTOR_INFOS);
+        super(ModContainer.STONE_ALTAR.get(), id, playerInventory, worldPos, inventory, SELECTOR_INFOS);
         this.addPlayerSlots(playerInventory);
     }
 
     @Override
     public boolean stillValid(@Nonnull Player playerIn) {
-        return stillValid(this.worldPos, playerIn, ModBlocks.stone_altar.get());
+        return stillValid(this.worldPos, playerIn, ModBlocks.STONE_ALTAR.get());
     }
 
     static {
         SELECTOR_INFOS = new SelectorInfo[]{
-                new SelectorInfo(Ingredient.of(ModItems.liver.get()), 62, 34),
-                new SelectorInfo(Ingredient.of(ModItems.cracked_bone.get()), 98, 34)
+                new SelectorInfo(Ingredient.of(ModItems.LIVER.get()), 62, 34),
+                new SelectorInfo(Ingredient.of(ModItems.CRACKED_BONE.get()), 98, 34)
         };
     }
 }

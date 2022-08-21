@@ -24,8 +24,8 @@ public class GlobalLootTableGenerator extends GlobalLootModifierProvider {
         add("hunter_liver", MobLootModifier.builder()
                 .table(LootTable.lootTable()
                         .withPool(LootPool.lootPool().name("werewolves_general").setRolls(ConstantValue.exactly(1)).when(LootItemKilledByPlayerCondition.killedByPlayer()).when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.005f))
-                                .add(LootItem.lootTableItem(ModItems.liver.get()).setWeight(1))))
-                .onlyFor(ModEntities.V.hunter.get(), ModEntities.V.hunter_imob.get())
+                                .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(1))))
+                .onlyFor(ModEntities.V.HUNTER.get(), ModEntities.V.HUNTER_IMOB.get())
                 .build());
     }
 

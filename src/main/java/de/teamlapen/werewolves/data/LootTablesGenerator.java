@@ -65,27 +65,27 @@ public class LootTablesGenerator extends LootTableProvider {
     private static class ModBlockLootTables extends BlockLoot {
         @Override
         protected void addTables() {
-            this.add(ModBlocks.totem_top_werewolves_werewolf.get(), LootTable.lootTable());
-            this.add(ModBlocks.totem_top_werewolves_werewolf_crafted.get(), createSingleItemTable(de.teamlapen.vampirism.core.ModBlocks.TOTEM_TOP.get()));
-            this.dropSelf(ModBlocks.jacaranda_sapling.get());
-            this.dropSelf(ModBlocks.magic_sapling.get());
-            this.dropSelf(ModBlocks.wolfsbane.get());
-            this.dropSelf(ModBlocks.silver_block.get());
-            this.dropSelf(ModBlocks.silver_ore.get());
-            this.dropSelf(ModBlocks.raw_silver_block.get());
-            this.dropPottedContents(ModBlocks.potted_wolfsbane.get());
-            this.dropSelf(ModBlocks.jacaranda_log.get());
-            this.dropSelf(ModBlocks.magic_log.get());
-            this.dropSelf(ModBlocks.stone_altar.get());
-            this.dropSelf(ModBlocks.magic_planks.get());
-            this.add(ModBlocks.jacaranda_leaves.get(), (block -> createLeavesDrops(block, ModBlocks.jacaranda_sapling.get(), DEFAULT_SAPLING_DROP_RATES)));
-            this.add(ModBlocks.magic_leaves.get(), (block -> createLeavesDrops(block, ModBlocks.magic_sapling.get(), DEFAULT_SAPLING_DROP_RATES)));
-            this.dropSelf(ModBlocks.stone_altar_fire_bowl.get());
-            this.add(ModBlocks.silver_ore.get(), (block) -> {
-                return createOreDrop(block, ModItems.raw_silver.get());
+            this.add(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF.get(), LootTable.lootTable());
+            this.add(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED.get(), createSingleItemTable(de.teamlapen.vampirism.core.ModBlocks.TOTEM_TOP.get()));
+            this.dropSelf(ModBlocks.JACARANDA_SAPLING.get());
+            this.dropSelf(ModBlocks.MAGIC_SAPLING.get());
+            this.dropSelf(ModBlocks.WOLFSBANE.get());
+            this.dropSelf(ModBlocks.SILVER_BLOCK.get());
+            this.dropSelf(ModBlocks.SILVER_ORE.get());
+            this.dropSelf(ModBlocks.RAW_SILVER_BLOCK.get());
+            this.dropPottedContents(ModBlocks.POTTED_WOLFSBANE.get());
+            this.dropSelf(ModBlocks.JACARANDA_LOG.get());
+            this.dropSelf(ModBlocks.MAGIC_LOG.get());
+            this.dropSelf(ModBlocks.STONE_ALTAR.get());
+            this.dropSelf(ModBlocks.MAGIC_PLANKS.get());
+            this.add(ModBlocks.JACARANDA_LEAVES.get(), (block -> createLeavesDrops(block, ModBlocks.JACARANDA_SAPLING.get(), DEFAULT_SAPLING_DROP_RATES)));
+            this.add(ModBlocks.MAGIC_LEAVES.get(), (block -> createLeavesDrops(block, ModBlocks.MAGIC_SAPLING.get(), DEFAULT_SAPLING_DROP_RATES)));
+            this.dropSelf(ModBlocks.STONE_ALTAR_FIRE_BOWL.get());
+            this.add(ModBlocks.SILVER_ORE.get(), (block) -> {
+                return createOreDrop(block, ModItems.RAW_SILVER.get());
             });
-            this.add(ModBlocks.deepslate_silver_ore.get(), (block) -> {
-                return createOreDrop(block, ModItems.raw_silver.get());
+            this.add(ModBlocks.DEEPSLATE_SILVER_ORE.get(), (block) -> {
+                return createOreDrop(block, ModItems.RAW_SILVER.get());
             });
         }
 
@@ -102,64 +102,64 @@ public class LootTablesGenerator extends LootTableProvider {
 
         @Override
         protected void addTables() {
-            this.add(ModEntities.task_master_werewolf.get(), LootTable.lootTable());
-            this.add(ModEntities.werewolf_minion.get(), LootTable.lootTable());
+            this.add(ModEntities.TASK_MASTER_WEREWOLF.get(), LootTable.lootTable());
+            this.add(ModEntities.WEREWOLF_MINION.get(), LootTable.lootTable());
             LootTable.Builder werewolf = LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.liver.get())))
+                            .add(LootItem.lootTableItem(ModItems.LIVER.get())))
                     .withPool(LootPool.lootPool()
                             .name("general2")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.cracked_bone.get()).setWeight(40)))
+                            .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(40)))
                     .withPool(LootPool.lootPool()
                             .name("accessories")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceCondition.randomChance(0.05f))
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.bone_necklace.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
-                            .add(LootItem.lootTableItem(ModItems.charm_bracelet.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
-                            .add(LootItem.lootTableItem(ModItems.dream_catcher.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION))));
-            this.add(ModEntities.werewolf_survivalist.get(), werewolf);
-            this.add(ModEntities.werewolf_beast.get(), werewolf);
-            this.add(ModEntities.human_werewolf.get(), LootTable.lootTable()
+                            .add(LootItem.lootTableItem(ModItems.BONE_NECKLACE.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                            .add(LootItem.lootTableItem(ModItems.CHARM_BRACELET.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                            .add(LootItem.lootTableItem(ModItems.DREAM_CATCHER.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION))));
+            this.add(ModEntities.WEREWOLF_SURVIVALIST.get(), werewolf);
+            this.add(ModEntities.WEREWOLF_BEAST.get(), werewolf);
+            this.add(ModEntities.HUMAN_WEREWOLF.get(), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.liver.get())))
+                            .add(LootItem.lootTableItem(ModItems.LIVER.get())))
                     .withPool(LootPool.lootPool()
                             .name("general2")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.cracked_bone.get()).setWeight(6)))
+                            .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(6)))
                     .withPool(LootPool.lootPool()
                             .name("hunter")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.1f, 0.1f))
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.V.vampire_book.get()).setWeight(1)))
+                            .add(LootItem.lootTableItem(ModItems.V.VAMPIRE_BOOK.get()).setWeight(1)))
             );
-            this.add(ModEntities.wolf.get(), LootTable.lootTable());
-            this.add(ModEntities.alpha_werewolf.get(), LootTable.lootTable()
+            this.add(ModEntities.WOLF.get(), LootTable.lootTable());
+            this.add(ModEntities.ALPHA_WEREWOLF.get(), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .setRolls(UniformGenerator.between(1, 2))
-                            .add(LootItem.lootTableItem(ModItems.werewolf_tooth.get())))
+                            .add(LootItem.lootTableItem(ModItems.WEREWOLF_TOOTH.get())))
                     .withPool(LootPool.lootPool()
                             .name("vampire_book")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.1f, 0.1f))
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.V.vampire_book.get()).apply(AddBookNbt.builder()).setWeight(1))
+                            .add(LootItem.lootTableItem(ModItems.V.VAMPIRE_BOOK.get()).apply(AddBookNbt.builder()).setWeight(1))
                     )
             );
         }
@@ -176,10 +176,10 @@ public class LootTablesGenerator extends LootTableProvider {
         public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             consumer.accept(ModLootTables.villager, LootTable.lootTable()
                     .withPool(LootPool.lootPool().name("liver").setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.liver.get()).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.5f)))));
+                            .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.5f)))));
             consumer.accept(ModLootTables.skeleton, LootTable.lootTable()
                     .withPool(LootPool.lootPool().name("bones").setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.cracked_bone.get()).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.1f)))));
+                            .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.1f)))));
         }
     }
 
@@ -190,15 +190,15 @@ public class LootTablesGenerator extends LootTableProvider {
             LootPool.Builder accessories = LootPool.lootPool()
                     .name("accessories")
                     .setRolls(ConstantValue.exactly(1))
-                    .add(LootItem.lootTableItem(ModItems.bone_necklace.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
-                    .add(LootItem.lootTableItem(ModItems.charm_bracelet.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
-                    .add(LootItem.lootTableItem(ModItems.dream_catcher.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)));
+                    .add(LootItem.lootTableItem(ModItems.BONE_NECKLACE.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                    .add(LootItem.lootTableItem(ModItems.CHARM_BRACELET.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                    .add(LootItem.lootTableItem(ModItems.DREAM_CATCHER.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)));
             consumer.accept(ModLootTables.abandoned_mineshaft, LootTable.lootTable()
                     .withPool(accessories)
                     .withPool(LootPool.lootPool()
                             .name("main")
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.cracked_bone.get()).setWeight(5))
+                            .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
             );
             consumer.accept(ModLootTables.desert_pyramid, LootTable.lootTable()
@@ -206,7 +206,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(LootPool.lootPool()
                             .name("main")
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.liver.get()).setWeight(5))
+                            .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
             );
             consumer.accept(ModLootTables.jungle_temple, LootTable.lootTable()
@@ -214,7 +214,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(LootPool.lootPool()
                             .name("main")
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.cracked_bone.get()).setWeight(5))
+                            .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
             );
             consumer.accept(ModLootTables.stronghold_corridor, LootTable.lootTable()
@@ -222,7 +222,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(LootPool.lootPool()
                             .name("main")
                             .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.werewolf_tooth.get()).setWeight(5))
+                            .add(LootItem.lootTableItem(ModItems.WEREWOLF_TOOTH.get()).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
             );
             consumer.accept(ModLootTables.stronghold_library, LootTable.lootTable()

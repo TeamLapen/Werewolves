@@ -15,7 +15,7 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 public class ModScreens {
 
     public static void registerScreensUnsafe() {
-        MenuScreens.register(ModContainer.stone_altar_container.get(), StoneAltarScreen::new);
+        MenuScreens.register(ModContainer.STONE_ALTAR.get(), StoneAltarScreen::new);
     }
 
     static void registerScreenOverlays(RegisterGuiOverlaysEvent event) {

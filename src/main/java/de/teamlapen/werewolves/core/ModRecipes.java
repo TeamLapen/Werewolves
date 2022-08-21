@@ -12,7 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModRecipes {
 
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, REFERENCE.MODID);
-    public static final RegistryObject<SimpleRecipeSerializer<WeaponOilRecipe>> weapon_oil = RECIPES.register("weapon_oil", () -> new SimpleRecipeSerializer<>(WeaponOilRecipe::new));
+    public static final RegistryObject<SimpleRecipeSerializer<WeaponOilRecipe>> WEAPON_OIL = RECIPES.register("weapon_oil", () -> new SimpleRecipeSerializer<>(WeaponOilRecipe::new));
 
     static void register(IEventBus bus) {
         RECIPES.register(bus);

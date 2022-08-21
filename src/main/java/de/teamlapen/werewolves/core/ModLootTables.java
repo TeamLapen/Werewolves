@@ -26,6 +26,8 @@ public class ModLootTables {
 
     public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIER = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, REFERENCE.MODID);
 
+    public static final RegistryObject<Codec<MobLootModifier>> MOB_MODIFIER = GLOBAL_LOOT_MODIFIER.register("mob_modifier", () -> MobLootModifier.CODEC);
+
     // entities
     public static final ResourceLocation villager = entity(EntityType.VILLAGER);
     public static final ResourceLocation skeleton = entity(EntityType.SKELETON);
@@ -37,7 +39,6 @@ public class ModLootTables {
     public static final ResourceLocation desert_pyramid = chest("desert_pyramid");
     public static final ResourceLocation stronghold_library = chest("stronghold_library");
 
-    public static final RegistryObject<Codec<MobLootModifier>> mob_modifier = GLOBAL_LOOT_MODIFIER.register("mob_modifier", () -> MobLootModifier.CODEC);
 
     static void register(IEventBus bus){
         GLOBAL_LOOT_MODIFIER.register(bus);

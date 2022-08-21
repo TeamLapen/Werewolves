@@ -64,7 +64,7 @@ public class InputEventPacket implements IMessage {
                 }
             } else if (LEAP.equals(msg.action)) {
                 WerewolfPlayer.getOpt(player).ifPresent(werewolfPlayer -> {
-                    werewolfPlayer.getActionHandler().toggleAction(ModActions.leap.get());
+                    werewolfPlayer.getActionHandler().toggleAction(ModActions.LEAP.get());
                 });
             }
             ctx.setPacketHandled(true);

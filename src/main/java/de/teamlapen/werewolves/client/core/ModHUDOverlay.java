@@ -125,8 +125,8 @@ public class ModHUDOverlay extends ExtendedGui {
     }
 
     private void handleScreenColorWerewolf(WerewolfPlayer player) {
-        boolean sixth_sense = player.getSkillHandler().isSkillEnabled(ModSkills.sixth_sense.get());
-        boolean rage = player.getActionHandler().isActionActive(ModActions.rage.get());
+        boolean sixth_sense = player.getSkillHandler().isSkillEnabled(ModSkills.SIXTH_SENSE.get());
+        boolean rage = player.getActionHandler().isActionActive(ModActions.RAGE.get());
         if (sixth_sense) {
             if (this.screenPercentage > 0) {
                 this.screenPercentage -= 10;

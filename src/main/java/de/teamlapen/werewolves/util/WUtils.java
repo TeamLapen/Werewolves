@@ -21,7 +21,7 @@ public class WUtils {
         @Nonnull
         @Override
         public ItemStack makeIcon() {
-            return ModItems.liver.get().getDefaultInstance();
+            return ModItems.LIVER.get().getDefaultInstance();
         }
     };
     public static final Tier SILVER_ITEM_TIER = new Tier() {

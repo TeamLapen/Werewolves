@@ -201,7 +201,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return ModTiles.stone_altar.get().create(pos, state);
+        return ModTiles.STONE_ALTAR.get().create(pos, state);
     }
 
     private void dropItems(Level world, BlockPos pos) {
@@ -273,6 +273,6 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@Nonnull Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-        return createTickerHelper(type, ModTiles.stone_altar.get(), StoneAltarBlockEntity::tick);
+        return createTickerHelper(type, ModTiles.STONE_ALTAR.get(), StoneAltarBlockEntity::tick);
     }
 }

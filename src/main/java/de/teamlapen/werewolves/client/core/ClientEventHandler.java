@@ -89,7 +89,7 @@ public class ClientEventHandler {
             if (Helper.isWerewolf((Player) event.getEntity())) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
                 IActionHandler<IWerewolfPlayer> d = werewolf.getActionHandler();
-                if (d.isActionActive(ModActions.hide_name.get()) && FormHelper.isFormActionActive(werewolf)) {
+                if (d.isActionActive(ModActions.HIDE_NAME.get()) && FormHelper.isFormActionActive(werewolf)) {
                     event.setResult(Event.Result.DENY);
                 }
             }

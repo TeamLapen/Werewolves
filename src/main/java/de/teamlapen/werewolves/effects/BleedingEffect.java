@@ -31,7 +31,7 @@ public class BleedingEffect extends WerewolvesEffect {
     @Override
     public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier) {
         if (entityLivingBaseIn.isInvertedHealAndHarm()) {
-            entityLivingBaseIn.removeEffect(ModEffects.bleeding.get());
+            entityLivingBaseIn.removeEffect(ModEffects.BLEEDING.get());
             return;
         }
 

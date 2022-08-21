@@ -42,20 +42,20 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags() {
-            this.tag(ModTags.Blocks.SILVER_ORE).add(ModBlocks.silver_ore.get(), ModBlocks.deepslate_silver_ore.get());
-            this.tag(BlockTags.LOGS).add(ModBlocks.jacaranda_log.get(), ModBlocks.magic_log.get());
-            this.tag(BlockTags.SAPLINGS).add(ModBlocks.jacaranda_sapling.get(), ModBlocks.magic_sapling.get());
-            this.tag(BlockTags.LEAVES).add(ModBlocks.jacaranda_leaves.get(), ModBlocks.magic_leaves.get());
-            this.tag(BlockTags.PLANKS).add(ModBlocks.magic_planks.get());
-            this.tag(BlockTags.CAMPFIRES).add(ModBlocks.stone_altar_fire_bowl.get(), ModBlocks.stone_altar.get());
-            this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.stone_altar.get(), ModBlocks.stone_altar_fire_bowl.get(), ModBlocks.deepslate_silver_ore.get(), ModBlocks.silver_ore.get(), ModBlocks.silver_block.get(), ModBlocks.raw_silver_block.get());
-            this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.jacaranda_log.get(), ModBlocks.magic_log.get(), ModBlocks.magic_planks.get());
-            this.tag(BlockTags.NEEDS_STONE_TOOL).add(ModBlocks.deepslate_silver_ore.get(), ModBlocks.silver_ore.get(), ModBlocks.silver_block.get(), ModBlocks.raw_silver_block.get());
-            this.tag(Tags.Blocks.ORE_RATES_SINGULAR).add(ModBlocks.deepslate_silver_ore.get(), ModBlocks.silver_ore.get());
-            this.tag(ModTags.Blocks.STORAGE_BLOCKS_SILVER).add(ModBlocks.silver_block.get());
-            this.tag(ModTags.Blocks.STORAGE_BLOCKS_RAW_SILVER).add(ModBlocks.raw_silver_block.get());
-            this.tag(ModTags.Blocks.MAGIC_LOGS).add(ModBlocks.magic_log.get());
-            this.tag(ModTags.Blocks.JACARANDA_LOGS).add(ModBlocks.jacaranda_log.get());
+            this.tag(ModTags.Blocks.SILVER_ORE).add(ModBlocks.SILVER_ORE.get(), ModBlocks.DEEPSLATE_SILVER_ORE.get());
+            this.tag(BlockTags.LOGS).add(ModBlocks.JACARANDA_LOG.get(), ModBlocks.MAGIC_LOG.get());
+            this.tag(BlockTags.SAPLINGS).add(ModBlocks.JACARANDA_SAPLING.get(), ModBlocks.MAGIC_SAPLING.get());
+            this.tag(BlockTags.LEAVES).add(ModBlocks.JACARANDA_LEAVES.get(), ModBlocks.MAGIC_LEAVES.get());
+            this.tag(BlockTags.PLANKS).add(ModBlocks.MAGIC_PLANKS.get());
+            this.tag(BlockTags.CAMPFIRES).add(ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), ModBlocks.STONE_ALTAR.get());
+            this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.STONE_ALTAR.get(), ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModBlocks.SILVER_ORE.get(), ModBlocks.SILVER_BLOCK.get(), ModBlocks.RAW_SILVER_BLOCK.get());
+            this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.JACARANDA_LOG.get(), ModBlocks.MAGIC_LOG.get(), ModBlocks.MAGIC_PLANKS.get());
+            this.tag(BlockTags.NEEDS_STONE_TOOL).add(ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModBlocks.SILVER_ORE.get(), ModBlocks.SILVER_BLOCK.get(), ModBlocks.RAW_SILVER_BLOCK.get());
+            this.tag(Tags.Blocks.ORE_RATES_SINGULAR).add(ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModBlocks.SILVER_ORE.get());
+            this.tag(ModTags.Blocks.STORAGE_BLOCKS_SILVER).add(ModBlocks.SILVER_BLOCK.get());
+            this.tag(ModTags.Blocks.STORAGE_BLOCKS_RAW_SILVER).add(ModBlocks.RAW_SILVER_BLOCK.get());
+            this.tag(ModTags.Blocks.MAGIC_LOGS).add(ModBlocks.MAGIC_LOG.get());
+            this.tag(ModTags.Blocks.JACARANDA_LOGS).add(ModBlocks.JACARANDA_LOG.get());
         }
     }
 
@@ -76,12 +76,12 @@ public class ModTagsProvider {
             this.copy(BlockTags.LEAVES, ItemTags.LEAVES);
             this.copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
             this.copy(BlockTags.LOGS, ItemTags.LOGS);
-            this.tag(ModTags.Items.SILVER_INGOT).add(ModItems.silver_ingot.get());
-            this.tag(ModTags.Items.SILVER_NUGGET).add(ModItems.silver_nugget.get());
-            this.tag(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.liver.get(), ModItems.V.human_heart.get(), ModItems.V.weak_human_heart.get(), Items.SALMON, Items.TROPICAL_FISH, Items.COD);
+            this.tag(ModTags.Items.SILVER_INGOT).add(ModItems.SILVER_INGOT.get());
+            this.tag(ModTags.Items.SILVER_NUGGET).add(ModItems.SILVER_NUGGET.get());
+            this.tag(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.LIVER.get(), ModItems.V.HUMAN_HEART.get(), ModItems.V.WEAK_HUMAN_HEART.get(), Items.SALMON, Items.TROPICAL_FISH, Items.COD);
             this.tag(ModTags.Items.COOKEDMEATS).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
-            this.tag(ModTags.Items.SILVER_TOOL).add(ModItems.silver_axe.get(), ModItems.silver_hoe.get(), ModItems.silver_sword.get(), ModItems.silver_pickaxe.get(), ModItems.silver_shovel.get());
-            this.tag(ModTags.Items.RAW_MATERIALS_SILVER).add(ModItems.raw_silver.get());
+            this.tag(ModTags.Items.SILVER_TOOL).add(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_SWORD.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get());
+            this.tag(ModTags.Items.RAW_MATERIALS_SILVER).add(ModItems.RAW_SILVER.get());
         }
     }
 
@@ -123,7 +123,7 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags() {
-            this.tag(ModTags.PoiTypes.IS_WEREWOLF).add(ModVillage.werewolf_faction.get());
+            this.tag(ModTags.PoiTypes.IS_WEREWOLF).add(ModVillage.WEREWOLF_FACTION.get());
             this.tag(de.teamlapen.vampirism.core.ModTags.PoiTypes.HAS_FACTION).addTag(ModTags.PoiTypes.IS_WEREWOLF);
         }
     }
@@ -135,7 +135,7 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags() {
-            this.tag(ModTags.Professions.IS_WEREWOLF).add(ModVillage.werewolf_expert.get());
+            this.tag(ModTags.Professions.IS_WEREWOLF).add(ModVillage.WEREWOLF_EXPERT.get());
             this.tag(de.teamlapen.vampirism.core.ModTags.Professions.HAS_FACTION).addTag(ModTags.Professions.IS_WEREWOLF);
         }
     }

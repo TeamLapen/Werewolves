@@ -20,13 +20,13 @@ public class ModModelRender {
     public static final ModelLayerLocation EARS_CLAWS = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "main");
 
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.alpha_werewolf.get(), WerewolfAlphaRenderer::new);
-        event.registerEntityRenderer(ModEntities.werewolf_beast.get(), WerewolfBeastRenderer::new);
-        event.registerEntityRenderer(ModEntities.werewolf_survivalist.get(), WerewolfSurvivalistRenderer::new);
-        event.registerEntityRenderer(ModEntities.human_werewolf.get(), HumanWerewolfRenderer::new);
-        event.registerEntityRenderer(ModEntities.wolf.get(), WolfRenderer::new);
-        event.registerEntityRenderer(ModEntities.task_master_werewolf.get(), WerewolfTaskMasterRenderer::new);
-        event.registerEntityRenderer(ModEntities.werewolf_minion.get(), WerewolfMinionRenderer::new);
+        event.registerEntityRenderer(ModEntities.ALPHA_WEREWOLF.get(), WerewolfAlphaRenderer::new);
+        event.registerEntityRenderer(ModEntities.WEREWOLF_BEAST.get(), WerewolfBeastRenderer::new);
+        event.registerEntityRenderer(ModEntities.WEREWOLF_SURVIVALIST.get(), WerewolfSurvivalistRenderer::new);
+        event.registerEntityRenderer(ModEntities.HUMAN_WEREWOLF.get(), HumanWerewolfRenderer::new);
+        event.registerEntityRenderer(ModEntities.WOLF.get(), WolfRenderer::new);
+        event.registerEntityRenderer(ModEntities.TASK_MASTER_WEREWOLF.get(), WerewolfTaskMasterRenderer::new);
+        event.registerEntityRenderer(ModEntities.WEREWOLF_MINION.get(), WerewolfMinionRenderer::new);
     }
 
     public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {

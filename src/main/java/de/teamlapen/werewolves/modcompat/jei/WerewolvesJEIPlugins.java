@@ -50,7 +50,7 @@ public class WerewolvesJEIPlugins implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(@Nonnull ISubtypeRegistration registration) {
-        registration.registerSubtypeInterpreter(ModItems.oil_bottle.get(), (stack, context) -> {
+        registration.registerSubtypeInterpreter(ModItems.OIL_BOTTLE.get(), (stack, context) -> {
             return RegUtil.id(OilUtils.getOil(stack)).toString();
         });
     }
@@ -75,7 +75,7 @@ public class WerewolvesJEIPlugins implements IModPlugin {
         Collection<IOil> oils = RegUtil.values(ModRegistries.OILS);
         //noinspection SuspiciousNameCombination
         List<Pair<IOil, ItemStack>> items = oils.stream().flatMap(x -> ForgeRegistries.ITEMS.getValues().stream().map(ItemStack::new).filter(x::canBeAppliedTo).map(y -> Pair.of(x, y))).toList();
-        List<CraftingRecipe> recipes = items.stream().map(x -> new ShapelessRecipe(new ResourceLocation(REFERENCE.MODID, ("" + RegUtil.id(x.getKey()) + RegUtil.id(x.getValue().getItem())).replace(':', '_')), "", WeaponOilHelper.setWeaponOils(x.getRight().copy(), x.getLeft(), x.getLeft().getMaxDuration(x.getRight())), NonNullList.of(Ingredient.EMPTY, Ingredient.of(x.getRight().copy()), Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), x.getLeft()))))).collect(Collectors.toList());
+        List<CraftingRecipe> recipes = items.stream().map(x -> new ShapelessRecipe(new ResourceLocation(REFERENCE.MODID, ("" + RegUtil.id(x.getKey()) + RegUtil.id(x.getValue().getItem())).replace(':', '_')), "", WeaponOilHelper.setWeaponOils(x.getRight().copy(), x.getLeft(), x.getLeft().getMaxDuration(x.getRight())), NonNullList.of(Ingredient.EMPTY, Ingredient.of(x.getRight().copy()), Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.OIL_BOTTLE.get()), x.getLeft()))))).collect(Collectors.toList());
         registration.addRecipes(RecipeTypes.CRAFTING, recipes);
     }
 
