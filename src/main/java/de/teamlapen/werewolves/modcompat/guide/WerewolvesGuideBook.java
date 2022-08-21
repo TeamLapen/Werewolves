@@ -20,7 +20,7 @@ import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfLevelConf;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -89,7 +89,7 @@ public class WerewolvesGuideBook {
         levelingPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "leveling.intro")));
         String stone_altar = "§l" + loc(ModBlocks.stone_altar.get()) + "§r\n§o" + translate(base + "leveling.stone.reach") + "§r\n";
         stone_altar += translate(base + "leveling.stone.intro", loc(Items.FLINT_AND_STEEL), loc(Items.TORCH));
-        levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(new TextComponent(stone_altar)), new ResourceLocation("guide.werewolves.blocks.stone_altar"), new ResourceLocation("guide.werewolves.blocks.stone_altar_fire_bowl")));
+        levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(Component.literal(stone_altar)), new ResourceLocation("guide.werewolves.blocks.stone_altar"), new ResourceLocation("guide.werewolves.blocks.stone_altar_fire_bowl")));
         levelingPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.structure", loc(ModBlocks.stone_altar.get()), loc(ModBlocks.stone_altar_fire_bowl.get()), loc(ModBlocks.stone_altar.get()), loc(ModBlocks.stone_altar_fire_bowl.get()), loc(Items.FLINT_AND_STEEL))));
         levelingPages.add(new PageTextImage(translateComponent(base + "leveling.stone.image1"), new ResourceLocation(IMAGE_BASE + "stone1.png"), false));
         String item = loc(ModItems.liver.get()) + ", " + loc(ModItems.cracked_bone.get());

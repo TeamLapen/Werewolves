@@ -6,16 +6,17 @@ import de.teamlapen.vampirism.player.skills.VampirismSkill;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -32,20 +33,20 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
     @Nonnull
     @Override
-    public IPlayableFaction<?> getFaction() {
-        return WReference.WEREWOLF_FACTION;
+    public Optional<IPlayableFaction<?>> getFaction() {
+        return Optional.of(WReference.WEREWOLF_FACTION);
     }
 
     public SimpleWerewolfSkill defaultDescWithExtra(Supplier<Component> text) {
-        this.setDescription(() -> new TranslatableComponent(this.getTranslationKey() + ".desc").append("\n").append(text.get()));
+        this.setDescription(() -> Component.translatable(this.getTranslationKey() + ".desc").append("\n").append(text.get()));
         return this;
     }
 
     @SafeVarargs
-    public final SimpleWerewolfSkill defaultDescWithExtra(TranslatableComponent prefix, Supplier<ISkill<?>>... skills) {
+    public final SimpleWerewolfSkill defaultDescWithExtra(MutableComponent prefix, Supplier<ISkill<?>>... skills) {
         this.setDescription(() -> {
-            MutableComponent text = new TranslatableComponent(this.getTranslationKey() + ".desc").append("\n").append(prefix.withStyle(ChatFormatting.AQUA)).append(" ");
-            text.append(Helper.joinComponents(", ", Arrays.stream(skills).map(skill -> new TranslatableComponent(skill.get().getTranslationKey())).toArray(MutableComponent[]::new)).withStyle(ChatFormatting.AQUA));
+            MutableComponent text = Component.translatable(this.getTranslationKey() + ".desc").append("\n").append(prefix.withStyle(ChatFormatting.AQUA)).append(" ");
+            text.append(Helper.joinComponents(", ", Arrays.stream(skills).map(skill -> Component.translatable(skill.get().getTranslationKey())).toArray(MutableComponent[]::new)).withStyle(ChatFormatting.AQUA));
             return text;
         });
         return this;
@@ -53,12 +54,12 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
     @SafeVarargs
     public final SimpleWerewolfSkill defaultDescWithFormRequirement(Supplier<ISkill<?>>... skills) {
-        return defaultDescWithExtra(new TranslatableComponent("text.werewolves.skills.only_applies"), skills);
+        return defaultDescWithExtra(Component.translatable("text.werewolves.skills.only_applies"), skills);
     }
 
     @SafeVarargs
     public final SimpleWerewolfSkill defaultDescWithEnhancement(Supplier<ISkill<?>>... skill) {
-        return defaultDescWithExtra(new TranslatableComponent("text.werewolves.skills.upgrade"), skill);
+        return defaultDescWithExtra(Component.translatable("text.werewolves.skills.upgrade"), skill);
     }
 
     public static class AttributeSkill extends SimpleWerewolfSkill {
@@ -86,8 +87,7 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         protected void onEnabled(IWerewolfPlayer player) {
             AttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
             if (attributes.getModifier(this.attribute) == null) {
-                //noinspection ConstantConditions
-                attributes.addPermanentModifier(new AttributeModifier(this.attribute, this.getRegistryName().toString() + "_skill", this.attribute_value.apply(player), this.operation));
+                attributes.addPermanentModifier(new AttributeModifier(this.attribute, RegUtil.id(this).toString() + "_skill", this.attribute_value.apply(player), this.operation));
             }
         }
     }

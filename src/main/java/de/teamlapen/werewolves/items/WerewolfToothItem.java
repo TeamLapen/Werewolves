@@ -5,7 +5,7 @@ import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WUtils;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -29,16 +29,16 @@ public class WerewolfToothItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
         if (!world.isClientSide) {
             if (WerewolvesConfig.SERVER.disableToothInfection.get()) {
-                player.displayClientMessage(new TranslatableComponent("text.vampirism.deactivated_by_serveradmin"), true);
+                player.displayClientMessage(Component.translatable("text.vampirism.deactivated_by_serveradmin"), true);
             } else {
                 if (Helper.canBecomeWerewolf(player)) {
                     LupusSanguinemEffect.addSanguinemEffect(player);
                     player.addEffect(new MobEffectInstance(ModEffects.V.poison.get(), 60));
                 } else {
                     if (Helper.isWerewolf(player)) {
-                        player.displayClientMessage(new TranslatableComponent("text.werewolves.already_werewolf"), true);
+                        player.displayClientMessage(Component.translatable("text.werewolves.already_werewolf"), true);
                     } else {
-                        player.displayClientMessage(new TranslatableComponent("text.vampirism.immune_to").append(new TranslatableComponent(ModEffects.lupus_sanguinem.get().getDescriptionId())), true);
+                        player.displayClientMessage(Component.translatable("text.vampirism.immune_to").append(Component.translatable(ModEffects.lupus_sanguinem.get().getDescriptionId())), true);
                     }
                 }
                 stack.shrink(1);

@@ -8,7 +8,7 @@ import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.EffectRenderer;
+import net.minecraftforge.client.extensions.common.IClientMobEffectExtensions;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
@@ -50,7 +50,7 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void initializeClient(Consumer<EffectRenderer> consumer) {
+    public void initializeClient(Consumer<IClientMobEffectExtensions> consumer) {
         consumer.accept(new HiddenDurationEffectRenderer());
     }
 }

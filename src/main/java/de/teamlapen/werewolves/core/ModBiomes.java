@@ -3,7 +3,6 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.gen.WerewolfHeavenBiome;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -18,6 +17,5 @@ public class ModBiomes {
 
     static void register(IEventBus bus) {
         BIOMES.register(bus);
-        BiomeDictionary.addTypes(WEREWOLF_HEAVEN.getKey(), BiomeDictionary.Type.OVERWORLD, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DENSE, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.HILLS);
     }
 }

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#werewolves:has_gen/silver_ore",
+  "features": "werewolves:silver_ore",
+  "step": "underground_ores"
+}

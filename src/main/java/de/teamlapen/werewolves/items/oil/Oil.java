@@ -1,14 +1,14 @@
 package de.teamlapen.werewolves.items.oil;
 
 import de.teamlapen.werewolves.api.items.oil.IOil;
+import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.List;
 
-public class Oil extends ForgeRegistryEntry<IOil> implements IOil {
+public class Oil implements IOil {
 
     private final int color;
     private Component desc;
@@ -39,12 +39,13 @@ public class Oil extends ForgeRegistryEntry<IOil> implements IOil {
 
     @Override
     public String getName(String item) {
-        return item + this.getRegistryName().toString().replace(':', '_');
+        return item + RegUtil.id(this).toString().replace(':', '_');
     }
 
     @Override
     public void getDescription(ItemStack stack, List<Component> tooltips) {
     }
+
 
     @Override
     public int getColor() {

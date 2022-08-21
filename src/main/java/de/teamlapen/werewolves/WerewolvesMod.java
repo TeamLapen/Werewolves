@@ -8,8 +8,7 @@ import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
-import de.teamlapen.werewolves.client.core.ModBlocksRenderer;
-import de.teamlapen.werewolves.client.core.ModModelRender;
+import de.teamlapen.werewolves.client.core.ClientRegistryHandler;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModCommands;
 import de.teamlapen.werewolves.core.ModLootTables;
@@ -28,19 +27,16 @@ import de.teamlapen.werewolves.proxy.ServerProxy;
 import de.teamlapen.werewolves.util.*;
 import de.teamlapen.werewolves.world.gen.OverworldModifications;
 import de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures;
-import de.teamlapen.werewolves.world.gen.WerewolvesBiomes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobType;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -49,7 +45,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -87,18 +83,14 @@ public class WerewolvesMod {
         bus.addListener(this::enqueueIMC);
         bus.addListener(this::gatherData);
         bus.addListener(this::setUpClient);
-        bus.addGenericListener(Block.class, this::blockRegister); // First event after mod init. Faction can only be registered after VampirismMod's constructor
+        bus.addListener(this::blockRegister); // First event after mod init. Faction can only be registered after VampirismMod's constructor
         bus.register(registryManager);
         bus.addListener(this::registerCapability);
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-            bus.addListener(ModModelRender::onRegisterRenderers);
-            bus.addListener(ModModelRender::onRegisterLayers);
-            bus.addListener(ModBlocksRenderer::registerBlockEntityRenderers);
-        });
+
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientRegistryHandler::init);
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(registryManager);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, WerewolvesBiomes::onBiomeLoadingEventAdditions);
         MinecraftForge.EVENT_BUS.addListener(ModLootTables::onLootLoad);
         MinecraftForge.EVENT_BUS.register(Permissions.class);
 
@@ -106,8 +98,8 @@ public class WerewolvesMod {
             MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
         }
 
-        WerewolvesBiomeFeatures.register(FMLJavaModLoadingContext.get().getModEventBus());
         RegistryManager.setupRegistries(FMLJavaModLoadingContext.get().getModEventBus());
+        WerewolvesBiomeFeatures.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         WerewolvesConfig.registerConfigs();
     }
@@ -121,8 +113,7 @@ public class WerewolvesMod {
                     .color(Color.orange.getRGB())
                     .hostileTowardsNeutral()
                     .highestLevel(REFERENCE.HIGHEST_WEREWOLF_LEVEL)
-                    .lordLevel(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL)
-                    .lordTitle(LordTitles::getWerewolfTitle)
+                    .lord().lordLevel(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL).lordTitle(LordTitles::getWerewolfTitle).build()
                     .village(WerewolfVillageData::werewolfVillage)
                     .chatColor(ChatFormatting.GOLD)
                     .name("text.werewolves.werewolf")
@@ -134,7 +125,7 @@ public class WerewolvesMod {
         }
     }
 
-    private void blockRegister(RegistryEvent.Register<Block> event) {
+    private void blockRegister(RegisterEvent event) {
         setupAPI();
     }
 
@@ -176,17 +167,14 @@ public class WerewolvesMod {
     private void gatherData(final GatherDataEvent event) {
         setupAPI();
         DataGenerator generator = event.getGenerator();
-        if (event.includeServer()) {
-            ModTagsProvider.addProvider(generator, event.getExistingFileHelper());
-            generator.addProvider(new RecipeGenerator(generator));
-            generator.addProvider(new LootTablesGenerator(generator));
-            generator.addProvider(new GlobalLootTableGenerator(generator));
-            generator.addProvider(new SkillNodeGenerator(generator));
-        }
-        if (event.includeClient()) {
-            generator.addProvider(new ItemModelGenerator(generator, event.getExistingFileHelper()));
-            generator.addProvider(new BlockStateGenerator(generator, event.getExistingFileHelper()));
-        }
+        ModTagsProvider.addProvider(event);
+        BiomeGenerator.addProvider(event);
+        generator.addProvider(event.includeServer(), new RecipeGenerator(generator));
+        generator.addProvider(event.includeServer(), new LootTablesGenerator(generator));
+        generator.addProvider(event.includeServer(), new GlobalLootTableGenerator(generator));
+        generator.addProvider(event.includeServer(), new SkillNodeGenerator(generator));
+        generator.addProvider(event.includeClient(), new ItemModelGenerator(generator, event.getExistingFileHelper()));
+        generator.addProvider(event.includeClient(), new BlockStateGenerator(generator, event.getExistingFileHelper()));
     }
 
     private void setUpClient(final FMLClientSetupEvent event) {

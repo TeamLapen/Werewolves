@@ -8,7 +8,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModRefinements;
-import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
@@ -52,8 +52,8 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             this(attribute, dayUuid, nightUuid, dayModifier, name, player -> valueFunction.get(), operation);
         }
 
-        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, ISkill<IWerewolfPlayer> extendedSkill, AttributeModifier.Operation operation) {
-            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill) ? extendedValueFunction.get() : valueFunction.get(), operation);
+        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, Supplier<ISkill<IWerewolfPlayer>> extendedSkill, AttributeModifier.Operation operation) {
+            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill.get()) ? extendedValueFunction.get() : valueFunction.get(), operation);
         }
 
         public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Function<IWerewolfPlayer, Double> valueFunction, AttributeModifier.Operation operation) {
@@ -190,7 +190,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         }
         if (player.getRepresentingPlayer().isPassenger() && !this.form.isHumanLike()) return false;
         boolean active = player.getActionHandler().isActionActive(this);
-        if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active && !player.getSkillHandler().isSkillEnabled(WerewolfSkills.free_will.get())) return false;
+        if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active && !player.getSkillHandler().isSkillEnabled(ModSkills.free_will.get())) return false;
         return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_HEAVEN.getKey());
     }
 

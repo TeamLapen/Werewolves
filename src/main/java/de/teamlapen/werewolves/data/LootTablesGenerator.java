@@ -66,7 +66,7 @@ public class LootTablesGenerator extends LootTableProvider {
         @Override
         protected void addTables() {
             this.add(ModBlocks.totem_top_werewolves_werewolf.get(), LootTable.lootTable());
-            this.add(ModBlocks.totem_top_werewolves_werewolf_crafted.get(), createSingleItemTable(de.teamlapen.vampirism.core.ModBlocks.totem_top));
+            this.add(ModBlocks.totem_top_werewolves_werewolf_crafted.get(), createSingleItemTable(de.teamlapen.vampirism.core.ModBlocks.TOTEM_TOP.get()));
             this.dropSelf(ModBlocks.jacaranda_sapling.get());
             this.dropSelf(ModBlocks.magic_sapling.get());
             this.dropSelf(ModBlocks.wolfsbane.get());

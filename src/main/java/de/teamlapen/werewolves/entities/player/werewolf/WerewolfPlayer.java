@@ -9,7 +9,6 @@ import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
-import de.teamlapen.vampirism.core.ModRegistries;
 import de.teamlapen.vampirism.player.FactionBasePlayer;
 import de.teamlapen.vampirism.player.LevelAttributeModifier;
 import de.teamlapen.vampirism.player.actions.ActionHandler;
@@ -219,19 +218,19 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     }
                     if (this.player.level.getGameTime() % 20 == 0) {
                         if (Helper.isFullMoon(this.getRepresentingPlayer().getCommandSenderWorld())) {
-                            if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will.get())) {
+                            if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(ModSkills.free_will.get())) {
                                 Optional<? extends IAction<IWerewolfPlayer>> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
                                 action.ifPresent(this.actionHandler::toggleAction);
                             }
                         }
 
-                        if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover.get())) {
+                        if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(ModSkills.water_lover.get())) {
                             this.player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 50, 0, true, true));
                         }
                     }
                 }
 
-                if (this.skillHandler.isSkillEnabled(WerewolfSkills.health_reg.get())) {
+                if (this.skillHandler.isSkillEnabled(ModSkills.health_reg.get())) {
                     this.tickFoodStats();
                 }
 
@@ -240,7 +239,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                 }
 
                 if (this.checkArmorModifer && this.form.isTransformed() /*&& this.player.world.getGameTime() % 2 == 0*/) {
-                    if (!(this.form.isHumanLike() && this.skillHandler.isSkillEnabled(WerewolfSkills.wear_armor.get()))) {
+                    if (!(this.form.isHumanLike() && this.skillHandler.isSkillEnabled(ModSkills.wear_armor.get()))) {
                         this.removeArmorModifier();
                     }
                     this.checkArmorModifer = false;
@@ -443,13 +442,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             this.getRepresentingPlayer().playNotifySound(ModSounds.entity_werewolf_bite.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             this.eatEntity(entity);
             this.specialAttributes.biteTicks = WerewolvesConfig.BALANCE.PLAYER.bite_cooldown.get();
-            if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite.get())) {
+            if (this.skillHandler.isSkillEnabled(ModSkills.stun_bite.get())) {
                 int duration = WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get();
                 if (this.skillHandler.isRefinementEquipped(ModRefinements.stun_bite.get())) {
                     duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
                 }
                 entity.addEffect(new MobEffectInstance(ModEffects.V.freeze.get(), duration));
-            } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite.get())) {
+            } else if (this.skillHandler.isSkillEnabled(ModSkills.bleeding_bite.get())) {
                 entity.addEffect(new MobEffectInstance(ModEffects.bleeding.get(), WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.bleeding_bite.get()) ? 3 : 0));
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)), false);
@@ -572,7 +571,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.levelHandler.saveToNbt(compound);
         compound.putString("form", this.form.getName());
         if (this.lastFormAction != null) {
-            compound.putString("lastFormAction", this.lastFormAction.getRegistryName().toString());
+            compound.putString("lastFormAction", RegUtil.id(this.lastFormAction).toString());
         }
         compound.putInt("biteTicks", this.specialAttributes.biteTicks);
         CompoundTag eye = new CompoundTag();
@@ -606,7 +605,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             this.switchForm(WerewolfForm.getForm(compound.getString("form")));
         }
         if (NBTHelper.containsString(compound, "lastFormAction")) {
-            this.lastFormAction = ((WerewolfFormAction) ModRegistries.ACTIONS.getValue(new ResourceLocation(compound.getString("lastFormAction"))));
+            this.lastFormAction = ((WerewolfFormAction) RegUtil.getAction(new ResourceLocation(compound.getString("lastFormAction"))));
         }
         this.specialAttributes.biteTicks = compound.getInt("biteTicks");
         CompoundTag eye = compound.getCompound("eyeTypes");

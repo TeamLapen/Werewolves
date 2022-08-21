@@ -4,8 +4,6 @@ import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.werewolves.api.WReference;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -31,10 +29,10 @@ public class WerewolfMinionUpgradeItem extends Item {
     @Override
     public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslatableComponent("item.werewolves.moon_charm.desc").withStyle(ChatFormatting.DARK_GRAY));
-        tooltip.add(TextComponent.EMPTY);
-        tooltip.add(new TranslatableComponent("item.vampirism.minion_upgrade_item.desc").withStyle(ChatFormatting.GRAY));
-        tooltip.add(new TranslatableComponent("text.vampirism.for_to_levels", minLevel + 1, maxLevel + 1).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.werewolves.moon_charm.desc").withStyle(ChatFormatting.DARK_GRAY));
+        tooltip.add(Component.empty());
+        tooltip.add(Component.translatable("item.vampirism.minion_upgrade_item.desc").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("text.vampirism.for_to_levels", minLevel + 1, maxLevel + 1).withStyle(ChatFormatting.GRAY));
     }
 
     public IFaction<?> getFaction() {

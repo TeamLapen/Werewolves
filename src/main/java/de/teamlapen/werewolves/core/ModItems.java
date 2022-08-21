@@ -12,7 +12,6 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,10 +20,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.MissingMappingsEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
@@ -61,7 +60,7 @@ public class ModItems {
         @Override
         public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level level, @Nonnull List<Component> tooltips, @Nonnull TooltipFlag flag) {
             super.appendHoverText(stack, level, tooltips, flag);
-            tooltips.add(new TranslatableComponent("item.werewolves.moon_charm.desc").withStyle(ChatFormatting.DARK_GRAY));
+            tooltips.add(Component.translatable("item.werewolves.moon_charm.desc").withStyle(ChatFormatting.DARK_GRAY));
 
         }
     });
@@ -88,10 +87,10 @@ public class ModItems {
         public static final RegistryObject<Item> crossbow_arrow_normal = item("crossbow_arrow_normal");
 
         private static RegistryObject<Item> item(String name) {
-            return RegistryObject.create(new ResourceLocation("vampirism", name), ForgeRegistries.ITEMS);
+            return RegistryObject.create(new ResourceLocation("vampirism", name), ForgeRegistries.Keys.ITEMS, REFERENCE.MODID);
         }
 
-        static void init() {
+        private static void init() {
 
         }
     }
@@ -104,9 +103,9 @@ public class ModItems {
         ITEMS.register(bus);
     }
 
-    public static void remapItems(RegistryEvent.MissingMappings<Item> event) {
-        event.getAllMappings().forEach(missingMapping -> {
-            switch (missingMapping.key.toString()) {
+    public static void remapItems(MissingMappingsEvent event) {
+        event.getAllMappings(ForgeRegistries.Keys.ITEMS).forEach(missingMapping -> {
+            switch (missingMapping.getKey().toString()) {
                 case "werewolves:bone" -> missingMapping.remap(ModItems.cracked_bone.get());
                 case "werewolves:silver_oil" -> missingMapping.remap(ModItems.oil_bottle.get());
             }

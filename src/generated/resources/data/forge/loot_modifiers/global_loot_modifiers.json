@@ -1,6 +1,6 @@
 {
-  "replace": false,
   "entries": [
     "werewolves:hunter_liver"
-  ]
+  ],
+  "replace": false
 }

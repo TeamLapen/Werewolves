@@ -8,9 +8,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -128,39 +129,39 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
             if (!state.getValue(LIT)) {
                 switch (result) {
                     case OTHER_FACTION -> {
-                        player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.wrong_faction"), true);
+                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.wrong_faction"), true);
                         return InteractionResult.CONSUME;
                     }
                     case IS_RUNNING -> {
-                        player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_still_running"), true);
+                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_still_running"), true);
                         return InteractionResult.CONSUME;
                     }
                 }
                 switch (result) {
                     case NIGHT_ONLY -> {
-                        player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_night_only"), true);
+                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_night_only"), true);
                         return InteractionResult.CONSUME;
                     }
                     case WRONG_LEVEL -> {
-                        player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_wrong_level"), true);
+                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_wrong_level"), true);
                         return InteractionResult.CONSUME;
                     }
                     case STRUCTURE_LESS -> {
-                        player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_structures_missing"), true);
+                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_structures_missing"), true);
                         return InteractionResult.CONSUME;
                     }
                     case STRUCTURE_LIT -> {
-                        player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_less_lit_structures"), true);
+                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_less_lit_structures"), true);
                         return InteractionResult.CONSUME;
                     }
                     case TO_LESS_BLOOD -> {
-                        player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.ritual_to_less_prey"), true);
+                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_to_less_prey"), true);
                         return InteractionResult.CONSUME;
                     }
                     case INV_MISSING -> {
                         Map<Item, Integer> missing = te.getMissingItems();
-                        MutableComponent s = new TranslatableComponent("text.werewolves.stone_altar.ritual_missing_items");
-                        missing.forEach((item, integer) -> s.append(" ").append(new TranslatableComponent(item.getDescriptionId()).withStyle((style -> {
+                        MutableComponent s = Component.translatable("text.werewolves.stone_altar.ritual_missing_items");
+                        missing.forEach((item, integer) -> s.append(" ").append(Component.translatable(item.getDescriptionId()).withStyle((style -> {
                             return style.withColor(ChatFormatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemStackInfo(new ItemStack(item, integer))));
                         }))).append(" " + integer));
                         player.displayClientMessage(s, true);
@@ -168,7 +169,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
                     }
                     case OK -> {
                         if (state.getValue(WATERLOGGED)) {
-                            player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.can_not_burn"), true);
+                            player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.can_not_burn"), true);
                             player.openMenu(te);
                             return InteractionResult.CONSUME;
                         }
@@ -181,7 +182,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
                             player.openMenu(te);
                             return InteractionResult.CONSUME;
                         } else {
-                            player.displayClientMessage(new TranslatableComponent("text.werewolves.stone_altar.empty_hand"), true);
+                            player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.empty_hand"), true);
                             return InteractionResult.PASS;
                         }
                     }
@@ -251,7 +252,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (stateIn.getValue(LIT)) {
             Vector3f offset = getTorchOffset(stateIn);
             worldIn.addParticle(stateIn.getValue(SOUL_FIRE) ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME, pos.getX() + offset.x(), pos.getY() + offset.y(), pos.getZ() + offset.z(), 0.0D, 0.0D, 0.0D);

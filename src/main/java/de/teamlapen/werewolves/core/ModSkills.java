@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
-import de.teamlapen.vampirism.core.ModRegistries;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.player.skill.ActionSkill;
@@ -17,9 +17,9 @@ import net.minecraftforge.registries.RegistryObject;
 import static de.teamlapen.werewolves.util.SkillUtils.SPEED_SKILL;
 
 @SuppressWarnings("unused")
-public class WerewolfSkills {
+public class ModSkills {
 
-    public static final DeferredRegister<ISkill<?>> SKILLS = DeferredRegister.create(ModRegistries.SKILLS, REFERENCE.MODID);
+    public static final DeferredRegister<ISkill<?>> SKILLS = DeferredRegister.create(VampirismRegistries.SKILLS_ID, REFERENCE.MODID);
 
     public static final RegistryObject<ISkill<IWerewolfPlayer>> werewolf = SKILLS.register("werewolf", SimpleWerewolfSkill::new);
     public static final RegistryObject<ISkill<IWerewolfPlayer>> human_form = SKILLS.register("human_form", () -> new ActionSkill<>(ModActions.human_form.get(), true));
@@ -55,7 +55,7 @@ public class WerewolfSkills {
     public static final RegistryObject<ISkill<IWerewolfPlayer>> thick_fur = SKILLS.register("thick_fur", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(beast_form::get, survival_form::get));
 
 
-    static void registerWerewolfSkills(IEventBus bus) {
+    static void register(IEventBus bus) {
         SKILLS.register(bus);
     }
 }

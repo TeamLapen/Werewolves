@@ -13,13 +13,14 @@ import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -36,14 +37,13 @@ import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolfAlpha {
     public static final int MAX_LEVEL = 4;
     private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(WerewolfAlphaEntity.class, EntityDataSerializers.INT);
 
 
-    public static boolean spawnPredicateAlpha(EntityType<? extends WerewolfAlphaEntity> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, Random random) {
+    public static boolean spawnPredicateAlpha(EntityType<? extends WerewolfAlphaEntity> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, RandomSource random) {
         return world.getBiome(blockPos).is(ModBiomes.WEREWOLF_HEAVEN.getKey()) && world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateWerewolf(entityType, world, spawnReason, blockPos, random);
     }
 
@@ -83,7 +83,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
         if (level >= 0) {
             getEntityData().set(LEVEL, level);
             this.updateEntityAttributes();
-            this.setCustomName(getTypeName().plainCopy().append(new TranslatableComponent("entity.werewolves.alpha_werewolf.level", level + 1)));
+            this.setCustomName(getTypeName().plainCopy().append(Component.translatable("entity.werewolves.alpha_werewolf.level", level + 1)));
         } else {
             this.setCustomName(null);
         }
@@ -129,11 +129,12 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public void killed(@Nonnull ServerLevel p_241847_1_, @Nonnull LivingEntity p_241847_2_) {
-        super.killed(p_241847_1_, p_241847_2_);
+    public boolean wasKilled(@Nonnull ServerLevel p_241847_1_, @Nonnull LivingEntity p_241847_2_) {
+        super.wasKilled(p_241847_1_, p_241847_2_);
         if (p_241847_2_ instanceof WerewolfAlphaEntity) {
             this.setHealth(this.getMaxHealth());
         }
+        return true;
     }
 
     @Override
@@ -178,7 +179,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    protected int getExperienceReward(@Nonnull Player player) {
+    public int getExperienceReward() {
         return 20 + 5 * getEntityLevel();
     }
 

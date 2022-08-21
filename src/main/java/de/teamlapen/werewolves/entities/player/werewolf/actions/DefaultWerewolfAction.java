@@ -6,12 +6,13 @@ import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 public abstract class DefaultWerewolfAction extends DefaultAction<IWerewolfPlayer> {
 
     @Nonnull
     @Override
-    public IPlayableFaction<?> getFaction() {
-        return WReference.WEREWOLF_FACTION;
+    public Optional<IPlayableFaction<?>> getFaction() {
+        return Optional.of(WReference.WEREWOLF_FACTION);
     }
 }

@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.core.ModActions;
-import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
@@ -26,7 +26,7 @@ public class HumanoidArmorLayerMixin<T extends LivingEntity, M extends HumanoidM
         if (!Helper.isWerewolf(((Player) entity))) return;
         WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) entity));
         if (!FormHelper.isFormActionActive(werewolf)) return;
-        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor.get()) && werewolf.getActionHandler().isActionActive(ModActions.human_form.get())) {
+        if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.wear_armor.get()) && werewolf.getActionHandler().isActionActive(ModActions.human_form.get())) {
             return;
         }
         model.setAllVisible(false);

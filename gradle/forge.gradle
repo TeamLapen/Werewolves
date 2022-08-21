@@ -25,8 +25,9 @@ dependencies {
     implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
 
     //Utility
-    compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //API for compile (not POM)
-    runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}") //Full for runtime (not POM)
+    compileOnly fg.deobf("mezz.jei:jei-1.19-common-api:${project.jei_version}") //API for compile
+    compileOnly fg.deobf("mezz.jei:jei-1.19-forge-api:${project.jei_version}") //API for compile
+    implementation fg.deobf("mezz.jei:jei-1.19-forge:${project.jei_version}") //Full for runtime
 
     //Mixin preprocessor
     if (System.getProperty("idea.sync.active") != "true") {

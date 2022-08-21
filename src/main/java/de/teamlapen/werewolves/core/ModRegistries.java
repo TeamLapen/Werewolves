@@ -1,18 +1,24 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.api.items.oil.IOil;
-import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import java.util.function.Supplier;
+
 public class ModRegistries {
-    public static final ResourceLocation WEAPON_OIL_ID = new ResourceLocation(REFERENCE.MODID, "weapon_oil");
+    public static final ResourceKey<Registry<IOil>> OIL_ID = ResourceKey.createRegistryKey(new ResourceLocation("werewolves:weapon_oil"));
 
-    public static IForgeRegistry<IOil> WEAPON_OILS;
+    static final DeferredRegister<IOil> DEFERRED_OILS = DeferredRegister.create(OIL_ID, OIL_ID.location().getNamespace());
 
-    static void createRegistries(NewRegistryEvent event) {
-        event.create(new RegistryBuilder<IOil>().setName(WEAPON_OIL_ID).setType(IOil.class).setMaxID(Integer.MAX_VALUE >> 5), r -> WEAPON_OILS = r);
+    public static final Supplier<IForgeRegistry<IOil>> OILS = DEFERRED_OILS.makeRegistry(RegistryBuilder::new);
+
+    static void init(IEventBus bus){
+        DEFERRED_OILS.register(bus);
     }
 }

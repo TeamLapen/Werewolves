@@ -9,7 +9,6 @@ import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
 import de.teamlapen.vampirism.api.items.IFactionExclusiveItem;
 import de.teamlapen.vampirism.config.BalanceMobProps;
 import de.teamlapen.vampirism.entity.VampirismEntity;
-import de.teamlapen.vampirism.entity.hunter.BasicHunterEntity;
 import de.teamlapen.vampirism.entity.minion.MinionEntity;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.werewolves.api.WReference;
@@ -18,13 +17,14 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.gui.WerewolfMinionAppearanceScreen;
 import de.teamlapen.werewolves.client.gui.WerewolfMinionStatsScreen;
 import de.teamlapen.werewolves.core.ModMinionTasks;
+import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.items.WerewolfMinionUpgradeItem;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -54,7 +54,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     public static AttributeSupplier.Builder getAttributeBuilder() {
-        return BasicHunterEntity.getAttributeBuilder();
+        return BasicWerewolfEntity.getAttributeBuilder();
     }
 
     public WerewolfMinionEntity(EntityType<? extends VampirismEntity> type, Level world) {
@@ -127,10 +127,10 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
                 if (this.minionData.level + 1 >= ((WerewolfMinionUpgradeItem) heldItem.getItem()).getMinLevel() && this.minionData.level + 1 <= ((WerewolfMinionUpgradeItem) heldItem.getItem()).getMaxLevel()) {
                     this.minionData.level++;
                     if (!player.getAbilities().instabuild) heldItem.shrink(1);
-                    player.displayClientMessage(new TranslatableComponent("text.werewolves.werewolf_minion.equipment_upgrade"), false);
+                    player.displayClientMessage(Component.translatable("text.werewolves.werewolf_minion.equipment_upgrade"), false);
                     HelperLib.sync(this);
                 } else {
-                    player.displayClientMessage(new TranslatableComponent("text.werewolves.werewolf_minion.equipment_wrong"), false);
+                    player.displayClientMessage(Component.translatable("text.werewolves.werewolf_minion.equipment_wrong"), false);
 
                 }
                 return InteractionResult.SUCCESS;

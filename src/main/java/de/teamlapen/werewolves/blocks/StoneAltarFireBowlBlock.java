@@ -4,6 +4,7 @@ import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +33,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 import static net.minecraft.world.level.block.CampfireBlock.makeParticles;
 
@@ -111,7 +111,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (stateIn.getValue(LIT)) {
             double d0 = (double) pos.getX() + rand.nextDouble();
             double d1 = (double) pos.getY() + rand.nextDouble() + 0.7D;

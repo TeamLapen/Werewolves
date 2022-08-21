@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.util;
 
 import de.teamlapen.werewolves.api.items.oil.IOil;
 import de.teamlapen.werewolves.core.ModOils;
-import de.teamlapen.werewolves.core.ModRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -19,13 +18,13 @@ public class OilUtils {
         IOil oil = null;
         if (tag != null && tag.contains("oil")) {
             String oilStr = stack.getTag().getString("oil");
-            oil = ModRegistries.WEAPON_OILS.getValue(new ResourceLocation(oilStr));
+            oil = RegUtil.getOil(new ResourceLocation(oilStr));
         }
         return oil != null ? oil : ModOils.empty.get();
     }
 
     public static ItemStack setOil(@Nonnull ItemStack stack, @Nonnull IOil oil) {
-        stack.getOrCreateTag().putString("oil", oil.getRegistryName().toString());
+        stack.getOrCreateTag().putString("oil", RegUtil.id(oil).toString());
         return stack;
     }
 

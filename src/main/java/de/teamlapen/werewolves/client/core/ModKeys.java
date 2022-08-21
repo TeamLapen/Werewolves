@@ -12,8 +12,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,9 +21,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
 
+import javax.annotation.Nonnull;
 import java.util.Optional;
 
-@SuppressWarnings("ClassCanBeRecord")
 public class ModKeys {
     private static final String CATEGORY = "keys.werewolves.category";
     private static final String LEAP_KEY = "keys.werewolves.leap";
@@ -34,8 +34,11 @@ public class ModKeys {
 
     public static void register(ClientEventHandler clientEventHandler) {
         MinecraftForge.EVENT_BUS.register(new ModKeys(clientEventHandler));
-        ClientRegistry.registerKeyBinding(LEAP);
-        ClientRegistry.registerKeyBinding(BITE);
+    }
+
+    static void registerKeyMapping(@Nonnull RegisterKeyMappingsEvent event){
+        event.register(LEAP);
+        event.register(BITE);
     }
 
     private final ClientEventHandler clientEventHandler;

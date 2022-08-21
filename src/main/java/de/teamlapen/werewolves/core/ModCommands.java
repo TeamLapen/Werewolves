@@ -6,13 +6,27 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.werewolves.command.*;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
-import de.teamlapen.werewolves.command.arguments.serializer.WerewolfFormArgumentSerializer;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.synchronization.ArgumentTypes;
+import net.minecraft.commands.synchronization.ArgumentTypeInfo;
+import net.minecraft.commands.synchronization.ArgumentTypeInfos;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 
 public class ModCommands {
+
+    public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(ForgeRegistries.COMMAND_ARGUMENT_TYPES, REFERENCE.MODID);
+
+    public static final RegistryObject<ArgumentTypeInfo<?, ?>> WEREWOLF_FORM = COMMAND_ARGUMENT_TYPES.register("werewolf_form", () -> ArgumentTypeInfos.registerByClass(WerewolfFormArgument.class, new WerewolfFormArgument.Info()));
+
+
+    static void register(IEventBus bus) {
+        COMMAND_ARGUMENT_TYPES.register(bus);
+    }
 
     public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
         List<String> main = Lists.newArrayList("werewolves");
@@ -38,7 +52,4 @@ public class ModCommands {
         }
     }
 
-    static void registerArgumentTypesUsages() {
-        ArgumentTypes.register("werewolves_form", WerewolfFormArgument.class, new WerewolfFormArgumentSerializer());
-    }
 }

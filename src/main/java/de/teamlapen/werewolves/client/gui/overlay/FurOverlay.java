@@ -12,15 +12,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.IIngameOverlay;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
-public class FurOverlay extends GuiComponent implements IIngameOverlay {
+public class FurOverlay extends GuiComponent implements IGuiOverlay {
     private final ResourceLocation FUR = new ResourceLocation(REFERENCE.MODID, "textures/gui/overlay/werewolf_fur_border.png");
     private final Minecraft mc = Minecraft.getInstance();
 
     @Override
-    public void render(ForgeIngameGui gui, PoseStack mStack, float partialTicks, int width, int height) {
+    public void render(ForgeGui gui, PoseStack mStack, float partialTicks, int width, int height) {
         if (WerewolvesConfig.CLIENT.disableScreenFurRendering.get()) return;
         if (this.mc.options.getCameraType() == CameraType.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(FormHelper::isFormActionActive).orElse(false)) {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);

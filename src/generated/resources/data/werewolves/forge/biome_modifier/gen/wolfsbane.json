@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#werewolves:has_gen/wolfsbane",
+  "features": "werewolves:wolfsbane",
+  "step": "vegetal_decoration"
+}

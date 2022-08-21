@@ -31,34 +31,34 @@ public class ModBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, REFERENCE.MODID);
 
-    public static final RegistryObject<OreBlock> silver_ore = registerWithItem("silver_ore", () -> new OreBlock(Block.Properties.of(Material.STONE).strength(3.0F, 5.0F).requiresCorrectToolForDrops()));
-    public static final RegistryObject<OreBlock> deepslate_silver_ore = registerWithItem("deepslate_silver_ore", () -> new OreBlock(Block.Properties.of(Material.STONE).strength(4.5F, 3.0F).requiresCorrectToolForDrops().color(MaterialColor.DEEPSLATE).sound(SoundType.DEEPSLATE)));
-    public static final RegistryObject<WolfsbaneBlock> wolfsbane = registerWithItem("wolfsbane", WolfsbaneBlock::new);
-    public static final RegistryObject<Block> silver_block = registerWithItem("silver_block", () -> new Block(Block.Properties.of(Material.METAL, MaterialColor.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
-    public static final RegistryObject<Block> raw_silver_block = registerWithItem("raw_silver_block", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.RAW_IRON).requiresCorrectToolForDrops().strength(5.0f, 6.0f)));
-    public static final RegistryObject<FlowerPotBlock> potted_wolfsbane = BLOCKS.register("potted_wolfsbane", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, wolfsbane, Block.Properties.of(Material.DECORATION).strength(0f)));
-    public static final RegistryObject<TotemTopBlock> totem_top_werewolves_werewolf = BLOCKS.register("totem_top_werewolves_werewolf", () -> new TotemTopBlock(false, REFERENCE.WEREWOLF_PLAYER_KEY));
-    public static final RegistryObject<TotemTopBlock> totem_top_werewolves_werewolf_crafted = BLOCKS.register("totem_top_werewolves_werewolf_crafted", () -> new TotemTopBlock(true, REFERENCE.WEREWOLF_PLAYER_KEY));
-    public static final RegistryObject<net.minecraft.world.level.block.SaplingBlock> jacaranda_sapling = registerWithItem("jacaranda_sapling", () -> new SaplingBlock(new JacarandaTree()));
-    public static final RegistryObject<LeavesBlock> jacaranda_leaves = registerWithItem("jacaranda_leaves", () -> new LeavesBlock(Block.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
-    public static final RegistryObject<RotatedPillarBlock> jacaranda_log = registerWithItem("jacaranda_log", () -> {
+    public static final RegistryObject<DropExperienceBlock> SILVER_ORE = registerWithItem("silver_ore", () -> new DropExperienceBlock(Block.Properties.of(Material.STONE).strength(3.0F, 5.0F).requiresCorrectToolForDrops()));
+    public static final RegistryObject<DropExperienceBlock> DEEPSLATE_SILVER_ORE = registerWithItem("deepslate_silver_ore", () -> new DropExperienceBlock(Block.Properties.of(Material.STONE).strength(4.5F, 3.0F).requiresCorrectToolForDrops().color(MaterialColor.DEEPSLATE).sound(SoundType.DEEPSLATE)));
+    public static final RegistryObject<WolfsbaneBlock> WOLFSBANE = registerWithItem("wolfsbane", WolfsbaneBlock::new);
+    public static final RegistryObject<Block> SILVER_BLOCK = registerWithItem("silver_block", () -> new Block(Block.Properties.of(Material.METAL, MaterialColor.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final RegistryObject<Block> RAW_SILVER_BLOCK = registerWithItem("raw_silver_block", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.RAW_IRON).requiresCorrectToolForDrops().strength(5.0f, 6.0f)));
+    public static final RegistryObject<FlowerPotBlock> POTTED_WOLFSBANE = BLOCKS.register("potted_wolfsbane", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, WOLFSBANE, Block.Properties.of(Material.DECORATION).strength(0f)));
+    public static final RegistryObject<TotemTopBlock> TOTEM_TOP_WEREWOLVES_WEREWOLF = BLOCKS.register("totem_top_werewolves_werewolf", () -> new TotemTopBlock(false, REFERENCE.WEREWOLF_PLAYER_KEY));
+    public static final RegistryObject<TotemTopBlock> TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED = BLOCKS.register("totem_top_werewolves_werewolf_crafted", () -> new TotemTopBlock(true, REFERENCE.WEREWOLF_PLAYER_KEY));
+    public static final RegistryObject<SaplingBlock> JACARANDA_SAPLING = registerWithItem("jacaranda_sapling", () -> new SaplingBlock(new JacarandaTree()));
+    public static final RegistryObject<LeavesBlock> JACARANDA_LEAVES = registerWithItem("jacaranda_leaves", () -> new LeavesBlock(Block.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
+    public static final RegistryObject<RotatedPillarBlock> JACARANDA_LOG = registerWithItem("jacaranda_log", () -> {
         RotatedPillarBlock log = BlocksAccessor.createLogBlock_werewolves(MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN);
         ((FireBlockAccessor) Blocks.FIRE).invokeSetFireInfo_werewolves(log, 5, 5);
         return log;
     });
-    public static final RegistryObject<net.minecraft.world.level.block.SaplingBlock> magic_sapling = registerWithItem("magic_sapling", () -> new SaplingBlock(new MagicTree()));
-    public static final RegistryObject<LeavesBlock> magic_leaves = registerWithItem("magic_leaves", () -> new LeavesBlock(Block.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
-    public static final RegistryObject<RotatedPillarBlock> magic_log = registerWithItem("magic_log", () -> {
+    public static final RegistryObject<net.minecraft.world.level.block.SaplingBlock> MAGIC_SAPLING = registerWithItem("magic_sapling", () -> new SaplingBlock(new MagicTree()));
+    public static final RegistryObject<LeavesBlock> MAGIC_LEAVES = registerWithItem("magic_leaves", () -> new LeavesBlock(Block.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
+    public static final RegistryObject<RotatedPillarBlock> MAGIC_LOG = registerWithItem("magic_log", () -> {
         RotatedPillarBlock log = BlocksAccessor.createLogBlock_werewolves(MaterialColor.COLOR_BLUE, MaterialColor.COLOR_BLUE);
         ((FireBlockAccessor) Blocks.FIRE).invokeSetFireInfo_werewolves(log, 5, 5);
         return log;
     });
-    public static final RegistryObject<Block> magic_planks = registerWithItem("magic_planks", () -> new Block(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-    public static final RegistryObject<StoneAltarBlock> stone_altar = registerWithItem("stone_altar", StoneAltarBlock::new);
-    public static final RegistryObject<StoneAltarFireBowlBlock> stone_altar_fire_bowl = registerWithItem("stone_altar_fire_bowl", StoneAltarFireBowlBlock::new);
+    public static final RegistryObject<Block> MAGIC_PLANKS = registerWithItem("magic_planks", () -> new Block(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+    public static final RegistryObject<StoneAltarBlock> STONE_ALTAR = registerWithItem("stone_altar", StoneAltarBlock::new);
+    public static final RegistryObject<StoneAltarFireBowlBlock> STONE_ALTAR_FIRE_BOWL = registerWithItem("stone_altar_fire_bowl", StoneAltarFireBowlBlock::new);
 
     public static class V {
-        public static final RegistryObject<Block> med_chair = RegistryObject.create(new ResourceLocation("vampirism", "med_chair"), ForgeRegistries.BLOCKS);
+        public static final RegistryObject<Block> MED_CHAIR = RegistryObject.create(new ResourceLocation("vampirism", "med_chair"), ForgeRegistries.Keys.BLOCKS, REFERENCE.MODID);
 
         private static void init() {
 

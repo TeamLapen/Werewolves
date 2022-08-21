@@ -70,7 +70,7 @@ public class ModWorldEventHandler {
     }
 
     private Optional<Mob> getCaptureEntity(IFaction<?> faction, Level world) {
-        List<CaptureEntityEntry> entries = faction.getVillageData().getCaptureEntries();
+        List<CaptureEntityEntry<?>> entries = faction.getVillageData().getCaptureEntries();
         return WeightedRandom.getRandomItem(world.getRandom(), entries).map(entry -> entry.getEntity().create(world));
     }
 }

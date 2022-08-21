@@ -8,7 +8,6 @@ import de.teamlapen.vampirism.entity.vampire.VampireBaseEntity;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
-import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
@@ -17,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -33,7 +33,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransformable {
     private static final EntityDataAccessor<Integer> FORM = SynchedEntityData.defineId(HumanWerewolfEntity.class, EntityDataSerializers.INT);
@@ -52,7 +51,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
         this.actionTier = EntityActionTier.Medium;
     }
 
-    public static boolean spawnPredicateHumanWerewolf(EntityType<? extends PathfinderMob> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, Random random) {
+    public static boolean spawnPredicateHumanWerewolf(EntityType<? extends PathfinderMob> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, RandomSource random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
         if (!Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
         if (random.nextInt(3) != 0) return false;
@@ -118,10 +117,10 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
 
     public static AttributeSupplier.Builder getAttributeBuilder() {
         return PathfinderMob.createMobAttributes()
-                .add(Attributes.MOVEMENT_SPEED, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_speed.get())
+                .add(Attributes.MOVEMENT_SPEED, 0.36)
                 .add(Attributes.FOLLOW_RANGE, 48.0D)
-                .add(Attributes.ATTACK_DAMAGE, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_attack_damage.get())
-                .add(Attributes.MAX_HEALTH, WerewolvesConfig.BALANCE.MOBPROPS.human_werewolf_max_health.get());
+                .add(Attributes.ATTACK_DAMAGE, 3)
+                .add(Attributes.MAX_HEALTH, 30.0);
     }
 
     @Override

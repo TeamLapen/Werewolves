@@ -1,0 +1,17 @@
+// 1.19.2	2022-08-21T17:16:53.111998399	Tags for minecraft:item
+3b92cbad89873732893f67eb2321a4013cc462ef data/forge/tags/items/cookedmeats.json
+06c3c7d9464cdd187a2203934c936e6880f08a1d data/forge/tags/items/ingots/silver.json
+addb7d1902ac4e09d2c7b1c5b0f35c254e6e639b data/forge/tags/items/jacaranda_logs.json
+88efe4319c25f06dafae5a371136c6c7c7700b64 data/forge/tags/items/magic_logs.json
+715941cb9a9be0caa0232cbcb25550150a1ba04f data/forge/tags/items/nuggets/silver.json
+b5991ba37993e31f2a1f1266388e464f3396251b data/forge/tags/items/ore_rates/singular.json
+e09f5d4eccf76f48e56644688a0eba59d883b7a3 data/forge/tags/items/ores/silver.json
+fc97b1206a64876c7b2047140dda709ea7f3698c data/forge/tags/items/raw_materials/silver.json
+38dfd293e910f5a18da10fc3269ec17e2ca9da02 data/forge/tags/items/rawmeats.json
+12bc1fbb36218921c280a6aa54d58b5c503afdb6 data/forge/tags/items/storage_blocks/raw_silver.json
+70d7d880d2683f224c736c0eaf7d665332e32da9 data/forge/tags/items/storage_blocks/silver.json
+dd8c8d21898bfc994fa6746067863516f0f015d8 data/minecraft/tags/items/leaves.json
+3761dc61c06288684a2b95d7813b73b3358fafbe data/minecraft/tags/items/logs.json
+48505b5a0877b2480e9da611676a4ea0544c0497 data/minecraft/tags/items/planks.json
+ac1665b5861d6b08aed525a6afc6a6b7599c1ee7 data/minecraft/tags/items/saplings.json
+0fd642cda6917d9937aaec180767917079977b3c data/werewolves/tags/items/tools/silver.json

@@ -1,0 +1,15 @@
+// 1.19.2	2022-08-21T17:16:53.111800989	Tags for minecraft:block
+addb7d1902ac4e09d2c7b1c5b0f35c254e6e639b data/forge/tags/blocks/jacaranda_logs.json
+88efe4319c25f06dafae5a371136c6c7c7700b64 data/forge/tags/blocks/magic_logs.json
+b5991ba37993e31f2a1f1266388e464f3396251b data/forge/tags/blocks/ore_rates/singular.json
+e09f5d4eccf76f48e56644688a0eba59d883b7a3 data/forge/tags/blocks/ores/silver.json
+12bc1fbb36218921c280a6aa54d58b5c503afdb6 data/forge/tags/blocks/storage_blocks/raw_silver.json
+70d7d880d2683f224c736c0eaf7d665332e32da9 data/forge/tags/blocks/storage_blocks/silver.json
+4c2d8c1521fd44ac6195d4cde1bf991d5042bb87 data/minecraft/tags/blocks/campfires.json
+dd8c8d21898bfc994fa6746067863516f0f015d8 data/minecraft/tags/blocks/leaves.json
+3761dc61c06288684a2b95d7813b73b3358fafbe data/minecraft/tags/blocks/logs.json
+141f66bfc9675276f783939c7a53f854a1bde2c3 data/minecraft/tags/blocks/mineable/axe.json
+c50abaf5c6511171eb4d2d69fd8abebb32299e68 data/minecraft/tags/blocks/mineable/pickaxe.json
+e7db20c80fa47117d3d4fd88a55d14b3a99fd547 data/minecraft/tags/blocks/needs_stone_tool.json
+48505b5a0877b2480e9da611676a4ea0544c0497 data/minecraft/tags/blocks/planks.json
+ac1665b5861d6b08aed525a6afc6a6b7599c1ee7 data/minecraft/tags/blocks/saplings.json

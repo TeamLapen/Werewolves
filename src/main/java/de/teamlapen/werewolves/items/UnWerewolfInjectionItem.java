@@ -1,9 +1,8 @@
 package de.teamlapen.werewolves.items;
 
-import de.teamlapen.vampirism.core.ModBlocks;
+import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.WUtils;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +22,7 @@ public class UnWerewolfInjectionItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(@Nonnull Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
-        playerIn.displayClientMessage(new TextComponent("Please use a ").append(new TranslatableComponent(ModBlocks.med_chair.getDescriptionId())), true);
+        playerIn.displayClientMessage(Component.literal("Please use a ").append(Component.translatable(ModBlocks.V.med_chair.get().getDescriptionId())), true);
         return InteractionResultHolder.pass(stack);
     }
 }

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "side": "werewolves:block/magic_log",
-    "end": "werewolves:block/magic_log_top"
+    "end": "werewolves:block/magic_log_top",
+    "side": "werewolves:block/magic_log"
   }
 }

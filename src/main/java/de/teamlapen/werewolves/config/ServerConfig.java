@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.config;
 
 import de.teamlapen.lib.lib.util.UtilLib;
+import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -27,13 +28,11 @@ public class ServerConfig {
         builder.pop();
     }
 
-    @SuppressWarnings("ConstantConditions")
     public boolean isCustomMeatItems(Item item) {
-        return this.customMeatItems.get().contains(item.getRegistryName().toString());
+        return this.customMeatItems.get().contains(RegUtil.id(item).toString());
     }
 
-    @SuppressWarnings("ConstantConditions")
     public boolean isCustomRawMeatItems(Item item) {
-        return this.customRawMeatItems.get().contains(item.getRegistryName().toString());
+        return this.customRawMeatItems.get().contains(RegUtil.id(item).toString());
     }
 }

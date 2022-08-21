@@ -6,6 +6,7 @@
     "4": "block/campfire_log",
     "particle": "block/stone_bricks"
   },
+  "render_type": "minecraft:cutout",
   "elements": [
     {
       "from": [

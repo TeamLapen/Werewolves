@@ -1,8 +1,14 @@
 package de.teamlapen.werewolves.world.loot;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.teamlapen.werewolves.util.WUtils;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -13,10 +19,11 @@ import net.minecraft.world.level.storage.loot.predicates.AlternativeLootItemCond
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
+import net.minecraftforge.common.loot.LootModifierManager;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +34,43 @@ import static net.minecraft.world.level.storage.loot.LootTable.createStackSplitt
 
 @ParametersAreNonnullByDefault
 public class MobLootModifier extends LootModifier {
+    private static final Gson LOOT_TABLE_SERIALIZER = createLootTableSerializer().create();
+
+
+    private static final Codec<LootTable> LOOT_TABLE_CODEC = Codec.PASSTHROUGH.flatXmap(
+            dynamic -> {
+                try {
+                    return DataResult.success(ForgeHooks.loadLootTable(LOOT_TABLE_SERIALIZER, new ResourceLocation("none"), getJson(dynamic), true, WUtils.LOOT_TABLE_MANAGER));
+                } catch (Exception e) {
+                    LootModifierManager.LOGGER.warn("Unable to decode loot table", e);
+                    return DataResult.error(e.getMessage());
+                }
+            },
+            lootTable -> {
+                try {
+                    JsonElement e = LOOT_TABLE_SERIALIZER.toJsonTree(lootTable);
+                    return DataResult.success(new Dynamic<>(JsonOps.INSTANCE, e));
+                } catch (Exception e) {
+                    LootModifierManager.LOGGER.warn("Unable to encode loot table", e);
+                    return DataResult.error(e.getMessage());
+                }
+            }
+    );
+    public static final Codec<MobLootModifier> CODEC = RecordCodecBuilder.create(inst -> {
+        return codecStart(inst).and(LOOT_TABLE_CODEC.fieldOf("lootTable").forGetter(a -> a.lootTable)).apply(inst, MobLootModifier::new);
+    });
+
+    private static <U> JsonElement getJson(Dynamic<?> dynamic) {
+        Dynamic<U> typed = (Dynamic<U>) dynamic;
+        return typed.getValue() instanceof JsonElement ?
+                (JsonElement) typed.getValue() :
+                typed.getOps().convertTo(JsonOps.INSTANCE, typed.getValue());
+    }
+
+    @Override
+    public Codec<? extends IGlobalLootModifier> codec() {
+        return CODEC;
+    }
 
     private final LootTable lootTable;
 
@@ -35,9 +79,8 @@ public class MobLootModifier extends LootModifier {
         this.lootTable = lootTable;
     }
 
-    @Nonnull
     @Override
-    protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+    protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         this.lootTable.getRandomItemsRaw(context, createStackSplitter(generatedLoot::add));
         return generatedLoot;
     }
@@ -69,23 +112,6 @@ public class MobLootModifier extends LootModifier {
                 throw new IllegalStateException("You must specify target entities");
             }
             return new MobLootModifier(new LootItemCondition[]{this.entityTypes.stream().map(type -> LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(type))).collect(AlternativeLootItemCondition.Builder::new, AlternativeLootItemCondition.Builder::or, AlternativeLootItemCondition.Builder::or).build()}, this.lootTable);
-        }
-
-    }
-
-    public static class ModLootModifierSerializer extends GlobalLootModifierSerializer<MobLootModifier> {
-        private static final Gson LOOT_TABLE_SERIALIZER = createLootTableSerializer().create();
-
-        @Override
-        public MobLootModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] lootConditions) {
-            return new MobLootModifier(lootConditions, ForgeHooks.loadLootTable(LOOT_TABLE_SERIALIZER, location, object.get("loottable"), true, WUtils.LOOT_TABLE_MANAGER));
-        }
-
-        @Override
-        public JsonObject write(MobLootModifier instance) {
-            JsonObject obj = makeConditions(instance.conditions);
-            obj.add("loottable", LOOT_TABLE_SERIALIZER.toJsonTree(instance.lootTable));
-            return obj;
         }
 
     }

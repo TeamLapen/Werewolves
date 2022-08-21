@@ -16,12 +16,10 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.inventory.container.StoneAltarContainer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -36,9 +34,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,7 +48,7 @@ import java.util.UUID;
 
 public class StoneAltarBlockEntity extends InventoryBlockEntity {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Component NAME = new TranslatableComponent("container.werewolves.stone_altar");
+    private static final Component NAME = Component.translatable("container.werewolves.stone_altar");
     private int targetLevel;
     private Phase phase = Phase.NOT_RUNNING;
     private Player player;
@@ -238,11 +234,6 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
         } else {
             return Result.STRUCTURE_LESS;
         }
-    }
-
-    @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.itemHandlerOptional.cast() : super.getCapability(cap, side);
     }
 
     private boolean checkLevel(int targetLevel) {

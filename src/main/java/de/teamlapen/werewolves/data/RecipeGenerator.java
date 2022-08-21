@@ -7,6 +7,7 @@ import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModRecipes;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
@@ -118,7 +119,7 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     protected static String getItemName(ItemLike itemLike) {
-        return itemLike.asItem().getRegistryName().toString();
+        return RegUtil.id(itemLike.asItem()).toString();
     }
 
     protected static String getBlastingRecipeName(ItemLike p_176669_) {

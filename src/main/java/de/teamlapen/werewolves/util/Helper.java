@@ -5,8 +5,8 @@ import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.core.ModTags;
-import de.teamlapen.werewolves.core.WerewolfSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
@@ -85,7 +85,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean canWerewolfPlayerEatItem(Player player, ItemStack stack) {
-        return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.not_meat.get())).orElse(false);
+        return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.not_meat.get())).orElse(false);
     }
 
     @SuppressWarnings("ConstantConditions")

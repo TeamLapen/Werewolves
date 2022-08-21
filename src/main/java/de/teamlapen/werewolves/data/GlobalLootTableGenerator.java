@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.core.ModLootTables;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.loot.MobLootModifier;
 import net.minecraft.data.DataGenerator;
@@ -22,7 +21,7 @@ public class GlobalLootTableGenerator extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        add("hunter_liver", ModLootTables.mob_modifier, MobLootModifier.builder()
+        add("hunter_liver", MobLootModifier.builder()
                 .table(LootTable.lootTable()
                         .withPool(LootPool.lootPool().name("werewolves_general").setRolls(ConstantValue.exactly(1)).when(LootItemKilledByPlayerCondition.killedByPlayer()).when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.005f))
                                 .add(LootItem.lootTableItem(ModItems.liver.get()).setWeight(1))))

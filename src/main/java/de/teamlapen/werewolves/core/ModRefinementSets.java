@@ -1,21 +1,20 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet;
-import de.teamlapen.vampirism.core.ModRegistries;
 import de.teamlapen.vampirism.player.refinements.RefinementSet;
 import de.teamlapen.werewolves.entities.player.WerewolfRefinementSet;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
-
-import java.util.function.Supplier;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModRefinementSets {
 
-    public static final DeferredRegister<IRefinementSet> REFINEMENT_SETS = DeferredRegister.create(ModRegistries.REFINEMENT_SET_ID, REFERENCE.MODID);
+    public static final DeferredRegister<IRefinementSet> REFINEMENT_SETS = DeferredRegister.create(VampirismRegistries.REFINEMENT_SET_ID, REFERENCE.MODID);
 
-    public static void register(IEventBus bus) {
+    static void register(IEventBus bus) {
         REFINEMENT_SETS.register(bus);
     }
 
@@ -79,33 +78,33 @@ public class ModRefinementSets {
     }
 
     @SafeVarargs
-    private static IRefinementSet commonW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet commonW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.COMMON, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet uncommonW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet uncommonW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.UNCOMMON, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet rareW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet rareW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.RARE, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet epicW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet epicW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.EPIC, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet legendaryW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet legendaryW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.LEGENDARY, refinements);
     }
 
     @SafeVarargs
     @SuppressWarnings("ConstantConditions")
-    private static RefinementSet werewolf(IRefinementSet.Rarity rarity, Supplier<IRefinement>... refinements) {
+    private static RefinementSet werewolf(IRefinementSet.Rarity rarity, RegistryObject<IRefinement>... refinements) {
         return new WerewolfRefinementSet(rarity, rarity.color.getColor(), refinements);
     }
 }

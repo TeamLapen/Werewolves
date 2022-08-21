@@ -2,59 +2,66 @@
   "type": "minecraft:entity",
   "pools": [
     {
-      "name": "general",
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        },
+        {
+          "chance": 0.33,
+          "condition": "minecraft:random_chance_with_looting",
+          "looting_multiplier": 0.05
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
           "name": "werewolves:liver"
         }
       ],
+      "name": "general",
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
       "conditions": [
         {
           "condition": "minecraft:killed_by_player"
         },
         {
-          "condition": "minecraft:random_chance_with_looting",
           "chance": 0.33,
+          "condition": "minecraft:random_chance_with_looting",
           "looting_multiplier": 0.05
         }
-      ]
-    },
-    {
-      "name": "general2",
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      ],
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 40,
-          "name": "werewolves:cracked_bone"
+          "name": "werewolves:cracked_bone",
+          "weight": 40
         }
       ],
+      "name": "general2",
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
       "conditions": [
         {
           "condition": "minecraft:killed_by_player"
         },
         {
-          "condition": "minecraft:random_chance_with_looting",
-          "chance": 0.33,
-          "looting_multiplier": 0.05
+          "chance": 0.05,
+          "condition": "minecraft:random_chance"
         }
-      ]
-    },
-    {
-      "name": "accessories",
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      ],
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "vampirism:add_refinement_set",
-              "faction": "werewolves:werewolf"
+              "faction": "werewolves:werewolf",
+              "function": "vampirism:add_refinement_set"
             }
           ],
           "name": "werewolves:bone_necklace"
@@ -63,8 +70,8 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "vampirism:add_refinement_set",
-              "faction": "werewolves:werewolf"
+              "faction": "werewolves:werewolf",
+              "function": "vampirism:add_refinement_set"
             }
           ],
           "name": "werewolves:charm_bracelet"
@@ -73,22 +80,15 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "vampirism:add_refinement_set",
-              "faction": "werewolves:werewolf"
+              "faction": "werewolves:werewolf",
+              "function": "vampirism:add_refinement_set"
             }
           ],
           "name": "werewolves:dream_catcher"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:killed_by_player"
-        },
-        {
-          "condition": "minecraft:random_chance",
-          "chance": 0.05
-        }
-      ]
+      "name": "accessories",
+      "rolls": 1.0
     }
   ]
 }

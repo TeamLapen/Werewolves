@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.data;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -99,45 +100,40 @@ public class ItemModelGenerator extends ItemModelProvider {
         return item(item, "item/generated", texture);
     }
 
-    @SuppressWarnings("ConstantConditions")
     public ItemModelBuilder item(Item item, String parent, ResourceLocation... texture) {
         if (texture.length == 0) {
-            return withExistingParent(item, mcLoc(parent)).texture("layer0", REFERENCE.MODID + ":item/" + item.getRegistryName().getPath());
+            return withExistingParent(item, mcLoc(parent)).texture("layer0", REFERENCE.MODID + ":item/" + RegUtil.id(item).getPath());
         }
-        return item(item.getRegistryName().getPath(), texture);
+        return item(RegUtil.id(item).getPath(), texture);
     }
 
-    @SuppressWarnings("ConstantConditions")
     public ItemModelBuilder blockLayer(Block item, ResourceLocation... texture) {
         if (texture.length == 0) {
-            return withExistingParent(item, mcLoc("item/generated")).texture("layer0", REFERENCE.MODID + ":block/" + item.getRegistryName().getPath());
+            return withExistingParent(item, mcLoc("item/generated")).texture("layer0", REFERENCE.MODID + ":block/" + RegUtil.id(item).getPath());
         }
-        return item(item.getRegistryName().getPath(), texture);
+        return item(RegUtil.id(item).getPath(), texture);
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Nonnull
     public ItemModelBuilder withExistingParent(Item name, ResourceLocation parent) {
-        return super.withExistingParent(name.getRegistryName().getPath(), parent);
+        return super.withExistingParent(RegUtil.id(name).getPath(), parent);
     }
 
     @Nonnull
     public ItemModelBuilder withExistingParent(Item name, Item parent) {
-        return this.withExistingParent(name, parent.getRegistryName());
+        return this.withExistingParent(name, RegUtil.id(parent));
     }
 
-    @SuppressWarnings({"UnusedReturnValue", "ConstantConditions"})
     @Nonnull
     public ItemModelBuilder withExistingParent(Block name, ResourceLocation parent) {
-        return super.withExistingParent(name.getRegistryName().getPath(), parent);
+        return super.withExistingParent(RegUtil.id(name).getPath(), parent);
     }
 
-    @SuppressWarnings("ConstantConditions")
     public ItemModelBuilder block(Block name) {
         try {
-            return super.withExistingParent(name.getRegistryName().getPath(), REFERENCE.MODID + ":block/" + name.getRegistryName().getPath());
+            return super.withExistingParent(RegUtil.id(name).getPath(), REFERENCE.MODID + ":block/" + RegUtil.id(name).getPath());
         } catch (IllegalStateException e) {
-            return getBuilder(name.getRegistryName().getPath()).parent(new ModelFile.UncheckedModelFile(REFERENCE.MODID + ":block/" + name.getRegistryName().getPath()));
+            return getBuilder(RegUtil.id(name).getPath()).parent(new ModelFile.UncheckedModelFile(REFERENCE.MODID + ":block/" + RegUtil.id(name).getPath()));
         }
     }
 }

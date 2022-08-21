@@ -37,7 +37,7 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
         entities.forEach(entity -> entity.addEffect(new MobEffectInstance(ModEffects.howling.get(), (WerewolvesConfig.BALANCE.SKILLS.howling_duration.get() + WerewolvesConfig.BALANCE.SKILLS.howling_disabled_duration.get()) * 20, 0, true, false, true)));
         werewolfPlayer.getRepresentingPlayer().playSound(ModSounds.entity_werewolf_howl.get(), 1.0F, 1.0F);
         werewolfPlayer.getRepresentingPlayer().playNotifySound(ModSounds.entity_werewolf_howl.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-        if (werewolfPlayer.getSkillHandler().isSkillEnabled(WerewolfSkills.wolf_pack.get())) {
+        if (werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.wolf_pack.get())) {
             Level world = player.getCommandSenderWorld();
 
             int wolfAmount = WerewolvesConfig.BALANCE.SKILLS.wolf_pack_wolf_amount.get();

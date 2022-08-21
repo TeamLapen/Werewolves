@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
+import java.util.Optional;
 
 public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
 
@@ -16,7 +17,7 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
     }
 
     public WerewolfNightVisionEffectInstance(MobEffectInstance otherEffect) {
-        super(MobEffects.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false, false, otherEffect);
+        super(MobEffects.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false, false, otherEffect, Optional.empty());
         this.setCurativeItems(Collections.emptyList());
     }
 

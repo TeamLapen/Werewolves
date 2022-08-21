@@ -113,7 +113,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
 
     @Nonnull
     public static List<ResourceLocation> getBeastTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.BEAST.getSkinTypes()) {
             LOGGER.error("Could not find all textures for the beast werewolf form");
             for (int i = 0; i < WerewolfForm.BEAST.getSkinTypes(); i++) {
@@ -128,7 +128,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
 
     @Nonnull
     public static List<ResourceLocation> getSurvivalTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/survivalist", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/survivalist", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.SURVIVALIST.getSkinTypes()) {
             LOGGER.error("Could not find all textures for the survivalist werewolf form");
             for (int i = 0; i < WerewolfForm.SURVIVALIST.getSkinTypes(); i++) {
@@ -143,7 +143,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
 
     @Nonnull
     public static List<ResourceLocation> getHumanTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/human", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/human", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.HUMAN.getSkinTypes()) {
             LOGGER.error("Could not find all textures for the human werewolf form");
             for (int i = 0; i < WerewolfForm.HUMAN.getSkinTypes(); i++) {

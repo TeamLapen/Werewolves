@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Mixin(EntityRenderers.class)
 public class EntityRenderersMixin {
-    @Inject(method = "Lnet/minecraft/client/renderer/entity/EntityRenderers;createPlayerRenderers(Lnet/minecraft/client/renderer/entity/EntityRendererProvider$Context;)Ljava/util/Map;", at = @At("HEAD"))
+    @Inject(method = "createPlayerRenderers(Lnet/minecraft/client/renderer/entity/EntityRendererProvider$Context;)Ljava/util/Map;", at = @At("HEAD"))
     private static void createWerewolfRenderer(EntityRendererProvider.Context context, CallbackInfoReturnable<Map<String, EntityRenderer<? extends Player>>> cir) {
         ModEntityRenderer.updateRenderer(context);
     }

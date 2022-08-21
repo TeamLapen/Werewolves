@@ -7,7 +7,7 @@ import de.teamlapen.vampirism.client.gui.AppearanceScreen;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.network.WerewolfAppearancePacket;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -16,8 +16,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import org.apache.commons.lang3.tuple.Pair;
@@ -27,7 +25,7 @@ import javax.annotation.Nullable;
 
 public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
 
-    private static final Component NAME = new TranslatableComponent("gui.vampirism.appearance");
+    private static final Component NAME = Component.translatable("gui.vampirism.appearance");
 
     private final WerewolfPlayer werewolf;
 
@@ -74,9 +72,9 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     @Override
     protected void init() {
         super.init();
-        Button.OnTooltip notUnlocked = (button, stack, mouseX, mouseY) -> renderTooltip(stack, new TranslatableComponent("text.werewolves.not_unlocked"), mouseX, mouseY);
-        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.beast_form.get());
-        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.survival_form.get());
+        Button.OnTooltip notUnlocked = (button, stack, mouseX, mouseY) -> renderTooltip(stack, Component.translatable("text.werewolves.not_unlocked"), mouseX, mouseY);
+        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.beast_form.get());
+        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.survival_form.get());
         this.human = this.addRenderableWidget(new Button(this.guiLeft + 5, this.guiTop + 20, 67, 20, WerewolfForm.HUMAN.getTextComponent(), (button1) -> switchToForm(WerewolfForm.HUMAN)));
         this.beast = this.addRenderableWidget(new Button(this.guiLeft + 71, this.guiTop + 20, 40, 20, WerewolfForm.BEAST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.BEAST), beastUnlocked ? Button.NO_TOOLTIP : notUnlocked));
         this.survival = this.addRenderableWidget(new Button(this.guiLeft + 111, this.guiTop + 20, 55, 20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.SURVIVALIST), survivalUnlocked ? Button.NO_TOOLTIP : notUnlocked));
@@ -87,8 +85,8 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
      * disable/enable buttons for the different forms
      */
     private void sync() {
-        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.beast_form.get());
-        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.survival_form.get());
+        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.beast_form.get());
+        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.survival_form.get());
         if (this.activeForm == WerewolfForm.BEAST) {
             this.beast.active = false;
             this.human.active = true;
@@ -133,15 +131,15 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
         this.eyeType = werewolf.getEyeType(form);
         this.glowingEyes = werewolf.hasGlowingEyes(form);
 
-        this.eyeList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100, 20, REFERENCE.EYE_TYPE_COUNT, new TranslatableComponent("text.werewolves.appearance.eye"), this::eye, this::hoverEye));
-        this.skinList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 50 + 19 + 20, 99, 80, 20, form.getSkinTypes(), new TranslatableComponent("text.werewolves.appearance.skin"), this::skin, this::hoverSkin));
-        this.eyeButton = this.addRenderableWidget(new ExtendedButton(eyeList.x, eyeList.y - 20, eyeList.getWidth() + 1, 20, new TextComponent(""), (b) -> {
+        this.eyeList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100, 20, REFERENCE.EYE_TYPE_COUNT, Component.translatable("text.werewolves.appearance.eye"), this::eye, this::hoverEye));
+        this.skinList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 50 + 19 + 20, 99, 80, 20, form.getSkinTypes(), Component.translatable("text.werewolves.appearance.skin"), this::skin, this::hoverSkin));
+        this.eyeButton = this.addRenderableWidget(new ExtendedButton(eyeList.x, eyeList.y - 20, eyeList.getWidth() + 1, 20, Component.empty(), (b) -> {
             this.setEyeListVisibility(!eyeList.visible);
         }));
-        this.skinButton = this.addRenderableWidget(new ExtendedButton(skinList.x, skinList.y - 20, skinList.getWidth() + 1, 20, new TextComponent(""), (b) -> {
+        this.skinButton = this.addRenderableWidget(new ExtendedButton(skinList.x, skinList.y - 20, skinList.getWidth() + 1, 20, Component.empty(), (b) -> {
             this.setSkinListVisibility(!skinList.visible);
         }));
-        this.glowingEyesButton = this.addRenderableWidget(new Checkbox(this.guiLeft + 20, this.guiTop + 90, 99, 20, new TranslatableComponent("gui.vampirism.appearance.glowing_eye"), this.glowingEyes) {
+        this.glowingEyesButton = this.addRenderableWidget(new Checkbox(this.guiLeft + 20, this.guiTop + 90, 99, 20, Component.translatable("gui.vampirism.appearance.glowing_eye"), this.glowingEyes) {
             public void onPress() {
                 super.onPress();
                 glowingEyes = this.selected();

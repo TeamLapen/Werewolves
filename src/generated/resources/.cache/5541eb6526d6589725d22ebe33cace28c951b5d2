@@ -1,0 +1,13 @@
+// 1.19.2	2022-08-21T17:16:53.109350517	Werewolves Tags for minecraft:worldgen/biome
+aacaac16fcf48ed374019645726e0350a30c34b5 data/forge/tags/worldgen/biome/is_dense.json
+aacaac16fcf48ed374019645726e0350a30c34b5 data/forge/tags/worldgen/biome/is_magical.json
+10b93ff239e0fc0cf50a954f72693327ba4b6e65 data/minecraft/tags/worldgen/biome/is_forest.json
+aacaac16fcf48ed374019645726e0350a30c34b5 data/minecraft/tags/worldgen/biome/is_overworld.json
+0d21a9b5263db8f5f92c3dfb670590ad5372ca22 data/vampirism/tags/worldgen/biome/has_faction.json
+aacaac16fcf48ed374019645726e0350a30c34b5 data/werewolves/tags/worldgen/biome/has_faction/werewolf.json
+b020f6cdcd2d955793278b2f89a178a1d31e599a data/werewolves/tags/worldgen/biome/has_gen/silver_ore.json
+6b35771c8d400b0921c04386d79e88b834c282ad data/werewolves/tags/worldgen/biome/has_gen/wolfsbane.json
+07ecd21cae8acc4735861c19ee51bbd8457289ae data/werewolves/tags/worldgen/biome/has_spawn/human_werewolf.json
+07ecd21cae8acc4735861c19ee51bbd8457289ae data/werewolves/tags/worldgen/biome/has_spawn/werewolf.json
+72540f1f5b5f7950ca1f4c68910c104c8594e51a data/werewolves/tags/worldgen/biome/no_spawn/human_werewolf.json
+72540f1f5b5f7950ca1f4c68910c104c8594e51a data/werewolves/tags/worldgen/biome/no_spawn/werewolf.json

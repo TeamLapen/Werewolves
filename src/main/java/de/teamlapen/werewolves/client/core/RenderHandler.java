@@ -18,10 +18,10 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,7 +110,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void onWorldLoad(WorldEvent.Load event) {
+    public void onWorldLoad(LevelEvent.Load event) {
         this.ticks = 0;//Reset blood vision on world load
     }
 
@@ -119,25 +119,27 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void onRenderWorldLast(RenderLevelLastEvent event) {
-        if (mc.level == null) return;
+    public void onRenderWorldLast(RenderLevelStageEvent event) {
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
+            if (mc.level == null) return;
 
-        /*
-         * DO NOT USE partial ticks from event. They are bugged: https://github.com/MinecraftForge/MinecraftForge/issues/6380
-         */
-        float partialTicks = mc.getFrameTime();
+            /*
+             * DO NOT USE partial ticks from event. They are bugged: https://github.com/MinecraftForge/MinecraftForge/issues/6380
+             */
+            float partialTicks = mc.getFrameTime();
 
 
-        if (displayHeight != mc.getWindow().getHeight() || displayWidth != mc.getWindow().getWidth()) {
-            this.displayHeight = mc.getWindow().getHeight();
-            this.displayWidth = mc.getWindow().getWidth();
-            this.updateFramebufferSize(this.displayWidth, this.displayHeight);
-        }
+            if (displayHeight != mc.getWindow().getHeight() || displayWidth != mc.getWindow().getWidth()) {
+                this.displayHeight = mc.getWindow().getHeight();
+                this.displayWidth = mc.getWindow().getWidth();
+                this.updateFramebufferSize(this.displayWidth, this.displayHeight);
+            }
 
-        if (shouldRenderVision()) {
-            adjustVisionShaders(getVisionProgress(partialTicks));
-            this.blurShader.process(partialTicks);
-            if (this.visionBuffer != null) this.visionBuffer.endOutlineBatch();
+            if (shouldRenderVision()) {
+                adjustVisionShaders(getVisionProgress(partialTicks));
+                this.blurShader.process(partialTicks);
+                if (this.visionBuffer != null) this.visionBuffer.endOutlineBatch();
+            }
         }
     }
 

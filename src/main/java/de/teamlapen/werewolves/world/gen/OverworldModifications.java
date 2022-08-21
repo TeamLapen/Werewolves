@@ -77,7 +77,7 @@ public class OverworldModifications {
 
             LOGGER.info("Adding biome {} to ParameterPoints {} in Preset.OVERWORLD", ModBiomes.WEREWOLF_HEAVEN.getKey(), Arrays.toString(forestPoints));
             for (Climate.ParameterPoint forestPoint : forestPoints) {
-                biomes.add(Pair.of(forestPoint, registry.getHolderOrThrow(ModBiomes.WEREWOLF_HEAVEN.getKey())));
+                biomes.add(Pair.of(forestPoint, registry.getOrCreateHolderOrThrow(ModBiomes.WEREWOLF_HEAVEN.getKey())));
             }
 
             return new Climate.ParameterList<>(biomes);

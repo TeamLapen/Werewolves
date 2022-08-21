@@ -6,6 +6,7 @@
     "texture": "block/stone_bricks",
     "fire": "block/fire_1"
   },
+  "render_type": "minecraft:cutout",
   "elements": [
     {
       "__comment": "Element",

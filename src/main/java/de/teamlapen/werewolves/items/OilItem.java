@@ -5,9 +5,10 @@ import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.core.ModRegistries;
 import de.teamlapen.werewolves.items.oil.WeaponOil;
 import de.teamlapen.werewolves.util.OilUtils;
+import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -37,8 +38,8 @@ public class OilItem extends Item implements IOilItem {
     @Nonnull
     @Override
     public Component getName(@Nonnull ItemStack stack) {
-        IOil oil = OilUtils.getOil(stack);
-        return new TranslatableComponent("oil." + oil.getRegistryName().getNamespace() + "." + oil.getRegistryName().getPath()).append(" ").append(new TranslatableComponent(this.getDescriptionId(stack)));
+        ResourceLocation id = RegUtil.id(OilUtils.getOil(stack));
+        return Component.translatable("oil." + id.getNamespace() + "." + id.getPath()).append(" ").append(Component.translatable(this.getDescriptionId(stack)));
     }
 
     @Override
@@ -48,8 +49,8 @@ public class OilItem extends Item implements IOilItem {
 
     @Override
     public void fillItemCategory(@Nonnull CreativeModeTab itemGroup, @Nonnull NonNullList<ItemStack> items) {
-        if (this.allowdedIn(itemGroup)) {
-            for (IOil value : ModRegistries.WEAPON_OILS.getValues()) {
+        if (this.allowedIn(itemGroup)) {
+            for (IOil value : RegUtil.values(ModRegistries.OILS)) {
                 if (value == ModOils.empty.get()) continue;
                 items.add(withOil(value));
             }

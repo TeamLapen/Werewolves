@@ -1,49 +1,49 @@
 {
+  "type": "werewolves:mob_modifier",
   "conditions": [
     {
       "condition": "minecraft:alternative",
       "terms": [
         {
           "condition": "minecraft:entity_properties",
+          "entity": "this",
           "predicate": {
             "type": "vampirism:hunter"
-          },
-          "entity": "this"
+          }
         },
         {
           "condition": "minecraft:entity_properties",
+          "entity": "this",
           "predicate": {
             "type": "vampirism:hunter_imob"
-          },
-          "entity": "this"
+          }
         }
       ]
     }
   ],
-  "loottable": {
+  "lootTable": {
     "pools": [
       {
-        "name": "werewolves_general",
-        "rolls": 1.0,
         "bonus_rolls": 0.0,
+        "conditions": [
+          {
+            "condition": "minecraft:killed_by_player"
+          },
+          {
+            "chance": 0.33,
+            "condition": "minecraft:random_chance_with_looting",
+            "looting_multiplier": 0.005
+          }
+        ],
         "entries": [
           {
             "type": "minecraft:item",
             "name": "werewolves:liver"
           }
         ],
-        "conditions": [
-          {
-            "condition": "minecraft:killed_by_player"
-          },
-          {
-            "condition": "minecraft:random_chance_with_looting",
-            "chance": 0.33,
-            "looting_multiplier": 0.005
-          }
-        ]
+        "name": "werewolves_general",
+        "rolls": 1.0
       }
     ]
-  },
-  "type": "werewolves:mob_modifier"
+  }
 }

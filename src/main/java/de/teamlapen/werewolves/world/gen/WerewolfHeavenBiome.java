@@ -17,7 +17,6 @@ public class WerewolfHeavenBiome {
     public static Biome.BiomeBuilder addAttributes(BiomeGenerationSettings.Builder featureBuilder, MobSpawnSettings.Builder spawnBuilder, BiomeSpecialEffects.Builder ambienceBuilder) {
         return new Biome.BiomeBuilder()
                 .precipitation(Biome.Precipitation.NONE)
-                .biomeCategory(Biome.BiomeCategory.FOREST)
                 .temperature(0.3f)
                 .downfall(0)
                 .specialEffects(ambienceBuilder.build())

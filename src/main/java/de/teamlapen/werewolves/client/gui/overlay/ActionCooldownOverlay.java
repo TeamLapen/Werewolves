@@ -7,21 +7,22 @@ import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.IIngameOverlay;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 import java.util.List;
 
-public class ActionCooldownOverlay extends GuiComponent implements IIngameOverlay {
+public class ActionCooldownOverlay extends GuiComponent implements IGuiOverlay {
 
     private final Minecraft mc = Minecraft.getInstance();
 
     @Override
-    public void render(ForgeIngameGui gui, PoseStack mStack, float partialTicks, int width, int height) {
+    public void render(ForgeGui gui, PoseStack mStack, float partialTicks, int width, int height) {
         if (Helper.isWerewolf(this.mc.player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
             List<IAction<IWerewolfPlayer>> actions = werewolf.getActionHandler().getUnlockedActions().stream().filter(action -> action instanceof IActionCooldownMenu).filter(action -> werewolf.getActionHandler().isActionOnCooldown(action)).toList();
@@ -30,7 +31,8 @@ public class ActionCooldownOverlay extends GuiComponent implements IIngameOverla
             int x = 12;
             int y = this.mc.getWindow().getGuiScaledHeight() - 27;
             for (IAction<IWerewolfPlayer> action : actions) {
-                ResourceLocation loc = new ResourceLocation(action.getRegistryName().getNamespace(), "textures/actions/" + action.getRegistryName().getPath() + ".png");
+                ResourceLocation id = RegUtil.id(action);
+                ResourceLocation loc = new ResourceLocation(id.getNamespace(), "textures/actions/" + id.getPath() + ".png");
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderTexture(0, loc);
                 int perc = (int) ((1 + werewolf.getActionHandler().getPercentageForAction(action)) * 16);

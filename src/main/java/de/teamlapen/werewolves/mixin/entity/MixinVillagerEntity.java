@@ -32,6 +32,7 @@ import javax.annotation.Nullable;
 
 @Mixin(Villager.class)
 public abstract class MixinVillagerEntity extends AbstractVillager implements IVillagerTransformable {
+    @SuppressWarnings("WrongEntityDataParameterClass")
     private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(Villager.class, EntityDataSerializers.INT);
 
     private boolean werewolf;

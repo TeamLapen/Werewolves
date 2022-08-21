@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 public class WerewolfAlphaRenderer extends WerewolfRenderer<WerewolfAlphaEntity> {
 
     public WerewolfAlphaRenderer(EntityRendererProvider.Context context) {
-        super(context, new Werewolf4LModel<>(context.bakeLayer(ModModelRender.WEREWOLF_4L)), 1.0F, Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.endsWith(".png")).stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).toArray(ResourceLocation[]::new));
+        super(context, new Werewolf4LModel<>(context.bakeLayer(ModModelRender.WEREWOLF_4L)), 1.0F, Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).toArray(ResourceLocation[]::new));
     }
 
     @Override

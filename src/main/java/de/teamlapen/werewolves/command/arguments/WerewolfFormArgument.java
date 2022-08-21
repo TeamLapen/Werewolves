@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.command.arguments;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -8,13 +10,18 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.commands.synchronization.ArgumentTypeInfo;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -22,10 +29,10 @@ import java.util.stream.Collectors;
 public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
 
     private static final DynamicCommandExceptionType FORM_NOT_FOUND = new DynamicCommandExceptionType((id) -> {
-        return new TranslatableComponent("command.werewolves.argument.form.notfound", id);
+        return Component.translatable("command.werewolves.argument.form.notfound", id);
     });
     private static final DynamicCommandExceptionType FORM_NOT_SUPPORTED = new DynamicCommandExceptionType((id) -> {
-        return new TranslatableComponent("command.werewolves.argument.form.not_supported", id);
+        return Component.translatable("command.werewolves.argument.form.not_supported", id);
     });
 
     public static WerewolfForm getForm(CommandContext<CommandSourceStack> context, String id) {
@@ -84,5 +91,59 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
         Collection<WerewolfForm> forms = WerewolfForm.getAllForms();
         forms.remove(WerewolfForm.NONE);
         return this.allowedForms.stream().map(WerewolfForm::getName).collect(Collectors.toList());
+    }
+
+    public static class Info implements ArgumentTypeInfo<WerewolfFormArgument, Info.Template> {
+        @Override
+        public void serializeToNetwork(@Nonnull Template template, @Nonnull FriendlyByteBuf buffer) {
+            Collection<WerewolfForm> forms = template.allowedForms;
+            buffer.writeVarInt(forms.size());
+            forms.forEach(form -> buffer.writeUtf(form.getName()));
+        }
+
+        @Nonnull
+        @Override
+        public Template deserializeFromNetwork(@Nonnull FriendlyByteBuf buffer) {
+            List<WerewolfForm> forms = new ArrayList<>();
+            int amount = buffer.readVarInt();
+            for (int i = 0; i < amount; i++) {
+                forms.add(WerewolfForm.getForm(buffer.readUtf(32767)));
+            }
+            return new Template(forms);
+        }
+
+        @Override
+        public void serializeToJson(@Nonnull Template template, @Nonnull JsonObject json) {
+            JsonArray forms = new JsonArray();
+            template.allowedForms.forEach(form -> forms.add(form.getName()));
+            json.add("allowed_forms", forms);
+        }
+
+        @Nonnull
+        @Override
+        public Template unpack(@Nonnull WerewolfFormArgument argument) {
+            return new Template(argument.getAllowedForms());
+        }
+
+        public class Template implements ArgumentTypeInfo.Template<WerewolfFormArgument> {
+
+            final Collection<WerewolfForm> allowedForms;
+
+            public Template(Collection<WerewolfForm> allowedForms) {
+                this.allowedForms = allowedForms;
+            }
+
+            @Nonnull
+            @Override
+            public WerewolfFormArgument instantiate(@Nonnull CommandBuildContext context) {
+                return new WerewolfFormArgument(allowedForms);
+            }
+
+            @Nonnull
+            @Override
+            public ArgumentTypeInfo<WerewolfFormArgument, ?> type() {
+                return Info.this;
+            }
+        }
     }
 }

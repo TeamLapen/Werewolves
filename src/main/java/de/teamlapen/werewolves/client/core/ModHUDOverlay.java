@@ -10,7 +10,7 @@ import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModActions;
-import de.teamlapen.werewolves.core.WerewolfSkills;
+import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -23,8 +23,9 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.event.RenderGuiEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -73,16 +74,15 @@ public class ModHUDOverlay extends ExtendedGui {
     }
 
     @SubscribeEvent
-    public void onRenderGui(RenderGameOverlayEvent.PreLayer event) {
-        if (mc.player == null || !mc.player.isAlive() || event.getOverlay() != ForgeIngameGui.CROSSHAIR_ELEMENT) {
+    public void onRenderGui(RenderGuiOverlayEvent.Pre event) {
+        if (mc.player == null || !mc.player.isAlive() || event.getOverlay() != VanillaGuiOverlay.CROSSHAIR.type()) {
             return;
         }
         this.renderCrosshair(event);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onRenderWorldLast(RenderGameOverlayEvent.Pre event) {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+    public void onRenderWorldLast(RenderGuiEvent.Pre event) {
         int percentages = 0;
         int color = 0;
         if (this.screenPercentage > 0) {
@@ -94,7 +94,7 @@ public class ModHUDOverlay extends ExtendedGui {
         }
 
         if (percentages > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
-            PoseStack stack = event.getMatrixStack();
+            PoseStack stack = event.getPoseStack();
             stack.pushPose();
             int w = (this.mc.getWindow().getGuiScaledWidth());
             int h = (this.mc.getWindow().getGuiScaledHeight());
@@ -125,7 +125,7 @@ public class ModHUDOverlay extends ExtendedGui {
     }
 
     private void handleScreenColorWerewolf(WerewolfPlayer player) {
-        boolean sixth_sense = player.getSkillHandler().isSkillEnabled(WerewolfSkills.sixth_sense.get());
+        boolean sixth_sense = player.getSkillHandler().isSkillEnabled(ModSkills.sixth_sense.get());
         boolean rage = player.getActionHandler().isActionActive(ModActions.rage.get());
         if (sixth_sense) {
             if (this.screenPercentage > 0) {
@@ -169,13 +169,13 @@ public class ModHUDOverlay extends ExtendedGui {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    private void renderCrosshair(RenderGameOverlayEvent.Pre event) {
+    private void renderCrosshair(RenderGuiOverlayEvent.Pre event) {
         if (WerewolvesConfig.CLIENT.disableFangCrosshairRendering.get()) return;
         if (Helper.isWerewolf(this.mc.player)) {
             HitResult p = Minecraft.getInstance().hitResult;
             Entity entity = p instanceof EntityHitResult ? ((EntityHitResult) p).getEntity() : null;
             if (WerewolfPlayer.get(mc.player).canBite()) {
-                renderFangs(event.getMatrixStack(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), entity);
+                renderFangs(event.getPoseStack(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), entity);
                 event.setCanceled(true);
             }
         }

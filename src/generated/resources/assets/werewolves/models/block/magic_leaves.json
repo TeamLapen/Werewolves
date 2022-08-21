@@ -1,5 +1,6 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/leaves",
+  "render_type": "minecraft:cutout",
   "textures": {
     "all": "werewolves:block/magic_leaves"
   }

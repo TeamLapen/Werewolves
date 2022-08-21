@@ -10,14 +10,14 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ModOils {
 
-    public static final DeferredRegister<IOil> OILS = DeferredRegister.create(ModRegistries.WEAPON_OILS, REFERENCE.MODID);
+    public static final DeferredRegister<IOil> OILS = DeferredRegister.create(ModRegistries.OIL_ID, REFERENCE.MODID);
 
-    public static final RegistryObject<SilverOil> silver_oil_1 = OILS.register("silver_oil_1", () -> new SilverOil(0x999999));
-    public static final RegistryObject<SilverOil> silver_oil_2 = OILS.register("silver_oil_2", () -> new SilverOil(0xaaaaaa));
-    public static final RegistryObject<Oil> plant_oil = OILS.register("plant_oil", () -> new Oil(16253176));
-    public static final RegistryObject<Oil> empty = OILS.register("empty", () -> new Oil(0x7e6d27));
+    public static final RegistryObject<SilverOil> SILVER_OIL_1 = OILS.register("silver_oil_1", () -> new SilverOil(0x999999));
+    public static final RegistryObject<SilverOil> SILVER_OIL_2 = OILS.register("silver_oil_2", () -> new SilverOil(0xaaaaaa));
+    public static final RegistryObject<Oil> PLANT_OIL = OILS.register("plant_oil", () -> new Oil(0x7e6d27));
+    public static final RegistryObject<Oil> EMPTY = OILS.register("empty", () -> new Oil(16253176));
 
-    public static void register(IEventBus bus) {
+    static void register(IEventBus bus) {
         OILS.register(bus);
     }
 }

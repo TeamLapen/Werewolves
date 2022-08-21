@@ -1,30 +1,38 @@
 package de.teamlapen.werewolves.data;
 
-import de.teamlapen.werewolves.core.ModBiomes;
-import de.teamlapen.werewolves.core.ModBlocks;
-import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.core.ModTags;
+import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.PoiTypeTagsProvider;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ForgeRegistryTagsProvider;
+import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
 public class ModTagsProvider {
 
-    public static void addProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+    public static void addProvider(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         BlockTagsProvider blocks = new ModBlockTagsProvider(generator, existingFileHelper);
-        generator.addProvider(blocks);
-        generator.addProvider(new ModItemTagsProvider(generator, blocks, existingFileHelper));
-        generator.addProvider(new ModBiomeTagsProvider(generator, existingFileHelper));
+        generator.addProvider(event.includeServer(), blocks);
+        generator.addProvider(event.includeServer(), new ModItemTagsProvider(generator, blocks, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ModBiomeTagsProvider(generator, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ModPoiTypesProvider(generator, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ModVillageProfessionProvider(generator, existingFileHelper));
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
@@ -86,14 +94,49 @@ public class ModTagsProvider {
         @Override
         protected void addTags() {
             this.tag(ModTags.Biomes.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_HEAVEN.get());
-            //noinspection unchecked
-            tag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME).addTags(ModTags.Biomes.IS_WEREWOLF_BIOME);
+            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_HEAVEN.get());
+            this.tag(ModTags.Biomes.HasSpawn.WEREWOLF).addTag(BiomeTags.IS_TAIGA);
+            this.tag(ModTags.Biomes.NoSpawn.WEREWOLF).addTag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME);
+            this.tag(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF).addTag(BiomeTags.IS_TAIGA);
+            this.tag(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF).addTag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME);
+            this.tag(ModTags.Biomes.HasGen.SILVER_ORE).addTag(BiomeTags.IS_OVERWORLD);
+            this.tag(ModTags.Biomes.HasGen.WOLFSBANE).addTag(BiomeTags.IS_FOREST);
+            this.tag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME).addTag(ModTags.Biomes.IS_WEREWOLF_BIOME);
+            this.tag(BiomeTags.IS_OVERWORLD).add(ModBiomes.WEREWOLF_HEAVEN.get());
+            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_HEAVEN.get());
+            this.tag(Tags.Biomes.IS_DENSE).add(ModBiomes.WEREWOLF_HEAVEN.get());
+            this.tag(Tags.Biomes.IS_MAGICAL).add(ModBiomes.WEREWOLF_HEAVEN.get());
         }
 
         @Nonnull
         @Override
         public String getName() {
-            return "Werewoloves " + super.getName();
+            return "Werewolves " + super.getName();
+        }
+    }
+
+    private static class ModPoiTypesProvider extends PoiTypeTagsProvider {
+
+        public ModPoiTypesProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
+            super(generatorIn, REFERENCE.MODID, existingFileHelper);
+        }
+
+        @Override
+        protected void addTags() {
+            this.tag(ModTags.PoiTypes.IS_WEREWOLF).add(ModVillage.werewolf_faction.get());
+            this.tag(de.teamlapen.vampirism.core.ModTags.PoiTypes.HAS_FACTION).addTag(ModTags.PoiTypes.IS_WEREWOLF);
+        }
+    }
+
+    private static class ModVillageProfessionProvider extends ForgeRegistryTagsProvider<VillagerProfession> {
+        public ModVillageProfessionProvider(@NotNull DataGenerator p_236434_, @Nullable ExistingFileHelper existingFileHelper) {
+            super(p_236434_, ForgeRegistries.VILLAGER_PROFESSIONS, REFERENCE.MODID, existingFileHelper);
+        }
+
+        @Override
+        protected void addTags() {
+            this.tag(ModTags.Professions.IS_WEREWOLF).add(ModVillage.werewolf_expert.get());
+            this.tag(de.teamlapen.vampirism.core.ModTags.Professions.HAS_FACTION).addTag(ModTags.Professions.IS_WEREWOLF);
         }
     }
 }

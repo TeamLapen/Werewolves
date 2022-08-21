@@ -20,7 +20,7 @@ import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 
@@ -28,7 +28,7 @@ import net.minecraft.world.entity.player.Player;
  * @see de.teamlapen.vampirism.command.test.MinionCommand
  */
 public class MinionCommand extends BasicCommand {
-    private static final DynamicCommandExceptionType fail = new DynamicCommandExceptionType((msg) -> new TextComponent("Failed: " + msg));
+    private static final DynamicCommandExceptionType fail = new DynamicCommandExceptionType((msg) -> Component.literal("Failed: " + msg));
 
     public static ArgumentBuilder<CommandSourceStack, ?> register() {
         return Commands.literal("minion")

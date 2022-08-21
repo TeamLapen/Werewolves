@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.api.entities.werewolf;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 
@@ -38,7 +37,7 @@ public class WerewolfForm {
         this.humanLike = humanLike;
         this.transformed = transformed;
         this.skinTypes = skinTypes;
-        this.textComponent = new TranslatableComponent("form.werewolves." + name);
+        this.textComponent = Component.translatable("form.werewolves." + name);
         this.damageReduction = damageReduction;
     }
 

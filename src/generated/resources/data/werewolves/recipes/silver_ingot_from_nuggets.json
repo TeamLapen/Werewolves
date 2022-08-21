@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "silver_ingot",
-  "pattern": [
-    "###",
-    "###",
-    "###"
-  ],
   "key": {
     "#": {
       "item": "werewolves:silver_nugget"
     }
   },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
   "result": {
     "item": "werewolves:silver_ingot"
   }

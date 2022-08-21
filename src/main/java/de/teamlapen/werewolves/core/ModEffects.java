@@ -16,12 +16,12 @@ public class ModEffects {
 
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, REFERENCE.MODID);
 
-    public static final RegistryObject<LupusSanguinemEffect> lupus_sanguinem = EFFECTS.register("lupus_sanguinem", LupusSanguinemEffect::new);
-    public static final RegistryObject<HowlingEffect> howling = EFFECTS.register("howling", HowlingEffect::new);
-    public static final RegistryObject<SilverEffect> silver = EFFECTS.register("silver", SilverEffect::new);
-    public static final RegistryObject<BleedingEffect> bleeding = EFFECTS.register("bleeding", BleedingEffect::new);
-    public static final RegistryObject<UnWerewolfEffect> un_werewolf = EFFECTS.register("un_werewolf", UnWerewolfEffect::new);
-    public static final RegistryObject<MobEffect> bad_omen_werewolf = EFFECTS.register("bad_omen_werewolf", () -> new BadOmenEffect(REFERENCE.MODID, REFERENCE.WEREWOLF_PLAYER_KEY) {
+    public static final RegistryObject<LupusSanguinemEffect> LUPUS_SANGUINEM = EFFECTS.register("lupus_sanguinem", LupusSanguinemEffect::new);
+    public static final RegistryObject<HowlingEffect> HOWLING = EFFECTS.register("howling", HowlingEffect::new);
+    public static final RegistryObject<SilverEffect> SILVER = EFFECTS.register("silver", SilverEffect::new);
+    public static final RegistryObject<BleedingEffect> BLEEDING = EFFECTS.register("bleeding", BleedingEffect::new);
+    public static final RegistryObject<UnWerewolfEffect> UN_WEREWOLF = EFFECTS.register("un_werewolf", UnWerewolfEffect::new);
+    public static final RegistryObject<MobEffect> BAD_OMEN_WEREWOLF = EFFECTS.register("bad_omen_werewolf", () -> new BadOmenEffect() {
         @Override
         public IFaction<?> getFaction() {
             return WReference.WEREWOLF_FACTION;
@@ -29,10 +29,10 @@ public class ModEffects {
     });
 
     public static class V {
-        public static final RegistryObject<MobEffect> freeze = RegistryObject.create(new ResourceLocation("vampirism", "freeze"), ForgeRegistries.MOB_EFFECTS);
-        public static final RegistryObject<MobEffect> poison = RegistryObject.create(new ResourceLocation("vampirism", "poison"), ForgeRegistries.MOB_EFFECTS);
+        public static final RegistryObject<MobEffect> FREEZE = RegistryObject.create(new ResourceLocation("vampirism", "freeze"), ForgeRegistries.Keys.MOB_EFFECTS, REFERENCE.MODID);
+        public static final RegistryObject<MobEffect> POISON = RegistryObject.create(new ResourceLocation("vampirism", "poison"), ForgeRegistries.Keys.MOB_EFFECTS, REFERENCE.MODID);
 
-        static void init() {
+        private static void init() {
 
         }
     }

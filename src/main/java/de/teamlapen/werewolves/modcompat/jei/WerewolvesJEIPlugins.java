@@ -7,8 +7,8 @@ import de.teamlapen.werewolves.core.ModRegistries;
 import de.teamlapen.werewolves.inventory.recipes.TagNBTBrewingRecipe;
 import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.RegUtil;
 import de.teamlapen.werewolves.util.WeaponOilHelper;
-import mezz.jei.Internal;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -16,8 +16,9 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.recipe.vanilla.IJeiBrewingRecipe;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
-import mezz.jei.plugins.vanilla.brewing.BrewingRecipeUtil;
-import mezz.jei.plugins.vanilla.brewing.JeiBrewingRecipe;
+import mezz.jei.common.Internal;
+import mezz.jei.common.plugins.vanilla.brewing.BrewingRecipeUtil;
+import mezz.jei.common.plugins.vanilla.brewing.JeiBrewingRecipe;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +51,7 @@ public class WerewolvesJEIPlugins implements IModPlugin {
     @Override
     public void registerItemSubtypes(@Nonnull ISubtypeRegistration registration) {
         registration.registerSubtypeInterpreter(ModItems.oil_bottle.get(), (stack, context) -> {
-            return OilUtils.getOil(stack).getRegistryName().toString();
+            return RegUtil.id(OilUtils.getOil(stack)).toString();
         });
     }
 
@@ -61,7 +62,7 @@ public class WerewolvesJEIPlugins implements IModPlugin {
     }
 
     private void registerOilBrewingRecipes(@Nonnull IRecipeRegistration registration) {
-        BrewingRecipeUtil util = new BrewingRecipeUtil(Internal.getRegisteredIngredients().getIngredientHelper(VanillaTypes.ITEM));
+        BrewingRecipeUtil util = new BrewingRecipeUtil(Internal.getRegisteredIngredients().getIngredientHelper(VanillaTypes.ITEM_STACK));
         List<IJeiBrewingRecipe> recipes = new ArrayList<>();
         BrewingRecipeRegistry.getRecipes().stream()
                 .filter(TagNBTBrewingRecipe.class::isInstance)
@@ -71,10 +72,10 @@ public class WerewolvesJEIPlugins implements IModPlugin {
     }
 
     private void registerOilApplyRecipes(@Nonnull IRecipeRegistration registration) {
-        Collection<IOil> oils = ModRegistries.WEAPON_OILS.getValues();
+        Collection<IOil> oils = RegUtil.values(ModRegistries.OILS);
         //noinspection SuspiciousNameCombination
         List<Pair<IOil, ItemStack>> items = oils.stream().flatMap(x -> ForgeRegistries.ITEMS.getValues().stream().map(ItemStack::new).filter(x::canBeAppliedTo).map(y -> Pair.of(x, y))).toList();
-        List<CraftingRecipe> recipes = items.stream().map(x -> new ShapelessRecipe(new ResourceLocation(REFERENCE.MODID, ("" + x.getKey().getRegistryName() + x.getValue().getItem().getRegistryName()).replace(':', '_')), "", WeaponOilHelper.setWeaponOils(x.getRight().copy(), x.getLeft(), x.getLeft().getMaxDuration(x.getRight())), NonNullList.of(Ingredient.EMPTY, Ingredient.of(x.getRight().copy()), Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), x.getLeft()))))).collect(Collectors.toList());
+        List<CraftingRecipe> recipes = items.stream().map(x -> new ShapelessRecipe(new ResourceLocation(REFERENCE.MODID, ("" + RegUtil.id(x.getKey()) + RegUtil.id(x.getValue().getItem())).replace(':', '_')), "", WeaponOilHelper.setWeaponOils(x.getRight().copy(), x.getLeft(), x.getLeft().getMaxDuration(x.getRight())), NonNullList.of(Ingredient.EMPTY, Ingredient.of(x.getRight().copy()), Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.oil_bottle.get()), x.getLeft()))))).collect(Collectors.toList());
         registration.addRecipes(RecipeTypes.CRAFTING, recipes);
     }
 

@@ -18,6 +18,7 @@ import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.vampirism.entity.minion.management.MinionTasks;
 import de.teamlapen.vampirism.entity.minion.management.PlayerMinionController;
 import de.teamlapen.vampirism.player.FactionBasePlayer;
+import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.vampirism.world.MinionWorldData;
 import de.teamlapen.werewolves.api.entities.IEntityFollower;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
@@ -36,12 +37,13 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfVillageData;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.StructureTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -59,7 +61,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
@@ -212,7 +213,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
         if (nbt.contains("transformed")) {
             ResourceLocation id = new ResourceLocation(nbt.getString("transformed_id"));
-            EntityType<?> type = ForgeRegistries.ENTITIES.getValue(id);
+            EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(id);
             if (type != null) {
                 Entity entity = type.create(this.level);
                 if (entity instanceof LivingEntity && entity instanceof WerewolfTransformable) {
@@ -241,7 +242,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             CompoundTag transformed = new CompoundTag();
             ((LivingEntity) this.transformed).saveWithoutId(transformed);
             nbt.put("transformed", transformed);
-            nbt.putString("transformed_id", ((LivingEntity) this.transformed).getType().getRegistryName().toString());
+            nbt.putString("transformed_id", RegUtil.id(((LivingEntity) this.transformed).getType()).toString());
         }
     }
 
@@ -291,21 +292,21 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
                     if (this.getEntityLevel() > 0) {
                         if (heldItem.getItem() == ModItems.werewolf_minion_charm.get()) {
-                            player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.unavailable"), true);
+                            player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.unavailable"), true);
                         }
                     } else {
                         boolean freeSlot = MinionWorldData.getData(player.level).map(data -> data.getOrCreateController(fph)).map(PlayerMinionController::hasFreeMinionSlot).orElse(false);
-                        player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.available"), false);
+                        player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.available"), false);
                         if (heldItem.getItem() == ModItems.werewolf_minion_charm.get()) {
                             if (!freeSlot) {
-                                player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.no_free_slot"), false);
+                                player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.no_free_slot"), false);
                             } else {
-                                player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.start_serving"), false);
+                                player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.start_serving"), false);
                                 convertToMinion(player);
                                 if (!player.getAbilities().instabuild) heldItem.shrink(1);
                             }
                         } else if (freeSlot) {
-                            player.displayClientMessage(new TranslatableComponent("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.werewolf_minion_charm.get().getDescriptionId())), false);
+                            player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.werewolf_minion_charm.get().getDescriptionId())), false);
                         }
                     }
                 }
@@ -334,7 +335,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                             minion.claimMinionSlot(id, controller);
                             minion.copyPosition(this);
                             minion.markAsConverted();
-                            controller.activateTask(0, MinionTasks.stay);
+                            controller.activateTask(0, MinionTasks.STAY.get());
                             UtilLib.replaceEntity(this, minion);
 
                         } else {
@@ -459,7 +460,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.targetSelector.addGoal(4, new WerewolfDefendVillageGoal<>(this));//Should automatically be mutually exclusive with  attack village
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Player.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), true, false, true, true, null)));
         this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, PathfinderMob.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));
-        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollingMonster.class, 5, true, true, (living) -> UtilLib.isInsideStructure(living, StructureFeature.VILLAGE)));
+        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollingMonster.class, 5, true, true, (living) -> UtilLib.isInsideStructure(living, StructureTags.VILLAGE)));
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, AbstractSkeleton.class, false));
         this.targetSelector.addGoal(8, new DefendLeaderGoal<>(this));
     }

@@ -5,6 +5,7 @@
     "1": "block/campfire_log_lit",
     "particle": "block/campfire_fire"
   },
+  "render_type": "minecraft:cutout",
   "elements": [
     {
       "from": [

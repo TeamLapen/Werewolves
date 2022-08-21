@@ -14,7 +14,7 @@ public class ModRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, REFERENCE.MODID);
     public static final RegistryObject<SimpleRecipeSerializer<WeaponOilRecipe>> weapon_oil = RECIPES.register("weapon_oil", () -> new SimpleRecipeSerializer<>(WeaponOilRecipe::new));
 
-    public static void register(IEventBus bus) {
+    static void register(IEventBus bus) {
         RECIPES.register(bus);
     }
 }

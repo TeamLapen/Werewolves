@@ -2,10 +2,6 @@ package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.entity.FactionVillagerProfession;
-import de.teamlapen.vampirism.world.FactionPointOfInterestType;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.util.REFERENCE;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
@@ -27,13 +23,8 @@ public class ModVillage {
     public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(ForgeRegistries.Keys.VILLAGER_PROFESSIONS, REFERENCE.MODID);
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.Keys.POI_TYPES, REFERENCE.MODID);
 
-    public static final RegistryObject<PoiType> werewolf_faction = POI_TYPES.register("werewolf_faction", () -> new FactionPointOfInterestType("werewolf_faction", getAllStates(ModBlocks.totem_top_werewolves_werewolf.get(), ModBlocks.totem_top_werewolves_werewolf_crafted.get()), 1, 1));
-    public static final RegistryObject<VillagerProfession> werewolf_expert = VILLAGER_PROFESSIONS.register("werewolf_expert", () -> new FactionVillagerProfession("werewolf_expert", werewolf_faction.get(), ImmutableSet.of(), ImmutableSet.of(), null) {
-        @Override
-        public IFaction<?> getFaction() {
-            return WReference.WEREWOLF_FACTION;
-        }
-    });
+    public static final RegistryObject<PoiType> werewolf_faction = POI_TYPES.register("werewolf_faction", () -> new PoiType(getAllStates(ModBlocks.totem_top_werewolves_werewolf.get(), ModBlocks.totem_top_werewolves_werewolf_crafted.get()), 1, 1));
+    public static final RegistryObject<VillagerProfession> werewolf_expert = VILLAGER_PROFESSIONS.register("werewolf_expert", () -> new VillagerProfession("werewolf_expert", (holder) -> holder.is(ModTags.PoiTypes.IS_WEREWOLF),(holder) -> holder.is(ModTags.PoiTypes.IS_WEREWOLF), ImmutableSet.of(), ImmutableSet.of(), null));
 
 
     static void register(IEventBus bus) {
