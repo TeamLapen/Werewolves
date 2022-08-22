@@ -36,11 +36,11 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.Keys.ITEMS, REFERENCE.MODID);
 
     public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", () -> new Item((new Item.Properties()).tab(WUtils.creativeTab)));
-    public static final RegistryObject<HoeItem> SILVER_HOE = ITEMS.register("silver_hoe", () -> new HoeItem(WUtils.SILVER_ITEM_TIER, 1, -1.5f, new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<ShovelItem> SILVER_SHOVEL = ITEMS.register("silver_shovel", () -> new ShovelItem(WUtils.SILVER_ITEM_TIER, 6.5f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<AxeItem> SILVER_AXE = ITEMS.register("silver_axe", () -> new AxeItem(WUtils.SILVER_ITEM_TIER, 5.5f, -3.0f, new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<PickaxeItem> SILVER_PICKAXE = ITEMS.register("silver_pickaxe", () -> new PickaxeItem(WUtils.SILVER_ITEM_TIER, 4, -2.8f, new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<SilverSwordItem> SILVER_SWORD = ITEMS.register("silver_sword", () -> new SilverSwordItem(WUtils.SILVER_ITEM_TIER, 4, -2.4f, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<HoeItem> SILVER_HOE = ITEMS.register("silver_hoe", () -> new HoeItem(WUtils.SILVER_ITEM_TIER, -1, -1.0F, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<ShovelItem> SILVER_SHOVEL = ITEMS.register("silver_shovel", () -> new ShovelItem(WUtils.SILVER_ITEM_TIER, 1.5F, -3.0F, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<AxeItem> SILVER_AXE = ITEMS.register("silver_axe", () -> new AxeItem(WUtils.SILVER_ITEM_TIER, 6.0F, -3.1F, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<PickaxeItem> SILVER_PICKAXE = ITEMS.register("silver_pickaxe", () -> new PickaxeItem(WUtils.SILVER_ITEM_TIER, 1, -2.8F, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<SilverSwordItem> SILVER_SWORD = ITEMS.register("silver_sword", () -> new SilverSwordItem(WUtils.SILVER_ITEM_TIER, 3, -2.4F, new Item.Properties().tab(WUtils.creativeTab)));
     public static final RegistryObject<CrossbowArrowItem> CROSSBOW_ARROW_SILVER_BOLT = ITEMS.register("crossbow_arrow_silver_bolt", () -> new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
         @Override
         public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {

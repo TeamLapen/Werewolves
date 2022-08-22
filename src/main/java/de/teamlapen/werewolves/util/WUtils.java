@@ -11,6 +11,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
+import net.minecraftforge.common.ForgeTier;
 
 import javax.annotation.Nonnull;
 
@@ -24,38 +25,7 @@ public class WUtils {
             return ModItems.LIVER.get().getDefaultInstance();
         }
     };
-    public static final Tier SILVER_ITEM_TIER = new Tier() {
-        @Override
-        public int getUses() {
-            return 250;
-        }
-
-        @Override
-        public float getSpeed() {
-            return 6.0f;
-        }
-
-        @Override
-        public float getAttackDamageBonus() {
-            return 2.0f;
-        }
-
-        @Override
-        public int getLevel() {
-            return 2;
-        }
-
-        @Override
-        public int getEnchantmentValue() {
-            return 14;
-        }
-
-        @Nonnull
-        @Override
-        public Ingredient getRepairIngredient() {
-            return Ingredient.of(ModTags.Items.SILVER_INGOT);
-        }
-    };
+    public static final Tier SILVER_ITEM_TIER = new ForgeTier(2,250,8.0f,1.5f,12, ModTags.Blocks.NEEDS_SILVER_TOOL, () -> Ingredient.of(ModTags.Items.SILVER_INGOT));
     public static LootTables LOOT_TABLE_MANAGER;
     public static final DamageSource OPEN_WOUND_DAMAGE_SOURCE = new DamageSource("blood_loss").bypassArmor().bypassMagic();
 

@@ -21,6 +21,7 @@ public class ModTags {
         public static final TagKey<Block> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
         public static final TagKey<Block> MAGIC_LOGS = forge("magic_logs");
         public static final TagKey<Block> JACARANDA_LOGS = forge("jacaranda_logs");
+        public static final TagKey<Block> NEEDS_SILVER_TOOL = forge("needs_silver_tool");
 
 
         private static TagKey<Block> mc(ResourceLocation id) {
