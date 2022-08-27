@@ -72,6 +72,7 @@ public class WerewolvesCreativeTab {
             addBlock(MAGIC_LEAVES);
             addBlock(MAGIC_SAPLING);
             addBlock(WOLFSBANE);
+            addBlock(DAFFODIL);
             addBlock(STONE_ALTAR);
             addBlock(STONE_ALTAR_FIRE_BOWL);
         }
@@ -93,6 +94,7 @@ public class WerewolvesCreativeTab {
             addItem(CRACKED_BONE);
             addItem(WEREWOLF_TOOTH);
             addItem(LIVER);
+            addItem(WOLF_BERRIES);
             addItem(BONE_NECKLACE);
             addItem(DREAM_CATCHER);
             addItem(CHARM_BRACELET);

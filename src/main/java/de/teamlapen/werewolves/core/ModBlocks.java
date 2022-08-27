@@ -2,9 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.blocks.TotemTopBlock;
 import de.teamlapen.werewolves.blocks.SaplingBlock;
-import de.teamlapen.werewolves.blocks.StoneAltarBlock;
-import de.teamlapen.werewolves.blocks.StoneAltarFireBowlBlock;
-import de.teamlapen.werewolves.blocks.WolfsbaneBlock;
+import de.teamlapen.werewolves.blocks.*;
 import de.teamlapen.werewolves.mixin.BlocksAccessor;
 import de.teamlapen.werewolves.mixin.FireBlockAccessor;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -35,7 +33,11 @@ public class ModBlocks {
     public static final RegistryObject<WolfsbaneBlock> WOLFSBANE = registerWithItem("wolfsbane", WolfsbaneBlock::new);
     public static final RegistryObject<Block> SILVER_BLOCK = registerWithItem("silver_block", () -> new Block(Block.Properties.of(Material.METAL, MaterialColor.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
     public static final RegistryObject<Block> RAW_SILVER_BLOCK = registerWithItem("raw_silver_block", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.RAW_IRON).requiresCorrectToolForDrops().strength(5.0f, 6.0f)));
-    public static final RegistryObject<FlowerPotBlock> POTTED_WOLFSBANE = BLOCKS.register("potted_wolfsbane", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, WOLFSBANE, Block.Properties.of(Material.DECORATION).strength(0f)));
+    public static final RegistryObject<FlowerPotBlock> POTTED_WOLFSBANE = BLOCKS.register("potted_wolfsbane", () ->  {
+        var pot = new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, WOLFSBANE, Block.Properties.of(Material.DECORATION).strength(0f));
+        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(WOLFSBANE.getId(), () -> pot);
+        return pot;
+    });
     public static final RegistryObject<TotemTopBlock> TOTEM_TOP_WEREWOLVES_WEREWOLF = BLOCKS.register("totem_top_werewolves_werewolf", () -> new TotemTopBlock(false, REFERENCE.WEREWOLF_PLAYER_KEY));
     public static final RegistryObject<TotemTopBlock> TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED = BLOCKS.register("totem_top_werewolves_werewolf_crafted", () -> new TotemTopBlock(true, REFERENCE.WEREWOLF_PLAYER_KEY));
     public static final RegistryObject<SaplingBlock> JACARANDA_SAPLING = registerWithItem("jacaranda_sapling", () -> new SaplingBlock(new JacarandaTree()));
@@ -55,6 +57,13 @@ public class ModBlocks {
     public static final RegistryObject<Block> MAGIC_PLANKS = registerWithItem("magic_planks", () -> new Block(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
     public static final RegistryObject<StoneAltarBlock> STONE_ALTAR = registerWithItem("stone_altar", StoneAltarBlock::new);
     public static final RegistryObject<StoneAltarFireBowlBlock> STONE_ALTAR_FIRE_BOWL = registerWithItem("stone_altar_fire_bowl", StoneAltarFireBowlBlock::new);
+    public static final RegistryObject<Block> DAFFODIL = registerWithItem("daffodil", DaffodilBlock::new);
+    public static final RegistryObject<Block> POTTED_DAFFODIL = BLOCKS.register("potted_daffodil", () ->  {
+        var pot = new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, DAFFODIL, Block.Properties.of(Material.DECORATION).instabreak().noOcclusion());
+        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(DAFFODIL.getId(), () -> pot);
+        return pot;
+    });
+    public static final RegistryObject<Block> WOLF_BERRY_BUSH = BLOCKS.register("wolf_berry_bush", () -> new WolfBerryBushBlock(Block.Properties.of(Material.PLANT).randomTicks().noCollission().sound(SoundType.SWEET_BERRY_BUSH)));
 
     public static class V {
         public static final RegistryObject<Block> MED_CHAIR = RegistryObject.create(new ResourceLocation("vampirism", "med_chair"), ForgeRegistries.Keys.BLOCKS, REFERENCE.MODID);

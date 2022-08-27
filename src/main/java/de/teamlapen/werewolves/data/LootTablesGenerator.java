@@ -3,11 +3,13 @@ package de.teamlapen.werewolves.data;
 import de.teamlapen.vampirism.world.loot.functions.AddBookNbtFunction;
 import de.teamlapen.vampirism.world.loot.functions.RefinementSetFunction;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.blocks.WolfBerryBushBlock;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModLootTables;
 import de.teamlapen.werewolves.mixin.VanillaBlockLootAccessor;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.EntityLootSubProvider;
@@ -16,6 +18,7 @@ import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -23,7 +26,10 @@ import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
@@ -80,6 +86,14 @@ public class LootTablesGenerator extends LootTableProvider {
             this.add(ModBlocks.DEEPSLATE_SILVER_ORE.get(), (block) -> {
                 return createOreDrop(block, ModItems.RAW_SILVER.get());
             });
+            this.dropSelf(ModBlocks.DAFFODIL.get());
+
+            this.add(ModBlocks.WOLF_BERRY_BUSH.get(), (p_124086_) -> {
+                return applyExplosionDecay(p_124086_, LootTable.lootTable().withPool(LootPool.lootPool().when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.WOLF_BERRY_BUSH.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WolfBerryBushBlock.AGE, 3))).add(LootItem.lootTableItem(ModItems.WOLF_BERRIES.get())).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))).withPool(LootPool.lootPool().when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.WOLF_BERRY_BUSH.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WolfBerryBushBlock.AGE, 2))).add(LootItem.lootTableItem(ModItems.WOLF_BERRIES.get())).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
+            });
+
+            dropPottedContents(ModBlocks.POTTED_WOLFSBANE.get());
+            dropPottedContents(ModBlocks.POTTED_DAFFODIL.get());
         }
 
         @Nonnull

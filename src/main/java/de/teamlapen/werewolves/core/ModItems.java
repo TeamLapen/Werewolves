@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -87,6 +88,8 @@ public class ModItems {
     public static final RegistryObject<SilverArmorItem> SILVER_CHESTPLATE = register("silver_chestplate", () -> new SilverArmorItem(EquipmentSlot.CHEST, props()));
     public static final RegistryObject<SilverArmorItem> SILVER_LEGGINGS = register("silver_leggings", () -> new SilverArmorItem(EquipmentSlot.LEGS, props()));
     public static final RegistryObject<SilverArmorItem> SILVER_BOOTS = register("silver_boots", () -> new SilverArmorItem(EquipmentSlot.FEET, props()));
+
+    public static final RegistryObject<Item> WOLF_BERRIES = register("wolf_berries", () -> new ItemNameBlockItem(ModBlocks.WOLF_BERRY_BUSH.get(), props().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).build())));
 
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
