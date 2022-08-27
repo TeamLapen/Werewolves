@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "werewolves:daffodil"
+    }
+  ],
+  "result": {
+    "item": "minecraft:yellow_dye"
+  }
+}

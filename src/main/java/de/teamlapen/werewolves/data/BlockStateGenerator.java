@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.werewolves.blocks.StoneAltarBlock;
 import de.teamlapen.werewolves.blocks.StoneAltarFireBowlBlock;
+import de.teamlapen.werewolves.blocks.WolfBerryBushBlock;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.Direction;
@@ -62,6 +63,15 @@ public class BlockStateGenerator extends BlockStateProvider {
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl_fire_soul"))).rotationY(90).addModel().condition(StoneAltarFireBowlBlock.FACING, Direction.EAST).condition(StoneAltarFireBowlBlock.LIT, true).condition(StoneAltarFireBowlBlock.SOUL_FIRE, true).end()
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl_fire_soul"))).rotationY(180).addModel().condition(StoneAltarFireBowlBlock.FACING, Direction.SOUTH).condition(StoneAltarFireBowlBlock.LIT, true).condition(StoneAltarFireBowlBlock.SOUL_FIRE, true).end()
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl_fire_soul"))).rotationY(270).addModel().condition(StoneAltarFireBowlBlock.FACING, Direction.WEST).condition(StoneAltarFireBowlBlock.LIT, true).condition(StoneAltarFireBowlBlock.SOUL_FIRE, true).end();
+
+        simpleBlock(ModBlocks.DAFFODIL.get(), models().cross("daffodil", modLoc("block/daffodil")).renderType(cutout));
+        simpleBlock(ModBlocks.POTTED_DAFFODIL.get(), models().withExistingParent(modId("block/potted_daffodil"), "minecraft:block/flower_pot_cross").texture("plant", modId("block/daffodil")).renderType(cutout));
+
+        getVariantBuilder(ModBlocks.WOLF_BERRY_BUSH.get())
+                .partialState().with(WolfBerryBushBlock.AGE, 0).modelForState().modelFile(models().cross("wolf_berry_bush_stage0", modLoc("block/wolf_berry_bush_stage0")).renderType(cutout)).addModel()
+                .partialState().with(WolfBerryBushBlock.AGE, 1).modelForState().modelFile(models().cross("wolf_berry_bush_stage1", modLoc("block/wolf_berry_bush_stage1")).renderType(cutout)).addModel()
+                .partialState().with(WolfBerryBushBlock.AGE, 2).modelForState().modelFile(models().cross("wolf_berry_bush_stage2", modLoc("block/wolf_berry_bush_stage2")).renderType(cutout)).addModel()
+                .partialState().with(WolfBerryBushBlock.AGE, 3).modelForState().modelFile(models().cross("wolf_berry_bush_stage3", modLoc("block/wolf_berry_bush_stage3")).renderType(cutout)).addModel();
     }
 
     private String modId(String path) {
