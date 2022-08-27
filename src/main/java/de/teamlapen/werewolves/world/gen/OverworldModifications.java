@@ -12,6 +12,7 @@ import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,11 +88,11 @@ public class OverworldModifications {
         ((MultiNoiseBiomeSourcePresetAccessor) MultiNoiseBiomeSource.Preset.OVERWORLD).setPresetSupplier_vampirism(wrapperParameterSourceFunction);
     }
 
-    private static boolean intersects(Climate.ParameterPoint a, Climate.ParameterPoint b) {
+    private static boolean intersects(Climate.@NotNull ParameterPoint a, Climate.@NotNull ParameterPoint b) {
         return intersects(a.temperature(), b.temperature()) && intersects(a.humidity(), b.humidity()) && intersects(a.continentalness(), b.continentalness()) && intersects(a.erosion(), b.erosion()) && intersects(a.depth(), b.depth()) && intersects(a.weirdness(), b.weirdness());
     }
 
-    private static boolean intersects(Climate.Parameter a, Climate.Parameter b) {
+    private static boolean intersects(Climate.@NotNull Parameter a, Climate.@NotNull Parameter b) {
         return (a.max() > b.min() && a.min() < b.max()) || (a.max() == a.min() && b.max() == b.min() && a.max() == b.max());
     }
 }

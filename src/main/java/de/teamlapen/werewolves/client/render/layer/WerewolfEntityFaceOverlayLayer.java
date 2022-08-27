@@ -15,9 +15,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class WerewolfEntityFaceOverlayLayer<T extends WerewolfBaseEntity, M extends WerewolfBaseModel<T>> extends RenderLayer<T, M> {
 
-    private final ResourceLocation[] eyeOverlays;
+    private final ResourceLocation @NotNull [] eyeOverlays;
 
-    public WerewolfEntityFaceOverlayLayer(RenderLayerParent<T, M> entityRendererIn) {
+    public WerewolfEntityFaceOverlayLayer(@NotNull RenderLayerParent<T, M> entityRendererIn) {
         super(entityRendererIn);
         eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
         for (int i = 0; i < eyeOverlays.length; i++) {

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class WerewolfRefinementItem extends VampireRefinementItem implements IRefinementItem {
 
-    public static WerewolfRefinementItem getRefinementItem(IRefinementItem.AccessorySlotType type) {
+    public static @NotNull WerewolfRefinementItem getRefinementItem(IRefinementItem.@NotNull AccessorySlotType type) {
         return switch (type) {
             case AMULET -> ModItems.BONE_NECKLACE.get();
             case RING -> ModItems.CHARM_BRACELET.get();

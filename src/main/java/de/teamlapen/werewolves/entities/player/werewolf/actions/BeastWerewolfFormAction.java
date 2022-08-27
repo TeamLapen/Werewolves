@@ -8,6 +8,7 @@ import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.ModSkills;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -34,7 +35,7 @@ public class BeastWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    public int getTimeModifier(IWerewolfPlayer werewolf) {
+    public int getTimeModifier(@NotNull IWerewolfPlayer werewolf) {
         int limit = super.getTimeModifier(werewolf);
         boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_BEAST_1.get());
         boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_BEAST_2.get());

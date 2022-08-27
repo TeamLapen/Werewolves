@@ -14,6 +14,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolfPlayer, ActivationContext context) {
+    protected boolean activate(@NotNull IWerewolfPlayer werewolfPlayer, ActivationContext context) {
         Player player = werewolfPlayer.getRepresentingPlayer();
         if (player.getEffect(ModEffects.HOWLING.get()) != null) {
             return false;
@@ -55,7 +56,7 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
     }
 
     @Override
-    public boolean canBeUsedBy(IWerewolfPlayer player) {
+    public boolean canBeUsedBy(@NotNull IWerewolfPlayer player) {
         return player.getRepresentingPlayer().getEffect(ModEffects.HOWLING.get()) == null;
     }
 

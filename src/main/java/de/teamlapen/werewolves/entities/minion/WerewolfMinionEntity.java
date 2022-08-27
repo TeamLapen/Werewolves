@@ -55,7 +55,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         MinionData.registerDataType(WerewolfMinionEntity.WerewolfMinionData.ID, WerewolfMinionEntity.WerewolfMinionData::new);
     }
 
-    public static AttributeSupplier.Builder getAttributeBuilder() {
+    public static AttributeSupplier.@NotNull Builder getAttributeBuilder() {
         return BasicWerewolfEntity.getAttributeBuilder();
     }
 
@@ -64,7 +64,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     @Override
-    public List<IMinionTask<?, ?>> getAvailableTasks() {
+    public @NotNull List<IMinionTask<?, ?>> getAvailableTasks() {
         return Lists.newArrayList(ModMinionTasks.V.FOLLOW_LORD.get(), ModMinionTasks.V.DEFEND_AREA.get(), ModMinionTasks.V.STAY.get(), ModMinionTasks.V.PROTECT_LORD.get(), ModMinionTasks.COLLECT_WEREWOLF_ITEMS.get());
     }
 
@@ -92,7 +92,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     @Override
-    protected boolean canConsume(ItemStack stack) {
+    protected boolean canConsume(@NotNull ItemStack stack) {
         if (!super.canConsume(stack)) return false;
         if (stack.isEdible() && !Helper.canWerewolfEatItem(this, stack)) return false;
         boolean fullHealth = this.getHealth() == this.getMaxHealth();
@@ -116,7 +116,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     @Override
-    public Predicate<ItemStack> getEquipmentPredicate(EquipmentSlot slotType) {
+    public @NotNull Predicate<ItemStack> getEquipmentPredicate(EquipmentSlot slotType) {
         return itemStack -> ((itemStack.getItem() instanceof IFactionExclusiveItem) && ((IFactionExclusiveItem) itemStack.getItem()).getExclusiveFaction(itemStack).equals(WReference.WEREWOLF_FACTION)) || itemStack.getUseAnimation() == UseAnim.DRINK || itemStack.getUseAnimation() == UseAnim.EAT;
     }
 
@@ -207,7 +207,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         private boolean glowingEyes;
         private WerewolfForm form = WerewolfForm.BEAST;
 
-        public WerewolfMinionData(String name, int skinType, int eyeType, boolean glowingEyes, WerewolfForm form) {
+        public WerewolfMinionData(String name, int skinType, int eyeType, boolean glowingEyes, @NotNull WerewolfForm form) {
             super(name, 9);
             assert !form.isHumanLike();
             this.level = 0;
@@ -221,7 +221,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public MutableComponent getFormattedName() {
+        public @NotNull MutableComponent getFormattedName() {
             return super.getFormattedName().withStyle(style -> style.withColor(WReference.WEREWOLF_FACTION.getChatColor()));
         }
 
@@ -271,7 +271,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void resetStats(MinionEntity<?> entity) {
+        public void resetStats(@NotNull MinionEntity<?> entity) {
             this.inventoryLevel = 0;
             this.strengthLevel = 0;
             this.healthLevel = 0;
@@ -287,7 +287,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void handleMinionAppearanceConfig(String name, int... data) {
+        public void handleMinionAppearanceConfig(String name, int @NotNull ... data) {
             this.setName(name);
             this.skinType = data[0];
             this.eyeType = data[1];
@@ -302,7 +302,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public boolean upgradeStat(int statId, MinionEntity<?> entity) {
+        public boolean upgradeStat(int statId, @NotNull MinionEntity<?> entity) {
             if (super.upgradeStat(statId, entity)) return true;
             if (getRemainingStatPoints() == 0) {
                 LOGGER.warn("Cannot upgrade minion stat as no stat points are left");
@@ -343,7 +343,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void deserializeNBT(CompoundTag nbt) {
+        public void deserializeNBT(@NotNull CompoundTag nbt) {
             super.deserializeNBT(nbt);
             this.level = nbt.getInt("level");
             this.inventoryLevel = nbt.getInt("l_inv");
@@ -357,7 +357,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void serializeNBT(CompoundTag tag) {
+        public void serializeNBT(@NotNull CompoundTag tag) {
             super.serializeNBT(tag);
             tag.putInt("level", this.level);
             tag.putInt("l_inv", this.inventoryLevel);

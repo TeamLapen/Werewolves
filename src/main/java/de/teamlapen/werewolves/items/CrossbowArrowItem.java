@@ -30,7 +30,7 @@ public class CrossbowArrowItem extends Item implements IVampirismCrossbowArrow<C
     }
 
     @Override
-    public CrossbowArrowEntity createEntity(ItemStack stack, Level world, Player player, double heightOffset, double centerOffset, boolean rightHand) {
+    public @NotNull CrossbowArrowEntity createEntity(@NotNull ItemStack stack, @NotNull Level world, @NotNull Player player, double heightOffset, double centerOffset, boolean rightHand) {
         CrossbowArrowEntity entity = CrossbowArrowEntity.createWithShooter(world, player, heightOffset, centerOffset, rightHand, stack);
         entity.setBaseDamage(this.type.baseDamage * VampirismConfig.BALANCE.crossbowDamageMult.get());
         return entity;

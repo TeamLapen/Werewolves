@@ -28,6 +28,7 @@ import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.OptionalInt;
@@ -58,11 +59,11 @@ public class WerewolvesBiomeFeatures {
     public static final RegistryObject<PlacedFeature> werewolf_haven_trees_placed = PLACED_FEATURE.register("heaven_trees", () -> new PlacedFeature(getHolder(werewolf_heaven_trees), VegetationPlacements.treePlacement(PlacementUtils.countExtra(6, 0.2f, 2))));
     public static final RegistryObject<PlacedFeature> silver_ore_placed = PLACED_FEATURE.register("silver_ore", () -> new PlacedFeature(getHolder(silver_ore), rareOrePlacement(48, HeightRangePlacement.triangle(VerticalAnchor.absolute(0), VerticalAnchor.absolute(96)))));
 
-    public static void addWerewolvesFlowers(BiomeGenerationSettings.Builder biomeGeneratorSettings) {
+    public static void addWerewolvesFlowers(BiomeGenerationSettings.@NotNull Builder biomeGeneratorSettings) {
         biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, getHolder(wolfsbane_placed));
     }
 
-    public static void addWerewolfBiomeTrees(BiomeGenerationSettings.Builder biomeGeneratorSettings) {
+    public static void addWerewolfBiomeTrees(BiomeGenerationSettings.@NotNull Builder biomeGeneratorSettings) {
         biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, getHolder(werewolf_haven_trees_placed));
     }
 
@@ -71,16 +72,16 @@ public class WerewolvesBiomeFeatures {
 
     }
 
-    private static List<PlacementModifier> orePlacement(PlacementModifier p_195347_, PlacementModifier p_195348_) {
+    private static @NotNull List<PlacementModifier> orePlacement(@NotNull PlacementModifier p_195347_, @NotNull PlacementModifier p_195348_) {
         return List.of(p_195347_, InSquarePlacement.spread(), p_195348_, BiomeFilter.biome());
     }
 
     @SuppressWarnings("SameParameterValue")
-    private static List<PlacementModifier> commonOrePlacement(int p_195344_, PlacementModifier p_195345_) {
+    private static List<PlacementModifier> commonOrePlacement(int p_195344_, @NotNull PlacementModifier p_195345_) {
         return orePlacement(CountPlacement.of(p_195344_), p_195345_);
     }
 
-    private static List<PlacementModifier> rareOrePlacement(int p_195350_, PlacementModifier p_195351_) {
+    private static List<PlacementModifier> rareOrePlacement(int p_195350_, @NotNull PlacementModifier p_195351_) {
         return orePlacement(RarityFilter.onAverageOnceEvery(p_195350_), p_195351_);
     }
 
@@ -89,7 +90,7 @@ public class WerewolvesBiomeFeatures {
      * MUST only be used for objects that belong to registries that are guaranteed to be present
      */
     @SuppressWarnings({"unchecked"})
-    private static <T> Holder<T> getHolder(RegistryObject<? extends T> object) {
+    private static <T> Holder<T> getHolder(@NotNull RegistryObject<? extends T> object) {
         return (Holder<T>) object.getHolder().orElseThrow(() -> new IllegalStateException("Registry object " + object.getKey() + " does not have a holder. Something is wrong"));
     }
 }

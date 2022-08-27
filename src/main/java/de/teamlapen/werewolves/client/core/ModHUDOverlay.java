@@ -29,6 +29,7 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 
@@ -50,7 +51,7 @@ public class ModHUDOverlay extends ExtendedGui {
     private int waitTicks = 0;
 
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick(TickEvent.@NotNull ClientTickEvent event) {
         if (mc.player == null || !mc.player.isAlive()) {
             this.screenPercentage = 0;
             this.attackTargetScreenPercentage = 0;
@@ -74,7 +75,7 @@ public class ModHUDOverlay extends ExtendedGui {
     }
 
     @SubscribeEvent
-    public void onRenderGui(RenderGuiOverlayEvent.Pre event) {
+    public void onRenderGui(RenderGuiOverlayEvent.@NotNull Pre event) {
         if (mc.player == null || !mc.player.isAlive() || event.getOverlay() != VanillaGuiOverlay.CROSSHAIR.type()) {
             return;
         }
@@ -82,7 +83,7 @@ public class ModHUDOverlay extends ExtendedGui {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onRenderWorldLast(RenderGuiEvent.Pre event) {
+    public void onRenderWorldLast(RenderGuiEvent.@NotNull Pre event) {
         int percentages = 0;
         int color = 0;
         if (this.screenPercentage > 0) {
@@ -124,7 +125,7 @@ public class ModHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void handleScreenColorWerewolf(WerewolfPlayer player) {
+    private void handleScreenColorWerewolf(@NotNull WerewolfPlayer player) {
         boolean sixth_sense = player.getSkillHandler().isSkillEnabled(ModSkills.SIXTH_SENSE.get());
         boolean rage = player.getActionHandler().isActionActive(ModActions.RAGE.get());
         if (sixth_sense) {
@@ -149,7 +150,7 @@ public class ModHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void renderFangs(PoseStack matrixStack, int width, int height, @Nullable Entity entity) {
+    private void renderFangs(@NotNull PoseStack matrixStack, int width, int height, @Nullable Entity entity) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, ICONS);
         int left = width / 2 - 9;
@@ -169,7 +170,7 @@ public class ModHUDOverlay extends ExtendedGui {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    private void renderCrosshair(RenderGuiOverlayEvent.Pre event) {
+    private void renderCrosshair(RenderGuiOverlayEvent.@NotNull Pre event) {
         if (WerewolvesConfig.CLIENT.disableFangCrosshairRendering.get()) return;
         if (Helper.isWerewolf(this.mc.player)) {
             HitResult p = Minecraft.getInstance().hitResult;

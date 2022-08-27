@@ -14,6 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -43,7 +44,7 @@ public class ModMinionTasks {
 
         }
 
-        private static RegistryObject<IMinionTask<?, ?>> task(String name) {
+        private static @NotNull RegistryObject<IMinionTask<?, ?>> task(@NotNull String name) {
             return RegistryObject.create(new ResourceLocation("vampirism", name), VampirismRegistries.MINION_TASKS_ID, REFERENCE.MODID);
         }
     }

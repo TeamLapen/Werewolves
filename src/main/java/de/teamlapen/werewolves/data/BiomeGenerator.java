@@ -34,7 +34,7 @@ import java.util.Objects;
 
 public class BiomeGenerator {
 
-    public static void addProvider(GatherDataEvent event) {
+    public static void addProvider(@NotNull GatherDataEvent event) {
         BiomeGenerator biomeGenerator = new BiomeGenerator(event.getGenerator(), event.getExistingFileHelper());
         event.getGenerator().addProvider(event.includeServer(), biomeGenerator.modifierGenerator());
     }

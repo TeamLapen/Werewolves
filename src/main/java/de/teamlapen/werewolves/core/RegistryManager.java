@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.MissingMappingsEvent;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class RegistryManager implements IInitListener {
@@ -43,7 +44,7 @@ public class RegistryManager implements IInitListener {
     }
 
     @Override
-    public void onInitStep(Step step, ParallelDispatchEvent event) {
+    public void onInitStep(@NotNull Step step, @NotNull ParallelDispatchEvent event) {
         switch (step) {
             case COMMON_SETUP:
                 ModEntities.registerSpawns();
@@ -55,7 +56,7 @@ public class RegistryManager implements IInitListener {
         }
     }
 
-    public void onMissingMappings(MissingMappingsEvent event){
+    public void onMissingMappings(@NotNull MissingMappingsEvent event){
         ModItems.remapItems(event);
     }
 }

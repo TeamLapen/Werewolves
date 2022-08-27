@@ -12,10 +12,11 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerC
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
+import org.jetbrains.annotations.NotNull;
 
 public class GlobalLootTableGenerator extends GlobalLootModifierProvider {
 
-    public GlobalLootTableGenerator(DataGenerator gen) {
+    public GlobalLootTableGenerator(@NotNull DataGenerator gen) {
         super(gen, REFERENCE.MODID);
     }
 

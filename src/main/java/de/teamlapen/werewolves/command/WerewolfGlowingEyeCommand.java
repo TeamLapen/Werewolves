@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfGlowingEyeCommand extends BasicCommand {
 
@@ -22,7 +23,7 @@ public class WerewolfGlowingEyeCommand extends BasicCommand {
     }
 
     @SuppressWarnings("SameReturnValue")
-    private static int setGlowingEyes(Player playerEntity, boolean on, WerewolfForm form) {
+    private static int setGlowingEyes(@NotNull Player playerEntity, boolean on, WerewolfForm form) {
         WerewolfPlayer.getOpt(playerEntity).ifPresent(w -> w.setGlowingEyes(form, on));
         return 0;
     }

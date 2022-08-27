@@ -4,6 +4,7 @@ import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.util.RegUtil;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +16,7 @@ public class ServerConfig {
     public final ForgeConfigSpec.BooleanValue disableToothInfection;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> werewolfFormFreeFormBiomes;
 
-    ServerConfig(ForgeConfigSpec.Builder builder) {
+    ServerConfig(ForgeConfigSpec.@NotNull Builder builder) {
         werewolfFormFreeFormBiomes = builder.comment("Additional biomes the player can have unlimited time in werewolf form. Use biome ids e.g. [\"minecraft:mesa\", \"minecraft:plains\"]").defineList("werewolfFormFreeFormBiomes", Collections.emptyList(), string -> string instanceof String && UtilLib.isValidResourceLocation(((String) string)));
 
         builder.push("meat");
@@ -28,11 +29,11 @@ public class ServerConfig {
         builder.pop();
     }
 
-    public boolean isCustomMeatItems(Item item) {
+    public boolean isCustomMeatItems(@NotNull Item item) {
         return this.customMeatItems.get().contains(RegUtil.id(item).toString());
     }
 
-    public boolean isCustomRawMeatItems(Item item) {
+    public boolean isCustomRawMeatItems(@NotNull Item item) {
         return this.customRawMeatItems.get().contains(RegUtil.id(item).toString());
     }
 }

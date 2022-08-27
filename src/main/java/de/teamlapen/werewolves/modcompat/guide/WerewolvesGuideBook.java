@@ -24,6 +24,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -35,7 +37,7 @@ public class WerewolvesGuideBook {
 
     private final static String IMAGE_BASE = "vampirismguide:textures/images/";
 
-    public static void onVampirismGuideBookCategoriesEvent(VampirismGuideBookCategoriesEvent event) {
+    public static void onVampirismGuideBookCategoriesEvent(@NotNull VampirismGuideBookCategoriesEvent event) {
         BookHelper helper = new BookHelper.Builder(REFERENCE.MODID).build();
         int werewolfPos = -1;
         int itemPos = -1;
@@ -72,7 +74,7 @@ public class WerewolvesGuideBook {
         }
     }
 
-    private static Map<ResourceLocation, EntryAbstract> buildWerewolf(BookHelper helper) {
+    private static @NotNull Map<ResourceLocation, EntryAbstract> buildWerewolf(@NotNull BookHelper helper) {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
         String base = "guide.werewolves.werewolf.";
 
@@ -137,7 +139,7 @@ public class WerewolvesGuideBook {
         return entries;
     }
 
-    private static void buildItems(Map<ResourceLocation, EntryAbstract> entriesIn, BookHelper helper) {
+    private static void buildItems(@NotNull Map<ResourceLocation, EntryAbstract> entriesIn, @NotNull BookHelper helper) {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
         helper.info(ModItems.LIVER.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
         helper.info(ModItems.CRACKED_BONE.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
@@ -153,18 +155,18 @@ public class WerewolvesGuideBook {
         entriesIn.putAll(entries);
     }
 
-    private static void buildBlocks(Map<ResourceLocation, EntryAbstract> entriesIn, BookHelper helper) {
+    private static void buildBlocks(@NotNull Map<ResourceLocation, EntryAbstract> entriesIn, @NotNull BookHelper helper) {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
         helper.info(ModBlocks.STONE_ALTAR.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID, "stone_altar")).build(entries);
         helper.info(ModBlocks.STONE_ALTAR_FIRE_BOWL.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).recipes(new ResourceLocation(REFERENCE.MODID, "stone_altar_fire_bowl")).build(entries);
         entriesIn.putAll(entries);
     }
 
-    private static String loc(Item i) {
+    private static @Nullable String loc(@NotNull Item i) {
         return UtilLib.translate(i.getDescriptionId());
     }
 
-    private static String loc(Block i) {
+    private static @Nullable String loc(@NotNull Block i) {
         return UtilLib.translate(i.getDescriptionId());
     }
 }

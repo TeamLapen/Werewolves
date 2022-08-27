@@ -55,7 +55,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick(TickEvent.@NotNull ClientTickEvent event) {
         if (this.mc.level == null || this.mc.player == null || !this.mc.player.isAlive()) return;
         if (event.phase == TickEvent.Phase.END) return;
         this.lastTicks = this.ticks;
@@ -73,7 +73,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void onRenderLivingPost(RenderLivingEvent.Post<?, ?> event) {
+    public void onRenderLivingPost(RenderLivingEvent.@NotNull Post<?, ?> event) {
         if (!this.isInsideVisionRendering && this.shouldRenderVision()) {
             LivingEntity entity = event.getEntity();
 
@@ -118,7 +118,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void onRenderWorldLast(RenderLevelStageEvent event) {
+    public void onRenderWorldLast(@NotNull RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
             if (mc.level == null) return;
 

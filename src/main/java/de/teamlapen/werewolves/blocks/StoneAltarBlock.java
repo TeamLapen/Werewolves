@@ -61,7 +61,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false).setValue(HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.SIGNAL_FIRE, false));
     }
 
-    protected static VoxelShape makeShape() {
+    protected static @NotNull VoxelShape makeShape() {
         VoxelShape a = Block.box(3, 0, 3, 13, 7, 13);
         VoxelShape b = Block.box(1, 7, 1, 15, 10, 15);
 
@@ -75,7 +75,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public void onRemove(BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(@NotNull BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             this.dropItems(worldIn, pos);
             super.onRemove(state, worldIn, pos, newState, isMoving);
@@ -83,7 +83,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public boolean isBurning(BlockState state, BlockGetter world, BlockPos pos) {
+    public boolean isBurning(@NotNull BlockState state, BlockGetter world, BlockPos pos) {
         return state.getValue(LIT);
     }
 
@@ -115,13 +115,13 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
 
     @NotNull
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(@NotNull BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @NotNull
     @Override
-    public InteractionResult use(@NotNull BlockState state, Level worldIn, @NotNull BlockPos pos, Player player, @NotNull InteractionHand handIn, @NotNull BlockHitResult hit) {
+    public InteractionResult use(@NotNull BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand handIn, @NotNull BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(handIn);
         StoneAltarBlockEntity te = ((StoneAltarBlockEntity) worldIn.getBlockEntity(pos));
         if (!worldIn.isClientSide && te != null) {
@@ -204,7 +204,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         return ModTiles.STONE_ALTAR.get().create(pos, state);
     }
 
-    private void dropItems(Level world, BlockPos pos) {
+    private void dropItems(@NotNull Level world, @NotNull BlockPos pos) {
         Random rand = new Random();
         BlockEntity tileEntity = world.getBlockEntity(pos);
         if (tileEntity instanceof Container inventory) {
@@ -230,36 +230,36 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
         builder.add(LIT).add(WATERLOGGED).add(SOUL_FIRE).add(HORIZONTAL_FACING).add(BlockStateProperties.SIGNAL_FIRE);
     }
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         return this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection());
     }
 
     @NotNull
     @Override
-    public BlockState mirror(BlockState state, Mirror mirror) {
+    public BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(HORIZONTAL_FACING)));
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
+    public @NotNull BlockState rotate(@NotNull BlockState state, LevelAccessor world, BlockPos pos, @NotNull Rotation rotation) {
         return state.setValue(HORIZONTAL_FACING, rotation.rotate(state.getValue(HORIZONTAL_FACING)));
     }
 
     @Override
-    public void animateTick(BlockState stateIn, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull RandomSource rand) {
+    public void animateTick(@NotNull BlockState stateIn, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull RandomSource rand) {
         if (stateIn.getValue(LIT)) {
             Vector3f offset = getTorchOffset(stateIn);
             worldIn.addParticle(stateIn.getValue(SOUL_FIRE) ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME, pos.getX() + offset.x(), pos.getY() + offset.y(), pos.getZ() + offset.z(), 0.0D, 0.0D, 0.0D);
         }
     }
 
-    private Vector3f getTorchOffset(BlockState stateIn) {
+    private @NotNull Vector3f getTorchOffset(@NotNull BlockState stateIn) {
         Vector3f vec = new Vector3f(0.5f, 15.4f / 16, 0.5f);
         switch (stateIn.getValue(HORIZONTAL_FACING)) {
             case EAST -> vec.add(new Vector3f(4.5f / 16, 0, 4.5f / 16));

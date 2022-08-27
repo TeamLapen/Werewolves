@@ -17,6 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -44,14 +45,14 @@ public class ModLootTables {
         GLOBAL_LOOT_MODIFIER.register(bus);
     }
 
-    static ResourceLocation entity(EntityType<?> type) {
+    static @NotNull ResourceLocation entity(@NotNull EntityType<?> type) {
         ResourceLocation loc = type.getDefaultLootTable();
         ResourceLocation newLoc = new ResourceLocation(REFERENCE.MODID, "inject/entity/" + loc.getPath());
         INJECTION_TABLES.put(loc, newLoc);
         return newLoc;
     }
 
-    static ResourceLocation chest(String chest) {
+    static @NotNull ResourceLocation chest(String chest) {
         ResourceLocation loc = new ResourceLocation("chests/" + chest);
         ResourceLocation newLoc = new ResourceLocation(REFERENCE.MODID, "inject/chest/" + chest);
         INJECTION_TABLES.put(loc, newLoc);
@@ -59,7 +60,7 @@ public class ModLootTables {
     }
 
     @SubscribeEvent
-    public static void onLootLoad(LootTableLoadEvent event) {
+    public static void onLootLoad(@NotNull LootTableLoadEvent event) {
         if (INJECTION_TABLES.containsKey(event.getName())) {
             try {
                 event.getTable().addPool(getInjectPool(event.getName()));
@@ -69,7 +70,7 @@ public class ModLootTables {
         }
     }
 
-    private static LootPool getInjectPool(ResourceLocation loc) {
+    private static @NotNull LootPool getInjectPool(ResourceLocation loc) {
         LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1);
         return LootPool.lootPool().name("werewolves_inject_pool").setBonusRolls(UniformGenerator.between(0, 1)).setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
     }

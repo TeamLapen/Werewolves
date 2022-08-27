@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 public class ModRefinements {
 
@@ -61,7 +62,7 @@ public class ModRefinements {
 
         private static void init(){}
 
-        private static RegistryObject<IRefinement> refinement(String name) {
+        private static @NotNull RegistryObject<IRefinement> refinement(@NotNull String name) {
             return RegistryObject.create(new ResourceLocation("vampirism", name), VampirismRegistries.REFINEMENT_ID, REFERENCE.MODID);
         }
     }

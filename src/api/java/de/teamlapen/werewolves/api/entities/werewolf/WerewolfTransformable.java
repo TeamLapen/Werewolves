@@ -12,11 +12,11 @@ import java.util.UUID;
 public interface WerewolfTransformable extends IWerewolfDataholder {
     int TYPES = 126;
 
-    static <T extends Mob> T copyData(EntityType<T> newEntity, Mob oldEntity) {
+    static <T extends Mob> @NotNull T copyData(@NotNull EntityType<T> newEntity, @NotNull Mob oldEntity) {
         return copyData(newEntity.create(oldEntity.getCommandSenderWorld()), oldEntity);
     }
 
-    static <T extends Mob> T copyData(T entity, Mob oldEntity) {
+    static <T extends Mob> @NotNull T copyData(@NotNull T entity, @NotNull Mob oldEntity) {
         UUID uuid = entity.getUUID();
         entity.copyPosition(oldEntity);
         entity.restoreFrom(oldEntity);
@@ -27,13 +27,13 @@ public interface WerewolfTransformable extends IWerewolfDataholder {
         return entity;
     }
 
-    default WerewolfTransformable transformBack() {
+    default @NotNull WerewolfTransformable transformBack() {
         WerewolfTransformable transformable = _transformBack();
         transformable.reset();
         return transformable;
     }
 
-    default WerewolfTransformable transformToWerewolf(TransformType type) {
+    default @NotNull WerewolfTransformable transformToWerewolf(TransformType type) {
         WerewolfTransformable transformable = _transformToWerewolf();
         transformable.start(type);
         return transformable;

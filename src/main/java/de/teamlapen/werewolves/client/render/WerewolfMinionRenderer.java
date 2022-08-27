@@ -9,12 +9,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionEntity> {
 
-    public WerewolfMinionRenderer(EntityRendererProvider.Context context) {
+    public WerewolfMinionRenderer(EntityRendererProvider.@NotNull Context context) {
         super(context, 0.3f);
     }
 
     @Override
-    public void render(WerewolfMinionEntity entity, float p_225623_2_, float p_225623_3_, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int p_225623_6_) {
+    public void render(@NotNull WerewolfMinionEntity entity, float p_225623_2_, float p_225623_3_, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int p_225623_6_) {
         this.switchModel(entity.getForm());
         //noinspection ConstantConditions
         if (this.model == null) return;
@@ -22,7 +22,7 @@ public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionE
     }
 
     @Override
-    protected void scale(WerewolfMinionEntity entityIn, PoseStack matrixStack, float float1) {
+    protected void scale(@NotNull WerewolfMinionEntity entityIn, @NotNull PoseStack matrixStack, float float1) {
         float s = entityIn.getScale();
         matrixStack.scale(s, s, s);
     }

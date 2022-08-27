@@ -42,7 +42,7 @@ public class LootTablesGenerator extends LootTableProvider {
     private static final float[] DEFAULT_SAPLING_DROP_RATES = new float[]{0.05F, 0.0625F, 0.083333336F, 0.1F};
 
 
-    public LootTablesGenerator(DataGenerator dataGeneratorIn) {
+    public LootTablesGenerator(@NotNull DataGenerator dataGeneratorIn) {
         super(dataGeneratorIn);
     }
 
@@ -58,7 +58,7 @@ public class LootTablesGenerator extends LootTableProvider {
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, @NotNull ValidationContext validationtracker) {
+    protected void validate(@NotNull Map<ResourceLocation, LootTable> map, @NotNull ValidationContext validationtracker) {
         map.forEach((resourceLocation, lootTable) -> LootTables.validate(validationtracker, resourceLocation, lootTable));
     }
 
@@ -173,7 +173,7 @@ public class LootTablesGenerator extends LootTableProvider {
 
     private static class InjectLootTables implements Consumer<BiConsumer<ResourceLocation, LootTable.Builder>> {
         @Override
-        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+        public void accept(@NotNull BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             consumer.accept(ModLootTables.villager, LootTable.lootTable()
                     .withPool(LootPool.lootPool().name("liver").setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.5f)))));
@@ -186,7 +186,7 @@ public class LootTablesGenerator extends LootTableProvider {
     private static class ChestLootTables implements Consumer<BiConsumer<ResourceLocation, LootTable.Builder>> {
 
         @Override
-        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+        public void accept(@NotNull BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             LootPool.Builder accessories = LootPool.lootPool()
                     .name("accessories")
                     .setRolls(ConstantValue.exactly(1))

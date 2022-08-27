@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -19,7 +20,7 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
     }
 
     @Override
-    protected void registerSkillNodes(Consumer<FinishedSkillNode> consumer) {
+    protected void registerSkillNodes(@NotNull Consumer<FinishedSkillNode> consumer) {
         ResourceLocation skill1 = werewolf(this.modId("werewolf"), ModSkills.HUMAN_FORM.get()).build(consumer, this.modId("skill1"));
         ResourceLocation skill2 = werewolf(skill1, ModSkills.NIGHT_VISION.get()).build(consumer, this.modId("skill2"));
 
@@ -59,11 +60,11 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
 
     }
 
-    public static SkillNodeBuilder werewolf(ResourceLocation parent, ISkill<?>... skills) {
+    public static @NotNull SkillNodeBuilder werewolf(@NotNull ResourceLocation parent, ISkill<?>... skills) {
         return SkillNodeBuilder.skill(parent, skills).faction(WReference.WEREWOLF_FACTION);
     }
 
-    private ResourceLocation modId(String string) {
+    private @NotNull ResourceLocation modId(@NotNull String string) {
         return new ResourceLocation(REFERENCE.MODID, string);
     }
 }

@@ -50,7 +50,7 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void initializeClient(Consumer<IClientMobEffectExtensions> consumer) {
+    public void initializeClient(@NotNull Consumer<IClientMobEffectExtensions> consumer) {
         consumer.accept(new HiddenDurationEffectRenderer());
     }
 }

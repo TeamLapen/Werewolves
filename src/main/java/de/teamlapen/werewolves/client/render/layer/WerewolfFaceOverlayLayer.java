@@ -19,7 +19,7 @@ public class WerewolfFaceOverlayLayer<T extends LivingEntity> extends RenderLaye
     private final ResourceLocation[] eyeOverlays;
 
 
-    public WerewolfFaceOverlayLayer(LivingEntityRenderer<T, WerewolfBaseModel<T>> renderer, ResourceLocation[] overlays) {
+    public WerewolfFaceOverlayLayer(@NotNull LivingEntityRenderer<T, WerewolfBaseModel<T>> renderer, ResourceLocation[] overlays) {
         super(renderer);
         this.eyeOverlays = overlays;
     }
@@ -34,11 +34,11 @@ public class WerewolfFaceOverlayLayer<T extends LivingEntity> extends RenderLaye
         this.getParentModel().getModelRenderer().render(matrixStack, vertexBuilderEye, packedLightIn, packerOverlay);
     }
 
-    public int getEyeType(IWerewolf werewolf) {
+    public int getEyeType(@NotNull IWerewolf werewolf) {
         return werewolf.getEyeType();
     }
 
-    public boolean hasGlowingEyes(IWerewolf werewolf) {
+    public boolean hasGlowingEyes(@NotNull IWerewolf werewolf) {
         return werewolf.hasGlowingEyes();
     }
 }

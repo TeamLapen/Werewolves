@@ -53,12 +53,12 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     }
 
     @Override
-    public Predicate<LivingEntity> getNonFriendlySelector(boolean b, boolean b1) {
+    public @Nullable Predicate<LivingEntity> getNonFriendlySelector(boolean b, boolean b1) {
         return null;
     }
 
     @Override
-    public Player getRepresentingPlayer() {
+    public @Nullable Player getRepresentingPlayer() {
         return null;
     }
 
@@ -83,17 +83,17 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     }
 
     @Override
-    public LivingEntity getRepresentingEntity() {
+    public @Nullable LivingEntity getRepresentingEntity() {
         return null;
     }
 
     @Override
-    public ISkillHandler<IWerewolfPlayer> getSkillHandler() {
+    public @NotNull ISkillHandler<IWerewolfPlayer> getSkillHandler() {
         return null;
     }
 
     @Override
-    public IActionHandler<IWerewolfPlayer> getActionHandler() {
+    public @Nullable IActionHandler<IWerewolfPlayer> getActionHandler() {
         return null;
     }
 

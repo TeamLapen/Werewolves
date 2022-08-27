@@ -51,6 +51,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -66,7 +67,7 @@ public class ModEntityEventHandler {
     private static final UUID ARMOR_REDUCTION = UUID.fromString("5b7612e9-1847-435c-b4eb-a455af4ce8c7");
 
     @SubscribeEvent
-    public void onEntityAttacked(AttackEntityEvent event) {
+    public void onEntityAttacked(@NotNull AttackEntityEvent event) {
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
             if (event.getEntity().getMainHandItem().is(ModTags.Items.SILVER_TOOL)) {
                 ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
@@ -80,7 +81,7 @@ public class ModEntityEventHandler {
     }
 
     @SubscribeEvent
-    public void onLivingHurt(LivingHurtEvent event) {
+    public void onLivingHurt(@NotNull LivingHurtEvent event) {
         AttributeInstance s = event.getEntity().getAttribute(Attributes.ARMOR);
         if (s != null) {
             s.removeModifier(ARMOR_REDUCTION);
@@ -113,7 +114,7 @@ public class ModEntityEventHandler {
     }
 
     @SubscribeEvent
-    public void onAttack(LivingSetAttackTargetEvent event) {
+    public void onAttack(@NotNull LivingSetAttackTargetEvent event) {
         if (event.getTarget() instanceof ServerPlayer) {
             if (Helper.isWerewolf(((Player) event.getTarget()))) {
                 WerewolfPlayer.getOpt(((Player) event.getTarget())).ifPresent(werewolf -> {
@@ -127,7 +128,7 @@ public class ModEntityEventHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.LOW) // lower priority so that vampirism does not override our ai changes
-    public void onEntityJoinWorld(EntityJoinLevelEvent event) {
+    public void onEntityJoinWorld(@NotNull EntityJoinLevelEvent event) {
         if (event.getEntity().level.isClientSide()) return;
         if (event.getEntity() instanceof Villager) {
             TotemHelper.getTotemNearPos(((ServerLevel) event.getLevel()), event.getEntity().blockPosition(), true).ifPresent(totem -> {
@@ -150,7 +151,7 @@ public class ModEntityEventHandler {
      * copy from {@link de.teamlapen.vampirism.entity.ModEntityEventHandler#makeVampireFriendly(String, Mob, Class, Class, int, BiFunction, Predicate)}
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Mob, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, T entity, Class<Q> targetClass, Class<S> targetEntityClass, int attackPriority, BiFunction<T, Predicate<LivingEntity>, Q> replacement, Predicate<EntityType<? extends T>> typeCheck) {
+    public static <T extends Mob, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, @NotNull T entity, @NotNull Class<Q> targetClass, @NotNull Class<S> targetEntityClass, int attackPriority, @NotNull BiFunction<T, Predicate<LivingEntity>, Q> replacement, @NotNull Predicate<EntityType<? extends T>> typeCheck) {
         try {
             Goal target = null;
             for (WrappedGoal t : ((GoalSelectorAccessor) entity.targetSelector).getAvailableGoals()) {
@@ -183,7 +184,7 @@ public class ModEntityEventHandler {
     }
 
     @SubscribeEvent
-    public void onLivingDamage(LivingDamageEvent event) {
+    public void onLivingDamage(@NotNull LivingDamageEvent event) {
         AttributeInstance s = event.getEntity().getAttribute(Attributes.ARMOR);
         if (s != null) {
             s.removeModifier(ARMOR_REDUCTION);

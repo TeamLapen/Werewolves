@@ -35,23 +35,23 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
         return Component.translatable("command.werewolves.argument.form.not_supported", id);
     });
 
-    public static WerewolfForm getForm(CommandContext<CommandSourceStack> context, String id) {
+    public static WerewolfForm getForm(@NotNull CommandContext<CommandSourceStack> context, String id) {
         return context.getArgument(id, WerewolfForm.class);
     }
 
-    public static WerewolfFormArgument allForms() {
+    public static @NotNull WerewolfFormArgument allForms() {
         return new WerewolfFormArgument(WerewolfForm.getAllForms());
     }
 
-    public static WerewolfFormArgument transformedForms() {
+    public static @NotNull WerewolfFormArgument transformedForms() {
         return new WerewolfFormArgument(WerewolfForm.getAllForms().stream().filter(WerewolfForm::isTransformed).collect(Collectors.toList()));
     }
 
-    public static WerewolfFormArgument nonHumanForms() {
+    public static @NotNull WerewolfFormArgument nonHumanForms() {
         return new WerewolfFormArgument(WerewolfForm.getAllForms().stream().filter(w -> !w.isHumanLike()).collect(Collectors.toList()));
     }
 
-    public static WerewolfFormArgument formArgument(WerewolfForm... allowedForms) {
+    public static @NotNull WerewolfFormArgument formArgument(WerewolfForm... allowedForms) {
         return new WerewolfFormArgument(Arrays.asList(allowedForms));
     }
 
@@ -68,7 +68,7 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
     }
 
     @Override
-    public WerewolfForm parse(StringReader reader) throws CommandSyntaxException {
+    public @NotNull WerewolfForm parse(@NotNull StringReader reader) throws CommandSyntaxException {
         String id = reader.readString();
         WerewolfForm form = WerewolfForm.getForm(id);
         if (form == null) {
@@ -80,14 +80,14 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
     }
 
     @Override
-    public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
+    public <S> @NotNull CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, @NotNull SuggestionsBuilder builder) {
         Collection<WerewolfForm> forms = WerewolfForm.getAllForms();
         forms.remove(WerewolfForm.NONE);
         return SharedSuggestionProvider.suggest(this.allowedForms.stream().map(WerewolfForm::getName), builder);
     }
 
     @Override
-    public Collection<String> getExamples() {
+    public @NotNull Collection<String> getExamples() {
         Collection<WerewolfForm> forms = WerewolfForm.getAllForms();
         forms.remove(WerewolfForm.NONE);
         return this.allowedForms.stream().map(WerewolfForm::getName).collect(Collectors.toList());

@@ -20,7 +20,7 @@ public class WolfsbaneBlock extends FlowerBlock {
     }
 
     @Override
-    public void entityInside(@NotNull BlockState state, Level worldIn, @NotNull BlockPos pos, @NotNull Entity entityIn) {
+    public void entityInside(@NotNull BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull Entity entityIn) {
         if (!worldIn.isClientSide && worldIn.getDifficulty() != Difficulty.PEACEFUL) {
             if (entityIn instanceof LivingEntity livingentity && Helper.isWerewolf(entityIn)) {
                 livingentity.addEffect(SilverEffect.createEffect(livingentity, 40));

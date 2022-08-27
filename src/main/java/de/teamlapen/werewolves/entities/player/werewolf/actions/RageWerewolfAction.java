@@ -8,6 +8,7 @@ import de.teamlapen.werewolves.core.ModAttributes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
+    protected boolean activate(@NotNull IWerewolfPlayer werewolf, ActivationContext context) {
         addEffectInstance(werewolf, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, this.getDuration(werewolf), 1, false, false));
         addEffectInstance(werewolf, new MobEffectInstance(MobEffects.DAMAGE_BOOST, this.getDuration(werewolf), 0, false, false));
         werewolf.getRepresentingPlayer().getAttribute(ModAttributes.BITE_DAMAGE.get()).addPermanentModifier(new AttributeModifier(BITE_MODIFIER, "rage_bite_modifier", WerewolvesConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADDITION));
@@ -38,7 +39,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
     }
 
     @Override
-    public void onDeactivated(IWerewolfPlayer werewolf) {
+    public void onDeactivated(@NotNull IWerewolfPlayer werewolf) {
         removePotionEffect(werewolf, MobEffects.DAMAGE_BOOST);
         removePotionEffect(werewolf, MobEffects.MOVEMENT_SPEED);
         werewolf.getRepresentingPlayer().getAttribute(ModAttributes.BITE_DAMAGE.get()).removeModifier(BITE_MODIFIER);

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import de.teamlapen.werewolves.mixin.client.ModelPartAccessor;
 import net.minecraft.client.model.geom.ModelPart;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.stream.Stream;
 
 public class InvisibleModelPart extends ModelPart {
 
-    public InvisibleModelPart(ModelPart part) {
+    public InvisibleModelPart(@NotNull ModelPart part) {
         super(Collections.emptyList(), ((ModelPartAccessor) part).getChildren());
     }
 
@@ -46,7 +47,7 @@ public class InvisibleModelPart extends ModelPart {
     }
 
     @Override
-    public Stream<ModelPart> getAllParts() {
+    public @NotNull Stream<ModelPart> getAllParts() {
         return this.children().values().stream().flatMap(ModelPart::getAllParts);
     }
 

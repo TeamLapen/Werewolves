@@ -73,7 +73,7 @@ public class ModKeys {
         });
     }
 
-    public Optional<KeyMapping> getPressedKeyBinding() {
+    public @NotNull Optional<KeyMapping> getPressedKeyBinding() {
         if (LEAP.consumeClick()) {
             return Optional.of(LEAP);
         } else if (BITE.consumeClick()) {

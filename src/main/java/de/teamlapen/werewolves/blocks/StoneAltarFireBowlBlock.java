@@ -47,7 +47,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
         this.registerDefaultState(this.getStateDefinition().any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false).setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.SIGNAL_FIRE, false));
     }
 
-    protected static VoxelShape makeShape() {
+    protected static @NotNull VoxelShape makeShape() {
         VoxelShape a = Block.box(0, 0, 0, 16, 5, 16);
         VoxelShape b = Block.box(2, 5, 2, 14, 9, 14);
         VoxelShape c = Block.box(0, 9, 0, 16, 14, 16);
@@ -63,7 +63,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
 
     @NotNull
     @Override
-    public InteractionResult use(BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand handIn, @NotNull BlockHitResult p_225533_6_) {
+    public InteractionResult use(@NotNull BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand handIn, @NotNull BlockHitResult p_225533_6_) {
         if (!state.getValue(LIT)) {
             ItemStack stack = player.getItemInHand(handIn);
             if (stack.getItem() == Items.TORCH || stack.getItem() == Items.SOUL_TORCH) {
@@ -77,13 +77,13 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
         builder.add(LIT).add(WATERLOGGED).add(SOUL_FIRE).add(FACING).add(BlockStateProperties.SIGNAL_FIRE);
     }
 
     @NotNull
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(@NotNull BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
@@ -110,7 +110,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void animateTick(BlockState stateIn, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull RandomSource rand) {
+    public void animateTick(@NotNull BlockState stateIn, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull RandomSource rand) {
         if (stateIn.getValue(LIT)) {
             double d0 = (double) pos.getX() + rand.nextDouble();
             double d1 = (double) pos.getY() + rand.nextDouble() + 0.7D;
@@ -122,7 +122,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
     }
 }

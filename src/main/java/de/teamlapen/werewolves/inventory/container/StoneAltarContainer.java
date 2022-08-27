@@ -13,15 +13,15 @@ import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 
 public class StoneAltarContainer extends InventoryContainerMenu {
-    public static final InventoryContainerMenu.SelectorInfo[] SELECTOR_INFOS;
+    public static final InventoryContainerMenu.SelectorInfo @NotNull [] SELECTOR_INFOS;
 
 
     @Deprecated
-    public StoneAltarContainer(int id, Inventory playerInventory) {
+    public StoneAltarContainer(int id, @NotNull Inventory playerInventory) {
         this(id, playerInventory, new SimpleContainer(2), ContainerLevelAccess.NULL);
     }
 
-    public StoneAltarContainer(int id, Inventory playerInventory, Container inventory, ContainerLevelAccess worldPos) {
+    public StoneAltarContainer(int id, @NotNull Inventory playerInventory, @NotNull Container inventory, ContainerLevelAccess worldPos) {
         super(ModContainer.STONE_ALTAR.get(), id, playerInventory, worldPos, inventory, SELECTOR_INFOS);
         this.addPlayerSlots(playerInventory);
     }

@@ -37,16 +37,16 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     private boolean werewolf;
     private WerewolfForm form = WerewolfForm.BEAST;
     private final EntityActionTier entityTier = EntityActionTier.Medium;
-    private EntityClassType entityClass;
+    private @Nullable EntityClassType entityClass;
     protected int rage;
 
     @Deprecated
-    public MixinVillagerEntity(EntityType<? extends AbstractVillager> type, Level worldIn) {
+    public MixinVillagerEntity(@NotNull EntityType<? extends AbstractVillager> type, @NotNull Level worldIn) {
         super(type, worldIn);
     }
 
     @Override
-    public BasicWerewolfEntity _transformToWerewolf() {
+    public @NotNull BasicWerewolfEntity _transformToWerewolf() {
         EntityType<? extends BasicWerewolfEntity> type;
         if (this.form == WerewolfForm.BEAST) {
             type = ModEntities.WEREWOLF_BEAST.get();
@@ -59,7 +59,7 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     }
 
     @Override
-    public WerewolfTransformable _transformBack() {
+    public @NotNull WerewolfTransformable _transformBack() {
         return this;
     }
 
@@ -152,7 +152,7 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
-    public void werewolves_addAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
+    public void werewolves_addAdditionalSaveData(@NotNull CompoundTag compound, CallbackInfo ci) {
         CompoundTag nbt = new CompoundTag();
         nbt.putBoolean("werewolf", this.werewolf);
         if (this.form != null) {
@@ -166,7 +166,7 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
-    public void werewolves_readAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
+    public void werewolves_readAdditionalSaveData(@NotNull CompoundTag compound, CallbackInfo ci) {
         CompoundTag nbt = compound.getCompound("werewolves");
         this.werewolf = nbt.getBoolean("werewolf");
         if (nbt.contains("form")) {

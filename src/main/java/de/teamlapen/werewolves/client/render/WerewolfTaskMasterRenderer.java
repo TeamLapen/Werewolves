@@ -18,7 +18,7 @@ public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEn
     private final static ResourceLocation texture = new ResourceLocation("textures/entity/villager/villager.png");
     private final static ResourceLocation overlay = new ResourceLocation("vampirism", "textures/entity/vampire_task_master_overlay.png");
 
-    public WerewolfTaskMasterRenderer(EntityRendererProvider.Context context) {
+    public WerewolfTaskMasterRenderer(EntityRendererProvider.@NotNull Context context) {
         super(context, new VillagerModel<>(context.bakeLayer(de.teamlapen.vampirism.client.core.ModEntitiesRender.TASK_MASTER)), 0.5f);
         this.addLayer(new TaskMasterTypeLayer<>(this, overlay));
     }

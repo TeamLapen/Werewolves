@@ -26,7 +26,7 @@ public class SilverEffect extends WerewolvesEffect {
     public void applyEffectTick(@NotNull LivingEntity entityLivingBaseIn, int amplifier) {
     }
 
-    public static MobEffectInstance createEffect(LivingEntity entity, int defaultDuration) {
+    public static @NotNull MobEffectInstance createEffect(LivingEntity entity, int defaultDuration) {
         if (entity instanceof Player && Helper.isWerewolf(((Player) entity))) {
             if (WerewolfPlayer.getOpt(((Player) entity)).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.SILVER_BLOODED.get())).orElse(false)) {
                 defaultDuration /= 3f;

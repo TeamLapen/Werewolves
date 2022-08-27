@@ -79,11 +79,11 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
-    public static WerewolfPlayer get(@NotNull Player playerEntity) {
+    public static @NotNull WerewolfPlayer get(@NotNull Player playerEntity) {
         return (WerewolfPlayer) playerEntity.getCapability(CAP).orElseThrow(() -> new IllegalStateException("Cannot get werewolf player capability from player" + playerEntity));
     }
 
-    public static LazyOptional<WerewolfPlayer> getOpt(@NotNull Player playerEntity) {
+    public static @NotNull LazyOptional<WerewolfPlayer> getOpt(@NotNull Player playerEntity) {
         LazyOptional<WerewolfPlayer> opt = playerEntity.getCapability(CAP).cast();
         if (!opt.isPresent()) {
             LOGGER.warn("Cannot get Werewolf player capability. This might break mod functionality.", new Throwable().fillInStackTrace());
@@ -96,7 +96,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
      * <p>
      * already filters if the entity is a werewolf player
      */
-    public static LazyOptional<WerewolfPlayer> getOptEx(@Nullable Entity entity) {
+    public static @NotNull LazyOptional<WerewolfPlayer> getOptEx(@Nullable Entity entity) {
         if (!(entity instanceof Player) || !Helper.isWerewolf(((Player) entity))) return LazyOptional.empty();
         return getOpt(((Player) entity));
     }
@@ -132,7 +132,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return this.form;
     }
 
-    public void setForm(WerewolfFormAction action, WerewolfForm form) {
+    public void setForm(WerewolfFormAction action, @NotNull WerewolfForm form) {
         switchForm(form);
         this.lastFormAction = action;
         if (!this.player.level.isClientSide) {
@@ -140,13 +140,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
-    public void switchForm(WerewolfForm form) {
+    public void switchForm(@NotNull WerewolfForm form) {
         this.form = form;
         this.player.refreshDimensions();
     }
 
     @Override
-    protected FactionBasePlayer<IWerewolfPlayer> copyFromPlayer(Player playerEntity) {
+    protected @NotNull FactionBasePlayer<IWerewolfPlayer> copyFromPlayer(@NotNull Player playerEntity) {
         WerewolfPlayer oldWerewolf = get(playerEntity);
         CompoundTag nbt = new CompoundTag();
         oldWerewolf.saveData(nbt);
@@ -355,7 +355,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return true;
     }
 
-    public void setSkinData(WerewolfForm form, int[] data) {
+    public void setSkinData(WerewolfForm form, int @NotNull [] data) {
         this.setEyeType(form, data[0]);
         this.setSkinType(form, data[1]);
         this.setGlowingEyes(form, data[2] == 1);
@@ -378,7 +378,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    public void onEntityKilled(LivingEntity victim, DamageSource src) {
+    public void onEntityKilled(@NotNull LivingEntity victim, DamageSource src) {
         if (this.getSkillHandler().isRefinementEquipped(ModRefinements.RAGE_FURY.get())) {
             this.player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 40, 1));
             this.actionHandler.extendActionTimer(ModActions.RAGE.get(), WerewolvesConfig.BALANCE.REFINEMENTS.rage_fury_timer_extend.get());
@@ -415,7 +415,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     }
 
-    public boolean canBiteEntity(LivingEntity entity) {
+    public boolean canBiteEntity(@NotNull LivingEntity entity) {
         return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1 && (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
     }
 
@@ -431,7 +431,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return false;
     }
 
-    private boolean bite(LivingEntity entity) {
+    private boolean bite(@NotNull LivingEntity entity) {
         if (this.specialAttributes.biteTicks > 0) return false;
         if (!this.form.isTransformed()) return false;
         if (!canBite()) return false;
@@ -460,7 +460,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return flag;
     }
 
-    private void eatEntity(LivingEntity entity) {
+    private void eatEntity(@NotNull LivingEntity entity) {
         if (entity.isInvertedHealAndHarm()) return;
         if (!entity.isAlive() && entity.getType().getCategory().isPersistent()) {
             this.player.getFoodData().eat(1, 1);
@@ -496,7 +496,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    public ResourceLocation getCapKey() {
+    public @NotNull ResourceLocation getCapKey() {
         return REFERENCE.WEREWOLF_PLAYER_KEY;
     }
 
@@ -549,19 +549,19 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    public ISkillHandler<IWerewolfPlayer> getSkillHandler() {
+    public @NotNull ISkillHandler<IWerewolfPlayer> getSkillHandler() {
         return this.skillHandler;
     }
 
     @Override
-    public IActionHandler<IWerewolfPlayer> getActionHandler() {
+    public @NotNull IActionHandler<IWerewolfPlayer> getActionHandler() {
         return this.actionHandler;
     }
 
     //-- load/save -----------------------------------------------------------------------------------------------------
 
     @Override
-    public void saveData(CompoundTag compound) {
+    public void saveData(@NotNull CompoundTag compound) {
         super.saveData(compound);
         this.actionHandler.saveToNbt(compound);
         this.skillHandler.saveToNbt(compound);
@@ -584,7 +584,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    public void loadData(CompoundTag compound) {
+    public void loadData(@NotNull CompoundTag compound) {
         super.loadData(compound);
         this.actionHandler.loadFromNbt(compound);
         this.skillHandler.loadFromNbt(compound);
@@ -617,7 +617,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    protected void writeFullUpdate(CompoundTag nbt) {
+    protected void writeFullUpdate(@NotNull CompoundTag nbt) {
         super.writeFullUpdate(nbt);
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
@@ -637,7 +637,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    protected void loadUpdate(CompoundTag nbt) {
+    protected void loadUpdate(@NotNull CompoundTag nbt) {
         super.loadUpdate(nbt);
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
@@ -667,7 +667,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     //-- capability ----------------------------------------------------------------------------------------------------
 
-    public static ICapabilityProvider createNewCapability(final Player player) {
+    public static @NotNull ICapabilityProvider createNewCapability(final @NotNull Player player) {
         return new ICapabilitySerializable<CompoundTag>() {
 
             final WerewolfPlayer inst = new WerewolfPlayer(player);
@@ -680,14 +680,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             }
 
             @Override
-            public CompoundTag serializeNBT() {
+            public @NotNull CompoundTag serializeNBT() {
                 CompoundTag tag = new CompoundTag();
                 inst.saveData(tag);
                 return tag;
             }
 
             @Override
-            public void deserializeNBT(CompoundTag nbt) {
+            public void deserializeNBT(@NotNull CompoundTag nbt) {
                 inst.loadData(nbt);
             }
         };

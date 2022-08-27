@@ -6,6 +6,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModSkills;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -34,13 +35,13 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    protected void removeArmorModifier(IWerewolfPlayer werewolfPlayer) {
+    protected void removeArmorModifier(@NotNull IWerewolfPlayer werewolfPlayer) {
         if (werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get())) return;
         super.removeArmorModifier(werewolfPlayer);
     }
 
     @Override
-    protected void addArmorModifier(IWerewolfPlayer werewolfPlayer) {
+    protected void addArmorModifier(@NotNull IWerewolfPlayer werewolfPlayer) {
         if (werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get())) return;
         super.addArmorModifier(werewolfPlayer);
     }

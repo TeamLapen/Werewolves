@@ -31,11 +31,11 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static final ImmutableList<ItemLike> SILVER_SMELTABLES = ImmutableList.of(ModBlocks.SILVER_ORE.get(), ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModItems.RAW_SILVER.get());
 
-    public RecipeGenerator(DataGenerator generatorIn) {
+    public RecipeGenerator(@NotNull DataGenerator generatorIn) {
         super(generatorIn);
     }
 
-    private static ResourceLocation modId(String name) {
+    private static @NotNull ResourceLocation modId(@NotNull String name) {
         return new ResourceLocation(REFERENCE.MODID, name);
     }
 
@@ -108,39 +108,39 @@ public class RecipeGenerator extends RecipeProvider {
         AlchemyTableRecipeBuilder.builder(ModOils.SILVER_OIL_2).oilIngredient(ModOils.SILVER_OIL_1.get()).input(Ingredient.of(ModTags.Items.SILVER_INGOT)).build(consumer, new ResourceLocation(REFERENCE.MODID, "silver_oil_2"));
     }
 
-    protected static void nineBlockStorageRecipes(Consumer<FinishedRecipe> p_176744_, ItemLike p_176745_, ItemLike p_176746_) {
+    protected static void nineBlockStorageRecipes(@NotNull Consumer<FinishedRecipe> p_176744_, @NotNull ItemLike p_176745_, @NotNull ItemLike p_176746_) {
         nineBlockStorageRecipes(p_176744_, p_176745_, p_176746_, getSimpleRecipeName(p_176746_), (String) null, getSimpleRecipeName(p_176745_), (String) null);
     }
 
-    protected static void nineBlockStorageRecipesWithCustomPacking(Consumer<FinishedRecipe> p_176563_, ItemLike p_176564_, ItemLike p_176565_, String p_176566_, String p_176567_) {
+    protected static void nineBlockStorageRecipesWithCustomPacking(@NotNull Consumer<FinishedRecipe> p_176563_, @NotNull ItemLike p_176564_, @NotNull ItemLike p_176565_, @NotNull String p_176566_, String p_176567_) {
         nineBlockStorageRecipes(p_176563_, p_176564_, p_176565_, p_176566_, p_176567_, getSimpleRecipeName(p_176564_), (String) null);
     }
 
-    protected static String getSimpleRecipeName(ItemLike itemLike) {
+    protected static @NotNull String getSimpleRecipeName(@NotNull ItemLike itemLike) {
         return getItemName(itemLike);
     }
 
-    protected static String getItemName(ItemLike itemLike) {
+    protected static @NotNull String getItemName(@NotNull ItemLike itemLike) {
         return RegUtil.id(itemLike.asItem()).toString();
     }
 
-    protected static String getBlastingRecipeName(ItemLike p_176669_) {
+    protected static @NotNull String getBlastingRecipeName(@NotNull ItemLike p_176669_) {
         return getItemName(p_176669_) + "_from_blasting";
     }
 
-    protected static String getSmeltingRecipeName(ItemLike p_176657_) {
+    protected static @NotNull String getSmeltingRecipeName(@NotNull ItemLike p_176657_) {
         return getItemName(p_176657_) + "_from_smelting";
     }
 
-    protected static void oreSmelting(Consumer<FinishedRecipe> p_176592_, List<ItemLike> p_176593_, ItemLike p_176594_, float p_176595_, int p_176596_, String p_176597_) {
+    protected static void oreSmelting(@NotNull Consumer<FinishedRecipe> p_176592_, @NotNull List<ItemLike> p_176593_, @NotNull ItemLike p_176594_, float p_176595_, int p_176596_, String p_176597_) {
         oreCooking(p_176592_, RecipeSerializer.SMELTING_RECIPE, p_176593_, p_176594_, p_176595_, p_176596_, p_176597_, "_from_smelting");
     }
 
-    protected static void oreBlasting(Consumer<FinishedRecipe> p_176626_, List<ItemLike> p_176627_, ItemLike p_176628_, float p_176629_, int p_176630_, String p_176631_) {
+    protected static void oreBlasting(@NotNull Consumer<FinishedRecipe> p_176626_, @NotNull List<ItemLike> p_176627_, @NotNull ItemLike p_176628_, float p_176629_, int p_176630_, String p_176631_) {
         oreCooking(p_176626_, RecipeSerializer.BLASTING_RECIPE, p_176627_, p_176628_, p_176629_, p_176630_, p_176631_, "_from_blasting");
     }
 
-    protected static void oreCooking(Consumer<FinishedRecipe> p_176534_, SimpleCookingSerializer<?> p_176535_, List<ItemLike> p_176536_, ItemLike p_176537_, float p_176538_, int p_176539_, String p_176540_, String p_176541_) {
+    protected static void oreCooking(@NotNull Consumer<FinishedRecipe> p_176534_, @NotNull SimpleCookingSerializer<?> p_176535_, @NotNull List<ItemLike> p_176536_, @NotNull ItemLike p_176537_, float p_176538_, int p_176539_, String p_176540_, String p_176541_) {
         for (ItemLike itemlike : p_176536_) {
             SimpleCookingRecipeBuilder.cooking(Ingredient.of(itemlike), p_176537_, p_176538_, p_176539_, p_176535_).group(p_176540_).unlockedBy(getHasName(itemlike), has(itemlike)).save(p_176534_, getItemName(p_176537_) + p_176541_ + "_" + getItemName(itemlike).replace(":", "_"));
         }

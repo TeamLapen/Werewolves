@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import org.apache.logging.log4j.LogManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class WerewolfTransformCommand extends BasicCommand {
     }
 
     @SuppressWarnings("SameReturnValue")
-    private static int transformToWerewolf(Player player) {
+    private static int transformToWerewolf(@NotNull Player player) {
         try {
             List<LivingEntity> entites = player.level.getEntitiesOfClass(LivingEntity.class, new AABB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
             entites.forEach(entity -> ((WerewolfTransformable) entity).transformToWerewolf(TransformType.TIME_LIMITED));
@@ -35,7 +36,7 @@ public class WerewolfTransformCommand extends BasicCommand {
     }
 
     @SuppressWarnings("SameReturnValue")
-    private static int transformFromWerewolf(Player player) {
+    private static int transformFromWerewolf(@NotNull Player player) {
         List<LivingEntity> entites = player.level.getEntitiesOfClass(LivingEntity.class, new AABB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
         entites.forEach(entity -> ((WerewolfTransformable) entity).transformBack());
         return 0;

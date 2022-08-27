@@ -48,6 +48,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Optional;
@@ -130,7 +131,7 @@ public class WerewolvesMod {
     }
 
 
-    private void setup(final FMLCommonSetupEvent event) {
+    private void setup(final @NotNull FMLCommonSetupEvent event) {
         setupAPI();
 
         dispatcher.registerPackets();
@@ -143,13 +144,13 @@ public class WerewolvesMod {
         event.enqueueWork(TerraBlenderCompat::registerBiomeProviderIfPresentUnsafe);
     }
 
-    private void loadComplete(final FMLLoadCompleteEvent event) {
+    private void loadComplete(final @NotNull FMLLoadCompleteEvent event) {
         registryManager.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
         proxy.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
         event.enqueueWork(OverworldModifications::addBiomesToOverworldUnsafe);
     }
 
-    private void processIMC(final InterModProcessEvent event) {
+    private void processIMC(final @NotNull InterModProcessEvent event) {
         registryManager.onInitStep(IInitListener.Step.PROCESS_IMC, event);
         proxy.onInitStep(IInitListener.Step.PROCESS_IMC, event);
     }
@@ -160,11 +161,11 @@ public class WerewolvesMod {
         HelperRegistry.registerSyncablePlayerCapability((Capability<ISyncable.ISyncableEntityCapabilityInst>) (Object) WerewolfPlayer.CAP, REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.class);
     }
 
-    private void registerCapability(RegisterCapabilitiesEvent event) {
+    private void registerCapability(@NotNull RegisterCapabilitiesEvent event) {
         event.register(IWerewolfPlayer.class);
     }
 
-    private void gatherData(final GatherDataEvent event) {
+    private void gatherData(final @NotNull GatherDataEvent event) {
         setupAPI();
         DataGenerator generator = event.getGenerator();
         ModTagsProvider.addProvider(event);
@@ -177,13 +178,13 @@ public class WerewolvesMod {
         generator.addProvider(event.includeClient(), new BlockStateGenerator(generator, event.getExistingFileHelper()));
     }
 
-    private void setUpClient(final FMLClientSetupEvent event) {
+    private void setUpClient(final @NotNull FMLClientSetupEvent event) {
         registryManager.onInitStep(IInitListener.Step.CLIENT_SETUP, event);
         proxy.onInitStep(IInitListener.Step.CLIENT_SETUP, event);
     }
 
     @SubscribeEvent
-    public void onCommandsRegister(RegisterCommandsEvent event) {
+    public void onCommandsRegister(@NotNull RegisterCommandsEvent event) {
         ModCommands.registerCommands(event.getDispatcher());
     }
 }

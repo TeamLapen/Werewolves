@@ -50,18 +50,18 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Component NAME = Component.translatable("container.werewolves.stone_altar");
     private int targetLevel;
-    private Phase phase = Phase.NOT_RUNNING;
-    private Player player;
-    private UUID playerUuid;
+    private @NotNull Phase phase = Phase.NOT_RUNNING;
+    private @Nullable Player player;
+    private @Nullable UUID playerUuid;
     private int ticks;
     private final LazyOptional<IItemHandler> itemHandlerOptional = LazyOptional.of(this::createWrapper);
     private List<BlockPos> fire_bowls;
 
-    public StoneAltarBlockEntity(BlockPos pos, BlockState state) {
+    public StoneAltarBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         super(ModTiles.STONE_ALTAR.get(), pos, state, 2, StoneAltarContainer.SELECTOR_INFOS);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, StoneAltarBlockEntity blockEntity) {
+    public static void tick(@Nullable Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull StoneAltarBlockEntity blockEntity) {
         if (level != null && !level.isClientSide) {
             if (blockEntity.playerUuid != null) {
                 if (!blockEntity.loadRitual(blockEntity.playerUuid)) return;
@@ -116,7 +116,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
         this.cleanup();
     }
 
-    public boolean loadRitual(UUID playerUuid) {
+    public boolean loadRitual(@NotNull UUID playerUuid) {
         if (this.level == null) return false;
         if (this.level.players().size() == 0) return false;
         this.player = this.level.getPlayerByUUID(playerUuid);
@@ -134,7 +134,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     /**
      * Needs to be called after {@link #setPlayer(Player)}
      */
-    public void startRitual(BlockState state) {
+    public void startRitual(@NotNull BlockState state) {
         if (this.player == null) {
             this.level.setBlock(this.worldPosition, state.setValue(StoneAltarBlock.LIT, false), 11);
             return;
@@ -183,7 +183,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
         return phase;
     }
 
-    public Result canActivate(Player player) {
+    public @NotNull Result canActivate(@NotNull Player player) {
         if (phase != Phase.NOT_RUNNING) {
             return Result.IS_RUNNING;
         }
@@ -207,7 +207,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
         return Result.OK;
     }
 
-    private Result checkStructure() {
+    private @Nullable Result checkStructure() {
         List<BlockPos> i = new ArrayList<>();
         List<BlockPos> h = new ArrayList<>();
 
@@ -246,7 +246,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
         return missing.isEmpty();
     }
 
-    public Map<Item, Integer> getMissingItems() {
+    public @NotNull Map<Item, Integer> getMissingItems() {
         WerewolfLevelConf.StoneAltarRequirement req = (WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(this.targetLevel);
         return Helper.getMissingItems(this, new Item[]{ModItems.LIVER.get(), ModItems.CRACKED_BONE.get()}, new int[]{req.liverAmount, req.bonesAmount});
     }
@@ -279,7 +279,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+    public void onDataPacket(Connection net, @NotNull ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
         if (pkt.getTag() != null) {
             this.load(pkt.getTag());//TODO check

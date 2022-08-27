@@ -40,17 +40,17 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     private static final EntityDataAccessor<Boolean> GLOWING_EYES = SynchedEntityData.defineId(HumanWerewolfEntity.class, EntityDataSerializers.BOOLEAN);
 
     private final EntityClassType classType;
-    private final EntityActionTier actionTier;
+    private final @NotNull EntityActionTier actionTier;
 
     protected int rage;
 
-    public HumanWerewolfEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public HumanWerewolfEntity(@NotNull EntityType<? extends PathfinderMob> type, @NotNull Level worldIn) {
         super(type, worldIn);
         this.classType = EntityClassType.getRandomClass(this.getRandom());
         this.actionTier = EntityActionTier.Medium;
     }
 
-    public static boolean spawnPredicateHumanWerewolf(EntityType<? extends PathfinderMob> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, RandomSource random) {
+    public static boolean spawnPredicateHumanWerewolf(@NotNull EntityType<? extends PathfinderMob> entityType, @NotNull ServerLevelAccessor world, MobSpawnType spawnReason, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
         if (!Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
         if (random.nextInt(3) != 0) return false;
@@ -114,7 +114,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
         this.rage = 0;
     }
 
-    public static AttributeSupplier.Builder getAttributeBuilder() {
+    public static AttributeSupplier.@NotNull Builder getAttributeBuilder() {
         return PathfinderMob.createMobAttributes()
                 .add(Attributes.MOVEMENT_SPEED, 0.36)
                 .add(Attributes.FOLLOW_RANGE, 48.0D)
@@ -184,7 +184,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
-    public BasicWerewolfEntity _transformToWerewolf() {
+    public @NotNull BasicWerewolfEntity _transformToWerewolf() {
         EntityType<? extends BasicWerewolfEntity> type;
         if (this.getEntityData().get(FORM) == 0) {
             type = ModEntities.WEREWOLF_BEAST.get();
@@ -207,7 +207,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
-    public WerewolfTransformable _transformBack() {
+    public @NotNull WerewolfTransformable _transformBack() {
         return this;
     }
 

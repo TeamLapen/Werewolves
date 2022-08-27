@@ -68,21 +68,21 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     public static final String FINGER_RIGHT_4 = "fingerRight4";
     public static final String THUMB_RIGHT = "thumbRight";
 
-    public final ModelPart body;
-    public final ModelPart head;
-    public final ModelPart armRight;
-    public final ModelPart armLeft;
-    public final ModelPart armRight2;
-    public final ModelPart armLeft2;
-    public final ModelPart legLeft;
-    public final ModelPart legRight;
-    public final ModelPart hip;
-    public final ModelPart tail;
-    public final ModelPart jaw;
-    public final ModelPart earLeft;
-    public final ModelPart earRight;
+    public final @NotNull ModelPart body;
+    public final @NotNull ModelPart head;
+    public final @NotNull ModelPart armRight;
+    public final @NotNull ModelPart armLeft;
+    public final @NotNull ModelPart armRight2;
+    public final @NotNull ModelPart armLeft2;
+    public final @NotNull ModelPart legLeft;
+    public final @NotNull ModelPart legRight;
+    public final @NotNull ModelPart hip;
+    public final @NotNull ModelPart tail;
+    public final @NotNull ModelPart jaw;
+    public final @NotNull ModelPart earLeft;
+    public final @NotNull ModelPart earRight;
 
-    public WerewolfBeastModel(ModelPart part) {
+    public WerewolfBeastModel(@NotNull ModelPart part) {
         super(part);
         this.body = part.getChild(BODY);
         this.hip = this.body.getChild(HIP);
@@ -107,7 +107,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     }
 
     @SuppressWarnings({"unused", "DuplicatedCode"})
-    public static LayerDefinition createBodyLayer() {
+    public static @NotNull LayerDefinition createBodyLayer() {
         MeshDefinition mesh = WerewolfBaseModel.createMesh(CubeDeformation.NONE);
         PartDefinition root = mesh.getRoot();
 
@@ -279,7 +279,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(ModelPart ModelRenderer, float x, float y, float z) {
+    public void setRotateAngle(@NotNull ModelPart ModelRenderer, float x, float y, float z) {
         ModelRenderer.xRot = x;
         ModelRenderer.yRot = y;
         ModelRenderer.zRot = z;

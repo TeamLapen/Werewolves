@@ -18,7 +18,7 @@ public class AggressiveWolfEntity extends Wolf {
     private boolean dead;
     private int maxTicks;
 
-    public AggressiveWolfEntity(EntityType<? extends AggressiveWolfEntity> type, Level worldIn) {
+    public AggressiveWolfEntity(@NotNull EntityType<? extends AggressiveWolfEntity> type, @NotNull Level worldIn) {
         super(type, worldIn);
     }
 

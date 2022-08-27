@@ -11,12 +11,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class BlockStateGenerator extends BlockStateProvider {
-    public BlockStateGenerator(DataGenerator gen, ExistingFileHelper exFileHelper) {
+    public BlockStateGenerator(@NotNull DataGenerator gen, @NotNull ExistingFileHelper exFileHelper) {
         super(gen, REFERENCE.MODID, exFileHelper);
     }
 
@@ -64,11 +65,11 @@ public class BlockStateGenerator extends BlockStateProvider {
                 .part().modelFile(models().getExistingFile(modLoc("block/stone_altar_fire_bowl_fire_soul"))).rotationY(270).addModel().condition(StoneAltarFireBowlBlock.FACING, Direction.WEST).condition(StoneAltarFireBowlBlock.LIT, true).condition(StoneAltarFireBowlBlock.SOUL_FIRE, true).end();
     }
 
-    private String modId(String path) {
+    private @NotNull String modId(String path) {
         return REFERENCE.MODID + ":" + path;
     }
 
-    private String vampirismId(String path) {
+    private @NotNull String vampirismId(String path) {
         return REFERENCE.VMODID + ":" + path;
     }
 }

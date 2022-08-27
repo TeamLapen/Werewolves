@@ -24,6 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -34,7 +35,7 @@ public class ClientEventHandler {
 
 
     @SubscribeEvent
-    public void onRenderPlayer(RenderPlayerEvent.Pre event) {
+    public void onRenderPlayer(RenderPlayerEvent.@NotNull Pre event) {
         AbstractClientPlayer player = (AbstractClientPlayer) event.getEntity();
         if (shouldRenderWerewolfForm(player)) {
             event.setCanceled(ModEntityRenderer.render.render(WerewolfPlayer.get(player), Mth.lerp(event.getPartialTick(), player.yRotO, player.getYRot()), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
@@ -42,19 +43,19 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onRenderPlayerPost(RenderPlayerEvent.Post event) {
+    public void onRenderPlayerPost(RenderPlayerEvent.@NotNull Post event) {
         AbstractClientPlayer player = (AbstractClientPlayer) event.getEntity();
         if (shouldRenderWerewolfForm(player)) {
             ModEntityRenderer.render.renderPost(event.getRenderer().getModel(), WerewolfPlayer.get(player), Mth.lerp(event.getPartialTick(), player.yRotO, player.getYRot()), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
         }
     }
 
-    private boolean shouldRenderWerewolfForm(AbstractClientPlayer player) {
+    private boolean shouldRenderWerewolfForm(@NotNull AbstractClientPlayer player) {
         return Helper.isWerewolf(player) && (WerewolfPlayer.getOpt(player).map(w -> w.getForm().isTransformed()).orElse(false) || (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen && ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).isRenderForm()));
     }
 
     @SubscribeEvent
-    public void onFOVModifier(ViewportEvent.ComputeFov event) {
+    public void onFOVModifier(ViewportEvent.@NotNull ComputeFov event) {
         if (this.zoomTime > 0) {
             event.setFOV(event.getFOV() - this.zoomModifier);
             this.zoomModifier -= this.zoomAmount;
@@ -64,7 +65,7 @@ public class ClientEventHandler {
 
 
     @SubscribeEvent
-    public void onGuiInitPost(ScreenEvent.Init.Post event) {
+    public void onGuiInitPost(ScreenEvent.Init.@NotNull Post event) {
         if (event.getScreen() instanceof VampirismContainerScreen screen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 ResourceLocation icon = new ResourceLocation(REFERENCE.MODID, "textures/gui/appearance_button.png");
@@ -83,7 +84,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onRenderNamePlate(RenderNameTagEvent event) {
+    public void onRenderNamePlate(@NotNull RenderNameTagEvent event) {
         if (event.getEntity() instanceof Player) {
             if (Helper.isWerewolf((Player) event.getEntity())) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
@@ -96,7 +97,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onRenderArm(RenderArmEvent event) {
+    public void onRenderArm(@NotNull RenderArmEvent event) {
         if (Helper.isWerewolf(event.getPlayer()) && WerewolfPlayer.get(event.getPlayer()).getForm().isTransformed()) {
             if (switch (event.getArm()) {
                 case RIGHT -> ModEntityRenderer.render.renderRightArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer());
@@ -113,11 +114,11 @@ public class ClientEventHandler {
         this.zoomModifier = Minecraft.getInstance().options.fov.get() - Minecraft.getInstance().options.fov.get() / 4f;
     }
 
-    private static boolean shouldShowInTooltip(int p_242394_0_, ItemStack.TooltipPart p_242394_1_) {
+    private static boolean shouldShowInTooltip(int p_242394_0_, ItemStack.@NotNull TooltipPart p_242394_1_) {
         return (p_242394_0_ & p_242394_1_.getMask()) == 0;
     }
 
-    private int getHideFlags(ItemStack stack) {
+    private int getHideFlags(@NotNull ItemStack stack) {
         return stack.hasTag() && stack.getTag().contains("HideFlags", 99) ? stack.getTag().getInt("HideFlags") : 0;
     }
 }

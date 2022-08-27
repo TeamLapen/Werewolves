@@ -23,7 +23,7 @@ public class WerewolfForm {
     private final boolean humanLike;
     private final boolean transformed;
     private final int skinTypes;
-    private final Component textComponent;
+    private final @NotNull Component textComponent;
     private final float damageReduction;
 
     WerewolfForm(@NotNull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, float damageReduction) {
@@ -61,7 +61,7 @@ public class WerewolfForm {
         return name;
     }
 
-    public Optional<EntityDimensions> getSize(Pose pose) {
+    public @NotNull Optional<EntityDimensions> getSize(Pose pose) {
         if (sizeMap != null) {
             return Optional.ofNullable(this.sizeMap.getOrDefault(pose, this.sizeMap.get(Pose.STANDING)));
         } else {
@@ -69,7 +69,7 @@ public class WerewolfForm {
         }
     }
 
-    public Component getTextComponent() {
+    public @NotNull Component getTextComponent() {
         return textComponent.plainCopy();
     }
 
@@ -81,7 +81,7 @@ public class WerewolfForm {
         return REGISTRY.get(name);
     }
 
-    public static Collection<WerewolfForm> getAllForms() {
+    public static @NotNull Collection<WerewolfForm> getAllForms() {
         return new ArrayList<>(REGISTRY.values());
     }
 }

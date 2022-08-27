@@ -8,6 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -24,7 +25,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void onInitStep(Step step, ParallelDispatchEvent event) {
+    public void onInitStep(@NotNull Step step, @NotNull ParallelDispatchEvent event) {
         super.onInitStep(step, event);
         ClientEventHandler clientHandler;
         switch (step) {
@@ -43,7 +44,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void handleAttackTargetEventPacket(ClientboundAttackTargetEventPacket packet) {
+    public void handleAttackTargetEventPacket(@NotNull ClientboundAttackTargetEventPacket packet) {
         this.hudOverlay.attackTriggered(packet.entityId());
     }
 }

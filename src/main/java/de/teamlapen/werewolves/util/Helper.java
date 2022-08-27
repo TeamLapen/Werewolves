@@ -18,6 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,25 +40,25 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         } else return isWerewolf(entity);
     }
 
-    public static BlockPos multiplyBlockPos(BlockPos pos, double amount) {
+    public static @NotNull BlockPos multiplyBlockPos(@NotNull BlockPos pos, double amount) {
         return new BlockPos(pos.getX() * amount, pos.getY() * amount, pos.getZ() * amount);
     }
 
-    public static boolean canBecomeWerewolf(Player player) {
+    public static boolean canBecomeWerewolf(@NotNull Player player) {
         return FactionPlayerHandler.getOpt(player).map((v) -> v.canJoin(WReference.WEREWOLF_FACTION)).orElse(false);
     }
 
-    public static boolean isNight(Level world) {
+    public static boolean isNight(@NotNull Level world) {
         long time = world.getDayTime() % 24000;
         return !world.dimensionType().hasFixedTime() && time > 12786 && time < 23216;
     }
 
-    public static boolean isFullMoon(Level world) {
+    public static boolean isFullMoon(@NotNull Level world) {
         long time = world.getDayTime() % 192000;
         return !world.dimensionType().hasFixedTime() && time > 12786 && time < 23216;
     }
 
-    public static Map<Item, Integer> getMissingItems(Container inventory, Item[] items, int[] amount) {
+    public static @NotNull Map<Item, Integer> getMissingItems(@NotNull Container inventory, Item @NotNull [] items, int[] amount) {
         Map<Item, Integer> missing = new HashMap<>();
         for (int i = 0; i < items.length; i++) {
             missing.put(items[i], amount[i]);
@@ -71,25 +72,25 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return missing;
     }
 
-    public static BiteDamageSource causeWerewolfDamage(String cause, Entity entity) {
+    public static @NotNull BiteDamageSource causeWerewolfDamage(String cause, Entity entity) {
         return new BiteDamageSource(cause, entity);
     }
 
-    public static BiteDamageSource causeWerewolfDamage(Player entity) {
+    public static @NotNull BiteDamageSource causeWerewolfDamage(Player entity) {
         return causeWerewolfDamage("player", entity);
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static boolean canWerewolfEatItem(LivingEntity entity, ItemStack stack) {
+    public static boolean canWerewolfEatItem(LivingEntity entity, @NotNull ItemStack stack) {
         return !stack.isEdible() || stack.is(ModTags.Items.COOKEDMEATS) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()) || stack.is(ModTags.Items.RAWMEATS) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()) || stack.getItem().getFoodProperties(stack, entity).isMeat();
     }
 
-    public static boolean canWerewolfPlayerEatItem(Player player, ItemStack stack) {
+    public static boolean canWerewolfPlayerEatItem(@NotNull Player player, @NotNull ItemStack stack) {
         return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT.get())).orElse(false);
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static boolean isRawMeat(ItemStack stack) {
+    public static boolean isRawMeat(@NotNull ItemStack stack) {
         return stack.isEdible() && stack.getItem().getFoodProperties().isMeat() && stack.is(ModTags.Items.RAWMEATS);
     }
 
@@ -104,11 +105,11 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         }
     }
 
-    public static boolean matchesItem(Ingredient ingredient, ItemStack searchStack) {
+    public static boolean matchesItem(@NotNull Ingredient ingredient, @NotNull ItemStack searchStack) {
         return Arrays.stream(ingredient.getItems()).anyMatch(stack -> stack.sameItem(searchStack) && stack.areShareTagsEqual(searchStack));
     }
 
-    public static MutableComponent joinComponents(String delimiter, MutableComponent... components) {
+    public static MutableComponent joinComponents(@NotNull String delimiter, MutableComponent @NotNull ... components) {
         MutableComponent comp = components[0];
         for (int i = 1; i < components.length; i++) {
             comp.append(delimiter).append(components[i]);

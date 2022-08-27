@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,23 +18,23 @@ public record WerewolfModelWrapper<T extends LivingEntity>(WerewolfBaseModel<T> 
                                                            boolean skipPlayerModel) {
 
     public static class Builder<T extends LivingEntity> {
-        private WerewolfBaseModel<T> model = null;
-        private Collection<RenderLayer<T, WerewolfBaseModel<T>>> layers = Collections.emptyList();
-        private List<ResourceLocation> textures = Collections.emptyList();
+        private @Nullable WerewolfBaseModel<T> model = null;
+        private @NotNull Collection<RenderLayer<T, WerewolfBaseModel<T>>> layers = Collections.emptyList();
+        private @NotNull List<ResourceLocation> textures = Collections.emptyList();
         private float shadow = 0f;
         private boolean skipPlayerModel = false;
 
-        public Builder<T> model(WerewolfBaseModel<T> model) {
+        public @NotNull Builder<T> model(WerewolfBaseModel<T> model) {
             this.model = model;
             return this;
         }
 
-        public Builder<T> layers(@NotNull Collection<RenderLayer<T, WerewolfBaseModel<T>>> function) {
+        public @NotNull Builder<T> layers(@NotNull Collection<RenderLayer<T, WerewolfBaseModel<T>>> function) {
             this.layers = function;
             return this;
         }
 
-        public Builder<T> textures(@NotNull List<ResourceLocation> textures) {
+        public @NotNull Builder<T> textures(@NotNull List<ResourceLocation> textures) {
             this.textures = textures;
             return this;
         }
@@ -42,17 +43,17 @@ public record WerewolfModelWrapper<T extends LivingEntity>(WerewolfBaseModel<T> 
             return this.textures(Arrays.asList(textures));
         }
 
-        public Builder<T> shadow(float size) {
+        public @NotNull Builder<T> shadow(float size) {
             this.shadow = size;
             return this;
         }
 
-        public Builder<T> skipPlayerModel() {
+        public @NotNull Builder<T> skipPlayerModel() {
             this.skipPlayerModel = true;
             return this;
         }
 
-        public WerewolfModelWrapper<T> build() {
+        public @NotNull WerewolfModelWrapper<T> build() {
             return new WerewolfModelWrapper<>(this.model, this.layers, this.textures, this.shadow, this.skipPlayerModel);
         }
 

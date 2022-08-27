@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ import java.util.Optional;
 public class ModWorldEventHandler {
 
     @SubscribeEvent
-    public void onVillageCaptureFinish(VampirismVillageEvent.VillagerCaptureFinish.Pre event) {
+    public void onVillageCaptureFinish(VampirismVillageEvent.VillagerCaptureFinish.@NotNull Pre event) {
         Level world = ((BlockEntity) event.getTotem()).getLevel();
         List<Mob> werewolves = world.getEntitiesOfClass(Mob.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
         if (WReference.WEREWOLF_FACTION.equals(event.getControllingFaction())) {
@@ -45,7 +46,7 @@ public class ModWorldEventHandler {
     }
 
     @SubscribeEvent
-    public void onVillageSpawnNewVillager(VampirismVillageEvent.SpawnNewVillager event) {
+    public void onVillageSpawnNewVillager(VampirismVillageEvent.@NotNull SpawnNewVillager event) {
         if (event.getControllingFaction() == WReference.WEREWOLF_FACTION) {
             if (event.getNewVillager().getRandom().nextInt(6) == 0) {
                 ((IVillagerTransformable) event.getNewVillager()).setWerewolfFaction(true);
@@ -54,7 +55,7 @@ public class ModWorldEventHandler {
     }
 
     @SubscribeEvent
-    public void onVillageMakeAggressive(VampirismVillageEvent.MakeAggressive event) {
+    public void onVillageMakeAggressive(VampirismVillageEvent.@NotNull MakeAggressive event) {
         if (event.getControllingFaction() == WReference.WEREWOLF_FACTION && ((IVillagerTransformable) event.getOldVillager()).canTransform()) {
             event.setCanceled(true);
             ((IVillagerTransformable) event.getOldVillager()).transformToWerewolf(TransformType.RAID);
@@ -62,14 +63,14 @@ public class ModWorldEventHandler {
     }
 
     @SuppressWarnings("SameParameterValue")
-    private void spawnEntity(Level world, Mob newEntity, Mob oldEntity, boolean replaceOld) {
+    private void spawnEntity(@NotNull Level world, @NotNull Mob newEntity, @NotNull Mob oldEntity, boolean replaceOld) {
         newEntity.restoreFrom(oldEntity);
         newEntity.setUUID(Mth.createInsecureUUID());
         if (replaceOld) oldEntity.remove(Entity.RemovalReason.DISCARDED);
         world.addFreshEntity(newEntity);
     }
 
-    private Optional<Mob> getCaptureEntity(IFaction<?> faction, Level world) {
+    private @NotNull Optional<Mob> getCaptureEntity(@NotNull IFaction<?> faction, @NotNull Level world) {
         List<CaptureEntityEntry<?>> entries = faction.getVillageData().getCaptureEntries();
         return WeightedRandom.getRandomItem(world.getRandom(), entries).map(entry -> entry.getEntity().create(world));
     }

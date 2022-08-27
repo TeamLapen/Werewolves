@@ -13,6 +13,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -36,11 +37,11 @@ public class ModVillage {
         VillagerTrades.TRADES.computeIfAbsent(WEREWOLF_EXPERT.get(), trades -> new Int2ObjectOpenHashMap<>()).putAll(getWerewolfTrades());
     }
 
-    private static Set<BlockState> getAllStates(Block... blocks) {
+    private static Set<BlockState> getAllStates(Block @NotNull ... blocks) {
         return Arrays.stream(blocks).map(block -> block.getStateDefinition().any()).collect(ImmutableSet.toImmutableSet());
     }
 
-    private static Map<Integer, VillagerTrades.ItemListing[]> getWerewolfTrades() {
+    private static @NotNull Map<Integer, VillagerTrades.ItemListing[]> getWerewolfTrades() {
         return ImmutableMap.of(
                 1, new VillagerTrades.ItemListing[]{
                         new VillagerTrades.ItemsForEmeralds(ModItems.LIVER.get(), 15, 2, 5, 4),

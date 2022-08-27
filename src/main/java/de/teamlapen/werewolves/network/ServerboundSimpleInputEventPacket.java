@@ -10,6 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
@@ -17,15 +18,15 @@ public record ServerboundSimpleInputEventPacket(Type type) implements IMessage {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    static void encode(ServerboundSimpleInputEventPacket msg, FriendlyByteBuf buf) {
+    static void encode(@NotNull ServerboundSimpleInputEventPacket msg, @NotNull FriendlyByteBuf buf) {
         buf.writeEnum(msg.type);
     }
 
-    static ServerboundSimpleInputEventPacket decode(FriendlyByteBuf buf) {
+    static @NotNull ServerboundSimpleInputEventPacket decode(@NotNull FriendlyByteBuf buf) {
         return new ServerboundSimpleInputEventPacket(buf.readEnum(Type.class));
     }
 
-    public static void handle(final ServerboundSimpleInputEventPacket msg, Supplier<NetworkEvent.Context> contextSupplier) {
+    public static void handle(final @NotNull ServerboundSimpleInputEventPacket msg, @NotNull Supplier<NetworkEvent.Context> contextSupplier) {
         final NetworkEvent.Context ctx = contextSupplier.get();
         ServerPlayer player = ctx.getSender();
         Validate.notNull(player);

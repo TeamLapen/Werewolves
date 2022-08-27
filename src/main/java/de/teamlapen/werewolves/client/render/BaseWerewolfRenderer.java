@@ -33,11 +33,11 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
 
     private final Map<WerewolfForm, WerewolfModelWrapper<T>> models = new HashMap<>();
 
-    protected final ResourceLocation[] eyeOverlays;
+    protected final ResourceLocation @NotNull [] eyeOverlays;
     protected List<ResourceLocation> textures;
     protected WerewolfForm form = WerewolfForm.NONE;
 
-    public BaseWerewolfRenderer(EntityRendererProvider.Context context, float size) {
+    public BaseWerewolfRenderer(EntityRendererProvider.@NotNull Context context, float size) {
         //noinspection ConstantConditions
         super(context, null, 0f);
         this.eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];

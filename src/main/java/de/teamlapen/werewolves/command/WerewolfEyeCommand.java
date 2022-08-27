@@ -11,6 +11,7 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfEyeCommand extends BasicCommand {
     public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -23,7 +24,7 @@ public class WerewolfEyeCommand extends BasicCommand {
     }
 
     @SuppressWarnings("SameReturnValue")
-    private static int setEye(CommandContext<CommandSourceStack> context, Player playerEntity, int type, WerewolfForm form) {
+    private static int setEye(CommandContext<CommandSourceStack> context, @NotNull Player playerEntity, int type, WerewolfForm form) {
         WerewolfPlayer.getOpt(playerEntity).ifPresent(w -> w.setEyeType(form, type));
         return 0;
     }

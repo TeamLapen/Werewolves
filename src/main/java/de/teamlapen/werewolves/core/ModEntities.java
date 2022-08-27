@@ -18,6 +18,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -61,7 +62,7 @@ public class ModEntities {
         SpawnPlacements.register(ALPHA_WEREWOLF.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WerewolfAlphaEntity::spawnPredicateAlpha);
     }
 
-    private static <T extends Entity> RegistryObject<EntityType<T>> prepareEntityType(String id, Supplier<EntityType.Builder<T>> builder, boolean spawnable) {
+    private static <T extends Entity> RegistryObject<EntityType<T>> prepareEntityType(String id, @NotNull Supplier<EntityType.Builder<T>> builder, boolean spawnable) {
         return ENTITY_TYPES.register(id, () -> {
             EntityType.Builder<T> type = builder.get().setTrackingRange(80).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true);
             if (!spawnable) {
@@ -71,7 +72,7 @@ public class ModEntities {
         });
     }
 
-    static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {
+    static void onRegisterEntityTypeAttributes(@NotNull EntityAttributeCreationEvent event) {
         event.put(HUMAN_WEREWOLF.get(), HumanWerewolfEntity.getAttributeBuilder().build());
         event.put(WEREWOLF_BEAST.get(), BasicWerewolfEntity.getAttributeBuilder().build());
         event.put(WEREWOLF_SURVIVALIST.get(), BasicWerewolfEntity.getAttributeBuilder().build());
@@ -81,12 +82,12 @@ public class ModEntities {
         event.put(ALPHA_WEREWOLF.get(), WerewolfAlphaEntity.getAttributeBuilder().build());
     }
 
-    static void onModifyEntityTypeAttributes(EntityAttributeModificationEvent event) {
+    static void onModifyEntityTypeAttributes(@NotNull EntityAttributeModificationEvent event) {
         event.add(EntityType.PLAYER, ModAttributes.BITE_DAMAGE.get());
         event.add(EntityType.PLAYER, ModAttributes.TIME_REGAIN.get());
     }
 
-    public static Set<EntityType<?>> getAllEntities() {
+    public static @NotNull Set<EntityType<?>> getAllEntities() {
         return ENTITY_TYPES.getEntries().stream().map(RegistryObject::get).collect(Collectors.toSet());
     }
 }

@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.core.ModSkills;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
+    protected boolean activate(@NotNull IWerewolfPlayer werewolf, ActivationContext context) {
         if (super.activate(werewolf, context)) {
             if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get())) {
                 werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));
@@ -38,7 +39,7 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    public void onReActivated(IWerewolfPlayer werewolf) {
+    public void onReActivated(@NotNull IWerewolfPlayer werewolf) {
         super.onReActivated(werewolf);
         if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get())) {
             werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));
@@ -46,12 +47,12 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
+    public void onActivatedClient(@NotNull IWerewolfPlayer werewolfPlayer) {
         super.onActivatedClient(werewolfPlayer);
     }
 
     @Override
-    public void onDeactivated(IWerewolfPlayer werewolf) {
+    public void onDeactivated(@NotNull IWerewolfPlayer werewolf) {
         super.onDeactivated(werewolf);
         werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).removeModifier(CLIMBER_ID);
     }
@@ -67,7 +68,7 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    public int getTimeModifier(IWerewolfPlayer werewolf) {
+    public int getTimeModifier(@NotNull IWerewolfPlayer werewolf) {
         int limit = super.getTimeModifier(werewolf);
         boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_SURVIVAL_1.get());
         boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_SURVIVAL_2.get());

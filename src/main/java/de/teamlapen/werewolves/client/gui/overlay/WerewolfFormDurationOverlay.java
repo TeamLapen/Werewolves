@@ -13,13 +13,14 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfFormDurationOverlay extends GuiComponent implements IGuiOverlay {
 
     private final Minecraft mc = Minecraft.getInstance();
 
     @Override
-    public void render(ForgeGui gui, PoseStack mStack, float partialTicks, int width, int height) {
+    public void render(ForgeGui gui, @NotNull PoseStack mStack, float partialTicks, int width, int height) {
         Player player = this.mc.player;
         if (Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
@@ -31,7 +32,7 @@ public class WerewolfFormDurationOverlay extends GuiComponent implements IGuiOve
         }
     }
 
-    private void renderExpBar(PoseStack matrixStack, double perc, float transparency) {
+    private void renderExpBar(@NotNull PoseStack matrixStack, double perc, float transparency) {
         int scaledWidth = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledWidth();
         int scaledHeight = ((InGameGuiAccessor) Minecraft.getInstance().gui).getScaledHeight();
         int x = scaledWidth / 2 - 91;

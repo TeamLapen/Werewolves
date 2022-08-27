@@ -20,6 +20,7 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class ModTasks {
@@ -138,7 +139,7 @@ public class ModTasks {
         TASKS.register(bus);
     }
 
-    protected static TaskBuilder werewolf() {
+    protected static @NotNull TaskBuilder werewolf() {
         return TaskBuilder.builder().withFaction(() -> WReference.WEREWOLF_FACTION);
     }
 }

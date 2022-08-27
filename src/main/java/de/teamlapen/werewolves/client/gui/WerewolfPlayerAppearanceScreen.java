@@ -26,7 +26,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
 
     private static final Component NAME = Component.translatable("gui.vampirism.appearance");
 
-    private final WerewolfPlayer werewolf;
+    private final @NotNull WerewolfPlayer werewolf;
 
     private WerewolfForm activeForm;
     private int skinType;
@@ -113,7 +113,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     /**
      * setup buttons for the different forms
      */
-    private void switchToForm(WerewolfForm form) {
+    private void switchToForm(@NotNull WerewolfForm form) {
         if (this.eyeButton != null) {
             ((ScreenAccessor) this).invokeRemoveWidget(this.eyeButton);
             ((ScreenAccessor) this).invokeRemoveWidget(this.skinButton);

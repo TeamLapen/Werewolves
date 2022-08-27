@@ -11,6 +11,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class BleedingEffect extends WerewolvesEffect {
 
@@ -29,7 +30,7 @@ public class BleedingEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier) {
+    public void applyEffectTick(@NotNull LivingEntity entityLivingBaseIn, int amplifier) {
         if (entityLivingBaseIn.isInvertedHealAndHarm()) {
             entityLivingBaseIn.removeEffect(ModEffects.BLEEDING.get());
             return;

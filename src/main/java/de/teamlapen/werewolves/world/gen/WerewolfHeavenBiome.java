@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.world.gen;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModEntities;
 import net.minecraft.world.level.biome.*;
+import org.jetbrains.annotations.NotNull;
 
 import static de.teamlapen.vampirism.world.biome.VampirismBiomes.addModdedWaterLake;
 import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWerewolfBiomeTrees;
@@ -10,11 +11,11 @@ import static net.minecraft.data.worldgen.BiomeDefaultFeatures.*;
 
 public class WerewolfHeavenBiome {
 
-    public static Biome createWerewolfHeavenBiome() {
+    public static @NotNull Biome createWerewolfHeavenBiome() {
         return addAttributes(createGenerationBuilder(), createMobSpawnBuilder(), createEffectBuilder()).build();
     }
 
-    public static Biome.BiomeBuilder addAttributes(BiomeGenerationSettings.Builder featureBuilder, MobSpawnSettings.Builder spawnBuilder, BiomeSpecialEffects.Builder ambienceBuilder) {
+    public static Biome.@NotNull BiomeBuilder addAttributes(BiomeGenerationSettings.@NotNull Builder featureBuilder, MobSpawnSettings.@NotNull Builder spawnBuilder, BiomeSpecialEffects.@NotNull Builder ambienceBuilder) {
         return new Biome.BiomeBuilder()
                 .precipitation(Biome.Precipitation.NONE)
                 .temperature(0.3f)
@@ -24,14 +25,14 @@ public class WerewolfHeavenBiome {
                 .generationSettings(featureBuilder.build());
     }
 
-    public static MobSpawnSettings.Builder createMobSpawnBuilder() {
+    public static MobSpawnSettings.@NotNull Builder createMobSpawnBuilder() {
         return new MobSpawnSettings.Builder()
                 .addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.ALPHA_WEREWOLF.get(), 10, 1, 1))
                 .addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_BEAST.get(), 70, 1, 2))
                 .addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_SURVIVALIST.get(), 70, 1, 2));
     }
 
-    public static BiomeSpecialEffects.Builder createEffectBuilder() {
+    public static BiomeSpecialEffects.@NotNull Builder createEffectBuilder() {
         return new BiomeSpecialEffects.Builder()
                 .waterColor(0x4CCCFF)
                 .waterFogColor(0x4CCCFF)
@@ -42,7 +43,7 @@ public class WerewolfHeavenBiome {
                 .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
     }
 
-    public static BiomeGenerationSettings.Builder createGenerationBuilder() {
+    public static BiomeGenerationSettings.@NotNull Builder createGenerationBuilder() {
         BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder();
         addDefaultCarversAndLakes(builder);
         addModdedWaterLake(builder);

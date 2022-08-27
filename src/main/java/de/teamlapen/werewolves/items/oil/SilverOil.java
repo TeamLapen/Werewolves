@@ -46,7 +46,7 @@ public class SilverOil extends WeaponOil {
     }
 
     @Override
-    public void getDescription(ItemStack stack, List<Component> tooltips) {
+    public void getDescription(ItemStack stack, @NotNull List<Component> tooltips) {
         super.getDescription(stack, tooltips);
         tooltips.add(Component.translatable("text.werewolves.oil.when_applied").withStyle(ChatFormatting.GRAY));
         tooltips.add(Component.literal(" ").append(Component.translatable("text.werewolves.oil.silver.more_damage", getDamageModifier() * 100).withStyle(ChatFormatting.DARK_GREEN)));

@@ -30,7 +30,7 @@ public class WerewolfLevelConf {
         levelRequirementMap.put(14, new StoneAltarRequirement(350, 15, 14));
     }
 
-    public static WerewolfLevelConf getInstance() {
+    public static @NotNull WerewolfLevelConf getInstance() {
         return INSTANCE;
     }
 

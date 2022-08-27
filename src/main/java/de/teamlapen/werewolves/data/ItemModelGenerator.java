@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 
 public class ItemModelGenerator extends ItemModelProvider {
 
-    public ItemModelGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+    public ItemModelGenerator(@NotNull DataGenerator generator, @NotNull ExistingFileHelper existingFileHelper) {
         super(generator, REFERENCE.MODID, existingFileHelper);
     }
 
@@ -87,7 +87,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         return "Werewolves item model generator";
     }
 
-    public ItemModelBuilder item(String item, ResourceLocation... texture) {
+    public ItemModelBuilder item(String item, ResourceLocation @NotNull ... texture) {
         ItemModelBuilder model = withExistingParent(item, mcLoc("item/generated"));
         for (int i = 0; i < texture.length; i++) {
             model.texture("layer" + i, texture[i]);
@@ -95,18 +95,18 @@ public class ItemModelGenerator extends ItemModelProvider {
         return model;
     }
 
-    public ItemModelBuilder item(Item item, ResourceLocation... texture) {
+    public ItemModelBuilder item(@NotNull Item item, ResourceLocation... texture) {
         return item(item, "item/generated", texture);
     }
 
-    public ItemModelBuilder item(Item item, String parent, ResourceLocation... texture) {
+    public ItemModelBuilder item(@NotNull Item item, String parent, ResourceLocation @NotNull ... texture) {
         if (texture.length == 0) {
             return withExistingParent(item, mcLoc(parent)).texture("layer0", REFERENCE.MODID + ":item/" + RegUtil.id(item).getPath());
         }
         return item(RegUtil.id(item).getPath(), texture);
     }
 
-    public ItemModelBuilder blockLayer(Block item, ResourceLocation... texture) {
+    public ItemModelBuilder blockLayer(@NotNull Block item, ResourceLocation @NotNull ... texture) {
         if (texture.length == 0) {
             return withExistingParent(item, mcLoc("item/generated")).texture("layer0", REFERENCE.MODID + ":block/" + RegUtil.id(item).getPath());
         }
@@ -114,21 +114,21 @@ public class ItemModelGenerator extends ItemModelProvider {
     }
 
     @NotNull
-    public ItemModelBuilder withExistingParent(Item name, ResourceLocation parent) {
+    public ItemModelBuilder withExistingParent(@NotNull Item name, ResourceLocation parent) {
         return super.withExistingParent(RegUtil.id(name).getPath(), parent);
     }
 
     @NotNull
-    public ItemModelBuilder withExistingParent(Item name, Item parent) {
+    public ItemModelBuilder withExistingParent(@NotNull Item name, @NotNull Item parent) {
         return this.withExistingParent(name, RegUtil.id(parent));
     }
 
     @NotNull
-    public ItemModelBuilder withExistingParent(Block name, ResourceLocation parent) {
+    public ItemModelBuilder withExistingParent(@NotNull Block name, ResourceLocation parent) {
         return super.withExistingParent(RegUtil.id(name).getPath(), parent);
     }
 
-    public ItemModelBuilder block(Block name) {
+    public ItemModelBuilder block(@NotNull Block name) {
         try {
             return super.withExistingParent(RegUtil.id(name).getPath(), REFERENCE.MODID + ":block/" + RegUtil.id(name).getPath());
         } catch (IllegalStateException e) {

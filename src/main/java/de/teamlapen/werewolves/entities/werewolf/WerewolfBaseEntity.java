@@ -18,11 +18,11 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob {
 
-    public WerewolfBaseEntity(EntityType<? extends VampirismEntity> type, Level world) {
+    public WerewolfBaseEntity(@NotNull EntityType<? extends VampirismEntity> type, @NotNull Level world) {
         super(type, world);
     }
 
-    public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, RandomSource random) {
+    public static boolean spawnPredicateWerewolf(@NotNull EntityType<? extends WerewolfBaseEntity> entityType, @NotNull ServerLevelAccessor world, MobSpawnType spawnReason, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
         if (!Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
         if (spawnReason == MobSpawnType.EVENT) return true;
@@ -32,7 +32,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
         return FormHelper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
     }
 
-    public void bite(LivingEntity entity) {
+    public void bite(@NotNull LivingEntity entity) {
         //TODO take a look at ExtendedCreature#onBite
         LupusSanguinemEffect.addSanguinemEffectRandom(entity, 0.2f);
     }
@@ -49,11 +49,11 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     }
 
     @Override
-    public LivingEntity getRepresentingEntity() {
+    public @NotNull LivingEntity getRepresentingEntity() {
         return this;
     }
 
-    public static AttributeSupplier.Builder getAttributeBuilder() {
+    public static AttributeSupplier.@NotNull Builder getAttributeBuilder() {
         return VampirismEntity.getAttributeBuilder()
                 .add(Attributes.MAX_HEALTH, 30.0)
                 .add(Attributes.ATTACK_DAMAGE, 5)

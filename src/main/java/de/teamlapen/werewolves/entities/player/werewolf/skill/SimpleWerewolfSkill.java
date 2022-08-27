@@ -39,13 +39,13 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         return Optional.of(WReference.WEREWOLF_FACTION);
     }
 
-    public SimpleWerewolfSkill defaultDescWithExtra(Supplier<Component> text) {
+    public @NotNull SimpleWerewolfSkill defaultDescWithExtra(@NotNull Supplier<Component> text) {
         this.setDescription(() -> Component.translatable(this.getTranslationKey() + ".desc").append("\n").append(text.get()));
         return this;
     }
 
     @SafeVarargs
-    public final SimpleWerewolfSkill defaultDescWithExtra(MutableComponent prefix, Supplier<ISkill<?>>... skills) {
+    public final @NotNull SimpleWerewolfSkill defaultDescWithExtra(@NotNull MutableComponent prefix, Supplier<ISkill<?>> @NotNull ... skills) {
         this.setDescription(() -> {
             MutableComponent text = Component.translatable(this.getTranslationKey() + ".desc").append("\n").append(prefix.withStyle(ChatFormatting.AQUA)).append(" ");
             text.append(Helper.joinComponents(", ", Arrays.stream(skills).map(skill -> Component.translatable(skill.get().getTranslationKey())).toArray(MutableComponent[]::new)).withStyle(ChatFormatting.AQUA));
@@ -55,12 +55,12 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     }
 
     @SafeVarargs
-    public final SimpleWerewolfSkill defaultDescWithFormRequirement(Supplier<ISkill<?>>... skills) {
+    public final @NotNull SimpleWerewolfSkill defaultDescWithFormRequirement(Supplier<ISkill<?>>... skills) {
         return defaultDescWithExtra(Component.translatable("text.werewolves.skills.only_applies"), skills);
     }
 
     @SafeVarargs
-    public final SimpleWerewolfSkill defaultDescWithEnhancement(Supplier<ISkill<?>>... skill) {
+    public final @NotNull SimpleWerewolfSkill defaultDescWithEnhancement(Supplier<ISkill<?>>... skill) {
         return defaultDescWithExtra(Component.translatable("text.werewolves.skills.upgrade"), skill);
     }
 
@@ -80,13 +80,13 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         }
 
         @Override
-        protected void onDisabled(IWerewolfPlayer player) {
+        protected void onDisabled(@NotNull IWerewolfPlayer player) {
             AttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
             attributes.removeModifier(this.attribute);
         }
 
         @Override
-        protected void onEnabled(IWerewolfPlayer player) {
+        protected void onEnabled(@NotNull IWerewolfPlayer player) {
             AttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
             if (attributes.getModifier(this.attribute) == null) {
                 attributes.addPermanentModifier(new AttributeModifier(this.attribute, RegUtil.id(this).toString() + "_skill", this.attribute_value.apply(player), this.operation));

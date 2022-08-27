@@ -10,6 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class ModScreens {
@@ -18,7 +19,7 @@ public class ModScreens {
         MenuScreens.register(ModContainer.STONE_ALTAR.get(), StoneAltarScreen::new);
     }
 
-    static void registerScreenOverlays(RegisterGuiOverlaysEvent event) {
+    static void registerScreenOverlays(@NotNull RegisterGuiOverlaysEvent event) {
         event.registerBelowAll("action_cooldown", new ActionCooldownOverlay());
         event.registerBelowAll("fur_border", new FurOverlay());
         event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(), "form_duration", new WerewolfFormDurationOverlay());

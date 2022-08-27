@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 public class ModRefinementSets {
 
@@ -78,33 +79,33 @@ public class ModRefinementSets {
     }
 
     @SafeVarargs
-    private static IRefinementSet commonW(RegistryObject<IRefinement>... refinements) {
+    private static @NotNull IRefinementSet commonW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.COMMON, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet uncommonW(RegistryObject<IRefinement>... refinements) {
+    private static @NotNull IRefinementSet uncommonW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.UNCOMMON, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet rareW(RegistryObject<IRefinement>... refinements) {
+    private static @NotNull IRefinementSet rareW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.RARE, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet epicW(RegistryObject<IRefinement>... refinements) {
+    private static @NotNull IRefinementSet epicW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.EPIC, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet legendaryW(RegistryObject<IRefinement>... refinements) {
+    private static @NotNull IRefinementSet legendaryW(RegistryObject<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.LEGENDARY, refinements);
     }
 
     @SafeVarargs
     @SuppressWarnings("ConstantConditions")
-    private static RefinementSet werewolf(IRefinementSet.Rarity rarity, RegistryObject<IRefinement>... refinements) {
+    private static @NotNull RefinementSet werewolf(IRefinementSet.@NotNull Rarity rarity, RegistryObject<IRefinement>... refinements) {
         return new WerewolfRefinementSet(rarity, rarity.color.getColor(), refinements);
     }
 }

@@ -38,6 +38,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -48,7 +49,7 @@ public class ModPlayerEventHandler {
     public static final UUID CLAWS = UUID.fromString("70435284-afcd-4470-85c2-d9b36b3d94e8");
 
     @SubscribeEvent
-    public void onAttachCapability(AttachCapabilitiesEvent<Entity> event) {
+    public void onAttachCapability(@NotNull AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player) {
             try {
                 event.addCapability(REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.createNewCapability((Player) event.getObject()));
@@ -60,7 +61,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onFootEatenStart(LivingEntityUseItemEvent.Start event) {
+    public void onFootEatenStart(LivingEntityUseItemEvent.@NotNull Start event) {
         if (event.getEntity() instanceof Player && Helper.isWerewolf((Player) event.getEntity())) {
             if (!Helper.canWerewolfPlayerEatItem(((Player) event.getEntity()), event.getItem())) {
                 event.setCanceled(true);
@@ -70,7 +71,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onFootEatenFinish(LivingEntityUseItemEvent.Finish event) {
+    public void onFootEatenFinish(LivingEntityUseItemEvent.@NotNull Finish event) {
         if (event.getEntity() instanceof Player && Helper.isWerewolf((Player) event.getEntity())) {
             if (Helper.isRawMeat(event.getItem())) {
                 ((Player) event.getEntity()).getFoodData().eat(event.getItem().getItem(), event.getItem());
@@ -82,7 +83,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onKilled(LivingDeathEvent event) {
+    public void onKilled(@NotNull LivingDeathEvent event) {
         if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getSource().getEntity()))) {
             WerewolfPlayer player = WerewolfPlayer.get(((Player) event.getSource().getEntity()));
             if (player.getSkillHandler().isSkillEnabled(ModSkills.HEALTH_AFTER_KILL.get())) {
@@ -95,7 +96,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onFall(LivingFallEvent event) {
+    public void onFall(@NotNull LivingFallEvent event) {
         if (event.getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getEntity()))) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
             if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())) {
@@ -110,7 +111,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onEquipmentChange(LivingEquipmentChangeEvent event) {
+    public void onEquipmentChange(@NotNull LivingEquipmentChangeEvent event) {
         if (event.getEntity() instanceof Player) {
             if (Helper.isWerewolf(((Player) event.getEntity()))) {
                 if (WerewolfPlayer.get(((Player) event.getEntity())).getForm().isTransformed()) {
@@ -133,7 +134,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onJump(LivingEvent.LivingJumpEvent event) {
+    public void onJump(LivingEvent.@NotNull LivingJumpEvent event) {
         if (event.getEntity() instanceof Player) {
             if (Helper.isWerewolf(((Player) event.getEntity()))) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
@@ -159,7 +160,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onWakeUp(PlayerWakeUpEvent event) {
+    public void onWakeUp(@NotNull PlayerWakeUpEvent event) {
         if (!event.getEntity().level.isClientSide && event.getEntity().getEffect(ModEffects.LUPUS_SANGUINEM.get()) != null) {
             event.getEntity().getEffect(ModEffects.LUPUS_SANGUINEM.get()).applyEffect(event.getEntity());
             event.getEntity().removeEffect(ModEffects.LUPUS_SANGUINEM.get());
@@ -167,7 +168,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onItemUseEntity(PlayerInteractEvent.EntityInteract event) {
+    public void onItemUseEntity(PlayerInteractEvent.@NotNull EntityInteract event) {
         if (event.getEntity().getItemInHand(event.getHand()).getItem() == ModItems.V.INJECTION_EMPTY.get()) {
             if (event.getTarget() instanceof WerewolfBaseEntity) {
                 event.getEntity().getItemInHand(event.getHand()).shrink(1);
@@ -177,7 +178,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onItemUseBlock(PlayerInteractEvent.RightClickBlock event) {
+    public void onItemUseBlock(PlayerInteractEvent.@NotNull RightClickBlock event) {
         Player player = event.getEntity();
         if (player.getItemInHand(event.getHand()).getItem() == ModItems.INJECTION_UN_WEREWOLF.get()) {
             if (event.getLevel().getBlockState(event.getPos()).getBlock() == ModBlocks.V.MED_CHAIR.get()) {
@@ -210,7 +211,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void playerSize(EntityEvent.Size event) {
+    public void playerSize(EntityEvent.@NotNull Size event) {
         if (event.getEntity() instanceof Player player && player.getInventory() != null && event.getEntity().isAlive()) {
             LazyOptional<WerewolfPlayer> werewolf = WerewolfPlayer.getOpt(((Player) event.getEntity()));
             Optional<EntityDimensions> size = werewolf.map(WerewolfPlayer::getForm).flatMap(form -> form.getSize(event.getPose()));
@@ -222,7 +223,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerAttacked(LivingAttackEvent event) {
+    public void onPlayerAttacked(@NotNull LivingAttackEvent event) {
         if (event.getEntity() instanceof Player) {
             if (Helper.isWerewolf(((Player) event.getEntity()))) {
                 if (event.getEntity().isSprinting() && event.getSource() instanceof EntityDamageSource) {
@@ -247,7 +248,7 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onMountEvent(EntityMountEvent event) {
+    public void onMountEvent(@NotNull EntityMountEvent event) {
         if (event.isMounting() && WerewolfPlayer.getOptEx(event.getEntityMounting()).map(p -> !p.getForm().isHumanLike()).orElse(false)) {
             event.setCanceled(true);
             ((Player) event.getEntityMounting()).displayClientMessage(Component.translatable("text.werewolves.nomount.transformed"), true);

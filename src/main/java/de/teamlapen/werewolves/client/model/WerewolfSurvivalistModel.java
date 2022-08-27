@@ -37,7 +37,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public static final String JOINT = "joint";
     public static final String NECK_FLUFF = "neckFluff";
     public static final String NECK_FLUFF_LEFT = "neckFluffLeft";
-    public static String NECK_FLUFF_RIGHT = "neckFluffRight";
+    public static @NotNull String NECK_FLUFF_RIGHT = "neckFluffRight";
     public static final String NECK_FLUFF_BOTTOM = "neckFluffBottom";
     public static final String HEAD = "head";
     public static final String EAR_LEFT = "earLeft";
@@ -56,16 +56,16 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public static final String ARM_RIGHT_2 = "armRight2";
     public static final String FOOT_LEFT_2 = "footLeft_2";
 
-    public final ModelPart head;
-    public final ModelPart body;
-    public final ModelPart armLeft;
-    public final ModelPart armRight;
-    public final ModelPart legRight;
-    public final ModelPart legLeft;
-    public final ModelPart tail;
+    public final @NotNull ModelPart head;
+    public final @NotNull ModelPart body;
+    public final @NotNull ModelPart armLeft;
+    public final @NotNull ModelPart armRight;
+    public final @NotNull ModelPart legRight;
+    public final @NotNull ModelPart legLeft;
+    public final @NotNull ModelPart tail;
 
 
-    public WerewolfSurvivalistModel(ModelPart part) {
+    public WerewolfSurvivalistModel(@NotNull ModelPart part) {
         super(part);
         this.body = part.getChild(BODY);
         ModelPart hip = this.body.getChild("hip");

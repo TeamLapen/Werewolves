@@ -30,11 +30,11 @@ import java.util.function.Supplier;
 public abstract class WerewolfFormAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
     private static final Set<WerewolfFormAction> ALL_ACTION = new HashSet<>();
 
-    public static boolean isWerewolfFormActionActive(IActionHandler<IWerewolfPlayer> handler) {
+    public static boolean isWerewolfFormActionActive(@NotNull IActionHandler<IWerewolfPlayer> handler) {
         return ALL_ACTION.stream().anyMatch(handler::isActionActive);
     }
 
-    public static Set<WerewolfFormAction> getAllAction() {
+    public static @NotNull Set<WerewolfFormAction> getAllAction() {
         return Collections.unmodifiableSet(ALL_ACTION);
     }
 
@@ -48,11 +48,11 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         public final AttributeModifier.Operation operation;
         public final double dayModifier;
 
-        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
+        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, @NotNull Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
             this(attribute, dayUuid, nightUuid, dayModifier, name, player -> valueFunction.get(), operation);
         }
 
-        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, Supplier<ISkill<IWerewolfPlayer>> extendedSkill, AttributeModifier.Operation operation) {
+        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, @NotNull Supplier<Double> valueFunction, @NotNull Supplier<Double> extendedValueFunction, @NotNull Supplier<ISkill<IWerewolfPlayer>> extendedSkill, AttributeModifier.Operation operation) {
             this(attribute, dayUuid, nightUuid, dayModifier, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill.get()) ? extendedValueFunction.get() : valueFunction.get(), operation);
         }
 
@@ -66,7 +66,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             this.dayModifier = dayModifier;
         }
 
-        public AttributeModifier create(IWerewolfPlayer player, boolean night) {
+        public @NotNull AttributeModifier create(IWerewolfPlayer player, boolean night) {
             return new AttributeModifier(night ? nightUuid : dayUuid, name, night ? value.apply(player) : value.apply(player) * dayModifier, operation);
         }
     }
@@ -81,7 +81,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
+    protected boolean activate(@NotNull IWerewolfPlayer werewolf, ActivationContext context) {
         float healthPerc = werewolf.getRepresentingPlayer().getHealth() / werewolf.getRepresentingPlayer().getMaxHealth();
         if (isWerewolfFormActionActive(werewolf.getActionHandler())) {
             FormHelper.deactivateWerewolfActions(werewolf);
@@ -94,22 +94,22 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         return true;
     }
 
-    protected void removeArmorModifier(IWerewolfPlayer werewolfPlayer) {
+    protected void removeArmorModifier(@NotNull IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
     }
 
-    protected void addArmorModifier(IWerewolfPlayer werewolfPlayer) {
+    protected void addArmorModifier(@NotNull IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).addArmorModifier();
     }
 
     @Override
-    public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
+    public void onActivatedClient(@NotNull IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
         werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
     }
 
     @Override
-    public void onDeactivated(IWerewolfPlayer werewolf) {
+    public void onDeactivated(@NotNull IWerewolfPlayer werewolf) {
         float healthPerc = werewolf.getRepresentingPlayer().getHealth() / werewolf.getRepresentingPlayer().getMaxHealth();
         ((WerewolfPlayer) werewolf).setForm(this, WerewolfForm.NONE);
         this.addArmorModifier(werewolf);
@@ -119,13 +119,13 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    public void onReActivated(IWerewolfPlayer werewolf) {
+    public void onReActivated(@NotNull IWerewolfPlayer werewolf) {
         this.removeArmorModifier(werewolf);
         werewolf.getRepresentingPlayer().refreshDisplayName();
     }
 
     @Override
-    public boolean onUpdate(IWerewolfPlayer werewolfPlayer) {
+    public boolean onUpdate(@NotNull IWerewolfPlayer werewolfPlayer) {
         if (werewolfPlayer.getRepresentingPlayer().level.getGameTime() % 20 == 0) {
             checkDayNightModifier(werewolfPlayer);
         }
@@ -136,16 +136,16 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         return increaseWerewolfTime(werewolfPlayer) || (werewolfPlayer.getRepresentingPlayer() instanceof ServerPlayer && !PermissionAPI.getPermission((ServerPlayer) werewolfPlayer.getRepresentingPlayer(), Permissions.FORM));
     }
 
-    protected boolean usesTransformationTime(LivingEntity player) {
+    protected boolean usesTransformationTime(@NotNull LivingEntity player) {
         return !Helper.isNight(player.level) && !FormHelper.isInWerewolfBiome(player.level, player.blockPosition());
     }
 
-    protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
+    protected boolean increaseWerewolfTime(@NotNull IWerewolfPlayer werewolfPlayer) {
         if (!consumesWerewolfTime()) return false;
         return (((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime = Mth.clamp(((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime + ((double) 1 / (double) getTimeModifier(werewolfPlayer)), 0, 1)) == 1;
     }
 
-    public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
+    public void checkDayNightModifier(@NotNull IWerewolfPlayer werewolfPlayer) {
         Player player = werewolfPlayer.getRepresentingPlayer();
         boolean night = Helper.isNight(player.getCommandSenderWorld());
         for (Modifier attribute : this.attributes) {
@@ -156,7 +156,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         }
     }
 
-    public void applyModifier(IWerewolfPlayer werewolf) {
+    public void applyModifier(@NotNull IWerewolfPlayer werewolf) {
         Player player = werewolf.getRepresentingPlayer();
         boolean night = Helper.isNight(player.getCommandSenderWorld());
         for (Modifier attribute : this.attributes) {
@@ -167,7 +167,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         }
     }
 
-    public void removeModifier(IWerewolfPlayer werewolf) {
+    public void removeModifier(@NotNull IWerewolfPlayer werewolf) {
         Player player = werewolf.getRepresentingPlayer();
         for (Modifier attribute : this.attributes) {
             AttributeInstance ins = player.getAttribute(attribute.attribute);
@@ -184,7 +184,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    public boolean canBeUsedBy(IWerewolfPlayer player) {
+    public boolean canBeUsedBy(@NotNull IWerewolfPlayer player) {
         if (player.getRepresentingPlayer() instanceof ServerPlayer && (!PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.TRANSFORMATION) || !PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.FORM))) {
             return false;
         }
@@ -201,7 +201,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     /**
      * ticks this action can be used
      */
-    public int getTimeModifier(IWerewolfPlayer werewolf) {
+    public int getTimeModifier(@NotNull IWerewolfPlayer werewolf) {
         int limit = WerewolvesConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
         boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_1.get());
         boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_2.get());

@@ -18,11 +18,11 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
 
     protected PlayerModel<T> playerModel;
 
-    public static MeshDefinition createMesh(CubeDeformation deformation) {
+    public static @NotNull MeshDefinition createMesh(@NotNull CubeDeformation deformation) {
         return PlayerModel.createMesh(deformation, false);
     }
 
-    public WerewolfBaseModel(ModelPart part) {
+    public WerewolfBaseModel(@NotNull ModelPart part) {
         super(part, false);
     }
 

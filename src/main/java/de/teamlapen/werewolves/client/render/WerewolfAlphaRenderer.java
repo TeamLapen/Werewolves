@@ -12,12 +12,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class WerewolfAlphaRenderer extends WerewolfRenderer<WerewolfAlphaEntity> {
 
-    public WerewolfAlphaRenderer(EntityRendererProvider.Context context) {
+    public WerewolfAlphaRenderer(EntityRendererProvider.@NotNull Context context) {
         super(context, new Werewolf4LModel<>(context.bakeLayer(ModModelRender.WEREWOLF_4L)), 1.0F, Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).toArray(ResourceLocation[]::new));
     }
 
     @Override
-    protected void scale(@NotNull WerewolfAlphaEntity entity, PoseStack stack, float p_225620_3_) {
+    protected void scale(@NotNull WerewolfAlphaEntity entity, @NotNull PoseStack stack, float p_225620_3_) {
         stack.scale(1.2f, 1.2f, 1.2f);
     }
 }

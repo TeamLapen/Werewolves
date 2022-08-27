@@ -39,7 +39,7 @@ public class ModItems {
     public static final RegistryObject<SilverSwordItem> SILVER_SWORD = ITEMS.register("silver_sword", () -> new SilverSwordItem(WUtils.SILVER_ITEM_TIER, 3, -2.4F, new Item.Properties().tab(WUtils.creativeTab)));
     public static final RegistryObject<CrossbowArrowItem> CROSSBOW_ARROW_SILVER_BOLT = ITEMS.register("crossbow_arrow_silver_bolt", () -> new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
         @Override
-        public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
+        public void onHitEntity(ItemStack arrow, @NotNull LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
             if (Helper.isWerewolf(entity)) {
                 entity.addEffect(SilverEffect.createEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20));
             }
@@ -81,7 +81,7 @@ public class ModItems {
         public static final RegistryObject<Item> VAMPIRE_BOOK = item("vampire_book");
         public static final RegistryObject<Item> CROSSBOW_ARROW_NORMAL = item("crossbow_arrow_normal");
 
-        private static RegistryObject<Item> item(String name) {
+        private static @NotNull RegistryObject<Item> item(@NotNull String name) {
             return RegistryObject.create(new ResourceLocation("vampirism", name), ForgeRegistries.Keys.ITEMS, REFERENCE.MODID);
         }
 
@@ -98,7 +98,7 @@ public class ModItems {
         ITEMS.register(bus);
     }
 
-    public static void remapItems(MissingMappingsEvent event) {
+    public static void remapItems(@NotNull MissingMappingsEvent event) {
         event.getAllMappings(ForgeRegistries.Keys.ITEMS).forEach(missingMapping -> {
             switch (missingMapping.getKey().toString()) {
                 case "werewolves:bone" -> missingMapping.remap(ModItems.CRACKED_BONE.get());
@@ -107,7 +107,7 @@ public class ModItems {
         });
     }
 
-    private static Item.Properties creativeTabProps() {
+    private static Item.@NotNull Properties creativeTabProps() {
         return new Item.Properties().tab(WUtils.creativeTab);
     }
 }

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class TagNBTBrewingRecipe implements IBrewingRecipe {
 
     private final Ingredient input;
-    private final Either<TagKey<Item>, Ingredient> ingredient;
+    private final @NotNull Either<TagKey<Item>, Ingredient> ingredient;
     private final ItemStack output;
 
     public TagNBTBrewingRecipe(Ingredient input, TagKey<Item> ingredient, ItemStack output) {

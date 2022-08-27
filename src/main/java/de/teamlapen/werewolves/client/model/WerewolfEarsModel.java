@@ -23,14 +23,14 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
     public static final String EAR_RIGHT = "earRight";
     public static final String EAR_LEFT = "earLeft";
 
-    public final ModelPart dummyHead;
-    public final ModelPart clawsLeft;
-    public final ModelPart clawsRight;
-    public final ModelPart earRight;
-    public final ModelPart earLeft;
+    public final @NotNull ModelPart dummyHead;
+    public final @NotNull ModelPart clawsLeft;
+    public final @NotNull ModelPart clawsRight;
+    public final @NotNull ModelPart earRight;
+    public final @NotNull ModelPart earLeft;
 
     @SuppressWarnings("unused")
-    public static LayerDefinition createBodyLayer() {
+    public static @NotNull LayerDefinition createBodyLayer() {
         MeshDefinition mesh = WerewolfBaseModel.createMesh(CubeDeformation.NONE);
         PartDefinition root = mesh.getRoot();
 
@@ -43,7 +43,7 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
         return LayerDefinition.create(mesh, 64, 32);
     }
 
-    public WerewolfEarsModel(ModelPart part) {
+    public WerewolfEarsModel(@NotNull ModelPart part) {
         super(part);
         this.dummyHead = new InvisibleModelPart(part.getChild(DUMMY_HEAD));
         this.earRight = this.dummyHead.getChild(EAR_RIGHT);

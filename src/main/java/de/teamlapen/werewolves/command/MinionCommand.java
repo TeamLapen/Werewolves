@@ -23,6 +23,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @see de.teamlapen.vampirism.command.test.MinionCommand
@@ -53,13 +54,13 @@ public class MinionCommand extends BasicCommand {
     }
 
 
-    private static int spawnNewWerewolfMinion(CommandSourceStack ctx, String name, int skinType, int eyeType, boolean glowingEyes, WerewolfForm form) throws CommandSyntaxException {
+    private static int spawnNewWerewolfMinion(@NotNull CommandSourceStack ctx, String name, int skinType, int eyeType, boolean glowingEyes, @NotNull WerewolfForm form) throws CommandSyntaxException {
         WerewolfMinionEntity.WerewolfMinionData data = new WerewolfMinionEntity.WerewolfMinionData(name, skinType, eyeType, glowingEyes, form);
         return spawnNewMinion(ctx, WReference.WEREWOLF_FACTION, data, ModEntities.WEREWOLF_MINION.get());
     }
 
     @SuppressWarnings({"SameParameterValue", "SameReturnValue"})
-    private static <T extends MinionData> int spawnNewMinion(CommandSourceStack ctx, IPlayableFaction<?> faction, T data, EntityType<? extends MinionEntity<T>> type) throws CommandSyntaxException {
+    private static <T extends MinionData> int spawnNewMinion(@NotNull CommandSourceStack ctx, IPlayableFaction<?> faction, @NotNull T data, EntityType<? extends MinionEntity<T>> type) throws CommandSyntaxException {
         Player p = ctx.getPlayerOrException();
         FactionPlayerHandler fph = FactionPlayerHandler.get(p);
         if (fph.getMaxMinions() > 0) {

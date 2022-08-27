@@ -8,6 +8,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.ProfilePublicKey;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,7 +23,7 @@ public abstract class AbstractClientPlayerMixin extends AbstractClientPlayer {
     @Shadow
     private boolean autoJumpEnabled;
 
-    public AbstractClientPlayerMixin(ClientLevel p_234112_, GameProfile p_234113_, @Nullable ProfilePublicKey p_234114_) {
+    public AbstractClientPlayerMixin(@NotNull ClientLevel p_234112_, @NotNull GameProfile p_234113_, @Nullable ProfilePublicKey p_234114_) {
         super(p_234112_, p_234113_, p_234114_);
     }
 

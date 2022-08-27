@@ -1,18 +1,19 @@
 package de.teamlapen.werewolves.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import org.jetbrains.annotations.NotNull;
 
 public class BalanceConfig {
 
-    public final Player PLAYER;
-    public final MobProps MOBPROPS;
-    public final Skills SKILLS;
-    public final Refinements REFINEMENTS;
-    public final Potions POTIONS;
-    public final Util UTIL;
-    public final Oils OILS;
+    public final @NotNull Player PLAYER;
+    public final @NotNull MobProps MOBPROPS;
+    public final @NotNull Skills SKILLS;
+    public final @NotNull Refinements REFINEMENTS;
+    public final @NotNull Potions POTIONS;
+    public final @NotNull Util UTIL;
+    public final @NotNull Oils OILS;
 
-    BalanceConfig(ForgeConfigSpec.Builder builder) {
+    BalanceConfig(ForgeConfigSpec.@NotNull Builder builder) {
 
         builder.push("player");
         PLAYER = new Player(builder);
@@ -44,7 +45,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue werewolf_claw_damage;
         public final ForgeConfigSpec.IntValue bite_cooldown;
 
-        public Player(ForgeConfigSpec.Builder builder) {
+        public Player(ForgeConfigSpec.@NotNull Builder builder) {
             werewolf_damage = builder.comment("Level based damage attribute modifier").defineInRange("werewolf_damage", 1.0, 0, 10);
             werewolf_speed_amount = builder.comment("Level based speed attribute modifier").defineInRange("werewolf_speed_amount", 0.2, 0, 5);
             werewolf_armor_toughness = builder.comment("Level based armor toughness attribute modifier").defineInRange("werewolf_armor_toughness", 3.0, 0, 10.0);
@@ -66,7 +67,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue human_werewolf_attack_damage;
         public final ForgeConfigSpec.DoubleValue human_werewolf_speed;
 
-        public MobProps(ForgeConfigSpec.Builder builder) {
+        public MobProps(ForgeConfigSpec.@NotNull Builder builder) {
             builder.push("werewolf");
             werewolf_attack_damage = builder.defineInRange("werewolf_attack_damage", 3, 0, Double.MAX_VALUE);
             werewolf_attack_damage_pl = builder.defineInRange("werewolf_attack_damage_pl", 1, 0, Double.MAX_VALUE);
@@ -187,7 +188,7 @@ public class BalanceConfig {
         //thick fur
         public final ForgeConfigSpec.DoubleValue thick_fur_multiplier;
 
-        public Skills(ForgeConfigSpec.Builder builder) {
+        public Skills(ForgeConfigSpec.@NotNull Builder builder) {
             builder.push("werewolf_form");
 
             builder.push("human_form");
@@ -330,7 +331,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.IntValue rage_fury_timer_extend;
         public final ForgeConfigSpec.IntValue stun_bite_duration_extend;
 
-        public Refinements(ForgeConfigSpec.Builder builder) {
+        public Refinements(ForgeConfigSpec.@NotNull Builder builder) {
             this.greater_doge_chance = builder.comment("Increased doge chance for movement tactics skill").defineInRange("greater_doge_chance", 0.1, 0, 1);
             this.more_wolves = builder.comment("Increased wolf spawning for the howling action").defineInRange("more_wolves", 1, 0, 5);
             this.werewolf_form_duration_general_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_1", 20, 0, Integer.MAX_VALUE);
@@ -348,7 +349,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue silverStatsReduction;
         public final ForgeConfigSpec.DoubleValue bleedingEffectDamage;
 
-        public Potions(ForgeConfigSpec.Builder builder) {
+        public Potions(ForgeConfigSpec.@NotNull Builder builder) {
             this.silverStatsReduction = builder.comment("How much a Werewolf should be weakened by a silver item").defineInRange("silverStatsReduction", -0.2, -1, 0);
             this.bleedingEffectDamage = builder.comment("How much damage the bleeding effect should do per damaging tick").defineInRange("bleedingEffectDamage", 0.4, 0, Double.MAX_VALUE);
         }
@@ -360,7 +361,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.IntValue silverItemEffectDuration;
         public final ForgeConfigSpec.BooleanValue skeletonIgnoreWerewolves;
 
-        public Util(ForgeConfigSpec.Builder builder) {
+        public Util(ForgeConfigSpec.@NotNull Builder builder) {
             this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 4, 1, Integer.MAX_VALUE);
             this.silverItemEffectDuration = builder.comment("in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
             this.skeletonIgnoreWerewolves = builder.comment("if skeletons should ignore werewolves").define("skeletonIgnoreWerewolves", true);
@@ -372,7 +373,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.IntValue silverOil1Duration;
         public final ForgeConfigSpec.IntValue silverOil2Duration;
 
-        public Oils(ForgeConfigSpec.Builder builder) {
+        public Oils(ForgeConfigSpec.@NotNull Builder builder) {
             this.silverOil1Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil1Duration", 15, 1, Integer.MAX_VALUE);
             this.silverOil2Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil2Duration", 40, 1, Integer.MAX_VALUE);
         }

@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class WerewolfMinionStatsScreen extends MinionStatsScreen<WerewolfMinionEntity.WerewolfMinionData, WerewolfMinionEntity> {
@@ -21,17 +22,17 @@ public class WerewolfMinionStatsScreen extends MinionStatsScreen<WerewolfMinionE
     }
 
     @Override
-    protected boolean areButtonsVisible(WerewolfMinionEntity.WerewolfMinionData data) {
+    protected boolean areButtonsVisible(WerewolfMinionEntity.@NotNull WerewolfMinionData data) {
         return data.getRemainingStatPoints() > 0 || data.getLevel() < WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL;
     }
 
     @Override
-    protected int getRemainingStatPoints(WerewolfMinionEntity.WerewolfMinionData data) {
+    protected int getRemainingStatPoints(WerewolfMinionEntity.@NotNull WerewolfMinionData data) {
         return data.getRemainingStatPoints();
     }
 
     @Override
-    protected boolean isActive(WerewolfMinionEntity.WerewolfMinionData data, int i) {
+    protected boolean isActive(WerewolfMinionEntity.@NotNull WerewolfMinionData data, int i) {
         return switch (i) {
             case 0 -> data.getRemainingStatPoints() > 0 && data.getInventoryLevel() < WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_INVENTORY;
             case 1 -> data.getRemainingStatPoints() > 0 && data.getHealthLevel() < WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_HEALTH;
@@ -42,7 +43,7 @@ public class WerewolfMinionStatsScreen extends MinionStatsScreen<WerewolfMinionE
     }
 
     @Override
-    protected void renderStats(PoseStack mStack, WerewolfMinionEntity.WerewolfMinionData data) {
+    protected void renderStats(@NotNull PoseStack mStack, WerewolfMinionEntity.@NotNull WerewolfMinionData data) {
         renderLevelRow(mStack, data.getLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL + 1);
         renderStatRow(mStack, 0, this.inventoryLevel, Component.literal(String.valueOf(data.getInventorySize())), data.getInventoryLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_INVENTORY + 1);
         renderStatRow(mStack, 1, this.healthLevel, Component.literal(String.valueOf(entity.getAttribute(Attributes.MAX_HEALTH).getBaseValue())), data.getHealthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_HEALTH + 1);

@@ -78,7 +78,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final WerewolfForm werewolfForm;
-    private final ActionHandlerEntity<?> entityActionHandler;
+    private final @NotNull ActionHandlerEntity<?> entityActionHandler;
     private WerewolfTransformable transformed;
     /**
      * only used if {@link #transformType} = {@link TransformType#TIME_LIMITED}
@@ -87,13 +87,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private TransformType transformType;
     private EntityClassType entityClass;
     private EntityActionTier entityTier;
-    private IEntityLeader entityLeader;
+    private @Nullable IEntityLeader entityLeader;
 
     @Nullable
     protected ICaptureAttributes villageAttributes;
     protected boolean attack;
 
-    public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, Level world, WerewolfForm werewolfForm) {
+    public BasicWerewolfEntity(@NotNull EntityType<? extends BasicWerewolfEntity> type, @NotNull Level world, WerewolfForm werewolfForm) {
         super(type, world);
         this.werewolfForm = werewolfForm;
         this.entityClass = EntityClassType.getRandomClass(world.random);
@@ -120,7 +120,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public BasicWerewolfEntity _transformToWerewolf() {
+    public @NotNull BasicWerewolfEntity _transformToWerewolf() {
         return this;
     }
 
@@ -319,7 +319,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     /**
      * Assumes preconditions as been met. Checks conditions but does not give feedback to user
      */
-    public void convertToMinion(Player lord) {
+    public void convertToMinion(@NotNull Player lord) {
         FactionPlayerHandler.getOpt(lord).ifPresent(fph -> {
             if (fph.getMaxMinions() > 0) {
                 MinionWorldData.getData(lord.level).map(w -> w.getOrCreateController(fph)).ifPresent(controller -> {
@@ -362,7 +362,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public int suggestEntityLevel(Difficulty difficulty) {
+    public int suggestEntityLevel(@NotNull Difficulty difficulty) {
         return switch (this.random.nextInt(5)) {
             case 0 -> (int) (difficulty.minPercLevel / 100F * MAX_LEVEL);
             case 1 -> (int) (difficulty.avgPercLevel / 100F * MAX_LEVEL);
@@ -389,7 +389,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
     }
 
-    public void setSourceEntity(WerewolfTransformable entity) {
+    public void setSourceEntity(@NotNull WerewolfTransformable entity) {
         this.entityClass = entity.getEntityClass();
         this.entityTier = entity.getEntityTier();
         this.transformed = entity;
@@ -485,7 +485,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     public static class Beast extends BasicWerewolfEntity {
-        public Beast(EntityType<? extends Beast> type, Level world) {
+        public Beast(@NotNull EntityType<? extends Beast> type, @NotNull Level world) {
             super(type, world, WerewolfForm.BEAST);
         }
 
@@ -508,7 +508,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     public static class Survivalist extends BasicWerewolfEntity {
-        public Survivalist(EntityType<? extends Survivalist> type, Level world) {
+        public Survivalist(@NotNull EntityType<? extends Survivalist> type, @NotNull Level world) {
             super(type, world, WerewolfForm.SURVIVALIST);
         }
     }

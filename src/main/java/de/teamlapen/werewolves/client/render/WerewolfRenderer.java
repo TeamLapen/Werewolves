@@ -15,7 +15,7 @@ public class WerewolfRenderer<T extends WerewolfBaseEntity> extends MobRenderer<
 
     private final ResourceLocation[] textures;
 
-    public WerewolfRenderer(EntityRendererProvider.Context context, WerewolfBaseModel<T> entityModelIn, float shadowSizeIn, ResourceLocation[] textures) {
+    public WerewolfRenderer(EntityRendererProvider.@NotNull Context context, @NotNull WerewolfBaseModel<T> entityModelIn, float shadowSizeIn, ResourceLocation[] textures) {
         super(context, entityModelIn, shadowSizeIn);
         this.addLayer(new WerewolfEntityFaceOverlayLayer<>(this));
         this.textures = textures;

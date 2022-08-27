@@ -6,12 +6,13 @@ import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 public record ServerboundWerewolfAppearancePacket(int entityId, String name, WerewolfForm form, int... data) implements IMessage {
 
-    static void encode(ServerboundWerewolfAppearancePacket msg, FriendlyByteBuf buf) {
+    static void encode(@NotNull ServerboundWerewolfAppearancePacket msg, @NotNull FriendlyByteBuf buf) {
         buf.writeVarInt(msg.entityId);
         buf.writeUtf(msg.name);
         buf.writeUtf(msg.form.getName());
@@ -21,7 +22,7 @@ public record ServerboundWerewolfAppearancePacket(int entityId, String name, Wer
         }
     }
 
-    static ServerboundWerewolfAppearancePacket decode(FriendlyByteBuf buf) {
+    static @NotNull ServerboundWerewolfAppearancePacket decode(@NotNull FriendlyByteBuf buf) {
         int entityId = buf.readVarInt();
         String newName = buf.readUtf(MinionData.MAX_NAME_LENGTH);
         String form = buf.readUtf(32767);
@@ -32,7 +33,7 @@ public record ServerboundWerewolfAppearancePacket(int entityId, String name, Wer
         return new ServerboundWerewolfAppearancePacket(entityId, newName, WerewolfForm.getForm(form), data);
     }
 
-    public static void handle(final ServerboundWerewolfAppearancePacket msg, Supplier<NetworkEvent.Context> contextSupplier) {
+    public static void handle(final ServerboundWerewolfAppearancePacket msg, @NotNull Supplier<NetworkEvent.Context> contextSupplier) {
         final NetworkEvent.Context ctx = contextSupplier.get();
         ctx.enqueueWork(() -> WerewolvesMod.proxy.handleAppearancePacket(ctx.getSender(), msg));
         ctx.setPacketHandled(true);

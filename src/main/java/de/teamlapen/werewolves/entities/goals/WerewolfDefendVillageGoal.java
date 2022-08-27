@@ -4,13 +4,14 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
 import de.teamlapen.vampirism.entity.ai.goals.DefendVillageGoal;
 import net.minecraft.world.entity.PathfinderMob;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * same as {@link DefendVillageGoal} but with ignore disguise
  */
 public class WerewolfDefendVillageGoal<T extends PathfinderMob & IVillageCaptureEntity> extends DefendVillageGoal<T> {
 
-    public WerewolfDefendVillageGoal(T creature) {
+    public WerewolfDefendVillageGoal(@NotNull T creature) {
         super(creature);
         this.entityPredicate.selector(VampirismAPI.factionRegistry().getPredicate(creature.getFaction(), true));
     }

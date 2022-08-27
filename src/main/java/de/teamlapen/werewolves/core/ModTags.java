@@ -24,15 +24,15 @@ public class ModTags {
         public static final TagKey<Block> NEEDS_SILVER_TOOL = forge("needs_silver_tool");
 
 
-        private static TagKey<Block> mc(ResourceLocation id) {
+        private static @NotNull TagKey<Block> mc(@NotNull ResourceLocation id) {
             return BlockTags.create(id);
         }
 
-        private static TagKey<Block> werewolves(String id) {
+        private static @NotNull TagKey<Block> werewolves(@NotNull String id) {
             return BlockTags.create(new ResourceLocation(REFERENCE.MODID, id));
         }
 
-        private static TagKey<Block> forge(String id) {
+        private static @NotNull TagKey<Block> forge(@NotNull String id) {
             return BlockTags.create(new ResourceLocation("forge", id));
         }
     }
@@ -50,15 +50,15 @@ public class ModTags {
         public static final TagKey<Item> MAGIC_LOGS = forge("magic_logs");
         public static final TagKey<Item> JACARANDA_LOGS = forge("jacaranda_logs");
 
-        private static TagKey<Item> mc(ResourceLocation id) {
+        private static @NotNull TagKey<Item> mc(@NotNull ResourceLocation id) {
             return ItemTags.create(id);
         }
 
-        private static TagKey<Item> werewolves(String id) {
+        private static @NotNull TagKey<Item> werewolves(@NotNull String id) {
             return ItemTags.create(new ResourceLocation(REFERENCE.MODID, id));
         }
 
-        private static TagKey<Item> forge(String id) {
+        private static @NotNull TagKey<Item> forge(@NotNull String id) {
             return ItemTags.create(new ResourceLocation("forge", id));
         }
     }

@@ -8,6 +8,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolvesConfig {
     public static final ClientConfig CLIENT;
@@ -56,14 +57,14 @@ public class WerewolvesConfig {
     }
 
     @SubscribeEvent
-    public static void onLoad(ModConfigEvent.Loading event) {
+    public static void onLoad(ModConfigEvent.@NotNull Loading event) {
         if (event.getConfig().getType() == ModConfig.Type.SERVER) {
             FormHelper.reload();
         }
     }
 
     @SubscribeEvent
-    public static void onReLoad(ModConfigEvent.Reloading event) {
+    public static void onReLoad(ModConfigEvent.@NotNull Reloading event) {
         if (event.getConfig().getType() == ModConfig.Type.SERVER) {
             FormHelper.reload();
         }

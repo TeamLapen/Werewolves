@@ -18,7 +18,7 @@ public class StoneAltarScreen extends AbstractContainerScreen<StoneAltarContaine
     private static final ResourceLocation altarGuiTextures = new ResourceLocation(REFERENCE.MODID, "textures/gui/stone_altar.png");
 
 
-    public StoneAltarScreen(StoneAltarContainer screenContainer, Inventory inv, Component titleIn) {
+    public StoneAltarScreen(@NotNull StoneAltarContainer screenContainer, @NotNull Inventory inv, @NotNull Component titleIn) {
         super(screenContainer, inv, titleIn);
         this.inventoryLabelY = this.imageHeight - 94;
     }

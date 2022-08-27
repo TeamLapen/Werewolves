@@ -22,6 +22,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -77,13 +78,13 @@ public class ModBlocks {
         return registerWithItem(name, supplier, new Item.Properties().tab(WUtils.creativeTab));
     }
 
-    private static <T extends Block> RegistryObject<T> registerWithItem(String name, Supplier<T> supplier, Item.Properties properties) {
+    private static <T extends Block> RegistryObject<T> registerWithItem(String name, Supplier<T> supplier, Item.@NotNull Properties properties) {
         RegistryObject<T> block = BLOCKS.register(name, supplier);
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
         return block;
     }
 
-    public static Set<Block> getAllBlocks() {
+    public static @NotNull Set<Block> getAllBlocks() {
         return BLOCKS.getEntries().stream().map(RegistryObject::get).collect(Collectors.toSet());
     }
 }

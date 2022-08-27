@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ModTagsProvider {
 
-    public static void addProvider(GatherDataEvent event) {
+    public static void addProvider(@NotNull GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         BlockTagsProvider blocks = new ModBlockTagsProvider(generator, existingFileHelper);
@@ -34,7 +34,7 @@ public class ModTagsProvider {
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
-        public ModBlockTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
+        public ModBlockTagsProvider(@NotNull DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
             super(generatorIn, REFERENCE.MODID, existingFileHelper);
         }
 
@@ -58,7 +58,7 @@ public class ModTagsProvider {
     }
 
     private static class ModItemTagsProvider extends ItemTagsProvider {
-        public ModItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
+        public ModItemTagsProvider(@NotNull DataGenerator generatorIn, @NotNull BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
             super(generatorIn, blockTagsProvider, REFERENCE.MODID, existingFileHelper);
         }
 
@@ -85,7 +85,7 @@ public class ModTagsProvider {
 
     private static class ModBiomeTagsProvider extends BiomeTagsProvider {
 
-        public ModBiomeTagsProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
+        public ModBiomeTagsProvider(@NotNull DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
             super(generatorIn, REFERENCE.MODID, existingFileHelper);
         }
 
@@ -115,7 +115,7 @@ public class ModTagsProvider {
 
     private static class ModPoiTypesProvider extends PoiTypeTagsProvider {
 
-        public ModPoiTypesProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
+        public ModPoiTypesProvider(@NotNull DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
             super(generatorIn, REFERENCE.MODID, existingFileHelper);
         }
 

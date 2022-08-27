@@ -42,11 +42,11 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     @Nullable
     private Player interactor;
 
-    public WerewolfTaskMasterEntity(EntityType<? extends WerewolfTaskMasterEntity> type, Level world) {
+    public WerewolfTaskMasterEntity(@NotNull EntityType<? extends WerewolfTaskMasterEntity> type, @NotNull Level world) {
         super(type, world);
     }
 
-    public static AttributeSupplier.Builder getAttributeBuilder() {
+    public static AttributeSupplier.@NotNull Builder getAttributeBuilder() {
         return WerewolfBaseEntity.getAttributeBuilder();
     }
 
@@ -116,13 +116,13 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
         return Optional.ofNullable(this.interactor);
     }
 
-    public VillagerType getBiomeType() {
+    public @NotNull VillagerType getBiomeType() {
         String key = this.entityData.get(BIOME_TYPE);
         ResourceLocation id = new ResourceLocation(key);
         return Registry.VILLAGER_TYPE.get(id);
     }
 
-    protected void setBiomeType(VillagerType type) {
+    protected void setBiomeType(@NotNull VillagerType type) {
         this.entityData.set(BIOME_TYPE, Registry.VILLAGER_TYPE.getKey(type).toString());
     }
 

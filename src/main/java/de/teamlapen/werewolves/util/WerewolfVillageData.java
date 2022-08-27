@@ -17,10 +17,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatterns;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfVillageData {
 
-    public static void werewolfVillage(IFactionVillageBuilder builder) {
+    public static void werewolfVillage(@NotNull IFactionVillageBuilder builder) {
         builder.captureEntities(Lists.newArrayList(new CaptureEntityEntry<>(ModEntities.WEREWOLF_BEAST, 5), new CaptureEntityEntry<>(ModEntities.WEREWOLF_SURVIVALIST, 5)))
                 .factionVillagerProfession(ModVillage.WEREWOLF_EXPERT)
                 .guardSuperClass(WerewolfBaseEntity.class)
@@ -30,7 +31,7 @@ public class WerewolfVillageData {
                 .banner(WerewolfVillageData::createBanner);
     }
 
-    public static ItemStack createBanner() {
+    public static @NotNull ItemStack createBanner() {
         ItemStack itemStack = Items.YELLOW_BANNER.getDefaultInstance();
         CompoundTag compoundNBT = itemStack.getOrCreateTagElement("BlockEntityTag");
         ListTag listNBT = new BannerPattern.Builder()

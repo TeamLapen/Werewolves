@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfSkinCommand extends BasicCommand {
     public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -31,7 +32,7 @@ public class WerewolfSkinCommand extends BasicCommand {
     }
 
     @SuppressWarnings("SameReturnValue")
-    private static int setSkin(CommandContext<CommandSourceStack> context, Player playerEntity, int type, WerewolfForm form) {
+    private static int setSkin(CommandContext<CommandSourceStack> context, @NotNull Player playerEntity, int type, WerewolfForm form) {
         WerewolfPlayer.getOpt(playerEntity).ifPresent(w -> w.setSkinType(form, type));
         return 0;
     }

@@ -72,7 +72,7 @@ public class MobLootModifier extends LootModifier {
         return CODEC;
     }
 
-    private final LootTable lootTable;
+    private final @NotNull LootTable lootTable;
 
     public MobLootModifier(LootItemCondition[] conditionsIn, LootTable lootTable) {
         super(conditionsIn);
@@ -85,7 +85,7 @@ public class MobLootModifier extends LootModifier {
         return generatedLoot;
     }
 
-    public static Builder builder() {
+    public static @NotNull Builder builder() {
         return new Builder();
     }
 
@@ -93,7 +93,7 @@ public class MobLootModifier extends LootModifier {
         private LootTable lootTable;
         private final List<EntityType<?>> entityTypes = new ArrayList<>();
 
-        public Builder table(LootTable.Builder table) {
+        public @NotNull Builder table(LootTable.Builder table) {
             this.lootTable = table.build();
             return this;
         }
@@ -102,12 +102,12 @@ public class MobLootModifier extends LootModifier {
             return onlyFor(Arrays.asList(types));
         }
 
-        public Builder onlyFor(List<EntityType<?>> types) {
+        public @NotNull Builder onlyFor(List<EntityType<?>> types) {
             this.entityTypes.addAll(types);
             return this;
         }
 
-        public MobLootModifier build() {
+        public @NotNull MobLootModifier build() {
             if (this.entityTypes.isEmpty()) {
                 throw new IllegalStateException("You must specify target entities");
             }

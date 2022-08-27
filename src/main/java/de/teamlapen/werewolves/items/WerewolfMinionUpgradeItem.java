@@ -20,7 +20,7 @@ public class WerewolfMinionUpgradeItem extends Item {
     private final int minLevel;
     private final int maxLevel;
 
-    public WerewolfMinionUpgradeItem(Item.Properties properties, int minLevel, int maxLevel) {
+    public WerewolfMinionUpgradeItem(Item.@NotNull Properties properties, int minLevel, int maxLevel) {
         super(properties);
         this.maxLevel = maxLevel;
         this.minLevel = minLevel;

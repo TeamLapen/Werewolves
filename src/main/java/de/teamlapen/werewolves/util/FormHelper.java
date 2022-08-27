@@ -17,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.List;
@@ -37,12 +38,12 @@ public class FormHelper {
         noWerewolfFormTickingBiomes.add(ModBiomes.WEREWOLF_HEAVEN.getId());
     }
 
-    public static boolean isInWerewolfBiome(LevelAccessor world, BlockPos pos) {
+    public static boolean isInWerewolfBiome(@NotNull LevelAccessor world, @NotNull BlockPos pos) {
         Holder<Biome> biome = world.getBiome(pos);
         return biome.is(ModTags.Biomes.IS_WEREWOLF_BIOME) || noWerewolfFormTickingBiomes.contains(RegUtil.id(world.getBiome(pos).value()));
     }
 
-    public static WerewolfForm getForm(LivingEntity entity) {
+    public static @NotNull WerewolfForm getForm(LivingEntity entity) {
         if (entity instanceof Player) {
             return WerewolfPlayer.getOpt(((Player) entity)).map(WerewolfPlayer::getForm).orElse(WerewolfForm.NONE);
         } else if (entity instanceof IWerewolfDataholder) {
@@ -51,16 +52,16 @@ public class FormHelper {
         return WerewolfForm.NONE;
     }
 
-    public static boolean isFormActionActive(IWerewolfPlayer player) {
+    public static boolean isFormActionActive(@NotNull IWerewolfPlayer player) {
         return WerewolfFormAction.isWerewolfFormActionActive(player.getActionHandler());
     }
 
-    public static Optional<WerewolfFormAction> getActiveFormAction(IWerewolfPlayer werewolf) {
+    public static @NotNull Optional<WerewolfFormAction> getActiveFormAction(@NotNull IWerewolfPlayer werewolf) {
         // werewolf form actions can not be enabled at the same time
         return WerewolfFormAction.getAllAction().stream().filter(action -> werewolf.getActionHandler().isActionActive(action)).findAny();
     }
 
-    public static void deactivateWerewolfActions(IWerewolfPlayer player) {
+    public static void deactivateWerewolfActions(@NotNull IWerewolfPlayer player) {
         WerewolfFormAction.getAllAction().stream().filter(action -> player.getActionHandler().isActionActive(action)).forEach(action -> player.getActionHandler().toggleAction(action, new ActionHandler.ActivationContext()));
     }
 }
