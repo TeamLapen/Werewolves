@@ -18,7 +18,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCookingSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nonnull;
@@ -46,10 +45,6 @@ public class RecipeGenerator extends RecipeProvider {
         TagKey<Item> iron_ingot = Tags.Items.INGOTS_IRON;
         TagKey<Item> feathers = Tags.Items.FEATHERS;
         ItemLike crossbow_arrow = ModItems.V.CROSSBOW_ARROW_NORMAL.get();
-
-        planksFromLog(consumer, ModBlocks.MAGIC_PLANKS.get(), ModTags.Items.MAGIC_LOGS);
-        ShapelessRecipeBuilder.shapeless(Blocks.OAK_PLANKS, 4).requires(ModTags.Items.JACARANDA_LOGS).group("planks").unlockedBy("has_log", has(ModTags.Items.MAGIC_LOGS)).save(consumer, REFERENCE.MODID + ":oak_planks");
-
 
         ShapelessRecipeBuilder.shapeless(Items.BONE, 2)
                 .requires(ModItems.CRACKED_BONE.get()).unlockedBy("has_broken_bone", has(ModItems.CRACKED_BONE.get()))
@@ -119,6 +114,20 @@ public class RecipeGenerator extends RecipeProvider {
         ShapedRecipeBuilder.shaped(ModItems.SILVER_BOOTS.get()).define('X', silver_ingot).pattern("X X").pattern("X X").unlockedBy("has_silver_ingot", has(silver_ingot)).save(consumer);
 
         ShapelessRecipeBuilder.shapeless(Items.YELLOW_DYE).requires(ModBlocks.DAFFODIL.get()).unlockedBy("has_daffodil", has(ModBlocks.DAFFODIL.get())).save(consumer, modId("daffodil_yellow_dye"));
+
+        generateRecipes(consumer, ModBlockFamilies.JACARANDA_PLANKS);
+        generateRecipes(consumer, ModBlockFamilies.MAGIC_PLANKS);
+
+        planksFromLog(consumer, ModBlocks.JACARANDA_PLANKS.get(), ModTags.Items.JACARANDA_LOG);
+        planksFromLog(consumer, ModBlocks.MAGIC_PLANKS.get(), ModTags.Items.MAGIC_LOG);
+        woodFromLogs(consumer, ModBlocks.JACARANDA_WOOD.get(), ModBlocks.JACARANDA_LOG.get());
+        woodFromLogs(consumer, ModBlocks.MAGIC_WOOD.get(), ModBlocks.MAGIC_LOG.get());
+        woodFromLogs(consumer, ModBlocks.STRIPPED_JACARANDA_WOOD.get(), ModBlocks.STRIPPED_JACARANDA_LOG.get());
+        woodFromLogs(consumer, ModBlocks.STRIPPED_MAGIC_WOOD.get(), ModBlocks.STRIPPED_MAGIC_LOG.get());
+        woodenBoat(consumer, ModItems.JACARANDA_BOAT.get(), ModBlocks.JACARANDA_PLANKS.get());
+        woodenBoat(consumer, ModItems.MAGIC_BOAT.get(), ModBlocks.MAGIC_PLANKS.get());
+        chestBoat(consumer, ModItems.JACARANDA_CHEST_BOAT.get(), ModBlocks.JACARANDA_PLANKS.get());
+        chestBoat(consumer, ModItems.MAGIC_CHEST_BOAT.get(), ModBlocks.MAGIC_PLANKS.get());
     }
 
     protected static void nineBlockStorageRecipes(Consumer<FinishedRecipe> p_176744_, ItemLike p_176745_, ItemLike p_176746_) {

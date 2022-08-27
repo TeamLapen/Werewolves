@@ -6,11 +6,15 @@ import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import de.teamlapen.werewolves.client.render.*;
 import de.teamlapen.werewolves.core.ModEntities;
+import de.teamlapen.werewolves.items.IWerewolvesBoat;
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.WolfRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ModModelRender {
 
@@ -27,6 +31,8 @@ public class ModModelRender {
         event.registerEntityRenderer(ModEntities.WOLF.get(), WolfRenderer::new);
         event.registerEntityRenderer(ModEntities.TASK_MASTER_WEREWOLF.get(), WerewolfTaskMasterRenderer::new);
         event.registerEntityRenderer(ModEntities.WEREWOLF_MINION.get(), WerewolfMinionRenderer::new);
+        event.registerEntityRenderer(ModEntities.BOAT.get(), context -> new WerewolvesBoatRenderer(context, false));
+        event.registerEntityRenderer(ModEntities.CHEST_BOAT.get(), context -> new WerewolvesBoatRenderer(context, true));
     }
 
     public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -34,5 +40,20 @@ public class ModModelRender {
         event.registerLayerDefinition(WEREWOLF_4L, Werewolf4LModel::createBodyLayer);
         event.registerLayerDefinition(WEREWOLF_BEAST, WerewolfBeastModel::createBodyLayer);
         event.registerLayerDefinition(WEREWOLF_SURVIVALIST, WerewolfSurvivalistModel::createBodyLayer);
+
+        LayerDefinition boatDefinition = BoatModel.createBodyModel(false);
+        LayerDefinition chestBoatDefinition = BoatModel.createBodyModel(true);
+        for (IWerewolvesBoat.BoatType type : IWerewolvesBoat.BoatType.values()) {
+            event.registerLayerDefinition(createBoatModelName(type), () -> boatDefinition);
+            event.registerLayerDefinition(createChestBoatModelName(type), () -> chestBoatDefinition);
+        }
+    }
+
+    public static @NotNull ModelLayerLocation createBoatModelName(IWerewolvesBoat.@NotNull BoatType type) {
+        return new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "boat/" + type.getName()), "main");
+    }
+
+    public static @NotNull ModelLayerLocation createChestBoatModelName(IWerewolvesBoat.@NotNull BoatType type) {
+        return new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "chest_boat/" + type.getName()), "main");
     }
 }

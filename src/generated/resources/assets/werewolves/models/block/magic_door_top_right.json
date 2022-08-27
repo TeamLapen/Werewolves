@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right",
+  "textures": {
+    "bottom": "werewolves:block/magic_door_bottom",
+    "top": "werewolves:block/magic_door_top"
+  }
+}
