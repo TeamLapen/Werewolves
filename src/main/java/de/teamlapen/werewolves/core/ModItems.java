@@ -12,6 +12,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -72,6 +73,11 @@ public class ModItems {
     public static final RegistryObject<WerewolfRefinementItem> BONE_NECKLACE = ITEMS.register("bone_necklace", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET));
     public static final RegistryObject<WerewolfRefinementItem> CHARM_BRACELET = ITEMS.register("charm_bracelet", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING));
     public static final RegistryObject<WerewolfRefinementItem> DREAM_CATCHER = ITEMS.register("dream_catcher", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.OBI_BELT));
+
+    public static final RegistryObject<SilverArmorItem> SILVER_HELMET = ITEMS.register("silver_helmet", () -> new SilverArmorItem(EquipmentSlot.HEAD, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<SilverArmorItem> SILVER_CHESTPLATE = ITEMS.register("silver_chestplate", () -> new SilverArmorItem(EquipmentSlot.CHEST, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<SilverArmorItem> SILVER_LEGGINGS = ITEMS.register("silver_leggings", () -> new SilverArmorItem(EquipmentSlot.LEGS, new Item.Properties().tab(WUtils.creativeTab)));
+    public static final RegistryObject<SilverArmorItem> SILVER_BOOTS = ITEMS.register("silver_boots", () -> new SilverArmorItem(EquipmentSlot.FEET, new Item.Properties().tab(WUtils.creativeTab)));
 
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");

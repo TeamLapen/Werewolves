@@ -16,11 +16,11 @@ public class ClientProxy extends CommonProxy {
     private ModHUDOverlay hudOverlay;
 
     public ClientProxy() {
-        RenderHandler renderHandler = new RenderHandler(Minecraft.getInstance());
-        MinecraftForge.EVENT_BUS.register(renderHandler);
         //Minecraft.instance is null during runData.
         //noinspection ConstantConditions
         if (Minecraft.getInstance() != null) {
+            RenderHandler renderHandler = new RenderHandler(Minecraft.getInstance());
+            MinecraftForge.EVENT_BUS.register(renderHandler);
             ((ReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener(renderHandler); // Must be added before initial resource manager load
         }
     }
