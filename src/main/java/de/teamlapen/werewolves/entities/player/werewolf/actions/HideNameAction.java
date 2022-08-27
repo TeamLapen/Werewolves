@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import org.jetbrains.annotations.NotNull;
 
 public class HideNameAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
     public HideNameAction() {
@@ -36,7 +37,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
-    public boolean onUpdate(IWerewolfPlayer werewolf) {
+    public boolean onUpdate(@NotNull IWerewolfPlayer werewolf) {
         return !werewolf.getForm().isTransformed();
     }
 
@@ -46,7 +47,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
-    public boolean canBeUsedBy(IWerewolfPlayer werewolf) {
+    public boolean canBeUsedBy(@NotNull IWerewolfPlayer werewolf) {
         return werewolf.getForm().isTransformed();
     }
 }
