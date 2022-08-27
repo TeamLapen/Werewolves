@@ -52,12 +52,9 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
 
     public static boolean spawnPredicateHumanWerewolf(@NotNull EntityType<? extends PathfinderMob> entityType, @NotNull ServerLevelAccessor world, MobSpawnType spawnReason, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
-        if (!Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
-        if (random.nextInt(3) != 0) return false;
-        if (world.canSeeSkyFromBelowWater(blockPos) && Monster.isDarkEnoughToSpawn(world, blockPos, random)) {
-            return true;
-        }
-        return FormHelper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
+        if (spawnReason == MobSpawnType.EVENT) return true;
+        if (!Monster.isDarkEnoughToSpawn(world, blockPos, random) && !FormHelper.isInWerewolfBiome(world, blockPos)) return false;
+        return Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random);
     }
 
     @Override

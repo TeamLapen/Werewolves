@@ -43,7 +43,7 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     private Player interactor;
 
     public WerewolfTaskMasterEntity(@NotNull EntityType<? extends WerewolfTaskMasterEntity> type, @NotNull Level world) {
-        super(type, world);
+        super(type, world, false);
     }
 
     public static AttributeSupplier.@NotNull Builder getAttributeBuilder() {

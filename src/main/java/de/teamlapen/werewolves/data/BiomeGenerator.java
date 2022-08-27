@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import de.teamlapen.vampirism.world.gen.modifier.ExtendedAddSpawnsBiomeModifier;
-import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -16,6 +15,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -60,8 +60,8 @@ public class BiomeGenerator {
 
     private @NotNull Map<ResourceLocation, BiomeModifier> getBiomeModifier() {
         Map<ResourceLocation, BiomeModifier> data = new HashMap<>();
-        data.put(new ResourceLocation(REFERENCE.MODID, "spawn/werewolf_spawns"), new ExtendedAddSpawnsBiomeModifier(biome(ModTags.Biomes.HasSpawn.WEREWOLF), biome(ModTags.Biomes.NoSpawn.WEREWOLF), Lists.newArrayList(new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.WEREWOLF_BEAST.get(), 1, 1, 1, WerewolvesMod.WEREWOLF_CREATURE_TYPE), new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.WEREWOLF_SURVIVALIST.get(), 1, 1, 1, WerewolvesMod.WEREWOLF_CREATURE_TYPE))));
-        data.put(new ResourceLocation(REFERENCE.MODID, "spawn/human_werewolf_spawns"), ExtendedAddSpawnsBiomeModifier.singleSpawn(biome(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF), biome(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF), new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.HUMAN_WEREWOLF.get(), 1, 1, 1, WerewolvesMod.WEREWOLF_CREATURE_TYPE)));
+        data.put(new ResourceLocation(REFERENCE.MODID, "spawn/werewolf_spawns"), new ExtendedAddSpawnsBiomeModifier(biome(ModTags.Biomes.HasSpawn.WEREWOLF), biome(ModTags.Biomes.NoSpawn.WEREWOLF), Lists.newArrayList(new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.WEREWOLF_BEAST.get(), 50, 1, 1, MobCategory.MONSTER), new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.WEREWOLF_SURVIVALIST.get(), 50, 1, 1, MobCategory.MONSTER))));
+        data.put(new ResourceLocation(REFERENCE.MODID, "spawn/human_werewolf_spawns"), ExtendedAddSpawnsBiomeModifier.singleSpawn(biome(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF), biome(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF), new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.HUMAN_WEREWOLF.get(), 5, 1, 1, MobCategory.MONSTER)));
         data.put(new ResourceLocation(REFERENCE.MODID, "gen/silver_ore"), new ForgeBiomeModifiers.AddFeaturesBiomeModifier(biome(ModTags.Biomes.HasGen.SILVER_ORE), placedFeature(WerewolvesBiomeFeatures.silver_ore_placed), GenerationStep.Decoration.UNDERGROUND_ORES));
         data.put(new ResourceLocation(REFERENCE.MODID, "gen/wolfsbane"), new ForgeBiomeModifiers.AddFeaturesBiomeModifier(biome(ModTags.Biomes.HasGen.WOLFSBANE), placedFeature(WerewolvesBiomeFeatures.wolfsbane_placed), GenerationStep.Decoration.VEGETAL_DECORATION));
         return data;

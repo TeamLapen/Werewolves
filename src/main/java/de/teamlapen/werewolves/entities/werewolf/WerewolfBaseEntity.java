@@ -18,18 +18,18 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob {
 
-    public WerewolfBaseEntity(@NotNull EntityType<? extends VampirismEntity> type, @NotNull Level world) {
+    private final boolean countAsMonsterForSpawn;
+
+    public WerewolfBaseEntity(@NotNull EntityType<? extends VampirismEntity> type, @NotNull Level world, boolean countAsMonsterForSpawn) {
         super(type, world);
+        this.countAsMonsterForSpawn = countAsMonsterForSpawn;
     }
 
     public static boolean spawnPredicateWerewolf(@NotNull EntityType<? extends WerewolfBaseEntity> entityType, @NotNull ServerLevelAccessor world, MobSpawnType spawnReason, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
-        if (!Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random)) return false;
         if (spawnReason == MobSpawnType.EVENT) return true;
-        if (world.canSeeSky(blockPos) && Monster.isDarkEnoughToSpawn(world, blockPos, random)) {
-            return true;
-        }
-        return FormHelper.isInWerewolfBiome(world, blockPos) && blockPos.getY() >= world.getSeaLevel();
+        if (!Monster.isDarkEnoughToSpawn(world, blockPos, random) && !FormHelper.isInWerewolfBiome(world, blockPos)) return false;
+        return Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random);
     }
 
     public void bite(@NotNull LivingEntity entity) {
@@ -39,7 +39,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
 
     @Override
     public MobCategory getClassification(boolean forSpawnCount) {
-        return super.getClassification(forSpawnCount);
+        return forSpawnCount && countAsMonsterForSpawn ? MobCategory.MONSTER : super.getClassification(forSpawnCount);
     }
 
     @NotNull
