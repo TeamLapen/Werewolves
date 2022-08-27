@@ -77,6 +77,10 @@ public class WerewolvesCreativeTab {
         }
 
         private void addItems() {
+            addItem(SILVER_HELMET);
+            addItem(SILVER_CHESTPLATE);
+            addItem(SILVER_LEGGINGS);
+            addItem(SILVER_BOOTS);
             addItem(SILVER_SWORD);
             addItem(SILVER_PICKAXE);
             addItem(SILVER_AXE);

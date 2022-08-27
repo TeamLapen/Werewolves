@@ -14,6 +14,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
@@ -81,6 +82,11 @@ public class ModItems {
     public static final RegistryObject<WerewolfRefinementItem> BONE_NECKLACE = register("bone_necklace", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.AMULET));
     public static final RegistryObject<WerewolfRefinementItem> CHARM_BRACELET = register("charm_bracelet", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.RING));
     public static final RegistryObject<WerewolfRefinementItem> DREAM_CATCHER = register("dream_catcher", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.OBI_BELT));
+
+    public static final RegistryObject<SilverArmorItem> SILVER_HELMET = register("silver_helmet", () -> new SilverArmorItem(EquipmentSlot.HEAD, props()));
+    public static final RegistryObject<SilverArmorItem> SILVER_CHESTPLATE = register("silver_chestplate", () -> new SilverArmorItem(EquipmentSlot.CHEST, props()));
+    public static final RegistryObject<SilverArmorItem> SILVER_LEGGINGS = register("silver_leggings", () -> new SilverArmorItem(EquipmentSlot.LEGS, props()));
+    public static final RegistryObject<SilverArmorItem> SILVER_BOOTS = register("silver_boots", () -> new SilverArmorItem(EquipmentSlot.FEET, props()));
 
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
