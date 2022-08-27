@@ -112,6 +112,11 @@ public class RecipeGenerator extends RecipeProvider {
                 .ingredient(new NBTIngredient(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get().withOil(ModOils.SILVER_OIL_1.get()))).withCriterion("has_silver_oil_1", has(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()))
                 .input(Ingredient.of(ModTags.Items.SILVER_INGOT)).withCriterion("has_silver_ingot", has(ModTags.Items.SILVER_INGOT))
                 .build(consumer, modId("silver_oil_2"));
+
+        ShapedRecipeBuilder.shaped(ModItems.SILVER_HELMET.get()).define('X', silver_ingot).pattern("XXX").pattern("X X").unlockedBy("has_silver_ingot", has(silver_ingot)).save(consumer);
+        ShapedRecipeBuilder.shaped(ModItems.SILVER_CHESTPLATE.get()).define('X', silver_ingot).pattern("X X").pattern("XXX").pattern("XXX").unlockedBy("has_silver_ingot", has(silver_ingot)).save(consumer);
+        ShapedRecipeBuilder.shaped(ModItems.SILVER_LEGGINGS.get()).define('X', silver_ingot).pattern("XXX").pattern("X X").pattern("X X").unlockedBy("has_silver_ingot", has(silver_ingot)).save(consumer);
+        ShapedRecipeBuilder.shaped(ModItems.SILVER_BOOTS.get()).define('X', silver_ingot).pattern("X X").pattern("X X").unlockedBy("has_silver_ingot", has(silver_ingot)).save(consumer);
     }
 
     protected static void nineBlockStorageRecipes(Consumer<FinishedRecipe> p_176744_, ItemLike p_176745_, ItemLike p_176746_) {

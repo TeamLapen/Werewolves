@@ -46,7 +46,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void handleAttackTargetEventPacket(ClientboundAttackTargetEventPacket packet) {
+    public void handleAttackTargetEventPacket(@NotNull ClientboundAttackTargetEventPacket packet) {
         this.hudOverlay.attackTriggered(packet.entityId());
     }
 
