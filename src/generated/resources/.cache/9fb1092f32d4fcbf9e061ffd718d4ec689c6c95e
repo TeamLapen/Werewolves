@@ -1,9 +1,10 @@
-// 1.19.2	2022-08-27T15:18:32.497673519	Recipes
+// 1.19.2	2022-08-27T17:59:02.443219436	Recipes
 067b3bb366dc2dba41a057b1d1673354d59fbec5 data/minecraft/advancements/recipes/misc/bone.json
 705c3d3b84ffbcb033db699c06cb90c8f5d1a602 data/minecraft/advancements/recipes/misc/purple_dye.json
 45d0c8b366521bcfbc621b084ba64232ff17e084 data/minecraft/recipes/bone.json
 a4857463ae5fa3a88bb0f6186fcc5f93cfed5962 data/minecraft/recipes/purple_dye.json
 f2832dda0a319fa66130300b117d2ae2053be7fb data/werewolves/advancements/recipes/building_blocks/oak_planks.json
+1abb0d740d3a1656b6d014baef6942d24e48ec52 data/werewolves/advancements/recipes/misc/daffodil_yellow_dye.json
 f28d12d0e5884f783fef360f53548b5bd363b0ce data/werewolves/advancements/recipes/vampirism/alchemy_table/silver_oil_1.json
 ab7c453ad0410f76ec5b39bf3ba7216ea4b94e96 data/werewolves/advancements/recipes/vampirism/alchemy_table/silver_oil_2.json
 2c19b284990f5813738d627ec7ead99ccfc6c2ff data/werewolves/advancements/recipes/werewolves/magic_planks.json
@@ -35,6 +36,7 @@ a7b73bdd88c2000a3d1ad005442cc3b8ea3842f1 data/werewolves/advancements/recipes/we
 c98a699eab4355eb257ed97a90ba0f6c7d7b376b data/werewolves/advancements/recipes/werewolves/weapontable/crossbow_arrow_silver_bolt.json
 f469253099e5a282880d508b573ad5d6bea07023 data/werewolves/recipes/alchemy_table/silver_oil_1.json
 ad07d32b54c9582082656849e4c675deecc1c9f1 data/werewolves/recipes/alchemy_table/silver_oil_2.json
+705b13ab33417998b46f64cfbcc038a89bd17044 data/werewolves/recipes/daffodil_yellow_dye.json
 77acabc122ef9d3bb14ee5fc3b04117dfc9b2ebf data/werewolves/recipes/magic_planks.json
 50da14657a87122596d332d2d2bbb158723f4131 data/werewolves/recipes/oak_planks.json
 26fd4c6404f0a3b30f37f16039361f79f6fafad9 data/werewolves/recipes/raw_silver.json

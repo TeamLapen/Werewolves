@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -78,6 +79,8 @@ public class ModItems {
     public static final RegistryObject<SilverArmorItem> SILVER_CHESTPLATE = ITEMS.register("silver_chestplate", () -> new SilverArmorItem(EquipmentSlot.CHEST, new Item.Properties().tab(WUtils.creativeTab)));
     public static final RegistryObject<SilverArmorItem> SILVER_LEGGINGS = ITEMS.register("silver_leggings", () -> new SilverArmorItem(EquipmentSlot.LEGS, new Item.Properties().tab(WUtils.creativeTab)));
     public static final RegistryObject<SilverArmorItem> SILVER_BOOTS = ITEMS.register("silver_boots", () -> new SilverArmorItem(EquipmentSlot.FEET, new Item.Properties().tab(WUtils.creativeTab)));
+
+    public static final RegistryObject<Item> WOLF_BERRIES = ITEMS.register("wolf_berries", () -> new ItemNameBlockItem(ModBlocks.WOLF_BERRY_BUSH.get(), creativeTabProps().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).build())));
 
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");

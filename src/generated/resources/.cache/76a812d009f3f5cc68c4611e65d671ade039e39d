@@ -1,8 +1,9 @@
-// 1.19.2	2022-08-27T15:18:32.496309534	Werewolves item model generator
+// 1.19.2	2022-08-27T16:07:51.472939116	Werewolves item model generator
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/werewolves/models/item/alpha_werewolf_spawn_egg.json
 b334f7f07d9b2cbb66f04a4a8f03d406d5707451 assets/werewolves/models/item/bone_necklace.json
 8da051a3da17a32842854298631898440b64ecc9 assets/werewolves/models/item/charm_bracelet.json
 56f74d764068450caad00530cbec955e8353bb1c assets/werewolves/models/item/cracked_bone.json
+dc8a684078e93685e09784df34b19565c5d1f205 assets/werewolves/models/item/daffodil.json
 d8e29bdaa0245e55153c6c874ae044374288d52b assets/werewolves/models/item/deepslate_silver_ore.json
 5d7dc052650aab4648f3064983e282247ba07923 assets/werewolves/models/item/dream_catcher.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/werewolves/models/item/human_werewolf_spawn_egg.json
@@ -39,4 +40,5 @@ e6bcb02aba7333e597ea42e5812d04114c7da01a assets/werewolves/models/item/werewolf_
 a5392c477daf03fd29c864a18cf6c28de00ed54d assets/werewolves/models/item/werewolf_minion_upgrade_special.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/werewolves/models/item/werewolf_survivalist_spawn_egg.json
 1e9250c6322e8242aea9137fcbed3399180731dc assets/werewolves/models/item/werewolf_tooth.json
+7fc3630fb4f604a3d39cb3416f1791a3fc56beb5 assets/werewolves/models/item/wolf_berries.json
 0ccf2317075e6cf576236414ea6a0deecd3a41ac assets/werewolves/models/item/wolfsbane.json

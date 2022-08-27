@@ -1,4 +1,4 @@
-// 1.19.2	2022-08-21T17:16:53.111998399	Tags for minecraft:item
+// 1.19.2	2022-08-27T16:07:51.476345287	Tags for minecraft:item
 3b92cbad89873732893f67eb2321a4013cc462ef data/forge/tags/items/cookedmeats.json
 06c3c7d9464cdd187a2203934c936e6880f08a1d data/forge/tags/items/ingots/silver.json
 addb7d1902ac4e09d2c7b1c5b0f35c254e6e639b data/forge/tags/items/jacaranda_logs.json
@@ -14,4 +14,5 @@ dd8c8d21898bfc994fa6746067863516f0f015d8 data/minecraft/tags/items/leaves.json
 3761dc61c06288684a2b95d7813b73b3358fafbe data/minecraft/tags/items/logs.json
 48505b5a0877b2480e9da611676a4ea0544c0497 data/minecraft/tags/items/planks.json
 ac1665b5861d6b08aed525a6afc6a6b7599c1ee7 data/minecraft/tags/items/saplings.json
+4919e6d2759c60d301288d1752fea4a75956bec6 data/minecraft/tags/items/small_flowers.json
 0fd642cda6917d9937aaec180767917079977b3c data/werewolves/tags/items/tools/silver.json

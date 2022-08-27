@@ -54,11 +54,13 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModItems.SILVER_CHESTPLATE);
             add(ModItems.SILVER_LEGGINGS);
             add(ModItems.SILVER_BOOTS);
+            add(ModItems.WOLF_BERRIES);
         }};
         Set<Supplier<? extends Block>> blockLayer = new HashSet<>() {{
             add(ModBlocks.JACARANDA_SAPLING);
             add(ModBlocks.MAGIC_SAPLING);
             add(ModBlocks.WOLFSBANE);
+            add(ModBlocks.DAFFODIL);
         }};
         Set<Supplier<? extends Item>> itemsHandHeld = new HashSet<>() {{
             add(ModItems.SILVER_AXE);
