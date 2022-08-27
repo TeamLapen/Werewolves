@@ -52,9 +52,24 @@ public class ModTagsProvider {
             this.tag(Tags.Blocks.ORE_RATES_SINGULAR).add(ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModBlocks.SILVER_ORE.get());
             this.tag(ModTags.Blocks.STORAGE_BLOCKS_SILVER).add(ModBlocks.SILVER_BLOCK.get());
             this.tag(ModTags.Blocks.STORAGE_BLOCKS_RAW_SILVER).add(ModBlocks.RAW_SILVER_BLOCK.get());
-            this.tag(ModTags.Blocks.MAGIC_LOGS).add(ModBlocks.MAGIC_LOG.get());
-            this.tag(ModTags.Blocks.JACARANDA_LOGS).add(ModBlocks.JACARANDA_LOG.get());
+            this.tag(ModTags.Blocks.MAGIC_LOG).add(ModBlocks.MAGIC_LOG.get(), ModBlocks.STRIPPED_MAGIC_LOG.get(), ModBlocks.MAGIC_WOOD.get(), ModBlocks.STRIPPED_MAGIC_WOOD.get());
+            this.tag(ModTags.Blocks.JACARANDA_LOG).add(ModBlocks.JACARANDA_LOG.get(), ModBlocks.STRIPPED_JACARANDA_LOG.get(), ModBlocks.JACARANDA_WOOD.get(), ModBlocks.STRIPPED_JACARANDA_WOOD.get());
             this.tag(BlockTags.FLOWER_POTS).add(ModBlocks.POTTED_WOLFSBANE.get(), ModBlocks.POTTED_DAFFODIL.get());
+
+            tag(BlockTags.LEAVES).add(ModBlocks.JACARANDA_LEAVES.get(), ModBlocks.MAGIC_LEAVES.get());
+            tag(BlockTags.SAPLINGS).add(ModBlocks.JACARANDA_SAPLING.get(), ModBlocks.MAGIC_SAPLING.get());
+            tag(BlockTags.WOODEN_TRAPDOORS).add(ModBlocks.JACARANDA_TRAPDOOR.get(), ModBlocks.MAGIC_TRAPDOOR.get());
+            tag(BlockTags.WOODEN_DOORS).add(ModBlocks.JACARANDA_DOOR.get(), ModBlocks.MAGIC_DOOR.get());
+            tag(BlockTags.PLANKS).add(ModBlocks.JACARANDA_PLANKS.get(), ModBlocks.MAGIC_PLANKS.get());
+            tag(BlockTags.WOODEN_BUTTONS).add(ModBlocks.JACARANDA_BUTTON.get(), ModBlocks.MAGIC_BUTTON.get());
+            tag(BlockTags.WOODEN_STAIRS).add(ModBlocks.JACARANDA_STAIRS.get(), ModBlocks.MAGIC_STAIRS.get());
+            tag(BlockTags.WOODEN_SLABS).add(ModBlocks.JACARANDA_SLAB.get(), ModBlocks.MAGIC_SLAB.get());
+            tag(BlockTags.WOODEN_FENCES).add(ModBlocks.JACARANDA_FENCE.get(), ModBlocks.MAGIC_FENCE.get());
+            tag(BlockTags.LOGS_THAT_BURN).addTags(ModTags.Blocks.MAGIC_LOG, ModTags.Blocks.JACARANDA_LOG);
+            tag(BlockTags.LOGS).addTags(ModTags.Blocks.MAGIC_LOG, ModTags.Blocks.JACARANDA_LOG);
+            tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ModBlocks.JACARANDA_PRESSURE_PLACE.get(), ModBlocks.MAGIC_PRESSURE_PLACE.get());
+            tag(BlockTags.WOODEN_DOORS).add(ModBlocks.JACARANDA_DOOR.get(), ModBlocks.MAGIC_DOOR.get());
+            tag(BlockTags.WOODEN_TRAPDOORS).add(ModBlocks.JACARANDA_TRAPDOOR.get(), ModBlocks.MAGIC_TRAPDOOR.get());
         }
     }
 
@@ -68,13 +83,9 @@ public class ModTagsProvider {
             this.copy(ModTags.Blocks.SILVER_ORE, ModTags.Items.SILVER_ORE);
             this.copy(ModTags.Blocks.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER);
             this.copy(ModTags.Blocks.STORAGE_BLOCKS_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER);
-            this.copy(ModTags.Blocks.MAGIC_LOGS, ModTags.Items.MAGIC_LOGS);
-            this.copy(ModTags.Blocks.JACARANDA_LOGS, ModTags.Items.JACARANDA_LOGS);
+            this.copy(ModTags.Blocks.MAGIC_LOG, ModTags.Items.MAGIC_LOG);
+            this.copy(ModTags.Blocks.JACARANDA_LOG, ModTags.Items.JACARANDA_LOG);
             this.copy(Tags.Blocks.ORE_RATES_SINGULAR, Tags.Items.ORE_RATES_SINGULAR);
-            this.copy(BlockTags.PLANKS, ItemTags.PLANKS);
-            this.copy(BlockTags.LEAVES, ItemTags.LEAVES);
-            this.copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
-            this.copy(BlockTags.LOGS, ItemTags.LOGS);
             this.tag(ModTags.Items.SILVER_INGOT).add(ModItems.SILVER_INGOT.get());
             this.tag(ModTags.Items.SILVER_NUGGET).add(ModItems.SILVER_NUGGET.get());
             this.tag(ModTags.Items.RAWMEATS).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.LIVER.get(), ModItems.V.HUMAN_HEART.get(), ModItems.V.WEAK_HUMAN_HEART.get(), Items.SALMON, Items.TROPICAL_FISH, Items.COD);
@@ -82,6 +93,22 @@ public class ModTagsProvider {
             this.tag(ModTags.Items.SILVER_TOOL).add(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_SWORD.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get());
             this.tag(ModTags.Items.RAW_MATERIALS_SILVER).add(ModItems.RAW_SILVER.get());
             this.tag(ItemTags.SMALL_FLOWERS).add(ModBlocks.WOLFSBANE.get().asItem(), ModBlocks.DAFFODIL.get().asItem());
+
+            copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
+            copy(BlockTags.LOGS, ItemTags.LOGS);
+            copy(BlockTags.WOODEN_TRAPDOORS, ItemTags.WOODEN_TRAPDOORS);
+            copy(BlockTags.WOODEN_STAIRS, ItemTags.WOODEN_STAIRS);
+            copy(BlockTags.WOODEN_SLABS, ItemTags.WOODEN_SLABS);
+            copy(BlockTags.WOODEN_PRESSURE_PLATES, ItemTags.WOODEN_PRESSURE_PLATES);
+            copy(BlockTags.WOODEN_FENCES, ItemTags.WOODEN_FENCES);
+            copy(BlockTags.WOODEN_DOORS, ItemTags.WOODEN_DOORS);
+            copy(BlockTags.WOODEN_BUTTONS, ItemTags.WOODEN_BUTTONS);
+            copy(BlockTags.PLANKS, ItemTags.PLANKS);
+            copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
+            copy(BlockTags.LEAVES, ItemTags.LEAVES);
+
+            tag(ItemTags.BOATS).add(ModItems.JACARANDA_BOAT.get(), ModItems.MAGIC_BOAT.get());
+            tag(ItemTags.CHEST_BOATS).add(ModItems.JACARANDA_CHEST_BOAT.get(), ModItems.MAGIC_CHEST_BOAT.get());
         }
     }
 

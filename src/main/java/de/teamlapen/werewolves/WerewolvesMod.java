@@ -166,6 +166,7 @@ public class WerewolvesMod {
     }
 
     private void gatherData(final @NotNull GatherDataEvent event) {
+        ModBlockFamilies.init();
         setupAPI();
         DataGenerator generator = event.getGenerator();
         ModTagsProvider.addProvider(event);

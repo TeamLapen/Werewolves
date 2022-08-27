@@ -82,6 +82,13 @@ public class ModItems {
 
     public static final RegistryObject<Item> WOLF_BERRIES = ITEMS.register("wolf_berries", () -> new ItemNameBlockItem(ModBlocks.WOLF_BERRY_BUSH.get(), creativeTabProps().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).build())));
 
+    public static final RegistryObject<SignItem> JACARANDA_SIGN = ITEMS.register("jacaranda_sign", () -> new SignItem(creativeTabProps().stacksTo(16), ModBlocks.JACARANDA_SIGN.get(), ModBlocks.JACARANDA_WALL_SIGN.get()));
+    public static final RegistryObject<SignItem> MAGIC_SIGN = ITEMS.register("magic_sign", () -> new SignItem(creativeTabProps().stacksTo(16), ModBlocks.MAGIC_SIGN.get(), ModBlocks.MAGIC_WALL_SIGN.get()));
+    public static final RegistryObject<WerewolvesBoatItem> JACARANDA_BOAT = ITEMS.register("jacaranda_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, false, creativeTabProps().stacksTo(1)));
+    public static final RegistryObject<WerewolvesBoatItem> MAGIC_BOAT = ITEMS.register("magic_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, false, creativeTabProps().stacksTo(1)));
+    public static final RegistryObject<WerewolvesBoatItem> JACARANDA_CHEST_BOAT = ITEMS.register("jacaranda_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, true, creativeTabProps().stacksTo(1)));
+    public static final RegistryObject<WerewolvesBoatItem> MAGIC_CHEST_BOAT = ITEMS.register("magic_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, true, creativeTabProps().stacksTo(1)));
+
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
         public static final RegistryObject<Item> INJECTION_EMPTY = item("injection_empty");

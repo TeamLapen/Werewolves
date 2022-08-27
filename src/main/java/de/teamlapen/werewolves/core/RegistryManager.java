@@ -50,6 +50,7 @@ public class RegistryManager implements IInitListener {
                 ModEntities.registerSpawns();
                 WerewolvesBiomeFeatures.init();
                 event.enqueueWork(ModVillage::villageTradeSetup);
+                ModTiles.registerTileExtensionsUnsafe();
                 break;
             case LOAD_COMPLETE:
                 break;

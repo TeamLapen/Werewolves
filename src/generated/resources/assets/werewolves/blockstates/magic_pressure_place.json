@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "werewolves:block/magic_pressure_place"
+    },
+    "powered=true": {
+      "model": "werewolves:block/magic_pressure_place_down"
+    }
+  }
+}
