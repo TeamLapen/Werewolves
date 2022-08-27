@@ -14,8 +14,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity> {
@@ -26,7 +25,7 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity
     }
 
     @Override
-    public void render(@Nonnull StoneAltarBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(@NotNull StoneAltarBlockEntity tileEntityIn, float partialTicks, @NotNull PoseStack matrixStackIn, @NotNull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (!tileEntityIn.getItem(0).isEmpty()) {
             renderItem(tileEntityIn, matrixStackIn);
             matrixStackIn.translate(-0.5, 0, 0.5); // translate to final location
@@ -45,7 +44,7 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity
         }
     }
 
-    private void renderItem(@Nonnull StoneAltarBlockEntity tileEntityIn, @Nonnull PoseStack matrixStackIn) {
+    private void renderItem(@NotNull StoneAltarBlockEntity tileEntityIn, @NotNull PoseStack matrixStackIn) {
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5, 0.64, 0.5); // translate to middle
         matrixStackIn.scale(0.4f, 0.4f, 0.4f); // adjust item size

@@ -1,14 +1,14 @@
 package de.teamlapen.werewolves.api.entities;
 
 import de.teamlapen.vampirism.api.entity.IEntityLeader;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public interface IEntityFollower {
 
-    @Nonnull
+    @NotNull
     Optional<IEntityLeader> getLeader();
 
     void setLeader(@Nullable IEntityLeader leader);

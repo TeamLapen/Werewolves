@@ -17,8 +17,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -93,7 +93,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
     }
 
     @Override
-    protected void setupRotations(@Nonnull T entityLiving, @Nonnull PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void setupRotations(@NotNull T entityLiving, @NotNull PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
         super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
         if (entityLiving.getSwimAmount(partialTicks) > 0.0F && this.form.isHumanLike()) {
             float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.getXRot() : -90.0F;
@@ -105,13 +105,13 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public ResourceLocation getTextureLocation(@Nonnull T entity) {
+    public ResourceLocation getTextureLocation(@NotNull T entity) {
         return this.textures.get(Helper.asIWerewolf(entity).getSkinType(this.form) % this.form.getSkinTypes());
     }
 
-    @Nonnull
+    @NotNull
     public static List<ResourceLocation> getBeastTextures() {
         List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.BEAST.getSkinTypes()) {
@@ -126,7 +126,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
         return locs;
     }
 
-    @Nonnull
+    @NotNull
     public static List<ResourceLocation> getSurvivalTextures() {
         List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/survivalist", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.SURVIVALIST.getSkinTypes()) {
@@ -141,7 +141,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
         return locs;
     }
 
-    @Nonnull
+    @NotNull
     public static List<ResourceLocation> getHumanTextures() {
         List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/human", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.HUMAN.getSkinTypes()) {

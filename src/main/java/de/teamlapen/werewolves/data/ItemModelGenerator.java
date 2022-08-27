@@ -12,8 +12,8 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -81,7 +81,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         this.item(ModItems.RAW_SILVER.get());
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String getName() {
         return "Werewolves item model generator";
@@ -113,17 +113,17 @@ public class ItemModelGenerator extends ItemModelProvider {
         return item(RegUtil.id(item).getPath(), texture);
     }
 
-    @Nonnull
+    @NotNull
     public ItemModelBuilder withExistingParent(Item name, ResourceLocation parent) {
         return super.withExistingParent(RegUtil.id(name).getPath(), parent);
     }
 
-    @Nonnull
+    @NotNull
     public ItemModelBuilder withExistingParent(Item name, Item parent) {
         return this.withExistingParent(name, RegUtil.id(parent));
     }
 
-    @Nonnull
+    @NotNull
     public ItemModelBuilder withExistingParent(Block name, ResourceLocation parent) {
         return super.withExistingParent(RegUtil.id(name).getPath(), parent);
     }

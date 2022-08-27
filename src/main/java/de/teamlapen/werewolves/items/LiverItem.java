@@ -11,17 +11,16 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class LiverItem extends Item {
     public LiverItem() {
         super(new Item.Properties().tab(WUtils.creativeTab).food(new FoodProperties.Builder().meat().nutrition(10).saturationMod(1.5f).build()));
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public ItemStack finishUsingItem(@Nonnull ItemStack stack, @Nonnull Level worldIn, @Nonnull LivingEntity entityLiving) {
+    public ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level worldIn, @NotNull LivingEntity entityLiving) {
         //copied from VampirismItemBloodFood
         assert stack.getItem().getFoodProperties() != null;
         if (entityLiving instanceof Player player) {

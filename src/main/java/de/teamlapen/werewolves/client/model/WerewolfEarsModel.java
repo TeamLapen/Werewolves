@@ -8,9 +8,8 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * WerewolfEarsModel - RebelT
@@ -77,20 +76,20 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
         return this.clawsRight;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     protected Iterable<ModelPart> headParts() {
         return ImmutableList.of(this.dummyHead);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     protected Iterable<ModelPart> bodyParts() {
         return ImmutableList.of(this.rightArm, this.leftArm);
     }
 
     @Override
-    public void setupAnim(@Nonnull T p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
+    public void setupAnim(@NotNull T p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
         this.dummyHead.copyFrom(this.playerModel.head);
         this.rightArm.copyFrom(this.playerModel.rightArm);
         this.leftArm.copyFrom(this.playerModel.leftArm);

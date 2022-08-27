@@ -19,9 +19,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import org.apache.commons.lang3.tuple.Pair;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
 
@@ -58,7 +57,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     }
 
     @Override
-    public void resize(@Nonnull Minecraft minecraft, int width, int height) {
+    public void resize(@NotNull Minecraft minecraft, int width, int height) {
         updateServer();
         WerewolfForm form = this.activeForm;
         super.resize(minecraft, width, height);
@@ -152,7 +151,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     }
 
     @Override
-    public void render(@Nonnull PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull PoseStack stack, int mouseX, int mouseY, float partialTicks) {
         this.renderForm = true;
         super.render(stack, mouseX, mouseY, partialTicks);
         this.eyeList.render(stack, mouseX, mouseY, partialTicks);

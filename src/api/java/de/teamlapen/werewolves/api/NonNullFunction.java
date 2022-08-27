@@ -1,11 +1,12 @@
 package de.teamlapen.werewolves.api;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.function.Function;
 
 public interface NonNullFunction<T, R> extends Function<T, R> {
 
-    @Nonnull
+    @NotNull
     @Override
     R apply(T t);
 }

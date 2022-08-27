@@ -11,8 +11,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfEntityFaceOverlayLayer<T extends WerewolfBaseEntity, M extends WerewolfBaseModel<T>> extends RenderLayer<T, M> {
 
@@ -27,7 +26,7 @@ public class WerewolfEntityFaceOverlayLayer<T extends WerewolfBaseEntity, M exte
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull WerewolfBaseEntity werewolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@NotNull PoseStack matrixStack, @NotNull MultiBufferSource bufferIn, int packedLightIn, @NotNull WerewolfBaseEntity werewolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         int s = werewolf.getEyeType();
         int eyeType = Math.max(0, s) % (eyeOverlays.length);
         RenderType renderType = RenderType.eyes(eyeOverlays[eyeType]);

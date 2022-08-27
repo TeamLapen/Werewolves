@@ -10,8 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.extensions.common.IClientMobEffectExtensions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
 public class UnWerewolfEffect extends WerewolvesEffect {
@@ -22,7 +22,7 @@ public class UnWerewolfEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    public void applyEffectTick(@NotNull LivingEntity entityLivingBaseIn, int amplifier) {
         if (!entityLivingBaseIn.getCommandSenderWorld().isClientSide()) {
             if (entityLivingBaseIn instanceof Player player) {
                 if (Helper.isWerewolf(player)) {

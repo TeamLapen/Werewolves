@@ -30,9 +30,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.level.block.CampfireBlock.makeParticles;
 
@@ -56,15 +55,15 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
         return Shapes.or(a, b, c);
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public InteractionResult use(BlockState state, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand handIn, @Nonnull BlockHitResult p_225533_6_) {
+    public InteractionResult use(BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand handIn, @NotNull BlockHitResult p_225533_6_) {
         if (!state.getValue(LIT)) {
             ItemStack stack = player.getItemInHand(handIn);
             if (stack.getItem() == Items.TORCH || stack.getItem() == Items.SOUL_TORCH) {
@@ -82,7 +81,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
         builder.add(LIT).add(WATERLOGGED).add(SOUL_FIRE).add(FACING).add(BlockStateProperties.SIGNAL_FIRE);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
@@ -94,7 +93,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
     }
 
     @Override
-    public boolean placeLiquid(@Nonnull LevelAccessor world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull FluidState fluid) {
+    public boolean placeLiquid(@NotNull LevelAccessor world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull FluidState fluid) {
         if (SimpleWaterloggedBlock.super.placeLiquid(world, pos, state, fluid)) {
             if (state.getValue(LIT)) {
                 world.setBlock(pos, state.setValue(LIT, false), 3);
@@ -111,7 +110,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+    public void animateTick(BlockState stateIn, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull RandomSource rand) {
         if (stateIn.getValue(LIT)) {
             double d0 = (double) pos.getX() + rand.nextDouble();
             double d1 = (double) pos.getY() + rand.nextDouble() + 0.7D;

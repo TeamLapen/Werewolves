@@ -10,8 +10,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class HumanWerewolfRenderer extends MobRenderer<HumanWerewolfEntity, PlayerModel<HumanWerewolfEntity>> {
@@ -27,9 +26,9 @@ public class HumanWerewolfRenderer extends MobRenderer<HumanWerewolfEntity, Play
         return this.textures[entityId % textures.length];
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public ResourceLocation getTextureLocation(@Nonnull HumanWerewolfEntity entity) {
+    public ResourceLocation getTextureLocation(@NotNull HumanWerewolfEntity entity) {
         return this.getHumanTexture(entity.getSkinType());
     }
 }

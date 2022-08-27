@@ -5,8 +5,8 @@ import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public interface WerewolfTransformable extends IWerewolfDataholder {
@@ -41,7 +41,7 @@ public interface WerewolfTransformable extends IWerewolfDataholder {
 
     boolean canTransform();
 
-    @Nonnull
+    @NotNull
     WerewolfForm getForm();
 
     EntityClassType getEntityClass();

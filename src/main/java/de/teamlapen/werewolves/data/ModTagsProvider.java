@@ -20,8 +20,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-
 public class ModTagsProvider {
 
     public static void addProvider(GatherDataEvent event) {
@@ -108,7 +106,7 @@ public class ModTagsProvider {
             this.tag(Tags.Biomes.IS_MAGICAL).add(ModBiomes.WEREWOLF_HEAVEN.get());
         }
 
-        @Nonnull
+        @NotNull
         @Override
         public String getName() {
             return "Werewolves " + super.getName();

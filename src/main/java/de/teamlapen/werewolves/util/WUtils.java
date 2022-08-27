@@ -12,14 +12,13 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import net.minecraftforge.common.ForgeTier;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class WUtils {
     public static final BooleanProperty SOUL_FIRE = BooleanProperty.create("soulfire");
     public static final ObjectiveCriteria WEREWOLF_LEVEL_CRITERIA = ObjectiveCriteriaAccessor.registerCustom("werewolves:werewolf");
     public static final CreativeModeTab creativeTab = new CreativeModeTab(REFERENCE.MODID) {
-        @Nonnull
+        @NotNull
         @Override
         public ItemStack makeIcon() {
             return ModItems.LIVER.get().getDefaultInstance();

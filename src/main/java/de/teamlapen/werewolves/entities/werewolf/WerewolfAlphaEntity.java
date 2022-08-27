@@ -34,9 +34,8 @@ import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolfAlpha {
     public static final int MAX_LEVEL = 4;
@@ -62,7 +61,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag nbt) {
+    public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("level", getEntityLevel());
     }
@@ -129,7 +128,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public boolean wasKilled(@Nonnull ServerLevel p_241847_1_, @Nonnull LivingEntity p_241847_2_) {
+    public boolean wasKilled(@NotNull ServerLevel p_241847_1_, @NotNull LivingEntity p_241847_2_) {
         super.wasKilled(p_241847_1_, p_241847_2_);
         if (p_241847_2_ instanceof WerewolfAlphaEntity) {
             this.setHealth(this.getMaxHealth());
@@ -138,7 +137,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag nbt) {
+    public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
         setEntityLevel(nbt.getInt("level"));
     }
@@ -208,7 +207,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
         return false;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public WerewolfForm getForm() {
         return WerewolfForm.BEAST4L;

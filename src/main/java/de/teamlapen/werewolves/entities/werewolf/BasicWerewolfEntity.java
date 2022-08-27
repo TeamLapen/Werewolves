@@ -65,9 +65,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IEntityActionUser, IVillageCaptureEntity, IEntityFollower {
@@ -102,9 +102,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.xpReward = 3;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public EntityDimensions getDimensions(@Nonnull Pose poseIn) {
+    public EntityDimensions getDimensions(@NotNull Pose poseIn) {
         return this.werewolfForm.getSize(poseIn).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(poseIn));
     }
 
@@ -113,7 +113,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         return super.isPersistenceRequired() || this.transformed != null;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public WerewolfForm getForm() {
         return werewolfForm;
@@ -186,7 +186,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag nbt) {
+    public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
         if (nbt.contains("level")) {
             this.setEntityLevel(nbt.getInt("level"));
@@ -225,7 +225,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag nbt) {
+    public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("transformedDuration", this.transformedDuration);
         if (this.entityActionHandler != null) {
@@ -252,7 +252,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public boolean hurt(@Nonnull DamageSource source, float amount) {
+    public boolean hurt(@NotNull DamageSource source, float amount) {
         if (this.transformType == TransformType.TIME_LIMITED) {
             this.transformedDuration = WerewolvesConfig.BALANCE.MOBPROPS.werewolf_transform_duration.get() * 20;
         }
@@ -281,9 +281,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    protected InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
+    protected InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
         int werewolfLevel = WerewolfPlayer.getOpt(player).map(FactionBasePlayer::getLevel).orElse(0);
         if (werewolfLevel > 0) {
             FactionPlayerHandler.getOpt(player).ifPresent(fph -> {
@@ -473,7 +473,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.getEntityData().define(EYETYPE, -1);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Optional<IEntityLeader> getLeader() {
         return Optional.ofNullable(this.entityLeader);
@@ -490,7 +490,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
 
         @Override
-        public void die(@Nonnull DamageSource cause) {
+        public void die(@NotNull DamageSource cause) {
             if (this.villageAttributes == null) {
                 BadOmenEffect.handlePotentialBannerKill(cause.getEntity(), this);
             }
@@ -499,7 +499,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
         @Nullable
         @Override
-        public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag nbt) {
+        public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor world, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag nbt) {
             if (!(reason == MobSpawnType.SPAWN_EGG || reason == MobSpawnType.BUCKET || reason == MobSpawnType.CONVERSION || reason == MobSpawnType.COMMAND) && this.getRandom().nextInt(50) == 0) {
                 this.setItemSlot(EquipmentSlot.HEAD, WerewolfVillageData.createBanner());
             }

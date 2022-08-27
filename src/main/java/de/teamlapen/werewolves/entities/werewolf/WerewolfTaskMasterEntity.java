@@ -31,9 +31,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDefaultTaskMasterEntity {
@@ -91,15 +91,15 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor worldIn, @Nonnull DifficultyInstance difficultyIn, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor worldIn, @NotNull DifficultyInstance difficultyIn, @NotNull MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         this.setBiomeType(VillagerType.byBiome(worldIn.getBiome(this.blockPosition())));
         return data;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    protected InteractionResult mobInteract(@Nonnull Player playerEntity, @Nonnull InteractionHand hand) {
+    protected InteractionResult mobInteract(@NotNull Player playerEntity, @NotNull InteractionHand hand) {
         if (!this.level.isClientSide) {
             if (Helper.isWerewolf(playerEntity) && this.interactor == null && this.processInteraction(playerEntity, this)) {
                 this.getNavigation().stop();
@@ -110,7 +110,7 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
         return InteractionResult.SUCCESS;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Optional<Player> getForceLookTarget() {
         return Optional.ofNullable(this.interactor);
@@ -126,7 +126,7 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
         this.entityData.set(BIOME_TYPE, Registry.VILLAGER_TYPE.getKey(type).toString());
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public WerewolfForm getForm() {
         return WerewolfForm.NONE;

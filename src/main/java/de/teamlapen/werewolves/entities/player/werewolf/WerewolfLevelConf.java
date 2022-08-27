@@ -1,16 +1,17 @@
 package de.teamlapen.werewolves.entities.player.werewolf;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class WerewolfLevelConf {
 
-    @Nonnull
+    @NotNull
     private static final WerewolfLevelConf INSTANCE = new WerewolfLevelConf();
-    @Nonnull
+    @NotNull
     private final Map<Integer, LevelRequirement> levelRequirementMap = new HashMap<>();
 
     public WerewolfLevelConf() {
@@ -38,7 +39,7 @@ public class WerewolfLevelConf {
         return levelRequirementMap.get(level);
     }
 
-    @Nonnull
+    @NotNull
     public Optional<LevelRequirement> getRequirementOpt(int level) {
         return Optional.ofNullable(getRequirement(level));
     }

@@ -2,8 +2,7 @@ package de.teamlapen.werewolves.entities.player.werewolf;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class LevelHandler {
 
@@ -22,13 +21,13 @@ public class LevelHandler {
         return Mth.clamp((float) this.levelProgress / getNeededProgress(), 0, 1);
     }
 
-    public void saveToNbt(@Nonnull CompoundTag compound) {
+    public void saveToNbt(@NotNull CompoundTag compound) {
         CompoundTag nbt = new CompoundTag();
         nbt.putInt("progress", levelProgress);
         compound.put("level", nbt);
     }
 
-    public void loadFromNbt(@Nonnull CompoundTag compound) {
+    public void loadFromNbt(@NotNull CompoundTag compound) {
         if (compound.contains("level")) {
             this.levelProgress = compound.getCompound("level").getInt("progress");
         }

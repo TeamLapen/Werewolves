@@ -57,9 +57,9 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -79,11 +79,11 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
-    public static WerewolfPlayer get(@Nonnull Player playerEntity) {
+    public static WerewolfPlayer get(@NotNull Player playerEntity) {
         return (WerewolfPlayer) playerEntity.getCapability(CAP).orElseThrow(() -> new IllegalStateException("Cannot get werewolf player capability from player" + playerEntity));
     }
 
-    public static LazyOptional<WerewolfPlayer> getOpt(@Nonnull Player playerEntity) {
+    public static LazyOptional<WerewolfPlayer> getOpt(@NotNull Player playerEntity) {
         LazyOptional<WerewolfPlayer> opt = playerEntity.getCapability(CAP).cast();
         if (!opt.isPresent()) {
             LOGGER.warn("Cannot get Werewolf player capability. This might break mod functionality.", new Throwable().fillInStackTrace());
@@ -103,31 +103,31 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     //-- player --------------------------------------------------------------------------------------------------------
 
-    @Nonnull
+    @NotNull
     private final ActionHandler<IWerewolfPlayer> actionHandler;
-    @Nonnull
+    @NotNull
     private final SkillHandler<IWerewolfPlayer> skillHandler;
-    @Nonnull
+    @NotNull
     private final WerewolfPlayerSpecialAttributes specialAttributes = new WerewolfPlayerSpecialAttributes();
-    @Nonnull
+    @NotNull
     private WerewolfForm form = WerewolfForm.NONE;
     @Nullable
     private WerewolfFormAction lastFormAction;
-    @Nonnull
+    @NotNull
     private final LevelHandler levelHandler = new LevelHandler(this);
     private boolean checkArmorModifer;
     private final Map<WerewolfForm, Integer> eyeType = new HashMap<>();
     private final Map<WerewolfForm, Integer> skinType = new HashMap<>();
     private final Map<WerewolfForm, Boolean> glowingEyes = new HashMap<>();
 
-    public WerewolfPlayer(@Nonnull Player player) {
+    public WerewolfPlayer(@NotNull Player player) {
         super(player);
         this.actionHandler = new ActionHandler<>(this);
         this.skillHandler = new SkillHandler<>(this, WReference.WEREWOLF_FACTION);
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public WerewolfForm getForm() {
         return this.form;
     }
@@ -190,7 +190,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     }
 
-    @Nonnull
+    @NotNull
     public WerewolfPlayerSpecialAttributes getSpecialAttributes() {
         return specialAttributes;
     }
@@ -367,7 +367,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.actionHandler.deactivateAllActions();
     }
 
-    @Nonnull
+    @NotNull
     public LevelHandler getLevelHandler() {
         return levelHandler;
     }
@@ -514,7 +514,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return null;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public IPlayableFaction<IWerewolfPlayer> getFaction() {
         return WReference.WEREWOLF_FACTION;
@@ -673,9 +673,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             final WerewolfPlayer inst = new WerewolfPlayer(player);
             final LazyOptional<IWerewolfPlayer> opt = LazyOptional.of(() -> inst);
 
-            @Nonnull
+            @NotNull
             @Override
-            public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+            public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
                 return CAP.orEmpty(cap, opt);
             }
 

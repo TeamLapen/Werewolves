@@ -11,8 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEntity, VillagerModel<WerewolfTaskMasterEntity>> {
@@ -24,14 +23,14 @@ public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEn
         this.addLayer(new TaskMasterTypeLayer<>(this, overlay));
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public ResourceLocation getTextureLocation(@Nonnull WerewolfTaskMasterEntity entity) {
+    public ResourceLocation getTextureLocation(@NotNull WerewolfTaskMasterEntity entity) {
         return texture;
     }
 
     @Override
-    protected void renderNameTag(@Nonnull WerewolfTaskMasterEntity entityIn, @Nonnull Component displayNameIn, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn) {
+    protected void renderNameTag(@NotNull WerewolfTaskMasterEntity entityIn, @NotNull Component displayNameIn, @NotNull PoseStack matrixStackIn, @NotNull MultiBufferSource bufferIn, int packedLightIn) {
         double dist = this.entityRenderDispatcher.distanceToSqr(entityIn);
         if (dist <= 128) {
             super.renderNameTag(entityIn, displayNameIn, matrixStackIn, bufferIn, packedLightIn);

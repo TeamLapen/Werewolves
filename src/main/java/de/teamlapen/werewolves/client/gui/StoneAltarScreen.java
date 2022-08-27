@@ -11,8 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class StoneAltarScreen extends AbstractContainerScreen<StoneAltarContainer> {
@@ -25,14 +24,14 @@ public class StoneAltarScreen extends AbstractContainerScreen<StoneAltarContaine
     }
 
     @Override
-    public void render(@Nonnull PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull PoseStack stack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(stack);
         super.render(stack, mouseX, mouseY, partialTicks);
         this.renderTooltip(stack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(@Nonnull PoseStack stack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@NotNull PoseStack stack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, altarGuiTextures);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

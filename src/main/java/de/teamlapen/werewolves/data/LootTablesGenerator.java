@@ -29,8 +29,8 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -46,7 +46,7 @@ public class LootTablesGenerator extends LootTableProvider {
         super(dataGeneratorIn);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
         return ImmutableList.of(
@@ -58,7 +58,7 @@ public class LootTablesGenerator extends LootTableProvider {
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, @Nonnull ValidationContext validationtracker) {
+    protected void validate(Map<ResourceLocation, LootTable> map, @NotNull ValidationContext validationtracker) {
         map.forEach((resourceLocation, lootTable) -> LootTables.validate(validationtracker, resourceLocation, lootTable));
     }
 
@@ -89,7 +89,7 @@ public class LootTablesGenerator extends LootTableProvider {
             });
         }
 
-        @Nonnull
+        @NotNull
         @Override
         protected Iterable<Block> getKnownBlocks() {
             return ModBlocks.getAllBlocks();
@@ -164,7 +164,7 @@ public class LootTablesGenerator extends LootTableProvider {
             );
         }
 
-        @Nonnull
+        @NotNull
         @Override
         protected Iterable<EntityType<?>> getKnownEntities() {
             return ModEntities.getAllEntities();

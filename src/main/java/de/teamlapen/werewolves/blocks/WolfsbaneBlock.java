@@ -12,8 +12,7 @@ import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class WolfsbaneBlock extends FlowerBlock {
     public WolfsbaneBlock() {
@@ -21,7 +20,7 @@ public class WolfsbaneBlock extends FlowerBlock {
     }
 
     @Override
-    public void entityInside(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, @Nonnull Entity entityIn) {
+    public void entityInside(@NotNull BlockState state, Level worldIn, @NotNull BlockPos pos, @NotNull Entity entityIn) {
         if (!worldIn.isClientSide && worldIn.getDifficulty() != Difficulty.PEACEFUL) {
             if (entityIn instanceof LivingEntity livingentity && Helper.isWerewolf(entityIn)) {
                 livingentity.addEffect(SilverEffect.createEffect(livingentity, 40));

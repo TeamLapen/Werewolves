@@ -14,8 +14,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob {
 
@@ -43,7 +42,7 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
         return super.getClassification(forSpawnCount);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public IFaction<?> getFaction() {
         return WReference.WEREWOLF_FACTION;

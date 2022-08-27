@@ -19,8 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientPlayer> {
@@ -38,7 +37,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         this.skipPlayerModel = getWrapper(type).skipPlayerModel();
     }
 
-    private void setModelVisible(@Nonnull AbstractClientPlayer clientPlayer) {
+    private void setModelVisible(@NotNull AbstractClientPlayer clientPlayer) {
         WerewolfBaseModel<AbstractClientPlayer> playerModel = this.getModel();
         if (clientPlayer.isSpectator()) {
             playerModel.setAllVisible(false);
@@ -92,7 +91,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         return !form.isHumanLike();
     }
 
-    private boolean shouldRenderArm(HumanoidArm armSide, @Nonnull AbstractClientPlayer player) {
+    private boolean shouldRenderArm(HumanoidArm armSide, @NotNull AbstractClientPlayer player) {
         HumanoidArm side = player.getMainArm();
         ItemStack mainStack = player.getItemInHand(InteractionHand.MAIN_HAND);
         ItemStack offStack = player.getItemInHand(InteractionHand.OFF_HAND);
@@ -104,7 +103,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
         }
     }
 
-    private void renderItem(PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn, @Nonnull ModelPart rendererArmIn) {
+    private void renderItem(PoseStack matrixStackIn, @NotNull MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn, @NotNull ModelPart rendererArmIn) {
         WerewolfBaseModel<AbstractClientPlayer> model = this.getModel();
         this.setModelVisible(playerIn);
         model.attackTime = 0F;
@@ -119,7 +118,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
     /**
      * @return if the player model should be renderer
      */
-    public boolean render(@Nonnull WerewolfPlayer entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+    public boolean render(@NotNull WerewolfPlayer entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         WerewolfForm form = entity.getForm();
         if (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen) {
             form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).getActiveForm();
@@ -146,7 +145,7 @@ public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientP
      */
     @Deprecated
     @Override
-    public void render(@Nonnull AbstractClientPlayer entity, float entityYaw, float partialTicks, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn) {
+    public void render(@NotNull AbstractClientPlayer entity, float entityYaw, float partialTicks, @NotNull PoseStack matrixStackIn, @NotNull MultiBufferSource bufferIn, int packedLightIn) {
         if (!entity.isLocalPlayer() || this.entityRenderDispatcher.camera.getEntity() == entity) {
             this.setModelVisible(entity);
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

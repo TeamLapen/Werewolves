@@ -11,9 +11,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Model made by Rebel
@@ -186,20 +185,20 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         return this.armRight2;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     protected Iterable<ModelPart> bodyParts() {
         return ImmutableList.of(this.body);
     }
 
     @Override
-    public void renderToBuffer(@Nonnull PoseStack matrixStackIn, @Nonnull VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack matrixStackIn, @NotNull VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     @SuppressWarnings("DuplicatedCode")
     @Override
-    public void setupAnim(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         boolean flag1 = entityIn.isVisuallySwimming();
         this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
         if (this.swimAmount > 0.0f) {

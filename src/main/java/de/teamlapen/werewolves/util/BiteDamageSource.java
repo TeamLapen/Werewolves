@@ -2,8 +2,7 @@ package de.teamlapen.werewolves.util;
 
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class BiteDamageSource extends EntityDamageSource {
 

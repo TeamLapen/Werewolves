@@ -3,9 +3,9 @@ package de.teamlapen.werewolves.api.entities.werewolf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class WerewolfForm {
@@ -16,7 +16,7 @@ public class WerewolfForm {
     public static final WerewolfForm BEAST4L = new WerewolfForm("beast4l", WerewolfSize.BEAST, false, true, 8, 0.3F);
     public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true, 8, 0.3F);
 
-    @Nonnull
+    @NotNull
     private final String name;
     @Nullable
     private final Map<Pose, EntityDimensions> sizeMap;
@@ -26,7 +26,7 @@ public class WerewolfForm {
     private final Component textComponent;
     private final float damageReduction;
 
-    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, float damageReduction) {
+    WerewolfForm(@NotNull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, float damageReduction) {
         if (REGISTRY.containsKey(name)) throw new IllegalStateException("this name already exists");
         REGISTRY.put(name, this);
         if (sizeMap == null) {
@@ -56,7 +56,7 @@ public class WerewolfForm {
         return damageReduction;
     }
 
-    @Nonnull
+    @NotNull
     public String getName() {
         return name;
     }

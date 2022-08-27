@@ -38,9 +38,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -152,7 +152,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     }
 
     @Override
-    public void setItem(int slot, @Nonnull ItemStack stack) {
+    public void setItem(int slot, @NotNull ItemStack stack) {
         super.setItem(slot, stack);
         BlockState state = this.level.getBlockState(worldPosition);
         this.level.sendBlockUpdated(getBlockPos(), state, state, 3); //Notify client about started ritual
@@ -251,15 +251,15 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
         return Helper.getMissingItems(this, new Item[]{ModItems.LIVER.get(), ModItems.CRACKED_BONE.get()}, new int[]{req.liverAmount, req.bonesAmount});
     }
 
-    @Nonnull
+    @NotNull
     @Override
     protected Component getDefaultName() {
         return NAME;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    protected AbstractContainerMenu createMenu(int id, @Nonnull Inventory playerInventory) {
+    protected AbstractContainerMenu createMenu(int id, @NotNull Inventory playerInventory) {
         return new StoneAltarContainer(id, playerInventory, this, this.level == null ? ContainerLevelAccess.NULL : ContainerLevelAccess.create(this.level, this.worldPosition));
     }
 
@@ -269,7 +269,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
@@ -292,7 +292,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     }
 
     @Override
-    public void load(@Nonnull CompoundTag tagCompound) {
+    public void load(@NotNull CompoundTag tagCompound) {
         super.load(tagCompound);
         if (tagCompound.hasUUID("player")) {
             UUID playerUuid = tagCompound.getUUID("player");

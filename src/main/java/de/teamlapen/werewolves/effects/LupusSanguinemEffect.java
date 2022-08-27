@@ -9,8 +9,8 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.extensions.common.IClientMobEffectExtensions;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
 public class LupusSanguinemEffect extends WerewolvesEffect {
@@ -21,13 +21,13 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
         super(REG_NAME, MobEffectCategory.HARMFUL, 0xe012ef);
     }
 
-    public static void addSanguinemEffectRandom(@Nonnull LivingEntity entity, float percentage) {
+    public static void addSanguinemEffectRandom(@NotNull LivingEntity entity, float percentage) {
         if (entity.getRandom().nextFloat() < percentage) {
             addSanguinemEffect(entity);
         }
     }
 
-    public static void addSanguinemEffect(@Nonnull LivingEntity entity) {
+    public static void addSanguinemEffect(@NotNull LivingEntity entity) {
         boolean canBecomeWerewolf = false; //TODO other entities
         if (entity instanceof Player) {
             canBecomeWerewolf = Helper.canBecomeWerewolf(((Player) entity));
@@ -38,7 +38,7 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    public void applyEffectTick(@NotNull LivingEntity entityLivingBaseIn, int amplifier) {
         if (entityLivingBaseIn instanceof Player) {
             FactionPlayerHandler.getOpt((Player) entityLivingBaseIn).ifPresent(player -> player.joinFaction(WReference.WEREWOLF_FACTION));
         }

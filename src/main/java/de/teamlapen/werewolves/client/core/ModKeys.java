@@ -21,9 +21,9 @@ import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
-import javax.annotation.Nonnull;
 import java.util.Optional;
 
 public class ModKeys {
@@ -38,7 +38,7 @@ public class ModKeys {
         MinecraftForge.EVENT_BUS.register(new ModKeys(clientEventHandler));
     }
 
-    static void registerKeyMapping(@Nonnull RegisterKeyMappingsEvent event){
+    static void registerKeyMapping(@NotNull RegisterKeyMappingsEvent event){
         event.register(LEAP);
         event.register(BITE);
     }

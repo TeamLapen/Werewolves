@@ -13,8 +13,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMinionEntity> {
 

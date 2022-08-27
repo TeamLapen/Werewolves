@@ -17,7 +17,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,7 +33,7 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         if (desc) setHasDefaultDescription();
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Optional<IPlayableFaction<?>> getFaction() {
         return Optional.of(WReference.WEREWOLF_FACTION);

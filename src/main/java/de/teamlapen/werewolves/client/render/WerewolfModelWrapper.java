@@ -4,8 +4,8 @@ import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,12 +28,12 @@ public record WerewolfModelWrapper<T extends LivingEntity>(WerewolfBaseModel<T> 
             return this;
         }
 
-        public Builder<T> layers(@Nonnull Collection<RenderLayer<T, WerewolfBaseModel<T>>> function) {
+        public Builder<T> layers(@NotNull Collection<RenderLayer<T, WerewolfBaseModel<T>>> function) {
             this.layers = function;
             return this;
         }
 
-        public Builder<T> textures(@Nonnull List<ResourceLocation> textures) {
+        public Builder<T> textures(@NotNull List<ResourceLocation> textures) {
             this.textures = textures;
             return this;
         }

@@ -5,8 +5,8 @@ import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
 import de.teamlapen.vampirism.entity.player.refinements.RefinementSet;
 import de.teamlapen.werewolves.api.WReference;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Set;
 
 public class WerewolfRefinementSet extends RefinementSet {
@@ -20,7 +20,7 @@ public class WerewolfRefinementSet extends RefinementSet {
         super(rarity, color, refinements);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public IFaction<?> getFaction() {
         return WReference.WEREWOLF_FACTION;

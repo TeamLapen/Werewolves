@@ -6,8 +6,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -22,7 +22,7 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance impleme
         this.setCurativeItems(Collections.emptyList());
     }
 
-    public boolean update(@Nonnull MobEffectInstance other) {
+    public boolean update(@NotNull MobEffectInstance other) {
         return false;
     }
 
@@ -30,7 +30,7 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance impleme
         return other == this;
     }
 
-    @Nonnull
+    @NotNull
     public String getDescriptionId() {
         return "effect.werewolves.night_vision";
     }
@@ -39,18 +39,18 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance impleme
         return true;
     }
 
-    public void applyEffect(@Nonnull LivingEntity entityIn) {
+    public void applyEffect(@NotNull LivingEntity entityIn) {
     }
 
-    public boolean tick(@Nonnull LivingEntity entityIn, @Nonnull Runnable p_76455_2_) {
+    public boolean tick(@NotNull LivingEntity entityIn, @NotNull Runnable p_76455_2_) {
         if (((MobEffectInstanceAccessor) this).getHiddenEffect() != null) {
             ((MobEffectInstanceAccessor) ((MobEffectInstanceAccessor) this).getHiddenEffect()).invokeTickDownDuration();
         }
         return true;
     }
 
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag nbt) {
+    @NotNull
+    public CompoundTag save(@NotNull CompoundTag nbt) {
         return nbt;
     }
 }

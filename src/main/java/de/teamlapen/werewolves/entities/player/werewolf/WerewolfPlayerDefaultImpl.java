@@ -11,9 +11,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 @SuppressWarnings("ConstantConditions")
@@ -36,7 +36,7 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
         return null;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public IPlayableFaction<IWerewolfPlayer> getFaction() {
         return null;
@@ -76,7 +76,7 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     public void onLevelChanged(int i, int i1) {
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public ITaskManager getTaskManager() {
         return null;
@@ -97,7 +97,7 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
         return null;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public WerewolfForm getForm() {
         return null;

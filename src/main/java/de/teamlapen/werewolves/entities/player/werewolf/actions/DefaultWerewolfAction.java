@@ -4,13 +4,13 @@ import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.DefaultAction;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Optional;
 
 public abstract class DefaultWerewolfAction extends DefaultAction<IWerewolfPlayer> {
 
-    @Nonnull
+    @NotNull
     @Override
     public Optional<IPlayableFaction<?>> getFaction() {
         return Optional.of(WReference.WEREWOLF_FACTION);

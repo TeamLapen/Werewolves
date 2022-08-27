@@ -1,11 +1,11 @@
 package de.teamlapen.werewolves.api.entities.werewolf;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface IWerewolfDataholder {
 
-    @Nonnull
+    @NotNull
     WerewolfForm getForm();
 
     default int getSkinType() {

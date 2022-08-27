@@ -8,8 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class TagNBTBrewingRecipe implements IBrewingRecipe {
 
@@ -30,18 +29,18 @@ public class TagNBTBrewingRecipe implements IBrewingRecipe {
     }
 
     @Override
-    public boolean isInput(@Nonnull ItemStack input) {
+    public boolean isInput(@NotNull ItemStack input) {
         return Helper.matchesItem(this.input, input);
     }
 
     @Override
-    public boolean isIngredient(@Nonnull ItemStack ingredient) {
+    public boolean isIngredient(@NotNull ItemStack ingredient) {
         return this.ingredient.map(ingredient::is, i -> i.test(ingredient));
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public ItemStack getOutput(@Nonnull ItemStack input, @Nonnull ItemStack ingredient) {
+    public ItemStack getOutput(@NotNull ItemStack input, @NotNull ItemStack ingredient) {
         return isInput(input) && isIngredient(ingredient) ? this.output.copy() : ItemStack.EMPTY;
     }
 

@@ -8,8 +8,7 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfAlphaRenderer extends WerewolfRenderer<WerewolfAlphaEntity> {
 
@@ -18,7 +17,7 @@ public class WerewolfAlphaRenderer extends WerewolfRenderer<WerewolfAlphaEntity>
     }
 
     @Override
-    protected void scale(@Nonnull WerewolfAlphaEntity entity, PoseStack stack, float p_225620_3_) {
+    protected void scale(@NotNull WerewolfAlphaEntity entity, PoseStack stack, float p_225620_3_) {
         stack.scale(1.2f, 1.2f, 1.2f);
     }
 }

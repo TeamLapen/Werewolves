@@ -7,8 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 
 public class HowlingEffect extends WerewolvesEffect {
@@ -26,19 +25,19 @@ public class HowlingEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    public void applyEffectTick(@NotNull LivingEntity entityLivingBaseIn, int amplifier) {
         this.removeAttributeModifiers(entityLivingBaseIn, entityLivingBaseIn.getAttributes(), amplifier);
     }
 
     @Override
-    public void removeAttributeModifiers(@Nonnull LivingEntity entityLivingBaseIn, @Nonnull AttributeMap attributeMapIn, int amplifier) {
+    public void removeAttributeModifiers(@NotNull LivingEntity entityLivingBaseIn, @NotNull AttributeMap attributeMapIn, int amplifier) {
         if (Helper.isWerewolf(entityLivingBaseIn)) {
             super.removeAttributeModifiers(entityLivingBaseIn, attributeMapIn, amplifier);
         }
     }
 
     @Override
-    public void addAttributeModifiers(@Nonnull LivingEntity entityLivingBaseIn, @Nonnull AttributeMap attributeMapIn, int amplifier) {
+    public void addAttributeModifiers(@NotNull LivingEntity entityLivingBaseIn, @NotNull AttributeMap attributeMapIn, int amplifier) {
         if (Helper.isWerewolf(entityLivingBaseIn)) {
             super.addAttributeModifiers(entityLivingBaseIn, attributeMapIn, amplifier);
         }

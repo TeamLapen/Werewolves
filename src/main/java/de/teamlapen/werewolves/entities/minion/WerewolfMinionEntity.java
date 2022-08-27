@@ -44,8 +44,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -73,7 +73,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         return false;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public IFaction<?> getFaction() {
         return WReference.WEREWOLF_FACTION;
@@ -99,9 +99,9 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         return !fullHealth || !stack.isEdible();
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public ItemStack eat(@Nonnull Level world, @Nonnull ItemStack stack) {
+    public ItemStack eat(@NotNull Level world, @NotNull ItemStack stack) {
         if (stack.isEdible() && Helper.isRawMeat(stack)) {
             float healAmount = stack.getItem().getFoodProperties().getNutrition() / 2f;
             this.heal(healAmount);
@@ -110,7 +110,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     @Override
-    protected void onMinionDataReceived(@Nonnull WerewolfMinionData data) {
+    protected void onMinionDataReceived(@NotNull WerewolfMinionData data) {
         super.onMinionDataReceived(data);
         this.updateAttributes();
     }
@@ -120,9 +120,9 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         return itemStack -> ((itemStack.getItem() instanceof IFactionExclusiveItem) && ((IFactionExclusiveItem) itemStack.getItem()).getExclusiveFaction(itemStack).equals(WReference.WEREWOLF_FACTION)) || itemStack.getUseAnimation() == UseAnim.DRINK || itemStack.getUseAnimation() == UseAnim.EAT;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    protected InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
+    protected InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
         if (!this.level.isClientSide() && isLord(player) && minionData != null) {
             ItemStack heldItem = player.getItemInHand(hand);
             if (heldItem.getItem() instanceof WerewolfMinionUpgradeItem && ((WerewolfMinionUpgradeItem) heldItem.getItem()).getFaction() == this.getFaction()) {
@@ -147,7 +147,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public WerewolfForm getForm() {
         return this.minionData != null ? this.minionData.form : WerewolfForm.NONE;

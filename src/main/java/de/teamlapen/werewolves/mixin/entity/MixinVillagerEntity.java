@@ -22,13 +22,12 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 @Mixin(Villager.class)
 public abstract class MixinVillagerEntity extends AbstractVillager implements IVillagerTransformable {
@@ -74,7 +73,7 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     }
 
     @Override
-    public boolean hurt(@Nonnull DamageSource source, float amount) {
+    public boolean hurt(@NotNull DamageSource source, float amount) {
         if (super.hurt(source, amount)) {
             if (isWerewolf()) {
                 this.rage += amount * 10;
@@ -109,7 +108,7 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
         this.rage = 0;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public WerewolfForm getForm() {
         return this.form;

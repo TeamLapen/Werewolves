@@ -30,9 +30,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransformable {
     private static final EntityDataAccessor<Integer> FORM = SynchedEntityData.defineId(HumanWerewolfEntity.class, EntityDataSerializers.INT);
@@ -86,7 +85,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
-    public boolean hurt(@Nonnull DamageSource source, float amount) {
+    public boolean hurt(@NotNull DamageSource source, float amount) {
         if (super.hurt(source, amount)) {
             this.rage += amount * 10;
             return true;
@@ -124,7 +123,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("form")) {
             int t = compound.getInt("form");
@@ -144,7 +143,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("form", this.getEntityData().get(FORM));
         compound.putInt("type", this.getEntityData().get(SKIN_TYPE));
@@ -217,7 +216,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
         return !this.level.isClientSide && Helper.isNight(this.level) && this.rage > 0;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public WerewolfForm getForm() {
         return switch (this.getEntityData().get(FORM)) {

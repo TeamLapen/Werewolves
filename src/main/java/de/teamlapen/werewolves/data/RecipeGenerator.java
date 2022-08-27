@@ -22,8 +22,8 @@ import net.minecraft.world.item.crafting.SimpleCookingSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -40,7 +40,7 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     @Override
-    protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
+    protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
         TagKey<Item> sticks = Tags.Items.RODS_WOODEN;
         TagKey<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
         TagKey<Item> silver_nugget = ModTags.Items.SILVER_NUGGET;

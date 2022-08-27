@@ -10,9 +10,8 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerModel<T> {
@@ -60,22 +59,22 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
         this.playerModel = model;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     protected abstract Iterable<ModelPart> bodyParts();
 
     @Deprecated
     @Override
-    public void renderEars(@Nonnull PoseStack stack, @Nonnull VertexConsumer builder, int p_228287_3_, int p_228287_4_) {
+    public void renderEars(@NotNull PoseStack stack, @NotNull VertexConsumer builder, int p_228287_3_, int p_228287_4_) {
     }
 
     @Deprecated
     @Override
-    public void renderCloak(@Nonnull PoseStack stack, @Nonnull VertexConsumer builder, int p_228289_3_, int p_228289_4_) {
+    public void renderCloak(@NotNull PoseStack stack, @NotNull VertexConsumer builder, int p_228289_3_, int p_228289_4_) {
     }
 
     @Override
-    public void setupAnim(@Nonnull T p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
+    public void setupAnim(@NotNull T p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
 
     }
 
@@ -84,6 +83,6 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
     }
 
     @Override
-    public void translateToHand(@Nonnull HumanoidArm p_225599_1_, @Nonnull PoseStack p_225599_2_) {
+    public void translateToHand(@NotNull HumanoidArm p_225599_1_, @NotNull PoseStack p_225599_2_) {
     }
 }

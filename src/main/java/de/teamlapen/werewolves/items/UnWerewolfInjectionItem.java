@@ -9,8 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class UnWerewolfInjectionItem extends Item {
 
@@ -18,9 +17,9 @@ public class UnWerewolfInjectionItem extends Item {
         super(new Item.Properties().tab(WUtils.creativeTab));
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public InteractionResultHolder<ItemStack> use(@Nonnull Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
+    public InteractionResultHolder<ItemStack> use(@NotNull Level worldIn, Player playerIn, @NotNull InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
         playerIn.displayClientMessage(Component.literal("Please use a ").append(Component.translatable(ModBlocks.V.MED_CHAIR.get().getDescriptionId())), true);
         return InteractionResultHolder.pass(stack);

@@ -40,9 +40,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Random;
 
@@ -68,14 +68,14 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         return Shapes.or(a, b);
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public RenderShape getRenderShape(@Nonnull BlockState state) {
+    public RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.MODEL;
     }
 
     @Override
-    public void onRemove(BlockState state, @Nonnull Level worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             this.dropItems(worldIn, pos);
             super.onRemove(state, worldIn, pos, newState, isMoving);
@@ -88,7 +88,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public boolean placeLiquid(@Nonnull LevelAccessor world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull FluidState fluid) {
+    public boolean placeLiquid(@NotNull LevelAccessor world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull FluidState fluid) {
         if (SimpleWaterloggedBlock.super.placeLiquid(world, pos, state, fluid)) {
             if (state.getValue(LIT)) {
                 world.setBlock(pos, state.setValue(LIT, false), 3);
@@ -106,22 +106,22 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public void onPlace(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state2, boolean p_220082_5_) {
+    public void onPlace(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState state2, boolean p_220082_5_) {
         super.onPlace(state, world, pos, state2, p_220082_5_);
         if (state.getValue(LIT) && state2.getBlock() == this && !state2.getValue(LIT)) {
             ((StoneAltarBlockEntity) world.getBlockEntity(pos)).startRitual(state);
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public InteractionResult use(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand handIn, @Nonnull BlockHitResult hit) {
+    public InteractionResult use(@NotNull BlockState state, Level worldIn, @NotNull BlockPos pos, Player player, @NotNull InteractionHand handIn, @NotNull BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(handIn);
         StoneAltarBlockEntity te = ((StoneAltarBlockEntity) worldIn.getBlockEntity(pos));
         if (!worldIn.isClientSide && te != null) {
@@ -192,15 +192,15 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         return InteractionResult.SUCCESS;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return ModTiles.STONE_ALTAR.get().create(pos, state);
     }
 
@@ -240,7 +240,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         return this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection());
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(HORIZONTAL_FACING)));
@@ -252,7 +252,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+    public void animateTick(BlockState stateIn, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull RandomSource rand) {
         if (stateIn.getValue(LIT)) {
             Vector3f offset = getTorchOffset(stateIn);
             worldIn.addParticle(stateIn.getValue(SOUL_FIRE) ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME, pos.getX() + offset.x(), pos.getY() + offset.y(), pos.getZ() + offset.z(), 0.0D, 0.0D, 0.0D);
@@ -272,7 +272,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@Nonnull Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         return createTickerHelper(type, ModTiles.STONE_ALTAR.get(), StoneAltarBlockEntity::tick);
     }
 }

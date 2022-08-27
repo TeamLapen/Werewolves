@@ -5,12 +5,11 @@ import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
 import de.teamlapen.vampirism.api.entity.actions.IInstantAction;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class BiteEntityAction<T extends WerewolfBaseEntity & IEntityActionUser> extends WerewolfEntityAction implements IInstantAction<T> {
 
-    public BiteEntityAction(@Nonnull EntityActionTier tier, EntityClassType... param) {
+    public BiteEntityAction(@NotNull EntityActionTier tier, EntityClassType... param) {
         super(tier, param);
     }
 

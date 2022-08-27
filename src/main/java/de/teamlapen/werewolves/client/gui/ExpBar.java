@@ -16,8 +16,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ExpBar extends AbstractWidget {
     }
 
     @Override
-    public void render(@Nonnull PoseStack stack, int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(@NotNull PoseStack stack, int p_render_1_, int p_render_2_, float p_render_3_) {
         if (this.visible) {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, ICON);
@@ -54,7 +54,7 @@ public class ExpBar extends AbstractWidget {
 
 
     @Override
-    public void renderToolTip(@Nonnull PoseStack stack, int mouseX, int mouseY) {
+    public void renderToolTip(@NotNull PoseStack stack, int mouseX, int mouseY) {
         if (mouseX > this.x && mouseX < this.x + 15 && mouseY > this.y && mouseY < this.y + 123) {
             List<FormattedCharSequence> tooltips = new ArrayList<>();
             tooltips.add(Component.translatable("text.werewolves.skill_screen.level_progression_label").getVisualOrderText());
@@ -65,7 +65,7 @@ public class ExpBar extends AbstractWidget {
     }
 
     @Override
-    public void updateNarration(@Nonnull NarrationElementOutput p_169152_) {
+    public void updateNarration(@NotNull NarrationElementOutput p_169152_) {
 
     }
 }

@@ -5,12 +5,11 @@ import de.teamlapen.vampirism.api.entity.actions.DefaultEntityAction;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.werewolves.api.WReference;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class WerewolfEntityAction extends DefaultEntityAction {
 
-    public WerewolfEntityAction(@Nonnull EntityActionTier tier, EntityClassType... param) {
+    public WerewolfEntityAction(@NotNull EntityActionTier tier, EntityClassType... param) {
         super(tier, param);
     }
 

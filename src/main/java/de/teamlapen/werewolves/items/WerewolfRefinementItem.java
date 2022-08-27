@@ -6,8 +6,7 @@ import de.teamlapen.vampirism.items.VampireRefinementItem;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.core.ModItems;
 import net.minecraft.world.item.ItemStack;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfRefinementItem extends VampireRefinementItem implements IRefinementItem {
 
@@ -19,13 +18,13 @@ public class WerewolfRefinementItem extends VampireRefinementItem implements IRe
         };
     }
 
-    public WerewolfRefinementItem(@Nonnull Properties properties, @Nonnull AccessorySlotType type) {
+    public WerewolfRefinementItem(@NotNull Properties properties, @NotNull AccessorySlotType type) {
         super(properties, type);
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public IFaction<?> getExclusiveFaction(@Nonnull ItemStack stack) {
+    public IFaction<?> getExclusiveFaction(@NotNull ItemStack stack) {
         return WReference.WEREWOLF_FACTION;
     }
 }

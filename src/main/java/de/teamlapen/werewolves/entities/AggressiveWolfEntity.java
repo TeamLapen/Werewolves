@@ -9,9 +9,8 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class AggressiveWolfEntity extends Wolf {
 
@@ -29,7 +28,7 @@ public class AggressiveWolfEntity extends Wolf {
     }
 
     @Override
-    public boolean canMate(@Nonnull Animal entity) {
+    public boolean canMate(@NotNull Animal entity) {
         return false;
     }
 
@@ -37,7 +36,7 @@ public class AggressiveWolfEntity extends Wolf {
     public void setOrderedToSit(boolean p_233687_1_) {
     }
 
-    @Nonnull
+    @NotNull
     @Override
     protected Component getTypeName() {
         return EntityType.WOLF.getDescription();
@@ -50,18 +49,18 @@ public class AggressiveWolfEntity extends Wolf {
     }
 
     @Override
-    public boolean canBeLeashed(@Nonnull Player player) {
+    public boolean canBeLeashed(@NotNull Player player) {
         return false;
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("restrictLiveSpan", this.restrictLiveSpan);
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.restrictLiveSpan = compound.getBoolean("restrictLiveSpan");
     }
@@ -77,7 +76,7 @@ public class AggressiveWolfEntity extends Wolf {
     }
 
     @Override
-    public void die(@Nonnull DamageSource cause) {
+    public void die(@NotNull DamageSource cause) {
         this.dead = true;
         super.die(cause);
     }

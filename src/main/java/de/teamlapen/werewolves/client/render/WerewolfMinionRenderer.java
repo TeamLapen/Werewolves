@@ -5,8 +5,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionEntity> {
 
@@ -15,7 +14,7 @@ public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionE
     }
 
     @Override
-    public void render(WerewolfMinionEntity entity, float p_225623_2_, float p_225623_3_, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int p_225623_6_) {
+    public void render(WerewolfMinionEntity entity, float p_225623_2_, float p_225623_3_, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int p_225623_6_) {
         this.switchModel(entity.getForm());
         //noinspection ConstantConditions
         if (this.model == null) return;

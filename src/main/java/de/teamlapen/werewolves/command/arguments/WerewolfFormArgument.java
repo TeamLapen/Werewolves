@@ -16,8 +16,8 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -55,14 +55,14 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
         return new WerewolfFormArgument(Arrays.asList(allowedForms));
     }
 
-    @Nonnull
+    @NotNull
     private final Collection<WerewolfForm> allowedForms;
 
-    public WerewolfFormArgument(@Nonnull Collection<WerewolfForm> allowedForms) {
+    public WerewolfFormArgument(@NotNull Collection<WerewolfForm> allowedForms) {
         this.allowedForms = allowedForms;
     }
 
-    @Nonnull
+    @NotNull
     public Collection<WerewolfForm> getAllowedForms() {
         return this.allowedForms;
     }
@@ -95,15 +95,15 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
 
     public static class Info implements ArgumentTypeInfo<WerewolfFormArgument, Info.Template> {
         @Override
-        public void serializeToNetwork(@Nonnull Template template, @Nonnull FriendlyByteBuf buffer) {
+        public void serializeToNetwork(@NotNull Template template, @NotNull FriendlyByteBuf buffer) {
             Collection<WerewolfForm> forms = template.allowedForms;
             buffer.writeVarInt(forms.size());
             forms.forEach(form -> buffer.writeUtf(form.getName()));
         }
 
-        @Nonnull
+        @NotNull
         @Override
-        public Template deserializeFromNetwork(@Nonnull FriendlyByteBuf buffer) {
+        public Template deserializeFromNetwork(@NotNull FriendlyByteBuf buffer) {
             List<WerewolfForm> forms = new ArrayList<>();
             int amount = buffer.readVarInt();
             for (int i = 0; i < amount; i++) {
@@ -113,15 +113,15 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
         }
 
         @Override
-        public void serializeToJson(@Nonnull Template template, @Nonnull JsonObject json) {
+        public void serializeToJson(@NotNull Template template, @NotNull JsonObject json) {
             JsonArray forms = new JsonArray();
             template.allowedForms.forEach(form -> forms.add(form.getName()));
             json.add("allowed_forms", forms);
         }
 
-        @Nonnull
+        @NotNull
         @Override
-        public Template unpack(@Nonnull WerewolfFormArgument argument) {
+        public Template unpack(@NotNull WerewolfFormArgument argument) {
             return new Template(argument.getAllowedForms());
         }
 
@@ -133,13 +133,13 @@ public class WerewolfFormArgument implements ArgumentType<WerewolfForm> {
                 this.allowedForms = allowedForms;
             }
 
-            @Nonnull
+            @NotNull
             @Override
-            public WerewolfFormArgument instantiate(@Nonnull CommandBuildContext context) {
+            public WerewolfFormArgument instantiate(@NotNull CommandBuildContext context) {
                 return new WerewolfFormArgument(allowedForms);
             }
 
-            @Nonnull
+            @NotNull
             @Override
             public ArgumentTypeInfo<WerewolfFormArgument, ?> type() {
                 return Info.this;

@@ -21,8 +21,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.server.permission.PermissionAPI;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -72,10 +72,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     protected final List<Modifier> attributes = new ArrayList<>();
-    @Nonnull
+    @NotNull
     private final WerewolfForm form;
 
-    public WerewolfFormAction(@Nonnull WerewolfForm form) {
+    public WerewolfFormAction(@NotNull WerewolfForm form) {
         ALL_ACTION.add(this);
         this.form = form;
     }
