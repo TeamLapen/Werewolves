@@ -1,7 +1,8 @@
 package de.teamlapen.werewolves.items.oil;
 
+import de.teamlapen.vampirism.api.items.oil.IWeaponOil;
+import de.teamlapen.vampirism.items.oil.WeaponOil;
 import de.teamlapen.werewolves.api.items.ISilverItem;
-import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.Helper;
@@ -9,13 +10,14 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class SilverOil extends WeaponOil {
 
-    public SilverOil(int color) {
-        super(color);
+    public SilverOil(int color, int maxDuration) {
+        super(color, maxDuration);
     }
 
     public boolean canEffect(ItemStack stack, LivingEntity entity) {
@@ -27,17 +29,20 @@ public class SilverOil extends WeaponOil {
     }
 
     @Override
-    public boolean canBeAppliedTo(ItemStack stack) {
-        return super.canBeAppliedTo(stack) && !(stack.getItem() instanceof ISilverItem || stack.is(ModTags.Items.SILVER_TOOL));
+    public float onDamage(ItemStack stack, float amount, IWeaponOil oil, LivingEntity target, LivingEntity source) {
+        if (canEffect(stack, target)) {
+            return getAdditionalDamage(stack, target, amount);
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean canBeApplied(@NotNull ItemStack stack) {
+        return super.canBeApplied(stack) && !(stack.getItem() instanceof ISilverItem || stack.is(ModTags.Items.SILVER_TOOL));
     }
 
     public float getDamageModifier() {
         return this == ModOils.SILVER_OIL_2.get() ? 0.2f : 0.125f;
-    }
-
-    @Override
-    public int getMaxDuration(ItemStack stack) {
-        return this == ModOils.SILVER_OIL_2.get() ? WerewolvesConfig.BALANCE.OILS.silverOil2Duration.get() : WerewolvesConfig.BALANCE.OILS.silverOil1Duration.get();
     }
 
     @Override

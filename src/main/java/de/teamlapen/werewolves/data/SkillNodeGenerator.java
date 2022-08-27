@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.data;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.data.recipebuilder.FinishedSkillNode;
 import de.teamlapen.vampirism.data.recipebuilder.SkillNodeBuilder;
+import de.teamlapen.vampirism.entity.player.lord.skills.LordSkills;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -50,6 +51,11 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
 
         ResourceLocation other4 = werewolf(util3, ModSkills.HEALTH_REG.get()).build(consumer, this.modId("other4"));
         ResourceLocation other5 = werewolf(other4, ModSkills.HIDE_NAME.get()).build(consumer, this.modId("other5"));
+
+        ResourceLocation lord2 = werewolf(modId("werewolf_lord"), ModSkills.MINION_STATS_INCREASE.get()).build(consumer, this.modId("lord2"));
+        ResourceLocation lord3 = werewolf(modId("werewolf_lord"), LordSkills.LORD_SPEED.get(), LordSkills.LORD_ATTACK_SPEED.get()).build(consumer, this.modId("lord3"));
+        ResourceLocation lord4 = werewolf(modId("werewolf_lord"), ModSkills.MINION_COLLECT.get()).build(consumer, this.modId("lord4"));
+        ResourceLocation lord5 = werewolf(modId("werewolf_lord"), LordSkills.MINION_RECOVERY.get()).build(consumer, this.modId("lord5"));
 
     }
 

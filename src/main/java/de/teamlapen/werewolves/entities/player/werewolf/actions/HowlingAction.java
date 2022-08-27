@@ -26,7 +26,7 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolfPlayer) {
+    protected boolean activate(IWerewolfPlayer werewolfPlayer, ActivationContext context) {
         Player player = werewolfPlayer.getRepresentingPlayer();
         if (player.getEffect(ModEffects.HOWLING.get()) != null) {
             return false;

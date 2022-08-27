@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "werewolves:item/oil_bottle",
-    "layer1": "werewolves:item/oil_bottle_overlay"
-  }
-}

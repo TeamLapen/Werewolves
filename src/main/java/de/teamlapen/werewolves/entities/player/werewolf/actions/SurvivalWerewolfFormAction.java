@@ -26,8 +26,8 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolf) {
-        if (super.activate(werewolf)) {
+    protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
+        if (super.activate(werewolf, context)) {
             if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get())) {
                 werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));
             }

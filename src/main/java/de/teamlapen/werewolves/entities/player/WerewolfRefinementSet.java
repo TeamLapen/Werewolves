@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.entities.player;
 
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
-import de.teamlapen.vampirism.player.refinements.RefinementSet;
+import de.teamlapen.vampirism.entity.player.refinements.RefinementSet;
 import de.teamlapen.werewolves.api.WReference;
 import net.minecraftforge.registries.RegistryObject;
 

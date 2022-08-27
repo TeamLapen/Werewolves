@@ -9,10 +9,11 @@ import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
-import de.teamlapen.vampirism.player.FactionBasePlayer;
-import de.teamlapen.vampirism.player.LevelAttributeModifier;
-import de.teamlapen.vampirism.player.actions.ActionHandler;
-import de.teamlapen.vampirism.player.skills.SkillHandler;
+import de.teamlapen.vampirism.entity.player.FactionBasePlayer;
+import de.teamlapen.vampirism.entity.player.LevelAttributeModifier;
+import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
+import de.teamlapen.vampirism.entity.player.skills.SkillHandler;
+import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
@@ -220,7 +221,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                         if (Helper.isFullMoon(this.getRepresentingPlayer().getCommandSenderWorld())) {
                             if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(ModSkills.FREE_WILL.get())) {
                                 Optional<? extends IAction<IWerewolfPlayer>> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
-                                action.ifPresent(this.actionHandler::toggleAction);
+                                action.ifPresent(action1 -> this.actionHandler.toggleAction(action1, new ActionHandler.ActivationContext()));
                             }
                         }
 
@@ -474,11 +475,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             LevelAttributeModifier.applyModifier(player, Attributes.MOVEMENT_SPEED, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.3, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
             LevelAttributeModifier.applyModifier(player, Attributes.ARMOR_TOUGHNESS, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
             LevelAttributeModifier.applyModifier(player, Attributes.ATTACK_DAMAGE, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_damage.get(), 0.5, AttributeModifier.Operation.ADDITION, false);
-            if (newLevel > 0) {
-                if (oldLevel == 0) {
-                    this.skillHandler.enableRootSkill();
-                }
-            } else {
+            if (newLevel <= 0) {
                 this.actionHandler.resetTimers();
                 this.skillHandler.disableAllSkills();
             }

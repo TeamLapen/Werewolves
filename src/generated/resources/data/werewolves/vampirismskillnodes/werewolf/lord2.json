@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:werewolf_lord",
+  "skills": [
+    "werewolves:werewolf_minion_stats_increase"
+  ]
+}

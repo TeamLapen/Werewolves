@@ -81,7 +81,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolf) {
+    protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
         float healthPerc = werewolf.getRepresentingPlayer().getHealth() / werewolf.getRepresentingPlayer().getMaxHealth();
         if (isWerewolfFormActionActive(werewolf.getActionHandler())) {
             FormHelper.deactivateWerewolfActions(werewolf);

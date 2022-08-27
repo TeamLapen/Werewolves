@@ -22,6 +22,6 @@ side = "BOTH"
 [[dependencies.werewolves]]
 modId = "vampirism"
 mandatory = true
-versionRange = "[${vampirism_version},1.9.0)"
+versionRange = "[${vampirism_version},)"
 ordering = "AFTER"
 side = "BOTH"

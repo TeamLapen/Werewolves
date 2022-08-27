@@ -4,10 +4,8 @@ import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
-import de.teamlapen.werewolves.inventory.recipes.TagNBTBrewingRecipe;
 import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.ChatFormatting;
@@ -16,10 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -73,7 +69,6 @@ public class ModItems {
     public static final RegistryObject<SpawnEggItem> HUMAN_WEREWOLF_SPAWN_EGG = ITEMS.register("human_werewolf_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.HUMAN_WEREWOLF, 0xffc800, 0xa8a8a8, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
     public static final RegistryObject<SpawnEggItem> ALPHA_WEREWOLF_SPAWN_EGG = ITEMS.register("alpha_werewolf_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ALPHA_WEREWOLF, 0xffc800, 0xca0f00, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 
-    public static final RegistryObject<OilItem> OIL_BOTTLE = ITEMS.register("oil_bottle", () -> new OilItem(creativeTabProps().stacksTo(1)));
     public static final RegistryObject<WerewolfRefinementItem> BONE_NECKLACE = ITEMS.register("bone_necklace", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET));
     public static final RegistryObject<WerewolfRefinementItem> CHARM_BRACELET = ITEMS.register("charm_bracelet", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING));
     public static final RegistryObject<WerewolfRefinementItem> DREAM_CATCHER = ITEMS.register("dream_catcher", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.OBI_BELT));
@@ -107,15 +102,9 @@ public class ModItems {
         event.getAllMappings(ForgeRegistries.Keys.ITEMS).forEach(missingMapping -> {
             switch (missingMapping.getKey().toString()) {
                 case "werewolves:bone" -> missingMapping.remap(ModItems.CRACKED_BONE.get());
-                case "werewolves:silver_oil" -> missingMapping.remap(ModItems.OIL_BOTTLE.get());
+                case "werewolves:silver_oil" -> missingMapping.remap(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get());
             }
         });
-    }
-
-    static void registerOilRecipes() {
-        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Ingredient.of(Items.WHEAT_SEEDS), ModItems.OIL_BOTTLE.get().withOil(ModOils.PLANT_OIL.get())));
-        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.OIL_BOTTLE.get()), ModOils.PLANT_OIL.get())), ModTags.Items.SILVER_INGOT, ModItems.OIL_BOTTLE.get().withOil(ModOils.SILVER_OIL_1.get())));
-        BrewingRecipeRegistry.addRecipe(new TagNBTBrewingRecipe(Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.OIL_BOTTLE.get()), ModOils.SILVER_OIL_1.get())), ModTags.Items.SILVER_INGOT, ModItems.OIL_BOTTLE.get().withOil(ModOils.SILVER_OIL_2.get())));
     }
 
     private static Item.Properties creativeTabProps() {

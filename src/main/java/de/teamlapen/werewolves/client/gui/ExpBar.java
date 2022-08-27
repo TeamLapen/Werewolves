@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
-import de.teamlapen.vampirism.client.gui.VampirismScreen;
+import de.teamlapen.vampirism.client.gui.screens.VampirismContainerScreen;
 import de.teamlapen.werewolves.entities.player.werewolf.LevelHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -25,9 +25,9 @@ import java.util.List;
 public class ExpBar extends AbstractWidget {
     private static final ResourceLocation ICON = new ResourceLocation(REFERENCE.MODID, "textures/gui/exp_bar.png");
 
-    private final VampirismScreen screen;
+    private final VampirismContainerScreen screen;
 
-    public ExpBar(int xIn, int yIn, VampirismScreen screen) {
+    public ExpBar(int xIn, int yIn, VampirismContainerScreen screen) {
         super(xIn, yIn, 10, 202, Component.translatable("text.werewolves.skill_screen.level_progression", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100)));
         this.screen = screen;
     }

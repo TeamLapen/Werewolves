@@ -1,4 +1,4 @@
-// 1.19.2	2022-08-21T17:16:53.111411589	Vampirism skillnode generator
+// 1.19.2	2022-08-27T00:56:01.743811877	Vampirism skillnode generator
 2130301db325c0cf5bcf01df5259a57583f86a67 data/werewolves/vampirismskillnodes/werewolf/beast1.json
 bc72ff874169bb6fa6b0951fe757527ea046ef01 data/werewolves/vampirismskillnodes/werewolf/beast2.json
 083b0201c99d47b0fcdb3be8595bd6bea299b342 data/werewolves/vampirismskillnodes/werewolf/beast3.json
@@ -7,6 +7,10 @@ ab3e8f05b61a75d074640b9126238e3ef6b78c62 data/werewolves/vampirismskillnodes/wer
 c9db5820b41df74c04cc2100e29ef8f8a799b635 data/werewolves/vampirismskillnodes/werewolf/beast5.json
 a00c8b8ec623dc9cecb9d244c40b3fdc1af2b99b data/werewolves/vampirismskillnodes/werewolf/beast6.json
 d109de7709023d48f11b59f290ebb46d70947a39 data/werewolves/vampirismskillnodes/werewolf/beast7.json
+08cd3111bda0667b14a7b64db9c95f6471d77bf2 data/werewolves/vampirismskillnodes/werewolf/lord2.json
+13a7a3f568fefd2cda2e27350e528137039ad830 data/werewolves/vampirismskillnodes/werewolf/lord3.json
+6777652acbc44e35dda6513debcbbd3c46855744 data/werewolves/vampirismskillnodes/werewolf/lord4.json
+28d657e220c6e146d4b7c39f97de57371585c8da data/werewolves/vampirismskillnodes/werewolf/lord5.json
 0f8f56ae9faedd1f0d5403dde72cc2b1286424d3 data/werewolves/vampirismskillnodes/werewolf/other1.json
 911a10ce804e2d78ff9ecfa64b0258526ec5d84e data/werewolves/vampirismskillnodes/werewolf/other2.json
 2644f699b634a61ac6980b6a3d9d6655f387f750 data/werewolves/vampirismskillnodes/werewolf/other3.json

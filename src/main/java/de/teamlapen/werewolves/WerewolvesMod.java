@@ -113,7 +113,7 @@ public class WerewolvesMod {
                     .color(Color.orange.getRGB())
                     .hostileTowardsNeutral()
                     .highestLevel(REFERENCE.HIGHEST_WEREWOLF_LEVEL)
-                    .lord().lordLevel(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL).lordTitle(LordTitles::getWerewolfTitle).build()
+                    .lord().lordLevel(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL).lordTitle(LordTitles::getWerewolfTitle).enableLordSkills().build()
                     .village(WerewolfVillageData::werewolfVillage)
                     .chatColor(ChatFormatting.GOLD)
                     .name("text.werewolves.werewolf")

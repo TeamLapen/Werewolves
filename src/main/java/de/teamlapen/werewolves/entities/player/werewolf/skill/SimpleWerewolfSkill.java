@@ -2,17 +2,20 @@ package de.teamlapen.werewolves.entities.player.werewolf.skill;
 
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
-import de.teamlapen.vampirism.player.skills.VampirismSkill;
+import de.teamlapen.vampirism.api.entity.player.skills.ISkillType;
+import de.teamlapen.vampirism.api.entity.player.skills.SkillType;
+import de.teamlapen.vampirism.entity.player.skills.VampirismSkill;
+import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -89,6 +92,17 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
             if (attributes.getModifier(this.attribute) == null) {
                 attributes.addPermanentModifier(new AttributeModifier(this.attribute, RegUtil.id(this).toString() + "_skill", this.attribute_value.apply(player), this.operation));
             }
+        }
+    }
+
+    public static class LordWerewolfSkill extends SimpleWerewolfSkill {
+        public LordWerewolfSkill(boolean desc) {
+            super(desc);
+        }
+
+        @Override
+        public @NotNull ISkillType getType() {
+            return SkillType.LORD;
         }
     }
 }

@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.effects.inst;
 
+import de.teamlapen.vampirism.api.effects.IHiddenEffectInstance;
 import de.teamlapen.werewolves.mixin.MobEffectInstanceAccessor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -10,7 +11,7 @@ import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Optional;
 
-public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
+public class WerewolfNightVisionEffectInstance extends MobEffectInstance implements IHiddenEffectInstance {
 
     public WerewolfNightVisionEffectInstance() {
         this(null);

@@ -1,15 +1,16 @@
 package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
-import de.teamlapen.vampirism.client.gui.VampirismScreen;
+import de.teamlapen.vampirism.client.gui.screens.VampirismContainerScreen;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.util.*;
-import net.minecraft.ChatFormatting;
+import de.teamlapen.werewolves.util.FormHelper;
+import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -21,10 +22,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.commons.lang3.mutable.MutableInt;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -66,7 +65,7 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void onGuiInitPost(ScreenEvent.Init.Post event) {
-        if (event.getScreen() instanceof VampirismScreen screen) {
+        if (event.getScreen() instanceof VampirismContainerScreen screen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 ResourceLocation icon = new ResourceLocation(REFERENCE.MODID, "textures/gui/appearance_button.png");
                 ((ScreenAccessor) screen).invokeAddRenderableWidget_werewolves(new ImageButton(screen.getGuiLeft() + 47, screen.getGuiTop() + 90, 20, 20, 0, 0, 20, icon, 20, 40, (context) -> {
@@ -93,21 +92,6 @@ public class ClientEventHandler {
                     event.setResult(Event.Result.DENY);
                 }
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onItemToolTip(ItemTooltipEvent event) {
-        MutableInt position = new MutableInt(1);
-        int flags = getHideFlags(event.getItemStack());
-        if (shouldShowInTooltip(flags, ItemStack.TooltipPart.ADDITIONAL)) position.increment();
-        if (event.getItemStack().hasTag()) {
-            if (shouldShowInTooltip(flags, ItemStack.TooltipPart.ENCHANTMENTS)) {
-                position.add(event.getItemStack().getEnchantmentTags().size());
-            }
-            WeaponOilHelper.oilOpt(event.getItemStack()).ifPresent((oil) -> {
-                event.getToolTip().add(position.getAndIncrement() - 1, Component.translatable("oil." + RegUtil.id(oil.getLeft()).getNamespace() + "." + RegUtil.id(oil.getLeft()).getPath() + ".desc").withStyle(ChatFormatting.GOLD));
-            });
         }
     }
 

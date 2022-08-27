@@ -1,9 +1,11 @@
-// 1.19.2	2022-08-21T17:16:53.112430469	Recipes
+// 1.19.2	2022-08-27T00:21:39.040280959	Recipes
 067b3bb366dc2dba41a057b1d1673354d59fbec5 data/minecraft/advancements/recipes/misc/bone.json
 705c3d3b84ffbcb033db699c06cb90c8f5d1a602 data/minecraft/advancements/recipes/misc/purple_dye.json
 45d0c8b366521bcfbc621b084ba64232ff17e084 data/minecraft/recipes/bone.json
 a4857463ae5fa3a88bb0f6186fcc5f93cfed5962 data/minecraft/recipes/purple_dye.json
 f2832dda0a319fa66130300b117d2ae2053be7fb data/werewolves/advancements/recipes/building_blocks/oak_planks.json
+f28d12d0e5884f783fef360f53548b5bd363b0ce data/werewolves/advancements/recipes/vampirism/alchemy_table/silver_oil_1.json
+ab7c453ad0410f76ec5b39bf3ba7216ea4b94e96 data/werewolves/advancements/recipes/vampirism/alchemy_table/silver_oil_2.json
 2c19b284990f5813738d627ec7ead99ccfc6c2ff data/werewolves/advancements/recipes/werewolves/magic_planks.json
 a987e22eeffaa8339b5e189934b0fce2ae0fc64f data/werewolves/advancements/recipes/werewolves/raw_silver.json
 52b10a6ee98774ec747987cbee8ed4382b8d4820 data/werewolves/advancements/recipes/werewolves/raw_silver_block.json
@@ -27,6 +29,8 @@ a7b73bdd88c2000a3d1ad005442cc3b8ea3842f1 data/werewolves/advancements/recipes/we
 0c6f8d12c29d8a6a8f1866dd5e8d2e2249278ea2 data/werewolves/advancements/recipes/werewolves/stone_altar.json
 84fdebf4de43bfd5743eb8e659af4a35e8e0dd99 data/werewolves/advancements/recipes/werewolves/stone_altar_fire_bowl.json
 c98a699eab4355eb257ed97a90ba0f6c7d7b376b data/werewolves/advancements/recipes/werewolves/weapontable/crossbow_arrow_silver_bolt.json
+f469253099e5a282880d508b573ad5d6bea07023 data/werewolves/recipes/alchemy_table/silver_oil_1.json
+ad07d32b54c9582082656849e4c675deecc1c9f1 data/werewolves/recipes/alchemy_table/silver_oil_2.json
 77acabc122ef9d3bb14ee5fc3b04117dfc9b2ebf data/werewolves/recipes/magic_planks.json
 50da14657a87122596d332d2d2bbb158723f4131 data/werewolves/recipes/oak_planks.json
 26fd4c6404f0a3b30f37f16039361f79f6fafad9 data/werewolves/recipes/raw_silver.json
@@ -50,5 +54,4 @@ c67f9a6ec545534e3632b2045622101d439080ed data/werewolves/recipes/silver_shovel.j
 eb461bca38464bd476ec94b7483c280ded50e4d0 data/werewolves/recipes/silver_sword.json
 77aff4fd26ce83d888036526c2d54f876b71ea45 data/werewolves/recipes/stone_altar.json
 cfdba8ded5de13d90c634b6a885952d1069905ed data/werewolves/recipes/stone_altar_fire_bowl.json
-68ad64115f9c042419aae6edf3f11bed6a95e889 data/werewolves/recipes/weapon_oil.json
 f32c0205cf19ce71bb05c2e237a510f03b151b24 data/werewolves/recipes/weapontable/crossbow_arrow_silver_bolt.json

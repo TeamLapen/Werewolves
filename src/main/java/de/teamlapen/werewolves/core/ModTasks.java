@@ -5,11 +5,11 @@ import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
 import de.teamlapen.vampirism.core.ModStats;
 import de.teamlapen.vampirism.core.ModTags;
-import de.teamlapen.vampirism.player.tasks.TaskBuilder;
-import de.teamlapen.vampirism.player.tasks.reward.LordLevelReward;
-import de.teamlapen.vampirism.player.tasks.reward.RefinementItemReward;
-import de.teamlapen.vampirism.player.tasks.unlock.LordLvlUnlocker;
-import de.teamlapen.vampirism.player.tasks.unlock.LvlUnlocker;
+import de.teamlapen.vampirism.entity.player.tasks.TaskBuilder;
+import de.teamlapen.vampirism.entity.player.tasks.reward.LordLevelReward;
+import de.teamlapen.vampirism.entity.player.tasks.reward.RefinementItemReward;
+import de.teamlapen.vampirism.entity.player.tasks.unlock.LordLvlUnlocker;
+import de.teamlapen.vampirism.entity.player.tasks.unlock.LvlUnlocker;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.stats.Stats;
@@ -139,6 +139,6 @@ public class ModTasks {
     }
 
     protected static TaskBuilder werewolf() {
-        return TaskBuilder.builder().withFaction(WReference.WEREWOLF_FACTION);
+        return TaskBuilder.builder().withFaction(() -> WReference.WEREWOLF_FACTION);
     }
 }

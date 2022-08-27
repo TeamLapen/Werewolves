@@ -1,40 +1,11 @@
 package de.teamlapen.werewolves.modcompat.jei;
 
-import com.google.common.base.Objects;
-import de.teamlapen.werewolves.api.items.oil.IOil;
-import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.core.ModRegistries;
-import de.teamlapen.werewolves.inventory.recipes.TagNBTBrewingRecipe;
-import de.teamlapen.werewolves.util.OilUtils;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.RegUtil;
-import de.teamlapen.werewolves.util.WeaponOilHelper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.RecipeTypes;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.recipe.vanilla.IJeiBrewingRecipe;
-import mezz.jei.api.registration.IRecipeRegistration;
-import mezz.jei.api.registration.ISubtypeRegistration;
-import mezz.jei.common.Internal;
-import mezz.jei.common.plugins.vanilla.brewing.BrewingRecipeUtil;
-import mezz.jei.common.plugins.vanilla.brewing.JeiBrewingRecipe;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @JeiPlugin
@@ -48,58 +19,4 @@ public class WerewolvesJEIPlugins implements IModPlugin {
         return ID;
     }
 
-    @Override
-    public void registerItemSubtypes(@Nonnull ISubtypeRegistration registration) {
-        registration.registerSubtypeInterpreter(ModItems.OIL_BOTTLE.get(), (stack, context) -> {
-            return RegUtil.id(OilUtils.getOil(stack)).toString();
-        });
-    }
-
-    @Override
-    public void registerRecipes(@Nonnull IRecipeRegistration registration) {
-        registerOilBrewingRecipes(registration);
-        registerOilApplyRecipes(registration);
-    }
-
-    private void registerOilBrewingRecipes(@Nonnull IRecipeRegistration registration) {
-        BrewingRecipeUtil util = new BrewingRecipeUtil(Internal.getRegisteredIngredients().getIngredientHelper(VanillaTypes.ITEM_STACK));
-        List<IJeiBrewingRecipe> recipes = new ArrayList<>();
-        BrewingRecipeRegistry.getRecipes().stream()
-                .filter(TagNBTBrewingRecipe.class::isInstance)
-                .map(TagNBTBrewingRecipe.class::cast)
-                .forEach(brewingRecipe -> recipes.add(new OilJeiBrewingRecipe(Arrays.asList(brewingRecipe.getIngredient()), Arrays.asList(brewingRecipe.getInput().getItems()), brewingRecipe.getOutput(), util)));
-        registration.addRecipes(RecipeTypes.BREWING, recipes);
-    }
-
-    private void registerOilApplyRecipes(@Nonnull IRecipeRegistration registration) {
-        Collection<IOil> oils = RegUtil.values(ModRegistries.OILS);
-        //noinspection SuspiciousNameCombination
-        List<Pair<IOil, ItemStack>> items = oils.stream().flatMap(x -> ForgeRegistries.ITEMS.getValues().stream().map(ItemStack::new).filter(x::canBeAppliedTo).map(y -> Pair.of(x, y))).toList();
-        List<CraftingRecipe> recipes = items.stream().map(x -> new ShapelessRecipe(new ResourceLocation(REFERENCE.MODID, ("" + RegUtil.id(x.getKey()) + RegUtil.id(x.getValue().getItem())).replace(':', '_')), "", WeaponOilHelper.setWeaponOils(x.getRight().copy(), x.getLeft(), x.getLeft().getMaxDuration(x.getRight())), NonNullList.of(Ingredient.EMPTY, Ingredient.of(x.getRight().copy()), Ingredient.of(OilUtils.setOil(new ItemStack(ModItems.OIL_BOTTLE.get()), x.getLeft()))))).collect(Collectors.toList());
-        registration.addRecipes(RecipeTypes.CRAFTING, recipes);
-    }
-
-    public static class OilJeiBrewingRecipe extends JeiBrewingRecipe {
-
-        private final int hashCode;
-
-        public OilJeiBrewingRecipe(List<ItemStack> ingredients, List<ItemStack> potionInputs, ItemStack potionOutput, BrewingRecipeUtil brewingRecipeUtil) {
-            super(ingredients, potionInputs, potionOutput, brewingRecipeUtil);
-
-            ItemStack firstIngredient = ingredients.get(0);
-            ItemStack firstInput = potionInputs.get(0);
-            this.hashCode = Objects.hashCode(firstInput.getItem(), OilUtils.getOil(firstInput),
-                    potionOutput.getItem(), OilUtils.getOil(potionOutput),
-                    firstIngredient.getItem());
-        }
-
-        @Override
-        public int hashCode() {
-            return hashCode;
-        }
-    }
-
-    public static class OilApplyRecipe {
-
-    }
 }

@@ -21,7 +21,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolf) {
+    protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
         addEffectInstance(werewolf, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, this.getDuration(werewolf), 1, false, false));
         addEffectInstance(werewolf, new MobEffectInstance(MobEffects.DAMAGE_BOOST, this.getDuration(werewolf), 0, false, false));
         werewolf.getRepresentingPlayer().getAttribute(ModAttributes.BITE_DAMAGE.get()).addPermanentModifier(new AttributeModifier(BITE_MODIFIER, "rage_bite_modifier", WerewolvesConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADDITION));

@@ -1,13 +1,14 @@
 package de.teamlapen.werewolves.data;
 
 import com.google.common.collect.ImmutableList;
+import de.teamlapen.vampirism.data.recipebuilder.AlchemyTableRecipeBuilder;
 import de.teamlapen.vampirism.data.recipebuilder.ShapedWeaponTableRecipeBuilder;
+import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.core.ModRecipes;
+import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
@@ -94,8 +95,6 @@ public class RecipeGenerator extends RecipeProvider {
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get(), ModItems.SILVER_SWORD.get()), ModItems.SILVER_NUGGET.get(), 0.1f, 200).unlockedBy("has_silver_axe", has(ModItems.SILVER_AXE.get())).unlockedBy("has_silver_hoe", has(ModItems.SILVER_HOE.get())).unlockedBy("has_silver_pickaxe", has(ModItems.SILVER_PICKAXE.get())).unlockedBy("has_silver_shovel", has(ModItems.SILVER_SHOVEL.get())).unlockedBy("has_silver_sword", has(ModItems.SILVER_SWORD.get())).save(consumer, getSmeltingRecipeName(ModItems.SILVER_NUGGET.get()));
         SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get(), ModItems.SILVER_SWORD.get()), ModItems.SILVER_NUGGET.get(), 0.1f, 100).unlockedBy("has_silver_axe", has(ModItems.SILVER_AXE.get())).unlockedBy("has_silver_hoe", has(ModItems.SILVER_HOE.get())).unlockedBy("has_silver_pickaxe", has(ModItems.SILVER_PICKAXE.get())).unlockedBy("has_silver_shovel", has(ModItems.SILVER_SHOVEL.get())).unlockedBy("has_silver_sword", has(ModItems.SILVER_SWORD.get())).save(consumer, getBlastingRecipeName(ModItems.SILVER_NUGGET.get()));
 
-        SpecialRecipeBuilder.special(ModRecipes.WEAPON_OIL.get()).save(consumer, REFERENCE.MODID + ":weapon_oil");
-
         ShapedWeaponTableRecipeBuilder.shapedWeaponTable(ModItems.CROSSBOW_ARROW_SILVER_BOLT.get(), 3).pattern(" X ").pattern("XYX").pattern(" S ").pattern(" F ")
                 .lava(1)
                 .define('S', sticks).unlockedBy("hasSticks", has(sticks))
@@ -104,6 +103,9 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('Y', iron_ingot).unlockedBy("has_iron", has(iron_ingot))
                 .unlockedBy("has_crossbow_arrow", has(crossbow_arrow))
                 .save(consumer, modId("crossbow_arrow_silver_bolt"));
+
+        AlchemyTableRecipeBuilder.builder(ModOils.SILVER_OIL_1).bloodOilIngredient().input(Ingredient.of(ModTags.Items.SILVER_INGOT)).build(consumer, new ResourceLocation(REFERENCE.MODID, "silver_oil_1"));
+        AlchemyTableRecipeBuilder.builder(ModOils.SILVER_OIL_2).oilIngredient(ModOils.SILVER_OIL_1.get()).input(Ingredient.of(ModTags.Items.SILVER_INGOT)).build(consumer, new ResourceLocation(REFERENCE.MODID, "silver_oil_2"));
     }
 
     protected static void nineBlockStorageRecipes(Consumer<FinishedRecipe> p_176744_, ItemLike p_176745_, ItemLike p_176746_) {
