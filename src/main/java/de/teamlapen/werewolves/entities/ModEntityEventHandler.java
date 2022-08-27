@@ -167,7 +167,7 @@ public class ModEntityEventHandler {
                 EntityType<? extends T> type = (EntityType<? extends T>) entity.getType();
                 if (typeCheck.test(type)) {
                     Predicate<LivingEntity> newPredicate = nonWerewolfCheck;
-                    if (((TargetingConditionsAccessor) ((NearestAttackabletargetGoalAccessor<?>)target).getTargetConditions()).getSelector() != null) {
+                    if (((TargetingConditionsAccessor) ((NearestAttackabletargetGoalAccessor<?>) target).getTargetConditions()).getSelector() != null) {
                         newPredicate = newPredicate.and(((TargetingConditionsAccessor) ((NearestAttackabletargetGoalAccessor<?>) target).getTargetConditions()).getSelector());
                     }
                     entity.targetSelector.addGoal(attackPriority, replacement.apply(entity, newPredicate));

@@ -38,7 +38,7 @@ public class ModKeys {
         MinecraftForge.EVENT_BUS.register(new ModKeys(clientEventHandler));
     }
 
-    static void registerKeyMapping(@NotNull RegisterKeyMappingsEvent event){
+    static void registerKeyMapping(@NotNull RegisterKeyMappingsEvent event) {
         event.register(LEAP);
         event.register(BITE);
     }

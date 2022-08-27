@@ -16,6 +16,7 @@ import java.util.UUID;
 public class SurvivalWerewolfFormAction extends WerewolfFormAction {
 
     public static final UUID CLIMBER_ID = UUID.fromString("df949628-07c5-4e9b-974f-9f005a74ab51");
+
     public SurvivalWerewolfFormAction() {
         super(WerewolfForm.SURVIVALIST);
         attributes.add(new Modifier(ModAttributes.BITE_DAMAGE.get(), UUID.fromString("7c2ab40d-b71a-4453-aa95-158f69c87696"), UUID.fromString("913462ef-a612-4d2a-a797-525d0535f8d2"), 1, "survival_form_claw_damage", WerewolvesConfig.BALANCE.SKILLS.survival_form_bite_damage, AttributeModifier.Operation.ADDITION));

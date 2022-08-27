@@ -37,7 +37,9 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     public static boolean hasFaction(Entity entity) {
         if (VampirismAPI.factionRegistry().getFaction(entity) != null) {
             return true;
-        } else return isWerewolf(entity);
+        } else {
+            return isWerewolf(entity);
+        }
     }
 
     public static @NotNull BlockPos multiplyBlockPos(@NotNull BlockPos pos, double amount) {

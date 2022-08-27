@@ -59,8 +59,9 @@ public class ModHUDOverlay extends ExtendedGui {
             this.waitTicks = 0;
             return;
         }
-        if (event.phase == TickEvent.Phase.END)
+        if (event.phase == TickEvent.Phase.END) {
             return;
+        }
 
         @Nullable
         IFactionPlayer<?> player = FactionPlayerHandler.get(mc.player).getCurrentFactionPlayer().orElse(null);

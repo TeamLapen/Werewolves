@@ -109,11 +109,11 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     protected static void nineBlockStorageRecipes(@NotNull Consumer<FinishedRecipe> p_176744_, @NotNull ItemLike p_176745_, @NotNull ItemLike p_176746_) {
-        nineBlockStorageRecipes(p_176744_, p_176745_, p_176746_, getSimpleRecipeName(p_176746_), (String) null, getSimpleRecipeName(p_176745_), (String) null);
+        nineBlockStorageRecipes(p_176744_, p_176745_, p_176746_, getSimpleRecipeName(p_176746_), null, getSimpleRecipeName(p_176745_), null);
     }
 
     protected static void nineBlockStorageRecipesWithCustomPacking(@NotNull Consumer<FinishedRecipe> p_176563_, @NotNull ItemLike p_176564_, @NotNull ItemLike p_176565_, @NotNull String p_176566_, String p_176567_) {
-        nineBlockStorageRecipes(p_176563_, p_176564_, p_176565_, p_176566_, p_176567_, getSimpleRecipeName(p_176564_), (String) null);
+        nineBlockStorageRecipes(p_176563_, p_176564_, p_176565_, p_176566_, p_176567_, getSimpleRecipeName(p_176564_), null);
     }
 
     protected static @NotNull String getSimpleRecipeName(@NotNull ItemLike itemLike) {

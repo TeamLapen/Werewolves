@@ -56,7 +56,7 @@ public class RegistryManager implements IInitListener {
         }
     }
 
-    public void onMissingMappings(@NotNull MissingMappingsEvent event){
+    public void onMissingMappings(@NotNull MissingMappingsEvent event) {
         ModItems.remapItems(event);
     }
 }

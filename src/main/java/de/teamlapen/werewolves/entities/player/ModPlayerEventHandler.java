@@ -117,7 +117,7 @@ public class ModPlayerEventHandler {
                 if (WerewolfPlayer.get(((Player) event.getEntity())).getForm().isTransformed()) {
                     if (event.getTo().isEmpty()) { // see WerewolfFormAction#applyModifier
                         //noinspection StatementWithEmptyBody
-                        if (((Player) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
+                        if (event.getEntity().getAttribute(Attributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
 //                            double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
 //                            if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
 //                                damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
@@ -125,7 +125,7 @@ public class ModPlayerEventHandler {
 //                            ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).applyPersistentModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
                         }
                     } else {
-                        ((Player) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).removeModifier(CLAWS);
+                        event.getEntity().getAttribute(Attributes.ATTACK_DAMAGE).removeModifier(CLAWS);
                     }
                     WerewolfPlayer.getOpt(((Player) event.getEntity())).filter(werewolf -> !(werewolf.getForm().isHumanLike() && werewolf.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get()))).ifPresent(WerewolfPlayer::requestArmorEvaluation);
                 }
@@ -233,7 +233,7 @@ public class ModPlayerEventHandler {
                             if (skillHandler.isRefinementEquipped(ModRefinements.GREATER_DOGE_CHANCE.get())) {
                                 limit += WerewolvesConfig.BALANCE.REFINEMENTS.greater_doge_chance.get().floatValue();
                             }
-                            if (((Player) event.getEntity()).getRandom().nextFloat() < limit) {
+                            if (event.getEntity().getRandom().nextFloat() < limit) {
                                 event.setCanceled(true);
                             }
                         }

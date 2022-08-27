@@ -71,6 +71,7 @@ public class ModTags {
             public static final TagKey<Biome> WOLFSBANE = tag("has_gen/wolfsbane");
 
         }
+
         public static class HasSpawn {
             public static final TagKey<Biome> WEREWOLF = tag("has_spawn/werewolf");
             public static final TagKey<Biome> HUMAN_WEREWOLF = tag("has_spawn/human_werewolf");

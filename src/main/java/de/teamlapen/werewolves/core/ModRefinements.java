@@ -60,7 +60,8 @@ public class ModRefinements {
         public static final RegistryObject<IRefinement> N_ATTACK_SPEED_2 = refinement("n_attack_speed2");
         public static final RegistryObject<IRefinement> N_ATTACK_SPEED_3 = refinement("n_attack_speed3");
 
-        private static void init(){}
+        private static void init() {
+        }
 
         private static @NotNull RegistryObject<IRefinement> refinement(@NotNull String name) {
             return RegistryObject.create(new ResourceLocation("vampirism", name), VampirismRegistries.REFINEMENT_ID, REFERENCE.MODID);

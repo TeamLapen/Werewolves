@@ -25,7 +25,7 @@ public class ModVillage {
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.Keys.POI_TYPES, REFERENCE.MODID);
 
     public static final RegistryObject<PoiType> WEREWOLF_FACTION = POI_TYPES.register("werewolf_faction", () -> new PoiType(getAllStates(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF.get(), ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED.get()), 1, 1));
-    public static final RegistryObject<VillagerProfession> WEREWOLF_EXPERT = VILLAGER_PROFESSIONS.register("werewolf_expert", () -> new VillagerProfession("werewolf_expert", (holder) -> holder.is(ModTags.PoiTypes.IS_WEREWOLF),(holder) -> holder.is(ModTags.PoiTypes.IS_WEREWOLF), ImmutableSet.of(), ImmutableSet.of(), null));
+    public static final RegistryObject<VillagerProfession> WEREWOLF_EXPERT = VILLAGER_PROFESSIONS.register("werewolf_expert", () -> new VillagerProfession("werewolf_expert", (holder) -> holder.is(ModTags.PoiTypes.IS_WEREWOLF), (holder) -> holder.is(ModTags.PoiTypes.IS_WEREWOLF), ImmutableSet.of(), ImmutableSet.of(), null));
 
 
     static void register(IEventBus bus) {

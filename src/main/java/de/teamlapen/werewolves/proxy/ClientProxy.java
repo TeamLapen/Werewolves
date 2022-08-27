@@ -20,8 +20,9 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(renderHandler);
         //Minecraft.instance is null during runData.
         //noinspection ConstantConditions
-        if (Minecraft.getInstance() != null)
+        if (Minecraft.getInstance() != null) {
             ((ReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener(renderHandler); // Must be added before initial resource manager load
+        }
     }
 
     @Override

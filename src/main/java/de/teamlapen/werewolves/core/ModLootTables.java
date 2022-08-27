@@ -41,7 +41,7 @@ public class ModLootTables {
     public static final ResourceLocation stronghold_library = chest("stronghold_library");
 
 
-    static void register(IEventBus bus){
+    static void register(IEventBus bus) {
         GLOBAL_LOOT_MODIFIER.register(bus);
     }
 

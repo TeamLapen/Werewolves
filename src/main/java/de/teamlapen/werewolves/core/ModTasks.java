@@ -103,7 +103,7 @@ public class ModTasks {
             .addRequirement("vampire", ModTags.Entities.VAMPIRE, 50)
             .addRequirement("hunter", ModTags.Entities.HUNTER, 50)
             .addRequirement("werewolf_tooth", () -> new ItemStack(ModItems.WEREWOLF_TOOTH.get(), 4))
-            .addRequirement("gold", () ->  new ItemStack(Items.GOLD_INGOT, 64))
+            .addRequirement("gold", () -> new ItemStack(Items.GOLD_INGOT, 64))
             .addRequirement("village", ModStats.capture_village, 6)
             .setUnique()
             .build());

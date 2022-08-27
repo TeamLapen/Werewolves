@@ -24,7 +24,7 @@ public class WUtils {
             return ModItems.LIVER.get().getDefaultInstance();
         }
     };
-    public static final Tier SILVER_ITEM_TIER = new ForgeTier(2,250,8.0f,1.5f,12, ModTags.Blocks.NEEDS_SILVER_TOOL, () -> Ingredient.of(ModTags.Items.SILVER_INGOT));
+    public static final Tier SILVER_ITEM_TIER = new ForgeTier(2, 250, 8.0f, 1.5f, 12, ModTags.Blocks.NEEDS_SILVER_TOOL, () -> Ingredient.of(ModTags.Items.SILVER_INGOT));
     public static LootTables LOOT_TABLE_MANAGER;
     public static final DamageSource OPEN_WOUND_DAMAGE_SOURCE = new DamageSource("blood_loss").bypassArmor().bypassMagic();
 
