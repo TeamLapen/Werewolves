@@ -62,8 +62,8 @@ public class BiomeGenerator {
         Map<ResourceLocation, BiomeModifier> data = new HashMap<>();
         data.put(new ResourceLocation(REFERENCE.MODID, "spawn/werewolf_spawns"), new ExtendedAddSpawnsBiomeModifier(biome(ModTags.Biomes.HasSpawn.WEREWOLF), biome(ModTags.Biomes.NoSpawn.WEREWOLF), Lists.newArrayList(new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.WEREWOLF_BEAST.get(), 50, 1, 1, MobCategory.MONSTER), new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.WEREWOLF_SURVIVALIST.get(), 50, 1, 1, MobCategory.MONSTER))));
         data.put(new ResourceLocation(REFERENCE.MODID, "spawn/human_werewolf_spawns"), ExtendedAddSpawnsBiomeModifier.singleSpawn(biome(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF), biome(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF), new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.HUMAN_WEREWOLF.get(), 5, 1, 1, MobCategory.MONSTER)));
-        data.put(new ResourceLocation(REFERENCE.MODID, "gen/silver_ore"), new ForgeBiomeModifiers.AddFeaturesBiomeModifier(biome(ModTags.Biomes.HasGen.SILVER_ORE), placedFeature(WerewolvesBiomeFeatures.silver_ore_placed), GenerationStep.Decoration.UNDERGROUND_ORES));
-        data.put(new ResourceLocation(REFERENCE.MODID, "gen/wolfsbane"), new ForgeBiomeModifiers.AddFeaturesBiomeModifier(biome(ModTags.Biomes.HasGen.WOLFSBANE), placedFeature(WerewolvesBiomeFeatures.wolfsbane_placed), GenerationStep.Decoration.VEGETAL_DECORATION));
+        data.put(new ResourceLocation(REFERENCE.MODID, "gen/silver_ore"), new ForgeBiomeModifiers.AddFeaturesBiomeModifier(biome(ModTags.Biomes.HasGen.SILVER_ORE), placedFeature(WerewolvesBiomeFeatures.SILVER_ORE_PLACED), GenerationStep.Decoration.UNDERGROUND_ORES));
+        data.put(new ResourceLocation(REFERENCE.MODID, "gen/wolfsbane"), new ForgeBiomeModifiers.AddFeaturesBiomeModifier(biome(ModTags.Biomes.HasGen.WOLFSBANE), placedFeature(WerewolvesBiomeFeatures.WOLFSBANE_PLACED), GenerationStep.Decoration.VEGETAL_DECORATION));
         return data;
     }
 

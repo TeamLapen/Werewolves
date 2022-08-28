@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.lib.lib.util.IInitListener;
-import de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
@@ -48,7 +47,6 @@ public class RegistryManager implements IInitListener {
         switch (step) {
             case COMMON_SETUP:
                 ModEntities.registerSpawns();
-                WerewolvesBiomeFeatures.init();
                 event.enqueueWork(ModVillage::villageTradeSetup);
                 ModTiles.registerTileExtensionsUnsafe();
                 break;

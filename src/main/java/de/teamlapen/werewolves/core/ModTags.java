@@ -22,6 +22,7 @@ public class ModTags {
         public static final TagKey<Block> MAGIC_LOG = forge("magic_log");
         public static final TagKey<Block> JACARANDA_LOG = forge("jacaranda_log");
         public static final TagKey<Block> NEEDS_SILVER_TOOL = forge("needs_silver_tool");
+        public static final TagKey<Block> EMPTY = werewolves("empty");
 
 
         private static @NotNull TagKey<Block> mc(@NotNull ResourceLocation id) {

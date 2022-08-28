@@ -6,10 +6,9 @@ import net.minecraft.world.level.biome.*;
 import org.jetbrains.annotations.NotNull;
 
 import static de.teamlapen.vampirism.world.biome.VampirismBiomes.addModdedWaterLake;
-import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWerewolfBiomeTrees;
 import static net.minecraft.data.worldgen.BiomeDefaultFeatures.*;
 
-public class WerewolfHeavenBiome {
+public class WerewolfHeavenBiome extends WerewolvesBiome {
 
     public static @NotNull Biome createWerewolfHeavenBiome() {
         return addAttributes(createGenerationBuilder(), createMobSpawnBuilder(), createEffectBuilder()).build();
@@ -47,17 +46,16 @@ public class WerewolfHeavenBiome {
         BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder();
         addDefaultCarversAndLakes(builder);
         addModdedWaterLake(builder);
-        addDefaultMonsterRoom(builder);
         addDefaultUndergroundVariety(builder);
         addDefaultOres(builder);
         addDefaultSoftDisks(builder);
 
 
         addWerewolfBiomeTrees(builder);
-        addDefaultFlowers(builder);
         addForestGrass(builder);
-//        addSavannaGrass(builder); TODO causing mysterious feature cycle order with Oh the biomes you'll go
-        addRareBerryBushes(builder);
+        addDaffodil(builder);
+        addCommonWolfBerryBush(builder);
         return builder;
     }
+
 }

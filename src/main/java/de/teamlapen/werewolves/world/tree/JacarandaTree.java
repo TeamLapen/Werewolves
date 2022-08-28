@@ -13,6 +13,6 @@ public class JacarandaTree extends AbstractTreeGrower {
     @Nullable
     @Override
     protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(@NotNull RandomSource randomIn, boolean p_225546_2_) {
-        return WerewolvesBiomeFeatures.jacaranda_tree.getHolder().orElseThrow();
+        return WerewolvesBiomeFeatures.JACARANDA_TREE.getHolder().orElseThrow();
     }
 }

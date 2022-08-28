@@ -1,4 +1,4 @@
-// 1.19.2	2022-08-27T20:52:38.836182401	Block States: werewolves
+// 1.19.2	2022-08-28T02:00:55.428818997	Block States: werewolves
 1aa8756cb97d26bae4f25527248da0086cca45ee assets/werewolves/blockstates/daffodil.json
 3127b233ac4e2aaa9ea0996710fbc3f13983d061 assets/werewolves/blockstates/deepslate_silver_ore.json
 ccb624fde40fc16e49e05a159159d0b230317670 assets/werewolves/blockstates/jacaranda_button.json
@@ -24,7 +24,7 @@ d4c48ab2dc900119d29b151d408b40d7662b9cb3 assets/werewolves/blockstates/magic_lea
 5cb90a9e00131dc8eb5eb1bc91cb2c118c91f9c6 assets/werewolves/blockstates/magic_log.json
 97391a2ddc6ac1980ac47169d51cf9789ef7a370 assets/werewolves/blockstates/magic_planks.json
 98a282dbe5d105fda6c2bf6105eb25a1b0b171db assets/werewolves/blockstates/magic_pressure_place.json
-f115071f2920b6551f517659e85e48118290487a assets/werewolves/blockstates/magic_sapling.json
+3b80e135b2837fcded338e464f1362dc076ef977 assets/werewolves/blockstates/magic_sapling.json
 c7eb883bde9e04be94f7caeb827c3d57a88f26f9 assets/werewolves/blockstates/magic_sign.json
 4b0e6a83c59a7e0fbecd5c81b6f7784716cc3b0a assets/werewolves/blockstates/magic_slab.json
 e11d9135d6f855d803af6ed65327c6a09e3ec0ec assets/werewolves/blockstates/magic_stairs.json
@@ -109,6 +109,7 @@ b33e0698ac7dcde3b796c0afab69e1ede26b8207 assets/werewolves/models/block/magic_le
 a5240f5842ef12a36f0c96578db548755bf4cfdf assets/werewolves/models/block/magic_planks.json
 5df51020065496907935ffcc23056ee9b9ce8479 assets/werewolves/models/block/magic_pressure_place.json
 231debd3714294afab79eb69c53b2c560798c8fc assets/werewolves/models/block/magic_pressure_place_down.json
+b474c52e792a5bcb9dab0c78762561d1d49e8e61 assets/werewolves/models/block/magic_sapling.json
 35caed17e85f065b439d5461da73531aca7128e4 assets/werewolves/models/block/magic_sign.json
 a8700929d48f363a658e7b4fc3c482f02eaded46 assets/werewolves/models/block/magic_slab.json
 ae9088a8c921cd646464e57d892924a27294a079 assets/werewolves/models/block/magic_slab_top.json
