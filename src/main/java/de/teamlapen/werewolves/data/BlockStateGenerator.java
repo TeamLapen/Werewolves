@@ -82,7 +82,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         simpleBlock(ModBlocks.JACARANDA_SAPLING.get(), models().cross("jacaranda_sapling", modLoc("block/jacaranda_sapling")).renderType(CUTOUT));
         simpleBlock(ModBlocks.JACARANDA_LEAVES.get(), models().withExistingParent(modId("block/jacaranda_leaves"), "minecraft:block/leaves").texture("all", modId("block/jacaranda_leaves")).renderType(CUTOUT));
 
-        simpleBlock(ModBlocks.MAGIC_SAPLING.get(), models().cross("jacaranda_sapling", modLoc("block/jacaranda_sapling")).renderType(CUTOUT));
+        simpleBlock(ModBlocks.MAGIC_SAPLING.get(), models().cross("magic_sapling", modLoc("block/magic_sapling")).renderType(CUTOUT));
         simpleBlock(ModBlocks.MAGIC_LEAVES.get(), models().withExistingParent(modId("block/magic_leaves"), "minecraft:block/leaves").texture("all", modId("block/magic_leaves")).renderType(CUTOUT));
 
         stairsBlock(ModBlocks.JACARANDA_STAIRS.get(), blockTexture(ModBlocks.JACARANDA_PLANKS.get()));
