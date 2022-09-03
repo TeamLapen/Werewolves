@@ -21,8 +21,8 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
         super(REG_NAME, MobEffectCategory.HARMFUL, 0xe012ef);
     }
 
-    public static void addSanguinemEffectRandom(@Nonnull LivingEntity entity, float percentage) {
-        if (entity.getRandom().nextFloat() < percentage) {
+    public static void addSanguinemEffectRandom(@Nonnull LivingEntity entity, float chance) {
+        if (entity.getRandom().nextFloat() < chance) {
             addSanguinemEffect(entity);
         }
     }

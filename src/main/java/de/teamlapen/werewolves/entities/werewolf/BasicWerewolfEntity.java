@@ -3,15 +3,14 @@ package de.teamlapen.werewolves.entities.werewolf;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.difficulty.Difficulty;
+import de.teamlapen.vampirism.api.difficulty.IAdjustableLevel;
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.IEntityLeader;
 import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
-import de.teamlapen.vampirism.api.entity.actions.IActionHandlerEntity;
-import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
+import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.api.world.ICaptureAttributes;
 import de.teamlapen.vampirism.effects.BadOmenEffect;
-import de.teamlapen.vampirism.entity.action.ActionHandlerEntity;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
@@ -28,6 +27,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModSounds;
+import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.entities.goals.DefendLeaderGoal;
 import de.teamlapen.werewolves.entities.goals.FollowAlphaWerewolfGoal;
 import de.teamlapen.werewolves.entities.goals.WerewolfAttackVillageGoal;
@@ -65,12 +65,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IEntityActionUser, IVillageCaptureEntity, IEntityFollower {
+public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable/*, IEntityActionUser*/, IVillageCaptureEntity, IEntityFollower, IAdjustableLevel, IFactionEntity {
     protected static final EntityDataAccessor<Integer> SKINTYPE = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Integer> EYETYPE = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
@@ -78,7 +79,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final WerewolfForm werewolfForm;
-    private final ActionHandlerEntity<?> entityActionHandler;
+    //private final ActionHandlerEntity<?> entityActionHandler;
     private WerewolfTransformable transformed;
     /**
      * only used if {@link #transformType} = {@link TransformType#TIME_LIMITED}
@@ -98,7 +99,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.werewolfForm = werewolfForm;
         this.entityClass = EntityClassType.getRandomClass(world.random);
         this.entityTier = EntityActionTier.Low;
-        this.entityActionHandler = new ActionHandlerEntity<>(this);
+        //this.entityActionHandler = new ActionHandlerEntity<>(this);
         this.xpReward = 3;
     }
 
@@ -180,9 +181,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                     break;
             }
         }
-        if (this.entityActionHandler != null) {
-            this.entityActionHandler.handle();
-        }
+        //if (this.entityActionHandler != null) {
+        //    this.entityActionHandler.handle();
+        //}
     }
 
     @Override
@@ -202,9 +203,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         if (nbt.contains("transformedDuration")) {
             this.transformedDuration = nbt.getInt("transformedDuration");
         }
-        if (this.entityActionHandler != null) {
-            this.entityActionHandler.read(nbt);
-        }
+        //if (this.entityActionHandler != null) {
+        //    this.entityActionHandler.read(nbt);
+        //}
         if (nbt.contains("attack")) {
             this.attack = nbt.getBoolean("attack");
         }
@@ -228,9 +229,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public void addAdditionalSaveData(@Nonnull CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("transformedDuration", this.transformedDuration);
-        if (this.entityActionHandler != null) {
-            this.entityActionHandler.write(nbt);
-        }
+        //if (this.entityActionHandler != null) {
+        //    this.entityActionHandler.write(nbt);
+        //}
         if (this.transformType != null) {
             nbt.putString("transformType", this.transformType.name());
         }
@@ -246,10 +247,10 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
     }
 
-    @Override
+    /*@Override
     public IActionHandlerEntity getActionHandler() {
         return this.entityActionHandler;
-    }
+    }*/
 
     @Override
     public boolean hurt(@Nonnull DamageSource source, float amount) {
@@ -482,6 +483,17 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     public void setLeader(@Nullable IEntityLeader leader) {
         this.entityLeader = leader;
+    }
+
+    @Override
+    public boolean doHurtTarget(@NotNull Entity entity) {
+        if (super.doHurtTarget(entity)) {
+            if (entity instanceof LivingEntity living) {
+                LupusSanguinemEffect.addSanguinemEffectRandom(living, 0.05f);
+            }
+            return true;
+        }
+        return false;
     }
 
     public static class Beast extends BasicWerewolfEntity {
