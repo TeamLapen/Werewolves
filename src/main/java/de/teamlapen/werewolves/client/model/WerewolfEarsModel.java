@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.client.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import de.teamlapen.werewolves.client.model.geom.InvisibleModelPart;
+import de.teamlapen.werewolves.client.model.geom.CancelRenderingModelPart;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -46,7 +46,8 @@ public class WerewolfEarsModel<T extends LivingEntity> extends WerewolfBaseModel
 
     public WerewolfEarsModel(ModelPart part) {
         super(part);
-        this.dummyHead = new InvisibleModelPart(part.getChild(DUMMY_HEAD));
+        this.dummyHead = part.getChild(DUMMY_HEAD);
+        ((CancelRenderingModelPart) (Object)this.dummyHead).setSkipRendering(true);
         this.earRight = this.dummyHead.getChild(EAR_RIGHT);
         this.earLeft = this.dummyHead.getChild(EAR_LEFT);
         this.clawsRight = this.rightArm.getChild(CLAWS_RIGHT);
