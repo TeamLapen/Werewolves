@@ -3,15 +3,16 @@ package de.teamlapen.werewolves.entities.werewolf;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.difficulty.Difficulty;
+import de.teamlapen.vampirism.api.difficulty.IAdjustableLevel;
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.IEntityLeader;
 import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import de.teamlapen.vampirism.api.entity.actions.IActionHandlerEntity;
 import de.teamlapen.vampirism.api.entity.actions.IEntityActionUser;
+import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.api.world.ICaptureAttributes;
 import de.teamlapen.vampirism.effects.BadOmenEffect;
-import de.teamlapen.vampirism.entity.action.ActionHandlerEntity;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
@@ -69,7 +70,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IEntityActionUser, IVillageCaptureEntity, IEntityFollower {
+public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IAdjustableLevel, IFactionEntity, IVillageCaptureEntity, IEntityFollower {
     protected static final EntityDataAccessor<Integer> SKINTYPE = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Integer> EYETYPE = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
@@ -77,7 +78,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final WerewolfForm werewolfForm;
-    private final ActionHandlerEntity<?> entityActionHandler;
     private WerewolfTransformable transformed;
     /**
      * only used if {@link #transformType} = {@link TransformType#TIME_LIMITED}
@@ -97,7 +97,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.werewolfForm = werewolfForm;
         this.entityClass = EntityClassType.getRandomClass(world.random);
         this.entityTier = EntityActionTier.Low;
-        this.entityActionHandler = new ActionHandlerEntity<>(this);
         this.xpReward = 3;
     }
 
@@ -179,9 +178,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                     break;
             }
         }
-        if (this.entityActionHandler != null) {
-            this.entityActionHandler.handle();
-        }
     }
 
     @Override
@@ -200,9 +196,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
         if (nbt.contains("transformedDuration")) {
             this.transformedDuration = nbt.getInt("transformedDuration");
-        }
-        if (this.entityActionHandler != null) {
-            this.entityActionHandler.read(nbt);
         }
         if (nbt.contains("attack")) {
             this.attack = nbt.getBoolean("attack");
@@ -227,9 +220,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public void addAdditionalSaveData(@Nonnull CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("transformedDuration", this.transformedDuration);
-        if (this.entityActionHandler != null) {
-            this.entityActionHandler.write(nbt);
-        }
         if (this.transformType != null) {
             nbt.putString("transformType", this.transformType.name());
         }
@@ -243,11 +233,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             nbt.put("transformed", transformed);
             nbt.putString("transformed_id", ((LivingEntity) this.transformed).getType().getRegistryName().toString());
         }
-    }
-
-    @Override
-    public IActionHandlerEntity getActionHandler() {
-        return this.entityActionHandler;
     }
 
     @Override
@@ -462,6 +447,18 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, PatrollingMonster.class, 5, true, true, (living) -> UtilLib.isInsideStructure(living, StructureFeature.VILLAGE)));
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, AbstractSkeleton.class, false));
         this.targetSelector.addGoal(8, new DefendLeaderGoal<>(this));
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        if(super.doHurtTarget(entity)) {
+            if (entity instanceof LivingEntity) {
+                bite(((LivingEntity) entity));
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
