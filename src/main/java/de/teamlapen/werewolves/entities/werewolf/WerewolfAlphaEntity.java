@@ -59,7 +59,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     private int followingEntities = 0;
 
     public WerewolfAlphaEntity(EntityType<? extends VampirismEntity> type, Level world) {
-        super(type, world);
+        super(type, world, true);
     }
 
     @Override

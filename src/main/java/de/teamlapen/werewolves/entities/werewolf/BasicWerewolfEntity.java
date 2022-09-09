@@ -93,7 +93,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     protected boolean attack;
 
     public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, Level world, WerewolfForm werewolfForm) {
-        super(type, world);
+        super(type, world, true);
         this.werewolfForm = werewolfForm;
         this.entityClass = EntityClassType.getRandomClass(world.random);
         this.entityTier = EntityActionTier.Low;
