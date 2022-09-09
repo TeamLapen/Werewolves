@@ -42,7 +42,7 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     private PlayerEntity interactor;
 
     public WerewolfTaskMasterEntity(EntityType<? extends WerewolfTaskMasterEntity> type, World world) {
-        super(type, world);
+        super(type, world, false);
     }
 
     public static AttributeModifierMap.MutableAttribute getAttributeBuilder() {
