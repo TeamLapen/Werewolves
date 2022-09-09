@@ -63,7 +63,7 @@ public class ModEntities {
 
     private static <T extends Entity> RegistryObject<EntityType<T>> prepareEntityType(String id, Supplier<EntityType.Builder<T>> builder, boolean spawnable) {
         return ENTITY_TYPES.register(id, () -> {
-            EntityType.Builder<T> type = builder.get().setTrackingRange(80).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true);
+            EntityType.Builder<T> type = builder.get().setTrackingRange(10).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true);
             if (!spawnable) {
                 type.noSummon();
             }

@@ -3,12 +3,12 @@
   "biomes": "#werewolves:has_spawn/human_werewolf",
   "excludedBiomes": "#werewolves:no_spawn/human_werewolf",
   "spawners": {
-    "category": "werewolves_werewolf",
+    "category": "monster",
     "super": {
       "type": "werewolves:human_werewolf",
       "maxCount": 1,
       "minCount": 1,
-      "weight": 1
+      "weight": 5
     }
   }
 }

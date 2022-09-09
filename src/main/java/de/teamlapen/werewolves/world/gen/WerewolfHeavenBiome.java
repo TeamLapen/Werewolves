@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.world.gen;
 
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModEntities;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
 
 import static de.teamlapen.vampirism.world.biome.VampirismBiomes.addModdedWaterLake;
@@ -26,9 +27,9 @@ public class WerewolfHeavenBiome {
 
     public static MobSpawnSettings.Builder createMobSpawnBuilder() {
         return new MobSpawnSettings.Builder()
-                .addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.ALPHA_WEREWOLF.get(), 10, 1, 1))
-                .addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_BEAST.get(), 70, 1, 2))
-                .addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_SURVIVALIST.get(), 70, 1, 2));
+                .addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(ModEntities.ALPHA_WEREWOLF.get(), 10, 1, 1))
+                .addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_BEAST.get(), 70, 1, 2))
+                .addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_SURVIVALIST.get(), 70, 1, 2));
     }
 
     public static BiomeSpecialEffects.Builder createEffectBuilder() {

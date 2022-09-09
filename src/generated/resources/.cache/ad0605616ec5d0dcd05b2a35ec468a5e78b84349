@@ -1,5 +1,5 @@
-// 1.19.2	2022-08-21T18:31:48.321143307	forge/biome_modifier generator for werewolves
+// 1.19.2	2022-09-28T19:11:59.19883531	forge/biome_modifier generator for werewolves
 4a4828f8153807ab6a98841ba156d073e4aec69f data/werewolves/forge/biome_modifier/gen/silver_ore.json
 b9216a104e2f905db0b602c52d0ef189bb0f9bf5 data/werewolves/forge/biome_modifier/gen/wolfsbane.json
-e00ee38c4d4de54c63bb93370dae198bed018d71 data/werewolves/forge/biome_modifier/spawn/human_werewolf_spawns.json
-34078fce9d7ff447bde27402b66d1d1aa1fa5daa data/werewolves/forge/biome_modifier/spawn/werewolf_spawns.json
+6fe6a0cad192fec039514f3b45a6d4cc71457066 data/werewolves/forge/biome_modifier/spawn/human_werewolf_spawns.json
+ce78cc616056edea06b8801ac27e986871c9e382 data/werewolves/forge/biome_modifier/spawn/werewolf_spawns.json
