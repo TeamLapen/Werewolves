@@ -116,7 +116,7 @@
   "skill.werewolves.night_vision.desc": "Lets you see in the night when in werewolf form",
   "skill.werewolves.stun_bite.desc": "Your bite attack temporarily makes the target unable to move",
   "skill.werewolves.bleeding_bite.desc": "Your bite attack inflicts deep wounds on the target, draining blood and damage over time",
-  "skill.werewolves.damage.desc": "Permanently deal more damage to your targets",
+  "skill.werewolves.damage.desc": "Permanently deal more damage in werewolf form",
   "skill.werewolves.resistance.desc": "Increase your resistance in werewolf form",
   "skill.werewolves.health_after_kill.desc": "Regenerate health after a kill",
   "skill.werewolves.speed.desc": "Run faster when in werewolf form",
