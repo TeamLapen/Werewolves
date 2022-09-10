@@ -30,7 +30,7 @@ public class SilverEffect extends WerewolvesEffect {
     public static MobEffectInstance createEffect(LivingEntity entity, int defaultDuration) {
         if (entity instanceof Player && Helper.isWerewolf(((Player) entity))) {
             if (WerewolfPlayer.getOpt(((Player) entity)).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.SILVER_BLOODED.get())).orElse(false)) {
-                defaultDuration /= 3f;
+                defaultDuration /= 2f;
             }
         }
         return new MobEffectInstance(ModEffects.SILVER.get(), defaultDuration);

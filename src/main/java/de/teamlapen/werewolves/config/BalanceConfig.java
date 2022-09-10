@@ -349,7 +349,7 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue bleedingEffectDamage;
 
         public Potions(ForgeConfigSpec.Builder builder) {
-            this.silverStatsReduction = builder.comment("How much a Werewolf should be weakened by a silver item").defineInRange("silverStatsReduction", -0.2, -1, 0);
+            this.silverStatsReduction = builder.comment("How much a Werewolf should be weakened by the silver effect").defineInRange("silverStatsReduction", -0.3, -1, 0);
             this.bleedingEffectDamage = builder.comment("How much damage the bleeding effect should do per damaging tick").defineInRange("bleedingEffectDamage", 0.4, 0, Double.MAX_VALUE);
         }
     }
@@ -361,8 +361,8 @@ public class BalanceConfig {
         public final ForgeConfigSpec.BooleanValue skeletonIgnoreWerewolves;
 
         public Util(ForgeConfigSpec.Builder builder) {
-            this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 4, 1, Integer.MAX_VALUE);
-            this.silverItemEffectDuration = builder.comment("in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
+            this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 6, 1, Integer.MAX_VALUE);
+            this.silverItemEffectDuration = builder.comment("The duration of the silver effect when attacking with a silver item", "in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
             this.skeletonIgnoreWerewolves = builder.comment("if skeletons should ignore werewolves").define("skeletonIgnoreWerewolves", true);
         }
     }
