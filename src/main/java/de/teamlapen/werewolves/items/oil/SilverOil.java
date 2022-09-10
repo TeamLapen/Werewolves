@@ -34,7 +34,7 @@ public class SilverOil extends WeaponOil {
     }
 
     public float getDamageModifier() {
-        return this == ModOils.silver_oil_2 ? 0.2f : 0.125f;
+        return this == ModOils.silver_oil_2 ? 0.25f : 0.125f;
     }
 
     @Override
