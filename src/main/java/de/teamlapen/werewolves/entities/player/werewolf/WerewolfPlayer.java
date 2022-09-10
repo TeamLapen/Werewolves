@@ -204,6 +204,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 }
                 if (this.skillHandler.isDirty()) {
                     sync = true;
+                    syncToAll = true;
                     skillHandler.writeUpdateForClient(syncPacket);
                 }
                 if (this.player.level.getGameTime() % 10 == 0) {
@@ -231,13 +232,6 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
                 if (sync) {
                     sync(syncPacket, syncToAll);
-                }
-
-                if (this.checkArmorModifer && this.form.isTransformed() /*&& this.player.world.getGameTime() % 2 == 0*/) {
-                    if (!(this.form.isHumanLike() && this.skillHandler.isSkillEnabled(WerewolfSkills.wear_armor))) {
-                        this.removeArmorModifier();
-                    }
-                    this.checkArmorModifer = false;
                 }
 
                 EffectInstance effect = this.player.getEffect(Effects.NIGHT_VISION);
@@ -272,6 +266,13 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                     player.removeEffectNoUpdate(Effects.NIGHT_VISION);
                     player.addEffect(new WerewolfNightVisionEffect());
                 }
+            }
+
+            if (this.checkArmorModifer && this.form.isTransformed()) {
+                if (!(this.form.isHumanLike() && this.skillHandler.isSkillEnabled(WerewolfSkills.wear_armor))) {
+                    this.removeArmorModifier();
+                }
+                this.checkArmorModifer = false;
             }
 
             this.specialAttributes.biteTicks = Math.max(0, this.specialAttributes.biteTicks - 1);
