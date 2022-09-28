@@ -3,10 +3,10 @@ name: Build
 on:
   push:
     branches:
-      - '1.18*'
+      - '1.19*'
   pull_request:
     branches:
-      - '1.18*'
+      - '1.19*'
 
 jobs:
   build:
