@@ -12,6 +12,6 @@ public class MagicTree extends AbstractTreeGrower {
     @Nullable
     @Override
     protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource randomIn, boolean p_225546_2_) {
-        return randomIn.nextInt(10) < 3 ? WerewolvesBiomeFeatures.magic_tree.getHolder().orElseThrow() : WerewolvesBiomeFeatures.magic_tree_big.getHolder().orElseThrow();
+        return randomIn.nextInt(10) < 3 ? WerewolvesBiomeFeatures.MAGIC_TREE.getHolder().orElseThrow() : WerewolvesBiomeFeatures.MAGIC_TREE_BIG.getHolder().orElseThrow();
     }
 }
