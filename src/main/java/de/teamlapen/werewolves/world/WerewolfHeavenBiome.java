@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.world.biome.VampirismBiomeFeatures;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModEntities;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
@@ -41,9 +42,9 @@ public class WerewolfHeavenBiome {
 
     public static MobSpawnInfo.Builder getMobSpawnBuilder() {
         MobSpawnInfo.Builder mob_builder = new MobSpawnInfo.Builder();
-        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.ALPHA_WEREWOLF.get(), 10, 1, 1));
-        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_BEAST.get(), 70, 1, 2));
-        mob_builder.addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_SURVIVALIST.get(), 70, 1, 2));
+        mob_builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.ALPHA_WEREWOLF.get(), 10, 1, 1));
+        mob_builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_BEAST.get(), 70, 1, 2));
+        mob_builder.addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_SURVIVALIST.get(), 70, 1, 2));
         return mob_builder;
     }
 

@@ -5,11 +5,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
-import de.teamlapen.vampirism.client.gui.VampirismScreen;
 import de.teamlapen.werewolves.entities.player.werewolf.LevelHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
@@ -23,9 +23,9 @@ import java.util.List;
 public class ExpBar extends Widget {
     private static final ResourceLocation ICON = new ResourceLocation(REFERENCE.MODID, "textures/gui/exp_bar.png");
 
-    private final VampirismScreen screen;
+    private final Screen screen;
 
-    public ExpBar(int xIn, int yIn, VampirismScreen screen) {
+    public ExpBar(int xIn, int yIn, Screen screen) {
         super(xIn, yIn, 10, 202, new TranslationTextComponent("text.werewolves.skill_screen.level_progression", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100)));
         this.screen = screen;
     }
@@ -56,7 +56,7 @@ public class ExpBar extends Widget {
             List<IReorderingProcessor> tooltips = new ArrayList<>();
             tooltips.add(new TranslationTextComponent("text.werewolves.skill_screen.level_progression_label").getVisualOrderText());
             LevelHandler handler = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler();
-            tooltips.add(new TranslationTextComponent("text.werewolves.skill_screen.prey_snatched", handler.getLevelProgress(), handler.getNeededProgress()).getVisualOrderText());
+            tooltips.add(new TranslationTextComponent("text.werewolves.skill_screen.prey_snatched", Math.min(handler.getLevelProgress(), handler.getNeededProgress()), handler.getNeededProgress()).getVisualOrderText());
             this.screen.renderTooltip(stack, tooltips, mouseX, mouseY);
         }
     }

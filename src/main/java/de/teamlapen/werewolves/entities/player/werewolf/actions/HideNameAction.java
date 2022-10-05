@@ -37,7 +37,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
 
     @Override
     public boolean onUpdate(IWerewolfPlayer werewolf) {
-        return werewolf.getForm().isTransformed();
+        return !werewolf.getForm().isTransformed();
     }
 
     @Override

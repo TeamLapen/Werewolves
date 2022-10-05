@@ -32,7 +32,7 @@ public class SilverEffect extends Effect {
     public static EffectInstance createEffect(LivingEntity entity, int defaultDuration) {
         if (entity instanceof PlayerEntity && Helper.isWerewolf(((PlayerEntity) entity))) {
             if (WerewolfPlayer.getOpt(((PlayerEntity) entity)).map(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.SILVER_BLOODED.get())).orElse(false)) {
-                defaultDuration /= 3f;
+                defaultDuration /= 2f;
             }
         }
         return new EffectInstance(ModEffects.SILVER.get(), defaultDuration);

@@ -60,7 +60,7 @@ public class ModEntities {
     }
 
     private static <T extends Entity> EntityType<T> prepareEntityType(String id, EntityType.Builder<T> builder, boolean spawnable) {
-        EntityType.Builder<T> type = builder.setTrackingRange(80).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true);
+        EntityType.Builder<T> type = builder.setTrackingRange(10).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true);
         if (!spawnable)
             type.noSummon();
         return type.build(REFERENCE.MODID + ":" + id);

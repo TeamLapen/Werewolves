@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
 import de.teamlapen.werewolves.world.WerewolvesBiomeFeatures;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
@@ -65,9 +66,9 @@ public class ModBiomes {
         }
 
         if (event.getCategory() == Biome.Category.TAIGA) {
-            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.HUMAN_WEREWOLF.get(), 3, 1, 1));
-            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_SURVIVALIST.get(), 1, 1, 1));
-            event.getSpawns().addSpawn(WerewolvesMod.WEREWOLF_CREATURE_TYPE, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_BEAST.get(), 1, 1, 1));
+            event.getSpawns().addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.HUMAN_WEREWOLF.get(), 5, 1, 1));
+            event.getSpawns().addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_SURVIVALIST.get(), 80, 1, 2));
+            event.getSpawns().addSpawn(EntityClassification.MONSTER, new MobSpawnInfo.Spawners(ModEntities.WEREWOLF_BEAST.get(), 80, 1, 2));
         }
 
     }
