@@ -209,7 +209,7 @@ public class StoneAltarBlock extends ContainerBlock implements IWaterLoggable {
     @Nullable
     @Override
     public TileEntity newBlockEntity(IBlockReader worldIn) {
-        return ModTiles.stone_altar.create();
+        return ModTiles.STONE_ALTAR.get().create();
     }
 
     private void dropItems(World world, BlockPos pos) {

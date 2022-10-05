@@ -29,7 +29,6 @@ public class CrossbowArrowItem extends Item implements IVampirismCrossbowArrow<C
     public CrossbowArrowItem(ArrowType type) {
         super(new Item.Properties().tab(WUtils.creativeTab));
         this.type = type;
-        this.setRegistryName(REFERENCE.MODID, "crossbow_arrow_" + type.name);
     }
 
     @Override

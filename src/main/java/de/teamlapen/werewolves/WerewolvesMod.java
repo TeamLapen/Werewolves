@@ -21,6 +21,7 @@ import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.proxy.Proxy;
 import de.teamlapen.werewolves.proxy.ServerProxy;
 import de.teamlapen.werewolves.util.*;
+import de.teamlapen.werewolves.world.WerewolfHeavenBiome;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.CreatureAttribute;
@@ -84,12 +85,15 @@ public class WerewolvesMod {
         MinecraftForge.EVENT_BUS.register(registryManager);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ModBiomes::onBiomeLoadingEventAdditions);
         MinecraftForge.EVENT_BUS.addListener(ModLootTables::onLootLoad);
+        MinecraftForge.EVENT_BUS.addListener(WerewolfHeavenBiome::addFeatures);
 
         if (ModList.get().isLoaded("guideapi-vp")) {
             MinecraftForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
         }
 
         WerewolvesConfig.registerConfigs();
+
+        RegistryManager.setupRegistries(bus);
     }
 
     private void checkDevEnv() {
@@ -110,6 +114,7 @@ public class WerewolvesMod {
                     .highestLevel(REFERENCE.HIGHEST_WEREWOLF_LEVEL)
                     .lordLevel(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL)
                     .lordTitle(LordTitles::getWerewolfTitle)
+                    .enableLordSkills()
                     .village(WerewolfVillageData::werewolfVillage)
                     .chatColor(TextFormatting.GOLD)
                     .name("text.werewolves.werewolf")

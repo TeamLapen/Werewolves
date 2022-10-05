@@ -27,7 +27,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     public void sendPosition(CallbackInfo ci){
         if (!isControlledCamera()) return;
         if (!this.isAlive()) return;
-        if (!WerewolfPlayer.getOpt(this).map(w -> w.getForm() == WerewolfForm.SURVIVALIST && w.getSkillHandler().isSkillEnabled(WerewolfSkills.climber)).orElse(false)) {
+        if (!WerewolfPlayer.getOpt(this).map(w -> w.getForm() == WerewolfForm.SURVIVALIST && w.getSkillHandler().isSkillEnabled(WerewolfSkills.CLIMBER.get())).orElse(false)) {
             return;
         }
         this.autoJumpEnabled = false;

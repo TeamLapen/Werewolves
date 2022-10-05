@@ -1,0 +1,21 @@
+{
+  "type": "vampirism:alchemical_table",
+  "result": {
+    "item": "vampirism:oil_bottle",
+    "nbt": {
+      "oil": "werewolves:silver_oil_2"
+    }
+  },
+  "ingredient": {
+    "type": "vampirism:item",
+    "item": "vampirism:oil_bottle",
+    "count": 1,
+    "nbt": {
+      "oil": "werewolves:silver_oil_1"
+    }
+  },
+  "input": {
+    "tag": "forge:ingots/silver"
+  },
+  "skill": []
+}

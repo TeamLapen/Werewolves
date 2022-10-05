@@ -8,6 +8,7 @@ import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -16,11 +17,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 
-public class UnWerewolfEffect extends WerewolvesEffect {
+public class UnWerewolfEffect extends Effect {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public UnWerewolfEffect() {
-        super("un_werewolf", EffectType.NEUTRAL, 0xdc9417);
+        super(EffectType.NEUTRAL, 0xdc9417);
     }
 
     @Override

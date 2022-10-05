@@ -32,7 +32,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -95,23 +94,13 @@ public class ModEntityEventHandler {
             if (!event.getSource().isMagic()) {
                 float damage = event.getAmount();
                 float damageReduction = FormHelper.getForm(event.getEntityLiving()).getDamageReduction().getLeft();
-                damageReduction *= event.getEntityLiving() instanceof PlayerEntity ? WerewolfPlayer.getOpt(((PlayerEntity) event.getEntityLiving())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(WerewolfSkills.thick_fur)).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
+                damageReduction *= event.getEntityLiving() instanceof PlayerEntity ? WerewolfPlayer.getOpt(((PlayerEntity) event.getEntityLiving())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(WerewolfSkills.THICK_FUR.get())).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
                 if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {
                     damageReduction *= 0.3;
                 }
                 damage -= event.getAmount() * damageReduction;
                 event.setAmount(MathHelper.clamp(damage, 0, Float.MAX_VALUE));
             }
-        }
-
-        if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof LivingEntity) {
-            LivingEntity source = ((LivingEntity) event.getSource().getEntity());
-            ItemStack handStack = source.getItemInHand(Hand.MAIN_HAND);
-            WeaponOilHelper.executeAndReduce(handStack, (stack, oil, duration) -> {
-                if (oil.canEffect(stack, event.getEntityLiving())) {
-                    event.setAmount(event.getAmount() + oil.getAdditionalDamage(stack, event.getEntityLiving(), event.getAmount()));
-                }
-            });
         }
     }
 
@@ -120,7 +109,7 @@ public class ModEntityEventHandler {
         if (event.getTarget() instanceof ServerPlayerEntity) {
             if (Helper.isWerewolf(((PlayerEntity) event.getTarget()))) {
                 WerewolfPlayer.getOpt(((PlayerEntity) event.getTarget())).ifPresent(werewolf -> {
-                    if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.sixth_sense)) {
+                    if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.SIXTH_SENSE.get())) {
                         WerewolvesMod.dispatcher.sendTo(new AttackTargetEventPacket(event.getEntity().getId()), ((ServerPlayerEntity) event.getTarget()));
                     }
                 });
@@ -190,7 +179,7 @@ public class ModEntityEventHandler {
             s.removeModifier(ARMOR_REDUCTION);
         }
         if (event.getSource() instanceof EntityDamageSource) {
-            WerewolfPlayer.getOptEx(event.getSource().getEntity()).filter(w -> w.getForm() == WerewolfForm.BEAST).filter(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.throat_seeker) && !UtilLib.canReallySee(event.getEntityLiving(), w.getRepresentingPlayer(), true)).ifPresent(werewolf -> {
+            WerewolfPlayer.getOptEx(event.getSource().getEntity()).filter(w -> w.getForm() == WerewolfForm.BEAST).filter(w -> w.getSkillHandler().isSkillEnabled(WerewolfSkills.THROAT_SEEKER.get()) && !UtilLib.canReallySee(event.getEntityLiving(), w.getRepresentingPlayer(), true)).ifPresent(werewolf -> {
                 if (event.getEntityLiving().getHealth() / event.getEntityLiving().getMaxHealth() < 0.25) {
                     if (werewolf.getRepresentingPlayer().getRandom().nextInt(4) < 1) {
                         event.setAmount(10000f);

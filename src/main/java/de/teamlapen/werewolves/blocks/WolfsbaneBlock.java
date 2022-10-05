@@ -19,7 +19,6 @@ import javax.annotation.Nonnull;
 public class WolfsbaneBlock extends FlowerBlock {
     public WolfsbaneBlock() {
         super(Effects.BLINDNESS, 5, Properties.of(Material.PLANT).strength(0f).noCollission().sound(SoundType.GRASS));
-        this.setRegistryName(REFERENCE.MODID,"wolfsbane");
     }
 
     @Override

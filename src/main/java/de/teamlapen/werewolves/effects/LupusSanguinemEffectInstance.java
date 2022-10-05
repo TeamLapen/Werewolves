@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 
 public class LupusSanguinemEffectInstance extends EffectInstance {
     public LupusSanguinemEffectInstance(int durationIn) {
-        super(ModEffects.lupus_sanguinem, durationIn, 0, false, true);
+        super(ModEffects.LUPUS_SANGUINEM.get(), durationIn, 0, false, true);
     }
 
     @Override

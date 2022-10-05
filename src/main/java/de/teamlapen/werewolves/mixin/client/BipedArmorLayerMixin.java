@@ -26,7 +26,7 @@ public class BipedArmorLayerMixin<T extends LivingEntity, M extends BipedModel<T
         if (!Helper.isWerewolf(((PlayerEntity) entity)))return;
         WerewolfPlayer werewolf = WerewolfPlayer.get(((PlayerEntity) entity));
         if (!FormHelper.isFormActionActive(werewolf)) return;
-        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.wear_armor) && werewolf.getActionHandler().isActionActive(ModActions.human_form)) return;
+        if (werewolf.getSkillHandler().isSkillEnabled(WerewolfSkills.WEAR_ARMOR.get()) && werewolf.getActionHandler().isActionActive(ModActions.HUMAN_FORM.get())) return;
         model.setAllVisible(false);
     }
 }

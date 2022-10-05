@@ -183,10 +183,10 @@ public class HumanWerewolfEntity extends CreatureEntity implements WerewolfTrans
         EntityType<? extends BasicWerewolfEntity> type;
         switch (this.getEntityData().get(FORM)) {
             case 0:
-                type = ModEntities.werewolf_beast;
+                type = ModEntities.WEREWOLF_BEAST.get();
                 break;
             case 2:
-                type = ModEntities.werewolf_survivalist;
+                type = ModEntities.WEREWOLF_SURVIVALIST.get();
                 break;
             default:
                 return this;

@@ -3,22 +3,19 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.werewolves.inventory.container.StoneAltarContainer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.inventory.container.ContainerType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
-
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @SuppressWarnings("deprecation")
-@ObjectHolder(REFERENCE.MODID)
 public class ModContainer {
 
-    public static final ContainerType<StoneAltarContainer> stone_altar_container = getNull();
+    public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, REFERENCE.MODID);
 
-    @SubscribeEvent
-    public static void registerContainerTypes(RegistryEvent.Register<ContainerType<?>> event) {
-        IForgeRegistry<ContainerType<?>> registry = event.getRegistry();
-        registry.register(new ContainerType<>(StoneAltarContainer::new).setRegistryName(REFERENCE.MODID, "stone_altar_container"));
+    public static final RegistryObject<ContainerType<StoneAltarContainer>> STONE_ALTAR_CONTAINER = CONTAINERS.register("stone_altar_container", () -> new ContainerType<>(StoneAltarContainer::new));
+
+    static void registerContainers(IEventBus bus) {
+        CONTAINERS.register(bus);
     }
 }

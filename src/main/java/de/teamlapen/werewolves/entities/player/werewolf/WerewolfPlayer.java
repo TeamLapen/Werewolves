@@ -67,7 +67,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     private void applyEntityAttributes() {
         try {
-            this.player.getAttribute(ModAttributes.bite_damage);
+            this.player.getAttribute(ModAttributes.BITE_DAMAGE.get());
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -209,24 +209,24 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
                 }
                 if (this.player.level.getGameTime() % 10 == 0) {
                     if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
-                        this.specialAttributes.transformationTime = MathHelper.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.time_regain).getValue(), 0, 1);
+                        this.specialAttributes.transformationTime = MathHelper.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue(), 0, 1);
                         syncPacket.putDouble("transformationTime", this.specialAttributes.transformationTime);
                     }
                     if (this.player.level.getGameTime() % 20 == 0) {
                         if (Helper.isFullMoon(this.getRepresentingPlayer().getCommandSenderWorld())) {
-                            if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.free_will)) {
+                            if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(WerewolfSkills.FREE_WILL.get())) {
                                 Optional<? extends IAction> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
                                 action.ifPresent(this.actionHandler::toggleAction);
                             }
                         }
 
-                        if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(WerewolfSkills.water_lover)) {
+                        if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(WerewolfSkills.WATER_LOVER.get())) {
                             this.player.addEffect(new EffectInstance(Effects.WEAKNESS, 50, 0, true, true));
                         }
                     }
                 }
 
-                if (this.skillHandler.isSkillEnabled(WerewolfSkills.health_reg)) {
+                if (this.skillHandler.isSkillEnabled(WerewolfSkills.HEALTH_REG.get())) {
                     this.tickFoodStats();
                 }
 
@@ -257,7 +257,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
                 if (this.player.level.getGameTime() % 10 == 0) {
                     if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
-                        this.specialAttributes.transformationTime = MathHelper.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.time_regain).getValue()), 0, 1);
+                        this.specialAttributes.transformationTime = MathHelper.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue()), 0, 1);
                     }
                 }
 
@@ -269,7 +269,7 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
             }
 
             if (this.checkArmorModifer && this.form.isTransformed()) {
-                if (!(this.form.isHumanLike() && this.skillHandler.isSkillEnabled(WerewolfSkills.wear_armor))) {
+                if (!(this.form.isHumanLike() && this.skillHandler.isSkillEnabled(WerewolfSkills.WEAR_ARMOR.get()))) {
                     this.removeArmorModifier();
                 }
                 this.checkArmorModifer = false;
@@ -374,9 +374,9 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
 
     @Override
     public void onEntityKilled(LivingEntity victim, DamageSource src) {
-        if (this.getSkillHandler().isRefinementEquipped(ModRefinements.rage_fury)) {
+        if (this.getSkillHandler().isRefinementEquipped(ModRefinements.RAGE_FURY.get())) {
             this.player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,40, 1));
-            this.actionHandler.extendActionTimer(ModActions.rage, WerewolvesConfig.BALANCE.REFINEMENTS.rage_fury_timer_extend.get());
+            this.actionHandler.extendActionTimer(ModActions.RAGE.get(), WerewolvesConfig.BALANCE.REFINEMENTS.rage_fury_timer_extend.get());
         }
         this.levelHandler.increaseProgress((int) (victim.getMaxHealth() * 0.2));
         this.syncLevelHandler();
@@ -431,21 +431,21 @@ public class WerewolfPlayer extends VampirismPlayer<IWerewolfPlayer> implements 
         if (!this.form.isTransformed()) return false;
         if (!canBite()) return false;
         if (!canBiteEntity(entity)) return false;
-        double damage = this.player.getAttribute(ModAttributes.bite_damage).getValue();
+        double damage = this.player.getAttribute(ModAttributes.BITE_DAMAGE.get()).getValue();
         boolean flag = entity.hurt(Helper.causeWerewolfDamage(this.player), (float) damage);
         if (flag) {
-            this.getRepresentingPlayer().playSound(ModSounds.entity_werewolf_bite, 1.0F, 1.0F);
-            this.getRepresentingPlayer().playNotifySound(ModSounds.entity_werewolf_bite, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            this.getRepresentingPlayer().playSound(ModSounds.ENTITY_WEREWOLF_BITE.get(), 1.0F, 1.0F);
+            this.getRepresentingPlayer().playNotifySound(ModSounds.ENTITY_WEREWOLF_BITE.get(), SoundCategory.PLAYERS, 1.0F, 1.0F);
             this.eatEntity(entity);
             this.specialAttributes.biteTicks = WerewolvesConfig.BALANCE.PLAYER.bite_cooldown.get();
-            if (this.skillHandler.isSkillEnabled(WerewolfSkills.stun_bite)) {
+            if (this.skillHandler.isSkillEnabled(WerewolfSkills.STUN_BITE.get())) {
                 int duration = WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get();
-                if (this.skillHandler.isRefinementEquipped(ModRefinements.stun_bite)) {
+                if (this.skillHandler.isRefinementEquipped(ModRefinements.STUN_BITE.get())) {
                     duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
                 }
-                entity.addEffect(new EffectInstance(ModEffects.V.freeze, duration));
-            } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.bleeding_bite)) {
-                entity.addEffect(new EffectInstance(ModEffects.bleeding, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.bleeding_bite) ? 3 : 0));
+                entity.addEffect(new EffectInstance(ModEffects.V.FREEZE.get(), duration));
+            } else if (this.skillHandler.isSkillEnabled(WerewolfSkills.BLEEDING_BITE.get())) {
+                entity.addEffect(new EffectInstance(ModEffects.BLEEDING.get(), WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.BLEEDING_BITE.get()) ? 3 : 0));
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)), false);
             if (!(entity instanceof PlayerEntity) || PermissionAPI.hasPermission(this.getRepresentingPlayer(), Permissions.INFECT_PLAYER)) {

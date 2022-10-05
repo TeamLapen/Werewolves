@@ -17,7 +17,6 @@
     "client.BipedArmorLayerMixin",
     "client.ClientPlayerEntityMixin",
     "client.InGameGuiAccessor",
-    "client.ItemRendererMixin",
     "client.LayerRendererAccessor",
     "client.PlayerRendererMixin",
     "client.RenderTypeBuffersMixin",

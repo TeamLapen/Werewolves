@@ -1,35 +1,34 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
+import de.teamlapen.vampirism.core.ModRegistries;
+import de.teamlapen.vampirism.player.actions.AttackSpeedLordAction;
+import de.teamlapen.vampirism.player.actions.SpeedLordAction;
+import de.teamlapen.werewolves.entities.player.werewolf.IWerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.*;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import de.teamlapen.werewolves.util.WReference;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
 
-import static de.teamlapen.lib.lib.util.UtilLib.getNull;
-
-@ObjectHolder(REFERENCE.MODID)
 public class ModActions {
 
-    public static final WerewolfFormAction human_form = getNull();
-    public static final WerewolfFormAction beast_form = getNull();
-    public static final WerewolfFormAction survival_form = getNull();
-    public static final HowlingAction howling = getNull();
-    public static final RageWerewolfAction rage = getNull();
-    public static final SenseWerewolfAction sense = getNull();
-    public static final FearAction fear = getNull();
-    public static final LeapAction leap = getNull();
-    public static final HideNameAction hide_name = getNull();
+    public static final DeferredRegister<IAction> ACTIONS = DeferredRegister.create(ModRegistries.ACTIONS, REFERENCE.MODID);
 
-    static void registerActions(IForgeRegistry<IAction> registry) {
-        registry.register(new HumanWerewolfFormAction().setRegistryName(REFERENCE.MODID, "human_form"));
-        registry.register(new BeastWerewolfFormAction().setRegistryName(REFERENCE.MODID, "beast_form"));
-        registry.register(new SurvivalWerewolfFormAction().setRegistryName(REFERENCE.MODID, "survival_form"));
-        registry.register(new HowlingAction().setRegistryName(REFERENCE.MODID, "howling"));
-        registry.register(new RageWerewolfAction().setRegistryName(REFERENCE.MODID, "rage"));
-        registry.register(new SenseWerewolfAction().setRegistryName(REFERENCE.MODID, "sense"));
-        registry.register(new FearAction().setRegistryName(REFERENCE.MODID, "fear"));
-        registry.register(new LeapAction().setRegistryName(REFERENCE.MODID, "leap"));
-        registry.register(new HideNameAction().setRegistryName(REFERENCE.MODID, "hide_name"));
+    public static final RegistryObject<WerewolfFormAction> HUMAN_FORM = ACTIONS.register("human_form", HumanWerewolfFormAction::new);
+    public static final RegistryObject<WerewolfFormAction> BEAST_FORM = ACTIONS.register("beast_form", BeastWerewolfFormAction::new);
+    public static final RegistryObject<WerewolfFormAction> SURVIVAL_FORM = ACTIONS.register("survival_form", SurvivalWerewolfFormAction::new);
+    public static final RegistryObject<HowlingAction> HOWLING = ACTIONS.register("howling", HowlingAction::new);
+    public static final RegistryObject<RageWerewolfAction> RAGE = ACTIONS.register("rage", RageWerewolfAction::new);
+    public static final RegistryObject<SenseWerewolfAction> SENSE = ACTIONS.register("sense", SenseWerewolfAction::new);
+    public static final RegistryObject<FearAction> FEAR = ACTIONS.register("fear", FearAction::new);
+    public static final RegistryObject<LeapAction> LEAP = ACTIONS.register("leap", LeapAction::new);
+    public static final RegistryObject<HideNameAction> HIDE_NAME = ACTIONS.register("hide_name", HideNameAction::new);
+    public static final RegistryObject<SpeedLordAction<IWerewolfPlayer>> WEREWOLF_LORD_SPEED = ACTIONS.register("werewolf_lord_speed", () -> new SpeedLordAction<>(WReference.WEREWOLF_FACTION));
+    public static final RegistryObject<AttackSpeedLordAction<IWerewolfPlayer>> WEREWOLF_LORD_ATTACK_SPEED = ACTIONS.register("werewolf_lord_attack_speed", () -> new AttackSpeedLordAction<>(WReference.WEREWOLF_FACTION));
+
+    static void registerActions(IEventBus bus) {
+        ACTIONS.register(bus);
     }
 }

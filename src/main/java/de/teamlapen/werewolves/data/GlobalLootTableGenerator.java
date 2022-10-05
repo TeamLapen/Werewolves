@@ -22,11 +22,11 @@ public class GlobalLootTableGenerator extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        add("hunter_liver", ModLootTables.mob_modifier, MobLootModifier.builder()
+        add("hunter_liver", ModLootTables.MOB_MODIFIER.get(), MobLootModifier.builder()
                 .table(LootTable.lootTable()
                         .withPool(LootPool.lootPool().name("werewolves_general").setRolls(ConstantRange.exactly(1)).when(KilledByPlayer.killedByPlayer()).when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.33f, 0.005f))
-                                .add(ItemLootEntry.lootTableItem(ModItems.liver).setWeight(1))))
-                .onlyFor(ModEntities.V.hunter, ModEntities.V.hunter_imob)
+                                .add(ItemLootEntry.lootTableItem(ModItems.LIVER.get()).setWeight(1))))
+                .onlyFor(ModEntities.V.HUNTER.get(), ModEntities.V.HUNTER_IMOB.get())
                 .build());
     }
 

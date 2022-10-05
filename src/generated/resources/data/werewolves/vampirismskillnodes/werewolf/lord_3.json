@@ -1,0 +1,7 @@
+{
+  "parent": "werewolves:werewolf_lord",
+  "skills": [
+    "werewolves:werewolf_lord_speed",
+    "werewolves:werewolf_lord_attack_speed"
+  ]
+}
