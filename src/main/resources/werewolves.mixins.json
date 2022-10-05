@@ -23,7 +23,6 @@
     "client.EntityRenderersMixin",
     "client.HumanoidArmorLayerMixin",
     "client.InGameGuiAccessor",
-    "client.ItemRendererMixin",
     "client.LayerRendererAccessor",
     "client.ModelPartAccessor",
     "client.RenderStateShardAccessor",

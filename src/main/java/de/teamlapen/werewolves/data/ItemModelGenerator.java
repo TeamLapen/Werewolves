@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.data;
 
+import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.RegUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -77,7 +77,6 @@ public class ItemModelGenerator extends ItemModelProvider {
         this.item(ModItems.DREAM_CATCHER.get(), modLoc("item/dream_catcher_layer0"), modLoc("item/dream_catcher_layer1"));
         this.item(ModItems.CHARM_BRACELET.get(), modLoc("item/charm_bracelet_layer0"), modLoc("item/charm_bracelet_layer1"));
         this.item(ModItems.BONE_NECKLACE.get(), modLoc("item/bone_necklace_layer0"), modLoc("item/bone_necklace_layer1"));
-        this.item(ModItems.OIL_BOTTLE.get(), modLoc("item/oil_bottle"), modLoc("item/oil_bottle_overlay"));
 
         this.item(ModItems.RAW_SILVER.get());
     }

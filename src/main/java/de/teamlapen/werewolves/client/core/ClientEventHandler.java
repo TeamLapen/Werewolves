@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
-import de.teamlapen.vampirism.client.gui.VampirismScreen;
+import de.teamlapen.vampirism.client.gui.screens.VampirismContainerScreen;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.client.gui.ExpBar;
@@ -68,13 +68,13 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void onGuiInitPost(ScreenEvent.Init.Post event) {
-        boolean vampirismScreen = event.getScreen() instanceof VampirismScreen;
+        boolean vampirismScreen = event.getScreen() instanceof VampirismContainerScreen;
         boolean stoneAltar = event.getScreen() instanceof StoneAltarScreen; //TODO move into stone altar screen
         if (vampirismScreen || stoneAltar) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 if (vampirismScreen) {
                     ResourceLocation icon = new ResourceLocation(REFERENCE.MODID, "textures/gui/appearance_button.png");
-                    ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((VampirismScreen) event.getScreen()).getGuiLeft() + 47, ((VampirismScreen) event.getScreen()).getGuiTop() + 90, 20, 20, 0, 0, 20, icon, 20, 40, (context) -> {
+                    ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((VampirismContainerScreen) event.getScreen()).getGuiLeft() + 47, ((VampirismContainerScreen) event.getScreen()).getGuiTop() + 90, 20, 20, 0, 0, 20, icon, 20, 40, (context) -> {
                         Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getScreen()));
                     }, (button1, matrixStack, mouseX, mouseY) -> {
                         event.getScreen().renderTooltip(matrixStack, Component.translatable("gui.vampirism.vampirism_menu.appearance_menu"), mouseX, mouseY);
@@ -100,21 +100,6 @@ public class ClientEventHandler {
                     event.setResult(Event.Result.DENY);
                 }
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onItemToolTip(ItemTooltipEvent event) {
-        MutableInt position = new MutableInt(1);
-        int flags = getHideFlags(event.getItemStack());
-        if (shouldShowInTooltip(flags, ItemStack.TooltipPart.ADDITIONAL)) position.increment();
-        if (event.getItemStack().hasTag()) {
-            if (shouldShowInTooltip(flags, ItemStack.TooltipPart.ENCHANTMENTS)) {
-                position.add(event.getItemStack().getEnchantmentTags().size());
-            }
-            WeaponOilHelper.oilOpt(event.getItemStack()).ifPresent((oil) -> {
-                event.getToolTip().add(position.getAndIncrement() - 1, Component.translatable("oil." + RegUtil.id(oil.getLeft()).getNamespace() + "." + RegUtil.id(oil.getLeft()).getPath() + ".desc").withStyle(ChatFormatting.GOLD));
-            });
         }
     }
 

@@ -143,8 +143,6 @@ public class WerewolvesGuideBook {
         Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
         helper.info(ModItems.LIVER.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
         helper.info(ModItems.CRACKED_BONE.get()).setLinks(new ResourceLocation("guide.werewolves.werewolf.leveling")).build(entries);
-        helper.info(false, Ingredient.of(ModItems.OIL_BOTTLE.get().withOil(ModOils.PLANT_OIL.get())), ModItems.OIL_BOTTLE.get().withOil(ModOils.PLANT_OIL.get())).useCustomEntryName().setKeyName("oil_bottle.plant_oil").build(entries);
-        helper.info(false, Ingredient.of(ModItems.OIL_BOTTLE.get().withOil(ModOils.SILVER_OIL_1.get()), ModItems.OIL_BOTTLE.get().withOil(ModOils.SILVER_OIL_2.get())), ModItems.OIL_BOTTLE.get().withOil(ModOils.SILVER_OIL_1.get())).useCustomEntryName().setKeyName("oil_bottle.silver_oil").build(entries);
         helper.info(ModItems.WEREWOLF_MINION_CHARM.get(), ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get(), ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED.get(), ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL.get())
                 .setFormats(loc(ModItems.WEREWOLF_MINION_CHARM.get()),
                         loc(ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get()), ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get().getMinLevel() + 1, ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get().getMaxLevel() + 1,

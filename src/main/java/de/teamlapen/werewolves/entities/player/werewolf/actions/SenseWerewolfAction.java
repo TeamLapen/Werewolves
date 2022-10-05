@@ -13,7 +13,7 @@ public class SenseWerewolfAction extends DefaultWerewolfAction implements ILasti
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer player) {
+    protected boolean activate(IWerewolfPlayer player, ActivationContext context) {
         return true;
     }
 

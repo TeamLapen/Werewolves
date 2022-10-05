@@ -2,10 +2,10 @@ package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.entity.IDefaultTaskMasterEntity;
-import de.teamlapen.vampirism.entity.goals.ForceLookEntityGoal;
-import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
+import de.teamlapen.vampirism.entity.ai.goals.ForceLookEntityGoal;
+import de.teamlapen.vampirism.entity.ai.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
-import de.teamlapen.vampirism.inventory.container.TaskBoardContainer;
+import de.teamlapen.vampirism.inventory.TaskBoardMenu;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
@@ -53,7 +53,7 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     @Override
     public void aiStep() {
         super.aiStep();
-        if (this.interactor != null && (!this.interactor.isAlive() || !(this.interactor.containerMenu instanceof TaskBoardContainer))) {
+        if (this.interactor != null && (!this.interactor.isAlive() || !(this.interactor.containerMenu instanceof TaskBoardMenu))) {
             this.interactor = null;
         }
     }

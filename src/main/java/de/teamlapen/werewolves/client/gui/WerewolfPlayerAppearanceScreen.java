@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.client.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import de.teamlapen.lib.lib.client.gui.widget.ScrollableArrayTextComponentList;
-import de.teamlapen.lib.lib.client.gui.widget.ScrollableListWidget;
-import de.teamlapen.vampirism.client.gui.AppearanceScreen;
+import de.teamlapen.lib.lib.client.gui.components.ScrollableArrayTextComponentList;
+import de.teamlapen.lib.lib.client.gui.components.ScrollableListComponent;
+import de.teamlapen.vampirism.client.gui.screens.AppearanceScreen;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -40,8 +40,8 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     private Button beast;
     private Button survival;
 
-    private ScrollableListWidget<Pair<Integer, Component>> eyeList;
-    private ScrollableListWidget<Pair<Integer, Component>> skinList;
+    private ScrollableListComponent<Pair<Integer, Component>> eyeList;
+    private ScrollableListComponent<Pair<Integer, Component>> skinList;
     private ExtendedButton eyeButton;
     private ExtendedButton skinButton;
     private Checkbox glowingEyesButton;

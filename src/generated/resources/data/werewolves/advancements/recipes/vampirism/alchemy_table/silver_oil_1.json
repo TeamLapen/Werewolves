@@ -1,0 +1,45 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bottles": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "vampirism:oil_bottle"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_silver_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/silver"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "werewolves:alchemy_table/silver_oil_1"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_bottles",
+      "has_silver_ingot",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "werewolves:alchemy_table/silver_oil_1"
+    ]
+  }
+}

@@ -11,16 +11,19 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CrossbowArrowItem extends Item implements IVampirismCrossbowArrow<CrossbowArrowEntity> {
+public class CrossbowArrowItem extends ArrowItem implements IVampirismCrossbowArrow<CrossbowArrowEntity> {
 
     private final ArrowType type;
 
@@ -30,10 +33,11 @@ public class CrossbowArrowItem extends Item implements IVampirismCrossbowArrow<C
     }
 
     @Override
-    public CrossbowArrowEntity createEntity(ItemStack stack, Level world, Player player, double heightOffset, double centerOffset, boolean rightHand) {
-        CrossbowArrowEntity entity = CrossbowArrowEntity.createWithShooter(world, player, heightOffset, centerOffset, rightHand, stack);
-        entity.setBaseDamage(this.type.baseDamage * VampirismConfig.BALANCE.crossbowDamageMult.get());
-        return entity;
+    public @NotNull AbstractArrow createArrow(@NotNull Level level, @NotNull ItemStack stack, @NotNull LivingEntity entity) {
+        CrossbowArrowEntity arrowEntity = new CrossbowArrowEntity(level, entity, stack);
+        arrowEntity.setEffectsFromItem(stack);
+        arrowEntity.setBaseDamage(this.type.baseDamage * VampirismConfig.BALANCE.crossbowDamageMult.get());
+        return arrowEntity;
     }
 
     @Override

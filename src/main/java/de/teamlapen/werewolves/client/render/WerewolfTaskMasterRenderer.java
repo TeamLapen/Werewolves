@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import de.teamlapen.vampirism.client.render.layers.TaskMasterTypeLayer;
+import de.teamlapen.vampirism.client.renderer.entity.layers.TaskMasterTypeLayer;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTaskMasterEntity;
 import net.minecraft.client.model.VillagerModel;
 import net.minecraft.client.renderer.MultiBufferSource;

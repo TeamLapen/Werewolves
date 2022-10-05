@@ -29,8 +29,8 @@ public class RegistryManager implements IInitListener {
         ModVillage.register(bus);
         ModLootTables.register(bus);
         ModCommands.register(bus);
-        ModSkills.register(bus);
         ModActions.register(bus);
+        ModSkills.register(bus);
         ModOils.register(bus);
         ModMinionTasks.register(bus);
         ModEntityActions.register(bus);
@@ -50,7 +50,6 @@ public class RegistryManager implements IInitListener {
             case COMMON_SETUP:
                 ModEntities.registerSpawns();
                 WerewolvesBiomeFeatures.init();
-                ModItems.registerOilRecipes();
                 event.enqueueWork(ModVillage::villageTradeSetup);
                 break;
             case LOAD_COMPLETE:

@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.util;
 
+import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
+import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfDataholder;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -59,6 +61,6 @@ public class FormHelper {
     }
 
     public static void deactivateWerewolfActions(IWerewolfPlayer player) {
-        WerewolfFormAction.getAllAction().stream().filter(action -> player.getActionHandler().isActionActive(action)).forEach(action -> player.getActionHandler().toggleAction(action));
+        WerewolfFormAction.getAllAction().stream().filter(action -> player.getActionHandler().isActionActive(action)).forEach(action -> player.getActionHandler().toggleAction(action, new ActionHandler.ActivationContext()));
     }
 }

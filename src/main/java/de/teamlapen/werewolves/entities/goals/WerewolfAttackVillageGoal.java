@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.entities.goals;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
 import de.teamlapen.vampirism.entity.VampirismEntity;
-import de.teamlapen.vampirism.entity.goals.AttackVillageGoal;
+import de.teamlapen.vampirism.entity.ai.goals.AttackVillageGoal;
 
 /**
  * same as {@link AttackVillageGoal} but with ignore disguise

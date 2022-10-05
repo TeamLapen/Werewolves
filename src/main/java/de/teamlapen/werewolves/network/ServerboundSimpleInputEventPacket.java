@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.network;
 
 import de.teamlapen.lib.network.IMessage;
+import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -31,7 +32,7 @@ public record ServerboundSimpleInputEventPacket(Type type) implements IMessage {
         ctx.enqueueWork(() -> {
             if (msg.type == Type.LEAP) {
                 WerewolfPlayer.getOpt(player).ifPresent(werewolfPlayer -> {
-                    werewolfPlayer.getActionHandler().toggleAction(ModActions.LEAP.get());
+                    werewolfPlayer.getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
                 });
             }
             ctx.setPacketHandled(true);

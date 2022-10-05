@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.vampirism.api.entity.EntityClassType;
 import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
-import de.teamlapen.vampirism.entity.goals.LookAtClosestVisibleGoal;
+import de.teamlapen.vampirism.entity.ai.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.vampirism.entity.hunter.HunterBaseEntity;
 import de.teamlapen.vampirism.entity.vampire.VampireBaseEntity;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
