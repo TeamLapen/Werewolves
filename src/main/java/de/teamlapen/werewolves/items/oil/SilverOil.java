@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.items.oil;
 
 import de.teamlapen.vampirism.api.items.oil.IWeaponOil;
+import de.teamlapen.vampirism.items.VampirismVampireSword;
 import de.teamlapen.vampirism.items.oil.WeaponOil;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModOils;
@@ -29,7 +30,7 @@ public class SilverOil extends WeaponOil {
 
     @Override
     public boolean canBeApplied(ItemStack stack) {
-        return super.canBeApplied(stack) && !(stack.getItem() instanceof ISilverItem || ModTags.Items.SILVER_TOOL.contains(stack.getItem()));
+        return super.canBeApplied(stack) && !(stack.getItem() instanceof ISilverItem || ModTags.Items.SILVER_TOOL.contains(stack.getItem()) || stack.getItem() instanceof VampirismVampireSword);
     }
 
     public float getDamageModifier() {
