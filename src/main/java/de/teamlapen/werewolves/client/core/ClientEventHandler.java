@@ -13,7 +13,7 @@ import de.teamlapen.werewolves.util.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -83,7 +83,7 @@ public class ClientEventHandler {
 
                 WerewolfPlayer.getOpt(Minecraft.getInstance().player).ifPresent(werewolf -> {
                     if (werewolf.getMaxLevel() == werewolf.getLevel()) return;
-                    ContainerScreen screen = ((ContainerScreen) event.getScreen());
+                    AbstractContainerScreen<?> screen = ((AbstractContainerScreen<?>) event.getScreen());
                     ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ExpBar(screen.getGuiLeft() - 14, screen.getGuiTop(), screen));
                 });
             }
