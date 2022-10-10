@@ -1,4 +1,4 @@
-project.mod_version = "${project.main_version}.${project.major_version}.${project.minor_version}"
+project.mod_version = "${project.major_version}.${project.api_version}.${project.minor_version}.${project.patch_version}"
 if (hasProperty("release")) {
     project.type = "release"
     project.classification = "public"
@@ -25,7 +25,7 @@ if (hasProperty("release")) {
     project.mod_version = project.mod_version + "-build+" + getDate()
 }
 
-version = project.minecraft_version + "-" + project.vampirism_version_simple + "-" + project.mod_version
+version = project.minecraft_version + "-" + project.mod_version
 
 logger.lifecycle "Version " + project.mod_version
 
