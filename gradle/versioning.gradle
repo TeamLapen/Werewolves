@@ -1,4 +1,4 @@
-project.mod_version = "${project.main_version}.${project.major_version}.${project.minor_version}"
+project.mod_version = "${project.major_version}.${project.api_version}.${project.minor_version}.${project.patch_version}"
 if (hasProperty("beta")) {
     project.mod_version = project.mod_version + "-beta." + beta
     project.type = "beta"
@@ -16,7 +16,7 @@ if (hasProperty("beta")) {
     project.type = "alpha"
 }
 
-version = project.minecraft_version + "-" + project.vampirism_version_simple + "-" + project.mod_version
+version = project.minecraft_version + "-" + project.mod_version
 
 logger.lifecycle "Version " + project.mod_version
 
