@@ -2,10 +2,8 @@ package de.teamlapen.werewolves.client.core;
 
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
-import de.teamlapen.werewolves.api.items.oil.IOil;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.items.CrossbowArrowItem;
-import de.teamlapen.werewolves.util.OilUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraftforge.api.distmarker.Dist;
@@ -33,12 +31,5 @@ public class ModItemRenderer {
             }
             return 0xFFFFFF;
         }, ModItems.DREAM_CATCHER.get(), ModItems.CHARM_BRACELET.get(), ModItems.BONE_NECKLACE.get());
-        colors.register((stack, tintIndex) -> {
-            if (tintIndex == 1) {
-                IOil oil = OilUtils.getOil(stack);
-                return oil.getColor();
-            }
-            return 0xFFFFFF;
-        }, ModItems.OIL_BOTTLE.get());
     }
 }

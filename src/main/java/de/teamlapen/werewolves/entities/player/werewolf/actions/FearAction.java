@@ -18,7 +18,7 @@ public class FearAction extends DefaultWerewolfAction implements IActionCooldown
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer iWerewolfPlayer) {
+    protected boolean activate(IWerewolfPlayer iWerewolfPlayer, ActivationContext context) {
         WerewolfPlayer player = ((WerewolfPlayer) iWerewolfPlayer);
         List<Mob> entities = player.getRepresentingPlayer().level.getEntitiesOfClass(Mob.class, new AABB(player.getRepresentingEntity().blockPosition()).inflate(10, 3, 10), (entity -> !(Helper.isWerewolf(entity))));
         for (Mob entity : entities) {

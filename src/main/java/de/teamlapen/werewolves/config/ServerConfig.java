@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.config;
 
 import de.teamlapen.lib.lib.util.UtilLib;
-import de.teamlapen.werewolves.util.RegUtil;
+import de.teamlapen.vampirism.util.RegUtil;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
 

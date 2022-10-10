@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.entities;
 
 import de.teamlapen.lib.lib.util.UtilLib;
-import de.teamlapen.vampirism.blockentity.TotemHelper;
+import de.teamlapen.vampirism.util.TotemHelper;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IVillagerTransformable;
@@ -20,7 +20,6 @@ import de.teamlapen.werewolves.network.ClientboundAttackTargetEventPacket;
 import de.teamlapen.werewolves.util.BiteDamageSource;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.WeaponOilHelper;
 import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.server.level.ServerLevel;
@@ -113,14 +112,6 @@ public class ModEntityEventHandler {
             }
         }
 
-        if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof LivingEntity source) {
-            ItemStack handStack = source.getItemInHand(InteractionHand.MAIN_HAND);
-            WeaponOilHelper.executeAndReduce(handStack, (stack, oil, duration) -> {
-                if (oil.canEffect(stack, event.getEntity())) {
-                    event.setAmount(event.getAmount() + oil.getAdditionalDamage(stack, event.getEntity(), event.getAmount()));
-                }
-            });
-        }
     }
 
     @SubscribeEvent

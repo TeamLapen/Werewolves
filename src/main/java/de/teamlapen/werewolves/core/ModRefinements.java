@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
-import de.teamlapen.vampirism.player.refinements.Refinement;
+import de.teamlapen.vampirism.entity.player.refinements.Refinement;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;

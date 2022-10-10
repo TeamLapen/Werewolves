@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.entities.goals;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.IVillageCaptureEntity;
-import de.teamlapen.vampirism.entity.goals.DefendVillageGoal;
+import de.teamlapen.vampirism.entity.ai.goals.DefendVillageGoal;
 import net.minecraft.world.entity.PathfinderMob;
 
 /**

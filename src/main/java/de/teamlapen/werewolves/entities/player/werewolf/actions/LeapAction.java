@@ -16,7 +16,7 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer iWerewolfPlayer) {
+    protected boolean activate(IWerewolfPlayer iWerewolfPlayer, ActivationContext context) {
         ((WerewolfPlayer) iWerewolfPlayer).getSpecialAttributes().leap = false;
         return true;
     }

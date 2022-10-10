@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.inventory.container;
 
-import de.teamlapen.lib.lib.inventory.InventoryContainer;
+import de.teamlapen.lib.lib.inventory.InventoryContainerMenu;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModContainer;
 import de.teamlapen.werewolves.core.ModItems;
@@ -13,8 +13,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import javax.annotation.Nonnull;
 
-public class StoneAltarContainer extends InventoryContainer {
-    public static final SelectorInfo[] SELECTOR_INFOS;
+public class StoneAltarContainer extends InventoryContainerMenu {
+    public static final InventoryContainerMenu.SelectorInfo[] SELECTOR_INFOS;
 
 
     @Deprecated

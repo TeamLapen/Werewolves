@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.items.oil;
 
+import de.teamlapen.vampirism.api.items.oil.IWeaponOil;
+import de.teamlapen.vampirism.items.oil.WeaponOil;
 import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModOils;
@@ -9,26 +11,24 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class SilverOil extends WeaponOil {
 
-    public SilverOil(int color) {
-        super(color);
-    }
-
-    public boolean canEffect(ItemStack stack, LivingEntity entity) {
-        return Helper.isWerewolf(entity);
-    }
-
-    public float getAdditionalDamage(ItemStack stack, LivingEntity entity, float damage) {
-        return damage * getDamageModifier();
+    public SilverOil(int color, int maxDuration) {
+        super(color, maxDuration);
     }
 
     @Override
-    public boolean canBeAppliedTo(ItemStack stack) {
-        return super.canBeAppliedTo(stack) && !(stack.getItem() instanceof ISilverItem || stack.is(ModTags.Items.SILVER_TOOL));
+    public float onDamage(ItemStack stack, float amount, IWeaponOil oil, LivingEntity target, LivingEntity source) {
+        return Helper.isWerewolf(target) ? amount * getDamageModifier():0;
+    }
+
+    @Override
+    public boolean canBeApplied(@NotNull ItemStack stack) {
+        return super.canBeApplied(stack) && !(stack.getItem() instanceof ISilverItem || stack.is(ModTags.Items.SILVER_TOOL));
     }
 
     public float getDamageModifier() {
@@ -37,13 +37,13 @@ public class SilverOil extends WeaponOil {
 
     @Override
     public int getMaxDuration(ItemStack stack) {
-        return this == ModOils.SILVER_OIL_2.get() ? WerewolvesConfig.BALANCE.OILS.silverOil2Duration.get() : WerewolvesConfig.BALANCE.OILS.silverOil1Duration.get();
+        return this == ModOils.SILVER_OIL_2.get() ? WerewolvesConfig.BALANCE.OILS.silverOil2Duration.get() : WerewolvesConfig.BALANCE.OILS.silverOil1Duration.get(); //TODO check
     }
 
     @Override
     public void getDescription(ItemStack stack, List<Component> tooltips) {
         super.getDescription(stack, tooltips);
         tooltips.add(Component.translatable("text.werewolves.oil.when_applied").withStyle(ChatFormatting.GRAY));
-        tooltips.add(Component.literal(" ").append(Component.translatable("text.werewolves.oil.silver.more_damage", getDamageModifier() * 100).withStyle(ChatFormatting.DARK_GREEN)));
+        tooltips.add(Component.literal("  ").append(Component.translatable("text.werewolves.oil.silver.more_damage", getDamageModifier() * 100).withStyle(ChatFormatting.DARK_GREEN)));
     }
 }

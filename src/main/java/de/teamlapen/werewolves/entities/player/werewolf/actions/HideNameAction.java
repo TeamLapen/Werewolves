@@ -14,7 +14,7 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolf) {
+    protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
         return true;
     }
 

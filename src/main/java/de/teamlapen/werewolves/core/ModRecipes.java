@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.inventory.recipes.WeaponOilRecipe;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
@@ -12,7 +11,6 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModRecipes {
 
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, REFERENCE.MODID);
-    public static final RegistryObject<SimpleRecipeSerializer<WeaponOilRecipe>> WEAPON_OIL = RECIPES.register("weapon_oil", () -> new SimpleRecipeSerializer<>(WeaponOilRecipe::new));
 
     static void register(IEventBus bus) {
         RECIPES.register(bus);

@@ -3,7 +3,8 @@ package de.teamlapen.werewolves.entities.player;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.vampirism.items.VampirismItemBloodFood;
+import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
+import de.teamlapen.vampirism.items.VampirismItemBloodFoodItem;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -74,7 +75,7 @@ public class ModPlayerEventHandler {
             if (Helper.isRawMeat(event.getItem())) {
                 ((Player) event.getEntity()).getFoodData().eat(event.getItem().getItem(), event.getItem());
             }
-            if (event.getItem().getItem() instanceof VampirismItemBloodFood) {
+            if (event.getItem().getItem() instanceof VampirismItemBloodFoodItem) {
                 event.getEntity().removeEffect(MobEffects.CONFUSION);
             }
         }
@@ -102,7 +103,7 @@ public class ModPlayerEventHandler {
                 event.setDamageMultiplier(event.getDamageMultiplier() * 0.8f);
             }
             if (werewolf.getSpecialAttributes().leap) {
-                werewolf.getActionHandler().toggleAction(ModActions.LEAP.get());
+                werewolf.getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
             }
 
         }
@@ -144,7 +145,7 @@ public class ModPlayerEventHandler {
                 //unnecessary leap attribute because LivingFallEvent is not called for creative player
                 if (werewolf.getActionHandler().isActionActive(ModActions.LEAP.get())) {
                     if (werewolf.getSpecialAttributes().leap) {
-                        werewolf.getActionHandler().toggleAction(ModActions.LEAP.get());
+                        werewolf.getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
                     } else {
                         werewolf.getSpecialAttributes().leap = true;
                         Vec3 vector3d = event.getEntity().getDeltaMovement();

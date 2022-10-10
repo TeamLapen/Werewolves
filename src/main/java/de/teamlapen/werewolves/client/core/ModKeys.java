@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -57,7 +58,7 @@ public class ModKeys {
             if (key == LEAP) {
                 werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.LEAP.get()) && w.getForm().isTransformed()).ifPresent(w -> {
                     WerewolvesMod.dispatcher.sendToServer(new ServerboundSimpleInputEventPacket(ServerboundSimpleInputEventPacket.Type.LEAP));
-                    WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.LEAP.get());
+                    WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
                 });
             } else if (key == BITE) {
                 werewolfOpt.ifPresent(werewolf -> {
