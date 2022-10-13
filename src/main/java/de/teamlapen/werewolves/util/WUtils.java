@@ -31,12 +31,12 @@ public class WUtils {
 
         @Override
         public float getSpeed() {
-            return 6.0f;
+            return 8.0f;
         }
 
         @Override
         public float getAttackDamageBonus() {
-            return 2.0f;
+            return 1.5f;
         }
 
         @Override
@@ -46,7 +46,7 @@ public class WUtils {
 
         @Override
         public int getEnchantmentValue() {
-            return 14;
+            return 12;
         }
 
         @Nonnull
