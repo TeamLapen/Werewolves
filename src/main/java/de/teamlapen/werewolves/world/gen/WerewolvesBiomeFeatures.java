@@ -55,7 +55,7 @@ public class WerewolvesBiomeFeatures {
 
     public static final RegistryObject<PlacedFeature> WOLFSBANE_PLACED = PLACED_FEATURE.register("wolfsbane", () -> new PlacedFeature(getHolder(WOLFSBANE), List.of(RarityFilter.onAverageOnceEvery(20), PlacementUtils.HEIGHTMAP, InSquarePlacement.spread())));
     public static final RegistryObject<PlacedFeature> WEREWOLF_HAVEN_TREES_PLACED = PLACED_FEATURE.register("heaven_trees", () -> new PlacedFeature(getHolder(WEREWOLF_HEAVEN_TREES), VegetationPlacements.treePlacement(PlacementUtils.countExtra(6, 0.2f, 2))));
-    public static final RegistryObject<PlacedFeature> SILVER_ORE_PLACED = PLACED_FEATURE.register("silver_ore", () -> new PlacedFeature(getHolder(SILVER_ORE), commonOrePlacement(50, HeightRangePlacement.triangle(VerticalAnchor.absolute(0), VerticalAnchor.absolute(96)))));
+    public static final RegistryObject<PlacedFeature> SILVER_ORE_PLACED = PLACED_FEATURE.register("silver_ore", () -> new PlacedFeature(getHolder(SILVER_ORE), commonOrePlacement(30, HeightRangePlacement.triangle(VerticalAnchor.absolute(-20), VerticalAnchor.absolute(50)))));
 
     public static void addWerewolvesFlowers(BiomeGenerationSettings.Builder biomeGeneratorSettings) {
         biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, getHolder(WOLFSBANE_PLACED));
