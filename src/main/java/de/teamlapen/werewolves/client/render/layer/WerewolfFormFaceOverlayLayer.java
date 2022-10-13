@@ -3,16 +3,18 @@ package de.teamlapen.werewolves.client.render.layer;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
-public class WerewolfFormFaceOverlayLayer<T extends LivingEntity> extends WerewolfFaceOverlayLayer<T> {
+public class WerewolfFormFaceOverlayLayer<T extends LivingEntity, E extends WerewolfBaseModel<T>> extends WerewolfFaceOverlayLayer<T, E> {
 
     private final WerewolfForm form;
 
-    public WerewolfFormFaceOverlayLayer(WerewolfForm form, LivingEntityRenderer<T, WerewolfBaseModel<T>> renderer, ResourceLocation[] overlays) {
-        super(renderer, overlays);
+    public WerewolfFormFaceOverlayLayer(WerewolfForm form, RenderLayerParent<T, E>  renderer) {
+        super(renderer);
         this.form = form;
     }
 

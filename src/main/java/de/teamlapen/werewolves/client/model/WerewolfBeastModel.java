@@ -3,10 +3,14 @@ package de.teamlapen.werewolves.client.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,6 +18,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Model made by Rebel
@@ -291,5 +297,19 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
      */
     private float quadraticArmUpdate(float p_102834_) {
         return -65.0F * p_102834_ + p_102834_ * p_102834_;
+    }
+
+    @Nonnull
+    public static List<ResourceLocation> getBeastTextures() {
+        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        if (locs.size() < WerewolfForm.BEAST.getSkinTypes()) {
+            for (int i = 0; i < WerewolfForm.BEAST.getSkinTypes(); i++) {
+                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_" + i + ".png");
+                if (!locs.contains(s)) {
+                    locs.add(s);
+                }
+            }
+        }
+        return locs;
     }
 }

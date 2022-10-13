@@ -10,11 +10,11 @@ import java.util.*;
 
 public class WerewolfForm {
     private static final Map<String, WerewolfForm> REGISTRY = new HashMap<>();
-    public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false, 0, 0F);
-    public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true, 3, 0.3F);
-    public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true, 8, 0.3F);
-    public static final WerewolfForm BEAST4L = new WerewolfForm("beast4l", WerewolfSize.BEAST, false, true, 8, 0.3F);
-    public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true, 8, 0.3F);
+    public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false, 0, 0F, true);
+    public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true, 3, 0.3F, true);
+    public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true, 8, 0.3F, true);
+    public static final WerewolfForm BEAST4L = new WerewolfForm("beast4l", WerewolfSize.BEAST, false, true, 8, 0.3F, false);
+    public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true, 8, 0.3F, false);
 
     @Nonnull
     private final String name;
@@ -25,8 +25,9 @@ public class WerewolfForm {
     private final int skinTypes;
     private final Component textComponent;
     private final float damageReduction;
+    private final boolean hasArms;
 
-    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, float damageReduction) {
+    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, float damageReduction, boolean hasArms) {
         if (REGISTRY.containsKey(name)) throw new IllegalStateException("this name already exists");
         REGISTRY.put(name, this);
         if (sizeMap == null) {
@@ -39,6 +40,7 @@ public class WerewolfForm {
         this.skinTypes = skinTypes;
         this.textComponent = Component.translatable("form.werewolves." + name);
         this.damageReduction = damageReduction;
+        this.hasArms = hasArms;
     }
 
     public boolean isHumanLike() {

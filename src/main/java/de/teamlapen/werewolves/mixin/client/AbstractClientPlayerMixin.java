@@ -1,42 +1,33 @@
 package de.teamlapen.werewolves.mixin.client;
 
 import com.mojang.authlib.GameProfile;
-import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.core.ModSkills;
+import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
+import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import net.minecraft.client.multiplayer.ClientLevel;
+import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.ProfilePublicKey;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
+@Mixin(AbstractClientPlayer.class)
+public abstract class AbstractClientPlayerMixin extends Player {
 
-@SuppressWarnings("unused")
-@Mixin(LocalPlayer.class)
-public abstract class AbstractClientPlayerMixin extends AbstractClientPlayer {
-
-    @Shadow
-    private boolean autoJumpEnabled;
-
-    public AbstractClientPlayerMixin(ClientLevel p_234112_, GameProfile p_234113_, @Nullable ProfilePublicKey p_234114_) {
-        super(p_234112_, p_234113_, p_234114_);
+    @Deprecated
+    private AbstractClientPlayerMixin(Level p_219727_, BlockPos p_219728_, float p_219729_, GameProfile p_219730_, @Nullable ProfilePublicKey p_219731_) {
+        super(p_219727_, p_219728_, p_219729_, p_219730_, p_219731_);
     }
 
-    @Inject(method = "sendPosition()V", at = @At("RETURN"))
-    public void sendPosition(CallbackInfo ci) {
-        if (!isControlledCamera()) return;
-        if (!this.isAlive()) return;
-        if (!WerewolfPlayer.getOpt(this).map(w -> w.getForm() == WerewolfForm.SURVIVALIST && w.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get())).orElse(false)) {
-            return;
-        }
-        this.autoJumpEnabled = false;
+    @Inject(method = "getModelName", at = @At("HEAD"), cancellable = true)
+    private void getWerewolfModelName(CallbackInfoReturnable<String> cir) {
+        WerewolfPlayerRenderer.getWerewolfRenderer(((AbstractClientPlayer)(Object) this)).ifPresent(cir::setReturnValue);
     }
-
-    @Shadow
-    protected abstract boolean isControlledCamera();
 }
