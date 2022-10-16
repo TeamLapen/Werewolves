@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -11,9 +12,11 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +47,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public static final String JOINT = "joint";
     public static final String NECK_FLUFF = "neckFluff";
     public static final String NECK_FLUFF_LEFT = "neckFluffLeft";
-    public static String NECK_FLUFF_RIGHT = "neckFluffRight";
+    public static final String NECK_FLUFF_RIGHT = "neckFluffRight";
     public static final String NECK_FLUFF_BOTTOM = "neckFluffBottom";
     public static final String HEAD = "head";
     public static final String EAR_LEFT = "earLeft";
@@ -70,6 +73,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public final ModelPart legRight;
     public final ModelPart legLeft;
     public final ModelPart tail;
+    public final ModelPart jaw;
 
 
     public WerewolfSurvivalistModel(ModelPart part) {
@@ -84,6 +88,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         ModelPart neck = this.body.getChild("neck");
         ModelPart joint = neck.getChild("joint");
         this.head = joint.getChild(HEAD);
+        this.jaw = this.head.getChild(JAW).getChild(JAW_TEETH);
     }
 
     @Nonnull
@@ -209,6 +214,11 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         //running tail animation
         this.tail.xRot += Mth.cos(limbSwing * 0.6662F * 0.7f) * 0.3F * Mth.abs(limbSwingAmount) + 0.3f;
         this.tail.yRot += Mth.sin(limbSwing * 0.6662F * 0.7f) * 0.1F * limbSwingAmount;
+    }
+
+    @Override
+    public void translateToHand(@NotNull HumanoidArm arm, @NotNull PoseStack stack) {
+        this.jaw.translateAndRotate(stack);
     }
 
     @Nonnull

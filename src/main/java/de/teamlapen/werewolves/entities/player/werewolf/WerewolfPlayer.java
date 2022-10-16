@@ -26,6 +26,7 @@ import de.teamlapen.werewolves.effects.inst.WerewolfNightVisionEffectInstance;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
+import de.teamlapen.werewolves.mixin.entity.PlayerAccessor;
 import de.teamlapen.werewolves.util.*;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -144,6 +145,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     public void switchForm(WerewolfForm form) {
         this.form = form;
         this.player.refreshDimensions();
+        if (!this.form.isHumanLike()) {
+            ((PlayerAccessor) this.player).removeEntitiesOnShoulder();
+        }
     }
 
     @Override

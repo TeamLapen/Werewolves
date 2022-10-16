@@ -12,9 +12,11 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -77,8 +79,8 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
 
     public final ModelPart body;
     public final ModelPart head;
-    public final ModelPart armRight;
-    public final ModelPart armLeft;
+    public final ModelPart rightArm;
+    public final ModelPart leftArm;
     public final ModelPart armRight2;
     public final ModelPart armLeft2;
     public final ModelPart legLeft;
@@ -94,12 +96,12 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         this.body = part.getChild(BODY);
         this.hip = this.body.getChild(HIP);
 
-        this.armRight = this.body.getChild(ARM_RIGHT);
-        this.armLeft = this.body.getChild(ARM_LEFT);
+        this.rightArm = this.body.getChild(ARM_RIGHT);
+        this.leftArm = this.body.getChild(ARM_LEFT);
         this.legRight = this.hip.getChild(LEG_RIGHT);
         this.legLeft = this.hip.getChild(LEG_LEFT);
-        this.armLeft2 = this.armLeft.getChild(ARM_LEFT_2);
-        this.armRight2 = this.armRight.getChild(ARM_RIGHT_2);
+        this.armLeft2 = this.leftArm.getChild(ARM_LEFT_2);
+        this.armRight2 = this.rightArm.getChild(ARM_RIGHT_2);
 
         this.tail = this.hip.getChild(TAIL);
 
@@ -218,18 +220,18 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
             this.head.xRot = headPitch * ((float) Math.PI / 180F);
         }
 
-        this.armRight.zRot = 0.0f;
-        this.armLeft.zRot = 0.0f;
+        this.rightArm.zRot = 0.0f;
+        this.leftArm.zRot = 0.0f;
         this.armLeft2.xRot = -1f;
         this.armRight2.xRot = -1f;
 
-        this.armRight.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.2F * limbSwingAmount * 0.5F;
-        this.armLeft.xRot = Mth.cos(limbSwing * 0.6662F) * 1.2F * limbSwingAmount * 0.5F;
+        this.rightArm.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.2F * limbSwingAmount * 0.5F;
+        this.leftArm.xRot = Mth.cos(limbSwing * 0.6662F) * 1.2F * limbSwingAmount * 0.5F;
 
-        this.armRight.zRot += Mth.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-        this.armLeft.zRot -= Mth.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
-        this.armRight.xRot += Mth.sin(ageInTicks * 0.067F) * 0.05F;
-        this.armLeft.xRot -= Mth.sin(ageInTicks * 0.067F) * 0.05F;
+        this.rightArm.zRot += Mth.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+        this.leftArm.zRot -= Mth.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+        this.rightArm.xRot += Mth.sin(ageInTicks * 0.067F) * 0.05F;
+        this.leftArm.xRot -= Mth.sin(ageInTicks * 0.067F) * 0.05F;
 
         this.legRight.xRot = -0.3839724354387525F;
         this.legLeft.xRot = -0.3839724354387525F;
@@ -260,7 +262,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         this.tail.yRot += Mth.sin(limbSwing * 0.6662F * 0.7f) * 0.1F * limbSwingAmount;
 
         if (this.attackTime > 0.0F) {
-            ModelPart ModelRenderer = this.armRight;
+            ModelPart ModelRenderer = this.rightArm;
             float f1;
             f1 = 1.0F - this.attackTime;
             f1 = f1 * f1;
@@ -281,6 +283,12 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
 
         this.earRight.xRot = -0.4886921905584123F;
         this.earRight.xRot += Mth.cos(ageInTicks * 0.1F) * 0.07F;
+    }
+
+    @Override
+    public void translateToHand(@NotNull HumanoidArm arm, @NotNull PoseStack stack) {
+        ModelPart modelPart = arm == HumanoidArm.RIGHT ? this.rightArm : this.leftArm;
+        modelPart.translateAndRotate(stack);
     }
 
     /**

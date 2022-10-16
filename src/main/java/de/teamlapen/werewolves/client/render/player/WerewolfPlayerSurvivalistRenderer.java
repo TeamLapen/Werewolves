@@ -12,6 +12,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.layers.ArrowLayer;
+import net.minecraft.client.renderer.entity.layers.PlayerItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +29,9 @@ public class WerewolfPlayerSurvivalistRenderer extends WerewolfPlayerRenderer<Ab
         this.textures = getSurvivalTextures();
 
         this.addLayer(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.SURVIVALIST, this));
+        this.addLayer(new ArrowLayer<>(context, this));
+        this.addLayer(new PlayerItemInHandLayer<>(this, context.getItemInHandRenderer()));
+
     }
 
     @Override

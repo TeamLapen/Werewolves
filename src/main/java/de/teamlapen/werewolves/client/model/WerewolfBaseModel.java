@@ -84,6 +84,6 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
     }
 
     @Override
-    public void translateToHand(@Nonnull HumanoidArm p_225599_1_, @Nonnull PoseStack p_225599_2_) {
+    public void translateToHand(@Nonnull HumanoidArm arm, @Nonnull PoseStack stack) {
     }
 }
