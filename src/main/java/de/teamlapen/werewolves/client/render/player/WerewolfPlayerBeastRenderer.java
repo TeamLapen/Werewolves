@@ -5,7 +5,6 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
-import de.teamlapen.werewolves.client.render.layer.ParrotOnShoulderLayer;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;

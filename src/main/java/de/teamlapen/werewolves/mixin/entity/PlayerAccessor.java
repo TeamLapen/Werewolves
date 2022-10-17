@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface PlayerAccessor {
 
     @Invoker("removeEntitiesOnShoulder")
-    void removeEntitiesOnShoulder();
+    void invoke_removeEntitiesOnShoulder();
 }

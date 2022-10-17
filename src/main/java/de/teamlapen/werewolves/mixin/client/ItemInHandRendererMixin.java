@@ -1,8 +1,11 @@
 package de.teamlapen.werewolves.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;

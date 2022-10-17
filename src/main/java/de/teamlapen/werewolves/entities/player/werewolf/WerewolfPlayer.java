@@ -146,7 +146,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.form = form;
         this.player.refreshDimensions();
         if (!this.form.isHumanLike()) {
-            ((PlayerAccessor) this.player).removeEntitiesOnShoulder();
+            ((PlayerAccessor) this.player).invoke_removeEntitiesOnShoulder();
         }
     }
 

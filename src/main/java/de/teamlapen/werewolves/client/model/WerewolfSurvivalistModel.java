@@ -3,7 +3,6 @@ package de.teamlapen.werewolves.client.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -74,6 +73,9 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public final ModelPart legLeft;
     public final ModelPart tail;
     public final ModelPart jaw;
+    public final ModelPart jawTeeth;
+    public final ModelPart neck;
+    public final ModelPart joint;
 
 
     public WerewolfSurvivalistModel(ModelPart part) {
@@ -85,10 +87,11 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.legLeft = hip.getChild(LEG_LEFT);
         this.armLeft = this.body.getChild(ARM_LEFT);
         this.armRight = this.body.getChild(ARM_RIGHT);
-        ModelPart neck = this.body.getChild("neck");
-        ModelPart joint = neck.getChild("joint");
+        this.neck = this.body.getChild("neck");
+        this.joint = neck.getChild("joint");
         this.head = joint.getChild(HEAD);
-        this.jaw = this.head.getChild(JAW).getChild(JAW_TEETH);
+        this.jaw = this.head.getChild(JAW);
+        this.jawTeeth = jaw.getChild(JAW_TEETH);
     }
 
     @Nonnull
@@ -216,8 +219,11 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.tail.yRot += Mth.sin(limbSwing * 0.6662F * 0.7f) * 0.1F * limbSwingAmount;
     }
 
-    @Override
-    public void translateToHand(@NotNull HumanoidArm arm, @NotNull PoseStack stack) {
+    public void translateToMouth(@NotNull HumanoidArm arm, @NotNull PoseStack stack) {
+        this.body.translateAndRotate(stack);
+        this.neck.translateAndRotate(stack);
+        this.joint.translateAndRotate(stack);
+        this.head.translateAndRotate(stack);
         this.jaw.translateAndRotate(stack);
     }
 
