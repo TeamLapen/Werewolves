@@ -1,0 +1,6 @@
+{
+  "parent": "werewolves:werewolf/helpful1",
+  "skills": [
+    "werewolves:enhanced_digger"
+  ]
+}

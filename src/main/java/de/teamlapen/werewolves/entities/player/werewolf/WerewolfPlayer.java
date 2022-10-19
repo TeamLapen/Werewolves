@@ -49,6 +49,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
@@ -528,6 +530,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             return WReference.WEREWOLF_FACTION;
         }
         return null;
+    }
+
+    public Tier getDigDropTier() {
+        return this.getSkillHandler().isSkillEnabled(ModSkills.ENHANCED_DIGGER.get()) ? Tiers.DIAMOND : this.getSkillHandler().isSkillEnabled(ModSkills.DIGGER.get())? Tiers.IRON : Tiers.STONE;
+    }
+
+    public float getDigSpeed() {
+        return this.getSkillHandler().isSkillEnabled(ModSkills.ENHANCED_DIGGER.get()) ? 7.0F : this.getSkillHandler().isSkillEnabled(ModSkills.DIGGER.get()) ? 5.0F : 3.0F;
     }
 
     @Nonnull
