@@ -44,6 +44,9 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodePro
         ResourceLocation survival4 = werewolf(survival3, ModSkills.LEAP, ModSkills.CLIMBER).build(consumer, this.modId("survival4"));
         ResourceLocation survival5 = werewolf(survival4, ModSkills.MOVEMENT_TACTICS).build(consumer, this.modId("survival5"));
 
+        ResourceLocation helpful1 = werewolf(skill2, ModSkills.DIGGER).build(consumer, this.modId("helpful1"));
+        ResourceLocation helpful2 = werewolf(helpful1, ModSkills.ENHANCED_DIGGER).build(consumer, this.modId("helpful2"));
+
 
         ResourceLocation util1 = werewolf(skill2, ModSkills.HOWLING).build(consumer, this.modId("util1"));
         ResourceLocation util2 = werewolf(util1, ModSkills.WOLF_PACK).build(consumer, this.modId("util2"));

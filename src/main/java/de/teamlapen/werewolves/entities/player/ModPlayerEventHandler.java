@@ -16,6 +16,7 @@ import de.teamlapen.werewolves.mixin.LivingEntityAccessor;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -25,11 +26,13 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.entity.player.SleepingTimeCheckEvent;
@@ -252,5 +255,17 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void onSleepTime(SleepingTimeCheckEvent event) {
 
+    }
+
+    @SubscribeEvent
+    public void isCorrectToolForDrop(PlayerEvent.HarvestCheck event) {
+        if(!event.canHarvest() && Helper.isWerewolf(event.getEntity())) {
+            WerewolfPlayer.getOpt(event.getEntity()).filter(a -> a.getForm().isTransformed()).ifPresent(werewolf -> {
+                event.setCanHarvest(event.getEntity().getMainHandItem().isEmpty() && TierSortingRegistry.isCorrectTierForDrops(werewolf.getDigDropTier(), event.getTargetBlock())
+                        && (event.getTargetBlock().is(BlockTags.MINEABLE_WITH_PICKAXE)
+                        || event.getTargetBlock().is(BlockTags.MINEABLE_WITH_SHOVEL)
+                        || event.getTargetBlock().is(BlockTags.MINEABLE_WITH_HOE)));
+            });
+        }
     }
 }
