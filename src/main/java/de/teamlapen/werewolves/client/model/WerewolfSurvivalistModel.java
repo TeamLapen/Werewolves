@@ -190,6 +190,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
             this.head.xRot = headPitch * ((float) Math.PI / 180F);
         }
 
+        setupAttackAnimation(entityIn, ageInTicks);
 
         this.legRight.xRot = -1.5707963267948966F;
         this.legLeft.xRot = -1.5707963267948966F;
@@ -225,6 +226,14 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.joint.translateAndRotate(stack);
         this.head.translateAndRotate(stack);
         this.jaw.translateAndRotate(stack);
+    }
+
+    protected void setupAttackAnimation(T entity, float ageInTicks) {
+        if (this.attackTime > 0) {
+            float f = this.attackTime;
+            f = 1.0F - f;
+            head.xRot += f;
+        }
     }
 
     @Nonnull
