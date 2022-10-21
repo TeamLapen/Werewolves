@@ -26,6 +26,7 @@
     "client.InGameGuiAccessor",
     "client.ItemRendererMixin",
     "client.LayerRendererAccessor",
+    "client.LevelRendererMixin",
     "client.ModelPartAccessor",
     "client.RenderStateShardAccessor",
     "client.RenderTypeAccessor",

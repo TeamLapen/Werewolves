@@ -13,4 +13,8 @@ public interface Proxy extends IInitListener {
     default void handleAppearancePacket(ServerPlayer sender, ServerboundWerewolfAppearancePacket msg) {
 
     }
+
+    default void endVisionBatch() {
+
+    }
 }
