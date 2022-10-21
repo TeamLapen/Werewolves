@@ -37,7 +37,6 @@ public class ClientProxy extends CommonProxy {
                 ModKeys.register(clientHandler);
             }
             case LOAD_COMPLETE -> {
-                event.enqueueWork(ModItemRenderer::registerColorsUnsafe);
                 event.enqueueWork(ModScreens::registerScreensUnsafe);
             }
             default -> {
