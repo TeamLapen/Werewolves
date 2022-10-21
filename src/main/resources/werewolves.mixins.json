@@ -30,9 +30,7 @@
     "client.ModelPartAccessor",
     "client.RenderStateShardAccessor",
     "client.RenderTypeAccessor",
-    "client.RenderTypeBuffersMixin",
-    "client.ScreenMixin",
-    "client.WorldRendererMixin"
+    "client.ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
