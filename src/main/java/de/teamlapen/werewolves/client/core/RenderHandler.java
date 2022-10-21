@@ -49,9 +49,9 @@ public class RenderHandler implements ResourceManagerReloadListener {
     private int displayHeight, displayWidth;
     private boolean isInsideVisionRendering = false;
 
-
-    private PostPass blit0;
-
+    private PostPass blit;
+    private PostPass blur1;
+    private PostPass blur2;
 
     public RenderHandler(@Nonnull Minecraft mc) {
         this.mc = mc;
@@ -154,10 +154,11 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     private void adjustVisionShaders(float progress) {
-        if (blit0 == null) return;
+        if (this.blit == null || this.blur1 == null) return;
         progress = Mth.clamp(progress, 0, 1);
-        blit0.getEffect().safeGetUniform("ColorModulate").set((1 - 0.4F * progress), (1 - 0.5F * progress), (1 - 0.3F * progress), 1);
-
+        this.blit.getEffect().safeGetUniform("ColorModulate").set((1 - 0.4F * progress), (1 - 0.5F * progress), (1 - 0.3F * progress), 1);
+        this.blur1.getEffect().safeGetUniform("Radius").set((float)Math.round(5.0F * progress));
+        this.blur2.getEffect().safeGetUniform("Radius").set((float)Math.round(5.0F * progress));
     }
 
     private void updateFramebufferSize(int width, int height) {
@@ -184,7 +185,11 @@ public class RenderHandler implements ResourceManagerReloadListener {
             this.blurShader = new PostChain(this.mc.getTextureManager(), this.mc.getResourceManager(), this.mc.getMainRenderTarget(), resourcelocationBlur);
             RenderTarget swap = this.blurShader.getTempTarget("swap");
 
-            blit0 = blurShader.addPass("blit", swap, this.mc.getMainRenderTarget());
+            this.blit = blurShader.addPass("blit", swap, this.mc.getMainRenderTarget());
+            this.blur1 = this.blurShader.addPass("blur", this.mc.getMainRenderTarget(), swap);
+            this.blur1.getEffect().safeGetUniform("BlurDir").set(1.0F, 0.0F);
+            this.blur2 = this.blurShader.addPass("blur", swap, this.mc.getMainRenderTarget());
+            this.blur2.getEffect().safeGetUniform("BlurDir").set(0.0F, 1.0F);
 
             this.blurShader.resize(this.mc.getWindow().getWidth(), this.mc.getWindow().getHeight());
 
