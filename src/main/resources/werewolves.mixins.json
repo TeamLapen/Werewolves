@@ -24,6 +24,7 @@
     "client.HumanoidArmorLayerMixin",
     "client.InGameGuiAccessor",
     "client.LayerRendererAccessor",
+    "client.LevelRendererMixin",
     "client.ModelPartAccessor",
     "client.RenderStateShardAccessor",
     "client.RenderTypeAccessor",

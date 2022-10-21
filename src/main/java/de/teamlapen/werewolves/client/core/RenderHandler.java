@@ -20,11 +20,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,6 +58,14 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
+    public void onCameraSetup(@NotNull ViewportEvent.ComputeCameraAngles event) {
+        if (shouldRenderVision()) {
+            updateDisplaySize();
+            adjustVisionShaders(getVisionProgress((float) event.getPartialTick()));
+        }
+    }
+
+    @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (this.mc.level == null || this.mc.player == null || !this.mc.player.isAlive()) return;
         if (event.phase == TickEvent.Phase.END) return;
@@ -74,7 +84,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void onRenderLivingPost(RenderLivingEvent.Post<?, ?> event) {
+    public void onRenderLivingPost(@NotNull RenderLivingEvent.Post<?, ?> event) {
         if (!this.isInsideVisionRendering && this.shouldRenderVision()) {
             LivingEntity entity = event.getEntity();
 
@@ -103,9 +113,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
                 entityRenderer.render(entity, f, event.getPartialTick(), event.getPoseStack(), this.visionBuffer, renderManager.getPackedLightCoords(entity, event.getPartialTick()));
                 this.mc.getMainRenderTarget().bindWrite(false);
                 this.isInsideVisionRendering = false;
-
             }
-
         }
     }
 
@@ -123,23 +131,25 @@ public class RenderHandler implements ResourceManagerReloadListener {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
             if (mc.level == null) return;
 
-            /*
-             * DO NOT USE partial ticks from event. They are bugged: https://github.com/MinecraftForge/MinecraftForge/issues/6380
-             */
-            float partialTicks = mc.getFrameTime();
-
-
-            if (displayHeight != mc.getWindow().getHeight() || displayWidth != mc.getWindow().getWidth()) {
-                this.displayHeight = mc.getWindow().getHeight();
-                this.displayWidth = mc.getWindow().getWidth();
-                this.updateFramebufferSize(this.displayWidth, this.displayHeight);
-            }
 
             if (shouldRenderVision()) {
-                adjustVisionShaders(getVisionProgress(partialTicks));
-                this.blurShader.process(partialTicks);
-                if (this.visionBuffer != null) this.visionBuffer.endOutlineBatch();
+                this.blurShader.process(event.getPartialTick());
+                this.mc.getMainRenderTarget().bindWrite(false);
             }
+        }
+    }
+
+    public void endVisionBatch() {
+        if (shouldRenderVision()) {
+            if (this.visionBuffer != null) this.visionBuffer.endOutlineBatch();
+        }
+    }
+
+    private void updateDisplaySize() {
+        if (displayHeight != mc.getWindow().getHeight() || displayWidth != mc.getWindow().getWidth()) {
+            this.displayHeight = mc.getWindow().getHeight();
+            this.displayWidth = mc.getWindow().getWidth();
+            this.updateFramebufferSize(this.displayWidth, this.displayHeight);
         }
     }
 
