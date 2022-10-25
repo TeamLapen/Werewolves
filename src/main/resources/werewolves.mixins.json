@@ -20,6 +20,7 @@
   ],
   "client": [
     "client.AbstractClientPlayerMixin",
+    "client.ClientModLoaderAccessor",
     "client.EntityRenderersMixin",
     "client.HumanoidArmorLayerMixin",
     "client.InGameGuiAccessor",
