@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.world.gen;
 
 import com.google.common.collect.ImmutableList;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.Holder;
@@ -11,6 +12,7 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.TreePlacements;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.IntProviderType;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -31,16 +33,21 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 import java.util.OptionalInt;
+import java.util.function.Supplier;
 
 public class WerewolvesBiomeFeatures {
 
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURE = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, REFERENCE.MODID);
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, REFERENCE.MODID);
+    public static final DeferredRegister<IntProviderType<?>> INT_PROVIDER = DeferredRegister.create(Registry.INT_PROVIDER_TYPE_REGISTRY, REFERENCE.MODID);
 
     public static void register(IEventBus bus) {
         PLACED_FEATURE.register(bus);
         CONFIGURED_FEATURES.register(bus);
+        INT_PROVIDER.register(bus);
     }
+
+    public static final RegistryObject<IntProviderType<ConfigIntProvider>> CONFIG_INT_PROVIDER = INT_PROVIDER.register("config_int_provider", () -> () -> ConfigIntProvider.CODEC);
 
     public static final RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> JACARANDA_TREE = CONFIGURED_FEATURES.register("jacaranda_tree", () -> new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(ModBlocks.JACARANDA_LOG.get().defaultBlockState()), new StraightTrunkPlacer(4, 2, 0), BlockStateProvider.simple(ModBlocks.JACARANDA_LEAVES.get()), new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), new TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()));
     public static final RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> MAGIC_TREE = CONFIGURED_FEATURES.register("magic_tree", () -> new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(ModBlocks.MAGIC_LOG.get().defaultBlockState()), new StraightTrunkPlacer(4, 2, 0), BlockStateProvider.simple(ModBlocks.MAGIC_LEAVES.get().defaultBlockState()), new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3), new TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()));
@@ -55,7 +62,7 @@ public class WerewolvesBiomeFeatures {
 
     public static final RegistryObject<PlacedFeature> WOLFSBANE_PLACED = PLACED_FEATURE.register("wolfsbane", () -> new PlacedFeature(getHolder(WOLFSBANE), List.of(RarityFilter.onAverageOnceEvery(20), PlacementUtils.HEIGHTMAP, InSquarePlacement.spread())));
     public static final RegistryObject<PlacedFeature> WEREWOLF_HAVEN_TREES_PLACED = PLACED_FEATURE.register("heaven_trees", () -> new PlacedFeature(getHolder(WEREWOLF_HEAVEN_TREES), VegetationPlacements.treePlacement(PlacementUtils.countExtra(6, 0.2f, 2))));
-    public static final RegistryObject<PlacedFeature> SILVER_ORE_PLACED = PLACED_FEATURE.register("silver_ore", () -> new PlacedFeature(getHolder(SILVER_ORE), commonOrePlacement(30, HeightRangePlacement.triangle(VerticalAnchor.absolute(-20), VerticalAnchor.absolute(50)))));
+    public static final RegistryObject<PlacedFeature> SILVER_ORE_PLACED = PLACED_FEATURE.register("silver_ore", () -> new PlacedFeature(getHolder(SILVER_ORE), commonOrePlacement(WerewolvesConfig.COMMON.silverOreWeight, HeightRangePlacement.triangle(VerticalAnchor.absolute(-20), VerticalAnchor.absolute(50)))));
 
     public static void addWerewolvesFlowers(BiomeGenerationSettings.Builder biomeGeneratorSettings) {
         biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, getHolder(WOLFSBANE_PLACED));
@@ -75,8 +82,8 @@ public class WerewolvesBiomeFeatures {
     }
 
     @SuppressWarnings("SameParameterValue")
-    private static List<PlacementModifier> commonOrePlacement(int p_195344_, PlacementModifier p_195345_) {
-        return orePlacement(CountPlacement.of(p_195344_), p_195345_);
+    private static List<PlacementModifier> commonOrePlacement(Supplier<Integer> p_195344_, PlacementModifier p_195345_) {
+        return orePlacement(CountPlacement.of(ConfigIntProvider.of(p_195344_)), p_195345_);
     }
 
     private static List<PlacementModifier> rareOrePlacement(int p_195350_, PlacementModifier p_195351_) {
