@@ -3,8 +3,8 @@ modrinth {
     changelog = project.type == "beta" || project.type == "release" ? "" : "This version should not be used in your 'productive' world. It contains the latest features, but also the latest bugs. Probably not all features are finished. To see what might have changed visit our Github page and browse the latest commits."
     token = findProperty("MODRINTH_API") ?: "DUMMY"
     projectId = '3ElBohKg'
-    versionNumber = "${project.minecraft_version}-${project.vampirism_version_simple}-${project.mod_version}"
-    versionName = "Werewolves-${project.minecraft_version}-${project.vampirism_version_simple}-${project.mod_version}"
+    versionNumber = "${project.minecraft_version}-${project.mod_version}"
+    versionName = "Werewolves-${project.minecraft_version}-${project.mod_version}"
     uploadFile = jar
     gameVersions = [project.minecraft_version]
     loaders = ['forge']
