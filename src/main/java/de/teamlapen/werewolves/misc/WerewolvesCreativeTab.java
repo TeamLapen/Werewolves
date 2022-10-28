@@ -87,7 +87,7 @@ public class WerewolvesCreativeTab {
             addBlock(JACARANDA_FENCE_GATE);
             addBlock(JACARANDA_DOOR);
             addBlock(JACARANDA_TRAPDOOR);
-            addBlock(JACARANDA_PRESSURE_PLACE);
+            addBlock(JACARANDA_PRESSURE_PLATE);
             addBlock(JACARANDA_BUTTON);
             addItem(ModItems.JACARANDA_SIGN);
 
@@ -104,7 +104,7 @@ public class WerewolvesCreativeTab {
             addBlock(MAGIC_FENCE_GATE);
             addBlock(MAGIC_DOOR);
             addBlock(MAGIC_TRAPDOOR);
-            addBlock(MAGIC_PRESSURE_PLACE);
+            addBlock(MAGIC_PRESSURE_PLATE);
             addBlock(MAGIC_BUTTON);
             addItem(ModItems.MAGIC_SIGN);
         }
