@@ -121,6 +121,8 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     private final Map<WerewolfForm, Integer> skinType = new HashMap<>();
     private final Map<WerewolfForm, Boolean> glowingEyes = new HashMap<>();
 
+    private int sleepTimer;
+
     public WerewolfPlayer(@Nonnull Player player) {
         super(player);
         this.actionHandler = new ActionHandler<>(this);
@@ -284,6 +286,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
             this.specialAttributes.biteTicks = Math.max(0, this.specialAttributes.biteTicks - 1);
 
+        } else if (!this.isRemote() && this.player.isSleeping() && this.player.hasEffect(ModEffects.LUPUS_SANGUINEM.get())) {
+            if (this.sleepTimer++ >= 200) {
+                this.player.getEffect(ModEffects.LUPUS_SANGUINEM.get()).applyEffect(this.player);
+                this.player.removeEffect(ModEffects.LUPUS_SANGUINEM.get());
+                this.player.stopSleeping();
+            }
+        } else {
+            this.sleepTimer = 0;
         }
         this.player.getCommandSenderWorld().getProfiler().pop();
     }

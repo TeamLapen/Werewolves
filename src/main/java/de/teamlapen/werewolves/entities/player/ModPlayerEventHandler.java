@@ -34,6 +34,7 @@ import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.event.entity.player.SleepingTimeCheckEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
@@ -252,5 +253,10 @@ public class ModPlayerEventHandler {
             event.setCanceled(true);
             ((Player) event.getEntityMounting()).displayClientMessage(Component.translatable("text.werewolves.nomount.transformed"), true);
         }
+    }
+
+    @SubscribeEvent
+    public void onSleepTime(SleepingTimeCheckEvent event) {
+
     }
 }
