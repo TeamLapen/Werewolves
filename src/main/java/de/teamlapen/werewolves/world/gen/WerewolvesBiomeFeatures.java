@@ -3,14 +3,13 @@ package de.teamlapen.werewolves.world.gen;
 import com.google.common.collect.ImmutableList;
 import de.teamlapen.werewolves.config.CommonConfig;
 import de.teamlapen.werewolves.blocks.WolfBerryBushBlock;
+import de.teamlapen.werewolves.config.CommonConfig;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBlocks;
-import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.gen.feature.trunkplacer.MultipleForkingTrunkPlacer;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.FeatureUtils;
@@ -32,12 +31,8 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.AcaciaFoliagePl
 import net.minecraft.world.level.levelgen.feature.foliageplacers.RandomSpreadFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.rootplacers.MangroveRootPlacement;
 import net.minecraft.world.level.levelgen.feature.rootplacers.MangroveRootPlacer;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.RandomSpreadFoliagePlacer;
-import net.minecraft.world.level.levelgen.feature.rootplacers.MangroveRootPlacement;
-import net.minecraft.world.level.levelgen.feature.rootplacers.MangroveRootPlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.UpwardsBranchingTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.UpwardsBranchingTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -46,7 +41,6 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Optional;
 import java.util.OptionalInt;
 
@@ -98,7 +92,7 @@ public class WerewolvesBiomeFeatures {
     }
 
     @SuppressWarnings("SameParameterValue")
-    private static List<PlacementModifier> commonOrePlacement(@NotNull CommonConfig.IntValueExt  p_195344_, PlacementModifier p_195345_) {
+    private static List<PlacementModifier> commonOrePlacement(@NotNull CommonConfig.IntValueExt p_195344_, @NotNull PlacementModifier p_195345_) {
         return orePlacement(CountPlacement.of(ConfigIntProvider.of(p_195344_)), p_195345_);
     }
 

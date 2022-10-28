@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "werewolves:magic_planks"
+              "werewolves:jacaranda_planks"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "werewolves:magic_pressure_place"
+        "recipe": "werewolves:jacaranda_pressure_plate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "werewolves:magic_pressure_place"
+      "werewolves:jacaranda_pressure_plate"
     ]
   }
 }

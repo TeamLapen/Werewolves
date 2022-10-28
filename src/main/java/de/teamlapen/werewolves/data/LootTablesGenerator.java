@@ -107,8 +107,8 @@ public class LootTablesGenerator extends LootTableProvider {
             this.dropSelf(ModBlocks.MAGIC_SIGN.get());
             this.dropSelf(ModBlocks.JACARANDA_WALL_SIGN.get());
             this.dropSelf(ModBlocks.MAGIC_WALL_SIGN.get());
-            this.dropSelf(ModBlocks.JACARANDA_PRESSURE_PLACE.get());
-            this.dropSelf(ModBlocks.MAGIC_PRESSURE_PLACE.get());
+            this.dropSelf(ModBlocks.JACARANDA_PRESSURE_PLATE.get());
+            this.dropSelf(ModBlocks.MAGIC_PRESSURE_PLATE.get());
             this.dropSelf(ModBlocks.JACARANDA_BUTTON.get());
             this.dropSelf(ModBlocks.MAGIC_BUTTON.get());
             this.dropSelf(ModBlocks.JACARANDA_SLAB.get());

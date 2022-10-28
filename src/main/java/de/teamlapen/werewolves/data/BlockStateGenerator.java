@@ -109,8 +109,8 @@ public class BlockStateGenerator extends BlockStateProvider {
         button(ModBlocks.JACARANDA_BUTTON.get(), blockTexture(ModBlocks.JACARANDA_PLANKS.get()));
         button(ModBlocks.MAGIC_BUTTON.get(), blockTexture(ModBlocks.MAGIC_PLANKS.get()));
 
-        pressurePlate(ModBlocks.JACARANDA_PRESSURE_PLACE.get(), blockTexture(ModBlocks.JACARANDA_PLANKS.get()));
-        pressurePlate(ModBlocks.MAGIC_PRESSURE_PLACE.get(), blockTexture(ModBlocks.MAGIC_PLANKS.get()));
+        pressurePlate(ModBlocks.JACARANDA_PRESSURE_PLATE.get(), blockTexture(ModBlocks.JACARANDA_PLANKS.get()));
+        pressurePlate(ModBlocks.MAGIC_PRESSURE_PLATE.get(), blockTexture(ModBlocks.MAGIC_PLANKS.get()));
 
         simpleBlock(ModBlocks.JACARANDA_WALL_SIGN.get(), models().getBuilder("werewolves:jacaranda_wall_sign").texture("particle", "werewolves:block/jacaranda_planks"));
         simpleBlock(ModBlocks.MAGIC_WALL_SIGN.get(), models().getBuilder("werewolves:magic_wall_sign").texture("particle", "werewolves:block/magic_planks"));

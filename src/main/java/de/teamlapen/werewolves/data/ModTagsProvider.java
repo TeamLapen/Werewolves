@@ -73,9 +73,18 @@ public class ModTagsProvider {
             tag(BlockTags.WOODEN_FENCES).add(ModBlocks.JACARANDA_FENCE.get(), ModBlocks.MAGIC_FENCE.get());
             tag(BlockTags.LOGS_THAT_BURN).addTags(ModTags.Blocks.MAGIC_LOG, ModTags.Blocks.JACARANDA_LOG);
             tag(BlockTags.LOGS).addTags(ModTags.Blocks.MAGIC_LOG, ModTags.Blocks.JACARANDA_LOG);
-            tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ModBlocks.JACARANDA_PRESSURE_PLACE.get(), ModBlocks.MAGIC_PRESSURE_PLACE.get());
+            tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ModBlocks.JACARANDA_PRESSURE_PLATE.get(), ModBlocks.MAGIC_PRESSURE_PLATE.get());
             tag(BlockTags.WOODEN_DOORS).add(ModBlocks.JACARANDA_DOOR.get(), ModBlocks.MAGIC_DOOR.get());
             tag(BlockTags.WOODEN_TRAPDOORS).add(ModBlocks.JACARANDA_TRAPDOOR.get(), ModBlocks.MAGIC_TRAPDOOR.get());
+
+            this.tag(BlockTags.MINEABLE_WITH_AXE)
+            ;
+            this.tag(BlockTags.MINEABLE_WITH_AXE)
+            ;
+            this.tag(BlockTags.MINEABLE_WITH_AXE)
+            ;
+            this.tag(BlockTags.MINEABLE_WITH_AXE)
+            ;
         }
     }
 
