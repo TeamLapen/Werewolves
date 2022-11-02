@@ -1,5 +1,9 @@
 repositories {
     maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
         url "https://dvs1.progwml6.com/files/maven"
     }
     maven {
@@ -21,7 +25,7 @@ apply from: 'gradle/crowdin.gradle'
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
     //Vampirism
-    implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
+    implementation fg.deobf("maven.modrinth:vampirism:${project.minecraft_version}-${project.vampirism_version}")
     implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
 
     //Utility
