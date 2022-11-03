@@ -64,11 +64,11 @@ dd02dbcfce1276d5ad39ece189ab564424552e7d assets/werewolves/models/item/werewolf_
 eae8b94d084783c00195dbc67194f666bf33b630 assets/werewolves/models/item/wolfsbane.json
 1c277fa1874cf0f24cec03cad85e8da01013277e data/forge/loot_modifiers/global_loot_modifiers.json
 cf364e388b8b502f7ab4ddae7d2b344caaa27a38 data/forge/tags/blocks/ores/silver.json
-f398738268c4829710f953391e0885b27865afef data/forge/tags/items/cookedmeats.json
+2314baa82b12222a932033efef1a138583b3703f data/forge/tags/items/cookedmeats.json
 9a8b997b4ab4a1e265a1a09a17cb3177ca1507f8 data/forge/tags/items/ingots/silver.json
 2c4bb8b5c4cdafc632e35e318f028372e0751be3 data/forge/tags/items/nuggets/silver.json
 cf364e388b8b502f7ab4ddae7d2b344caaa27a38 data/forge/tags/items/ores/silver.json
-7cb71d3327c9ec0928fec436df3fba5a3be05ae9 data/forge/tags/items/rawmeats.json
+0691ec382a4682823341b78d25bde1b73e8b1bac data/forge/tags/items/rawmeats.json
 f171af45d2cb37a54d60a7ce86634c05fa405f3b data/minecraft/advancements/recipes/misc/bone.json
 2a50e43e5fded1af53057f7a3bbaa6a8a82e0a64 data/minecraft/advancements/recipes/misc/purple_dye.json
 62701c49c5c78d2ac80cd9343e07cd0a0960223b data/minecraft/recipes/bone.json

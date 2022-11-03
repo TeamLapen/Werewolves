@@ -7,6 +7,214 @@
     "minecraft:cooked_porkchop",
     "minecraft:cooked_porkchop",
     "minecraft:cooked_cod",
-    "minecraft:cooked_salmon"
+    "minecraft:cooked_salmon",
+    {
+      "id": "artifacts:eternal_steak",
+      "required": false
+    },
+    {
+      "id": "upgrade_aquatic:cooked_perch",
+      "required": false
+    },
+    {
+      "id": "upgrade_aquatic:cooked_pike",
+      "required": false
+    },
+    {
+      "id": "turtlemancy:rabbit_stew",
+      "required": false
+    },
+    {
+      "id": "twilightforest:cooked_meef",
+      "required": false
+    },
+    {
+      "id": "twilightforest:cooked_venison",
+      "required": false
+    },
+    {
+      "id": "twilightforest:meef_stroganoff",
+      "required": false
+    },
+    {
+      "id": "twilightforest:hydra_chop",
+      "required": false
+    },
+    {
+      "id": "upgrade_aquatic:cooked_lionfish",
+      "required": false
+    },
+    {
+      "id": "abnormals_delight:cooked_perch_slice",
+      "required": false
+    },
+    {
+      "id": "abnormals_delight:cooked_pike_slice",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:cooked_lowtier_meat",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:cooked_common_meat",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:cooked_apex_meat",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:cooked_behemoth_meat",
+      "required": false
+    },
+    {
+      "id": "wyrmroost:cooked_desert_wyrm",
+      "required": false
+    },
+    {
+      "id": "quark:cooked_crab_leg",
+      "required": false
+    },
+    {
+      "id": "quark:cooked_frog_leg",
+      "required": false
+    },
+    {
+      "id": "turtlemancy:cooked_oyster",
+      "required": false
+    },
+    {
+      "id": "mysticalworld:cooked_squid",
+      "required": false
+    },
+    {
+      "id": "mysticalworld:epic_squid",
+      "required": false
+    },
+    {
+      "id": "mysticalworld:cooked_venison",
+      "required": false
+    },
+    {
+      "id": "forbidden_arcanus:bat_soup",
+      "required": false
+    },
+    {
+      "id": "forbidden_arcanus:cooked_tentacle",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:cooked_mutton_chops",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:cooked_salmon_slice",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:cooked_cod_slice",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:cooked_bacon",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:cooked_chicken_cuts",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:smoked_ham",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:barbeque_stick",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:roast_chicken",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:honey_glazed_ham",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:shepherds_pie",
+      "required": false
+    },
+    {
+      "id": "undergarden:dweller_steak",
+      "required": false
+    },
+    {
+      "id": "undergarden:cooked_gwibling",
+      "required": false
+    },
+    {
+      "id": "undergarden:gloomper_leg",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_grittle_flatfish",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_municipal_monkfish",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_charscale_moki",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_horizofin_tunid",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_venison",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_carabeef",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_monitor_tail",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:dog_food",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:beef_patty",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:fried_egg",
+      "required": false
+    },
+    {
+      "id": "autumnity:cooked_turkey",
+      "required": false
+    },
+    {
+      "id": "autumnity:cooked_turkey_piece",
+      "required": false
+    },
+    {
+      "id": "minecraft:theabyss_cooked_fish",
+      "required": false
+    },
+    {
+      "id": "theabyss:cooked_deer_beef",
+      "required": false
+    },
+    {
+      "id": "neapolitan:cooked_mint_chops",
+      "required": false
+    }
   ]
 }
