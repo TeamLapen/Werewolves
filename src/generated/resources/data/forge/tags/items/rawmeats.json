@@ -11,6 +11,386 @@
     "vampirism:weak_human_heart",
     "minecraft:salmon",
     "minecraft:tropical_fish",
-    "minecraft:cod"
+    "minecraft:cod",
+    {
+      "id": "occultism:datura",
+      "required": false
+    },
+    {
+      "id": "ars_nouveau:mana_berry",
+      "required": false
+    },
+    {
+      "id": "artifacts:everlasting_beef",
+      "required": false
+    },
+    {
+      "id": "upgrade_aquatic:perch",
+      "required": false
+    },
+    {
+      "id": "upgrade_aquatic:pike",
+      "required": false
+    },
+    {
+      "id": "upgrade_aquatic:lionfish",
+      "required": false
+    },
+    {
+      "id": "abnormals_delight:perch_slice",
+      "required": false
+    },
+    {
+      "id": "abnormals_delight:pike_slice",
+      "required": false
+    },
+    {
+      "id": "blue_skies:grittle_flatfish",
+      "required": false
+    },
+    {
+      "id": "blue_skies:municipal_monkfish",
+      "required": false
+    },
+    {
+      "id": "blue_skies:charscale_moki",
+      "required": false
+    },
+    {
+      "id": "blue_skies:horizofin_tunid",
+      "required": false
+    },
+    {
+      "id": "blue_skies:venison",
+      "required": false
+    },
+    {
+      "id": "blue_skies:carabeef",
+      "required": false
+    },
+    {
+      "id": "blue_skies:monitor_tail",
+      "required": false
+    },
+    {
+      "id": "twilightforest:raw_meef",
+      "required": false
+    },
+    {
+      "id": "twilightforest:raw_venison",
+      "required": false
+    },
+    {
+      "id": "twilightforest:experiment_115",
+      "required": false
+    },
+    {
+      "id": "undergarden:raw_dweller_meat",
+      "required": false
+    },
+    {
+      "id": "undergarden:raw_gwibling",
+      "required": false
+    },
+    {
+      "id": "undergarden:raw_gloomper_leg",
+      "required": false
+    },
+    {
+      "id": "quark:crab_leg",
+      "required": false
+    },
+    {
+      "id": "quark:frog_leg",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:mutton_chops",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:salmon_slice",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:cod_slice",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:bacon",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:chicken_cuts",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:ham",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:minced_beef",
+      "required": false
+    },
+    {
+      "id": "forbidden_arcanus:tentacle",
+      "required": false
+    },
+    {
+      "id": "forbidden_arcanus:bat_wing",
+      "required": false
+    },
+    {
+      "id": "autumnity:turkey",
+      "required": false
+    },
+    {
+      "id": "autumnity:turkey_piece",
+      "required": false
+    },
+    {
+      "id": "potionsmaster:bezoar",
+      "required": false
+    },
+    {
+      "id": "potionsmaster:gallbladder",
+      "required": false
+    },
+    {
+      "id": "neapolitan:mint_chops",
+      "required": false
+    },
+    {
+      "id": "biomemakeover:raw_toad",
+      "required": false
+    },
+    {
+      "id": "aquaculture:fish_fillet_raw",
+      "required": false
+    },
+    {
+      "id": "aquaculture:frog_legs_raw",
+      "required": false
+    },
+    {
+      "id": "croptopia:anchovy",
+      "required": false
+    },
+    {
+      "id": "croptopia:shrimp",
+      "required": false
+    },
+    {
+      "id": "croptopia:calamari",
+      "required": false
+    },
+    {
+      "id": "croptopia:glowing_calamari",
+      "required": false
+    },
+    {
+      "id": "croptopia:tuna",
+      "required": false
+    },
+    {
+      "id": "croptopia:bacon",
+      "required": false
+    },
+    {
+      "id": "croptopia:crab",
+      "required": false
+    },
+    {
+      "id": "croptopia:clam",
+      "required": false
+    },
+    {
+      "id": "croptopia:oyster",
+      "required": false
+    },
+    {
+      "id": "croptopia:frog_legs",
+      "required": false
+    },
+    {
+      "id": "croptopia:sausage",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:raw_catfish",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:moose_ribs",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:blobfish",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:lobster_tail",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:flying_fish",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:kangaroo_meat",
+      "required": false
+    },
+    {
+      "id": "alexsdelight:raw_bison",
+      "required": false
+    },
+    {
+      "id": "alexsdelight:raw_bunfungus",
+      "required": false
+    },
+    {
+      "id": "alexsdelight:raw_bunfungus_drumstick",
+      "required": false
+    },
+    {
+      "id": "alexsdelight:raw_catfish_slice",
+      "required": false
+    },
+    {
+      "id": "alexsdelight:kangaroo_shank",
+      "required": false
+    },
+    {
+      "id": "alexsdelight:loose_moose_rib",
+      "required": false
+    },
+    {
+      "id": "alexsdelight:bison_mince",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:calamari_raw",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:eel_meat_raw",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:turkey_leg_raw",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:crab_meat_raw",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:pheasant_raw",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:venison_raw",
+      "required": false
+    },
+    {
+      "id": "culturaldelights:squid",
+      "required": false
+    },
+    {
+      "id": "culturaldelights:glow_squid",
+      "required": false
+    },
+    {
+      "id": "culturaldelights:raw_calamari",
+      "required": false
+    },
+    {
+      "id": "delightful:venison_chops",
+      "required": false
+    },
+    {
+      "id": "delightful:raw_goat",
+      "required": false
+    },
+    {
+      "id": "nethersdelight:raw_stuffed_hoglin",
+      "required": false
+    },
+    {
+      "id": "nethersdelight:ground_strider",
+      "required": false
+    },
+    {
+      "id": "nethersdelight:strider_slice",
+      "required": false
+    },
+    {
+      "id": "nethersdelight:hoglin_loin",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:raw_charque",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:raw_charque_strips",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:raw_equin",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:raw_equin_chunk",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:raw_meatloaf",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:ghast_tendril",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:ghast_fillet",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:cured_pufferfish",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:cure_pufferfish_cut",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:sausage",
+      "required": false
+    },
+    {
+      "id": "shepherdsdelight:strider_meat_roll",
+      "required": false
+    },
+    {
+      "id": "twilightdelight:raw_meef_slice",
+      "required": false
+    },
+    {
+      "id": "twilightdelight:raw_venison_rib",
+      "required": false
+    },
+    {
+      "id": "twilightdelight:experiment_113",
+      "required": false
+    },
+    {
+      "id": "twilightdelight:experiment_110",
+      "required": false
+    },
+    {
+      "id": "twilightdelight:hydra_piece",
+      "required": false
+    }
   ]
 }

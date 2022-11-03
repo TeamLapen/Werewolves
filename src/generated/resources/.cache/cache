@@ -77,7 +77,7 @@ bee44e88c78a9a413378ff76b534b5a9abfe976e data/forge/tags/blocks/ore_rates/singul
 6a5dd466313f928ebddbcf1960071b3460805cea data/forge/tags/blocks/ores/silver.json
 5c9a521a0d906e723ed39252828f2a94932581dc data/forge/tags/blocks/storage_blocks/raw_silver.json
 31ef7d868a9c7c5cde94a060332d04826a3daab6 data/forge/tags/blocks/storage_blocks/silver.json
-f398738268c4829710f953391e0885b27865afef data/forge/tags/items/cookedmeats.json
+0a195234d0c1106289bc019bf54bbb1483cc142d data/forge/tags/items/cookedmeats.json
 9a8b997b4ab4a1e265a1a09a17cb3177ca1507f8 data/forge/tags/items/ingots/silver.json
 cb82f85f5f41cdbddd41faf3bf744d08d30f3a2c data/forge/tags/items/jacaranda_logs.json
 de41c28dc273fe6b7f605ffb558b2a916df94dfe data/forge/tags/items/magic_logs.json
@@ -85,7 +85,7 @@ de41c28dc273fe6b7f605ffb558b2a916df94dfe data/forge/tags/items/magic_logs.json
 bee44e88c78a9a413378ff76b534b5a9abfe976e data/forge/tags/items/ore_rates/singular.json
 6a5dd466313f928ebddbcf1960071b3460805cea data/forge/tags/items/ores/silver.json
 f51acfe48c7f91e1657c693757ad19347a1edf27 data/forge/tags/items/raw_materials/silver.json
-7cb71d3327c9ec0928fec436df3fba5a3be05ae9 data/forge/tags/items/rawmeats.json
+5a337f38aa826d19b8530cd1509368b96e384287 data/forge/tags/items/rawmeats.json
 5c9a521a0d906e723ed39252828f2a94932581dc data/forge/tags/items/storage_blocks/raw_silver.json
 31ef7d868a9c7c5cde94a060332d04826a3daab6 data/forge/tags/items/storage_blocks/silver.json
 cecc0f6657cf9dbd4f6d286a707da6c4c9f8434b data/minecraft/advancements/recipes/misc/bone.json
