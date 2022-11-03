@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.world.gen;
 
 import com.google.common.collect.ImmutableList;
+import de.teamlapen.werewolves.config.CommonConfig;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -33,7 +34,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 import java.util.OptionalInt;
-import java.util.function.Supplier;
 
 public class WerewolvesBiomeFeatures {
 
@@ -82,7 +82,7 @@ public class WerewolvesBiomeFeatures {
     }
 
     @SuppressWarnings("SameParameterValue")
-    private static List<PlacementModifier> commonOrePlacement(Supplier<Integer> p_195344_, PlacementModifier p_195345_) {
+    private static List<PlacementModifier> commonOrePlacement(CommonConfig.IntValueExt p_195344_, PlacementModifier p_195345_) {
         return orePlacement(CountPlacement.of(ConfigIntProvider.of(p_195344_)), p_195345_);
     }
 
