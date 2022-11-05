@@ -5,17 +5,15 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
+import de.teamlapen.werewolves.client.render.layer.BeastItemInHandLayer;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
-import net.minecraft.client.renderer.entity.layers.PlayerItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +30,7 @@ public class WerewolfPlayerBeastRenderer extends WerewolfPlayerRenderer<Abstract
         this.textures = getBeastTextures();
 
         this.addLayer(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST, this));
-        this.addLayer(new PlayerItemInHandLayer<>(this, context.getItemInHandRenderer()));
+        this.addLayer(new BeastItemInHandLayer<>(this, context.getItemInHandRenderer()));
         this.addLayer(new ArrowLayer<>(context, this));
     }
 

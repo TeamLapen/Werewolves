@@ -90,6 +90,8 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     public final ModelPart jaw;
     public final ModelPart earLeft;
     public final ModelPart earRight;
+    public final ModelPart joint;
+    public final ModelPart neck;
 
     public WerewolfBeastModel(ModelPart part) {
         super(part);
@@ -105,14 +107,12 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
 
         this.tail = this.hip.getChild(TAIL);
 
-        ModelPart neck = this.body.getChild(NECK);
-        ModelPart joint = neck.getChild(JOINT);
+        this.neck = this.body.getChild(NECK);
+        this.joint = neck.getChild(JOINT);
         this.head = joint.getChild(HEAD);
         this.jaw = this.head.getChild(JAW);
         this.earLeft = this.head.getChild(EAR_LEFT);
         this.earRight = this.head.getChild(EAR_RIGHT);
-
-
     }
 
     @SuppressWarnings({"unused", "DuplicatedCode"})
@@ -289,6 +289,13 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     public void translateToHand(@NotNull HumanoidArm arm, @NotNull PoseStack stack) {
         ModelPart modelPart = arm == HumanoidArm.RIGHT ? this.rightArm : this.leftArm;
         modelPart.translateAndRotate(stack);
+    }
+
+    public void translateToHead(PoseStack stack) {
+        this.body.translateAndRotate(stack);
+        this.neck.translateAndRotate(stack);
+        this.joint.translateAndRotate(stack);
+        this.head.translateAndRotate(stack);
     }
 
     /**
