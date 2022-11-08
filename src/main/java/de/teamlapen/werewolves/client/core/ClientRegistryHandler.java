@@ -14,5 +14,7 @@ public class ClientRegistryHandler {
         modbus.addListener(ModBlocksRenderer::registerBlockEntityRenderers);
         modbus.addListener(ModScreens::registerScreenOverlays);
         modbus.addListener(ModItemRenderer::registerColors);
+        modbus.addListener(ModItemRenderer::registerColors);
+        modbus.addListener(ModBlocksRenderer::registerSkulls);
     }
 }

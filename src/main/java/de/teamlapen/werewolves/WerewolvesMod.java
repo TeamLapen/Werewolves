@@ -143,6 +143,7 @@ public class WerewolvesMod {
         MinecraftForge.EVENT_BUS.register(new ModPlayerEventHandler());
         MinecraftForge.EVENT_BUS.register(new GeneralEventHandler());
         event.enqueueWork(TerraBlenderCompat::registerBiomeProviderIfPresentUnsafe);
+        event.enqueueWork(ModLootTables::unsafeRegisterExplosionResistances);
     }
 
     private void loadComplete(final @NotNull FMLLoadCompleteEvent event) {

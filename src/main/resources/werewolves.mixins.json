@@ -5,7 +5,9 @@
   "refmap": "werewolves.refmap.json",
   "mixins": [
     "ArmorItemAccessor",
+    "BlockEntityTypeMixin",
     "BlockFamiliesAccessor",
+    "BlockLootAccessor",
     "BlocksAccessor",
     "FireBlockAccessor",
     "FoodStatsAccessor",

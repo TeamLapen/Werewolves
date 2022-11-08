@@ -2,10 +2,12 @@ package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
+import de.teamlapen.werewolves.mixin.BlockLootAccessor;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.loot.MobLootModifier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -18,7 +20,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ModLootTables {
 
@@ -72,5 +76,12 @@ public class ModLootTables {
     private static LootPool getInjectPool(ResourceLocation loc) {
         LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1);
         return LootPool.lootPool().name("werewolves_inject_pool").setBonusRolls(UniformGenerator.between(0, 1)).setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
+    }
+
+    public static void unsafeRegisterExplosionResistances() {
+        Set<Item> items = BlockLootAccessor.getEXPLOSION_RESISTANT();
+        items = new HashSet<>(items);
+        items.add(ModItems.WITCH_HEAD.get());
+        BlockLootAccessor.setEXPLOSION_RESISTANT(items);
     }
 }

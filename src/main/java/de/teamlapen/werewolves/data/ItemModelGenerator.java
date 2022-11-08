@@ -119,6 +119,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(ModBlocks.MAGIC_FENCE.get(), modLoc("block/magic_fence_inventory"));
         item(ModItems.JACARANDA_SIGN.get(), modLoc("item/jacaranda_sign"));
         item(ModItems.MAGIC_SIGN.get(), modLoc("item/magic_sign"));
+        this.withExistingParent(ModItems.WITCH_HEAD.get(), mcLoc("item/template_skull"));
     }
 
     @NotNull

@@ -4,7 +4,6 @@ import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
-import de.teamlapen.werewolves.inventory.recipes.TagNBTBrewingRecipe;
 import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -17,10 +16,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -91,6 +88,7 @@ public class ModItems {
     public static final RegistryObject<WerewolvesBoatItem> MAGIC_BOAT = ITEMS.register("magic_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, false, creativeTabProps().stacksTo(1)));
     public static final RegistryObject<WerewolvesBoatItem> JACARANDA_CHEST_BOAT = ITEMS.register("jacaranda_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, true, creativeTabProps().stacksTo(1)));
     public static final RegistryObject<WerewolvesBoatItem> MAGIC_CHEST_BOAT = ITEMS.register("magic_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, true, creativeTabProps().stacksTo(1)));
+    public static final RegistryObject<StandingAndWallBlockItem> WITCH_HEAD = ITEMS.register("witch_head", () -> new StandingAndWallBlockItem(ModBlocks.WITCH_HEAD.get(), ModBlocks.WITCH_WALL_HEAD.get(), creativeTabProps().rarity(Rarity.UNCOMMON)));
 
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");

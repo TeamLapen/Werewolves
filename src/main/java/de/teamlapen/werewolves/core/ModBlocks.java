@@ -83,6 +83,9 @@ public class ModBlocks {
     public static final RegistryObject<FenceGateBlock> MAGIC_FENCE_GATE = registerWithItem("magic_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.of(Material.WOOD, MAGIC_PLANKS.get().defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
     public static final RegistryObject<FenceBlock> JACARANDA_FENCE = registerWithItem("jacaranda_fence", () -> new FenceBlock(BlockBehaviour.Properties.of(Material.WOOD, JACARANDA_PLANKS.get().defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
     public static final RegistryObject<FenceBlock> MAGIC_FENCE = registerWithItem("magic_fence", () -> new FenceBlock(BlockBehaviour.Properties.of(Material.WOOD, MAGIC_PLANKS.get().defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+    public static final RegistryObject<SkullBlock> WITCH_HEAD = BLOCKS.register("witch_head", () -> new SkullBlock(WUtils.SkullType.WITCH, BlockBehaviour.Properties.of(Material.DECORATION).strength(1.0F)));
+    public static final RegistryObject<WallSkullBlock> WITCH_WALL_HEAD = BLOCKS.register("witch_wall_head", () ->  new WallSkullBlock(WUtils.SkullType.WITCH, BlockBehaviour.Properties.of(Material.DECORATION).strength(1.0F).lootFrom(WITCH_HEAD)));
+
 
     public static class V {
         public static final RegistryObject<Block> MED_CHAIR = RegistryObject.create(new ResourceLocation("vampirism", "med_chair"), ForgeRegistries.Keys.BLOCKS, REFERENCE.MODID);

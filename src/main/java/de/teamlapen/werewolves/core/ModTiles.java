@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.vampirism.mixin.TileEntityTypeAccessor;
 import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
+import de.teamlapen.werewolves.mixin.BlockEntityTypeMixin;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,11 +30,16 @@ public class ModTiles {
     }
 
     public static void registerTileExtensionsUnsafe() {
-        Set<Block> blocks = new HashSet<>(((TileEntityTypeAccessor) BlockEntityType.SIGN).getValidBlocks());
+        Set<Block> blocks = new HashSet<>(((BlockEntityTypeMixin) BlockEntityType.SIGN).getValidBlocks());
         blocks.add(ModBlocks.JACARANDA_SIGN.get());
         blocks.add(ModBlocks.MAGIC_SIGN.get());
         blocks.add(ModBlocks.JACARANDA_WALL_SIGN.get());
         blocks.add(ModBlocks.MAGIC_WALL_SIGN.get());
-        ((TileEntityTypeAccessor) BlockEntityType.SIGN).setValidBlocks(blocks);
+        ((BlockEntityTypeMixin) BlockEntityType.SIGN).setValidBlocks(blocks);
+
+        blocks = new HashSet<>(((BlockEntityTypeMixin)BlockEntityType.SKULL).getValidBlocks());
+        blocks.add(ModBlocks.WITCH_HEAD.get());
+        blocks.add(ModBlocks.WITCH_WALL_HEAD.get());
+        ((BlockEntityTypeMixin)BlockEntityType.SKULL).setValidBlocks(blocks);
     }
 }

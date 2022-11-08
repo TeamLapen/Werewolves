@@ -8,6 +8,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
@@ -28,6 +29,10 @@ public class WUtils {
     public static final Tier SILVER_ITEM_TIER = new ForgeTier(2,250,8.0f,1.5f,12, ModTags.Blocks.NEEDS_SILVER_TOOL, () -> Ingredient.of(ModTags.Items.SILVER_INGOT));
     public static LootTables LOOT_TABLE_MANAGER;
     public static final DamageSource OPEN_WOUND_DAMAGE_SOURCE = new DamageSource("blood_loss").bypassArmor().bypassMagic();
+
+    public enum SkullType implements SkullBlock.Type {
+        WITCH
+    }
 
     @SuppressWarnings("EmptyMethod")
     public static void init() {

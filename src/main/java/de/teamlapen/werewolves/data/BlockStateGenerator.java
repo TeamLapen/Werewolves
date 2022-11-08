@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.WoodButtonBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -73,6 +74,9 @@ public class BlockStateGenerator extends BlockStateProvider {
                 .partialState().with(WolfBerryBushBlock.AGE, 3).modelForState().modelFile(models().cross("wolf_berry_bush_stage3", modLoc("block/wolf_berry_bush_stage3")).renderType(CUTOUT)).addModel();
 
         createWoodStates();
+
+        getVariantBuilder(ModBlocks.WITCH_HEAD.get()).partialState().setModels(new ConfiguredModel(models().getExistingFile(mcLoc("block/skull"))));
+        getVariantBuilder(ModBlocks.WITCH_WALL_HEAD.get()).partialState().setModels(new ConfiguredModel(models().getExistingFile(mcLoc("block/skull"))));
     }
 
     private void createWoodStates() {
