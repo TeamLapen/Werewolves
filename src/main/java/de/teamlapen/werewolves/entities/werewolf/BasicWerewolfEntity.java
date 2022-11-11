@@ -489,7 +489,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public boolean doHurtTarget(@NotNull Entity entity) {
         if (super.doHurtTarget(entity)) {
             if (entity instanceof LivingEntity living) {
-                LupusSanguinemEffect.addSanguinemEffectRandom(living, 0.05f);
+                LupusSanguinemEffect.infectRandomByMob(living);
             }
             return true;
         }

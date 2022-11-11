@@ -456,7 +456,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)), false);
             if (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.INFECT_PLAYER)) {
-                LupusSanguinemEffect.addSanguinemEffectRandom(entity, 0.1f);
+                LupusSanguinemEffect.infectRandomByPlayer(entity);
             }
         }
         return flag;
