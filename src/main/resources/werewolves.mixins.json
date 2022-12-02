@@ -30,6 +30,7 @@
     "client.LevelRendererMixin",
     "client.LocalPlayerMixin",
     "client.ModelPartAccessor",
+    "client.PlayerRendererMixin",
     "client.RenderStateShardAccessor",
     "client.RenderTypeAccessor",
     "client.RenderTypeBuffersMixin",

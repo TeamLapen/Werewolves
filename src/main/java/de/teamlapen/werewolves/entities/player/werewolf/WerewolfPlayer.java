@@ -5,7 +5,6 @@ import com.google.common.collect.Sets;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
@@ -522,12 +521,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             return WReference.WEREWOLF_FACTION;
         }
         return null;
-    }
-
-    @Nonnull
-    @Override
-    public IPlayableFaction<IWerewolfPlayer> getFaction() {
-        return WReference.WEREWOLF_FACTION;
     }
 
     @Override

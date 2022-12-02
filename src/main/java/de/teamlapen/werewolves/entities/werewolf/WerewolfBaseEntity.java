@@ -1,8 +1,6 @@
 package de.teamlapen.werewolves.entities.werewolf;
 
-import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.entity.VampirismEntity;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfMob;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.util.FormHelper;
@@ -14,8 +12,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-
-import javax.annotation.Nonnull;
 
 public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob {
 
@@ -41,12 +37,6 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     @Override
     public MobCategory getClassification(boolean forSpawnCount) {
         return forSpawnCount && this.countAsMonsterForSpawn ? MobCategory.MONSTER : super.getClassification(forSpawnCount);
-    }
-
-    @Nonnull
-    @Override
-    public IFaction<?> getFaction() {
-        return WReference.WEREWOLF_FACTION;
     }
 
     @Override

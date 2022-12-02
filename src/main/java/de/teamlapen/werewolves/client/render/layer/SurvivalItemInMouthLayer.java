@@ -14,11 +14,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class ItemInMouthLayer<T extends LivingEntity, M extends WerewolfSurvivalistModel<T> & ArmedModel> extends ItemInHandLayer<T, M> {
+public class SurvivalItemInMouthLayer<T extends LivingEntity, M extends WerewolfSurvivalistModel<T> & ArmedModel> extends ItemInHandLayer<T, M> {
 
     private final ItemInHandRenderer itemInHandRenderer;
 
-    public ItemInMouthLayer(RenderLayerParent<T, M> p_234846_, ItemInHandRenderer p_234847_) {
+    public SurvivalItemInMouthLayer(RenderLayerParent<T, M> p_234846_, ItemInHandRenderer p_234847_) {
         super(p_234846_, p_234847_);
         this.itemInHandRenderer = p_234847_;
     }

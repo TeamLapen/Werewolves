@@ -5,11 +5,12 @@ import com.mojang.math.Vector3f;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.core.ModModelRender;
-import de.teamlapen.werewolves.client.model.*;
+import de.teamlapen.werewolves.client.model.Werewolf4LModel;
+import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
+import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
+import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +24,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @param <T> must extend {@link IWerewolf} or be {@link net.minecraft.world.entity.player.Player}
@@ -42,12 +42,6 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
 
         this.models.put(WerewolfForm.NONE, new WerewolfModelWrapper.Builder<T>()
                 .shadow(0)
-                .build());
-        this.models.put(WerewolfForm.HUMAN, new WerewolfModelWrapper.Builder<T>()
-                .model(new WerewolfEarsModel<>(context.bakeLayer(ModModelRender.EARS_CLAWS)))
-                .layers(Collections.emptyList())
-                .textures(WerewolfEarsModel.getHumanTextures())
-                .shadow(size)
                 .build());
         this.models.put(WerewolfForm.BEAST, new WerewolfModelWrapper.Builder<T>()
                 .model(new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)))
@@ -103,6 +97,6 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
     @Nonnull
     @Override
     public ResourceLocation getTextureLocation(@Nonnull T entity) {
-        return this.textures.get(Helper.asIWerewolf(entity).getSkinType(this.form) % this.form.getSkinTypes());
+        return this.textures.get(Helper.asIWerewolf(entity).map(s -> s.getSkinType(this.form) % this.form.getSkinTypes()).orElse(0));
     }
 }

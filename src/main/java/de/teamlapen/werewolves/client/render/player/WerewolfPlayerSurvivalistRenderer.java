@@ -5,7 +5,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
-import de.teamlapen.werewolves.client.render.layer.ItemInMouthLayer;
+import de.teamlapen.werewolves.client.render.layer.SurvivalItemInMouthLayer;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -30,7 +30,7 @@ public class WerewolfPlayerSurvivalistRenderer extends WerewolfPlayerRenderer<Ab
 
         this.addLayer(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.SURVIVALIST, this));
         this.addLayer(new ArrowLayer<>(context, this));
-        this.addLayer(new ItemInMouthLayer<>(this, context.getItemInHandRenderer()));
+        this.addLayer(new SurvivalItemInMouthLayer<>(this, context.getItemInHandRenderer()));
 
     }
 

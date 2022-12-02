@@ -56,6 +56,7 @@ public class WerewolfPlayerBeastRenderer extends WerewolfPlayerRenderer<Abstract
 
     @Override
     public void renderRightHand(PoseStack stack, MultiBufferSource bufferSource, int p_117773_, AbstractClientPlayer entity) {
+        //noinspection UnstableApiUsage
         if (!net.minecraftforge.client.ForgeHooksClient.renderSpecificFirstPersonArm(stack, bufferSource, p_117773_, entity, HumanoidArm.RIGHT)) {
             this.renderHand(stack, bufferSource, p_117773_, entity, this.model.getRightArmModel());
         }
@@ -63,6 +64,7 @@ public class WerewolfPlayerBeastRenderer extends WerewolfPlayerRenderer<Abstract
 
     @Override
     public void renderLeftHand(PoseStack stack, MultiBufferSource bufferSource, int p_117816_, AbstractClientPlayer entity) {
+        //noinspection UnstableApiUsage
         if (!net.minecraftforge.client.ForgeHooksClient.renderSpecificFirstPersonArm(stack, bufferSource, p_117816_, entity, HumanoidArm.LEFT)) {
             this.renderHand(stack, bufferSource, p_117816_, entity, this.model.getLeftArmModel());
         }

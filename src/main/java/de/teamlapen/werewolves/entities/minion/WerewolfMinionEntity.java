@@ -3,7 +3,6 @@ package de.teamlapen.werewolves.entities.minion;
 import com.google.common.collect.Lists;
 import de.teamlapen.lib.HelperLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
 import de.teamlapen.vampirism.api.items.IFactionExclusiveItem;
@@ -69,12 +68,6 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     @Override
     public boolean shouldRenderLordSkin() {
         return false;
-    }
-
-    @Nonnull
-    @Override
-    public IFaction<?> getFaction() {
-        return WReference.WEREWOLF_FACTION;
     }
 
     @OnlyIn(Dist.CLIENT)
