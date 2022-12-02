@@ -1,1 +1,9 @@
+pluginManagement {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net/' }
+        maven {url = 'https://maven.parchmentmc.org'}
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = "Werewolves"
