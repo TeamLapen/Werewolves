@@ -9,10 +9,12 @@ import de.teamlapen.werewolves.client.gui.StoneAltarScreen;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.util.*;
-import net.minecraft.ChatFormatting;
+import de.teamlapen.werewolves.util.FormHelper;
+import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
@@ -23,10 +25,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.commons.lang3.mutable.MutableInt;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -74,11 +74,10 @@ public class ClientEventHandler {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 if (vampirismScreen) {
                     ResourceLocation icon = new ResourceLocation(REFERENCE.MODID, "textures/gui/appearance_button.png");
-                    ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((VampirismContainerScreen) event.getScreen()).getGuiLeft() + 47, ((VampirismContainerScreen) event.getScreen()).getGuiTop() + 90, 20, 20, 0, 0, 20, icon, 20, 40, (context) -> {
+                    var button = ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((VampirismContainerScreen) event.getScreen()).getGuiLeft() + 47, ((VampirismContainerScreen) event.getScreen()).getGuiTop() + 90, 20, 20, 0, 0, 20, icon, 20, 40, (context) -> {
                         Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getScreen()));
-                    }, (button1, matrixStack, mouseX, mouseY) -> {
-                        event.getScreen().renderTooltip(matrixStack, Component.translatable("gui.vampirism.vampirism_menu.appearance_menu"), mouseX, mouseY);
                     }, Component.empty()));
+                    button.setTooltip(Tooltip.create(Component.translatable("gui.vampirism.vampirism_menu.appearance_menu")));
                 }
 
                 WerewolfPlayer.getOpt(Minecraft.getInstance().player).ifPresent(werewolf -> {

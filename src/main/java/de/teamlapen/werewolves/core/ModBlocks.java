@@ -8,7 +8,6 @@ import de.teamlapen.werewolves.blocks.WolfsbaneBlock;
 import de.teamlapen.werewolves.mixin.BlocksAccessor;
 import de.teamlapen.werewolves.mixin.FireBlockAccessor;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.util.WUtils;
 import de.teamlapen.werewolves.world.tree.JacarandaTree;
 import de.teamlapen.werewolves.world.tree.MagicTree;
 import net.minecraft.resources.ResourceLocation;
@@ -74,12 +73,12 @@ public class ModBlocks {
     }
 
     private static <T extends Block> RegistryObject<T> registerWithItem(String name, Supplier<T> supplier) {
-        return registerWithItem(name, supplier, new Item.Properties().tab(WUtils.creativeTab));
+        return registerWithItem(name, supplier, new Item.Properties());
     }
 
     private static <T extends Block> RegistryObject<T> registerWithItem(String name, Supplier<T> supplier, Item.Properties properties) {
         RegistryObject<T> block = BLOCKS.register(name, supplier);
-        ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
+        ModItems.register(name, () -> new BlockItem(block.get(), properties));
         return block;
     }
 

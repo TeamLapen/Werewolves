@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.items;
 
 import de.teamlapen.werewolves.core.ModBlocks;
-import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -15,7 +14,7 @@ import javax.annotation.Nonnull;
 public class UnWerewolfInjectionItem extends Item {
 
     public UnWerewolfInjectionItem() {
-        super(new Item.Properties().tab(WUtils.creativeTab));
+        super(new Item.Properties());
     }
 
     @Nonnull

@@ -1,8 +1,7 @@
 package de.teamlapen.werewolves.client.render.tiles;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import de.teamlapen.werewolves.blocks.StoneAltarBlock;
 import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.core.ModItems;
@@ -30,16 +29,16 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity
         if (!tileEntityIn.getItem(0).isEmpty()) {
             renderItem(tileEntityIn, matrixStackIn);
             matrixStackIn.translate(-0.5, 0, 0.5); // translate to final location
-            matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 22.5f, true)); // rotate final
-            matrixStackIn.mulPose(new Quaternion(new Vector3f(-1, 0, 0), 90f, true)); // rotate to flat
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(22.5f)); // rotate final
+            matrixStackIn.mulPose(Axis.XN.rotationDegrees(90f)); // rotate to flat
             Minecraft.getInstance().getItemRenderer().renderStatic(LIVER_STACK, ItemTransforms.TransformType.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
             matrixStackIn.popPose();
         }
         if (!tileEntityIn.getItem(1).isEmpty()) {
             renderItem(tileEntityIn, matrixStackIn);
             matrixStackIn.translate(0.5, 0, 0.5); // translate to final location
-            matrixStackIn.mulPose(new Quaternion(new Vector3f(0, -1, 0), 22.5f, true)); // rotate final
-            matrixStackIn.mulPose(new Quaternion(new Vector3f(-1, 0, 0), 90f, true)); // rotate to flat
+            matrixStackIn.mulPose(Axis.YN.rotationDegrees(22.5f)); // rotate final
+            matrixStackIn.mulPose(Axis.XN.rotationDegrees(90f)); // rotate to flat
             Minecraft.getInstance().getItemRenderer().renderStatic(BONE_STACK, ItemTransforms.TransformType.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
             matrixStackIn.popPose();
         }
@@ -50,9 +49,9 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity
         matrixStackIn.translate(0.5, 0.64, 0.5); // translate to middle
         matrixStackIn.scale(0.4f, 0.4f, 0.4f); // adjust item size
         switch (tileEntityIn.getBlockState().getValue(StoneAltarBlock.HORIZONTAL_FACING)) { // rotated based on facing
-            case WEST -> matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 90, true));
-            case SOUTH -> matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 180, true));
-            case EAST -> matrixStackIn.mulPose(new Quaternion(new Vector3f(0, 1, 0), 270, true));
+            case WEST -> matrixStackIn.mulPose(Axis.YP.rotationDegrees(90));
+            case SOUTH -> matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));
+            case EAST -> matrixStackIn.mulPose(Axis.YP.rotationDegrees(270));
         }
     }
 }

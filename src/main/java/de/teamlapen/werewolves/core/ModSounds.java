@@ -22,6 +22,6 @@ public class ModSounds {
 
     private static RegistryObject<SoundEvent> create(String soundNameIn) {
         ResourceLocation resourcelocation = new ResourceLocation(de.teamlapen.vampirism.REFERENCE.MODID, soundNameIn);
-        return SOUND_EVENTS.register(soundNameIn, () -> new SoundEvent(resourcelocation));
+        return SOUND_EVENTS.register(soundNameIn, () -> SoundEvent.createVariableRangeEvent(resourcelocation));
     }
 }

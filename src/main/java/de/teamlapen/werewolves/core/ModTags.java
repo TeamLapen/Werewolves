@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -82,7 +82,7 @@ public class ModTags {
         }
 
         private static @NotNull TagKey<Biome> tag(@NotNull String name) {
-            return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(Registries.BIOME, new ResourceLocation(REFERENCE.MODID, name));
         }
     }
 
@@ -90,7 +90,7 @@ public class ModTags {
         public static final TagKey<PoiType> IS_WEREWOLF = tag("is_werewolf");
 
         private static @NotNull TagKey<PoiType> tag(@NotNull String name) {
-            return TagKey.create(Registry.POINT_OF_INTEREST_TYPE_REGISTRY, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(REFERENCE.MODID, name));
         }
 
     }
@@ -100,7 +100,7 @@ public class ModTags {
 
 
         private static @NotNull TagKey<VillagerProfession> tag(@NotNull String name) {
-            return TagKey.create(Registry.VILLAGER_PROFESSION_REGISTRY, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(Registries.VILLAGER_PROFESSION, new ResourceLocation(REFERENCE.MODID, name));
         }
 
     }

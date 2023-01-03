@@ -2,11 +2,13 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.BiomeTagsProvider;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.PoiTypeTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
@@ -16,8 +18,8 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.ForgeRegistryTagsProvider;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -25,27 +27,26 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 
 public class ModTagsProvider {
 
-    public static void addProvider(GatherDataEvent event) {
-        DataGenerator generator = event.getGenerator();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-        BlockTagsProvider blocks = new ModBlockTagsProvider(generator, existingFileHelper);
-        generator.addProvider(event.includeServer(), blocks);
-        generator.addProvider(event.includeServer(), new ModItemTagsProvider(generator, blocks, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModBiomeTagsProvider(generator, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModPoiTypesProvider(generator, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModVillageProfessionProvider(generator, existingFileHelper));
+    public static void register(DataGenerator gen, @NotNull GatherDataEvent event, PackOutput output, CompletableFuture<HolderLookup.Provider> future, ExistingFileHelper existingFileHelper) {
+        BlockTagsProvider blocks = new ModBlockTagsProvider(output, future, existingFileHelper);
+        gen.addProvider(event.includeServer(), blocks);
+        gen.addProvider(event.includeServer(), new ModItemTagsProvider(output, future, existingFileHelper, blocks));
+        gen.addProvider(event.includeServer(), new ModBiomeTagsProvider(output, future, existingFileHelper));
+        gen.addProvider(event.includeServer(), new ModPoiTypesProvider(output, future, existingFileHelper));
+        gen.addProvider(event.includeServer(), new ModVillageProfessionProvider(output,future, existingFileHelper));
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
-        public ModBlockTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
-            super(generatorIn, REFERENCE.MODID, existingFileHelper);
+        public ModBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+            super(output, lookupProvider, REFERENCE.MODID, existingFileHelper);
         }
 
         @Override
-        protected void addTags() {
+        protected void addTags(HolderLookup.@NotNull Provider holderLookup) {
             this.tag(ModTags.Blocks.SILVER_ORE).add(ModBlocks.SILVER_ORE.get(), ModBlocks.DEEPSLATE_SILVER_ORE.get());
             this.tag(BlockTags.LOGS).add(ModBlocks.JACARANDA_LOG.get(), ModBlocks.MAGIC_LOG.get());
             this.tag(BlockTags.SAPLINGS).add(ModBlocks.JACARANDA_SAPLING.get(), ModBlocks.MAGIC_SAPLING.get());
@@ -64,12 +65,12 @@ public class ModTagsProvider {
     }
 
     private static class ModItemTagsProvider extends ItemTagsProvider {
-        public ModItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
-            super(generatorIn, blockTagsProvider, REFERENCE.MODID, existingFileHelper);
+        public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper, @NotNull BlockTagsProvider blockTagsProvider) {
+            super(output, lookupProvider, blockTagsProvider, REFERENCE.MODID, existingFileHelper);
         }
 
         @Override
-        protected void addTags() {
+        protected void addTags(HolderLookup.@NotNull Provider holderProvider) {
             this.copy(ModTags.Blocks.SILVER_ORE, ModTags.Items.SILVER_ORE);
             this.copy(ModTags.Blocks.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER);
             this.copy(ModTags.Blocks.STORAGE_BLOCKS_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER);
@@ -93,20 +94,20 @@ public class ModTagsProvider {
 
         @SuppressWarnings("UnusedReturnValue")
         private TagAppender<Item> tag(TagKey<Item> tag, String... locations) {
-            return Arrays.stream(locations).map(ResourceLocation::new).reduce(this.tag(tag), TagAppender::addOptional, (a, b) -> a);
+            return Arrays.stream(locations).map(ResourceLocation::new).reduce((TagsProvider.TagAppender<Item>)this.tag(tag), TagAppender::addOptional, (a, b) -> a);
         }
     }
 
     private static class ModBiomeTagsProvider extends BiomeTagsProvider {
 
-        public ModBiomeTagsProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
-            super(generatorIn, REFERENCE.MODID, existingFileHelper);
+        public ModBiomeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+            super(output, lookupProvider, REFERENCE.MODID, existingFileHelper);
         }
 
         @Override
-        protected void addTags() {
-            this.tag(ModTags.Biomes.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_HEAVEN.get());
-            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_HEAVEN.get());
+        protected void addTags(HolderLookup.@NotNull Provider holderProvider) {
+            this.tag(ModTags.Biomes.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_HEAVEN);
+            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_HEAVEN);
             this.tag(ModTags.Biomes.HasSpawn.WEREWOLF).addTag(BiomeTags.IS_TAIGA);
             this.tag(ModTags.Biomes.NoSpawn.WEREWOLF).addTag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME);
             this.tag(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF).addTag(BiomeTags.IS_TAIGA);
@@ -114,10 +115,10 @@ public class ModTagsProvider {
             this.tag(ModTags.Biomes.HasGen.SILVER_ORE).addTag(BiomeTags.IS_OVERWORLD);
             this.tag(ModTags.Biomes.HasGen.WOLFSBANE).addTag(BiomeTags.IS_FOREST);
             this.tag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME).addTag(ModTags.Biomes.IS_WEREWOLF_BIOME);
-            this.tag(BiomeTags.IS_OVERWORLD).add(ModBiomes.WEREWOLF_HEAVEN.get());
-            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_HEAVEN.get());
-            this.tag(Tags.Biomes.IS_DENSE).add(ModBiomes.WEREWOLF_HEAVEN.get());
-            this.tag(Tags.Biomes.IS_MAGICAL).add(ModBiomes.WEREWOLF_HEAVEN.get());
+            this.tag(BiomeTags.IS_OVERWORLD).add(ModBiomes.WEREWOLF_HEAVEN);
+            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_HEAVEN);
+            this.tag(Tags.Biomes.IS_DENSE).add(ModBiomes.WEREWOLF_HEAVEN);
+            this.tag(Tags.Biomes.IS_MAGICAL).add(ModBiomes.WEREWOLF_HEAVEN);
         }
 
         @Nonnull
@@ -129,25 +130,25 @@ public class ModTagsProvider {
 
     private static class ModPoiTypesProvider extends PoiTypeTagsProvider {
 
-        public ModPoiTypesProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
-            super(generatorIn, REFERENCE.MODID, existingFileHelper);
+        public ModPoiTypesProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+            super(output, lookupProvider, REFERENCE.MODID, existingFileHelper);
         }
 
         @Override
-        protected void addTags() {
-            this.tag(ModTags.PoiTypes.IS_WEREWOLF).add(ModVillage.WEREWOLF_FACTION.get());
+        protected void addTags(HolderLookup.@NotNull Provider holderProvider) {
+            this.tag(ModTags.PoiTypes.IS_WEREWOLF).add(ModVillage.WEREWOLF_FACTION.getKey());
             this.tag(de.teamlapen.vampirism.core.ModTags.PoiTypes.HAS_FACTION).addTag(ModTags.PoiTypes.IS_WEREWOLF);
         }
     }
 
-    private static class ModVillageProfessionProvider extends ForgeRegistryTagsProvider<VillagerProfession> {
-        public ModVillageProfessionProvider(@NotNull DataGenerator p_236434_, @Nullable ExistingFileHelper existingFileHelper) {
-            super(p_236434_, ForgeRegistries.VILLAGER_PROFESSIONS, REFERENCE.MODID, existingFileHelper);
+    private static class ModVillageProfessionProvider extends TagsProvider<VillagerProfession> {
+        public ModVillageProfessionProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+            super(output, ForgeRegistries.Keys.VILLAGER_PROFESSIONS, lookupProvider, REFERENCE.MODID, existingFileHelper);
         }
 
         @Override
-        protected void addTags() {
-            this.tag(ModTags.Professions.IS_WEREWOLF).add(ModVillage.WEREWOLF_EXPERT.get());
+        protected void addTags(HolderLookup.@NotNull Provider holderProvider) {
+            this.tag(ModTags.Professions.IS_WEREWOLF).add(ModVillage.WEREWOLF_EXPERT.getKey());
             this.tag(de.teamlapen.vampirism.core.ModTags.Professions.HAS_FACTION).addTag(ModTags.Professions.IS_WEREWOLF);
         }
     }

@@ -34,7 +34,7 @@ public class FormHelper {
             ResourceLocation id = new ResourceLocation(s);
             noWerewolfFormTickingBiomes.add(id);
         }
-        noWerewolfFormTickingBiomes.add(ModBiomes.WEREWOLF_HEAVEN.getId());
+        noWerewolfFormTickingBiomes.add(ModBiomes.WEREWOLF_HEAVEN.location());
     }
 
     public static boolean isInWerewolfBiome(LevelAccessor world, BlockPos pos) {

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": "werewolves:magic_tree",
+    "features": [
+      {
+        "chance": 0.4,
+        "feature": "werewolves:jacaranda_tree"
+      },
+      {
+        "chance": 0.1,
+        "feature": "minecraft:fancy_oak_checked"
+      },
+      {
+        "chance": 0.1,
+        "feature": "werewolves:magic_tree_big"
+      }
+    ]
+  }
+}

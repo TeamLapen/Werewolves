@@ -11,9 +11,9 @@ import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.client.core.ClientRegistryHandler;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModCommands;
+import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModLootTables;
 import de.teamlapen.werewolves.core.RegistryManager;
-import de.teamlapen.werewolves.data.*;
 import de.teamlapen.werewolves.entities.ModEntityEventHandler;
 import de.teamlapen.werewolves.entities.player.ModPlayerEventHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -28,14 +28,12 @@ import de.teamlapen.werewolves.util.*;
 import de.teamlapen.werewolves.world.gen.OverworldModifications;
 import de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures;
 import net.minecraft.ChatFormatting;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -81,7 +79,6 @@ public class WerewolvesMod {
         bus.addListener(this::loadComplete);
         bus.addListener(this::processIMC);
         bus.addListener(this::enqueueIMC);
-        bus.addListener(this::gatherData);
         bus.addListener(this::setUpClient);
         bus.addListener(this::blockRegister); // First event after mod init. Faction can only be registered after VampirismMod's constructor
         bus.register(registryManager);
@@ -100,6 +97,7 @@ public class WerewolvesMod {
 
         RegistryManager.setupRegistries(FMLJavaModLoadingContext.get().getModEventBus());
         WerewolvesBiomeFeatures.register(FMLJavaModLoadingContext.get().getModEventBus());
+        bus.addListener(ModItems::registerOtherCreativeTabItems);
 
         WerewolvesConfig.registerConfigs();
     }
@@ -162,19 +160,6 @@ public class WerewolvesMod {
 
     private void registerCapability(RegisterCapabilitiesEvent event) {
         event.register(IWerewolfPlayer.class);
-    }
-
-    private void gatherData(final GatherDataEvent event) {
-        setupAPI();
-        DataGenerator generator = event.getGenerator();
-        ModTagsProvider.addProvider(event);
-        BiomeGenerator.addProvider(event);
-        generator.addProvider(event.includeServer(), new RecipeGenerator(generator));
-        generator.addProvider(event.includeServer(), new LootTablesGenerator(generator));
-        generator.addProvider(event.includeServer(), new GlobalLootTableGenerator(generator));
-        generator.addProvider(event.includeServer(), new SkillNodeGenerator(generator));
-        generator.addProvider(event.includeClient(), new ItemModelGenerator(generator, event.getExistingFileHelper()));
-        generator.addProvider(event.includeClient(), new BlockStateGenerator(generator, event.getExistingFileHelper()));
     }
 
     private void setUpClient(final FMLClientSetupEvent event) {

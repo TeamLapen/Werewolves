@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.blocks;
 
-import com.mojang.math.Vector3f;
 import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.core.ModTiles;
 import de.teamlapen.werewolves.util.WUtils;
@@ -40,6 +39,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Vector3f;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

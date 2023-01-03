@@ -2,7 +2,8 @@ package de.teamlapen.werewolves.mixin.client;
 
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,7 +23,7 @@ public abstract class ScreenMixin implements ScreenAccessor {
 
     @Shadow
     @Final
-    public List<Widget> renderables;
+    public List<Renderable> renderables;
 
     @Shadow
     @Final
@@ -33,7 +34,7 @@ public abstract class ScreenMixin implements ScreenAccessor {
     private List<NarratableEntry> narratables;
 
     @Override
-    public <T extends GuiEventListener & Widget & NarratableEntry> T invokeAddRenderableWidget_werewolves(T button) {
+    public <T extends AbstractWidget & GuiEventListener & NarratableEntry> T invokeAddRenderableWidget_werewolves(T button) {
         this.renderables.add(button);
         this.children.add(button);
         this.narratables.add(button);

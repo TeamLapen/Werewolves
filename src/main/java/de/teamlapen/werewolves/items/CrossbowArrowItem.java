@@ -4,13 +4,11 @@ import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IVampirismCrossbowArrow;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.CrossbowArrowEntity;
-import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.Item;
@@ -28,7 +26,7 @@ public class CrossbowArrowItem extends ArrowItem implements IVampirismCrossbowAr
     private final ArrowType type;
 
     public CrossbowArrowItem(ArrowType type) {
-        super(new Item.Properties().tab(WUtils.creativeTab));
+        super(new Item.Properties());
         this.type = type;
     }
 

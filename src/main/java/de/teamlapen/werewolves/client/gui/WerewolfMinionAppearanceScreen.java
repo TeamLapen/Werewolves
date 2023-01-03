@@ -61,8 +61,8 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
         });
         this.skinList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 43 + 19, 99, 80, 20, skinCount, Component.translatable("gui.vampirism.minion_appearance.skin"), this::setSkinType, this::previewSkin));
         this.eyeList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 64 + 19, 99, 60, 20, eyeCount, Component.translatable("gui.vampirism.appearance.eye"), this::setEyeType, this::previewEye));
-        this.skinButton = this.addRenderableWidget(new ExtendedButton(this.skinList.x, this.skinList.y - 20, this.skinList.getWidth() + 1, 20, Component.empty(), (b) -> setSkinListVisibility(!this.skinList.visible)));
-        this.eyeButton = this.addRenderableWidget(new ExtendedButton(this.eyeList.x, this.eyeList.y - 20, this.eyeList.getWidth() + 1, 20, Component.empty(), (b) -> setHatListVisibility(!this.eyeList.visible)));
+        this.skinButton = this.addRenderableWidget(new ExtendedButton(this.skinList.getX(), this.skinList.getY() - 20, this.skinList.getWidth() + 1, 20, Component.empty(), (b) -> setSkinListVisibility(!this.skinList.visible)));
+        this.eyeButton = this.addRenderableWidget(new ExtendedButton(this.eyeList.getX(), this.eyeList.getY() - 20, this.eyeList.getWidth() + 1, 20, Component.empty(), (b) -> setHatListVisibility(!this.eyeList.visible)));
 
         this.setSkinListVisibility(false);
         this.setHatListVisibility(false);

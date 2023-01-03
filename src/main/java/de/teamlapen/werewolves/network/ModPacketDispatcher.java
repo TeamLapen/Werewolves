@@ -15,9 +15,9 @@ public class ModPacketDispatcher extends AbstractPacketDispatcher {
 
     @Override
     public void registerPackets() {
-        this.dispatcher.registerMessage(nextID(), ServerboundSimpleInputEventPacket.class, ServerboundSimpleInputEventPacket::encode, ServerboundSimpleInputEventPacket::decode, ServerboundSimpleInputEventPacket::handle);
-        this.dispatcher.registerMessage(nextID(), ClientboundAttackTargetEventPacket.class, ClientboundAttackTargetEventPacket::encode, ClientboundAttackTargetEventPacket::decode, ClientboundAttackTargetEventPacket::handle);
-        this.dispatcher.registerMessage(nextID(), ServerboundWerewolfAppearancePacket.class, ServerboundWerewolfAppearancePacket::encode, ServerboundWerewolfAppearancePacket::decode, ServerboundWerewolfAppearancePacket::handle);
-        this.dispatcher.registerMessage(nextID(), ServerboundBiteEventPackage.class, ServerboundBiteEventPackage::encode, ServerboundBiteEventPackage::decode, ServerboundBiteEventPackage::handle);
+        registerServerBound(ServerboundSimpleInputEventPacket.class, ServerboundSimpleInputEventPacket::encode, ServerboundSimpleInputEventPacket::decode, ServerboundSimpleInputEventPacket::handle);
+        registerClientBound(ClientboundAttackTargetEventPacket.class, ClientboundAttackTargetEventPacket::encode, ClientboundAttackTargetEventPacket::decode, ClientboundAttackTargetEventPacket::handle);
+        registerServerBound(ServerboundWerewolfAppearancePacket.class, ServerboundWerewolfAppearancePacket::encode, ServerboundWerewolfAppearancePacket::decode, ServerboundWerewolfAppearancePacket::handle);
+        registerServerBound(ServerboundBiteEventPackage.class, ServerboundBiteEventPackage::encode, ServerboundBiteEventPackage::decode, ServerboundBiteEventPackage::handle);
     }
 }

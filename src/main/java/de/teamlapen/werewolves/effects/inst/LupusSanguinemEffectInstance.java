@@ -11,7 +11,6 @@ import javax.annotation.Nonnull;
 public class LupusSanguinemEffectInstance extends MobEffectInstance {
     public LupusSanguinemEffectInstance(int durationIn) {
         super(ModEffects.LUPUS_SANGUINEM.get(), durationIn, 0, false, true);
-        this.setNoCounter(true);
     }
 
     @Override

@@ -14,7 +14,9 @@
     "MobEffectInstanceAccessor",
     "NearestAttackabletargetGoalAccessor",
     "ObjectiveCriteriaAccessor",
+    "RegistriesDatapackGeneratorAccessor",
     "TargetingConditionsAccessor",
+    "VanillaBlockLootAccessor",
     "entity.MixinVillagerEntity",
     "entity.PlayerEntityMixin"
   ],

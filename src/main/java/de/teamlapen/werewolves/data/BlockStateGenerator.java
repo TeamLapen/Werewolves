@@ -5,19 +5,20 @@ import de.teamlapen.werewolves.blocks.StoneAltarFireBowlBlock;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.Direction;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class BlockStateGenerator extends BlockStateProvider {
-    public BlockStateGenerator(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, REFERENCE.MODID, exFileHelper);
+    public BlockStateGenerator(@NotNull PackOutput packOutput, @NotNull ExistingFileHelper exFileHelper) {
+        super(packOutput, REFERENCE.MODID, exFileHelper);
     }
 
     @Override

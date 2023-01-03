@@ -9,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record ServerboundWerewolfAppearancePacket(int entityId, String name, WerewolfForm form, int... data) implements IMessage {
+public record ServerboundWerewolfAppearancePacket(int entityId, String name, WerewolfForm form, int... data) implements IMessage.IServerBoundMessage {
 
     static void encode(ServerboundWerewolfAppearancePacket msg, FriendlyByteBuf buf) {
         buf.writeVarInt(msg.entityId);

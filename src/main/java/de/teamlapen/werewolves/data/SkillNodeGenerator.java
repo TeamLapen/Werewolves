@@ -7,7 +7,7 @@ import de.teamlapen.vampirism.entity.player.lord.skills.LordSkills;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,10 +15,10 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGenerator {
+public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeProvider {
 
-    public SkillNodeGenerator(DataGenerator generatorIn) {
-        super(generatorIn);
+    public SkillNodeGenerator(PackOutput packOutput) {
+        super(packOutput, REFERENCE.MODID);
     }
 
     @SuppressWarnings("unchecked")
@@ -67,9 +67,5 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeGen
     @SuppressWarnings("unchecked")
     public static SkillNodeBuilder werewolf(ResourceLocation parent, Supplier<? extends ISkill<?>>... skills) {
         return SkillNodeBuilder.skill(parent, Arrays.stream(skills).map(Supplier::get).toArray(ISkill[]::new)).faction(WReference.WEREWOLF_FACTION);
-    }
-
-    private ResourceLocation modId(String string) {
-        return new ResourceLocation(REFERENCE.MODID, string);
     }
 }

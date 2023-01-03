@@ -1,10 +1,11 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
-import de.teamlapen.werewolves.inventory.recipes.TagNBTBrewingRecipe;
 import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -15,32 +16,37 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.MissingMappingsEvent;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class ModItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.Keys.ITEMS, REFERENCE.MODID);
+    private static final Set<RegistryObject<? extends Item>> WEREWOLVES_TAB_ITEMS = new HashSet<>();
+    private static final Map<CreativeModeTab, Set<RegistryObject<? extends Item>>> CREATIVE_TAB_ITEMS = new HashMap<>();
 
-    public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", () -> new Item((new Item.Properties()).tab(WUtils.creativeTab)));
-    public static final RegistryObject<HoeItem> SILVER_HOE = ITEMS.register("silver_hoe", () -> new HoeItem(WUtils.SILVER_ITEM_TIER, -1, -1.0F, new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<ShovelItem> SILVER_SHOVEL = ITEMS.register("silver_shovel", () -> new ShovelItem(WUtils.SILVER_ITEM_TIER, 1.5F, -3.0F, new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<AxeItem> SILVER_AXE = ITEMS.register("silver_axe", () -> new AxeItem(WUtils.SILVER_ITEM_TIER, 6.0F, -3.1F, new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<PickaxeItem> SILVER_PICKAXE = ITEMS.register("silver_pickaxe", () -> new PickaxeItem(WUtils.SILVER_ITEM_TIER, 1, -2.8F, new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<SilverSwordItem> SILVER_SWORD = ITEMS.register("silver_sword", () -> new SilverSwordItem(WUtils.SILVER_ITEM_TIER, 3, -2.4F, new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<CrossbowArrowItem> CROSSBOW_ARROW_SILVER_BOLT = ITEMS.register("crossbow_arrow_silver_bolt", () -> new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
+    public static final RegistryObject<Item> SILVER_INGOT = register("silver_ingot", () -> new Item(props()));
+    public static final RegistryObject<HoeItem> SILVER_HOE = register("silver_hoe", () -> new HoeItem(WUtils.SILVER_ITEM_TIER, -1, -1.0F, props()));
+    public static final RegistryObject<ShovelItem> SILVER_SHOVEL = register("silver_shovel", () -> new ShovelItem(WUtils.SILVER_ITEM_TIER, 1.5F, -3.0F, props()));
+    public static final RegistryObject<AxeItem> SILVER_AXE = register("silver_axe", () -> new AxeItem(WUtils.SILVER_ITEM_TIER, 6.0F, -3.1F, props()));
+    public static final RegistryObject<PickaxeItem> SILVER_PICKAXE = register("silver_pickaxe", () -> new PickaxeItem(WUtils.SILVER_ITEM_TIER, 1, -2.8F, props()));
+    public static final RegistryObject<SilverSwordItem> SILVER_SWORD = register("silver_sword", () -> new SilverSwordItem(WUtils.SILVER_ITEM_TIER, 3, -2.4F, props()));
+    public static final RegistryObject<CrossbowArrowItem> CROSSBOW_ARROW_SILVER_BOLT = register("crossbow_arrow_silver_bolt", () -> new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
         @Override
         public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
             if (Helper.isWerewolf(entity)) {
@@ -48,14 +54,14 @@ public class ModItems {
             }
         }
     }));
-    public static final RegistryObject<LiverItem> LIVER = ITEMS.register("liver", LiverItem::new);
-    public static final RegistryObject<Item> CRACKED_BONE = ITEMS.register("cracked_bone", () -> new Item(new Item.Properties().tab(WUtils.creativeTab)));
-    public static final RegistryObject<UnWerewolfInjectionItem> INJECTION_UN_WEREWOLF = ITEMS.register("injection_un_werewolf", UnWerewolfInjectionItem::new);
-    public static final RegistryObject<WerewolfToothItem> WEREWOLF_TOOTH = ITEMS.register("werewolf_tooth", WerewolfToothItem::new);
-    public static final RegistryObject<Item> SILVER_NUGGET = ITEMS.register("silver_nugget", () -> new Item(creativeTabProps()));
-    public static final RegistryObject<Item> RAW_SILVER = ITEMS.register("raw_silver", () -> new Item(creativeTabProps()));
+    public static final RegistryObject<LiverItem> LIVER = register("liver", LiverItem::new);
+    public static final RegistryObject<Item> CRACKED_BONE = register("cracked_bone", () -> new Item(props()));
+    public static final RegistryObject<UnWerewolfInjectionItem> INJECTION_UN_WEREWOLF = register("injection_un_werewolf", UnWerewolfInjectionItem::new);
+    public static final RegistryObject<WerewolfToothItem> WEREWOLF_TOOTH = register("werewolf_tooth", WerewolfToothItem::new);
+    public static final RegistryObject<Item> SILVER_NUGGET = register("silver_nugget", () -> new Item(props()));
+    public static final RegistryObject<Item> RAW_SILVER = register("raw_silver", () -> new Item(props()));
 
-    public static final RegistryObject<Item> WEREWOLF_MINION_CHARM = ITEMS.register("werewolf_minion_charm", () -> new Item(creativeTabProps()) {
+    public static final RegistryObject<Item> WEREWOLF_MINION_CHARM = register("werewolf_minion_charm", () -> new Item(props()) {
         @Override
         public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level level, @Nonnull List<Component> tooltips, @Nonnull TooltipFlag flag) {
             super.appendHoverText(stack, level, tooltips, flag);
@@ -63,18 +69,18 @@ public class ModItems {
 
         }
     });
-    public static final RegistryObject<WerewolfMinionUpgradeItem> WEREWOLF_MINION_UPGRADE_SIMPLE = ITEMS.register("werewolf_minion_upgrade_simple", () -> new WerewolfMinionUpgradeItem(creativeTabProps(), 1, 2));
-    public static final RegistryObject<WerewolfMinionUpgradeItem> WEREWOLF_MINION_UPGRADE_ENHANCED = ITEMS.register("werewolf_minion_upgrade_enhanced", () -> new WerewolfMinionUpgradeItem(creativeTabProps(), 3, 4));
-    public static final RegistryObject<WerewolfMinionUpgradeItem> WEREWOLF_MINION_UPGRADE_SPECIAL = ITEMS.register("werewolf_minion_upgrade_special", () -> new WerewolfMinionUpgradeItem(creativeTabProps(), 5, 6));
+    public static final RegistryObject<WerewolfMinionUpgradeItem> WEREWOLF_MINION_UPGRADE_SIMPLE = register("werewolf_minion_upgrade_simple", () -> new WerewolfMinionUpgradeItem(props(), 1, 2));
+    public static final RegistryObject<WerewolfMinionUpgradeItem> WEREWOLF_MINION_UPGRADE_ENHANCED = register("werewolf_minion_upgrade_enhanced", () -> new WerewolfMinionUpgradeItem(props(), 3, 4));
+    public static final RegistryObject<WerewolfMinionUpgradeItem> WEREWOLF_MINION_UPGRADE_SPECIAL = register("werewolf_minion_upgrade_special", () -> new WerewolfMinionUpgradeItem(props(), 5, 6));
 
-    public static final RegistryObject<SpawnEggItem> WEREWOLF_BEAST_SPAWN_EGG = ITEMS.register("werewolf_beast_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.WEREWOLF_BEAST, 0xffc800, 0xfaab00, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
-    public static final RegistryObject<SpawnEggItem> WEREWOLF_SURVIVALIST_SPAWN_EGG = ITEMS.register("werewolf_survivalist_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.WEREWOLF_SURVIVALIST, 0xffc800, 0xfae700, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
-    public static final RegistryObject<SpawnEggItem> HUMAN_WEREWOLF_SPAWN_EGG = ITEMS.register("human_werewolf_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.HUMAN_WEREWOLF, 0xffc800, 0xa8a8a8, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
-    public static final RegistryObject<SpawnEggItem> ALPHA_WEREWOLF_SPAWN_EGG = ITEMS.register("alpha_werewolf_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ALPHA_WEREWOLF, 0xffc800, 0xca0f00, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+    public static final RegistryObject<SpawnEggItem> WEREWOLF_BEAST_SPAWN_EGG = register("werewolf_beast_spawn_egg", CreativeModeTabs.SPAWN_EGGS, () -> new ForgeSpawnEggItem(ModEntities.WEREWOLF_BEAST, 0xffc800, 0xfaab00, props()));
+    public static final RegistryObject<SpawnEggItem> WEREWOLF_SURVIVALIST_SPAWN_EGG = register("werewolf_survivalist_spawn_egg", CreativeModeTabs.SPAWN_EGGS,() -> new ForgeSpawnEggItem(ModEntities.WEREWOLF_SURVIVALIST, 0xffc800, 0xfae700, props()));
+    public static final RegistryObject<SpawnEggItem> HUMAN_WEREWOLF_SPAWN_EGG = register("human_werewolf_spawn_egg", CreativeModeTabs.SPAWN_EGGS,() -> new ForgeSpawnEggItem(ModEntities.HUMAN_WEREWOLF, 0xffc800, 0xa8a8a8, props()));
+    public static final RegistryObject<SpawnEggItem> ALPHA_WEREWOLF_SPAWN_EGG = register("alpha_werewolf_spawn_egg", CreativeModeTabs.SPAWN_EGGS,() -> new ForgeSpawnEggItem(ModEntities.ALPHA_WEREWOLF, 0xffc800, 0xca0f00, props()));
 
-    public static final RegistryObject<WerewolfRefinementItem> BONE_NECKLACE = ITEMS.register("bone_necklace", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.AMULET));
-    public static final RegistryObject<WerewolfRefinementItem> CHARM_BRACELET = ITEMS.register("charm_bracelet", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.RING));
-    public static final RegistryObject<WerewolfRefinementItem> DREAM_CATCHER = ITEMS.register("dream_catcher", () -> new WerewolfRefinementItem(creativeTabProps(), IRefinementItem.AccessorySlotType.OBI_BELT));
+    public static final RegistryObject<WerewolfRefinementItem> BONE_NECKLACE = register("bone_necklace", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.AMULET));
+    public static final RegistryObject<WerewolfRefinementItem> CHARM_BRACELET = register("charm_bracelet", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.RING));
+    public static final RegistryObject<WerewolfRefinementItem> DREAM_CATCHER = register("dream_catcher", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.OBI_BELT));
 
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
@@ -91,6 +97,24 @@ public class ModItems {
         private static void init() {
 
         }
+    }
+
+    static <I extends Item> RegistryObject<I> register(final String name, CreativeModeTab tab, final Supplier<? extends I> sup) {
+        RegistryObject<I> item = ITEMS.register(name, sup);
+        if (tab == VReference.VAMPIRISM_TAB) {
+            WEREWOLVES_TAB_ITEMS.add(item);
+        } else {
+            CREATIVE_TAB_ITEMS.computeIfAbsent(tab, (a) -> new HashSet<>()).add(item);
+        }
+        return item;
+    }
+
+    static <I extends Item> RegistryObject<I> register(String name, Supplier<? extends I> sup) {
+        return register(name, WReference.CREATIVE_TAB, sup);
+    }
+
+    public static Set<ItemLike> getAllWerewolvesTabItems() {
+        return WEREWOLVES_TAB_ITEMS.stream().map(RegistryObject::get).collect(Collectors.toSet());
     }
 
     static {
@@ -110,7 +134,16 @@ public class ModItems {
         });
     }
 
-    private static Item.Properties creativeTabProps() {
-        return new Item.Properties().tab(WUtils.creativeTab);
+    @ApiStatus.Internal
+    public static void registerOtherCreativeTabItems(CreativeModeTabEvent.BuildContents event) {
+        CREATIVE_TAB_ITEMS.forEach((tab, items) -> {
+            if (event.getTab() == tab) {
+                items.forEach(item -> event.accept(item.get()));
+            }
+        });
+    }
+
+    private static Item.Properties props() {
+        return new Item.Properties();
     }
 }
