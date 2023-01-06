@@ -45,8 +45,8 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModBlocks.MAGIC_WOOD);
             add(ModBlocks.STRIPPED_JACARANDA_WOOD);
             add(ModBlocks.STRIPPED_MAGIC_WOOD);
-            add(ModBlocks.JACARANDA_PRESSURE_PLACE);
-            add(ModBlocks.MAGIC_PRESSURE_PLACE);
+            add(ModBlocks.JACARANDA_PRESSURE_PLATE);
+            add(ModBlocks.MAGIC_PRESSURE_PLATE);
             add(ModBlocks.JACARANDA_SLAB);
             add(ModBlocks.MAGIC_SLAB);
             add(ModBlocks.JACARANDA_FENCE_GATE);
