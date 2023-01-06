@@ -91,6 +91,13 @@ public class ModItems {
 
     public static final RegistryObject<Item> WOLF_BERRIES = register("wolf_berries", () -> new ItemNameBlockItem(ModBlocks.WOLF_BERRY_BUSH.get(), props().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).build())));
 
+    public static final RegistryObject<SignItem> JACARANDA_SIGN = register("jacaranda_sign", () -> new SignItem(props().stacksTo(16), ModBlocks.JACARANDA_SIGN.get(), ModBlocks.JACARANDA_WALL_SIGN.get()));
+    public static final RegistryObject<SignItem> MAGIC_SIGN = register("magic_sign", () -> new SignItem(props().stacksTo(16), ModBlocks.MAGIC_SIGN.get(), ModBlocks.MAGIC_WALL_SIGN.get()));
+    public static final RegistryObject<WerewolvesBoatItem> JACARANDA_BOAT = register("jacaranda_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, false, props().stacksTo(1)));
+    public static final RegistryObject<WerewolvesBoatItem> MAGIC_BOAT = register("magic_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, false, props().stacksTo(1)));
+    public static final RegistryObject<WerewolvesBoatItem> JACARANDA_CHEST_BOAT = register("jacaranda_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, true, props().stacksTo(1)));
+    public static final RegistryObject<WerewolvesBoatItem> MAGIC_CHEST_BOAT = register("magic_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, true, props().stacksTo(1)));
+
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
         public static final RegistryObject<Item> INJECTION_EMPTY = item("injection_empty");

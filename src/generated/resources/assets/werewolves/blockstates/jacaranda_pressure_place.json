@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "werewolves:block/jacaranda_pressure_place"
+    },
+    "powered=true": {
+      "model": "werewolves:block/jacaranda_pressure_place_down"
+    }
+  }
+}

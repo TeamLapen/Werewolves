@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "werewolves:block/stripped_magic_log",
+    "side": "werewolves:block/stripped_magic_log"
+  }
+}

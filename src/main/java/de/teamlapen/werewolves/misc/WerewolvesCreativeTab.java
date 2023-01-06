@@ -60,21 +60,53 @@ public class WerewolvesCreativeTab {
         }
 
         private void addBlocks() {
-            addBlock(SILVER_BLOCK);
-            addBlock(RAW_SILVER_BLOCK);
-            addBlock(SILVER_ORE);
-            addBlock(DEEPSLATE_SILVER_ORE);
-            addBlock(JACARANDA_LOG);
-            addBlock(JACARANDA_LEAVES);
-            addBlock(JACARANDA_SAPLING);
-            addBlock(MAGIC_LOG);
-            addBlock(MAGIC_PLANKS);
-            addBlock(MAGIC_LEAVES);
-            addBlock(MAGIC_SAPLING);
+            addBuildingBlocks();
             addBlock(WOLFSBANE);
             addBlock(DAFFODIL);
             addBlock(STONE_ALTAR);
             addBlock(STONE_ALTAR_FIRE_BOWL);
+
+        }
+
+        private void addBuildingBlocks() {
+            addBlock(SILVER_BLOCK);
+            addBlock(RAW_SILVER_BLOCK);
+            addBlock(SILVER_ORE);
+            addBlock(DEEPSLATE_SILVER_ORE);
+
+            addBlock(JACARANDA_LEAVES);
+            addBlock(JACARANDA_SAPLING);
+            addBlock(JACARANDA_LOG);
+            addBlock(JACARANDA_WOOD);
+            addBlock(STRIPPED_JACARANDA_LOG);
+            addBlock(STRIPPED_JACARANDA_WOOD);
+            addBlock(JACARANDA_PLANKS);
+            addBlock(JACARANDA_STAIRS);
+            addBlock(JACARANDA_SLAB);
+            addBlock(JACARANDA_FENCE);
+            addBlock(JACARANDA_FENCE_GATE);
+            addBlock(JACARANDA_DOOR);
+            addBlock(JACARANDA_TRAPDOOR);
+            addBlock(JACARANDA_PRESSURE_PLACE);
+            addBlock(JACARANDA_BUTTON);
+            addItem(ModItems.JACARANDA_SIGN);
+
+            addBlock(MAGIC_LEAVES);
+            addBlock(MAGIC_SAPLING);
+            addBlock(MAGIC_LOG);
+            addBlock(MAGIC_WOOD);
+            addBlock(STRIPPED_MAGIC_LOG);
+            addBlock(STRIPPED_MAGIC_WOOD);
+            addBlock(MAGIC_PLANKS);
+            addBlock(MAGIC_STAIRS);
+            addBlock(MAGIC_SLAB);
+            addBlock(MAGIC_FENCE);
+            addBlock(MAGIC_FENCE_GATE);
+            addBlock(MAGIC_DOOR);
+            addBlock(MAGIC_TRAPDOOR);
+            addBlock(MAGIC_PRESSURE_PLACE);
+            addBlock(MAGIC_BUTTON);
+            addItem(ModItems.MAGIC_SIGN);
         }
 
         private void addItems() {

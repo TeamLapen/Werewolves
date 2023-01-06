@@ -66,19 +66,12 @@ public class LootTablesGenerator extends LootTableProvider {
         protected void generate() {
             this.add(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF.get(), LootTable.lootTable());
             this.add(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED.get(), createSingleItemTable(de.teamlapen.vampirism.core.ModBlocks.TOTEM_TOP.get()));
-            this.dropSelf(ModBlocks.JACARANDA_SAPLING.get());
-            this.dropSelf(ModBlocks.MAGIC_SAPLING.get());
             this.dropSelf(ModBlocks.WOLFSBANE.get());
             this.dropSelf(ModBlocks.SILVER_BLOCK.get());
             this.dropSelf(ModBlocks.SILVER_ORE.get());
             this.dropSelf(ModBlocks.RAW_SILVER_BLOCK.get());
             this.dropPottedContents(ModBlocks.POTTED_WOLFSBANE.get());
-            this.dropSelf(ModBlocks.JACARANDA_LOG.get());
-            this.dropSelf(ModBlocks.MAGIC_LOG.get());
             this.dropSelf(ModBlocks.STONE_ALTAR.get());
-            this.dropSelf(ModBlocks.MAGIC_PLANKS.get());
-            this.add(ModBlocks.JACARANDA_LEAVES.get(), (block -> createLeavesDrops(block, ModBlocks.JACARANDA_SAPLING.get(), DEFAULT_SAPLING_DROP_RATES)));
-            this.add(ModBlocks.MAGIC_LEAVES.get(), (block -> createLeavesDrops(block, ModBlocks.MAGIC_SAPLING.get(), DEFAULT_SAPLING_DROP_RATES)));
             this.dropSelf(ModBlocks.STONE_ALTAR_FIRE_BOWL.get());
             this.add(ModBlocks.SILVER_ORE.get(), (block) -> {
                 return createOreDrop(block, ModItems.RAW_SILVER.get());
@@ -94,6 +87,41 @@ public class LootTablesGenerator extends LootTableProvider {
 
             dropPottedContents(ModBlocks.POTTED_WOLFSBANE.get());
             dropPottedContents(ModBlocks.POTTED_DAFFODIL.get());
+
+            this.dropSelf(ModBlocks.JACARANDA_LOG.get());
+            this.dropSelf(ModBlocks.MAGIC_LOG.get());
+            this.dropSelf(ModBlocks.JACARANDA_STAIRS.get());
+            this.dropSelf(ModBlocks.MAGIC_STAIRS.get());
+            this.dropSelf(ModBlocks.JACARANDA_WOOD.get());
+            this.dropSelf(ModBlocks.MAGIC_WOOD.get());
+            this.dropSelf(ModBlocks.STRIPPED_JACARANDA_WOOD.get());
+            this.dropSelf(ModBlocks.STRIPPED_MAGIC_WOOD.get());
+            this.dropSelf(ModBlocks.JACARANDA_SIGN.get());
+            this.dropSelf(ModBlocks.MAGIC_SIGN.get());
+            this.dropSelf(ModBlocks.JACARANDA_WALL_SIGN.get());
+            this.dropSelf(ModBlocks.MAGIC_WALL_SIGN.get());
+            this.dropSelf(ModBlocks.JACARANDA_PRESSURE_PLACE.get());
+            this.dropSelf(ModBlocks.MAGIC_PRESSURE_PLACE.get());
+            this.dropSelf(ModBlocks.JACARANDA_BUTTON.get());
+            this.dropSelf(ModBlocks.MAGIC_BUTTON.get());
+            this.dropSelf(ModBlocks.JACARANDA_SLAB.get());
+            this.dropSelf(ModBlocks.MAGIC_SLAB.get());
+            this.dropSelf(ModBlocks.JACARANDA_FENCE_GATE.get());
+            this.dropSelf(ModBlocks.MAGIC_FENCE_GATE.get());
+            this.dropSelf(ModBlocks.JACARANDA_FENCE.get());
+            this.dropSelf(ModBlocks.MAGIC_FENCE.get());
+            this.dropSelf(ModBlocks.STRIPPED_JACARANDA_LOG.get());
+            this.dropSelf(ModBlocks.STRIPPED_MAGIC_LOG.get());
+            this.dropSelf(ModBlocks.JACARANDA_PLANKS.get());
+            this.dropSelf(ModBlocks.MAGIC_PLANKS.get());
+            this.dropSelf(ModBlocks.JACARANDA_TRAPDOOR.get());
+            this.dropSelf(ModBlocks.MAGIC_TRAPDOOR.get());
+            this.add(ModBlocks.JACARANDA_DOOR.get(), this::createDoorTable);
+            this.add(ModBlocks.MAGIC_DOOR.get(), this::createDoorTable);
+            this.add(ModBlocks.JACARANDA_LEAVES.get(), (block) -> createLeavesDrops(block, ModBlocks.JACARANDA_SAPLING.get(), DEFAULT_SAPLING_DROP_RATES));
+            this.add(ModBlocks.MAGIC_LEAVES.get(), (block) -> createLeavesDrops(block, ModBlocks.MAGIC_SAPLING.get(), DEFAULT_SAPLING_DROP_RATES));
+            this.dropSelf(ModBlocks.JACARANDA_SAPLING.get());
+            this.dropSelf(ModBlocks.MAGIC_SAPLING.get());
         }
 
         @Nonnull

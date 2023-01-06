@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.data;
 
+import de.teamlapen.vampirism.data.ModBlockFamilies;
 import de.teamlapen.werewolves.core.ModRegistries;
 import de.teamlapen.werewolves.mixin.RegistriesDatapackGeneratorAccessor;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -30,6 +31,7 @@ public class DataGeneration {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
+        ModBlockFamilies.init();
         DatapackBuiltinEntriesProvider provider = new DatapackBuiltinEntriesProvider(packOutput, extendedProvider(lookupProvider, ModRegistries.DATA_BUILDER), Set.of(REFERENCE.MODID));
         generator.addProvider(event.includeServer(), provider);
         //noinspection DataFlowIssue

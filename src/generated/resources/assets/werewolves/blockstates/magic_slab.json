@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "werewolves:block/magic_slab"
+    },
+    "type=double": {
+      "model": "werewolves:block/magic_planks"
+    },
+    "type=top": {
+      "model": "werewolves:block/magic_slab_top"
+    }
+  }
+}
