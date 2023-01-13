@@ -14,6 +14,7 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -72,13 +73,17 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     @Override
     protected void init() {
         super.init();
-        Button.OnTooltip notUnlocked = (button, stack, mouseX, mouseY) -> renderTooltip(stack, Component.translatable("text.werewolves.not_unlocked"), mouseX, mouseY);
-        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_FORM.get());
-        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.SURVIVAL_FORM.get());
-        this.human = this.addRenderableWidget(new Button(this.guiLeft + 5, this.guiTop + 20, 67, 20, WerewolfForm.HUMAN.getTextComponent(), (button1) -> switchToForm(WerewolfForm.HUMAN)));
-        this.beast = this.addRenderableWidget(new Button(this.guiLeft + 71, this.guiTop + 20, 40, 20, WerewolfForm.BEAST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.BEAST), beastUnlocked ? Button.NO_TOOLTIP : notUnlocked));
-        this.survival = this.addRenderableWidget(new Button(this.guiLeft + 111, this.guiTop + 20, 55, 20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.SURVIVALIST), survivalUnlocked ? Button.NO_TOOLTIP : notUnlocked));
+        Tooltip notUnlocked = Tooltip.create(Component.translatable("text.werewolves.not_unlocked"));
+        this.human = this.addRenderableWidget(new ExtendedButton(this.guiLeft + 5, this.guiTop + 20, 67, 20, WerewolfForm.HUMAN.getTextComponent(), (button1) -> switchToForm(WerewolfForm.HUMAN)));
+        this.beast = this.addRenderableWidget(new ExtendedButton(this.guiLeft + 71, this.guiTop + 20, 40, 20, WerewolfForm.BEAST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.BEAST)));
+        this.survival = this.addRenderableWidget(new ExtendedButton(this.guiLeft + 111, this.guiTop + 20, 55, 20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.SURVIVALIST)));
         this.switchToForm(WerewolfForm.HUMAN);
+        if (!werewolf.getSkillHandler().isSkillEnabled(ModSkills.SURVIVAL_FORM.get())) {
+            this.survival.setTooltip(notUnlocked);
+        }
+        if (!werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_FORM.get())) {
+            this.beast.setTooltip(notUnlocked);
+        }
     }
 
     /**
@@ -133,10 +138,10 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
 
         this.eyeList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100, 20, REFERENCE.EYE_TYPE_COUNT, Component.translatable("text.werewolves.appearance.eye"), this::eye, this::hoverEye));
         this.skinList = this.addRenderableWidget(new ScrollableArrayTextComponentList(this.guiLeft + 20, this.guiTop + 50 + 19 + 20, 99, 80, 20, form.getSkinTypes(), Component.translatable("text.werewolves.appearance.skin"), this::skin, this::hoverSkin));
-        this.eyeButton = this.addRenderableWidget(new ExtendedButton(eyeList.x, eyeList.y - 20, eyeList.getWidth() + 1, 20, Component.empty(), (b) -> {
+        this.eyeButton = this.addRenderableWidget(new ExtendedButton(eyeList.getX(), eyeList.getY() - 20, eyeList.getWidth() + 1, 20, Component.empty(), (b) -> {
             this.setEyeListVisibility(!eyeList.visible);
         }));
-        this.skinButton = this.addRenderableWidget(new ExtendedButton(skinList.x, skinList.y - 20, skinList.getWidth() + 1, 20, Component.empty(), (b) -> {
+        this.skinButton = this.addRenderableWidget(new ExtendedButton(skinList.getX(), skinList.getY() - 20, skinList.getWidth() + 1, 20, Component.empty(), (b) -> {
             this.setSkinListVisibility(!skinList.visible);
         }));
         this.glowingEyesButton = this.addRenderableWidget(new Checkbox(this.guiLeft + 20, this.guiTop + 90, 99, 20, Component.translatable("gui.vampirism.appearance.glowing_eye"), this.glowingEyes) {

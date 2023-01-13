@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.core;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -17,8 +18,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Set;
 
 public class ModLootTables {
 
@@ -72,5 +75,9 @@ public class ModLootTables {
     private static LootPool getInjectPool(ResourceLocation loc) {
         LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1);
         return LootPool.lootPool().name("werewolves_inject_pool").setBonusRolls(UniformGenerator.between(0, 1)).setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
+    }
+
+    public static @NotNull Set<ResourceLocation> getLootTables() {
+        return ImmutableSet.copyOf(INJECTION_TABLES.values());
     }
 }

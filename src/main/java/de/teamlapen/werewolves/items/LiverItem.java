@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.items;
 
 import de.teamlapen.vampirism.api.entity.vampire.IVampire;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
-import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +15,7 @@ import javax.annotation.Nonnull;
 
 public class LiverItem extends Item {
     public LiverItem() {
-        super(new Item.Properties().tab(WUtils.creativeTab).food(new FoodProperties.Builder().meat().nutrition(10).saturationMod(1.5f).build()));
+        super(new Item.Properties().food(new FoodProperties.Builder().meat().nutrition(10).saturationMod(1.5f).build()));
     }
 
     @Nonnull

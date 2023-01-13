@@ -5,10 +5,10 @@
 		"2": "block/red_wool",
 		"3": "block/yellow_wool",
 		"4": "block/barrel_bottom",
-		"7": "werewolves:misc/candle",
+		"7": "block/candle",
 		"8": "block/black_concrete",
 		"9": "vampirism:block/dark_steel",
-		"11": "werewolves:misc/note",
+		"11": "werewolves:item/note",
 		"particle": "block/stone_bricks"
 	},
 	"render_type": "minecraft:cutout",

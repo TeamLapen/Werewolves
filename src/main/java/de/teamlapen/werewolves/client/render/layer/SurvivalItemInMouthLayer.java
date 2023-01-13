@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.client.render.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.renderer.ItemInHandRenderer;
@@ -30,14 +30,14 @@ public class SurvivalItemInMouthLayer<T extends LivingEntity, M extends Werewolf
 
             this.getParentModel().translateToMouth(arm, poseStack);
             poseStack.translate(0.0D, 0.0D, 0.125D);
-            poseStack.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
-            poseStack.mulPose(Vector3f.YP.rotationDegrees(180.0F));
+            poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
+            poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
 
             poseStack.translate(0.0D, 0.4D, 0.0D);
-            poseStack.mulPose(Vector3f.ZP.rotationDegrees(90));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(90));
 
             if (arm == HumanoidArm.LEFT) {
-                poseStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
             }
             this.itemInHandRenderer.renderItem(entity, itemStack, transformType, arm == HumanoidArm.LEFT, poseStack, bufferSource, p_117191_);
             poseStack.popPose();

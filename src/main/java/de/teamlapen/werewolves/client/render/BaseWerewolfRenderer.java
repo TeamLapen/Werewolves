@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.core.ModModelRender;
@@ -87,7 +87,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
         if (entityLiving.getSwimAmount(partialTicks) > 0.0F && this.form.isHumanLike()) {
             float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.getXRot() : -90.0F;
             float f4 = Mth.lerp(entityLiving.getSwimAmount(partialTicks), 0.0F, f3);
-            matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(f4));
+            matrixStackIn.mulPose(Axis.XP.rotationDegrees(f4));
             if (entityLiving.isVisuallySwimming()) {
                 matrixStackIn.translate(0.0D, -1.0D, 0.3F);
             }

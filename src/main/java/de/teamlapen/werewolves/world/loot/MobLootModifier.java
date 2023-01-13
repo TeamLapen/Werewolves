@@ -81,7 +81,7 @@ public class MobLootModifier extends LootModifier {
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        this.lootTable.getRandomItemsRaw(context, createStackSplitter(generatedLoot::add));
+        this.lootTable.getRandomItemsRaw(context, createStackSplitter(context, generatedLoot::add));
         return generatedLoot;
     }
 

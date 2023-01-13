@@ -25,7 +25,7 @@ public class WerewolfPlayerSurvivalistRenderer extends WerewolfPlayerRenderer<Ab
 
     private final List<ResourceLocation> textures;
     public WerewolfPlayerSurvivalistRenderer(EntityRendererProvider.Context context) {
-        super(context, new WerewolfSurvivalistModel<>(context.bakeLayer(ModModelRender.WEREWOLF_SURVIVALIST)), 0.5F);
+        super(context, new WerewolfSurvivalistModel<>(context.bakeLayer(ModModelRender.WEREWOLF_SURVIVALIST)), 1F);
         this.textures = getSurvivalTextures();
 
         this.addLayer(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.SURVIVALIST, this));

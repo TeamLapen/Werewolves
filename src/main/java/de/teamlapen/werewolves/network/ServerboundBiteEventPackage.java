@@ -7,7 +7,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record ServerboundBiteEventPackage(int entityId) implements IMessage {
+public record ServerboundBiteEventPackage(int entityId) implements IMessage.IServerBoundMessage {
 
     static void encode(ServerboundBiteEventPackage msg, FriendlyByteBuf buf) {
         buf.writeVarInt(msg.entityId);

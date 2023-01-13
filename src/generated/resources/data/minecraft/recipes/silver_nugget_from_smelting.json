@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": [
+    {
+      "item": "werewolves:silver_axe"
+    },
+    {
+      "item": "werewolves:silver_hoe"
+    },
+    {
+      "item": "werewolves:silver_pickaxe"
+    },
+    {
+      "item": "werewolves:silver_shovel"
+    },
+    {
+      "item": "werewolves:silver_sword"
+    }
+  ],
+  "result": "werewolves:silver_nugget"
+}

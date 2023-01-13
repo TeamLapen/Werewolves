@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.entities.werewolf;
 
 import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfMob;
-import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.util.FormHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -31,7 +30,6 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
 
     public void bite(LivingEntity entity) {
         //TODO take a look at ExtendedCreature#onBite
-        LupusSanguinemEffect.addSanguinemEffectRandom(entity, 0.05f);
     }
 
     @Override

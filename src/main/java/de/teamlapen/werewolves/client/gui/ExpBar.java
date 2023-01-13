@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import de.teamlapen.lib.lib.util.MultilineTooltip;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
@@ -15,7 +16,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -37,7 +38,7 @@ public class ExpBar extends AbstractWidget {
         if (this.visible) {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, ICON);
-            this.blit(stack, this.x, this.y, 10, 0, 15, 123);
+            this.blit(stack, this.getX(), this.getY(), 10, 0, 15, 123);
 
             float perc = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc();
 
@@ -45,27 +46,26 @@ public class ExpBar extends AbstractWidget {
             int color = VampirismAPI.getFactionPlayerHandler(Minecraft.getInstance().player).map(IFactionPlayerHandler::getCurrentFaction).map(IFaction::getColor).orElse(Color.WHITE.getRGB());
             RenderSystem.setShaderColor(((color >> 16) & 0xFF) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, 1.0F);
 
-            blit(stack, this.x + 5, this.y + 6, 0, 0, 5, 111);
-            blit(stack, this.x + 5, this.y + 6 + (111 - ySize), 5, (111 - ySize), 5, ySize);
+            blit(stack, this.getX() + 5, this.getY() + 6, 0, 0, 5, 111);
+            blit(stack, this.getX() + 5, this.getY() + 6 + (111 - ySize), 5, (111 - ySize), 5, ySize);
 
-            this.renderToolTip(stack, p_render_1_, p_render_2_);
+            if (this.isHovered) {
+                this.setTooltip(new MultilineTooltip(createToolTip()));
+            }
         }
     }
 
 
-    @Override
-    public void renderToolTip(@Nonnull PoseStack stack, int mouseX, int mouseY) {
-        if (mouseX > this.x && mouseX < this.x + 15 && mouseY > this.y && mouseY < this.y + 123) {
-            List<FormattedCharSequence> tooltips = new ArrayList<>();
-            tooltips.add(Component.translatable("text.werewolves.skill_screen.level_progression_label").getVisualOrderText());
-            LevelHandler handler = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler();
-            tooltips.add(Component.translatable("text.werewolves.skill_screen.prey_snatched", Math.min(handler.getLevelProgress(), handler.getNeededProgress())).getVisualOrderText());
-            this.screen.renderTooltip(stack, tooltips, mouseX, mouseY);
-        }
+    public List<Component> createToolTip() {
+        List<Component> tooltips = new ArrayList<>();
+        tooltips.add(Component.translatable("text.werewolves.skill_screen.level_progression_label"));
+        LevelHandler handler = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler();
+        tooltips.add(Component.translatable("text.werewolves.skill_screen.prey_snatched", Math.min(handler.getLevelProgress(), handler.getNeededProgress())));
+        return tooltips;
     }
 
     @Override
-    public void updateNarration(@Nonnull NarrationElementOutput p_169152_) {
+    protected void updateWidgetNarration(@NotNull NarrationElementOutput output) {
 
     }
 }

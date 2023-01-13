@@ -6,7 +6,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.modcompat.terrablender.TerraBlenderCompat;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
@@ -37,10 +37,10 @@ public class OverworldModifications {
          * Create a wrapper function for the parameterSource function, which calls the original one and then modifies the result
          */
 
-        final Function<Registry<Biome>, Climate.ParameterList<Holder<Biome>>> originalParameterSourceFunction = ((MultiNoiseBiomeSourcePresetAccessor) MultiNoiseBiomeSource.Preset.OVERWORLD).getPresetSupplier_vampirism();
+        final Function<HolderGetter<Biome>, Climate.ParameterList<Holder<Biome>>> originalParameterSourceFunction = ((MultiNoiseBiomeSourcePresetAccessor) MultiNoiseBiomeSource.Preset.OVERWORLD).getPresetSupplier_vampirism();
 
 
-        Function<Registry<Biome>, Climate.ParameterList<Holder<Biome>>> wrapperParameterSourceFunction = (registry) -> {
+        Function<HolderGetter<Biome>, Climate.ParameterList<Holder<Biome>>> wrapperParameterSourceFunction = (registry) -> {
             //Create copy of vanilla list
             Climate.ParameterList<Holder<Biome>> vanillaList = originalParameterSourceFunction.apply(registry);
             List<Pair<Climate.ParameterPoint, Holder<Biome>>> biomes = new ArrayList<>(vanillaList.values());
@@ -75,9 +75,9 @@ public class OverworldModifications {
             LOGGER.debug("Removed a total of {} points from {}", removed, oldCount);
 
 
-            LOGGER.info("Adding biome {} to ParameterPoints {} in Preset.OVERWORLD", ModBiomes.WEREWOLF_HEAVEN.getKey(), Arrays.toString(forestPoints));
+            LOGGER.info("Adding biome {} to ParameterPoints {} in Preset.OVERWORLD", ModBiomes.WEREWOLF_HEAVEN, Arrays.toString(forestPoints));
             for (Climate.ParameterPoint forestPoint : forestPoints) {
-                biomes.add(Pair.of(forestPoint, registry.getOrCreateHolderOrThrow(ModBiomes.WEREWOLF_HEAVEN.getKey())));
+                biomes.add(Pair.of(forestPoint, registry.getOrThrow(ModBiomes.WEREWOLF_HEAVEN)));
             }
 
             return new Climate.ParameterList<>(biomes);

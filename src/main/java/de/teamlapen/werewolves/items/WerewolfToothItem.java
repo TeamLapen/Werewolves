@@ -4,7 +4,6 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModEffects;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -20,7 +19,7 @@ import javax.annotation.Nonnull;
 public class WerewolfToothItem extends Item {
 
     public WerewolfToothItem() {
-        super(new Item.Properties().tab(WUtils.creativeTab));
+        super(new Item.Properties());
     }
 
     @Nonnull
@@ -28,7 +27,8 @@ public class WerewolfToothItem extends Item {
     public InteractionResultHolder<ItemStack> use(@Nonnull Level world, @Nonnull Player player, @Nonnull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (!world.isClientSide) {
-            if (WerewolvesConfig.SERVER.disableToothInfection.get()) {
+            //noinspection removal
+            if (WerewolvesConfig.SERVER.disableToothInfection.get() || WerewolvesConfig.SERVER.disableWerewolfToothInfection.get()) {
                 player.displayClientMessage(Component.translatable("text.vampirism.deactivated_by_serveradmin"), true);
             } else {
                 if (Helper.canBecomeWerewolf(player)) {

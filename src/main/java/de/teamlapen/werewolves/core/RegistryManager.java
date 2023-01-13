@@ -12,11 +12,9 @@ import net.minecraftforge.registries.MissingMappingsEvent;
 public class RegistryManager implements IInitListener {
 
     public static void setupRegistries(IEventBus bus) {
-        ModRegistries.init(bus);
         ModBlocks.register(bus);
         ModItems.register(bus);
         ModAttributes.register(bus);
-        ModBiomes.register(bus);
         ModContainer.register(bus);
         ModEffects.register(bus);
         ModEntities.register(bus);
@@ -51,6 +49,7 @@ public class RegistryManager implements IInitListener {
                 ModEntities.registerSpawns();
                 WerewolvesBiomeFeatures.init();
                 event.enqueueWork(ModVillage::villageTradeSetup);
+                ModTiles.registerTileExtensionsUnsafe();
                 break;
             case LOAD_COMPLETE:
                 break;

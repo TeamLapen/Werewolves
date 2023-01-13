@@ -1,8 +1,10 @@
 package de.teamlapen.werewolves.proxy;
 
+import de.teamlapen.werewolves.blocks.LogBlock;
 import de.teamlapen.werewolves.client.core.*;
 import de.teamlapen.werewolves.network.ClientboundAttackTargetEventPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -34,10 +36,13 @@ public class ClientProxy extends CommonProxy {
             case CLIENT_SETUP -> {
                 MinecraftForge.EVENT_BUS.register(clientHandler = new ClientEventHandler());
                 MinecraftForge.EVENT_BUS.register(hudOverlay = new ModHUDOverlay());
+                event.enqueueWork(() -> {
+                    Sheets.addWoodType(LogBlock.MAGIC);
+                    Sheets.addWoodType(LogBlock.JACARANDA);
+                });
                 ModKeys.register(clientHandler);
             }
             case LOAD_COMPLETE -> {
-                event.enqueueWork(ModItemRenderer::registerColorsUnsafe);
                 event.enqueueWork(ModScreens::registerScreensUnsafe);
             }
             default -> {
@@ -46,7 +51,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void handleAttackTargetEventPacket(ClientboundAttackTargetEventPacket packet) {
+    public void handleAttackTargetEventPacket(@NotNull ClientboundAttackTargetEventPacket packet) {
         this.hudOverlay.attackTriggered(packet.entityId());
     }
 

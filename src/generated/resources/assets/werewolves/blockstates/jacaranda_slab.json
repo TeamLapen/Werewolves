@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "werewolves:block/jacaranda_slab"
+    },
+    "type=double": {
+      "model": "werewolves:block/jacaranda_planks"
+    },
+    "type=top": {
+      "model": "werewolves:block/jacaranda_slab_top"
+    }
+  }
+}

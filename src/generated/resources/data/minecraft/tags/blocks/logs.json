@@ -1,6 +1,8 @@
 {
   "values": [
     "werewolves:jacaranda_log",
-    "werewolves:magic_log"
+    "werewolves:magic_log",
+    "#forge:magic_log",
+    "#forge:jacaranda_log"
   ]
 }

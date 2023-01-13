@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -19,8 +19,8 @@ public class ModTags {
         public static final TagKey<Block> SILVER_ORE = forge("ores/silver");
         public static final TagKey<Block> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");
         public static final TagKey<Block> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
-        public static final TagKey<Block> MAGIC_LOGS = forge("magic_logs");
-        public static final TagKey<Block> JACARANDA_LOGS = forge("jacaranda_logs");
+        public static final TagKey<Block> MAGIC_LOG = forge("magic_log");
+        public static final TagKey<Block> JACARANDA_LOG = forge("jacaranda_log");
         public static final TagKey<Block> NEEDS_SILVER_TOOL = forge("needs_silver_tool");
 
 
@@ -47,8 +47,8 @@ public class ModTags {
         public static final TagKey<Item> RAW_MATERIALS_SILVER = forge("raw_materials/silver");
         public static final TagKey<Item> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");
         public static final TagKey<Item> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
-        public static final TagKey<Item> MAGIC_LOGS = forge("magic_logs");
-        public static final TagKey<Item> JACARANDA_LOGS = forge("jacaranda_logs");
+        public static final TagKey<Item> MAGIC_LOG = forge("magic_log");
+        public static final TagKey<Item> JACARANDA_LOG = forge("jacaranda_log");
 
         private static TagKey<Item> mc(ResourceLocation id) {
             return ItemTags.create(id);
@@ -82,7 +82,7 @@ public class ModTags {
         }
 
         private static @NotNull TagKey<Biome> tag(@NotNull String name) {
-            return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(Registries.BIOME, new ResourceLocation(REFERENCE.MODID, name));
         }
     }
 
@@ -90,7 +90,7 @@ public class ModTags {
         public static final TagKey<PoiType> IS_WEREWOLF = tag("is_werewolf");
 
         private static @NotNull TagKey<PoiType> tag(@NotNull String name) {
-            return TagKey.create(Registry.POINT_OF_INTEREST_TYPE_REGISTRY, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(REFERENCE.MODID, name));
         }
 
     }
@@ -100,7 +100,7 @@ public class ModTags {
 
 
         private static @NotNull TagKey<VillagerProfession> tag(@NotNull String name) {
-            return TagKey.create(Registry.VILLAGER_PROFESSION_REGISTRY, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(Registries.VILLAGER_PROFESSION, new ResourceLocation(REFERENCE.MODID, name));
         }
 
     }

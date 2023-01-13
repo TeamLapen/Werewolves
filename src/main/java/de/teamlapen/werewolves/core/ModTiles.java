@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.mixin.TileEntityTypeAccessor;
 import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.world.level.block.Block;
@@ -9,6 +10,9 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ModTiles {
 
@@ -23,5 +27,14 @@ public class ModTiles {
     @SuppressWarnings("ConstantConditions")
     private static <T extends BlockEntity> BlockEntityType<T> create(BlockEntityType.BlockEntitySupplier<T> factoryIn, Block... blocks) {
         return BlockEntityType.Builder.of(factoryIn, blocks).build(null);
+    }
+
+    public static void registerTileExtensionsUnsafe() {
+        Set<Block> blocks = new HashSet<>(((TileEntityTypeAccessor) BlockEntityType.SIGN).getValidBlocks());
+        blocks.add(ModBlocks.JACARANDA_SIGN.get());
+        blocks.add(ModBlocks.MAGIC_SIGN.get());
+        blocks.add(ModBlocks.JACARANDA_WALL_SIGN.get());
+        blocks.add(ModBlocks.MAGIC_WALL_SIGN.get());
+        ((TileEntityTypeAccessor) BlockEntityType.SIGN).setValidBlocks(blocks);
     }
 }

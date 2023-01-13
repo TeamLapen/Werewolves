@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.function.Supplier;
 
-public record ServerboundSimpleInputEventPacket(Type type) implements IMessage {
+public record ServerboundSimpleInputEventPacket(Type type) implements IMessage.IServerBoundMessage {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

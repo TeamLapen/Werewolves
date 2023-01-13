@@ -2,6 +2,8 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.entity.hunter.BasicHunterEntity;
 import de.teamlapen.werewolves.WerewolvesMod;
+import de.teamlapen.werewolves.blocks.WerewolvesBoatEntity;
+import de.teamlapen.werewolves.blocks.WerewolvesChestBoatEntity;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.entities.werewolf.*;
@@ -34,6 +36,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<AggressiveWolfEntity>> WOLF = prepareEntityType("wolf", () -> EntityType.Builder.of(AggressiveWolfEntity::new, MobCategory.AMBIENT).sized(0.6F, 0.85F), false);
     public static final RegistryObject<EntityType<WerewolfMinionEntity>> WEREWOLF_MINION = prepareEntityType("werewolf_minion", () -> EntityType.Builder.of(WerewolfMinionEntity::new, MobCategory.CREATURE).sized(0.6f, 1.95f), false);
     public static final RegistryObject<EntityType<WerewolfAlphaEntity>> ALPHA_WEREWOLF = prepareEntityType("alpha_werewolf", () -> EntityType.Builder.of(WerewolfAlphaEntity::new, WerewolvesMod.WEREWOLF_CREATURE_TYPE).sized(0.8f, 2f), true);
+    public static final RegistryObject<EntityType<WerewolvesBoatEntity>> BOAT = prepareEntityType("boat", () -> EntityType.Builder.<WerewolvesBoatEntity>of(WerewolvesBoatEntity::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).setCustomClientFactory((spawnEntity, level) -> new WerewolvesBoatEntity(level, spawnEntity.getPosX(), spawnEntity.getPosY(), spawnEntity.getPosZ())), false);
+    public static final RegistryObject<EntityType<WerewolvesChestBoatEntity>> CHEST_BOAT = prepareEntityType("chest_boat", () -> EntityType.Builder.<WerewolvesChestBoatEntity>of(WerewolvesChestBoatEntity::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).setCustomClientFactory((spawnEntity, level) -> new WerewolvesChestBoatEntity(level, spawnEntity.getPosX(), spawnEntity.getPosY(), spawnEntity.getPosZ())), false);
 
     public static class V {
         public static final RegistryObject<EntityType<BasicHunterEntity>> HUNTER = RegistryObject.create(new ResourceLocation("vampirism", "hunter"), ForgeRegistries.Keys.ENTITY_TYPES, REFERENCE.MODID);

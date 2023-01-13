@@ -1,18 +1,19 @@
 package de.teamlapen.werewolves.world.gen;
 
-import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModEntities;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
+import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
-import static de.teamlapen.vampirism.world.biome.VampirismBiomes.addModdedWaterLake;
 import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWerewolfBiomeTrees;
 import static net.minecraft.data.worldgen.BiomeDefaultFeatures.*;
 
 public class WerewolfHeavenBiome {
 
-    public static Biome createWerewolfHeavenBiome() {
-        return addAttributes(createGenerationBuilder(), createMobSpawnBuilder(), createEffectBuilder()).build();
+    public static Biome createWerewolfHeavenBiome(HolderGetter<PlacedFeature> featureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter) {
+        return addAttributes(createGenerationBuilder(featureGetter, carverGetter), createMobSpawnBuilder(), createEffectBuilder()).build();
     }
 
     public static Biome.BiomeBuilder addAttributes(BiomeGenerationSettings.Builder featureBuilder, MobSpawnSettings.Builder spawnBuilder, BiomeSpecialEffects.Builder ambienceBuilder) {
@@ -43,10 +44,10 @@ public class WerewolfHeavenBiome {
                 .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
     }
 
-    public static BiomeGenerationSettings.Builder createGenerationBuilder() {
-        BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder();
+    public static BiomeGenerationSettings.Builder createGenerationBuilder(HolderGetter<PlacedFeature> featureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter) {
+        BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder(featureGetter, carverGetter);
         addDefaultCarversAndLakes(builder);
-        addModdedWaterLake(builder);
+//        VampirismBiomes.addModdedWaterLake(builder); TODO re-add
         addDefaultMonsterRoom(builder);
         addDefaultUndergroundVariety(builder);
         addDefaultOres(builder);

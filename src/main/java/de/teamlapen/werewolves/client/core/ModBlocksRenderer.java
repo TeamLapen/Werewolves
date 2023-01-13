@@ -9,7 +9,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 @OnlyIn(Dist.CLIENT)
 public class ModBlocksRenderer {
 
-    public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+    static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModTiles.STONE_ALTAR.get(), StoneAltarTESR::new);
     }
 }

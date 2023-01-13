@@ -11,7 +11,6 @@ import javax.annotation.Nonnull;
 public class UnWerewolfEffectInstance extends MobEffectInstance {
     public UnWerewolfEffectInstance(int durationIn) {
         super(ModEffects.UN_WEREWOLF.get(), durationIn, 0, false, true, false);
-        this.setNoCounter(true);
     }
 
     @Override

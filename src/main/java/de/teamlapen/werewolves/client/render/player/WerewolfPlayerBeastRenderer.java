@@ -26,7 +26,7 @@ public class WerewolfPlayerBeastRenderer extends WerewolfPlayerRenderer<Abstract
 
     private final List<ResourceLocation> textures;
     public WerewolfPlayerBeastRenderer(EntityRendererProvider.Context context) {
-        super(context, new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)), 1.3F);
+        super(context, new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)), 1F);
         this.textures = getBeastTextures();
 
         this.addLayer(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST, this));
