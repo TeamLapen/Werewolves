@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -21,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Model made by Rebel
@@ -316,13 +314,11 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
 
     @Nonnull
     public static List<ResourceLocation> getBeastTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        List<ResourceLocation> locs = getTextures("textures/entity/werewolf/beast");
         if (locs.size() < WerewolfForm.BEAST.getSkinTypes()) {
-            for (int i = 0; i < WerewolfForm.BEAST.getSkinTypes(); i++) {
+            for (int i = locs.size(); i < WerewolfForm.BEAST.getSkinTypes(); i++) {
                 ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_" + i + ".png");
-                if (!locs.contains(s)) {
-                    locs.add(s);
-                }
+                locs.add(s);
             }
         }
         return locs;

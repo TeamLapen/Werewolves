@@ -8,8 +8,6 @@ import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
 import de.teamlapen.werewolves.client.render.layer.BeastItemInHandLayer;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -18,16 +16,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class WerewolfPlayerBeastRenderer extends WerewolfPlayerRenderer<AbstractClientPlayer, WerewolfBeastModel<AbstractClientPlayer>> {
 
     private final List<ResourceLocation> textures;
     public WerewolfPlayerBeastRenderer(EntityRendererProvider.Context context) {
         super(context, new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)), 1F);
-        this.textures = getBeastTextures();
+        this.textures = WerewolfBeastModel.getBeastTextures();
 
         this.addLayer(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST, this));
         this.addLayer(new BeastItemInHandLayer<>(this, context.getItemInHandRenderer()));
@@ -38,20 +34,6 @@ public class WerewolfPlayerBeastRenderer extends WerewolfPlayerRenderer<Abstract
     public @NotNull ResourceLocation getTextureLocation(@NotNull AbstractClientPlayer player) {
         WerewolfPlayer werewolf = WerewolfPlayer.get(player);
         return textures.get(werewolf.getSkinType(WerewolfForm.BEAST) % textures.size());
-    }
-
-    @Nonnull
-    public static List<ResourceLocation> getBeastTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
-        if (locs.size() < WerewolfForm.BEAST.getSkinTypes()) {
-            for (int i = 0; i < WerewolfForm.BEAST.getSkinTypes(); i++) {
-                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_" + i + ".png");
-                if (!locs.contains(s)) {
-                    locs.add(s);
-                }
-            }
-        }
-        return locs;
     }
 
     @Override
