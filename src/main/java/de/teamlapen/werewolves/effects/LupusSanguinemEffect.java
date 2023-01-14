@@ -16,10 +16,8 @@ import java.util.function.Consumer;
 
 public class LupusSanguinemEffect extends WerewolvesEffect {
 
-    private static final String REG_NAME = "lupus_sanguinem";
-
     public LupusSanguinemEffect() {
-        super(REG_NAME, MobEffectCategory.HARMFUL, 0xe012ef);
+        super(MobEffectCategory.HARMFUL, 0xe012ef);
     }
 
     public static void infectRandomByPlayer(@Nonnull LivingEntity entity) {
