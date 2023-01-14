@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.blocks;
 
-import de.teamlapen.werewolves.effects.SilverEffect;
+import de.teamlapen.werewolves.effects.WerewolfWeakeningEffect;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
@@ -17,14 +17,14 @@ import javax.annotation.Nonnull;
 
 public class WolfsbaneBlock extends FlowerBlock {
     public WolfsbaneBlock() {
-        super(MobEffects.BLINDNESS, 5, Properties.of(Material.PLANT).strength(0f).noCollission().sound(SoundType.GRASS));
+        super(() -> MobEffects.BLINDNESS, 5, Properties.of(Material.PLANT).strength(0f).noCollission().sound(SoundType.GRASS));
     }
 
     @Override
     public void entityInside(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, @Nonnull Entity entityIn) {
         if (!worldIn.isClientSide && worldIn.getDifficulty() != Difficulty.PEACEFUL) {
             if (entityIn instanceof LivingEntity livingentity && Helper.isWerewolf(entityIn)) {
-                livingentity.addEffect(SilverEffect.createEffect(livingentity, 40));
+                livingentity.addEffect(WerewolfWeakeningEffect.createWolfsbaneEffect(livingentity, 45));
             }
         }
     }

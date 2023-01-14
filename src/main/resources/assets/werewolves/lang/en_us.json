@@ -179,6 +179,7 @@
   "effect.werewolves.bleeding": "Bleeding",
   "effect.werewolves.un_werewolf": "?",
   "effect.werewolves.bad_omen_werewolf": "Bad Omen",
+  "effect.werewolves.wolfsbane": "Wolfbane",
   "__comment": "tile",
   "container.werewolves.stone_altar": "Stone Altar",
   "__comment": "texts",

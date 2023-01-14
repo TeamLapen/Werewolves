@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
 public class BleedingEffect extends WerewolvesEffect {
 
     public BleedingEffect() {
-        super("bleeding", MobEffectCategory.HARMFUL, 0x740000);
+        super(MobEffectCategory.HARMFUL, 0x740000);
     }
 
     @Override

@@ -18,7 +18,8 @@ public class ModEffects {
 
     public static final RegistryObject<LupusSanguinemEffect> LUPUS_SANGUINEM = EFFECTS.register("lupus_sanguinem", LupusSanguinemEffect::new);
     public static final RegistryObject<HowlingEffect> HOWLING = EFFECTS.register("howling", HowlingEffect::new);
-    public static final RegistryObject<SilverEffect> SILVER = EFFECTS.register("silver", SilverEffect::new);
+    public static final RegistryObject<WerewolfWeakeningEffect> SILVER = EFFECTS.register("silver", () -> new WerewolfWeakeningEffect(0xC0C0C0));
+    public static final RegistryObject<WerewolfWeakeningEffect> WOLFSBANE = EFFECTS.register("wolfsbane", () -> new WerewolfWeakeningEffect(0xC0C0C0));
     public static final RegistryObject<BleedingEffect> BLEEDING = EFFECTS.register("bleeding", BleedingEffect::new);
     public static final RegistryObject<UnWerewolfEffect> UN_WEREWOLF = EFFECTS.register("un_werewolf", UnWerewolfEffect::new);
     public static final RegistryObject<MobEffect> BAD_OMEN_WEREWOLF = EFFECTS.register("bad_omen_werewolf", () -> new BadOmenEffect() {

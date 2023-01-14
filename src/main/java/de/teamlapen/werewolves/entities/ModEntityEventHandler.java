@@ -11,7 +11,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.core.ModTags;
-import de.teamlapen.werewolves.effects.SilverEffect;
+import de.teamlapen.werewolves.effects.WerewolfWeakeningEffect;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.mixin.GoalSelectorAccessor;
 import de.teamlapen.werewolves.mixin.NearestAttackabletargetGoalAccessor;
@@ -25,7 +25,6 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -70,7 +69,7 @@ public class ModEntityEventHandler {
     public void onEntityAttacked(AttackEntityEvent event) {
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
             if (event.getEntity().getMainHandItem().is(ModTags.Items.SILVER_TOOL)) {
-                ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get()));
+                ((LivingEntity) event.getTarget()).addEffect(WerewolfWeakeningEffect.createSilverEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get(), 0));
             }
         }
         if (event.getTarget() instanceof WerewolfTransformable) {

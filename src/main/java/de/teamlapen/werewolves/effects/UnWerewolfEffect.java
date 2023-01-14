@@ -18,7 +18,7 @@ public class UnWerewolfEffect extends WerewolvesEffect {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public UnWerewolfEffect() {
-        super("un_werewolf", MobEffectCategory.NEUTRAL, 0xdc9417);
+        super(MobEffectCategory.NEUTRAL, 0xdc9417);
     }
 
     @Override
