@@ -32,7 +32,7 @@ public class ModRefinementSets {
     public static final RegistryObject<IRefinementSet> ATTACK_SPEED_3_N_SPEED_1 = rareW("attack_speed3_n_speed1", ModRefinements.V.ATTACK_SPEED_3, ModRefinements.V.N_SPEED_1);
     public static final RegistryObject<IRefinementSet> SPEED_1_ARMOR_1_HEALTH_1 = rareW("speed1_armor1_health1", ModRefinements.V.SPEED_1, ModRefinements.V.ARMOR_1, ModRefinements.V.HEALTH_1);
     public static final RegistryObject<IRefinementSet> DAMAGE_3_N_ARMOR_1 = rareW("damage3_n_armor1", ModRefinements.V.DAMAGE_3, ModRefinements.V.N_ARMOR_2);
-    public static final RegistryObject<IRefinementSet> SPEED_3_N_ATTACK_SPEED_1 = rareW("speed3_n_attack_speed1", ModRefinements.V.ARMOR_3, ModRefinements.V.N_HEALTH_3);
+    public static final RegistryObject<IRefinementSet> SPEED_3_N_ATTACK_SPEED_1 = rareW("speed3_n_attack_speed1", ModRefinements.V.SPEED_3, ModRefinements.V.N_ATTACK_SPEED_1);
     public static final RegistryObject<IRefinementSet> ATTACK_SPEED_3_N_DAMAGE_1 = rareW("attack_speed3_n_damage1", ModRefinements.V.DAMAGE_1, ModRefinements.V.ATTACK_SPEED_1);
 
     // better attribute modifier with de-buffs
