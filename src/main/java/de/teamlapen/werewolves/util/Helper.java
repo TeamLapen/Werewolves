@@ -27,7 +27,7 @@ import java.util.Optional;
 public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     public static boolean isWerewolf(Entity entity) {
-        return WReference.WEREWOLF_FACTION.equals(VampirismAPI.factionRegistry().getFaction(entity));
+        return (entity instanceof Player player && isWerewolf(player)) || WReference.WEREWOLF_FACTION.equals(VampirismAPI.factionRegistry().getFaction(entity));
     }
 
     public static boolean isWerewolf(Player entity) {

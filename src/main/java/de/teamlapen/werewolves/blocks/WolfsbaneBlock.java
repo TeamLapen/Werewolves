@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.blocks;
 
-import de.teamlapen.werewolves.effects.WerewolfWeakeningEffect;
+import de.teamlapen.werewolves.effects.WolfsbaneEffect;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
@@ -24,7 +24,7 @@ public class WolfsbaneBlock extends FlowerBlock {
     public void entityInside(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, @Nonnull Entity entityIn) {
         if (!worldIn.isClientSide && worldIn.getDifficulty() != Difficulty.PEACEFUL) {
             if (entityIn instanceof LivingEntity livingentity && Helper.isWerewolf(entityIn)) {
-                livingentity.addEffect(WerewolfWeakeningEffect.createWolfsbaneEffect(livingentity, 45));
+                livingentity.addEffect(WolfsbaneEffect.createWolfsbaneEffect(livingentity, 45));
             }
         }
     }
