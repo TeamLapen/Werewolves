@@ -33,16 +33,10 @@ ext.classification = "test"
 sourceSets {
     api
     main {
-        resources {
-            srcDirs += 'src/generated/resources'
-            exclude '.cache'
-        }
         compileClasspath += sourceSets.api.output
         runtimeClasspath += sourceSets.api.output
 
-        java {
-            exclude '**/modcompat/jei/**'
-        }
+        resources.srcDirs += 'src/generated/resources'
     }
 }
 
