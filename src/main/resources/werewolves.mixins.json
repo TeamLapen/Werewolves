@@ -19,6 +19,7 @@
     "TargetingConditionsAccessor",
     "VanillaBlockLootAccessor",
     "entity.MixinVillagerEntity",
+    "entity.PlayerAccessor",
     "entity.PlayerEntityMixin"
   ],
   "client": [
@@ -27,9 +28,12 @@
     "client.EntityRenderersMixin",
     "client.HumanoidArmorLayerMixin",
     "client.InGameGuiAccessor",
+    "client.ItemInHandRendererMixin",
     "client.LayerRendererAccessor",
     "client.LevelRendererMixin",
+    "client.LocalPlayerMixin",
     "client.ModelPartAccessor",
+    "client.PlayerRendererMixin",
     "client.RenderStateShardAccessor",
     "client.RenderTypeAccessor",
     "client.ScreenMixin"

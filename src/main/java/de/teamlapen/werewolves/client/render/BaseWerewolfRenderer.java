@@ -5,11 +5,12 @@ import com.mojang.math.Axis;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.core.ModModelRender;
-import de.teamlapen.werewolves.client.model.*;
+import de.teamlapen.werewolves.client.model.Werewolf4LModel;
+import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
+import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
+import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +24,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @param <T> must extend {@link IWerewolf} or be {@link net.minecraft.world.entity.player.Player}
@@ -33,45 +33,34 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
 
     private final Map<WerewolfForm, WerewolfModelWrapper<T>> models = new HashMap<>();
 
-    protected final ResourceLocation[] eyeOverlays;
     protected List<ResourceLocation> textures;
     protected WerewolfForm form = WerewolfForm.NONE;
 
     public BaseWerewolfRenderer(EntityRendererProvider.Context context, float size) {
         //noinspection ConstantConditions
         super(context, null, 0f);
-        this.eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
-        for (int i = 0; i < this.eyeOverlays.length; i++) {
-            this.eyeOverlays[i] = new ResourceLocation(REFERENCE.MODID + ":textures/entity/werewolf/eye/eye_" + (i) + ".png");
-        }
 
         this.models.put(WerewolfForm.NONE, new WerewolfModelWrapper.Builder<T>()
                 .shadow(0)
                 .build());
-        this.models.put(WerewolfForm.HUMAN, new WerewolfModelWrapper.Builder<T>()
-                .model(new WerewolfEarsModel<>(context.bakeLayer(ModModelRender.EARS_CLAWS)))
-                .layers(Collections.emptyList())
-                .textures(getHumanTextures())
-                .shadow(size)
-                .build());
         this.models.put(WerewolfForm.BEAST, new WerewolfModelWrapper.Builder<T>()
                 .model(new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)))
-                .layers(Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST, this, eyeOverlays)))
-                .textures(getBeastTextures())
+                .layers(Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST, this)))
+                .textures(WerewolfBeastModel.getBeastTextures())
                 .shadow(2.6f * size)
                 .skipPlayerModel()
                 .build());
         this.models.put(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper.Builder<T>()
                 .model(new WerewolfSurvivalistModel<>(context.bakeLayer(ModModelRender.WEREWOLF_SURVIVALIST)))
-                .layers(Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.SURVIVALIST, this, eyeOverlays)))
-                .textures(getSurvivalTextures())
+                .layers(Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.SURVIVALIST, this)))
+                .textures(WerewolfSurvivalistModel.getSurvivalTextures())
                 .shadow(size)
                 .skipPlayerModel()
                 .build());
         this.models.put(WerewolfForm.BEAST4L, new WerewolfModelWrapper.Builder<T>()
                 .model(new Werewolf4LModel<>(context.bakeLayer(ModModelRender.WEREWOLF_4L)))
-                .layers(Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST4L, this, eyeOverlays)))
-                .textures(getBeastTextures())
+                .layers(Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST4L, this)))
+                .textures(Werewolf4LModel.get4LTextures())
                 .shadow(2.6f * size)
                 .skipPlayerModel()
                 .build());
@@ -108,51 +97,6 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
     @Nonnull
     @Override
     public ResourceLocation getTextureLocation(@Nonnull T entity) {
-        return this.textures.get(Helper.asIWerewolf(entity).getSkinType(this.form) % this.form.getSkinTypes());
-    }
-
-    @Nonnull
-    public static List<ResourceLocation> getBeastTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/beast", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
-        if (locs.size() < WerewolfForm.BEAST.getSkinTypes()) {
-            LOGGER.error("Could not find all textures for the beast werewolf form");
-            for (int i = 0; i < WerewolfForm.BEAST.getSkinTypes(); i++) {
-                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/beast/beast_" + i + ".png");
-                if (!locs.contains(s)) {
-                    locs.add(s);
-                }
-            }
-        }
-        return locs;
-    }
-
-    @Nonnull
-    public static List<ResourceLocation> getSurvivalTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/survivalist", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
-        if (locs.size() < WerewolfForm.SURVIVALIST.getSkinTypes()) {
-            LOGGER.error("Could not find all textures for the survivalist werewolf form");
-            for (int i = 0; i < WerewolfForm.SURVIVALIST.getSkinTypes(); i++) {
-                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_" + i + ".png");
-                if (!locs.contains(s)) {
-                    locs.add(s);
-                }
-            }
-        }
-        return locs;
-    }
-
-    @Nonnull
-    public static List<ResourceLocation> getHumanTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/human", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
-        if (locs.size() < WerewolfForm.HUMAN.getSkinTypes()) {
-            LOGGER.error("Could not find all textures for the human werewolf form");
-            for (int i = 0; i < WerewolfForm.HUMAN.getSkinTypes(); i++) {
-                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws_" + i + ".png");
-                if (!locs.contains(s)) {
-                    locs.add(s);
-                }
-            }
-        }
-        return locs;
+        return this.textures.get(Helper.asIWerewolf(entity).map(s -> s.getSkinType(this.form) % this.form.getSkinTypes()).orElse(0));
     }
 }

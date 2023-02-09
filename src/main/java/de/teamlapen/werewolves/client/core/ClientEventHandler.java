@@ -16,10 +16,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,27 +32,6 @@ public class ClientEventHandler {
     private int zoomTime = 0;
     private double zoomAmount = 0;
     private double zoomModifier = 0;
-
-
-    @SubscribeEvent
-    public void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        AbstractClientPlayer player = (AbstractClientPlayer) event.getEntity();
-        if (shouldRenderWerewolfForm(player)) {
-            event.setCanceled(ModEntityRenderer.render.render(WerewolfPlayer.get(player), Mth.lerp(event.getPartialTick(), player.yRotO, player.getYRot()), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
-        }
-    }
-
-    @SubscribeEvent
-    public void onRenderPlayerPost(RenderPlayerEvent.Post event) {
-        AbstractClientPlayer player = (AbstractClientPlayer) event.getEntity();
-        if (shouldRenderWerewolfForm(player)) {
-            ModEntityRenderer.render.renderPost(event.getRenderer().getModel(), WerewolfPlayer.get(player), Mth.lerp(event.getPartialTick(), player.yRotO, player.getYRot()), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
-        }
-    }
-
-    private boolean shouldRenderWerewolfForm(AbstractClientPlayer player) {
-        return Helper.isWerewolf(player) && (WerewolfPlayer.getOpt(player).map(w -> w.getForm().isTransformed()).orElse(false) || (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen && ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).isRenderForm()));
-    }
 
     @SubscribeEvent
     public void onFOVModifier(ViewportEvent.ComputeFov event) {
@@ -98,18 +75,6 @@ public class ClientEventHandler {
                 if (d.isActionActive(ModActions.HIDE_NAME.get()) && FormHelper.isFormActionActive(werewolf)) {
                     event.setResult(Event.Result.DENY);
                 }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onRenderArm(RenderArmEvent event) {
-        if (Helper.isWerewolf(event.getPlayer()) && WerewolfPlayer.get(event.getPlayer()).getForm().isTransformed()) {
-            if (switch (event.getArm()) {
-                case RIGHT -> ModEntityRenderer.render.renderRightArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer());
-                case LEFT -> ModEntityRenderer.render.renderLeftArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer());
-            }) {
-                event.setCanceled(true);
             }
         }
     }

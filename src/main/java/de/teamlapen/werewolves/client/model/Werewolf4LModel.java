@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -13,6 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Model made by Rebel
@@ -246,5 +248,10 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
     @Override
     protected Iterable<ModelPart> bodyParts() {
         return ImmutableList.of(this.body);
+    }
+
+    @Nonnull
+    public static List<ResourceLocation> get4LTextures() {
+        return WerewolfBeastModel.getBeastTextures();
     }
 }

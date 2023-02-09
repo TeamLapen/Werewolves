@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Helper extends de.teamlapen.vampirism.util.Helper {
 
@@ -93,14 +94,13 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return stack.isEdible() && stack.getItem().getFoodProperties().isMeat() && stack.is(ModTags.Items.RAWMEATS);
     }
 
-    public static IWerewolf asIWerewolf(LivingEntity entity) {
-        if (entity instanceof IWerewolf) {
-            return ((IWerewolf) entity);
-        }
-        if (entity instanceof Player) {
-            return WerewolfPlayer.get(((Player) entity));
+    public static Optional<IWerewolf> asIWerewolf(LivingEntity entity) {
+        if (entity instanceof IWerewolf werewolf) {
+            return Optional.of(werewolf);
+        } else if (entity instanceof Player player) {
+            return WerewolfPlayer.getOpt(player).resolve().map(IWerewolf.class::cast);
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 

@@ -23,6 +23,7 @@ public class ModModelRender {
     public static final ModelLayerLocation WEREWOLF_SURVIVALIST = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_survivalist"), "main");
     public static final ModelLayerLocation WEREWOLF_4L = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_four_legged"), "main");
     public static final ModelLayerLocation EARS_CLAWS = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "main");
+    public static final ModelLayerLocation EARS_CLAWS_SLIM = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "slim");
 
     static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.ALPHA_WEREWOLF.get(), WerewolfAlphaRenderer::new);
@@ -37,7 +38,8 @@ public class ModModelRender {
     }
 
     static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(EARS_CLAWS, WerewolfEarsModel::createBodyLayer);
+        event.registerLayerDefinition(EARS_CLAWS, WerewolfEarsModel::createDefaultLayer);
+        event.registerLayerDefinition(EARS_CLAWS_SLIM, WerewolfEarsModel::createSlimLayer);
         event.registerLayerDefinition(WEREWOLF_4L, Werewolf4LModel::createBodyLayer);
         event.registerLayerDefinition(WEREWOLF_BEAST, WerewolfBeastModel::createBodyLayer);
         event.registerLayerDefinition(WEREWOLF_SURVIVALIST, WerewolfSurvivalistModel::createBodyLayer);

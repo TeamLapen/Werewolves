@@ -14,8 +14,8 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'de.undercouch.download' version '3.3.0'
     id 'idea'
-    id "com.modrinth.minotaur" version "2.+"
     id 'eclipse'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/ForgeUpdatesRemapper/main/remapper.gradle'

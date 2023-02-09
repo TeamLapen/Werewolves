@@ -5,7 +5,6 @@ import com.google.common.collect.Sets;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
@@ -26,6 +25,7 @@ import de.teamlapen.werewolves.effects.inst.WerewolfNightVisionEffectInstance;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
+import de.teamlapen.werewolves.mixin.entity.PlayerAccessor;
 import de.teamlapen.werewolves.util.*;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -148,6 +148,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     public void switchForm(WerewolfForm form) {
         this.form = form;
         this.player.refreshDimensions();
+        if (!this.form.isHumanLike()) {
+            ((PlayerAccessor) this.player).invoke_removeEntitiesOnShoulder();
+        }
     }
 
     @Override
@@ -532,12 +535,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             return WReference.WEREWOLF_FACTION;
         }
         return null;
-    }
-
-    @Nonnull
-    @Override
-    public IPlayableFaction<IWerewolfPlayer> getFaction() {
-        return WReference.WEREWOLF_FACTION;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.entities.player.werewolf;
 
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.api.entity.player.task.ITaskManager;
@@ -33,12 +32,6 @@ class WerewolfPlayerDefaultImpl implements IWerewolfPlayer {
     @Nullable
     @Override
     public IFaction<?> getDisguisedAs() {
-        return null;
-    }
-
-    @Nonnull
-    @Override
-    public IPlayableFaction<IWerewolfPlayer> getFaction() {
         return null;
     }
 
