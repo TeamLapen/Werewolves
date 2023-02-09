@@ -37,10 +37,10 @@ public class BleedingEffect extends WerewolvesEffect {
 
         if (entityLivingBaseIn.getHealth() > 1.0F) {
             entityLivingBaseIn.hurt(WUtils.OPEN_WOUND_DAMAGE_SOURCE, WerewolvesConfig.BALANCE.POTIONS.bleedingEffectDamage.get().floatValue());
-            if (entityLivingBaseIn.getRandom().nextInt(4) == 0) {
+            if (entityLivingBaseIn.getRandom().nextInt(8) == 0) {
                 if (Helper.isVampire(entityLivingBaseIn)) {
                     if (entityLivingBaseIn instanceof Player) {
-                        VampirePlayer.getOpt(((Player) entityLivingBaseIn)).map(vampire -> vampire.useBlood(2, true));
+                        VampirePlayer.getOpt(((Player) entityLivingBaseIn)).map(vampire -> vampire.useBlood(1, true));
                     } else if (entityLivingBaseIn instanceof IVampire) {
                         ((IVampire) entityLivingBaseIn).useBlood(1, true);
                     }
