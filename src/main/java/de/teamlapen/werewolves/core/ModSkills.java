@@ -28,14 +28,14 @@ public class ModSkills {
             (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> RAGE = SKILLS.register("rage", () -> new ActionSkill<>(ModActions.RAGE, true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> BEAST_FORM = SKILLS.register("beast_form", () -> new ActionSkill<>(ModActions.BEAST_FORM, true));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> STUN_BITE = SKILLS.register("stun_bite", () -> new SimpleWerewolfSkill(true));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> BLEEDING_BITE = SKILLS.register("bleeding_bite", () -> new SimpleWerewolfSkill(true));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> SURVIVAL_FORM = SKILLS.register("survival_form", () -> new ActionSkill<>(ModActions.SURVIVAL_FORM, true));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> STUN_BITE = SKILLS.register("stun_bite", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> BLEEDING_BITE = SKILLS.register("bleeding_bite", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> DAMAGE = SKILLS.register("damage", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> RESISTANCE = SKILLS.register("resistance", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> HEALTH_AFTER_KILL = SKILLS.register("health_after_kill", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> HOWLING = SKILLS.register("howling", () -> new ActionSkill<>(ModActions.HOWLING, true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> SENSE = SKILLS.register("sense", () -> new ActionSkill<>(ModActions.SENSE, true));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> SURVIVAL_FORM = SKILLS.register("survival_form", () -> new ActionSkill<>(ModActions.SURVIVAL_FORM, true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> SPEED = SKILLS.register("speed", () -> new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> LEAP = SKILLS.register("leap", () -> new ActionSkill<>(ModActions.LEAP, true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> WOLF_PACK = SKILLS.register("wolf_pack", () -> new SimpleWerewolfSkill().defaultDescWithEnhancement(HOWLING::get));
