@@ -2,6 +2,6 @@
   "parent": "werewolves:werewolf/util2",
   "skills": [
     "werewolves:not_meat",
-    "werewolves:water_lover"
+    "werewolves:health_reg"
   ]
 }
