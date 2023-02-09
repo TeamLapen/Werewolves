@@ -67,10 +67,8 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
 
-    public static final Capability<IWerewolfPlayer> CAP = CapabilityManager.get(new Test());
-
-    private static class  Test extends CapabilityToken<IWerewolfPlayer> {
-    }
+    public static final Capability<IWerewolfPlayer> CAP = CapabilityManager.get(new CapabilityToken<>() {
+    });
 
     private void applyEntityAttributes() {
         try {
