@@ -5,10 +5,13 @@ import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.loot.MobLootModifier;
+import de.teamlapen.werewolves.world.loot.conditions.KilledByBiteCondition;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
@@ -28,8 +31,11 @@ public class ModLootTables {
     private static final Map<ResourceLocation, ResourceLocation> INJECTION_TABLES = Maps.newHashMap();
 
     public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIER = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, REFERENCE.MODID);
+    public static final DeferredRegister<LootItemConditionType> LOOT_CONDITION_TYPES = DeferredRegister.create(Registries.LOOT_CONDITION_TYPE, REFERENCE.MODID);
 
     public static final RegistryObject<Codec<MobLootModifier>> MOB_MODIFIER = GLOBAL_LOOT_MODIFIER.register("mob_modifier", () -> MobLootModifier.CODEC);
+
+    public static final RegistryObject<LootItemConditionType> KILLED_BY_BITE = LOOT_CONDITION_TYPES.register("killed_by_bite", () -> new LootItemConditionType(new KilledByBiteCondition.Serializer()));
 
     // entities
     public static final ResourceLocation villager = entity(EntityType.VILLAGER);
@@ -43,8 +49,9 @@ public class ModLootTables {
     public static final ResourceLocation stronghold_library = chest("stronghold_library");
 
 
-    static void register(IEventBus bus){
+    static void register(IEventBus bus) {
         GLOBAL_LOOT_MODIFIER.register(bus);
+        LOOT_CONDITION_TYPES.register(bus);
     }
 
     static ResourceLocation entity(EntityType<?> type) {

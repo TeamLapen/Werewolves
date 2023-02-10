@@ -98,6 +98,13 @@ public class ModItems {
     public static final RegistryObject<WerewolvesBoatItem> JACARANDA_CHEST_BOAT = register("jacaranda_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, true, props().stacksTo(1)));
     public static final RegistryObject<WerewolvesBoatItem> MAGIC_CHEST_BOAT = register("magic_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, true, props().stacksTo(1)));
 
+    public static final RegistryObject<Item> PELT = register("pelt", () -> new Item(props()));
+
+    public static final RegistryObject<PeltArmorItem> PELT_HELMET = register("pelt_helmet", () -> new PeltArmorItem(EquipmentSlot.HEAD, props()));
+    public static final RegistryObject<PeltArmorItem> PELT_CHESTPLATE = register("pelt_chestplate", () -> new PeltArmorItem(EquipmentSlot.CHEST, props()));
+    public static final RegistryObject<PeltArmorItem> PELT_LEGGINGS = register("pelt_leggings", () -> new PeltArmorItem(EquipmentSlot.LEGS, props()));
+    public static final RegistryObject<PeltArmorItem> PELT_BOOTS = register("pelt_boots", () -> new PeltArmorItem(EquipmentSlot.FEET, props()));
+
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
         public static final RegistryObject<Item> INJECTION_EMPTY = item("injection_empty");

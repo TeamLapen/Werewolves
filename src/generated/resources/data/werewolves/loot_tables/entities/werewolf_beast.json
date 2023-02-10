@@ -89,6 +89,27 @@
       ],
       "name": "accessories",
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "werewolves:killed_by_bite"
+        },
+        {
+          "chance": 0.33,
+          "condition": "minecraft:random_chance_with_looting",
+          "looting_multiplier": 0.05
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:pelt"
+        }
+      ],
+      "name": "pelt",
+      "rolls": 1.0
     }
   ]
 }

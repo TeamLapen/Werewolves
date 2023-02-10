@@ -74,6 +74,11 @@ public class ItemModelGenerator extends ItemModelProvider {
             add(ModItems.MAGIC_BOAT);
             add(ModItems.JACARANDA_CHEST_BOAT);
             add(ModItems.MAGIC_CHEST_BOAT);
+            add(ModItems.PELT);
+            add(ModItems.PELT_HELMET);
+            add(ModItems.PELT_CHESTPLATE);
+            add(ModItems.PELT_LEGGINGS);
+            add(ModItems.PELT_BOOTS);
         }};
         Set<Supplier<? extends Block>> blockLayer = new HashSet<>() {{
             add(ModBlocks.WOLFSBANE);

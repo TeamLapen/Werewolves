@@ -119,6 +119,11 @@ public class WerewolvesCreativeTab {
             addItem(SILVER_AXE);
             addItem(SILVER_SHOVEL);
             addItem(SILVER_HOE);
+            addItem(PELT);
+            addItem(PELT_HELMET);
+            addItem(PELT_CHESTPLATE);
+            addItem(PELT_LEGGINGS);
+            addItem(PELT_BOOTS);
             addItem(CROSSBOW_ARROW_SILVER_BOLT);
             addItem(SILVER_INGOT);
             addItem(RAW_SILVER);

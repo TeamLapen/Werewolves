@@ -129,5 +129,10 @@ public class RecipeGenerator extends VanillaRecipeProvider {
         woodenBoat(consumer, ModItems.MAGIC_BOAT.get(), ModBlocks.MAGIC_PLANKS.get());
         chestBoat(consumer, ModItems.JACARANDA_CHEST_BOAT.get(), ModBlocks.JACARANDA_PLANKS.get());
         chestBoat(consumer, ModItems.MAGIC_CHEST_BOAT.get(), ModBlocks.MAGIC_PLANKS.get());
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.PELT_HELMET.get()).pattern("XXX").pattern("X X").define('X', ModItems.PELT.get()).unlockedBy("has_pelt", has(ModItems.PELT.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.PELT_CHESTPLATE.get()).pattern("X X").pattern("XXX").pattern("XXX").define('X', ModItems.PELT.get()).unlockedBy("has_pelt", has(ModItems.PELT.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.PELT_LEGGINGS.get()).pattern("XXX").pattern("X X").pattern("X X").define('X', ModItems.PELT.get()).unlockedBy("has_pelt", has(ModItems.PELT.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.PELT_BOOTS.get()).pattern("X X").pattern("X X").define('X', ModItems.PELT.get()).unlockedBy("has_pelt", has(ModItems.PELT.get())).save(consumer);
     }
 }

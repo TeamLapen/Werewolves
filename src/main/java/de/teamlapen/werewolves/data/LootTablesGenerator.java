@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModLootTables;
 import de.teamlapen.werewolves.mixin.VanillaBlockLootAccessor;
+import de.teamlapen.werewolves.world.loot.conditions.KilledByBiteCondition;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -160,7 +161,13 @@ public class LootTablesGenerator extends LootTableProvider {
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.BONE_NECKLACE.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
                             .add(LootItem.lootTableItem(ModItems.CHARM_BRACELET.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
-                            .add(LootItem.lootTableItem(ModItems.DREAM_CATCHER.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION))));
+                            .add(LootItem.lootTableItem(ModItems.DREAM_CATCHER.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION))))
+                    .withPool(LootPool.lootPool()
+                            .name("pelt")
+                            .when(KilledByBiteCondition.create())
+                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .setRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(ModItems.PELT.get()).setWeight(1)));
             this.add(ModEntities.WEREWOLF_SURVIVALIST.get(), werewolf);
             this.add(ModEntities.WEREWOLF_BEAST.get(), werewolf);
             this.add(ModEntities.HUMAN_WEREWOLF.get(), LootTable.lootTable()
