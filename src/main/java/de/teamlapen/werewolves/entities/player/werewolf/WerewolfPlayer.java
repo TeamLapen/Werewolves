@@ -28,7 +28,10 @@ import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.mixin.entity.PlayerAccessor;
 import de.teamlapen.werewolves.util.*;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -119,6 +122,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     private final Map<WerewolfForm, Integer> skinType = new HashMap<>();
     private final Map<WerewolfForm, Boolean> glowingEyes = new HashMap<>();
 
+    private boolean isArmorUnequipped;
+    private final NonNullList<ItemStack> unequippedArmor = NonNullList.withSize(4, ItemStack.EMPTY);
+
     private int sleepTimer;
 
     public WerewolfPlayer(@Nonnull Player player) {
@@ -142,10 +148,41 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     public void switchForm(WerewolfForm form) {
+        WerewolfForm oldForm = this.form;
         this.form = form;
         this.player.refreshDimensions();
         if (!this.form.isHumanLike()) {
             ((PlayerAccessor) this.player).invoke_removeEntitiesOnShoulder();
+        }
+        if (this.canWearArmor(oldForm) != this.canWearArmor(this.form)) {
+            this.swapArmorItems();
+        }
+    }
+
+    @Override
+    public void checkArmorStatus() {
+        if (this.isArmorUnequipped && canWearArmor(this.form)) {
+            swapArmorItems();
+        }
+    }
+
+    @Override
+    public boolean isArmorUnequipped() {
+        return this.isArmorUnequipped;
+    }
+
+    private boolean canWearArmor(WerewolfForm form) {
+        if (!form.isHumanLike()) return false;
+        return !form.isTransformed() || this.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get());
+    }
+
+    private void swapArmorItems() {
+        this.isArmorUnequipped = !this.isArmorUnequipped;
+        NonNullList<ItemStack> equippedArmor = this.player.getInventory().armor;
+        for (int i = 0; i < equippedArmor.size(); i++) {
+            ItemStack stack = equippedArmor.get(i);
+            equippedArmor.set(i, this.unequippedArmor.get(i));
+            this.unequippedArmor.set(i, stack);
         }
     }
 
@@ -173,8 +210,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         Set<UUID> uuids = Sets.newHashSet(ArmorItemAccessor.getARMOR_MODIFIERS());
         int i = 0;
         for (ItemStack stack : this.player.getArmorSlots()) {
-            EquipmentSlot slotType = EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i);
-            ++i;
+            EquipmentSlot slotType = EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i++);
             Multimap<Attribute, AttributeModifier> map = stack.getAttributeModifiers(slotType);
             for (Map.Entry<Attribute, Collection<AttributeModifier>> entry : map.asMap().entrySet()) {
                 for (AttributeModifier modifier : entry.getValue()) {
@@ -279,8 +315,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             }
 
             if (this.checkArmorModifer && this.form.isTransformed()) {
-                if (!(this.form.isHumanLike() && this.skillHandler.isSkillEnabled(ModSkills.WEAR_ARMOR.get()))) {
+                if (!this.canWearArmor(this.form)) {
                     this.removeArmorModifier();
+                } else {
+                    this.addArmorModifier();
                 }
                 this.checkArmorModifer = false;
             }
@@ -574,6 +612,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.glowingEyes.forEach((key, value) -> glowingEye.putBoolean(key.getName(), value));
         compound.put("glowingEyes", glowingEye);
         compound.putDouble("transformationTime", this.specialAttributes.transformationTime);
+        ListTag armor = new ListTag();
+        this.unequippedArmor.forEach(stack -> armor.add(stack.save(new CompoundTag())));
+        compound.put("unequipped_armor", armor);
+        compound.putBoolean("is_armor_unequipped", this.isArmorUnequipped);
     }
 
     @Override
@@ -607,6 +649,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         if (compound.contains("transformationTime")) {
             this.specialAttributes.transformationTime = compound.getFloat("transformationTime");
         }
+        if (compound.contains("unequipped_armor")) {
+            ListTag armorList = compound.getList("unequipped_armor", Tag.TAG_COMPOUND);
+            for (int i = 0; i < armorList.size(); i++) {
+                this.unequippedArmor.set(i, ItemStack.of(armorList.getCompound(i)));
+            }
+        }
+        this.isArmorUnequipped = compound.getBoolean("is_armor_unequipped");
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.client.gui.components.SimpleButtonScrollWidget;
 import de.teamlapen.vampirism.client.gui.screens.AppearanceScreen;
 import de.teamlapen.werewolves.WerewolvesMod;
-import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -122,11 +121,11 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
      */
     private void switchToForm(WerewolfForm form) {
         if (this.eyeButton != null) {
-            ((ScreenAccessor) this).invokeRemoveWidget(this.eyeButton);
-            ((ScreenAccessor) this).invokeRemoveWidget(this.skinButton);
-            ((ScreenAccessor) this).invokeRemoveWidget(this.eyeList);
-            ((ScreenAccessor) this).invokeRemoveWidget(this.skinList);
-            ((ScreenAccessor) this).invokeRemoveWidget(this.glowingEyesButton);
+            this.removeWidget(this.eyeButton);
+            this.removeWidget(this.skinButton);
+            this.removeWidget(this.eyeList);
+            this.removeWidget(this.skinList);
+            this.removeWidget(this.glowingEyesButton);
         }
         if (this.activeForm != null) {
             this.updateServer();

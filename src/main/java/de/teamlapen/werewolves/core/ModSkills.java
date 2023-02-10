@@ -46,7 +46,7 @@ public class ModSkills {
     public static final RegistryObject<ISkill<IWerewolfPlayer>> NOT_MEAT = SKILLS.register("not_meat", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> WATER_LOVER = SKILLS.register("water_lover", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> FREE_WILL = SKILLS.register("free_will", () -> new SimpleWerewolfSkill(true));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> WEAR_ARMOR = SKILLS.register("wear_armor", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(HUMAN_FORM::get));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> WEAR_ARMOR = SKILLS.register("wear_armor", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(HUMAN_FORM::get).setToggleActions(IWerewolfPlayer::checkArmorStatus, IWerewolfPlayer::checkArmorStatus));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> SILVER_BLOODED = SKILLS.register("silver_blooded", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> HIDE_NAME = SKILLS.register("hide_name", () -> new ActionSkill<>(ModActions.HIDE_NAME, true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> FEAR = SKILLS.register("fear", () -> new ActionSkill<>(ModActions.FEAR, true));
