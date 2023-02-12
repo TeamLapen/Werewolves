@@ -1,12 +1,12 @@
 {
-  "feature": "werewolves:magic_tree_big",
+  "feature": "werewolves:dead_spruce_tree",
   "placement": [
     {
       "type": "minecraft:block_predicate_filter",
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "werewolves:magic_sapling",
+          "Name": "minecraft:spruce_sapling",
           "Properties": {
             "stage": "0"
           }
