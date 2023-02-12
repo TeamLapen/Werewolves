@@ -8,6 +8,7 @@ import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWerewolfBiomeTrees;
+import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWolfBerries;
 import static net.minecraft.data.worldgen.BiomeDefaultFeatures.*;
 
 public class WerewolfHeavenBiome {
@@ -35,30 +36,30 @@ public class WerewolfHeavenBiome {
 
     public static BiomeSpecialEffects.Builder createEffectBuilder() {
         return new BiomeSpecialEffects.Builder()
-                .waterColor(0x4CCCFF)
-                .waterFogColor(0x4CCCFF)
-                .skyColor(0x66DBFF)
-                .fogColor(0x4CCCFF)
-                .foliageColorOverride(0x70E0B5)
-                .grassColorOverride(0x69CFDB)
+                .waterColor(0x444444)
+                .waterFogColor(0x444444)
+                .skyColor(0x444444)
+                .fogColor(0x444444)
+                .foliageColorOverride(0x444444)
+                .grassColorOverride(0x444444)
                 .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
     }
 
     public static BiomeGenerationSettings.Builder createGenerationBuilder(HolderGetter<PlacedFeature> featureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter) {
         BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder(featureGetter, carverGetter);
         addDefaultCarversAndLakes(builder);
-//        VampirismBiomes.addModdedWaterLake(builder); TODO re-add
         addDefaultMonsterRoom(builder);
         addDefaultUndergroundVariety(builder);
         addDefaultOres(builder);
         addDefaultSoftDisks(builder);
 
-
+        addFerns(builder);
         addWerewolfBiomeTrees(builder);
+        addWolfBerries(builder);
         addDefaultFlowers(builder);
-        addForestGrass(builder);
-//        addSavannaGrass(builder); TODO causing mysterious feature cycle order with Oh the biomes you'll go
-        addRareBerryBushes(builder);
+        addSavannaGrass(builder);
+        addSavannaExtraGrass(builder);
+//        addRareBerryBushes(builder);
         return builder;
     }
 }

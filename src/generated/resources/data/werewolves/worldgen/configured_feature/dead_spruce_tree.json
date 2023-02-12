@@ -9,41 +9,35 @@
       }
     },
     "foliage_placer": {
-      "type": "minecraft:fancy_foliage_placer",
-      "height": 4,
-      "offset": 4,
-      "radius": 2
+      "type": "minecraft:mega_pine_foliage_placer",
+      "crown_height": 0,
+      "offset": 0,
+      "radius": 0
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "werewolves:magic_leaves",
-        "Properties": {
-          "distance": "7",
-          "persistent": "false",
-          "waterlogged": "false"
-        }
+        "Name": "minecraft:air"
       }
     },
     "force_dirt": false,
-    "ignore_vines": true,
+    "ignore_vines": false,
     "minimum_size": {
       "type": "minecraft:two_layers_feature_size",
-      "limit": 0,
-      "lower_size": 0,
-      "min_clipped_height": 4,
-      "upper_size": 1
+      "limit": 2,
+      "lower_size": 1,
+      "upper_size": 2
     },
     "trunk_placer": {
-      "type": "minecraft:fancy_trunk_placer",
-      "base_height": 3,
-      "height_rand_a": 11,
-      "height_rand_b": 0
+      "type": "minecraft:straight_trunk_placer",
+      "base_height": 5,
+      "height_rand_a": 1,
+      "height_rand_b": 3
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "werewolves:magic_log",
+        "Name": "minecraft:spruce_log",
         "Properties": {
           "axis": "y"
         }

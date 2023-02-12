@@ -1,19 +1,19 @@
 {
   "type": "minecraft:random_selector",
   "config": {
-    "default": "werewolves:magic_tree",
+    "default": "werewolves:giant_spruce_tree",
     "features": [
       {
-        "chance": 0.4,
+        "chance": 0.04,
         "feature": "werewolves:jacaranda_tree"
       },
       {
-        "chance": 0.1,
-        "feature": "minecraft:fancy_oak_checked"
+        "chance": 0.01,
+        "feature": "werewolves:magic_tree"
       },
       {
-        "chance": 0.1,
-        "feature": "werewolves:magic_tree_big"
+        "chance": 0.3,
+        "feature": "werewolves:dead_spruce_tree"
       }
     ]
   }

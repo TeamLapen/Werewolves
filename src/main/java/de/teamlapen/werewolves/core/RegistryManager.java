@@ -32,6 +32,7 @@ public class RegistryManager implements IInitListener {
         ModOils.register(bus);
         ModMinionTasks.register(bus);
         ModEntityActions.register(bus);
+        ModWorld.register(bus);
     }
 
     public RegistryManager() {

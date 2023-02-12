@@ -5,13 +5,14 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
 public class MagicTree extends AbstractTreeGrower {
     @Nullable
     @Override
-    protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource randomIn, boolean p_225546_2_) {
-        return randomIn.nextInt(10) < 3 ? WerewolvesBiomeFeatures.MAGIC_TREE : WerewolvesBiomeFeatures.MAGIC_TREE_BIG;
+    protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(@NotNull RandomSource randomIn, boolean p_225546_2_) {
+        return WerewolvesBiomeFeatures.MAGIC_TREE;
     }
 }
