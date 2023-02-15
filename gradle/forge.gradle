@@ -1,5 +1,6 @@
 repositories {
     maven {
+        name = "Maxanier"
         url = "https://maven.maxanier.de/releases"
     }
     maven {
@@ -10,11 +11,23 @@ repositories {
         url "https://dvs1.progwml6.com/files/maven"
     }
     maven {
+        name = "CurseMaven"
         url = "https://www.cursemaven.com"
     }
-    maven { url = "https://maven.paube.de/snapshots"}
+    maven {
+        name = "cheaterpaul snapshots"
+        url = "https://maven.paube.de/snapshots"
+    }
     maven {
         url "https://nexus.resourcefulbees.com/repository/maven-public/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev/"
+        content {
+            includeGroup "mezz.jei"
+        }
     }
     mavenCentral()
     mavenLocal()
@@ -29,9 +42,9 @@ dependencies {
     implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
 
     //Utility
-//    compileOnly fg.deobf("mezz.jei:jei-1.19.2-common-api:${project.jei_version}") //API for compile
-//    compileOnly fg.deobf("mezz.jei:jei-1.19.2-forge-api:${project.jei_version}") //API for compile
-//    runtimeOnly fg.deobf("mezz.jei:jei-1.19.2-forge:${project.jei_version}") //Full for runtime
+    compileOnly fg.deobf("mezz.jei:jei-1.19.3-common-api:${project.jei_version}") //API for compile
+    compileOnly fg.deobf("mezz.jei:jei-1.19.3-forge-api:${project.jei_version}") //API for compile
+    runtimeOnly fg.deobf("mezz.jei:jei-1.19.3-forge:${project.jei_version}") //Full for runtime
 
     //Mixin preprocessor
     if (System.getProperty("idea.sync.active") != "true") {
