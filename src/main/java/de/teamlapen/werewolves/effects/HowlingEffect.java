@@ -28,7 +28,6 @@ public class HowlingEffect extends Effect {
 
     @Override
     public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
-        this.removeAttributeModifiers(entityLivingBaseIn, entityLivingBaseIn.getAttributes(), amplifier);
     }
 
     @Override
