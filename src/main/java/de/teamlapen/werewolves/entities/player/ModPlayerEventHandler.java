@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -157,8 +158,10 @@ public class ModPlayerEventHandler {
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onWakeUp(PlayerWakeUpEvent event) {
         if (!event.getPlayer().level.isClientSide && event.getPlayer().getEffect(ModEffects.LUPUS_SANGUINEM.get()) != null) {
-            event.getPlayer().getEffect(ModEffects.LUPUS_SANGUINEM.get()).applyEffect(event.getPlayer());
-            event.getPlayer().removeEffect(ModEffects.LUPUS_SANGUINEM.get());
+            if (event.getPlayer() instanceof ServerPlayerEntity && ((ServerPlayerEntity) event.getPlayer()).connection != null) {
+                event.getPlayer().getEffect(ModEffects.LUPUS_SANGUINEM.get()).applyEffect(event.getPlayer());
+                event.getPlayer().removeEffect(ModEffects.LUPUS_SANGUINEM.get());
+            }
         }
     }
 
