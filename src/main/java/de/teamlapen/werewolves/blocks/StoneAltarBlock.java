@@ -55,7 +55,7 @@ public class StoneAltarBlock extends ContainerBlock implements IWaterLoggable {
     public static final String REG_NAME = "stone_altar";
 
     public StoneAltarBlock() {
-        super(Block.Properties.of(Material.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT) ? 14 : 0));
+        super(Block.Properties.of(Material.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT) ? 14 : 0).requiresCorrectToolForDrops().harvestLevel(1).harvestTool(ToolType.PICKAXE));
         this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false).setValue(HORIZONTAL_FACING, Direction.NORTH));
     }
 
