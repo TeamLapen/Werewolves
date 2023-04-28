@@ -10,8 +10,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 
 import java.util.HashSet;
 import java.util.List;
@@ -33,8 +37,8 @@ public class FormHelper {
     }
 
     public static boolean isInWerewolfBiome(IWorld world, BlockPos pos) {
-        ResourceLocation loc = world.getBiome(pos).getRegistryName();
-        return noWerewolfFormTickingBiomes.contains(loc);
+        Biome biome = world.getBiome(pos);
+        return world.registryAccess().registry(Registry.BIOME_REGISTRY).map(registry -> registry.getKey(biome)).map(noWerewolfFormTickingBiomes::contains).orElse(false);
     }
 
     public static WerewolfForm getForm(LivingEntity entity) {
