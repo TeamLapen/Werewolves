@@ -11,9 +11,9 @@ import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWerew
 import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWolfBerries;
 import static net.minecraft.data.worldgen.BiomeDefaultFeatures.*;
 
-public class WerewolfHeavenBiome {
+public class WerewolfForestBiome {
 
-    public static Biome createWerewolfHeavenBiome(HolderGetter<PlacedFeature> featureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter) {
+    public static Biome createWerewolfForestBiome(HolderGetter<PlacedFeature> featureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter) {
         return addAttributes(createGenerationBuilder(featureGetter, carverGetter), createMobSpawnBuilder(), createEffectBuilder()).build();
     }
 

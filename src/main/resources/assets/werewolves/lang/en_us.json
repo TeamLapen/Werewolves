@@ -10,6 +10,7 @@
   "text.werewolves.nomount.transformed": "Cannot mount while being transformed",
   "__comment": "worldgen",
   "biome.werewolves.werewolf_heaven": "Werewolf Heaven",
+  "biome.werewolves.werewolf_forest": "Werewolf Forest",
   "__comment": "blocks",
   "block.werewolves.silver_ore": "Silver Ore",
   "block.werewolves.deepslate_silver_ore": "Deepslate Silver Ore",

@@ -144,8 +144,8 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.@NotNull Provider holderProvider) {
-            this.tag(ModTags.Biomes.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_HEAVEN);
-            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_HEAVEN);
+            this.tag(ModTags.Biomes.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_FOREST);
+            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(ModTags.Biomes.HasSpawn.WEREWOLF).addTag(BiomeTags.IS_TAIGA);
             this.tag(ModTags.Biomes.NoSpawn.WEREWOLF).addTag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME);
             this.tag(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF).addTag(BiomeTags.IS_TAIGA);
@@ -153,10 +153,10 @@ public class ModTagsProvider {
             this.tag(ModTags.Biomes.HasGen.SILVER_ORE).addTag(BiomeTags.IS_OVERWORLD);
             this.tag(ModTags.Biomes.HasGen.WOLFSBANE).addTag(BiomeTags.IS_FOREST);
             this.tag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME).addTag(ModTags.Biomes.IS_WEREWOLF_BIOME);
-            this.tag(BiomeTags.IS_OVERWORLD).add(ModBiomes.WEREWOLF_HEAVEN);
-            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_HEAVEN);
-            this.tag(Tags.Biomes.IS_DENSE).add(ModBiomes.WEREWOLF_HEAVEN);
-            this.tag(Tags.Biomes.IS_MAGICAL).add(ModBiomes.WEREWOLF_HEAVEN);
+            this.tag(BiomeTags.IS_OVERWORLD).add(ModBiomes.WEREWOLF_FOREST);
+            this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_FOREST);
+            this.tag(Tags.Biomes.IS_DENSE).add(ModBiomes.WEREWOLF_FOREST);
+            this.tag(Tags.Biomes.IS_MAGICAL).add(ModBiomes.WEREWOLF_FOREST);
         }
 
         @Nonnull

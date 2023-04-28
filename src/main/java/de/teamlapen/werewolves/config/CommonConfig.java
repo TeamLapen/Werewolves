@@ -6,15 +6,15 @@ import java.util.function.Supplier;
 
 public class CommonConfig {
 
-    public final ForgeConfigSpec.BooleanValue disableWerewolfHeaven;
-    public final ForgeConfigSpec.IntValue werewolfHeavenWeightTerrablender;
+    public final ForgeConfigSpec.BooleanValue disableWerewolfForest;
+    public final ForgeConfigSpec.IntValue werewolfBiomeWeightTerrablender;
     public final IntValueExt silverOreWeight;
 
     CommonConfig(ForgeConfigSpec.Builder builder) {
         builder.push("common_server");
-        this.werewolfHeavenWeightTerrablender = builder.comment("Only considered if terrablender installed. Heigher values increase Werewolf region weight (likelyhood to appear)").defineInRange("werewolfHeavenWeightTerrablender", 2, 1, 1000);
-        this.disableWerewolfHeaven = builder.comment("Disable werewolf heaven generation").define("disableWerewolfHeaven", false);
-        this.silverOreWeight = new IntValueExt(builder.comment("Weight of silver ore spawning"),"silverOreWeight", 30, 0, 256);
+        this.werewolfBiomeWeightTerrablender = builder.comment("Only considered if terrablender installed. Heigher values increase Werewolf region weight (likelyhood to appear)").defineInRange("werewolfBiomeWeightTerrablender", 2, 1, 1000);
+        this.disableWerewolfForest = builder.comment("Disable werewolf forest generation").define("disableWerewolfForest", false);
+        this.silverOreWeight = new IntValueExt(builder.comment("Weight of silver ore spawning"), "silverOreWeight", 30, 0, 256);
         builder.pop();
     }
 
