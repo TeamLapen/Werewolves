@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.world;
 import de.teamlapen.vampirism.api.entity.CaptureEntityEntry;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
+import de.teamlapen.vampirism.entity.VampirismVillagerEntity;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTransformable;
@@ -56,8 +57,10 @@ public class ModWorldEventHandler {
     }
     @SubscribeEvent
     public void onVillageMakeAggressive(VampirismVillageEvent.MakeAggressive event) {
-        if (event.getControllingFaction() == WReference.WEREWOLF_FACTION && ((IVillagerTransformable) event.getOldVillager()).canTransform()) {
+        if (event.getControllingFaction() == WReference.WEREWOLF_FACTION) {
             event.setCanceled(true);
+        }
+        if (((IVillagerTransformable) event.getOldVillager()).canTransform()) {
             ((IVillagerTransformable) event.getOldVillager()).transformToWerewolf(WerewolfTransformable.TransformType.RAID);
         }
     }
