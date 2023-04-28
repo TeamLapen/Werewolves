@@ -31,7 +31,7 @@ public class TerraBlenderRegistration {
 
     static class ForestRegion extends Region {
         public ForestRegion() {
-            super(new ResourceLocation(REFERENCE.MODID, "overworld"), RegionType.OVERWORLD, WerewolvesConfig.COMMON.werewolfHeavenWeightTerrablender.get());
+            super(new ResourceLocation(REFERENCE.MODID, "overworld"), RegionType.OVERWORLD, WerewolvesConfig.COMMON.werewolfBiomeWeightTerrablender.get());
         }
 
         @Override
@@ -39,7 +39,7 @@ public class TerraBlenderRegistration {
             this.addModifiedVanillaOverworldBiomes(mapper, builder -> {
                 List<Climate.ParameterPoint> points = new ArrayList<>(RegionUtils.getVanillaParameterPoints(Biomes.FOREST));
                 points.addAll(RegionUtils.getVanillaParameterPoints(Biomes.DARK_FOREST));
-                points.forEach(point -> builder.replaceBiome(point, ModBiomes.WEREWOLF_HEAVEN));
+                points.forEach(point -> builder.replaceBiome(point, ModBiomes.WEREWOLF_FOREST));
             });
         }
     }

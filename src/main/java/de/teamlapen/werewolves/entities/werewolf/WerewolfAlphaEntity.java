@@ -44,7 +44,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
 
     public static boolean spawnPredicateAlpha(EntityType<? extends WerewolfAlphaEntity> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, RandomSource random) {
-        return world.getBiome(blockPos).is(ModBiomes.WEREWOLF_HEAVEN) && world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateWerewolf(entityType, world, spawnReason, blockPos, random);
+        return world.getBiome(blockPos).is(ModBiomes.WEREWOLF_FOREST) && world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateWerewolf(entityType, world, spawnReason, blockPos, random);
     }
 
     public static AttributeSupplier.Builder getAttributeBuilder() {
