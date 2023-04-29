@@ -7,8 +7,7 @@ import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
-import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWerewolfBiomeTrees;
-import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.addWolfBerries;
+import static de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures.*;
 import static net.minecraft.data.worldgen.BiomeDefaultFeatures.*;
 
 public class WerewolfForestBiome {
@@ -40,7 +39,7 @@ public class WerewolfForestBiome {
                 .waterFogColor(0x444444)
                 .skyColor(0x444444)
                 .fogColor(0x444444)
-                .foliageColorOverride(0x444444)
+                .foliageColorOverride(0x375b38)
                 .grassColorOverride(0x444444)
                 .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
     }
@@ -50,6 +49,7 @@ public class WerewolfForestBiome {
         addDefaultCarversAndLakes(builder);
         addDefaultMonsterRoom(builder);
         addDefaultUndergroundVariety(builder);
+        addForestStone(builder);
         addDefaultOres(builder);
         addDefaultSoftDisks(builder);
 
@@ -59,7 +59,7 @@ public class WerewolfForestBiome {
         addDefaultFlowers(builder);
         addSavannaGrass(builder);
         addSavannaExtraGrass(builder);
-//        addRareBerryBushes(builder);
+        addRareBerryBushes(builder);
         return builder;
     }
 }
