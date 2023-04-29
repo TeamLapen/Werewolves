@@ -22,7 +22,6 @@ import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.valueproviders.BiasedToBottomInt;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.IntProviderType;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -49,6 +48,7 @@ import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -76,7 +76,7 @@ public class WerewolvesBiomeFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> DEAD_SPRUCE_TREE = createConfiguredKey("dead_spruce_tree");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WEREWOLF_HEAVEN_TREES = createConfiguredKey("werewolf_heaven_trees");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WOLF_BERRY_BUSH = createConfiguredKey("wolf_berry_bush");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> STONE_PATCH = createConfiguredKey("stone_patch");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FOREST_ROCK = createConfiguredKey("forest_rock");
 
     public static final ResourceKey<PlacedFeature> JACARANDA_TREE_PLACED = createPlacedKey("jacaranda_tree");
     public static final ResourceKey<PlacedFeature> MAGIC_TREE_PLACED = createPlacedKey("magic_tree");
@@ -86,7 +86,7 @@ public class WerewolvesBiomeFeatures {
     public static final ResourceKey<PlacedFeature> WEREWOLF_HAVEN_TREES_PLACED = createPlacedKey("heaven_trees");
     public static final ResourceKey<PlacedFeature> SILVER_ORE_PLACED = createPlacedKey("silver_ore");
     public static final ResourceKey<PlacedFeature> WOLF_BERRY_BUSH_PLACED = createPlacedKey("wolf_berry_bush");
-    public static final ResourceKey<PlacedFeature> STONE_PATCH_PLACED = createPlacedKey("stone_patch");
+    public static final ResourceKey<PlacedFeature> FOREST_ROCK_PLACED = createPlacedKey("forest_rock");
 
     public static final ResourceKey<BiomeModifier> WEREWOLF_SPAWN = createModifierKey("spawn/werewolf_spawns");
     public static final ResourceKey<BiomeModifier> HUMAN_WEREWOLF_SPAWN = createModifierKey("spawn/human_werewolf_spawns");
@@ -110,8 +110,8 @@ public class WerewolvesBiomeFeatures {
         biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WOLF_BERRY_BUSH_PLACED);
     }
 
-    public static void addStonePillar(BiomeGenerationSettings.Builder biomeGeneratorSettings) {
-        biomeGeneratorSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, STONE_PATCH_PLACED);
+    public static void addForestStone(BiomeGenerationSettings.Builder biomeGeneratorSettings) {
+        biomeGeneratorSettings.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, FOREST_ROCK_PLACED);
     }
 
     public static void createConfiguredFeatures(BootstapContext<ConfiguredFeature<?, ?>> context) {
@@ -143,7 +143,7 @@ public class WerewolvesBiomeFeatures {
         context.register(SILVER_ORE, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(List.of(OreConfiguration.target(stoneTest, ModBlocks.SILVER_ORE.get().defaultBlockState()), OreConfiguration.target(deepslateTest, ModBlocks.DEEPSLATE_SILVER_ORE.get().defaultBlockState())), 7)));
         context.register(WEREWOLF_HEAVEN_TREES, new ConfiguredFeature<>(Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(ImmutableList.of(new WeightedPlacedFeature(placedFeatures.getOrThrow(JACARANDA_TREE_PLACED), 0.04f), new WeightedPlacedFeature(placedFeatures.getOrThrow(MAGIC_TREE_PLACED), 0.01f), new WeightedPlacedFeature(placedFeatures.getOrThrow(DEAD_SPRUCE_TREE_PLACED), 0.3f)), placedFeatures.getOrThrow(GIANT_SPRUCE_TREE_PLACED))));
         context.register(WOLF_BERRY_BUSH, new ConfiguredFeature<>(Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.WOLF_BERRY_BUSH.get().defaultBlockState().setValue(WolfBerryBushBlock.AGE, 3))), List.of(Blocks.GRASS_BLOCK))));
-        context.register(STONE_PATCH, new ConfiguredFeature<>(Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.BLOCK_COLUMN, BlockColumnConfiguration.simple(BiasedToBottomInt.of(1, 3), BlockStateProvider.simple(Blocks.STONE)))));
+        context.register(FOREST_ROCK, new ConfiguredFeature<>(Feature.FOREST_ROCK, new BlockStateConfiguration(Blocks.COBBLESTONE.defaultBlockState())));
     }
 
     public static void createPlacedFeatures(BootstapContext<PlacedFeature> context) {
@@ -155,8 +155,8 @@ public class WerewolvesBiomeFeatures {
         context.register(DEAD_SPRUCE_TREE_PLACED, new PlacedFeature(placedFeatures.getOrThrow(DEAD_SPRUCE_TREE), List.of(PlacementUtils.filteredByBlockSurvival(Blocks.SPRUCE_SAPLING))));
         context.register(WEREWOLF_HAVEN_TREES_PLACED, new PlacedFeature(placedFeatures.getOrThrow(WEREWOLF_HEAVEN_TREES), VegetationPlacements.treePlacement(PlacementUtils.countExtra(15, 0.2f, 4))));
         context.register(SILVER_ORE_PLACED, new PlacedFeature(placedFeatures.getOrThrow(SILVER_ORE), commonOrePlacement(WerewolvesConfig.COMMON.silverOreWeight, HeightRangePlacement.triangle(VerticalAnchor.absolute(-20), VerticalAnchor.absolute(50)))));
-        context.register(WOLF_BERRY_BUSH_PLACED, new PlacedFeature(placedFeatures.getOrThrow(WOLF_BERRY_BUSH), List.of(RarityFilter.onAverageOnceEvery(32), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
-        context.register(STONE_PATCH_PLACED, new PlacedFeature(placedFeatures.getOrThrow(STONE_PATCH), List.of(RarityFilter.onAverageOnceEvery(32), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+        context.register(WOLF_BERRY_BUSH_PLACED, new PlacedFeature(placedFeatures.getOrThrow(WOLF_BERRY_BUSH), List.of(RarityFilter.onAverageOnceEvery(16), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+        context.register(FOREST_ROCK_PLACED, new PlacedFeature(placedFeatures.getOrThrow(FOREST_ROCK), List.of(CountPlacement.of(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
     }
 
     public static void createBiomeModifier(BootstapContext<BiomeModifier> context) {

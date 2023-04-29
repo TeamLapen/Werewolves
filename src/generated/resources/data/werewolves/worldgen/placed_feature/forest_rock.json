@@ -1,16 +1,16 @@
 {
-  "feature": "werewolves:wolf_berry_bush",
+  "feature": "werewolves:forest_rock",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 16
+      "type": "minecraft:count",
+      "count": 1
     },
     {
       "type": "minecraft:in_square"
     },
     {
       "type": "minecraft:heightmap",
-      "heightmap": "WORLD_SURFACE_WG"
+      "heightmap": "MOTION_BLOCKING"
     },
     {
       "type": "minecraft:biome"
