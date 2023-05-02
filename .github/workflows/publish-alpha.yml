@@ -20,6 +20,6 @@ jobs:
         distribution: 'adopt'
         cache: 'gradle'
     - name: Publish
-      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      uses: gradle/gradle-build-action@v2.4.2
       with:
         arguments: build publish curseforge modrinth -PMAVEN_URL=${{ secrets.MAVEN_URL }} -PMAVEN_USER=${{ secrets.MAVEN_USER }} -PMAVEN_TOKEN=${{ secrets.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ secrets.CURSEFORGE_API }} -PCROWDIN_KEY=${{ secrets.CROWDIN_KEY }} -PMODRINTH_API=${{ secrets.MODRINTH_API }} -Palpha
