@@ -341,5 +341,9 @@
   "refinement.werewolves.stun_bite.desc": "Stun Bite has a longer effect",
   "refinement.werewolves.bleeding_bite.desc": "Bleeding Bite creates a bigger wound",
   "refinement.werewolves.more_wolves.desc": "Summons more wolves",
-  "refinement.werewolves.greater_doge_chance.desc": "Increases the chance to doge for the Movement Tactics skill"
+  "refinement.werewolves.greater_doge_chance.desc": "Increases the chance to doge for the Movement Tactics skill",
+  "__comment": "subtitles",
+  "subtitles.werewolves.entity.werewolf.bite": "Bite",
+  "subtitles.werewolves.entity.werewolf.howl": "Werewolf Howling",
+  "subtitles.werewolves.entity.werewolf.growl": "Werewolf Growling"
 }

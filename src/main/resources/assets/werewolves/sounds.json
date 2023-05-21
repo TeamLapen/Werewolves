@@ -2,16 +2,19 @@
   "entity.werewolf.bite": {
     "sounds": [
       "werewolves:entity/werewolf/bite"
-    ]
+    ],
+    "subtitle": "subtitles.werewolves.entity.werewolf.bite"
   },
   "entity.werewolf.howl": {
     "sounds": [
       "werewolves:entity/werewolf/howl"
-    ]
+    ],
+    "subtitle": "subtitles.werewolves.entity.werewolf.howl"
   },
   "entity.werewolf.growl": {
     "sounds": [
       "werewolves:entity/werewolf/growl"
-    ]
+    ],
+    "subtitle": "subtitles.werewolves.entity.werewolf.growl"
   }
 }
