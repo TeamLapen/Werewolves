@@ -116,6 +116,7 @@ public class LootTablesGenerator extends LootTableProvider {
             this.add(ModBlocks.MAGIC_LEAVES.get(), (block) -> createLeavesDrops(block, ModBlocks.MAGIC_SAPLING.get(), DEFAULT_SAPLING_DROP_RATES));
             this.dropSelf(ModBlocks.JACARANDA_SAPLING.get());
             this.dropSelf(ModBlocks.MAGIC_SAPLING.get());
+            this.dropSelf(ModBlocks.WOLFSBANE_DIFFUSER.get());
         }
 
         @Nonnull

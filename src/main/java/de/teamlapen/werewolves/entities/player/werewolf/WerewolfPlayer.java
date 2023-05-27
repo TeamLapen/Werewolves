@@ -21,6 +21,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
+import de.teamlapen.werewolves.effects.WolfsbaneEffect;
 import de.teamlapen.werewolves.effects.inst.WerewolfNightVisionEffectInstance;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
@@ -28,6 +29,7 @@ import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.mixin.entity.PlayerAccessor;
 import de.teamlapen.werewolves.util.*;
 import de.teamlapen.werewolves.world.ModDamageSources;
+import de.teamlapen.werewolves.world.WerewolvesWorld;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -53,6 +55,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
@@ -263,6 +266,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                             this.player.addEffect(effect);
                         }
                     }
+                }
+
+                if (this.player.tickCount % de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level, true)) {
+                    this.player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(this.player, de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS + 10));
                 }
             } else {
 
@@ -487,6 +494,15 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                 this.actionHandler.resetTimers();
             }
         }
+    }
+
+    private boolean wolfsbaneCache = false;
+
+    public boolean isAffectedByWolfsbane(LevelAccessor accessor, boolean forceRefresh) {
+        if (forceRefresh) {
+            this.wolfsbaneCache = accessor instanceof Level level ? WerewolvesWorld.getOpt(level).map(x -> x.isEffectedByWolfsbane(getRepresentingPlayer().blockPosition())).orElse(false) : false;
+        }
+        return this.wolfsbaneCache;
     }
 
     /**

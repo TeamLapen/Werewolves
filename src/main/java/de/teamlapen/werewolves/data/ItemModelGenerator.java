@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.data;
 
+import de.teamlapen.lib.lib.data.BaseItemModelGenerator;
 import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
@@ -9,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class ItemModelGenerator extends ItemModelProvider {
+public class ItemModelGenerator extends BaseItemModelGenerator {
 
     public ItemModelGenerator(@NotNull PackOutput packOutput, @NotNull ExistingFileHelper existingFileHelper) {
         super(packOutput, REFERENCE.MODID, existingFileHelper);
@@ -118,6 +118,9 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(ModBlocks.MAGIC_BUTTON.get(), mcLoc("block/button_inventory")).texture("texture", modLoc("block/magic_planks"));
         withExistingParent(ModBlocks.JACARANDA_FENCE.get(), mcLoc("block/fence_inventory")).texture("texture", modLoc("block/jacaranda_planks"));
         withExistingParent(ModBlocks.MAGIC_FENCE.get(), mcLoc("block/fence_inventory")).texture("texture", modLoc("block/magic_planks"));
+
+        block(ModBlocks.WOLFSBANE_DIFFUSER.get(), "wolfsbane_diffuser");
+        withExistingParent(ModItems.WOLFSBANE_DIFFUSER_CORE.get(), ModItems.V.GARLIC_DIFFUSER_CORE.get()).texture("texture", "block/wolfsbane_diffuser_inside");
     }
 
     @NotNull
@@ -154,7 +157,18 @@ public class ItemModelGenerator extends ItemModelProvider {
 
     @NotNull
     public ItemModelBuilder withExistingParent(@NotNull Item name, ResourceLocation parent) {
-        return super.withExistingParent(RegUtil.id(name).getPath(), parent);
+        try {
+            return super.withExistingParent(RegUtil.id(name).getPath(), parent);
+        } catch (IllegalStateException e) {
+            return getBuilder(RegUtil.id(name).getPath()).parent(new ModelFile.UncheckedModelFile(extendWithFolder(parent)));
+        }
+    }
+
+    private ResourceLocation extendWithFolder(ResourceLocation rl) {
+        if (rl.getPath().contains("/")) {
+            return rl;
+        }
+        return new ResourceLocation(rl.getNamespace(), folder + "/" + rl.getPath());
     }
 
     @NotNull

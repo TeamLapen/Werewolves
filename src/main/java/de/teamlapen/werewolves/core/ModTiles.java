@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.mixin.TileEntityTypeAccessor;
 import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
+import de.teamlapen.werewolves.blocks.entity.WolfsbaneDiffuserBlockEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,6 +20,7 @@ public class ModTiles {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, REFERENCE.MODID);
 
     public static final RegistryObject<BlockEntityType<StoneAltarBlockEntity>> STONE_ALTAR = BLOCK_ENTITY_TYPES.register("stone_altar", () -> create(StoneAltarBlockEntity::new, ModBlocks.STONE_ALTAR.get()));
+    public static final RegistryObject<BlockEntityType<WolfsbaneDiffuserBlockEntity>> WOLFSBANE_DIFFUSER = BLOCK_ENTITY_TYPES.register("wolfsbane_diffuser", () -> create(WolfsbaneDiffuserBlockEntity::new, ModBlocks.WOLFSBANE_DIFFUSER.get()));
 
     static void register(IEventBus bus) {
         BLOCK_ENTITY_TYPES.register(bus);
