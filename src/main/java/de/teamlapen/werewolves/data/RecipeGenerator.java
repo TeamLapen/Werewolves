@@ -1,8 +1,10 @@
 package de.teamlapen.werewolves.data;
 
 import com.google.common.collect.ImmutableList;
+import de.teamlapen.vampirism.data.recipebuilder.AlchemicalCauldronRecipeBuilder;
 import de.teamlapen.vampirism.data.recipebuilder.AlchemyTableRecipeBuilder;
 import de.teamlapen.vampirism.data.recipebuilder.ShapedWeaponTableRecipeBuilder;
+import de.teamlapen.vampirism.entity.player.hunter.skills.HunterSkills;
 import de.teamlapen.vampirism.util.NBTIngredient;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
@@ -46,15 +48,22 @@ public class RecipeGenerator extends VanillaRecipeProvider {
         TagKey<Item> iron_ingot = Tags.Items.INGOTS_IRON;
         TagKey<Item> feathers = Tags.Items.FEATHERS;
         ItemLike crossbow_arrow = ModItems.V.CROSSBOW_ARROW_NORMAL.get();
+        TagKey<Item> planks = ItemTags.PLANKS;
+        TagKey<Item> diamond = Tags.Items.GEMS_DIAMOND;
+        TagKey<Item> obsidian = Tags.Items.OBSIDIAN;
+        ItemLike wolfsbane_diffuser_core = ModItems.WOLFSBANE_DIFFUSER_CORE.get();
+        TagKey<Item> wool = ItemTags.WOOL;
+        ItemLike wolfsbane = ModBlocks.WOLFSBANE.get();
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,Items.BONE, 2)
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE, 2)
                 .requires(ModItems.CRACKED_BONE.get()).unlockedBy("has_broken_bone", has(ModItems.CRACKED_BONE.get()))
                 .save(consumer);
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,Items.PURPLE_DYE)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.PURPLE_DYE)
                 .requires(ModBlocks.WOLFSBANE.get()).unlockedBy("has_wolfsbane", has(ModBlocks.WOLFSBANE.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModItems.SILVER_HOE.get()).pattern("XX").pattern(" #").pattern(" #")
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SILVER_HOE.get()).pattern("XX").pattern(" #").pattern(" #")
                 .define('#', sticks).unlockedBy("has_sticks", has(sticks))
                 .define('X', silver_ingot).unlockedBy("has_silver_ingot", has(silver_ingot))
                 .save(consumer);
@@ -129,5 +138,8 @@ public class RecipeGenerator extends VanillaRecipeProvider {
         woodenBoat(consumer, ModItems.MAGIC_BOAT.get(), ModBlocks.MAGIC_PLANKS.get());
         chestBoat(consumer, ModItems.JACARANDA_CHEST_BOAT.get(), ModBlocks.JACARANDA_PLANKS.get());
         chestBoat(consumer, ModItems.MAGIC_CHEST_BOAT.get(), ModBlocks.MAGIC_PLANKS.get());
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core).unlockedBy("has_diamond", has(diamond)).save(consumer, "wolfsbane_diffuser_normal");
+        AlchemicalCauldronRecipeBuilder.cauldronRecipe(ModItems.WOLFSBANE_DIFFUSER_CORE.get()).withIngredient(wool).withFluid(wolfsbane).withSkills(HunterSkills.GARLIC_DIFFUSER.get()).build(consumer, modId("wolfsbane_diffuser_core"));
     }
 }

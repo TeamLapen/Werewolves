@@ -80,13 +80,21 @@ public class ModTagsProvider {
             tag(BlockTags.WOODEN_DOORS).add(ModBlocks.JACARANDA_DOOR.get(), ModBlocks.MAGIC_DOOR.get());
             tag(BlockTags.WOODEN_TRAPDOORS).add(ModBlocks.JACARANDA_TRAPDOOR.get(), ModBlocks.MAGIC_TRAPDOOR.get());
 
-            this.tag(BlockTags.MINEABLE_WITH_AXE)
+            this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
+            ;
+            this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                    .add(ModBlocks.WOLFSBANE_DIFFUSER.get())
             ;
             this.tag(BlockTags.MINEABLE_WITH_AXE)
             ;
-            this.tag(BlockTags.MINEABLE_WITH_AXE)
+            this.tag(BlockTags.MINEABLE_WITH_HOE)
             ;
-            this.tag(BlockTags.MINEABLE_WITH_AXE)
+            this.tag(BlockTags.NEEDS_STONE_TOOL)
+            ;
+            this.tag(BlockTags.NEEDS_IRON_TOOL)
+            ;
+            this.tag(BlockTags.NEEDS_DIAMOND_TOOL)
+                    .add(ModBlocks.WOLFSBANE_DIFFUSER.get())
             ;
         }
     }

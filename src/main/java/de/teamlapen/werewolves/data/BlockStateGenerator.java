@@ -11,6 +11,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -71,6 +72,20 @@ public class BlockStateGenerator extends BlockStateProvider {
                 .partialState().with(WolfBerryBushBlock.AGE, 3).modelForState().modelFile(models().cross("wolf_berry_bush_stage3", modLoc("block/wolf_berry_bush_stage3")).renderType(CUTOUT)).addModel();
 
         createWoodStates();
+
+        simpleBlock(ModBlocks.WOLFSBANE_DIFFUSER.get(), withExistingParent("wolfsbane_diffuser", vampirismId("block/garlic_diffuser")).texture("wood_garlic_symbol", "werewolves:block/wolfsbane_diffuser_top").texture("garlic", "werewolves:block/wolfsbane_diffuser_inside").renderType(CUTOUT));
+    }
+
+    public BlockModelBuilder withExistingParent(String name, String parent) {
+        try {
+            return models().withExistingParent(name, parent);
+        } catch (IllegalStateException e) {
+            return withExistingParent(name, mcLoc(parent));
+        }
+    }
+
+    public BlockModelBuilder withExistingParent(String name, ResourceLocation parent) {
+        return models().getBuilder(name).parent(new ModelFile.UncheckedModelFile(parent));
     }
 
     private void createWoodStates() {

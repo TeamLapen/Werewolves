@@ -106,6 +106,7 @@ public class ModItems {
     public static final RegistryObject<WerewolvesBoatItem> JACARANDA_CHEST_BOAT = register("jacaranda_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, true, props().stacksTo(1)));
     public static final RegistryObject<WerewolvesBoatItem> MAGIC_CHEST_BOAT = register("magic_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, true, props().stacksTo(1)));
 
+    public static final RegistryObject<Item> WOLFSBANE_DIFFUSER_CORE = register("wolfsbane_diffuser_core", () -> new Item(props()));
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
         public static final RegistryObject<Item> INJECTION_EMPTY = item("injection_empty");
@@ -113,6 +114,7 @@ public class ModItems {
         public static final RegistryObject<Item> OBLIVION_POTION = item("oblivion_potion");
         public static final RegistryObject<Item> VAMPIRE_BOOK = item("vampire_book");
         public static final RegistryObject<Item> CROSSBOW_ARROW_NORMAL = item("crossbow_arrow_normal");
+        public static final RegistryObject<Item> GARLIC_DIFFUSER_CORE = item("garlic_diffuser_core");
 
         private static RegistryObject<Item> item(String name) {
             return RegistryObject.create(new ResourceLocation("vampirism", name), ForgeRegistries.Keys.ITEMS, REFERENCE.MODID);

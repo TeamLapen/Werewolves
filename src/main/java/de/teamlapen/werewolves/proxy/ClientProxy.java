@@ -1,10 +1,14 @@
 package de.teamlapen.werewolves.proxy;
 
 import de.teamlapen.werewolves.blocks.LogBlock;
+import de.teamlapen.werewolves.blocks.entity.WolfsbaneDiffuserBlockEntity;
 import de.teamlapen.werewolves.client.core.*;
+import de.teamlapen.werewolves.client.gui.WolfsbaneDiffuserScreen;
 import de.teamlapen.werewolves.network.ClientboundAttackTargetEventPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -58,5 +62,18 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void endVisionBatch() {
         this.renderHandler.endVisionBatch();
+    }
+
+    @Override
+    public void displayWolfsbaneScreen(WolfsbaneDiffuserBlockEntity tile, Component title) {
+        openScreen(new WolfsbaneDiffuserScreen(tile, title));
+    }
+
+    public static void runOnRenderThread(Runnable runnable) {
+        Minecraft.getInstance().execute(runnable);
+    }
+
+    public static void openScreen(Screen screen) {
+        runOnRenderThread(() -> Minecraft.getInstance().setScreen(screen));
     }
 }
