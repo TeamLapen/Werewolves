@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.data;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.BiomeTagsProvider;
@@ -10,13 +11,13 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.PoiTypeTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
+import net.minecraft.tags.*;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -34,10 +35,11 @@ public class ModTagsProvider {
     public static void register(DataGenerator gen, @NotNull GatherDataEvent event, PackOutput output, CompletableFuture<HolderLookup.Provider> future, ExistingFileHelper existingFileHelper) {
         BlockTagsProvider blocks = new ModBlockTagsProvider(output, future, existingFileHelper);
         gen.addProvider(event.includeServer(), blocks);
-        gen.addProvider(event.includeServer(), new ModItemTagsProvider(output, future, existingFileHelper, blocks));
+        gen.addProvider(event.includeServer(), new ModItemTagsProvider(output, future, blocks.contentsGetter(), existingFileHelper));
         gen.addProvider(event.includeServer(), new ModBiomeTagsProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), new ModPoiTypesProvider(output, future, existingFileHelper));
-        gen.addProvider(event.includeServer(), new ModVillageProfessionProvider(output,future, existingFileHelper));
+        gen.addProvider(event.includeServer(), new ModVillageProfessionProvider(output, future, existingFileHelper));
+        gen.addProvider(event.includeServer(), new ModDamageTypeProvider(output, future, existingFileHelper));
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
@@ -90,7 +92,7 @@ public class ModTagsProvider {
     }
 
     private static class ModItemTagsProvider extends ItemTagsProvider {
-        public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper, @NotNull BlockTagsProvider blockTagsProvider) {
+        public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
             super(output, lookupProvider, blockTagsProvider, REFERENCE.MODID, existingFileHelper);
         }
 
@@ -186,6 +188,20 @@ public class ModTagsProvider {
         protected void addTags(HolderLookup.@NotNull Provider holderProvider) {
             this.tag(ModTags.Professions.IS_WEREWOLF).add(ModVillage.WEREWOLF_EXPERT.getKey());
             this.tag(de.teamlapen.vampirism.core.ModTags.Professions.HAS_FACTION).addTag(ModTags.Professions.IS_WEREWOLF);
+        }
+    }
+
+    private static class ModDamageTypeProvider extends TagsProvider<DamageType> {
+
+        public ModDamageTypeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+            super(output, Registries.DAMAGE_TYPE, lookupProvider, REFERENCE.MODID, existingFileHelper);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.@NotNull Provider pProvider) {
+            this.tag(ModTags.DamageTypes.WEREWOLF_FUR_IMMUNE).add(DamageTypes.SWEET_BERRY_BUSH, DamageTypes.CACTUS, DamageTypes.HOT_FLOOR);
+            this.tag(DamageTypeTags.WITCH_RESISTANT_TO).add(ModDamageTypes.BLOOD_LOSS);
+            this.tag(DamageTypeTags.BYPASSES_ARMOR).add(ModDamageTypes.BLOOD_LOSS);
         }
     }
 }

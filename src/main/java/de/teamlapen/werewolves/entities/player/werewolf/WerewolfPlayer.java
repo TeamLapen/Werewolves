@@ -27,6 +27,7 @@ import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.mixin.entity.PlayerAccessor;
 import de.teamlapen.werewolves.util.*;
+import de.teamlapen.werewolves.world.ModDamageSources;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -36,6 +37,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -165,14 +167,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     public void removeArmorModifier() {
-        for (UUID uuid : ArmorItemAccessor.getARMOR_MODIFIERS()) {
+        for (UUID uuid : ArmorItemAccessor.getARMOR_MODIFIERS().values()) {
             this.player.getAttribute(Attributes.ARMOR_TOUGHNESS).removeModifier(uuid);
             this.player.getAttribute(Attributes.ARMOR).removeModifier(uuid);
         }
     }
 
     public void addArmorModifier() {
-        Set<UUID> uuids = Sets.newHashSet(ArmorItemAccessor.getARMOR_MODIFIERS());
+        Set<UUID> uuids = Sets.newHashSet(ArmorItemAccessor.getARMOR_MODIFIERS().values());
         int i = 0;
         for (ItemStack stack : this.player.getArmorSlots()) {
             EquipmentSlot slotType = EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i);
@@ -411,7 +413,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     public boolean canBiteEntity(LivingEntity entity) {
-        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue() + 1 && (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
+        return entity.distanceTo(this.player) <= this.player.getAttribute(ForgeMod.BLOCK_REACH.get()).getValue() + 1 && (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
     }
 
     public boolean canBite() {
@@ -432,7 +434,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         if (!canBite()) return false;
         if (!canBiteEntity(entity)) return false;
         double damage = this.player.getAttribute(ModAttributes.BITE_DAMAGE.get()).getValue();
-        boolean flag = entity.hurt(Helper.causeWerewolfDamage(this.player), (float) damage);
+        boolean flag = DamageHandler.hurtModded(entity, (ModDamageSources sources) -> sources.bite(this.player), (float) damage);
         if (flag) {
             this.getRepresentingPlayer().playSound(ModSounds.ENTITY_WEREWOLF_BITE.get(), 1.0F, 1.0F);
             this.getRepresentingPlayer().playNotifySound(ModSounds.ENTITY_WEREWOLF_BITE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);

@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "werewolves:silver_shovel"
-  }
+  },
+  "show_notification": true
 }

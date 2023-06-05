@@ -1,23 +1,16 @@
 package de.teamlapen.werewolves.misc;
 
+import de.teamlapen.lib.lib.util.ModDisplayItemGenerator;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Set;
 import java.util.function.Consumer;
 
 import static de.teamlapen.werewolves.core.ModBlocks.*;
@@ -38,25 +31,16 @@ public class WerewolvesCreativeTab {
         WReference.CREATIVE_TAB = event.registerCreativeModeTab(new ResourceLocation(REFERENCE.MODID, "default"), BUILDER);
     }
 
-    public static class WerewolvesDisplayItemGenerator implements CreativeModeTab.DisplayItemsGenerator {
+    public static class WerewolvesDisplayItemGenerator extends ModDisplayItemGenerator {
 
-        private CreativeModeTab.Output output;
-        @SuppressWarnings("FieldCanBeLocal")
-        private FeatureFlagSet featureFlagSet;
-        @SuppressWarnings("FieldCanBeLocal")
-        private boolean hasPermission;
-        private Set<ItemLike> items;
+        public WerewolvesDisplayItemGenerator() {
+            super(ModItems.getAllWerewolvesTabItems());
+        }
 
         @Override
-        public void accept(@NotNull FeatureFlagSet featureFlagSet, CreativeModeTab.@NotNull Output output, boolean hasPermission) {
-            this.output = output;
-            this.featureFlagSet = featureFlagSet;
-            this.hasPermission = hasPermission;
-            this.items  = ModItems.getAllWerewolvesTabItems();
-
-            this.addItems();
-            this.addBlocks();
-            this.items.forEach(output::accept);
+        protected void addItemsToOutput() {
+            addItems();
+            addBlocks();
         }
 
         private void addBlocks() {
@@ -136,34 +120,5 @@ public class WerewolvesCreativeTab {
             addItem(WEREWOLF_MINION_UPGRADE_SPECIAL);
             addItem(INJECTION_UN_WEREWOLF);
         }
-
-        private void add(ItemLike item) {
-            this.items.remove(item);
-            this.output.accept(item);
-        }
-
-        private void add(ItemStack item) {
-            this.items.remove(item.getItem());
-            this.output.accept(item);
-        }
-
-        private void addItem(RegistryObject<? extends Item> item) {
-            add(item.get());
-        }
-
-        private void addBlock(RegistryObject<? extends Block> item) {
-            add(item.get());
-        }
-
-        private <T extends ItemLike & CreativeTabItemProvider> void addGen(RegistryObject<T> item) {
-            this.items.remove(item.get());
-            item.get().generateCreativeTab(this.featureFlagSet, this.output, this.hasPermission);
-        }
-
     }
-
-    public interface CreativeTabItemProvider {
-        void generateCreativeTab(FeatureFlagSet featureFlagSet, CreativeModeTab.Output output, boolean hasPermission);
-    }
-
 }

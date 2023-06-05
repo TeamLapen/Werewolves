@@ -18,6 +18,7 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
     @Override
     protected boolean activate(IWerewolfPlayer iWerewolfPlayer, ActivationContext context) {
         ((WerewolfPlayer) iWerewolfPlayer).getSpecialAttributes().leap = false;
+        iWerewolfPlayer.getRepresentingPlayer().getAbilities().setFlyingSpeed(iWerewolfPlayer.getRepresentingPlayer().getAbilities().getFlyingSpeed() + 0.05F);
         return true;
     }
 
@@ -38,11 +39,11 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     public void onActivatedClient(IWerewolfPlayer iWerewolfPlayer) {
-
     }
 
     @Override
     public void onDeactivated(IWerewolfPlayer iWerewolfPlayer) {
+        iWerewolfPlayer.getRepresentingPlayer().getAbilities().setFlyingSpeed(iWerewolfPlayer.getRepresentingPlayer().getAbilities().getFlyingSpeed() - 0.05F);
     }
 
     @Override
@@ -51,7 +52,6 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     public boolean onUpdate(IWerewolfPlayer iWerewolfPlayer) {
-        iWerewolfPlayer.getRepresentingPlayer().flyingSpeed *= 2;
         return false;
     }
 }

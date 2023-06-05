@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "werewolves:silver_hoe"
-  }
+  },
+  "show_notification": true
 }

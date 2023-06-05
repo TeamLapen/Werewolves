@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "werewolves:silver_axe"
-  }
+  },
+  "show_notification": true
 }

@@ -25,6 +25,12 @@ public class StoneAltarScreen extends AbstractContainerScreen<StoneAltarContaine
     }
 
     @Override
+    protected void init() {
+        super.init();
+        this.addRenderableWidget(new ExpBar(leftPos - 14, topPos));
+    }
+
+    @Override
     public void render(@Nonnull PoseStack stack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(stack);
         super.render(stack, mouseX, mouseY, partialTicks);

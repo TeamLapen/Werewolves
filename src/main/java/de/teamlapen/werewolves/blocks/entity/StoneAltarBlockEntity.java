@@ -215,7 +215,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
         for (double x = aabb.minX; x <= aabb.maxX; ++x) {
             for (double y = aabb.minY; y <= aabb.maxY; ++y) {
                 for (double z = aabb.minZ; z <= aabb.maxZ; ++z) {
-                    BlockPos pos = new BlockPos(x, y, z);
+                    BlockPos pos = new BlockPos((int) x, (int) y, (int) z);
                     BlockState state = this.level.getBlockState(pos);
                     if (state.getBlock() == ModBlocks.STONE_ALTAR_FIRE_BOWL.get()) {
                         i.add(pos);
