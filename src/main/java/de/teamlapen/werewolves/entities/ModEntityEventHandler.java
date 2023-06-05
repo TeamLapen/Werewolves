@@ -9,6 +9,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModDamageTypes;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.effects.SilverEffect;
@@ -17,16 +18,14 @@ import de.teamlapen.werewolves.mixin.GoalSelectorAccessor;
 import de.teamlapen.werewolves.mixin.NearestAttackabletargetGoalAccessor;
 import de.teamlapen.werewolves.mixin.TargetingConditionsAccessor;
 import de.teamlapen.werewolves.network.ClientboundAttackTargetEventPacket;
-import de.teamlapen.werewolves.util.BiteDamageSource;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,9 +43,9 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -85,7 +84,7 @@ public class ModEntityEventHandler {
         AttributeInstance s = event.getEntity().getAttribute(Attributes.ARMOR);
         if (s != null) {
             s.removeModifier(ARMOR_REDUCTION);
-            if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() != null && Helper.isWerewolf(event.getSource().getEntity())) {
+            if (event.getSource().getEntity() != null && Helper.isWerewolf(event.getSource().getEntity())) {
                 Set<AttributeModifier> modifiers = new HashSet<>();
                 int i = 0;
                 for (ItemStack stack : event.getEntity().getArmorSlots()) {
@@ -96,11 +95,11 @@ public class ModEntityEventHandler {
                 s.getModifiers().stream().filter(modifiers::contains).forEach(tmp::addTransientModifier);
                 double value = s.getValue() - (s.getValue() - tmp.getValue());
                 float levelModifier = WerewolfPlayer.getOptEx(event.getSource().getEntity()).map(player -> player.getLevel() / (float) player.getMaxLevel()).orElse(1f);
-                s.addTransientModifier(new AttributeModifier(ARMOR_REDUCTION, "werewolf_attack", -value * ((event.getSource() instanceof BiteDamageSource ? 0.8 : 0.3) * levelModifier), AttributeModifier.Operation.ADDITION));
+                s.addTransientModifier(new AttributeModifier(ARMOR_REDUCTION, "werewolf_attack", -value * ((event.getSource().is(ModDamageTypes.BITE) ? 0.8 : 0.3) * levelModifier), AttributeModifier.Operation.ADDITION));
             }
         }
         if (Helper.isWerewolf(event.getEntity())) {
-            if (!event.getSource().isMagic()) {
+            if (!event.getSource().is(DamageTypeTags.WITCH_RESISTANT_TO)) {
                 float damage = event.getAmount();
                 float damageReduction = FormHelper.getForm(event.getEntity()).getDamageReduction();
                 damageReduction *= event.getEntity() instanceof Player ? WerewolfPlayer.getOpt(((Player) event.getEntity())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR.get())).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
@@ -115,16 +114,11 @@ public class ModEntityEventHandler {
     }
 
     @SubscribeEvent
-    public void onAttack(LivingSetAttackTargetEvent event) {
-        if (event.getTarget() instanceof ServerPlayer) {
-            if (Helper.isWerewolf(((Player) event.getTarget()))) {
-                WerewolfPlayer.getOpt(((Player) event.getTarget())).ifPresent(werewolf -> {
-                    if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.SIXTH_SENSE.get())) {
-                        WerewolvesMod.dispatcher.sendTo(new ClientboundAttackTargetEventPacket(event.getEntity().getId()), ((ServerPlayer) event.getTarget()));
-                    }
-                });
-
-            }
+    public void onTargetChange(LivingChangeTargetEvent event) {
+        if (event.getNewTarget() instanceof ServerPlayer player && Helper.isWerewolf(player)) {
+            WerewolfPlayer.getOpt(player).filter(werewolf -> werewolf.getSkillHandler().isSkillEnabled(ModSkills.SIXTH_SENSE.get())).ifPresent(werewolf -> {
+                WerewolvesMod.dispatcher.sendTo(new ClientboundAttackTargetEventPacket(event.getEntity().getId()), player);
+            });
         }
     }
 
@@ -190,14 +184,13 @@ public class ModEntityEventHandler {
         if (s != null) {
             s.removeModifier(ARMOR_REDUCTION);
         }
-        if (event.getSource() instanceof EntityDamageSource) {
-            WerewolfPlayer.getOptEx(event.getSource().getEntity()).filter(w -> w.getForm() == WerewolfForm.BEAST).filter(w -> w.getSkillHandler().isSkillEnabled(ModSkills.THROAT_SEEKER.get()) && !UtilLib.canReallySee(event.getEntity(), w.getRepresentingPlayer(), true)).ifPresent(werewolf -> {
-                if (event.getEntity().getHealth() / event.getEntity().getMaxHealth() < 0.25) {
-                    if (werewolf.getRepresentingPlayer().getRandom().nextInt(4) < 1) {
-                        event.setAmount(10000f);
-                    }
+
+        WerewolfPlayer.getOptEx(event.getSource().getEntity()).filter(w -> w.getForm() == WerewolfForm.BEAST).filter(w -> w.getSkillHandler().isSkillEnabled(ModSkills.THROAT_SEEKER.get()) && !UtilLib.canReallySee(event.getEntity(), w.getRepresentingPlayer(), true)).ifPresent(werewolf -> {
+            if (event.getEntity().getHealth() / event.getEntity().getMaxHealth() < 0.25) {
+                if (werewolf.getRepresentingPlayer().getRandom().nextInt(4) < 1) {
+                    event.setAmount(10000f);
                 }
-            });
-        }
+            }
+        });
     }
 }

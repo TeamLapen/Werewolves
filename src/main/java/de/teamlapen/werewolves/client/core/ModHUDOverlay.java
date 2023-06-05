@@ -165,7 +165,7 @@ public class ModHUDOverlay extends ExtendedGui {
         }
         GL11.glEnable(GL11.GL_BLEND);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-        blit(matrixStack, left, top, this.getBlitOffset(), silver ? 30 : 15, 0, 15, 15, 256, 256);//other option is 18x18 - 307x307
+        blit(matrixStack, left, top, silver ? 30 : 15, 0, 15, 15, 256, 256);//other option is 18x18 - 307x307
         GL11.glDisable(GL11.GL_BLEND);
     }
 

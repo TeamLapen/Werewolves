@@ -40,7 +40,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static BlockPos multiplyBlockPos(BlockPos pos, double amount) {
-        return new BlockPos(pos.getX() * amount, pos.getY() * amount, pos.getZ() * amount);
+        return new BlockPos((int) (pos.getX() * amount), (int) (pos.getY() * amount), (int) (pos.getZ() * amount));
     }
 
     public static boolean canBecomeWerewolf(Player player) {
@@ -69,14 +69,6 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         }
         missing.entrySet().removeIf(s -> s.getValue() <= 0);
         return missing;
-    }
-
-    public static BiteDamageSource causeWerewolfDamage(String cause, Entity entity) {
-        return new BiteDamageSource(cause, entity);
-    }
-
-    public static BiteDamageSource causeWerewolfDamage(Player entity) {
-        return causeWerewolfDamage("player", entity);
     }
 
     @SuppressWarnings("ConstantConditions")

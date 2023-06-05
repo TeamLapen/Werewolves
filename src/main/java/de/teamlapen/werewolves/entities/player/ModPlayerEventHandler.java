@@ -17,8 +17,6 @@ import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -83,7 +81,7 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onKilled(LivingDeathEvent event) {
-        if (event.getSource() instanceof EntityDamageSource && event.getSource().getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getSource().getEntity()))) {
+        if (event.getSource().getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getSource().getEntity()))) {
             WerewolfPlayer player = WerewolfPlayer.get(((Player) event.getSource().getEntity()));
             if (player.getSkillHandler().isSkillEnabled(ModSkills.HEALTH_AFTER_KILL.get())) {
                 ((Player) event.getSource().getEntity()).addEffect(new MobEffectInstance(MobEffects.REGENERATION, player.getSkillHandler().isRefinementEquipped(ModRefinements.HEALTH_AFTER_KILL.get()) ? 5 : 4, 10));
@@ -223,25 +221,21 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onPlayerAttacked(LivingAttackEvent event) {
-        if (event.getEntity() instanceof Player) {
-            if (Helper.isWerewolf(((Player) event.getEntity()))) {
-                if (event.getEntity().isSprinting() && event.getSource() instanceof EntityDamageSource) {
-                    WerewolfPlayer.getOpt(((Player) event.getEntity())).filter(w -> w.getForm() == WerewolfForm.SURVIVALIST).map(WerewolfPlayer::getSkillHandler).ifPresent(skillHandler -> {
-                        if (skillHandler.isSkillEnabled(ModSkills.MOVEMENT_TACTICS.get())) {
-                            float limit = WerewolvesConfig.BALANCE.SKILLS.movement_tactics_doge_chance.get().floatValue();
-                            if (skillHandler.isRefinementEquipped(ModRefinements.GREATER_DOGE_CHANCE.get())) {
-                                limit += WerewolvesConfig.BALANCE.REFINEMENTS.greater_doge_chance.get().floatValue();
-                            }
-                            if (((Player) event.getEntity()).getRandom().nextFloat() < limit) {
-                                event.setCanceled(true);
-                            }
+        if (event.getEntity() instanceof Player player && Helper.isWerewolf((player))) {
+            if (player.isSprinting() && event.getSource().getEntity() != null) {
+                WerewolfPlayer.getOpt(((Player) player)).filter(w -> w.getForm() == WerewolfForm.SURVIVALIST).map(WerewolfPlayer::getSkillHandler).ifPresent(skillHandler -> {
+                    if (skillHandler.isSkillEnabled(ModSkills.MOVEMENT_TACTICS.get())) {
+                        float limit = WerewolvesConfig.BALANCE.SKILLS.movement_tactics_doge_chance.get().floatValue();
+                        if (skillHandler.isRefinementEquipped(ModRefinements.GREATER_DOGE_CHANCE.get())) {
+                            limit += WerewolvesConfig.BALANCE.REFINEMENTS.greater_doge_chance.get().floatValue();
                         }
-                    });
-                } else if (event.getSource() == DamageSource.SWEET_BERRY_BUSH || event.getSource() == DamageSource.CACTUS || event.getSource() == DamageSource.HOT_FLOOR) {
-                    if (WerewolfPlayer.getOpt(((Player) event.getEntity())).filter(w -> w.getForm().isTransformed()).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())).orElse(false)) {
-                        event.setCanceled(true);
+                        if (player.getRandom().nextFloat() < limit) {
+                            event.setCanceled(true);
+                        }
                     }
-                }
+                });
+            } else if (event.getSource().is(ModTags.DamageTypes.WEREWOLF_FUR_IMMUNE) && WerewolfPlayer.getOpt(player).filter(w -> w.getForm().isTransformed()).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())).orElse(false)) {
+                event.setCanceled(true);
             }
         }
     }

@@ -43,7 +43,7 @@ public class MobLootModifier extends LootModifier {
                     return DataResult.success(ForgeHooks.loadLootTable(LOOT_TABLE_SERIALIZER, new ResourceLocation("none"), getJson(dynamic), true, WUtils.LOOT_TABLE_MANAGER));
                 } catch (Exception e) {
                     LootModifierManager.LOGGER.warn("Unable to decode loot table", e);
-                    return DataResult.error(e.getMessage());
+                    return DataResult.error(e::getMessage);
                 }
             },
             lootTable -> {
@@ -52,7 +52,7 @@ public class MobLootModifier extends LootModifier {
                     return DataResult.success(new Dynamic<>(JsonOps.INSTANCE, e));
                 } catch (Exception e) {
                     LootModifierManager.LOGGER.warn("Unable to encode loot table", e);
-                    return DataResult.error(e.getMessage());
+                    return DataResult.error(e::getMessage);
                 }
             }
     );

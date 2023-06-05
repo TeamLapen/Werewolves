@@ -7,9 +7,9 @@ import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.core.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,7 +31,7 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity
             matrixStackIn.translate(-0.5, 0, 0.5); // translate to final location
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(22.5f)); // rotate final
             matrixStackIn.mulPose(Axis.XN.rotationDegrees(90f)); // rotate to flat
-            Minecraft.getInstance().getItemRenderer().renderStatic(LIVER_STACK, ItemTransforms.TransformType.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
+            Minecraft.getInstance().getItemRenderer().renderStatic(LIVER_STACK, ItemDisplayContext.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, tileEntityIn.getLevel(), 0);
             matrixStackIn.popPose();
         }
         if (!tileEntityIn.getItem(1).isEmpty()) {
@@ -39,7 +39,7 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity
             matrixStackIn.translate(0.5, 0, 0.5); // translate to final location
             matrixStackIn.mulPose(Axis.YN.rotationDegrees(22.5f)); // rotate final
             matrixStackIn.mulPose(Axis.XN.rotationDegrees(90f)); // rotate to flat
-            Minecraft.getInstance().getItemRenderer().renderStatic(BONE_STACK, ItemTransforms.TransformType.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
+            Minecraft.getInstance().getItemRenderer().renderStatic(BONE_STACK, ItemDisplayContext.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, tileEntityIn.getLevel(), 0);
             matrixStackIn.popPose();
         }
     }

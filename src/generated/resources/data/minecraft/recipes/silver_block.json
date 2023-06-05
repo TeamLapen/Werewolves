@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "werewolves:silver_block"
-  }
+  },
+  "show_notification": true
 }

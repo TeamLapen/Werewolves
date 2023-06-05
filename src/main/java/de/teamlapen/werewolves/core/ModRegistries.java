@@ -12,6 +12,7 @@ public class ModRegistries {
             .add(Registries.CONFIGURED_FEATURE, WerewolvesBiomeFeatures::createConfiguredFeatures)
             .add(Registries.PLACED_FEATURE, WerewolvesBiomeFeatures::createPlacedFeatures)
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, WerewolvesBiomeFeatures::createBiomeModifier)
+            .add(Registries.DAMAGE_TYPE, ModDamageTypes::createDamageTypes)
             ;
 
 }

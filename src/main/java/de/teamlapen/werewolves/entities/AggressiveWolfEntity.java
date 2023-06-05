@@ -1,8 +1,10 @@
 package de.teamlapen.werewolves.entities;
 
+import de.teamlapen.vampirism.util.DamageHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
@@ -71,7 +73,7 @@ public class AggressiveWolfEntity extends Wolf {
         super.tick();
         if (this.restrictLiveSpan) {
             if (this.tickCount > maxTicks) {
-                this.hurt(DamageSource.MAGIC, 10.0F);
+                DamageHandler.hurtVanilla(this, DamageSources::magic, 10);
             }
         }
     }

@@ -41,10 +41,10 @@ public class ActionCooldownOverlay extends GuiComponent implements IGuiOverlay {
                 //render action icon transparent
                 RenderSystem.enableBlend();
                 RenderSystem.setShaderColor(1, 1, 1, 0.4f);
-                blit(mStack, x, y, this.getBlitOffset(), 0, 0, 16, 16, 16, 16);
+                blit(mStack, x, y, 0, 0, 16, 16, 16, 16);
                 //render action icon full for remaining cooldown
                 RenderSystem.setShaderColor(1, 1, 1, 1);
-                blit(mStack, x, y + perc, this.getBlitOffset(), 0, perc, 16, 16 - perc, 16, 16);
+                blit(mStack, x, y + perc, 0, perc, 16, 16 - perc, 16, 16);
                 x += 16;
             }
         }

@@ -27,5 +27,6 @@
     "count": 3,
     "item": "werewolves:crossbow_arrow_silver_bolt"
   },
+  "show_notification": true,
   "skill": []
 }
