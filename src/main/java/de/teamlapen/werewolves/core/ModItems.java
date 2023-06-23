@@ -107,6 +107,7 @@ public class ModItems {
     public static final RegistryObject<WerewolvesBoatItem> MAGIC_CHEST_BOAT = register("magic_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, true, props().stacksTo(1)));
 
     public static final RegistryObject<Item> WOLFSBANE_DIFFUSER_CORE = register("wolfsbane_diffuser_core", () -> new Item(props()));
+    public static final RegistryObject<Item> WOLFSBANE_DIFFUSER_CORE_IMPROVED = register("wolfsbane_diffuser_core_improved", () -> new Item(props()));
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
         public static final RegistryObject<Item> INJECTION_EMPTY = item("injection_empty");

@@ -20,7 +20,7 @@ public class ModTiles {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, REFERENCE.MODID);
 
     public static final RegistryObject<BlockEntityType<StoneAltarBlockEntity>> STONE_ALTAR = BLOCK_ENTITY_TYPES.register("stone_altar", () -> create(StoneAltarBlockEntity::new, ModBlocks.STONE_ALTAR.get()));
-    public static final RegistryObject<BlockEntityType<WolfsbaneDiffuserBlockEntity>> WOLFSBANE_DIFFUSER = BLOCK_ENTITY_TYPES.register("wolfsbane_diffuser", () -> create(WolfsbaneDiffuserBlockEntity::new, ModBlocks.WOLFSBANE_DIFFUSER.get()));
+    public static final RegistryObject<BlockEntityType<WolfsbaneDiffuserBlockEntity>> WOLFSBANE_DIFFUSER = BLOCK_ENTITY_TYPES.register("wolfsbane_diffuser", () -> create(WolfsbaneDiffuserBlockEntity::new, ModBlocks.WOLFSBANE_DIFFUSER.get(), ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get()));
 
     static void register(IEventBus bus) {
         BLOCK_ENTITY_TYPES.register(bus);

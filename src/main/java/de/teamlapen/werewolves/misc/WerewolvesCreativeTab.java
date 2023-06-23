@@ -47,6 +47,8 @@ public class WerewolvesCreativeTab {
             addBlock(STONE_ALTAR);
             addBlock(STONE_ALTAR_FIRE_BOWL);
             addBlock(WOLFSBANE_DIFFUSER);
+            addBlock(WOLFSBANE_DIFFUSER_LONG);
+            addBlock(WOLFSBANE_DIFFUSER_IMPROVED);
         }
 
         private void addBuildingBlocks() {
@@ -117,6 +119,7 @@ public class WerewolvesCreativeTab {
             addItem(WEREWOLF_MINION_UPGRADE_SPECIAL);
             addItem(INJECTION_UN_WEREWOLF);
             addItem(WOLFSBANE_DIFFUSER_CORE);
+            addItem(WOLFSBANE_DIFFUSER_CORE_IMPROVED);
         }
     }
 }

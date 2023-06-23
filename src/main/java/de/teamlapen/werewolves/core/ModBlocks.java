@@ -89,6 +89,9 @@ public class ModBlocks {
     public static final RegistryObject<FenceBlock> JACARANDA_FENCE = registerWithItem("jacaranda_fence", () -> new FenceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK).ignitedByLava().strength(2.0F, 3.0F).sound(SoundType.WOOD)));
     public static final RegistryObject<FenceBlock> MAGIC_FENCE = registerWithItem("magic_fence", () -> new FenceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).ignitedByLava().strength(2.0F, 3.0F).sound(SoundType.WOOD)));
     public static final RegistryObject<WolfsbaneDiffuserBlock> WOLFSBANE_DIFFUSER = registerWithItem("wolfsbane_diffuser_normal", () -> new WolfsbaneDiffuserBlock(WolfsbaneDiffuserBlock.Type.NORMAL));
+    public static final RegistryObject<WolfsbaneDiffuserBlock> WOLFSBANE_DIFFUSER_LONG = registerWithItem("wolfsbane_diffuser_long", () -> new WolfsbaneDiffuserBlock(WolfsbaneDiffuserBlock.Type.LONG));
+    public static final RegistryObject<WolfsbaneDiffuserBlock> WOLFSBANE_DIFFUSER_IMPROVED = registerWithItem("wolfsbane_diffuser_improved", () -> new WolfsbaneDiffuserBlock(WolfsbaneDiffuserBlock.Type.IMPROVED));
+
 
     public static class V {
         public static final RegistryObject<Block> MED_CHAIR = RegistryObject.create(new ResourceLocation("vampirism", "med_chair"), ForgeRegistries.Keys.BLOCKS, REFERENCE.MODID);

@@ -119,8 +119,11 @@ public class ItemModelGenerator extends BaseItemModelGenerator {
         withExistingParent(ModBlocks.JACARANDA_FENCE.get(), mcLoc("block/fence_inventory")).texture("texture", modLoc("block/jacaranda_planks"));
         withExistingParent(ModBlocks.MAGIC_FENCE.get(), mcLoc("block/fence_inventory")).texture("texture", modLoc("block/magic_planks"));
 
-        block(ModBlocks.WOLFSBANE_DIFFUSER.get(), "wolfsbane_diffuser");
+        block(ModBlocks.WOLFSBANE_DIFFUSER.get(), "wolfsbane_diffuser_normal");
+        block(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), "wolfsbane_diffuser_improved");
+        block(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), "wolfsbane_diffuser_long");
         withExistingParent(ModItems.WOLFSBANE_DIFFUSER_CORE.get(), ModItems.V.GARLIC_DIFFUSER_CORE.get()).texture("texture", "block/wolfsbane_diffuser_inside");
+        withExistingParent(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get(), ModItems.V.GARLIC_DIFFUSER_CORE.get()).texture("texture", "block/wolfsbane_diffuser_improved_inside");
     }
 
     @NotNull

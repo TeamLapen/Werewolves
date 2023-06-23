@@ -94,6 +94,7 @@
   "item.werewolves.jacaranda_chest_boat": "Jacaranda Boat with Chest",
   "item.werewolves.magic_chest_boat": "Magic Boat with Chest",
   "item.werewolves.wolfsbane_diffuser_core": "Wolfsbane Diffuser Core",
+  "item.werewolves.wolfsbane_diffuser_core_improved": "Wolfsbane Diffuser Core Improved",
   "__comment": "oil",
   "oil.werewolves.silver_oil_1": "Silver",
   "oil.werewolves.silver_oil_2": "Silver",
@@ -105,6 +106,7 @@
   "__comment": "item desc",
   "item.werewolves.crossbow_arrow_silver_bolt.tooltip": "Weakens werewolf entities",
   "item.werewolves.moon_charm.desc": "For Werewolf Minion",
+  "block.werewolves.wolfsbane_diffuser.tooltip": "Diffuses wolfsbane particles.",
   "__comment": "entities",
   "entity.minecraft.villager.werewolves.werewolf_expert": "Werewolf Expert",
   "entity.werewolves.human_werewolf": "Lycanthrope",
@@ -354,5 +356,8 @@
   "__comment": "subtitles",
   "subtitles.werewolves.entity.werewolf.bite": "Bite",
   "subtitles.werewolves.entity.werewolf.howl": "Werewolf Howling",
-  "subtitles.werewolves.entity.werewolf.growl": "Werewolf Growling"
+  "subtitles.werewolves.entity.werewolf.growl": "Werewolf Growling",
+  "__comment": "other",
+  "block.werewolves.wolfsbane_diffuser.improved": "Improved",
+  "block.werewolves.wolfsbane_diffuser.long": "Long"
 }
