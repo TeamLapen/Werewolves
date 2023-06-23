@@ -7,10 +7,10 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.event.CreativeModeTabEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Set;
 import java.util.function.Consumer;
 
 import static de.teamlapen.werewolves.core.ModBlocks.*;
@@ -20,21 +20,18 @@ import static de.teamlapen.werewolves.core.ModItems.*;
 @Mod.EventBusSubscriber(modid = REFERENCE.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WerewolvesCreativeTab {
 
-    private static final Consumer<CreativeModeTab.Builder> BUILDER = builder -> {
-        builder.title(Component.translatable("itemGroup.werewolves"))
+    public static CreativeModeTab.Builder builder(Set<ItemLike> allItems) {
+        return CreativeModeTab.builder()
+                .withTabsBefore(de.teamlapen.vampirism.core.ModItems.VAMPIRISM_TAB_KEY)
+                .title(Component.translatable("itemGroup.werewolves"))
                 .icon(() -> ModItems.LIVER.get().getDefaultInstance())
-                .displayItems(new WerewolvesDisplayItemGenerator());
+                .displayItems(new WerewolvesDisplayItemGenerator(allItems));
     };
-
-    @SubscribeEvent
-    public static void registerCreativeTab(CreativeModeTabEvent.Register event) {
-        WReference.CREATIVE_TAB = event.registerCreativeModeTab(new ResourceLocation(REFERENCE.MODID, "default"), BUILDER);
-    }
 
     public static class WerewolvesDisplayItemGenerator extends ModDisplayItemGenerator {
 
-        public WerewolvesDisplayItemGenerator() {
-            super(ModItems.getAllWerewolvesTabItems());
+        public WerewolvesDisplayItemGenerator(Set<ItemLike> allItems) {
+            super(allItems);
         }
 
         @Override

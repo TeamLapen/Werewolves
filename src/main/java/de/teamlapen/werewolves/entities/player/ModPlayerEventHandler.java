@@ -158,7 +158,7 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onWakeUp(PlayerWakeUpEvent event) {
-        if (!event.getEntity().level.isClientSide && event.getEntity().getEffect(ModEffects.LUPUS_SANGUINEM.get()) != null) {
+        if (!event.getEntity().level().isClientSide && event.getEntity().getEffect(ModEffects.LUPUS_SANGUINEM.get()) != null) {
             event.getEntity().getEffect(ModEffects.LUPUS_SANGUINEM.get()).applyEffect(event.getEntity());
             event.getEntity().removeEffect(ModEffects.LUPUS_SANGUINEM.get());
         }

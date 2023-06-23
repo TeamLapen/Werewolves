@@ -7,11 +7,14 @@ import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.items.*;
+import de.teamlapen.werewolves.misc.WerewolvesCreativeTab;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +22,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -37,8 +40,13 @@ import java.util.stream.Collectors;
 public class ModItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.Keys.ITEMS, REFERENCE.MODID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, REFERENCE.MODID);
+
     private static final Set<RegistryObject<? extends Item>> WEREWOLVES_TAB_ITEMS = new HashSet<>();
-    private static final Map<CreativeModeTab, Set<RegistryObject<? extends Item>>> CREATIVE_TAB_ITEMS = new HashMap<>();
+    private static final Map<ResourceKey<CreativeModeTab>, Set<RegistryObject<? extends Item>>> CREATIVE_TAB_ITEMS = new HashMap<>();
+
+    public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(REFERENCE.MODID, "default"));
+    public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register(CREATIVE_TAB_KEY.location().getPath(), () -> WerewolvesCreativeTab.builder(WEREWOLVES_TAB_ITEMS.stream().map(RegistryObject::get).collect(Collectors.toSet())).build());
 
     public static final RegistryObject<Item> SILVER_INGOT = register("silver_ingot", () -> new Item(props()));
     public static final RegistryObject<HoeItem> SILVER_HOE = register("silver_hoe", () -> new HoeItem(WUtils.SILVER_ITEM_TIER, -1, -1.0F, props()));
@@ -99,9 +107,9 @@ public class ModItems {
         }
     }
 
-    static <I extends Item> RegistryObject<I> register(final String name, CreativeModeTab tab, final Supplier<? extends I> sup) {
+    static <I extends Item> RegistryObject<I> register(final String name, ResourceKey<CreativeModeTab> tab, final Supplier<? extends I> sup) {
         RegistryObject<I> item = ITEMS.register(name, sup);
-        if (tab == VReference.VAMPIRISM_TAB) {
+        if (tab == CREATIVE_TAB_KEY) {
             WEREWOLVES_TAB_ITEMS.add(item);
         } else {
             CREATIVE_TAB_ITEMS.computeIfAbsent(tab, (a) -> new HashSet<>()).add(item);
@@ -110,11 +118,7 @@ public class ModItems {
     }
 
     static <I extends Item> RegistryObject<I> register(String name, Supplier<? extends I> sup) {
-        return register(name, WReference.CREATIVE_TAB, sup);
-    }
-
-    public static Set<ItemLike> getAllWerewolvesTabItems() {
-        return WEREWOLVES_TAB_ITEMS.stream().map(RegistryObject::get).collect(Collectors.toSet());
+        return register(name, CREATIVE_TAB_KEY, sup);
     }
 
     static {
@@ -123,6 +127,7 @@ public class ModItems {
 
     static void register(IEventBus bus) {
         ITEMS.register(bus);
+        CREATIVE_TABS.register(bus);
     }
 
     public static void remapItems(MissingMappingsEvent event) {
@@ -135,9 +140,9 @@ public class ModItems {
     }
 
     @ApiStatus.Internal
-    public static void registerOtherCreativeTabItems(CreativeModeTabEvent.BuildContents event) {
+    public static void registerOtherCreativeTabItems(BuildCreativeModeTabContentsEvent event) {
         CREATIVE_TAB_ITEMS.forEach((tab, items) -> {
-            if (event.getTab() == tab) {
+            if (event.getTabKey() == tab) {
                 items.forEach(item -> event.accept(item.get()));
             }
         });

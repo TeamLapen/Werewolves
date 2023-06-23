@@ -97,7 +97,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean matchesItem(Ingredient ingredient, ItemStack searchStack) {
-        return Arrays.stream(ingredient.getItems()).anyMatch(stack -> stack.sameItem(searchStack) && stack.areShareTagsEqual(searchStack));
+        return Arrays.stream(ingredient.getItems()).anyMatch(stack -> ItemStack.isSameItem(stack, searchStack) && stack.areShareTagsEqual(searchStack));
     }
 
     public static MutableComponent joinComponents(String delimiter, MutableComponent... components) {

@@ -126,7 +126,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public boolean onUpdate(IWerewolfPlayer werewolfPlayer) {
-        if (werewolfPlayer.getRepresentingPlayer().level.getGameTime() % 20 == 0) {
+        if (werewolfPlayer.getRepresentingPlayer().level().getGameTime() % 20 == 0) {
             checkDayNightModifier(werewolfPlayer);
         }
 
@@ -137,7 +137,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     protected boolean usesTransformationTime(LivingEntity player) {
-        return !Helper.isNight(player.level) && !FormHelper.isInWerewolfBiome(player.level, player.blockPosition());
+        return !Helper.isNight(player.level()) && !FormHelper.isInWerewolfBiome(player.level(), player.blockPosition());
     }
 
     protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
@@ -191,7 +191,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (player.getRepresentingPlayer().isPassenger() && !this.form.isHumanLike()) return false;
         boolean active = player.getActionHandler().isActionActive(this);
         if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active && !player.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL.get())) return false;
-        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level.getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_HEAVEN);
+        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level().getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_HEAVEN);
     }
 
     public boolean consumesWerewolfTime() {

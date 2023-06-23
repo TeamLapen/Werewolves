@@ -65,5 +65,6 @@
       "name": "hunter",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "werewolves:entities/human_werewolf"
 }

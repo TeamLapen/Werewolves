@@ -81,5 +81,6 @@
     "recipes": [
       "werewolves:weapontable/crossbow_arrow_silver_bolt"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

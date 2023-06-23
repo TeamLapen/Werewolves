@@ -30,5 +30,6 @@
     "recipes": [
       "minecraft:bone"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -15,6 +15,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -94,7 +95,7 @@ public class ModHUDOverlay extends ExtendedGui {
         }
 
         if (percentages > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) {
-            PoseStack stack = event.getPoseStack();
+            PoseStack stack = event.getGuiGraphics().pose();
             stack.pushPose();
             int w = (this.mc.getWindow().getGuiScaledWidth());
             int h = (this.mc.getWindow().getGuiScaledHeight());
@@ -102,9 +103,9 @@ public class ModHUDOverlay extends ExtendedGui {
             int bh = Math.round(h / (float) 4 * percentages / 100);
             int bw = Math.round(w / (float) 8 * percentages / 100);
 
-            this.fillGradient(stack, 0, 0, w, bh, color, 0x000);
+            event.getGuiGraphics().fillGradient(0, 0, w, bh, color, 0x000);
             if (!OptifineHandler.isShaders()) {
-                this.fillGradient(stack, 0, h - bh, w, h, 0x00000000, color);
+                event.getGuiGraphics().fillGradient(0, h - bh, w, h, 0x00000000, color);
             }
             this.fillGradient2(stack, 0, 0, bw, h, 0x000000, color);
             this.fillGradient2(stack, w - bw, 0, w, h, color, 0x00);
@@ -149,9 +150,7 @@ public class ModHUDOverlay extends ExtendedGui {
         }
     }
 
-    private void renderFangs(PoseStack matrixStack, int width, int height, @Nullable Entity entity) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, ICONS);
+    private void renderFangs(GuiGraphics graphics, int width, int height, @Nullable Entity entity) {
         int left = width / 2 - 9;
         int top = height / 2 - 6;
         boolean silver = false;
@@ -163,10 +162,8 @@ public class ModHUDOverlay extends ExtendedGui {
                 }
             }
         }
-        GL11.glEnable(GL11.GL_BLEND);
-        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-        blit(matrixStack, left, top, silver ? 30 : 15, 0, 15, 15, 256, 256);//other option is 18x18 - 307x307
-        GL11.glDisable(GL11.GL_BLEND);
+        graphics.setColor(1f, 1f, 1f, 1f);
+        graphics.blit(ICONS, left, top, silver ? 30 : 15, 0, 15, 15, 256, 256);//other option is 18x18 - 307x307
     }
 
     private void renderCrosshair(RenderGuiOverlayEvent.Pre event) {
@@ -175,7 +172,7 @@ public class ModHUDOverlay extends ExtendedGui {
             HitResult p = Minecraft.getInstance().hitResult;
             Entity entity = p instanceof EntityHitResult ? ((EntityHitResult) p).getEntity() : null;
             if (WerewolfPlayer.get(mc.player).canBite()) {
-                renderFangs(event.getPoseStack(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), entity);
+                renderFangs(event.getGuiGraphics(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), entity);
                 event.setCanceled(true);
             }
         }

@@ -10,7 +10,6 @@
     "FoodStatsAccessor",
     "GoalSelectorAccessor",
     "LivingEntityAccessor",
-    "LootTableManagerMixin",
     "MobEffectInstanceAccessor",
     "NearestAttackabletargetGoalAccessor",
     "ObjectiveCriteriaAccessor",

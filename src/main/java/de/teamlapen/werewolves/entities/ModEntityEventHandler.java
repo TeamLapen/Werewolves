@@ -124,7 +124,7 @@ public class ModEntityEventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOW) // lower priority so that vampirism does not override our ai changes
     public void onEntityJoinWorld(EntityJoinLevelEvent event) {
-        if (event.getEntity().level.isClientSide()) return;
+        if (event.getEntity().level().isClientSide()) return;
         if (event.getEntity() instanceof Villager) {
             TotemHelper.getTotemNearPos(((ServerLevel) event.getLevel()), event.getEntity().blockPosition(), true).ifPresent(totem -> {
                 if (WReference.WEREWOLF_FACTION.equals(totem.getControllingFaction())) {

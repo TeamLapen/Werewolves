@@ -129,9 +129,9 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public boolean wasKilled(@Nonnull ServerLevel p_241847_1_, @Nonnull LivingEntity p_241847_2_) {
-        super.wasKilled(p_241847_1_, p_241847_2_);
-        if (p_241847_2_ instanceof WerewolfAlphaEntity) {
+    public boolean killedEntity(ServerLevel level, LivingEntity entity) {
+        super.killedEntity(level, entity);
+        if (entity instanceof WerewolfAlphaEntity) {
             this.setHealth(this.getMaxHealth());
         }
         return true;

@@ -10,6 +10,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.LevelHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -33,21 +34,19 @@ public class ExpBar extends AbstractWidget {
     }
 
     @Override
-    public void renderWidget(@NotNull PoseStack stack, int mouseX, int mouseY, float partialTicks) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, ICON);
-        blit(stack, this.getX(), this.getY(), 10, 0, this.getWidth(), this.getHeight());
+    public void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        graphics.blit(ICON, this.getX(), this.getY(), 10, 0, this.getWidth(), this.getHeight());
 
         float perc = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc();
 
         int ySize = ((int) (111 * perc));
         int color = VampirismAPI.getFactionPlayerHandler(Minecraft.getInstance().player).map(IFactionPlayerHandler::getCurrentFaction).map(IFaction::getColor).orElse(Color.WHITE.getRGB());
-        RenderSystem.setShaderColor(((color >> 16) & 0xFF) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, 1.0F);
+        graphics.setColor(((color >> 16) & 0xFF) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, 1.0F);
 
-        blit(stack, this.getX() + 5, this.getY() + 6, 0, 0, 5, 111);
-        blit(stack, this.getX() + 5, this.getY() + 6 + (111 - ySize), 5, (111 - ySize), 5, ySize);
+        graphics.blit(ICON, this.getX() + 5, this.getY() + 6, 0, 0, 5, 111);
+        graphics.blit(ICON, this.getX() + 5, this.getY() + 6 + (111 - ySize), 5, (111 - ySize), 5, ySize);
 
-        RenderSystem.setShaderColor(1, 1, 1, 1);
+        graphics.setColor(1, 1, 1, 1);
     }
 
     @Override

@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.gui;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism.client.gui.screens.MinionStatsScreen;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -43,12 +44,12 @@ public class WerewolfMinionStatsScreen extends MinionStatsScreen<WerewolfMinionE
     }
 
     @Override
-    protected void renderStats(PoseStack mStack, WerewolfMinionEntity.WerewolfMinionData data) {
-        renderLevelRow(mStack, data.getLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL + 1);
-        renderStatRow(mStack, 0, this.inventoryLevel, Component.literal(String.valueOf(data.getInventorySize())), data.getInventoryLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_INVENTORY + 1);
-        renderStatRow(mStack, 1, this.healthLevel, Component.literal(String.valueOf(entity.getAttribute(Attributes.MAX_HEALTH).getBaseValue())), data.getHealthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_HEALTH + 1);
-        renderStatRow(mStack, 2, this.strengthLevel, Component.literal(String.valueOf(entity.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue())), data.getStrengthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_STRENGTH + 1);
-        renderStatRow(mStack, 3, this.resourceLevel, Component.literal((int) (Math.ceil((float) (data.getResourceEfficiencyLevel() + 1) / (WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1) * 100)) + "%"), data.getResourceEfficiencyLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1);
+    protected void renderStats(GuiGraphics graphics, WerewolfMinionEntity.WerewolfMinionData data) {
+        renderLevelRow(graphics, data.getLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL + 1);
+        renderStatRow(graphics, 0, this.inventoryLevel, Component.literal(String.valueOf(data.getInventorySize())), data.getInventoryLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_INVENTORY + 1);
+        renderStatRow(graphics, 1, this.healthLevel, Component.literal(String.valueOf(entity.getAttribute(Attributes.MAX_HEALTH).getBaseValue())), data.getHealthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_HEALTH + 1);
+        renderStatRow(graphics, 2, this.strengthLevel, Component.literal(String.valueOf(entity.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue())), data.getStrengthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_STRENGTH + 1);
+        renderStatRow(graphics, 3, this.resourceLevel, Component.literal((int) (Math.ceil((float) (data.getResourceEfficiencyLevel() + 1) / (WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1) * 100)) + "%"), data.getResourceEfficiencyLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1);
 
     }
 }

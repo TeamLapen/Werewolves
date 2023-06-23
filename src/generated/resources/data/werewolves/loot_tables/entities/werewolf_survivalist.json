@@ -90,5 +90,6 @@
       "name": "accessories",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "werewolves:entities/werewolf_survivalist"
 }
