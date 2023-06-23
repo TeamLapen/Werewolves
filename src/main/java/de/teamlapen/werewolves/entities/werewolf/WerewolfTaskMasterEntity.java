@@ -100,7 +100,7 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     @Nonnull
     @Override
     protected InteractionResult mobInteract(@Nonnull Player playerEntity, @Nonnull InteractionHand hand) {
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             if (Helper.isWerewolf(playerEntity) && this.interactor == null && this.processInteraction(playerEntity, this)) {
                 this.getNavigation().stop();
                 this.interactor = playerEntity;

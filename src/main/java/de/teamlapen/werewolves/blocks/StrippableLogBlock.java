@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.blocks;
 
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +18,7 @@ public class StrippableLogBlock extends LogBlock {
         this.stripped = strippedBlock;
     }
 
-    public StrippableLogBlock(MaterialColor color1, MaterialColor color2, Supplier<? extends LogBlock> strippedBlock) {
+    public StrippableLogBlock(MapColor color1, MapColor color2, Supplier<? extends LogBlock> strippedBlock) {
         super(color1, color2);
         this.stripped = strippedBlock;
     }

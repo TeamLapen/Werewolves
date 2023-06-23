@@ -2,7 +2,7 @@
   "type": "werewolves:mob_modifier",
   "conditions": [
     {
-      "condition": "minecraft:alternative",
+      "condition": "minecraft:any_of",
       "terms": [
         {
           "condition": "minecraft:entity_properties",

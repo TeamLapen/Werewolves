@@ -12,5 +12,6 @@
   ],
   "result": {
     "item": "werewolves:silver_boots"
-  }
+  },
+  "show_notification": true
 }

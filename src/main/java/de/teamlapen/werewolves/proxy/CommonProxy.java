@@ -20,7 +20,7 @@ public class CommonProxy implements Proxy {
 
     @Override
     public void handleAppearancePacket(ServerPlayer sender, ServerboundWerewolfAppearancePacket msg) {
-        Entity entity = sender.level.getEntity(msg.entityId());
+        Entity entity = sender.level().getEntity(msg.entityId());
         if (entity instanceof Player) {
             WerewolfPlayer.getOpt(((Player) entity)).ifPresent(werewolf -> {
                 werewolf.setSkinData(msg.form(), msg.data());

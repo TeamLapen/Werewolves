@@ -14,5 +14,6 @@
   "result": {
     "count": 3,
     "item": "werewolves:stripped_jacaranda_wood"
-  }
+  },
+  "show_notification": true
 }

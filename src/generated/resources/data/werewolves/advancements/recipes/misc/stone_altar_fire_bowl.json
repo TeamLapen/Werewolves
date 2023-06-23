@@ -41,5 +41,6 @@
     "recipes": [
       "werewolves:stone_altar_fire_bowl"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -130,7 +130,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         if (this.transformed == null) return this;
         ((Mob) this.transformed).copyPosition(this);
         ((Mob) this.transformed).revive();
-        this.level.addFreshEntity(((Mob) this.transformed));
+        this.level().addFreshEntity(((Mob) this.transformed));
         this.remove(RemovalReason.DISCARDED);
         ((Mob) this.transformed).setHealth(this.getHealth() / this.getMaxHealth() * ((Mob) this.transformed).getMaxHealth());
         return this.transformed;
@@ -167,7 +167,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     public void aiStep() {
         super.aiStep();
-        if (this.transformed != null && this.level.getGameTime() % 20 == 0) {
+        if (this.transformed != null && this.level().getGameTime() % 20 == 0) {
             switch (this.transformType) {
                 case TIME_LIMITED:
                     if (--this.transformedDuration <= 0) {
@@ -175,7 +175,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                     }
                     break;
                 case FULL_MOON:
-                    if (!Helper.isFullMoon(this.level)) {
+                    if (!Helper.isFullMoon(this.level())) {
                         this.transformBack();
                     }
                     break;
@@ -216,7 +216,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             ResourceLocation id = new ResourceLocation(nbt.getString("transformed_id"));
             EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(id);
             if (type != null) {
-                Entity entity = type.create(this.level);
+                Entity entity = type.create(this.level());
                 if (entity instanceof LivingEntity && entity instanceof WerewolfTransformable) {
                     ((LivingEntity) entity).readAdditionalSaveData(nbt.getCompound("transformed"));
                     this.transformed = ((WerewolfTransformable) entity);
@@ -296,7 +296,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                             player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.unavailable"), true);
                         }
                     } else {
-                        boolean freeSlot = MinionWorldData.getData(player.level).map(data -> data.getOrCreateController(fph)).map(PlayerMinionController::hasFreeMinionSlot).orElse(false);
+                        boolean freeSlot = MinionWorldData.getData(player.level()).map(data -> data.getOrCreateController(fph)).map(PlayerMinionController::hasFreeMinionSlot).orElse(false);
                         player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.available"), false);
                         if (heldItem.getItem() == ModItems.WEREWOLF_MINION_CHARM.get()) {
                             if (!freeSlot) {
@@ -323,7 +323,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public void convertToMinion(Player lord) {
         FactionPlayerHandler.getOpt(lord).ifPresent(fph -> {
             if (fph.getMaxMinions() > 0) {
-                MinionWorldData.getData(lord.level).map(w -> w.getOrCreateController(fph)).ifPresent(controller -> {
+                MinionWorldData.getData(lord.level()).map(w -> w.getOrCreateController(fph)).ifPresent(controller -> {
                     if (controller.hasFreeMinionSlot()) {
                         if (fph.getCurrentFaction() == this.getFaction()) {
                             WerewolfMinionEntity.WerewolfMinionData data = new WerewolfMinionEntity.WerewolfMinionData("Minion", this.getSkinType(), this.getEyeType(), this.hasGlowingEyes(), this.getForm());
@@ -332,7 +332,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                                 LOGGER.error("Failed to get minion slot");
                                 return;
                             }
-                            WerewolfMinionEntity minion = ModEntities.WEREWOLF_MINION.get().create(this.level);
+                            WerewolfMinionEntity minion = ModEntities.WEREWOLF_MINION.get().create(this.level());
                             minion.claimMinionSlot(id, controller);
                             minion.copyPosition(this);
                             minion.markAsConverted();

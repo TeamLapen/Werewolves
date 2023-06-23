@@ -16,7 +16,7 @@ public class DamageHandler extends de.teamlapen.vampirism.util.DamageHandler {
     }
 
     public static boolean hurtModded(@NotNull Entity entity, @NotNull WerewolvesDamageSourceFunction sourceFunc, float amount) {
-        return getDamageSource(entity.level, sourceFunc).map(source -> entity.hurt(source, amount)).orElse(false);
+        return getDamageSource(entity.level(), sourceFunc).map(source -> entity.hurt(source, amount)).orElse(false);
     }
 
     @FunctionalInterface

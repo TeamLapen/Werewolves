@@ -39,5 +39,6 @@
     "recipes": [
       "werewolves:silver_hoe"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

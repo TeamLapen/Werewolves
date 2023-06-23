@@ -6,12 +6,10 @@
   "mixins": [
     "ArmorItemAccessor",
     "BlockFamiliesAccessor",
-    "BlocksAccessor",
     "FireBlockAccessor",
     "FoodStatsAccessor",
     "GoalSelectorAccessor",
     "LivingEntityAccessor",
-    "LootTableManagerMixin",
     "MobEffectInstanceAccessor",
     "NearestAttackabletargetGoalAccessor",
     "ObjectiveCriteriaAccessor",

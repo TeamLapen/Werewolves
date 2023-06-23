@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.blocks;
 
+import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.werewolves.effects.WolfsbaneEffect;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
@@ -11,13 +12,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 
 import javax.annotation.Nonnull;
 
 public class WolfsbaneBlock extends FlowerBlock {
     public WolfsbaneBlock() {
-        super(() -> MobEffects.BLINDNESS, 5, Properties.of(Material.PLANT).strength(0f).noCollission().sound(SoundType.GRASS));
+        super(() -> MobEffects.BLINDNESS, 5, Properties.of().isViewBlocking(UtilLib::never).pushReaction(PushReaction.DESTROY).strength(0f).noCollission().sound(SoundType.GRASS));
     }
 
     @Override

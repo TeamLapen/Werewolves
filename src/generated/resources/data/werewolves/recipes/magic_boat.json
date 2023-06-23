@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "werewolves:magic_boat"
-  }
+  },
+  "show_notification": true
 }

@@ -12,5 +12,6 @@
   ],
   "result": {
     "item": "werewolves:magic_pressure_plate"
-  }
+  },
+  "show_notification": true
 }

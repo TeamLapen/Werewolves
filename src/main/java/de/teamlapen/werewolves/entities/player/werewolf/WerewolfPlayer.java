@@ -140,7 +140,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     public void setForm(WerewolfFormAction action, WerewolfForm form) {
         switchForm(form);
         this.lastFormAction = action;
-        if (!this.player.level.isClientSide) {
+        if (!this.player.level().isClientSide) {
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putString("form", this.form.getName())), true);
         }
     }
@@ -221,12 +221,12 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     syncToAll = true;
                     skillHandler.writeUpdateForClient(syncPacket);
                 }
-                if (this.player.level.getGameTime() % 10 == 0) {
+                if (this.player.level().getGameTime() % 10 == 0) {
                     if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
                         this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue(), 0, 1);
                         syncPacket.putDouble("transformationTime", this.specialAttributes.transformationTime);
                     }
-                    if (this.player.level.getGameTime() % 20 == 0) {
+                    if (this.player.level().getGameTime() % 20 == 0) {
                         if (Helper.isFullMoon(this.getRepresentingPlayer().getCommandSenderWorld())) {
                             if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(ModSkills.FREE_WILL.get())) {
                                 Optional<? extends IAction<IWerewolfPlayer>> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
@@ -269,7 +269,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
                 this.actionHandler.updateActions();
 
-                if (this.player.level.getGameTime() % 10 == 0) {
+                if (this.player.level().getGameTime() % 10 == 0) {
                     if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
                         this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue()), 0, 1);
                     }
@@ -421,7 +421,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     public boolean bite(int entityId) {
-        Entity entity = this.player.level.getEntity(entityId);
+        Entity entity = this.player.level().getEntity(entityId);
         if (entity instanceof LivingEntity) {
             return bite(((LivingEntity) entity));
         }

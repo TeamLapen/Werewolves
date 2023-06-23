@@ -18,5 +18,6 @@
       "name": "liver",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "werewolves:inject/entity/entities/villager"
 }

@@ -16,8 +16,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class SilverArmorItem extends ArmorItem implements ISilverItem {
 
-    public SilverArmorItem(EquipmentSlot slot, Item.Properties properties) {
-        super(WerewolvesArmorMaterials.SILVER, slot, properties);
+    public SilverArmorItem(ArmorItem.Type type, Item.Properties properties) {
+        super(WerewolvesArmorMaterials.SILVER, type, properties);
     }
 
     @Override

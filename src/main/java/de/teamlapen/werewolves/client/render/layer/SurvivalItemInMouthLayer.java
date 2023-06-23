@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.render.layer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +26,7 @@ public class SurvivalItemInMouthLayer<T extends LivingEntity, M extends Werewolf
     }
 
     @Override
-    protected void renderArmWithItem(@NotNull LivingEntity entity, ItemStack itemStack, ItemTransforms.@NotNull TransformType transformType, @NotNull HumanoidArm arm, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int p_117191_) {
+    protected void renderArmWithItem(@NotNull LivingEntity entity, ItemStack itemStack, ItemDisplayContext transformType, @NotNull HumanoidArm arm, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int p_117191_) {
         if (!itemStack.isEmpty()) {
             poseStack.pushPose();
 

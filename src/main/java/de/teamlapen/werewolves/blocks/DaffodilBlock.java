@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.blocks;
 
+import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,13 +13,13 @@ import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import org.jetbrains.annotations.NotNull;
 
 public class DaffodilBlock extends FlowerBlock {
 
     public DaffodilBlock() {
-        super(MobEffects.POISON, 9, Block.Properties.of(Material.PLANT).noCollission().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS));
+        super(() -> MobEffects.POISON, 9, Block.Properties.of().ignitedByLava().pushReaction(PushReaction.DESTROY).isViewBlocking(UtilLib::never).noCollission().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS));
     }
 
     @Override

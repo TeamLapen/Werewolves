@@ -28,5 +28,6 @@
     "recipes": [
       "werewolves:silver_leggings"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -47,5 +47,6 @@
       "name": "vampire_book",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "werewolves:entities/alpha_werewolf"
 }

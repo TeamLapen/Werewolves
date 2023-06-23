@@ -30,5 +30,6 @@
     "recipes": [
       "werewolves:stripped_jacaranda_wood"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -41,5 +41,6 @@
     "recipes": [
       "werewolves:alchemy_table/silver_oil_2"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

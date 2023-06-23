@@ -18,5 +18,6 @@
       "name": "bones",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "werewolves:inject/entity/entities/skeleton"
 }

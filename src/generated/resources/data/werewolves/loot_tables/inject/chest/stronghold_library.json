@@ -38,5 +38,6 @@
       "name": "accessories",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "werewolves:inject/chest/stronghold_library"
 }

@@ -15,7 +15,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.predicates.AlternativeLootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraftforge.common.ForgeHooks;
@@ -40,7 +40,7 @@ public class MobLootModifier extends LootModifier {
     private static final Codec<LootTable> LOOT_TABLE_CODEC = Codec.PASSTHROUGH.flatXmap(
             dynamic -> {
                 try {
-                    return DataResult.success(ForgeHooks.loadLootTable(LOOT_TABLE_SERIALIZER, new ResourceLocation("none"), getJson(dynamic), true, WUtils.LOOT_TABLE_MANAGER));
+                    return DataResult.success(ForgeHooks.loadLootTable(LOOT_TABLE_SERIALIZER, new ResourceLocation("none"), getJson(dynamic), true));
                 } catch (Exception e) {
                     LootModifierManager.LOGGER.warn("Unable to decode loot table", e);
                     return DataResult.error(e::getMessage);
@@ -81,7 +81,7 @@ public class MobLootModifier extends LootModifier {
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        this.lootTable.getRandomItemsRaw(context, createStackSplitter(context, generatedLoot::add));
+        this.lootTable.getRandomItemsRaw(context, createStackSplitter(context.getLevel(), generatedLoot::add));
         return generatedLoot;
     }
 
@@ -111,7 +111,7 @@ public class MobLootModifier extends LootModifier {
             if (this.entityTypes.isEmpty()) {
                 throw new IllegalStateException("You must specify target entities");
             }
-            return new MobLootModifier(new LootItemCondition[]{this.entityTypes.stream().map(type -> LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(type))).collect(AlternativeLootItemCondition.Builder::new, AlternativeLootItemCondition.Builder::or, AlternativeLootItemCondition.Builder::or).build()}, this.lootTable);
+            return new MobLootModifier(new LootItemCondition[]{this.entityTypes.stream().map(type -> LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(type))).collect(AnyOfCondition.Builder::new, AnyOfCondition.Builder::or, AnyOfCondition.Builder::or).build()}, this.lootTable);
         }
 
     }

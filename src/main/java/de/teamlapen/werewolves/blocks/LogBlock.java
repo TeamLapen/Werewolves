@@ -6,23 +6,26 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 
 public class LogBlock extends RotatedPillarBlock {
 
-    public static final WoodType JACARANDA = WoodType.register(WoodType.create("werewolves:jacaranda"));
-    public static final WoodType MAGIC = WoodType.register(WoodType.create("werewolves:magic"));
+    public static final BlockSetType JACARANDA_BLOCK_TYPE = BlockSetType.register(new BlockSetType("jacaranda"));
+    public static final BlockSetType MAGIC_BLOCK_TYPE = BlockSetType.register(new BlockSetType("magic"));
+    public static final WoodType JACARANDA = WoodType.register(new WoodType("werewolves:jacaranda", JACARANDA_BLOCK_TYPE));
+    public static final WoodType MAGIC = WoodType.register(new WoodType("werewolves:magic", MAGIC_BLOCK_TYPE));
 
     public LogBlock(Properties properties) {
         super(properties);
         ((FireBlockAccessor) Blocks.FIRE).invokeSetFireInfo_werewolves(this,5,5);
     }
 
-    public LogBlock(MaterialColor color1, MaterialColor color2) {
-        this(BlockBehaviour.Properties.of(Material.WOOD, (p_235431_2_) -> {
-            return p_235431_2_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
-        }).strength(2.0F).sound(SoundType.WOOD));
+    public LogBlock(MapColor color1, MapColor color2) {
+        this(BlockBehaviour.Properties.of().mapColor((p_152624_) -> {
+            return p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
+        }).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava());
     }
 }

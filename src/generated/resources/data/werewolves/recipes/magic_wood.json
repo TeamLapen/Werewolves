@@ -14,5 +14,6 @@
   "result": {
     "count": 3,
     "item": "werewolves:magic_wood"
-  }
+  },
+  "show_notification": true
 }

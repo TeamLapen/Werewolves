@@ -99,8 +99,8 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
             WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
             ((Mob) werewolf).setLastHurtByMob(this.getTarget());
         }
-        if (this.level.getGameTime() % 400 == 10) {
-            if (Helper.isFullMoon(this.level)) {
+        if (this.level().getGameTime() % 400 == 10) {
+            if (Helper.isFullMoon(this.level())) {
                 this.transformToWerewolf(TransformType.FULL_MOON);
             }
             this.rage -= 2;
@@ -211,7 +211,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
 
     @Override
     public boolean canTransform() {
-        return !this.level.isClientSide && Helper.isNight(this.level) && this.rage > 0;
+        return !this.level().isClientSide && Helper.isNight(this.level()) && this.rage > 0;
     }
 
     @Nonnull

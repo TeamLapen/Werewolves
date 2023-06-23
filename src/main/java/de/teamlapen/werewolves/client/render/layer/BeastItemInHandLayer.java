@@ -14,6 +14,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +36,7 @@ public class BeastItemInHandLayer<T extends Player, M extends WerewolfBeastModel
         boolean flag = arm == HumanoidArm.LEFT;
         poseStack.translate((double)((flag ? -2.5F : 2.5F) / 16.0F), -0.0625D, 0.0D);
         poseStack.scale(0.7f,0.7f,0.7f);
-        this.itemInHandRenderer.renderItem(entity, itemStack, ItemTransforms.TransformType.HEAD, false, poseStack, bufferSource, p_174523_);
+        this.itemInHandRenderer.renderItem(entity, itemStack, ItemDisplayContext.HEAD, false, poseStack, bufferSource, p_174523_);
         poseStack.popPose();
     }
 }

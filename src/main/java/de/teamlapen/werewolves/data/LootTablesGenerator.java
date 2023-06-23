@@ -22,7 +22,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -49,11 +48,6 @@ public class LootTablesGenerator extends LootTableProvider {
 
     public LootTablesGenerator(PackOutput output) {
         super(output, ModLootTables.getLootTables(), List.of(new SubProviderEntry(ModEntityLootTables::new, LootContextParamSets.ENTITY), new SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK), new SubProviderEntry(ChestLootTables::new, LootContextParamSets.CHEST), new SubProviderEntry(InjectLootTables::new, LootContextParamSets.ENTITY)));
-    }
-
-    @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, @Nonnull ValidationContext validationtracker) {
-        map.forEach((resourceLocation, lootTable) -> LootTables.validate(validationtracker, resourceLocation, lootTable));
     }
 
     private static class ModBlockLootTables extends BlockLootSubProvider {

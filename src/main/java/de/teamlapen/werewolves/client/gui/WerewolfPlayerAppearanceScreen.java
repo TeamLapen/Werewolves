@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.client.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import de.teamlapen.lib.lib.client.gui.components.SimpleButtonScrollWidget;
+import de.teamlapen.lib.lib.client.gui.components.HoverList;
 import de.teamlapen.vampirism.client.gui.screens.AppearanceScreen;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
@@ -11,6 +11,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.network.ServerboundWerewolfAppearancePacket;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.Tooltip;
@@ -24,6 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
 
@@ -42,8 +44,8 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     private Button beast;
     private Button survival;
 
-    private SimpleButtonScrollWidget eyeList;
-    private SimpleButtonScrollWidget skinList;
+    private HoverList<?> eyeList;
+    private HoverList<?> skinList;
     private ExtendedButton eyeButton;
     private ExtendedButton skinButton;
     private Checkbox glowingEyesButton;
@@ -143,17 +145,13 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
                 werewolf.setGlowingEyes(form, glowingEyes);
             }
         });
-        this.eyeList = this.addRenderableWidget(SimpleButtonScrollWidget.builder(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100).setComponents(REFERENCE.EYE_TYPE_COUNT, (type) -> {
-            return Component.translatable("text.werewolves.appearance.eye").append(" " + type);
-        }).setButtonClickConsumer(this::eye).setButtonHoverConsumer(this::hoverEye).build());
-        this.skinList = this.addRenderableWidget(SimpleButtonScrollWidget.builder(this.guiLeft + 20, this.guiTop + 50 + 19 + 20, 99, 80).setComponents(form.getSkinTypes(), (type) -> {
-            return Component.translatable("text.werewolves.appearance.skin").append(" " + type);
-        }).setButtonClickConsumer(this::skin).setButtonHoverConsumer(this::hoverSkin).build());
-        this.eyeButton = this.addRenderableWidget(new ExtendedButton(eyeList.getX(), eyeList.getY() - 20, eyeList.getWidth(), 20, Component.empty(), (b) -> {
-            this.setEyeListVisibility(!eyeList.visible);
+        this.eyeList = this.addRenderableWidget(HoverList.builder(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100).componentsWithClickAndHover(IntStream.range(0, REFERENCE.EYE_TYPE_COUNT).mapToObj(type -> Component.translatable("text.werewolves.appearance.eye").append(" " + type)).toList(), this::eye, this::hoverEye).build());
+        this.skinList = this.addRenderableWidget(HoverList.builder(this.guiLeft + 20, this.guiTop + 50 + 19 + 20, 99, 80).componentsWithClickAndHover(IntStream.range(0, form.getSkinTypes()).mapToObj(type -> Component.translatable("text.werewolves.appearance.skin").append(" " + type)).toList(), this::skin, this::hoverSkin).build());
+        this.eyeButton = this.addRenderableWidget(new ExtendedButton(eyeList.getLeft(), eyeList.getTop() - 20, eyeList.getWidth(), 20, Component.empty(), (b) -> {
+            this.setEyeListVisibility(!eyeList.isVisible);
         }));
-        this.skinButton = this.addRenderableWidget(new ExtendedButton(skinList.getX(), skinList.getY() - 20, skinList.getWidth(), 20, Component.empty(), (b) -> {
-            this.setSkinListVisibility(!skinList.visible);
+        this.skinButton = this.addRenderableWidget(new ExtendedButton(skinList.getLeft(), skinList.getTop() - 20, skinList.getWidth(), 20, Component.empty(), (b) -> {
+            this.setSkinListVisibility(!skinList.isVisible);
         }));
         this.setEyeListVisibility(false);
         this.setSkinListVisibility(false);
@@ -190,11 +188,11 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     }
 
     @Override
-    public void render(@Nonnull PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         this.renderForm = true;
-        super.render(stack, mouseX, mouseY, partialTicks);
-        this.eyeList.render(stack, mouseX, mouseY, partialTicks);
-        this.skinList.render(stack, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.eyeList.render(graphics, mouseX, mouseY, partialTicks);
+        this.skinList.render(graphics, mouseX, mouseY, partialTicks);
         this.renderForm = false;
     }
 
@@ -220,16 +218,18 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     }
 
     private void setEyeListVisibility(boolean show) {
-        this.eyeButton.setMessage(Component.translatable("text.werewolves.appearance.eye").append(" " + this.eyeType));
-        this.eyeList.visible = show;
+        this.eyeButton.setMessage(Component.translatable("text.werewolves.appearance.eye").append(" " + (this.eyeType + 1)));
+        this.eyeList.isVisible = show;
         this.skinButton.visible = !show;
-        if (show) this.skinList.visible = false;
+        this.glowingEyesButton.visible = !show;
+        if (show) this.skinList.isVisible = false;
     }
 
     private void setSkinListVisibility(boolean show) {
-        this.skinButton.setMessage(Component.translatable("text.werewolves.appearance.skin").append(" " + this.skinType));
-        this.skinList.visible = show;
-        if (show) this.eyeList.visible = false;
+        this.skinButton.setMessage(Component.translatable("text.werewolves.appearance.skin").append(" " + (this.skinType + 1)));
+        this.skinList.isVisible = show;
+        this.glowingEyesButton.visible = !show;
+        if (show) this.eyeList.isVisible = false;
     }
 
     private void eye(int eyeType) {

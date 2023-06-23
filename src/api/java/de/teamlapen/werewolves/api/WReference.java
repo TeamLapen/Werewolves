@@ -8,6 +8,4 @@ import net.minecraft.world.item.CreativeModeTab;
 public class WReference {
     public static MobType WEREWOLF_CREATURE_ATTRIBUTES;
     public static IPlayableFaction<IWerewolfPlayer> WEREWOLF_FACTION;
-    public static CreativeModeTab CREATIVE_TAB;
-
 }

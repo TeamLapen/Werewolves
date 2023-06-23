@@ -1,4 +1,4 @@
-Werewolves for Minecraft 1.18 - Latest branch
+Werewolves for Minecraft 1.20 - Development branch
 ====
 
 

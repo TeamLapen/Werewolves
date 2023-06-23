@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[44,)"
+loaderVersion = "[47,)"
 issueTrackerURL = "https://github.com/TeamLapen/Werewolves/issues"
 license = "LGPL-3.0"
 

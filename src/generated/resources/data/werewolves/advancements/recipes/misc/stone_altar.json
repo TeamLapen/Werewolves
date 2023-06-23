@@ -30,5 +30,6 @@
     "recipes": [
       "werewolves:stone_altar"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -93,8 +93,8 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
                 WerewolfTransformable werewolf = this.transformToWerewolf(TransformType.TIME_LIMITED);
                 ((Mob) werewolf).setLastHurtByMob(this.getTarget());
             }
-            if (this.level.getGameTime() % 400 == 10) {
-                if (Helper.isFullMoon(this.level)) {
+            if (this.level().getGameTime() % 400 == 10) {
+                if (Helper.isFullMoon(this.level())) {
                     this.transformToWerewolf(TransformType.FULL_MOON);
                 }
                 if (rage > 10) {

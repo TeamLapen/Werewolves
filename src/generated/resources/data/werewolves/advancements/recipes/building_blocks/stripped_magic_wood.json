@@ -30,5 +30,6 @@
     "recipes": [
       "werewolves:stripped_magic_wood"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
