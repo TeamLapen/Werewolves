@@ -236,7 +236,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                             }
                         }
 
-                        if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(ModSkills.WATER_LOVER.get())) {
+                        if (this.player.isInWater() && this.player.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) && !this.skillHandler.isSkillEnabled(ModSkills.WATER_LOVER.get())) {
                             this.player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 50, 0, true, true));
                         }
                     }
@@ -268,7 +268,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     }
                 }
 
-                if (this.player.tickCount % de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level, true)) {
+                if (this.player.tickCount % de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level(), true)) {
                     this.player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(this.player, de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS + 10));
                 }
             } else {

@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -45,7 +45,7 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
     private final Type type;
 
     public WolfsbaneDiffuserBlock(Type type) {
-        super(Properties.of(Material.STONE).strength(3f).sound(SoundType.STONE).noOcclusion());
+        super(Properties.of().mapColor(MapColor.STONE).strength(3f).sound(SoundType.STONE).noOcclusion());
         this.type = type;
     }
 
@@ -80,9 +80,7 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        WolfsbaneDiffuserBlockEntity tile = new WolfsbaneDiffuserBlockEntity(pPos, pState);
-        tile.initiateBootTimer();
-        return tile;
+        return new WolfsbaneDiffuserBlockEntity(pPos, pState);
     }
 
     @Override
@@ -137,7 +135,7 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
     }
 
     public enum Type implements StringRepresentable {
-        NORMAL("normal"), IMPROVED("improved");
+        NORMAL("normal"), IMPROVED("improved"), LONG("long");
 
 
         private final String name;
