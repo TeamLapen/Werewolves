@@ -11,6 +11,7 @@ public class BalanceConfig {
     public final Potions POTIONS;
     public final Util UTIL;
     public final Oils OILS;
+    public final Blocks BLOCKS;
 
     BalanceConfig(ForgeConfigSpec.Builder builder) {
 
@@ -34,6 +35,9 @@ public class BalanceConfig {
         builder.pop();
         builder.push("oils");
         OILS = new Oils(builder);
+        builder.pop();
+        builder.push("blocks");
+        BLOCKS = new Blocks(builder);
         builder.pop();
     }
 
@@ -375,6 +379,25 @@ public class BalanceConfig {
         public Oils(ForgeConfigSpec.Builder builder) {
             this.silverOil1Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil1Duration", 15, 1, Integer.MAX_VALUE);
             this.silverOil2Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil2Duration", 40, 1, Integer.MAX_VALUE);
+        }
+    }
+
+    public static class Blocks {
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserNormalDist;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserLongDist;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserImprovedDist;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserNormalDuration;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserLongDuration;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserImprovedDuration;
+
+        public Blocks(ForgeConfigSpec.Builder builder) {
+            this.wolfsbaneDiffuserNormalDist = builder.comment("The chunk radius a normal diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserNormalDist", 1, 0, 5);
+            this.wolfsbaneDiffuserLongDist = builder.comment("The chunk radius a long diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserLongDist", 0, 0, 5);
+            this.wolfsbaneDiffuserImprovedDist = builder.comment("The chunk radius a improved diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserImprovedDist", 2, 0, 5);
+
+            this.wolfsbaneDiffuserNormalDuration = builder.comment("The duration in seconds a normal diffusor is active per charge").defineInRange("wolfsbaneDiffuserNormalDuration", 600, 1, Integer.MAX_VALUE);
+            this.wolfsbaneDiffuserLongDuration = builder.comment("The duration in seconds a long diffusor is active per charge").defineInRange("wolfsbaneDiffuserLongDuration", 1200, 1, Integer.MAX_VALUE);
+            this.wolfsbaneDiffuserImprovedDuration = builder.comment("The duration in seconds a improved diffusor is active per charge").defineInRange("wolfsbaneDiffuserImprovedDuration", 600, 1, Integer.MAX_VALUE);
         }
     }
 }

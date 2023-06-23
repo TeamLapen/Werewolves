@@ -11,22 +11,35 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_garlic_diffuser": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "werewolves:wolfsbane_diffuser_normal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:wolfsbane_diffuser_normal"
+        "recipe": "minecraft:wolfsbane_diffuser_improved"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
+      "has_garlic_diffuser",
       "has_diamond",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:wolfsbane_diffuser_normal"
+      "minecraft:wolfsbane_diffuser_improved"
     ]
   },
   "sends_telemetry_event": false

@@ -84,6 +84,8 @@ public class ModTagsProvider {
             ;
             this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                     .add(ModBlocks.WOLFSBANE_DIFFUSER.get())
+                    .add(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get())
+                    .add(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get())
             ;
             this.tag(BlockTags.MINEABLE_WITH_AXE)
             ;
@@ -95,6 +97,8 @@ public class ModTagsProvider {
             ;
             this.tag(BlockTags.NEEDS_DIAMOND_TOOL)
                     .add(ModBlocks.WOLFSBANE_DIFFUSER.get())
+                    .add(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get())
+                    .add(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get())
             ;
         }
     }

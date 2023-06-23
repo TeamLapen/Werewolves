@@ -52,6 +52,8 @@ public class RecipeGenerator extends VanillaRecipeProvider {
         TagKey<Item> diamond = Tags.Items.GEMS_DIAMOND;
         TagKey<Item> obsidian = Tags.Items.OBSIDIAN;
         ItemLike wolfsbane_diffuser_core = ModItems.WOLFSBANE_DIFFUSER_CORE.get();
+        ItemLike wolfsbane_diffuser_core_improved = ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get();
+        ItemLike wolfsbane_diffuser = ModBlocks.WOLFSBANE_DIFFUSER.get();
         TagKey<Item> wool = ItemTags.WOOL;
         ItemLike wolfsbane = ModBlocks.WOLFSBANE.get();
 
@@ -140,6 +142,9 @@ public class RecipeGenerator extends VanillaRecipeProvider {
         chestBoat(consumer, ModItems.MAGIC_CHEST_BOAT.get(), ModBlocks.MAGIC_PLANKS.get());
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core).unlockedBy("has_diamond", has(diamond)).save(consumer, "wolfsbane_diffuser_normal");
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER_LONG.get()).pattern("XXX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core).unlockedBy("has_garlic_diffuser", has(wolfsbane_diffuser)).unlockedBy("has_diamond", has(diamond)).save(consumer, "wolfsbane_diffuser_long");
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core_improved).unlockedBy("has_garlic_diffuser", has(wolfsbane_diffuser)).unlockedBy("has_diamond", has(diamond)).save(consumer, "wolfsbane_diffuser_improved");
         AlchemicalCauldronRecipeBuilder.cauldronRecipe(ModItems.WOLFSBANE_DIFFUSER_CORE.get()).withIngredient(wool).withFluid(wolfsbane).withSkills(HunterSkills.GARLIC_DIFFUSER.get()).build(consumer, modId("wolfsbane_diffuser_core"));
+        AlchemicalCauldronRecipeBuilder.cauldronRecipe(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get()).withIngredient(wolfsbane_diffuser_core).withFluid(wolfsbane).withSkills(HunterSkills.GARLIC_DIFFUSER_IMPROVED.get()).experience(2.0f).build(consumer, modId("wolfsbane_diffuser_core_improved"));
     }
 }

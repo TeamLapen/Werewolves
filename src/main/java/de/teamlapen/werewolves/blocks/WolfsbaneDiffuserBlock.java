@@ -1,9 +1,13 @@
 package de.teamlapen.werewolves.blocks;
 
+import de.teamlapen.vampirism.blocks.GarlicDiffuserBlock;
+import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.blocks.entity.WolfsbaneDiffuserBlockEntity;
+import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModTiles;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
@@ -31,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
 
@@ -51,7 +56,12 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable BlockGetter pLevel, @NotNull List<Component> pTooltip, @NotNull TooltipFlag pFlag) {
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+        switch (this.type) {
+            case LONG, IMPROVED -> pTooltip.add(Component.translatable(getDescriptionId() + "." + this.type.getSerializedName()).withStyle(ChatFormatting.AQUA));
+        }
+        pTooltip.add(Component.translatable("block.werewolves.wolfsbane_diffuser.tooltip").withStyle(ChatFormatting.GRAY));
+        int c = VampirismConfig.BALANCE.hsGarlicDiffuserEnhancedDist == null /* During game start config is not yet set*/ ? 1 : 1 + 2 * type.range.get();
+        pTooltip.add(Component.translatable("block.vampirism.garlic_diffuser.tooltip2", c, c).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
@@ -63,12 +73,12 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
     }
 
     @Override
-    public String getDescriptionId() {
+    public @NotNull String getDescriptionId() {
         return "block.werewolves.wolfsbane_diffuser";
     }
 
     @Override
-    public VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
+    public @NotNull VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
         return shape;
     }
 
@@ -134,18 +144,20 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
         return createTickerHelper(type, ModTiles.WOLFSBANE_DIFFUSER.get(), WolfsbaneDiffuserBlockEntity::serverTick);
     }
 
+    @SuppressWarnings({"Convert2MethodRef", "FunctionalExpressionCanBeFolded"})
     public enum Type implements StringRepresentable {
-        NORMAL("normal"), IMPROVED("improved"), LONG("long");
-
+        NORMAL("normal", () -> WerewolvesConfig.BALANCE.BLOCKS.wolfsbaneDiffuserNormalDuration.get() * 20, () -> WerewolvesConfig.BALANCE.BLOCKS.wolfsbaneDiffuserNormalDist.get()),
+        IMPROVED("improved", () -> WerewolvesConfig.BALANCE.BLOCKS.wolfsbaneDiffuserImprovedDuration.get() * 20, () -> WerewolvesConfig.BALANCE.BLOCKS.wolfsbaneDiffuserImprovedDist.get()),
+        LONG("long", () -> WerewolvesConfig.BALANCE.BLOCKS.wolfsbaneDiffuserLongDuration.get() * 20, () -> WerewolvesConfig.BALANCE.BLOCKS.wolfsbaneDiffuserLongDist.get());
 
         private final String name;
+        public final Supplier<Integer> fuelTime;
+        public final Supplier<Integer> range;
 
-        Type(String name) {
+        Type(String name, Supplier<Integer> fuelTime, Supplier<Integer> range) {
             this.name = name;
-        }
-
-        public @NotNull String getName() {
-            return this.getSerializedName();
+            this.fuelTime = fuelTime;
+            this.range = range;
         }
 
         @NotNull

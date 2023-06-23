@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "werewolves:block/wolfsbane_diffuser"
+      "model": "werewolves:block/wolfsbane_diffuser_normal"
     }
   }
 }

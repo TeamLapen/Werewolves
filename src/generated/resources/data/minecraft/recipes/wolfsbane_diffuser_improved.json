@@ -12,7 +12,7 @@
       "tag": "forge:gems/diamond"
     },
     "Z": {
-      "item": "werewolves:wolfsbane_diffuser_core"
+      "item": "werewolves:wolfsbane_diffuser_core_improved"
     }
   },
   "pattern": [
@@ -21,7 +21,7 @@
     "OOO"
   ],
   "result": {
-    "item": "werewolves:wolfsbane_diffuser_normal"
+    "item": "werewolves:wolfsbane_diffuser_improved"
   },
   "show_notification": true
 }

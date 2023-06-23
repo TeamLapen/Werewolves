@@ -96,17 +96,11 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
     }
     
     private int radius() {
-        return switch (this.type) {
-            case NORMAL, LONG -> 1;
-            case IMPROVED -> 2;
-        };
+        return this.type.range.get();
     }
 
     public void onFueled() {
-        this.setFueledTime(switch (this.type) {
-            case NORMAL, IMPROVED -> FUEL_DURATION;
-            case LONG -> FUEL_DURATION * 2;
-        });
+        this.setFueledTime(this.type.fuelTime.get());
         this.initiateBootTimer();
         this.setChanged();
     }

@@ -117,6 +117,8 @@ public class LootTablesGenerator extends LootTableProvider {
             this.dropSelf(ModBlocks.JACARANDA_SAPLING.get());
             this.dropSelf(ModBlocks.MAGIC_SAPLING.get());
             this.dropSelf(ModBlocks.WOLFSBANE_DIFFUSER.get());
+            this.dropSelf(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get());
+            this.dropSelf(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get());
         }
 
         @Nonnull
