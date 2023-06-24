@@ -524,7 +524,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     public float getDigSpeed() {
-        return this.getSkillHandler().isSkillEnabled(ModSkills.ENHANCED_DIGGER.get()) ? 7.0F : this.getSkillHandler().isSkillEnabled(ModSkills.DIGGER.get()) ? 5.0F : 3.0F;
+        return this.getSkillHandler().isSkillEnabled(ModSkills.ENHANCED_DIGGER.get()) ? 6.0F : this.getSkillHandler().isSkillEnabled(ModSkills.DIGGER.get()) ? 4.0F : 2.0F;
     }
 
     @Override

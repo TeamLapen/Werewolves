@@ -37,10 +37,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Redirect(method = "getDigSpeed(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)F", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;getDestroySpeed(Lnet/minecraft/world/level/block/state/BlockState;)F"))
     private float werewolfDigSpeed(Inventory inventory, BlockState state) {
         float f = this.inventory.getDestroySpeed(state);
-        if (f == 1.0F && Helper.isWerewolf((Player)(Object)this)) {
+        if (Helper.isWerewolf((Player)(Object)this)) {
             ItemStack stack = this.inventory.player.getMainHandItem();
             if (stack.isEmpty()) {
-                return WerewolfPlayer.getOpt((Player)(Object)this).map(WerewolfPlayer::getDigSpeed).orElse(1.0F);
+                return Math.max(f, WerewolfPlayer.getOpt((Player)(Object)this).map(WerewolfPlayer::getDigSpeed).orElse(1.0F));
             }
         }
         return f;
