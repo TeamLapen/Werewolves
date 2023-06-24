@@ -11,4 +11,8 @@ public interface IWerewolfPlayer extends IWerewolf, IFactionPlayer<IWerewolfPlay
     default @NotNull IPlayableFaction<IWerewolfPlayer> getFaction() {
         return WReference.WEREWOLF_FACTION;
     }
+
+    void checkArmorStatus();
+
+    boolean isArmorUnequipped();
 }
