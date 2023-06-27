@@ -71,10 +71,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
 
-    public static final Capability<IWerewolfPlayer> CAP = CapabilityManager.get(new Test());
-
-    private static class  Test extends CapabilityToken<IWerewolfPlayer> {
-    }
+    public static final Capability<IWerewolfPlayer> CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
     private void applyEntityAttributes() {
         try {
@@ -520,11 +517,11 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     public Tier getDigDropTier() {
-        return this.getSkillHandler().isSkillEnabled(ModSkills.ENHANCED_DIGGER.get()) ? Tiers.DIAMOND : this.getSkillHandler().isSkillEnabled(ModSkills.DIGGER.get())? Tiers.IRON : Tiers.STONE;
+        return Tiers.values()[this.specialAttributes.diggingLevel];
     }
 
     public float getDigSpeed() {
-        return this.getSkillHandler().isSkillEnabled(ModSkills.ENHANCED_DIGGER.get()) ? 6.0F : this.getSkillHandler().isSkillEnabled(ModSkills.DIGGER.get()) ? 4.0F : 2.0F;
+        return this.specialAttributes.diggingSpeed;
     }
 
     @Override

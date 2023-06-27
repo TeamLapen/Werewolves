@@ -53,9 +53,16 @@ public class ModSkills {
     public static final RegistryObject<ISkill<IWerewolfPlayer>> SIXTH_SENSE = SKILLS.register("sixth_sense", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> HEALTH_REG = SKILLS.register("health_reg", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> THICK_FUR = SKILLS.register("thick_fur", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> DIGGER = SKILLS.register("digger", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get, HUMAN_FORM::get));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> ENHANCED_DIGGER = SKILLS.register("enhanced_digger", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get, HUMAN_FORM::get));
-
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> DIGGER = SKILLS.register("digger", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get, HUMAN_FORM::get)
+            .setToggleActions(
+                    (p) -> {((WerewolfPlayer) p).getSpecialAttributes().diggingLevel += 1; ((WerewolfPlayer) p).getSpecialAttributes().diggingSpeed += 2; },
+                    (p) -> {((WerewolfPlayer) p).getSpecialAttributes().diggingLevel -= 1; ((WerewolfPlayer) p).getSpecialAttributes().diggingSpeed -= 2; }
+            ));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> ENHANCED_DIGGER = SKILLS.register("enhanced_digger", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get, HUMAN_FORM::get)
+            .setToggleActions(
+                    (p) -> {((WerewolfPlayer) p).getSpecialAttributes().diggingLevel += 1; ((WerewolfPlayer) p).getSpecialAttributes().diggingSpeed += 2; },
+                    (p) -> {((WerewolfPlayer) p).getSpecialAttributes().diggingLevel -= 1; ((WerewolfPlayer) p).getSpecialAttributes().diggingSpeed -= 2; }
+            ));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> MINION_STATS_INCREASE = SKILLS.register("werewolf_minion_stats_increase", () -> new SimpleWerewolfSkill.LordWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> MINION_COLLECT = SKILLS.register("werewolf_minion_collect", () -> new SimpleWerewolfSkill.LordWerewolfSkill(true));
 

@@ -6,4 +6,6 @@ public class WerewolfPlayerSpecialAttributes {
     public boolean leap;
     public int biteTicks;
     public double transformationTime;
+    public int diggingLevel = 1;
+    public float diggingSpeed = 2f;
 }
