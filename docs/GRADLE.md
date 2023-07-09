@@ -25,18 +25,28 @@ dependencies {
 
 #### Choose a version
 
-`${mc_version}` gets replaced by the current Minecraft version. (i.e. `1.16.5`)
-`${vampirism_version}` gets replaced by the version of Vampirism you want to use (i.e `1.8.0`)
-`${werewolves_version}` gets replaced by the version of Werewolves you want to use (i.e `0.5.6`)
+`${mc_version}` gets replaced by the current Minecraft version. (i.e. `1.19.4`)
+`${vampirism_version}` gets replaced by the version of Vampirism you want to use (i.e `1.9.0`)
+`${werewolves_version}` gets replaced by the version of Werewolves you want to use (i.e `1.1.0.0`)
 
 These properties can be set in a file named `gradle.properties`, placed in the same directory as your `build.gradle`
 file. Example `gradle.properties`:
 
 ```
-mc_version=11.16.5
-vampirism_version=1.8.0
-werewolves_version=0.5.6
+mc_version=1.19.4
+vampirism_version=1.9.0
+werewolves_version=1.1.0.0
 ```
+#### Enable mixin support
+
+Werewolves and Vampirism use mixins. To Apply them in a deobfuscated environment you need to enable it for the runconfigurations.
+This can be done by adding the following to each run configuration:
+```gradle
+property 'mixin.env.remapRefMap', 'true'
+property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+```
+
+Make sure you regenerate the run configurations after changing this.
 
 #### Rerun Gradle setup commands
 
@@ -47,10 +57,10 @@ If you would like to compile your own versions or even contribute to Werewolves'
 The following example instructions will setup IntelliJ (Free community edition or Non-Free Ultimate edition). If you already have a setup or want to use another IDE, jump [here](#setting-up-werewolves-in-another-environment).
 
 #### IntelliJ
-1. Make sure you have the Java **JDK** (minimum Java 8) as well as the IntelliJ IDE installed.
+1. Make sure you have the Java **JDK** (minimum Java 17) as well as the IntelliJ IDE installed.
 2. If you want to contribute to the development (via pull requests), fork Werewolves on Github.
 3. (Optionally) Install Git, so you can clone the repository and push changes.
-4. Clone (`git clone https://github.com/TeamLapen/Werewolves`) or [download](https://github.com/TeamLapen/Werewolves/archive/14) Werewolves to a new "Werewolves" folder.
+4. Clone (`git clone https://github.com/TeamLapen/Werewolves`) or download the zip file of the repository to a new "Werewolves" folder.
 5. In IntelliJ use `New...` -> `New from Version Control` -> Fill out repo, directory and name
 6. After cloning is done IntelliJ offers you to import a unlinked Gradle Project. Click this.
 7. Run `genIntellijRuns` and edit the run config to use the correct module
