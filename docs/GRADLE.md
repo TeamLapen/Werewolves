@@ -6,7 +6,7 @@ You should be able to include it with the following in your `build.gradle`:
 repositories {
     //Maven repo for Vampirism
     maven {
-        url = "https://maxanier.de/maven2"
+        url = "https://maven.maxanier.de/releases"
     }
     
     //Maven repo for Werewolves
@@ -18,8 +18,8 @@ repositories {
     }
 }
 dependencies {
-    implementation "de.teamlapen.vampirism:Vampirism:${mc_version}-${vampirism_version}"
-    implementation "de.teamlapen.werewolves:Werewolves:${mc_version}-${werewolves_version}"
+    implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${mc_version}-${vampirism_version}")
+    implementation fg.deobf("de.teamlapen.werewolves:Werewolves:${mc_version}-${werewolves_version}")
 }
 ```
 
