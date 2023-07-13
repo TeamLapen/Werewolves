@@ -17,6 +17,7 @@
     "TargetingConditionsAccessor",
     "VanillaBlockLootAccessor",
     "entity.MixinVillagerEntity",
+    "entity.MobMixin",
     "entity.PlayerAccessor",
     "entity.PlayerEntityMixin"
   ],
