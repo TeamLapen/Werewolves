@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public interface IWerewolfPlayer extends IWerewolf, IFactionPlayer<IWerewolfPlayer> {
@@ -12,7 +13,5 @@ public interface IWerewolfPlayer extends IWerewolf, IFactionPlayer<IWerewolfPlay
         return WReference.WEREWOLF_FACTION;
     }
 
-    void checkArmorStatus();
-
-    boolean isArmorUnequipped();
+    boolean canWearArmor(ItemStack stack);
 }
