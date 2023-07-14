@@ -28,9 +28,9 @@ public abstract class InventoryMenuSlotMixin {
     }
 
     @Inject(method = "mayPlace(Lnet/minecraft/world/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
-    private void mayPlace(ItemStack p_39746_, CallbackInfoReturnable<Boolean> cir) {
-        if (!(p_39746_.getItem() instanceof IWerewolfArmor)) {
-            WerewolfPlayer.getOpt(this.player).filter(IWerewolfPlayer::isArmorUnequipped).ifPresent(s -> cir.setReturnValue(false));
+    private void mayPlace(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (!(stack.getItem() instanceof IWerewolfArmor)) {
+            WerewolfPlayer.getOpt(this.player).filter(werewolf -> !werewolf.canWearArmor(stack)).ifPresent(s -> cir.setReturnValue(false));
         }
     }
 }
