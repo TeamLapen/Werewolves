@@ -175,9 +175,9 @@ public class StoneAltarTileEntity extends InventoryTileEntity implements ITickab
             werewolf.getLevelHandler().reset();
             werewolf.syncLevelHandler();
         });
-        FactionPlayerHandler handler = FactionPlayerHandler.get(this.player);
-        int lvl = handler.getCurrentLevel() + 1;
-        handler.setFactionLevel(WReference.WEREWOLF_FACTION, lvl);
+        FactionPlayerHandler.getOpt(this.player).ifPresent(handler -> {
+            handler.setFactionLevel(WReference.WEREWOLF_FACTION, handler.getCurrentLevel() + 1);
+        });
     }
 
     public void consumeItems() {
