@@ -1,0 +1,14 @@
+project_id: "427488"
+api_token_env: CROWDIN_KEY
+base_path: "."
+base_url: "https://api.crowdin.com"
+
+preserve_hierarchy: true
+
+files: [
+  {
+    source: "src/main/resources/assets/werewolves/lang/en_us.json",
+    translation: "src/main/resources/assets/werewolves/lang/%locale_with_underscore%.json",
+    dest: "main_translations.json",
+  }
+]
