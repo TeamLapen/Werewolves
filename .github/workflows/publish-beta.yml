@@ -25,7 +25,14 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: 'gradle'
+      - name: Download translations
+        uses: crowdin/github-action@v1
+        with:
+          download_translations: true
+          upload_sources: false
+        env:
+          CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}
       - name: Publish
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
-          arguments: build publish curseforge modrinth -PMAVEN_URL=${{ secrets.MAVEN_URL }} -PMAVEN_USER=${{ secrets.MAVEN_USER }} -PMAVEN_TOKEN=${{ secrets.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ secrets.CURSEFORGE_API }} -PCROWDIN_KEY=${{ secrets.CROWDIN_KEY }} -PMODRINTH_API=${{ secrets.MODRINTH_API }} -Pbeta=${{ github.event.inputs.version }}
+          arguments: build publish curseforge modrinth -PMAVEN_URL=${{ secrets.MAVEN_URL }} -PMAVEN_USER=${{ secrets.MAVEN_USER }} -PMAVEN_TOKEN=${{ secrets.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ secrets.CURSEFORGE_API }} -PMODRINTH_API=${{ secrets.MODRINTH_API }} -Pbeta=${{ github.event.inputs.version }}
