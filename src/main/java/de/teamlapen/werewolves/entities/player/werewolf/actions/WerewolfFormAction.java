@@ -104,6 +104,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
         werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
+        this.removeArmorModifier(werewolfPlayer);
     }
 
     @Override
