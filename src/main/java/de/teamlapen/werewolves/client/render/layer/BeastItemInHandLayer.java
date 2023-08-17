@@ -39,4 +39,10 @@ public class BeastItemInHandLayer<T extends Player, M extends WerewolfBeastModel
         this.itemInHandRenderer.renderItem(entity, itemStack, ItemDisplayContext.HEAD, false, poseStack, bufferSource, p_174523_);
         poseStack.popPose();
     }
+
+    @Override
+    protected void renderArmWithItem(LivingEntity pLivingEntity, ItemStack pItemStack, ItemDisplayContext pDisplayContext, HumanoidArm pArm, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+        super.renderArmWithItem(pLivingEntity, pItemStack, pDisplayContext, pArm, pPoseStack, pBuffer, pPackedLight);
+
+    }
 }

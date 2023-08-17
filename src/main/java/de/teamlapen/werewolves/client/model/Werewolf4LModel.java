@@ -8,9 +8,11 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -204,6 +206,11 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
             this.jaw.xRot = 0.2f + this.attackTime * (1.2217304763960306F - 0.2f);
         }
 
+    }
+
+    @Override
+    protected @NotNull ModelPart getArm(@NotNull HumanoidArm pSide) {
+        return pSide == HumanoidArm.LEFT ? this.armRight : this.armLeft;
     }
 
     @Override

@@ -218,6 +218,11 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.tail.yRot += Mth.sin(limbSwing * 0.6662F * 0.7f) * 0.1F * limbSwingAmount;
     }
 
+    @Override
+    protected @NotNull ModelPart getArm(@NotNull HumanoidArm pSide) {
+        return pSide == HumanoidArm.LEFT ? this.armRight : this.armLeft;
+    }
+
     public void translateToMouth(@NotNull HumanoidArm arm, @NotNull PoseStack stack) {
         this.body.translateAndRotate(stack);
         this.neck.translateAndRotate(stack);

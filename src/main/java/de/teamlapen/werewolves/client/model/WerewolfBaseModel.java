@@ -9,10 +9,12 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -95,4 +97,12 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
     protected static List<ResourceLocation> getTextures(String texturePath) {
         return Minecraft.getInstance().getResourceManager().listResources(texturePath, s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
     }
+
+    protected HumanoidArm getAttackArm(T pEntity) {
+        HumanoidArm humanoidarm = pEntity.getMainArm();
+        return pEntity.swingingArm == InteractionHand.MAIN_HAND ? humanoidarm : humanoidarm.getOpposite();
+    }
+
+    @Override
+    protected abstract @NotNull ModelPart getArm(@NotNull HumanoidArm pSide);
 }
