@@ -30,6 +30,7 @@ jobs:
     outputs:
       environment: ${{ steps.get_environment.outputs.environment }}
       version: ${{ steps.get_environment.outputs.version }}
+      tag: ${{ steps.get_environment.outputs.tag }}
     steps:
     - uses: actions/checkout@v3
     - name: Determine Environment
