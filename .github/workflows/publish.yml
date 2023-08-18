@@ -85,15 +85,12 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
         cache: 'gradle'
+    - name: Install Crowdin CLI
+      run: npm i -g @crowdin/cli
     - name: Download translations
-      uses: crowdin/github-action@v1
-      with:
-        download_translations: true
-        upload_sources: false
-        crowdin_branch_name: ${{ needs.determine-crowdin-branch.outputs.crowdin_branch }}
+      run: crowdin download -b ${{ needs.determine-crowdin-branch.outputs.crowdin_branch }}
       env:
         CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish
       uses: gradle/gradle-build-action@v2.7.0
       with:
