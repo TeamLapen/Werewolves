@@ -35,14 +35,14 @@ jobs:
     - name: Determine Environment
       id: get_environment
       run: |
-        if [[ ${{ github.event_name }} == "workflow_dispatch" ]]; then
-          if [[ ${{ github.event.inputs.versionType }} == 'alpha' ]]; then
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          if [[ "${{ github.event.inputs.versionType }}" == 'alpha' ]]; then
             echo "environment=Testing" >> $GITHUB_OUTPUT
             echo "version=alpha" >> $GITHUB_OUTPUT
-          elif [[ ${{ github.event.inputs.versionType }} == 'beta' ]]; then
+          elif [[ "${{ github.event.inputs.versionType }}" == 'beta' ]]; then
             echo "environment=Testing" >> $GITHUB_OUTPUT
             echo "version=beta=${{ github.event.inputs.additionalVersionInfo }}" >> $GITHUB_OUTPUT
-          elif [[ ${{ github.event.inputs.versionType }} == 'release' ]]; then
+          elif [[ "${{ github.event.inputs.versionType }}" == 'release' ]]; then
             echo "environment=Release" >> $GITHUB_OUTPUT
             echo "version=release" >> $GITHUB_OUTPUT
           fi
