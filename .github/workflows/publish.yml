@@ -47,10 +47,12 @@ jobs:
         elif [[ ${{ github.event.ref }} =~ refs\/tags\/v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-(0|[1-9]\d*)\.(0|[1-9]\d*) ]]; then
           echo "environment=Release" >> $GITHUB_OUTPUT
           echo "version=release" >> $GITHUB_OUTPUT
+          echo "tag=true" >> $GITHUB_OUTPUT
         fi
 
   determine-crowdin-branch:
     environment: Testing
+    needs: determine-environment
     runs-on: ubuntu-latest
     outputs:
       crowdin_branch: ${{ steps.get_crowdin_branch.outputs.crowdin_branch }}
@@ -59,11 +61,15 @@ jobs:
     - name: Determine Crowdin branch
       id: get_crowdin_branch
       run: |
-        echo "crowdin_branch=$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
+        if [[ ${{ needs.determine-environment.outputs.tag }} == 'true' ]]; then
+          echo "crowdin_branch=$(echo ${{ github.ref_name }} | awk -F"-" '{print $2}' | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
+        else
+          echo "crowdin_branch=$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
+        fi
 
   publish:
     runs-on: ubuntu-latest
-    needs: [download-translations, determine-environment]
+    needs: [determine-crowdin-branch, determine-environment]
     environment: ${{ needs.determine-environment.outputs.environment }}
     if: needs.determine-environment.outputs.version != '' && needs.determine-environment.outputs.environment != ''
 
@@ -80,7 +86,7 @@ jobs:
       with:
         download_translations: true
         upload_sources: false
-        crowdin_branch_name: ${{ needs.download-translations.outputs.crowdin_branch }}
+        crowdin_branch_name: ${{ needs.determine-crowdin-branch.outputs.crowdin_branch }}
       env:
         CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}
     - name: Publish
