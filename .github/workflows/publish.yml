@@ -93,6 +93,7 @@ jobs:
         crowdin_branch_name: ${{ needs.determine-crowdin-branch.outputs.crowdin_branch }}
       env:
         CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish
       uses: gradle/gradle-build-action@v2.7.0
       with:
