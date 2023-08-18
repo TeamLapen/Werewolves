@@ -55,9 +55,9 @@ jobs:
         fi
 
   determine-crowdin-branch:
-    environment: Testing
-    needs: determine-environment
     runs-on: ubuntu-latest
+    needs: determine-environment
+    environment: ${{ needs.determine-environment.outputs.environment }}
     outputs:
       crowdin_branch: ${{ steps.get_crowdin_branch.outputs.crowdin_branch }}
     steps:
