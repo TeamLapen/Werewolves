@@ -26,3 +26,7 @@ jobs:
           branch: ${{ steps.get_crowdin_branch.outputs.crowdin_branch }}
         env:
           CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}
+      - name: Install Crowdin CLI
+        run: npm i -g @crowdin/cli
+      - name: Pre-translate
+        run: crowdin pre-translate -b ${{ steps.get_crowdin_branch.outputs.crowdin_branch }} --translate-with-perfect-match-only --translate-untranslated-only --method=tm
