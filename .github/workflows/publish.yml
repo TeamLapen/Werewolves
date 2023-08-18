@@ -36,20 +36,20 @@ jobs:
       id: get_environment
       run: |
         if [[ ${{ github.event.inputs.versionType }} == 'alpha' ]]; then
-          echo ::set-output name=environment::Testing
-          echo ::set-output name=version::alpha
+          echo "environment=Testing" >> $GITHUB_OUTPUT
+          echo "version=alpha" >> $GITHUB_OUTPUT
         elif [[ ${{ github.event.inputs.versionType }} == 'beta' ]]; then
-          echo ::set-output name=environment::Testing
-          echo ::set-output name=version::beta=${{ github.event.inputs.additionalVersionInfo }}
+          echo "environment=Testing" >> $GITHUB_OUTPUT
+          echo "version=beta=${{ github.event.inputs.additionalVersionInfo }}" >> $GITHUB_OUTPUT
         elif [[ ${{ github.event.inputs.versionType }} == 'release' ]]; then
-          echo ::set-output name=environment::Release
-          echo ::set-output name=version::release
+          echo "environment=Release" >> $GITHUB_OUTPUT
+          echo "version=release" >> $GITHUB_OUTPUT
         elif [[ ${{ github.event.ref }} =~ refs\/tags\/v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-(0|[1-9]\d*)\.(0|[1-9]\d*) ]]; then
-          echo ::set-output name=environment::Release
-          echo ::set-output name=version::release
+          echo "environment=Release" >> $GITHUB_OUTPUT
+          echo "version=release" >> $GITHUB_OUTPUT
         fi
 
-  download-translations:
+  determine-crowdin-branch:
     environment: Testing
     runs-on: ubuntu-latest
     outputs:
@@ -59,7 +59,7 @@ jobs:
     - name: Determine Crowdin branch
       id: get_crowdin_branch
       run: |
-        echo ::set-output name=crowdin_branch::$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)
+        echo "crowdin_branch=$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
 
   publish:
     runs-on: ubuntu-latest
@@ -80,7 +80,7 @@ jobs:
       with:
         download_translations: true
         upload_sources: false
-        branch: ${{ needs.download-translations.outputs.crowdin_branch }}
+        crowdin_branch_name: ${{ needs.download-translations.outputs.crowdin_branch }}
       env:
         CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}
     - name: Publish
