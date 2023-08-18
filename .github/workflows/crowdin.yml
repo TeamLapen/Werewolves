@@ -17,12 +17,17 @@ jobs:
     steps:
       - name: Determine Crowdin branch
         id: get_crowdin_branch
-        run: |
-          echo ::set-output name=crowdin_branch::$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)
+        run: echo "crowdin_branch=$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
       - name: Upload translation keys
         uses: crowdin/github-action@v1
         with:
-          branch: ${{ steps.get_crowdin_branch.outputs.crowdin_branch }}
+          crowdin_branch_name: ${{ steps.get_crowdin_branch.outputs.crowdin_branch }}
+        env:
+          CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}
+      - name: Install Crowdin CLI
+        run: npm i -g @crowdin/cli
+      - name: Pre-translate
+        run: crowdin pre-translate -b ${{ steps.get_crowdin_branch.outputs.crowdin_branch }} --translate-with-perfect-match-only --translate-untranslated-only --method=tm
         env:
           CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}

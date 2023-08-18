@@ -30,28 +30,34 @@ jobs:
     outputs:
       environment: ${{ steps.get_environment.outputs.environment }}
       version: ${{ steps.get_environment.outputs.version }}
+      tag: ${{ steps.get_environment.outputs.tag }}
     steps:
     - uses: actions/checkout@v3
     - name: Determine Environment
       id: get_environment
       run: |
-        if [[ ${{ github.event.inputs.versionType }} == 'alpha' ]]; then
-          echo ::set-output name=environment::Testing
-          echo ::set-output name=version::alpha
-        elif [[ ${{ github.event.inputs.versionType }} == 'beta' ]]; then
-          echo ::set-output name=environment::Testing
-          echo ::set-output name=version::beta=${{ github.event.inputs.additionalVersionInfo }}
-        elif [[ ${{ github.event.inputs.versionType }} == 'release' ]]; then
-          echo ::set-output name=environment::Release
-          echo ::set-output name=version::release
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          if [[ "${{ github.event.inputs.versionType }}" == 'alpha' ]]; then
+            echo "environment=Testing" >> $GITHUB_OUTPUT
+            echo "version=alpha" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.inputs.versionType }}" == 'beta' ]]; then
+            echo "environment=Testing" >> $GITHUB_OUTPUT
+            echo "version=beta=${{ github.event.inputs.additionalVersionInfo }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.inputs.versionType }}" == 'release' ]]; then
+            echo "environment=Release" >> $GITHUB_OUTPUT
+            echo "version=release" >> $GITHUB_OUTPUT
+          fi
+          echo "tag=false" >> $GITHUB_OUTPUT
         elif [[ ${{ github.event.ref }} =~ refs\/tags\/v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-(0|[1-9]\d*)\.(0|[1-9]\d*) ]]; then
-          echo ::set-output name=environment::Release
-          echo ::set-output name=version::release
+          echo "environment=Release" >> $GITHUB_OUTPUT
+          echo "version=release" >> $GITHUB_OUTPUT
+          echo "tag=true" >> $GITHUB_OUTPUT
         fi
 
-  download-translations:
-    environment: Testing
+  determine-crowdin-branch:
     runs-on: ubuntu-latest
+    needs: determine-environment
+    environment: ${{ needs.determine-environment.outputs.environment }}
     outputs:
       crowdin_branch: ${{ steps.get_crowdin_branch.outputs.crowdin_branch }}
     steps:
@@ -59,11 +65,15 @@ jobs:
     - name: Determine Crowdin branch
       id: get_crowdin_branch
       run: |
-        echo ::set-output name=crowdin_branch::$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)
+        if [[ ${{ needs.determine-environment.outputs.tag }} == 'true' ]]; then
+          echo "crowdin_branch=$(echo ${{ github.ref_name }} | awk -F"-" '{print $2}' | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
+        else
+          echo "crowdin_branch=$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
+        fi
 
   publish:
     runs-on: ubuntu-latest
-    needs: [download-translations, determine-environment]
+    needs: [determine-crowdin-branch, determine-environment]
     environment: ${{ needs.determine-environment.outputs.environment }}
     if: needs.determine-environment.outputs.version != '' && needs.determine-environment.outputs.environment != ''
 
@@ -75,12 +85,10 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
         cache: 'gradle'
+    - name: Install Crowdin CLI
+      run: npm i -g @crowdin/cli
     - name: Download translations
-      uses: crowdin/github-action@v1
-      with:
-        download_translations: true
-        upload_sources: false
-        branch: ${{ needs.download-translations.outputs.crowdin_branch }}
+      run: crowdin download -b ${{ needs.determine-crowdin-branch.outputs.crowdin_branch }}
       env:
         CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}
     - name: Publish
