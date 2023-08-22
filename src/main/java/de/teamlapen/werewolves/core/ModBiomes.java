@@ -11,7 +11,7 @@ import net.minecraft.world.level.biome.Biome;
 
 public class ModBiomes {
 
-    public static final ResourceKey<Biome> WEREWOLF_FOREST = ResourceKey.create(Registries.BIOME, new ResourceLocation(REFERENCE.MODID, "werewolf_forest"));
+    public static final ResourceKey<Biome> WEREWOLF_FOREST = ResourceKey.create(Registries.BIOME, new ResourceLocation(REFERENCE.MODID, "werewolf_heaven"));
 
     public static void createBiomes(BootstapContext<Biome> context) {
         context.register(WEREWOLF_FOREST, WerewolfForestBiome.createWerewolfForestBiome(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER)));
