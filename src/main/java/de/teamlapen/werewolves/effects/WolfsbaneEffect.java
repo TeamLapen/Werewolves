@@ -20,4 +20,8 @@ public class WolfsbaneEffect extends WerewolfWeakeningEffect {
     public static MobEffectInstance createWolfsbaneEffect(LivingEntity entity, int defaultDuration) {
         return new MobEffectInstance(ModEffects.WOLFSBANE.get(), defaultDuration);
     }
+
+    public static MobEffectInstance createWolfsbaneEffect(LivingEntity entity, int defaultDuration, int amplifier) {
+        return new MobEffectInstance(ModEffects.WOLFSBANE.get(), defaultDuration, amplifier);
+    }
 }

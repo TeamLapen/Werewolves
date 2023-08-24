@@ -269,7 +269,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                 }
 
                 if (this.player.tickCount % de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level(), true)) {
-                    this.player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(this.player, de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS + 10));
+                    this.player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(this.player, de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS + 10, this.wolfsbaneCache));
                 }
             } else {
 
@@ -496,13 +496,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
-    private boolean wolfsbaneCache = false;
+    private int wolfsbaneCache = -1;
 
     public boolean isAffectedByWolfsbane(LevelAccessor accessor, boolean forceRefresh) {
         if (forceRefresh) {
-            this.wolfsbaneCache = accessor instanceof Level level ? WerewolvesWorld.getOpt(level).map(x -> x.isEffectedByWolfsbane(getRepresentingPlayer().blockPosition())).orElse(false) : false;
+            this.wolfsbaneCache = accessor instanceof Level level ? WerewolvesWorld.getOpt(level).map(x -> x.isEffectedByWolfsbane(getRepresentingPlayer().blockPosition())).orElse(-1) : -1;
         }
-        return this.wolfsbaneCache;
+        return this.wolfsbaneCache > -1;
     }
 
     /**

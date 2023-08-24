@@ -69,7 +69,7 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
                 level = levelEntity.getEntityLevel();
                 maxLevel = levelEntity.getMaxEntityLevel();
             }
-            double value = LevelAttributeModifier.calculateModifierValue(level, maxLevel, 0.3f, 1.3);
+            double value = LevelAttributeModifier.calculateModifierValue(level, maxLevel, 0.15f, 1.3);
             this.modifiers.forEach(modifier -> map.put(modifier.attribute(), modifier.createModifier(value)));
         }
         return map;

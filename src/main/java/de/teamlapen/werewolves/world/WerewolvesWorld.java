@@ -8,6 +8,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class WerewolvesWorld {
 
@@ -68,7 +70,7 @@ public class WerewolvesWorld {
     private final Level level;
     private final ModDamageSources damageSources;
     private final HashMap<Integer, WolfbaneEmitter> wolfsbaneEmitter = new HashMap<>();
-    private final HashSet<ChunkPos> wolfsbaneDiffuser = new HashSet<>();
+    private final HashMap<ChunkPos, Integer> wolfsbaneDiffuser = new HashMap<>();
 
     public WerewolvesWorld(Level level) {
         this.level = level;
@@ -82,9 +84,9 @@ public class WerewolvesWorld {
 
     }
 
-    public int registerWolfsbaneDiffuserBlock(ChunkPos... chunks) {
+    public int registerWolfsbaneDiffuserBlock(int amplifier, ChunkPos... chunks) {
         Preconditions.checkArgument(Arrays.stream(chunks).allMatch(Objects::nonNull), "Wolfsbane emitter position cannot be null");
-        var emitter = new WolfbaneEmitter(chunks);
+        var emitter = new WolfbaneEmitter(amplifier, chunks);
 
         int hash = emitter.hashCode();
         this.wolfsbaneEmitter.put(hash, emitter);
@@ -99,18 +101,19 @@ public class WerewolvesWorld {
 
     private void buildWolfsbaneSet() {
         this.wolfsbaneDiffuser.clear();
-        this.wolfsbaneDiffuser.addAll(this.wolfsbaneEmitter.values().stream().flatMap(e -> Arrays.stream(e.chunks)).toList());
+        this.wolfsbaneDiffuser.putAll(this.wolfsbaneEmitter.entrySet().stream().flatMap(e -> Arrays.stream(e.getValue().chunks).map(l -> Pair.of(l, e.getKey()))).collect(Collectors.toMap(Pair::getLeft, Pair::getRight, (a,b) -> a > b ? a : b)));
     }
 
-    public boolean isEffectedByWolfsbane(BlockPos pos) {
-        return this.wolfsbaneDiffuser.contains(new ChunkPos(pos));
+    public int isEffectedByWolfsbane(BlockPos pos) {
+        Integer integer = this.wolfsbaneDiffuser.get(new ChunkPos(pos));
+        return integer == null ? -1 : this.wolfsbaneEmitter.get(integer).amplifier;
     }
 
     public ModDamageSources damageSources() {
         return this.damageSources;
     }
 
-    private record WolfbaneEmitter(ChunkPos[] chunks) {
+    private record WolfbaneEmitter(int amplifier, ChunkPos[] chunks) {
 
     }
 }

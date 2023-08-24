@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=east": {
+      "model": "werewolves:block/wolfsbane_diffuser_normal",
+      "y": 90
+    },
+    "facing=north": {
       "model": "werewolves:block/wolfsbane_diffuser_normal"
+    },
+    "facing=south": {
+      "model": "werewolves:block/wolfsbane_diffuser_normal",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "werewolves:block/wolfsbane_diffuser_normal",
+      "y": 270
     }
   }
 }
