@@ -44,8 +44,7 @@ public class WolfsbaneDiffuserScreen extends Screen {
 
     }
 
-    @Override
-    public void tick() {
+    private void updateProgress() {
         startupBar.setProgress(tile.getBootProgress());
         float f = tile.getFueledState();
         if (f == 0) {
@@ -55,6 +54,11 @@ public class WolfsbaneDiffuserScreen extends Screen {
             fueledTimer.setProgress(f);
         }
 
+    }
+
+    @Override
+    public void tick() {
+        updateProgress();
     }
 
     @Override
@@ -69,6 +73,8 @@ public class WolfsbaneDiffuserScreen extends Screen {
         fueledTimer = this.addRenderableWidget(new ProgressBar(this.guiLeft + (xSize - 170) / 2, this.guiTop + 60, 170, Component.translatable("gui.vampirism.garlic_diffuser.fueled")));
         fueledTimer.setColor(0xD0FFD0);
         fueledTimer.setFGColor(0xFFFFFF);
+
+        updateProgress();
     }
 
     protected void renderGuiBackground(@NotNull GuiGraphics graphics) {

@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.blocks.entity;
 
+import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.werewolves.blocks.WolfsbaneDiffuserBlock;
 import de.teamlapen.werewolves.core.ModTiles;
@@ -21,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
 
-    private static final int FUEL_DURATION = 20 * 60 * 10;
+    private static final int FUEL_DURATION = 20 * 60 * 2;
     private WolfsbaneDiffuserBlock.Type type = WolfsbaneDiffuserBlock.Type.NORMAL;
     private int id;
     private boolean registered = false;
@@ -43,7 +44,7 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
     }
 
     public float getFueledState() {
-        return this.fueled / (float) FUEL_DURATION;
+        return this.fueled / (float) this.type.fuelTime.get();
     }
 
     @Override
@@ -75,7 +76,7 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
         super.load(compound);
         this.type = WolfsbaneDiffuserBlock.Type.valueOf(compound.getString("type"));
         this.bootTimer = compound.getInt("boot_timer");
-        this.maxBootTimer = compound.getInt("max_boot_timer");
+        this.maxBootTimer = compound.contains("max_boot_timer") ? compound.getInt("max_boot_timer") : 1;
         this.setFueledTime(compound.getInt("fueled"));
     }
 
@@ -101,8 +102,12 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
 
     public void onFueled() {
         this.setFueledTime(this.type.fuelTime.get());
-        this.initiateBootTimer();
-        this.setChanged();
+        this.updateLevel();
+    }
+
+    public void setNewBootDelay(int delayTicks) {
+        this.bootTimer = delayTicks;
+        this.maxBootTimer = delayTicks;
     }
 
     @Override
@@ -110,23 +115,22 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
         super.saveAdditional(compound);
         compound.putString("type", type.name());
         compound.putInt("fueled", fueled);
-        compound.putInt("boot_timer", bootTimer);
-        compound.putInt("max_boot_timer", maxBootTimer);
+        if (bootTimer != 0) {
+            compound.putInt("boot_timer", bootTimer);
+            compound.putInt("max_boot_timer", maxBootTimer);
+        }
     }
 
     public void initiateBootTimer() {
-        if (this.bootTimer == -1) {
-            this.initiateBootTimer = true;
-        }
+        this.initiateBootTimer = true;
     }
 
     public void setType(WolfsbaneDiffuserBlock.Type type) {
         this.type = type;
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
+    public void updateLevel() {
+        this.setChanged();
         if (this.hasLevel()) {
             BlockState state = this.level.getBlockState(this.worldPosition);
             this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
@@ -152,23 +156,22 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
                 }
                 blockEntity.bootTimer = bootTime;
                 blockEntity.maxBootTimer = bootTime;
-                blockEntity.setChanged();
+                blockEntity.updateLevel();
             }
         }
         if (blockEntity.bootTimer > 0) {
             if (--blockEntity.bootTimer == 0) {
-                blockEntity.setChanged();
+                blockEntity.updateLevel();
                 blockEntity.register();
             }
         } else if (blockEntity.fueled > 0) {
             if (blockEntity.fueled == 1) {
                 blockEntity.setFueledTime(0);
-                blockEntity.setChanged();
+                blockEntity.updateLevel();
             } else {
                 blockEntity.fueled--;
+                blockEntity.setChanged();
             }
-        } else {
-            blockEntity.bootTimer = -1;
         }
     }
 
@@ -187,20 +190,19 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
             }
         }
         //noinspection DataFlowIssue
-        this.id = WerewolvesWorld.getOpt(getLevel()).map(vw -> vw.registerWolfsbaneDiffuserBlock(chunks)).orElse(0);
+        this.id = WerewolvesWorld.getOpt(getLevel()).map(vw -> vw.registerWolfsbaneDiffuserBlock(this.fueled > 0 ? this.type.amplifier : 0, chunks)).orElse(0);
         this.registered = i != 0;
 
     }
 
     private void setFueledTime(int time) {
-        int old = this.fueled;
-        this.fueled = time;
-        if (this.fueled > 0 && old == 0 && this.bootTimer == 0) {
+        int old = fueled;
+        fueled = time;
+        if (time > 0 && old == 0 || time == 0 && old > 0) {
             if (!isRemoved()) {
+                unregister();
                 register();
             }
-        } else if(this.fueled == 0){
-            unregister();
         }
     }
 

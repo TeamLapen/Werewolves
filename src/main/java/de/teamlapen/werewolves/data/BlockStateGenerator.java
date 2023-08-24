@@ -73,9 +73,9 @@ public class BlockStateGenerator extends BlockStateProvider {
 
         createWoodStates();
 
-        simpleBlock(ModBlocks.WOLFSBANE_DIFFUSER.get(), withExistingParent("wolfsbane_diffuser_normal", vampirismId("block/garlic_diffuser")).texture("wood_garlic_symbol", "werewolves:block/wolfsbane_diffuser_top").texture("garlic", "werewolves:block/wolfsbane_diffuser_inside").renderType(CUTOUT));
-        simpleBlock(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), withExistingParent("wolfsbane_diffuser_improved", vampirismId("block/garlic_diffuser")).texture("wood_garlic_symbol", "werewolves:block/wolfsbane_diffuser_top").texture("garlic", "werewolves:block/wolfsbane_diffuser_improved_inside").renderType(CUTOUT));
-        simpleBlock(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), withExistingParent("wolfsbane_diffuser_long", vampirismId("block/garlic_diffuser")).texture("wood_garlic_symbol", "werewolves:block/wolfsbane_diffuser_top").texture("garlic", "werewolves:block/wolfsbane_diffuser_inside").renderType(CUTOUT));
+        horizontalBlock(ModBlocks.WOLFSBANE_DIFFUSER.get(), withExistingParent("wolfsbane_diffuser_normal", vampirismId("block/garlic_diffuser")).texture("wood_garlic_symbol", "werewolves:block/wolfsbane_diffuser_top").texture("garlic", "werewolves:block/wolfsbane_diffuser_inside").renderType(CUTOUT));
+        horizontalBlock(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), withExistingParent("wolfsbane_diffuser_improved", vampirismId("block/garlic_diffuser")).texture("wood_garlic_symbol", "werewolves:block/wolfsbane_diffuser_top").texture("garlic", "werewolves:block/wolfsbane_diffuser_improved_inside").renderType(CUTOUT));
+        horizontalBlock(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), withExistingParent("wolfsbane_diffuser_long", vampirismId("block/garlic_diffuser")).texture("wood_garlic_symbol", "werewolves:block/wolfsbane_diffuser_top").texture("garlic", "werewolves:block/wolfsbane_diffuser_inside").renderType(CUTOUT));
     }
 
     public BlockModelBuilder withExistingParent(String name, String parent) {
