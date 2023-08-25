@@ -62,21 +62,8 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onFootEatenStart(LivingEntityUseItemEvent.Start event) {
-        if (event.getEntity() instanceof Player && Helper.isWerewolf((Player) event.getEntity())) {
-            if (!Helper.canWerewolfPlayerEatItem(((Player) event.getEntity()), event.getItem())) {
-                event.setCanceled(true);
-                ((Player) event.getEntity()).displayClientMessage(Component.translatable("text.werewolves.no_meat"), true);
-            }
-        }
-    }
-
-    @SubscribeEvent
     public void onFootEatenFinish(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity() instanceof Player && Helper.isWerewolf((Player) event.getEntity())) {
-            if (Helper.isRawMeat(event.getItem())) {
-                ((Player) event.getEntity()).getFoodData().eat(event.getItem().getItem(), event.getItem());
-            }
             if (event.getItem().getItem() instanceof VampirismItemBloodFoodItem) {
                 event.getEntity().removeEffect(MobEffects.CONFUSION);
             }
