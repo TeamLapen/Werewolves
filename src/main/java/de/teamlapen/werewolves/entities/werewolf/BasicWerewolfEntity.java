@@ -78,8 +78,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     private static final int MAX_LEVEL = 2;
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final WerewolfForm werewolfForm;
-    //private final ActionHandlerEntity<?> entityActionHandler;
     private WerewolfTransformable transformed;
     /**
      * only used if {@link #transformType} = {@link TransformType#TIME_LIMITED}
@@ -94,19 +92,17 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     protected ICaptureAttributes villageAttributes;
     protected boolean attack;
 
-    public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, Level world, WerewolfForm werewolfForm) {
+    public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, Level world) {
         super(type, world, true);
-        this.werewolfForm = werewolfForm;
         this.entityClass = EntityClassType.getRandomClass(world.random);
         this.entityTier = EntityActionTier.Low;
-        //this.entityActionHandler = new ActionHandlerEntity<>(this);
         this.xpReward = 3;
     }
 
     @Nonnull
     @Override
     public EntityDimensions getDimensions(@Nonnull Pose poseIn) {
-        return this.werewolfForm.getSize(poseIn).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(poseIn));
+        return this.getForm().getSize(poseIn).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(poseIn));
     }
 
     @Override
@@ -116,9 +112,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     @Nonnull
     @Override
-    public WerewolfForm getForm() {
-        return werewolfForm;
-    }
+    public abstract WerewolfForm getForm();
 
     @Override
     public BasicWerewolfEntity _transformToWerewolf() {
@@ -498,7 +492,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     public static class Beast extends BasicWerewolfEntity {
         public Beast(EntityType<? extends Beast> type, Level world) {
-            super(type, world, WerewolfForm.BEAST);
+            super(type, world);
+        }
+
+        @NotNull
+        @Override
+        public WerewolfForm getForm() {
+            return WerewolfForm.BEAST;
         }
 
         @Override
@@ -521,7 +521,13 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     public static class Survivalist extends BasicWerewolfEntity {
         public Survivalist(EntityType<? extends Survivalist> type, Level world) {
-            super(type, world, WerewolfForm.SURVIVALIST);
+            super(type, world);
+        }
+
+        @NotNull
+        @Override
+        public WerewolfForm getForm() {
+            return WerewolfForm.SURVIVALIST;
         }
     }
 }
