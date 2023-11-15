@@ -21,6 +21,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class RenderHandler implements ResourceManagerReloadListener {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -70,9 +72,9 @@ public class RenderHandler implements ResourceManagerReloadListener {
         if (this.mc.level == null || this.mc.player == null || !this.mc.player.isAlive()) return;
         if (event.phase == TickEvent.Phase.END) return;
         this.lastTicks = this.ticks;
-        WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
+        LazyOptional<WerewolfPlayer> werewolf = WerewolfPlayer.getOpt(this.mc.player);
 
-        if (werewolf.getActionHandler().isActionActive(ModActions.SENSE.get())) {
+        if (werewolf.filter(s -> s.getActionHandler().isActionActive(ModActions.SENSE.get())).isPresent()) {
             if (this.ticks < VISION_FADE_TICKS) {
                 this.ticks++;
             }
