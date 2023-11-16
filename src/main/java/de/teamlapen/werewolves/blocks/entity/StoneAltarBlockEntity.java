@@ -168,15 +168,17 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
             werewolf.getLevelHandler().reset();
             werewolf.syncLevelHandler();
         });
-        FactionPlayerHandler handler = FactionPlayerHandler.get(this.player);
-        int lvl = handler.getCurrentLevel() + 1;
-        handler.setFactionLevel(WReference.WEREWOLF_FACTION, lvl);
+        FactionPlayerHandler.getOpt(this.player).ifPresent(handler -> {
+            int lvl = handler.getCurrentLevel() + 1;
+            handler.setFactionLevel(WReference.WEREWOLF_FACTION, lvl);
+        });
     }
 
     public void consumeItems() {
-        WerewolfLevelConf.StoneAltarRequirement requirement = ((WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(FactionPlayerHandler.get(this.player).getCurrentLevel() + 1));
-        this.getItem(0).shrink(requirement.liverAmount);
-        this.getItem(1).shrink(requirement.bonesAmount);
+        FactionPlayerHandler.getOpt(this.player).map(FactionPlayerHandler::getCurrentLevel).map(s -> ((WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(s+1))).ifPresent(req -> {
+            this.getItem(0).shrink(req.liverAmount);
+            this.getItem(1).shrink(req.bonesAmount);
+        });
     }
 
     public Phase getCurrentPhase() {

@@ -181,25 +181,24 @@ public class ModPlayerEventHandler {
             if (event.getLevel().getBlockState(event.getPos()).getBlock() == ModBlocks.V.MED_CHAIR.get()) {
                 ItemStack stack = player.getItemInHand(event.getHand());
                 if (player.isAlive()) {
-                    IFactionPlayerHandler handler = FactionPlayerHandler.get(event.getEntity());
-                    IPlayableFaction<?> faction = handler.getCurrentFaction();
-                    boolean used = false;
-                    if (WReference.WEREWOLF_FACTION.equals(faction)) {
-                        if (player.getEffect(ModEffects.UN_WEREWOLF.get()) == null) {
-                            player.addEffect(new UnWerewolfEffectInstance(2000));
-                            used = true;
+                    FactionPlayerHandler.getOpt(event.getEntity()).resolve().map(FactionPlayerHandler::getCurrentFaction).filter(faction -> {
+                        if (WReference.WEREWOLF_FACTION.equals(faction)) {
+                            if (player.getEffect(ModEffects.UN_WEREWOLF.get()) == null) {
+                                player.addEffect(new UnWerewolfEffectInstance(2000));
+                                return true;
+                            } else {
+                                player.displayClientMessage(Component.translatable("text.werewolves.injection.in_use"), true);
+                            }
                         } else {
-                            player.displayClientMessage(Component.translatable("text.werewolves.injection.in_use"), true);
+                            player.displayClientMessage(Component.translatable("text.werewolves.injection.not_use"), true);
                         }
-                    } else if (faction != null) {
-                        player.displayClientMessage(Component.translatable("text.werewolves.injection.not_use"), true);
-                    }
-                    if (used) {
+                        return false;
+                    }).ifPresent(f -> {
                         stack.shrink(1);
                         if (stack.isEmpty()) {
                             player.getInventory().removeItem(stack);
                         }
-                    }
+                    });
                 }
             }
             event.setCancellationResult(InteractionResult.SUCCESS);

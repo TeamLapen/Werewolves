@@ -23,6 +23,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.util.LazyOptional;
 
 /**
  * @see de.teamlapen.vampirism.command.test.MinionCommand
@@ -61,24 +62,28 @@ public class MinionCommand extends BasicCommand {
     @SuppressWarnings({"SameParameterValue", "SameReturnValue"})
     private static <T extends MinionData> int spawnNewMinion(CommandSourceStack ctx, IPlayableFaction<?> faction, T data, EntityType<? extends MinionEntity<T>> type) throws CommandSyntaxException {
         Player p = ctx.getPlayerOrException();
-        FactionPlayerHandler fph = FactionPlayerHandler.get(p);
-        if (fph.getMaxMinions() > 0) {
-            PlayerMinionController controller = MinionWorldData.getData(ctx.getServer()).getOrCreateController(fph);
-            if (controller.hasFreeMinionSlot()) {
-                if (fph.getCurrentFaction() == faction) {
-                    int id = controller.createNewMinionSlot(data, type);
-                    if (id < 0) {
-                        throw fail.create("Failed to get new minion slot");
+        LazyOptional<FactionPlayerHandler> opt = FactionPlayerHandler.getOpt(p);
+        if (opt.isPresent()) {
+            //noinspection DataFlowIssue
+            FactionPlayerHandler fph = opt.orElse(null);
+            if (fph.getMaxMinions() > 0) {
+                PlayerMinionController controller = MinionWorldData.getData(ctx.getServer()).getOrCreateController(fph);
+                if (controller.hasFreeMinionSlot()) {
+                    if (fph.getCurrentFaction() == faction) {
+                        int id = controller.createNewMinionSlot(data, type);
+                        if (id < 0) {
+                            throw fail.create("Failed to get new minion slot");
+                        }
+                        controller.createMinionEntityAtPlayer(id, p);
+                    } else {
+                        throw fail.create("Wrong faction");
                     }
-                    controller.createMinionEntityAtPlayer(id, p);
                 } else {
-                    throw fail.create("Wrong faction");
+                    throw fail.create("No free slot");
                 }
             } else {
-                throw fail.create("No free slot");
+                throw fail.create("Can't have minions");
             }
-        } else {
-            throw fail.create("Can't have minions");
         }
         return 0;
     }

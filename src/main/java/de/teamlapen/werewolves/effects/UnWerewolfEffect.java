@@ -26,9 +26,11 @@ public class UnWerewolfEffect extends WerewolvesEffect {
         if (!entityLivingBaseIn.getCommandSenderWorld().isClientSide()) {
             if (entityLivingBaseIn instanceof Player player) {
                 if (Helper.isWerewolf(player)) {
-                    FactionPlayerHandler.get(player).setFactionAndLevel(null, 0);
-                    player.displayClientMessage(Component.translatable("text.werewolves.no_longer_werewolf"), true);
-                    LOGGER.debug("Player {} left faction", player);
+                    FactionPlayerHandler.getOpt(player).ifPresent(s -> {
+                        s.setFactionAndLevel(null, 0);
+                        player.displayClientMessage(Component.translatable("text.werewolves.no_longer_werewolf"), true);
+                        LOGGER.debug("Player {} left faction", player);
+                    });
                 }
             }
         }
