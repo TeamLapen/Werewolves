@@ -62,16 +62,12 @@ public class ModHUDOverlay extends ExtendedGui {
         if (event.phase == TickEvent.Phase.END)
             return;
 
-        @Nullable
-        IFactionPlayer<?> player = FactionPlayerHandler.get(mc.player).getCurrentFactionPlayer().orElse(null);
-        if (player instanceof WerewolfPlayer) {
-            this.handleScreenColorWerewolf(((WerewolfPlayer) player));
-        } else {
+        FactionPlayerHandler.getCurrentFactionPlayer(mc.player).filter(WerewolfPlayer.class::isInstance).ifPresentOrElse(player -> this.handleScreenColorWerewolf(((WerewolfPlayer) player)), () -> {
             this.screenPercentage = 0;
             this.attackTargetScreenPercentage = 0;
             this.waitTicks = 0;
             this.entities.clear();
-        }
+        });
     }
 
     @SubscribeEvent
