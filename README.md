@@ -39,6 +39,7 @@ Vampirism [Curseforge](https://www.curseforge.com/minecraft/mc-mods/vampirism-be
 - CritterCarnival _Textures_
 - [Talonerd](https://twitter.com/Talonerd) _Textures_
 - [Grid](https://www.curseforge.com/members/gridexpert/projects) _Textures_
+- drań _Models & Textures_
 
 ## Setup Gradle build script and Maven mirror
 

@@ -4,6 +4,7 @@ import de.teamlapen.werewolves.client.model.Werewolf4LModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
+import de.teamlapen.werewolves.client.model.armor.WolfHeadModel;
 import de.teamlapen.werewolves.client.render.*;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.items.IWerewolvesBoat;
@@ -24,6 +25,7 @@ public class ModModelRender {
     public static final ModelLayerLocation WEREWOLF_4L = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_four_legged"), "main");
     public static final ModelLayerLocation EARS_CLAWS = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "main");
     public static final ModelLayerLocation EARS_CLAWS_SLIM = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "slim");
+    public static final ModelLayerLocation WOLF_HEAD = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "wolf_head"), "main");
 
     static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.ALPHA_WEREWOLF.get(), WerewolfAlphaRenderer::new);
@@ -43,6 +45,7 @@ public class ModModelRender {
         event.registerLayerDefinition(WEREWOLF_4L, Werewolf4LModel::createBodyLayer);
         event.registerLayerDefinition(WEREWOLF_BEAST, WerewolfBeastModel::createBodyLayer);
         event.registerLayerDefinition(WEREWOLF_SURVIVALIST, WerewolfSurvivalistModel::createBodyLayer);
+        event.registerLayerDefinition(WOLF_HEAD, WolfHeadModel::createBodyLayer);
 
         LayerDefinition boatDefinition = BoatModel.createBodyModel();
         LayerDefinition chestBoatDefinition = ChestBoatModel.createBodyModel();

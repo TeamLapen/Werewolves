@@ -51,6 +51,41 @@
           "condition": "minecraft:killed_by_player"
         },
         {
+          "chance": 0.33,
+          "condition": "minecraft:random_chance_with_looting",
+          "looting_multiplier": 0.05
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:pelt",
+          "weight": 40
+        },
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:dark_pelt",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 60
+        }
+      ],
+      "name": "general3",
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 2.0,
+        "min": 1.0
+      }
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        },
+        {
           "chance": 0.05,
           "condition": "minecraft:random_chance"
         }

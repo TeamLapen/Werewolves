@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.util;
 
 import com.google.common.base.Suppliers;
+import de.teamlapen.vampirism.api.items.IItemWithTier;
 import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ArmorItem;
@@ -80,6 +81,20 @@ public class ArmorMaterial implements net.minecraft.world.item.ArmorMaterial {
     @Override
     public float getKnockbackResistance() {
         return this.knockbackResistance;
+    }
+
+    public static class Tiered extends ArmorMaterial {
+
+        private final @NotNull IItemWithTier.TIER tier;
+
+        public Tiered(String name, @NotNull IItemWithTier.TIER tier, int maxDamageFactor, EnumMap<ArmorItem.Type, Integer> damageReduction, int enchantability, SoundEvent soundEvent, float toughness, float knockbackResistance, Supplier<Ingredient> repairMaterial) {
+            super(name, maxDamageFactor, damageReduction, enchantability, soundEvent, toughness, knockbackResistance, repairMaterial);
+            this.tier = tier;
+        }
+
+        public IItemWithTier.@NotNull TIER getTier() {
+            return tier;
+        }
     }
 
     public static EnumMap<ArmorItem.Type, Integer> createReduction(int helmet, int chestplate, int leggings, int boots) {
