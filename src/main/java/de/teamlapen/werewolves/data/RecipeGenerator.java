@@ -20,6 +20,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.SmithingTransformRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
@@ -56,6 +57,8 @@ public class RecipeGenerator extends VanillaRecipeProvider {
         ItemLike wolfsbane_diffuser = ModBlocks.WOLFSBANE_DIFFUSER.get();
         TagKey<Item> wool = ItemTags.WOOL;
         ItemLike wolfsbane = ModBlocks.WOLFSBANE.get();
+        ItemLike pelt = ModItems.PELT.get();
+        ItemLike dark_pelt = ModItems.DARK_PELT.get();
 
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE, 2)
@@ -145,5 +148,18 @@ public class RecipeGenerator extends VanillaRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core_improved).unlockedBy("has_garlic_diffuser", has(wolfsbane_diffuser)).unlockedBy("has_diamond", has(diamond)).save(consumer, "wolfsbane_diffuser_improved");
         AlchemicalCauldronRecipeBuilder.cauldronRecipe(ModItems.WOLFSBANE_DIFFUSER_CORE.get()).withIngredient(wool).withFluid(wolfsbane).withSkills(HunterSkills.GARLIC_DIFFUSER.get()).build(consumer, modId("wolfsbane_diffuser_core"));
         AlchemicalCauldronRecipeBuilder.cauldronRecipe(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get()).withIngredient(wolfsbane_diffuser_core).withFluid(wolfsbane).withSkills(HunterSkills.GARLIC_DIFFUSER_IMPROVED.get()).experience(2.0f).build(consumer, modId("wolfsbane_diffuser_core_improved"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.PELT_HELMET.get()).define('P', pelt).pattern("PPP").pattern("P P").unlockedBy("has_pelt", has(pelt)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.PELT_CHESTPLATE.get()).define('P', pelt).pattern("P P").pattern("PPP").pattern("PPP").unlockedBy("has_pelt", has(pelt)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.PELT_LEGGINGS.get()).define('P', pelt).pattern("PPP").pattern("P P").pattern("P P").unlockedBy("has_pelt", has(pelt)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.PELT_BOOTS.get()).define('P', pelt).pattern("P P").pattern("P P").unlockedBy("has_pelt", has(pelt)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.DARK_PELT_HELMET.get()).define('P', dark_pelt).pattern("PPP").pattern("P P").unlockedBy("has_pelt", has(dark_pelt)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.DARK_PELT_CHESTPLATE.get()).define('P', dark_pelt).pattern("P P").pattern("PPP").pattern("PPP").unlockedBy("has_pelt", has(dark_pelt)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.DARK_PELT_LEGGINGS.get()).define('P', dark_pelt).pattern("PPP").pattern("P P").pattern("P P").unlockedBy("has_pelt", has(dark_pelt)).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.DARK_PELT_BOOTS.get()).define('P', dark_pelt).pattern("P P").pattern("P P").unlockedBy("has_pelt", has(dark_pelt)).save(consumer);
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_HELMET.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_HELMET.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_HELMET.get()) + "_smithing");
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_CHESTPLATE.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_CHESTPLATE.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_CHESTPLATE.get()) + "_smithing");
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_LEGGINGS.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_LEGGINGS.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_LEGGINGS.get()) + "_smithing");
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_BOOTS.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_BOOTS.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_BOOTS.get()) + "_smithing");
+        copySmithingTemplate(consumer, ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get(), ModItems.WEREWOLF_TOOTH.get());
     }
 }

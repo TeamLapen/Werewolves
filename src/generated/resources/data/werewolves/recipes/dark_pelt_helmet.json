@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "item": "werewolves:dark_pelt"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "P P"
+  ],
+  "result": {
+    "item": "werewolves:dark_pelt_helmet"
+  },
+  "show_notification": true
+}

@@ -1,14 +1,13 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.misc.WerewolvesCreativeTab;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.ModSmithingTemplates;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.ChatFormatting;
@@ -17,11 +16,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -108,6 +105,24 @@ public class ModItems {
 
     public static final RegistryObject<Item> WOLFSBANE_DIFFUSER_CORE = register("wolfsbane_diffuser_core", () -> new Item(props()));
     public static final RegistryObject<Item> WOLFSBANE_DIFFUSER_CORE_IMPROVED = register("wolfsbane_diffuser_core_improved", () -> new Item(props()));
+    public static final RegistryObject<Item> PELT = register("pelt", () -> new Item(props()));
+    public static final RegistryObject<Item> DARK_PELT = register("dark_pelt", () -> new Item(props()));
+    public static final RegistryObject<Item> WHITE_PELT = register("white_pelt", () -> new Item(props()));
+    public static final RegistryObject<WolfPeltArmorItem> PELT_HELMET = register("pelt_helmet", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.HELMET, props()));
+    public static final RegistryObject<WolfPeltArmorItem> PELT_CHESTPLATE = register("pelt_chestplate", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.CHESTPLATE, props()));
+    public static final RegistryObject<WolfPeltArmorItem> PELT_LEGGINGS = register("pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.LEGGINGS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> PELT_BOOTS = register("pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.BOOTS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> DARK_PELT_HELMET = register("dark_pelt_helmet", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.HELMET, props()));
+    public static final RegistryObject<WolfPeltArmorItem> DARK_PELT_CHESTPLATE = register("dark_pelt_chestplate", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.CHESTPLATE, props()));
+    public static final RegistryObject<WolfPeltArmorItem> DARK_PELT_LEGGINGS = register("dark_pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.LEGGINGS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> DARK_PELT_BOOTS = register("dark_pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.BOOTS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_HELMET = register("white_pelt_helmet", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.HELMET, props()));
+    public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_CHESTPLATE = register("white_pelt_chestplate", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.CHESTPLATE, props()));
+    public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_LEGGINGS = register("white_pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.LEGGINGS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_BOOTS = register("white_pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.BOOTS, props()));
+    public static final RegistryObject<SmithingTemplateItem> WHITE_PELT_UPGRADE_SMITHING_TEMPLATE = register("white_pelt_upgrade_smithing_template", ModSmithingTemplates::createWhitePeltUpgradeTemplate);
+
+
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
         public static final RegistryObject<Item> INJECTION_EMPTY = item("injection_empty");

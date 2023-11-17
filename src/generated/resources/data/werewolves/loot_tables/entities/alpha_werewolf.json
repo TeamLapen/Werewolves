@@ -8,16 +8,36 @@
           "condition": "minecraft:killed_by_player"
         }
       ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "werewolves:werewolf_tooth"
-        }
-      ],
+      "entries": [],
       "name": "general",
       "rolls": {
         "type": "minecraft:uniform",
         "max": 2.0,
+        "min": 1.0
+      }
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:dark_pelt",
+          "weight": 20
+        },
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:white_pelt"
+        }
+      ],
+      "name": "pelt",
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 3.0,
         "min": 1.0
       }
     },

@@ -74,6 +74,22 @@ public class ItemModelGenerator extends BaseItemModelGenerator {
             add(ModItems.MAGIC_BOAT);
             add(ModItems.JACARANDA_CHEST_BOAT);
             add(ModItems.MAGIC_CHEST_BOAT);
+            add(ModItems.PELT);
+            add(ModItems.DARK_PELT);
+            add(ModItems.WHITE_PELT);
+            add(ModItems.PELT_HELMET);
+            add(ModItems.PELT_CHESTPLATE);
+            add(ModItems.PELT_LEGGINGS);
+            add(ModItems.PELT_BOOTS);
+            add(ModItems.DARK_PELT_HELMET);
+            add(ModItems.DARK_PELT_CHESTPLATE);
+            add(ModItems.DARK_PELT_LEGGINGS);
+            add(ModItems.DARK_PELT_BOOTS);
+            add(ModItems.WHITE_PELT_HELMET);
+            add(ModItems.WHITE_PELT_CHESTPLATE);
+            add(ModItems.WHITE_PELT_LEGGINGS);
+            add(ModItems.WHITE_PELT_BOOTS);
+            add(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE);
         }};
         Set<Supplier<? extends Block>> blockLayer = new HashSet<>() {{
             add(ModBlocks.WOLFSBANE);
