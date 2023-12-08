@@ -51,7 +51,6 @@ configurations {
     apiRuntimeOnly.extendsFrom(runtimeOnly)
 }
 
-
 idea {
     module {
         for (String excludeDirName in ["run", "out", "logs", "gradle"]) {

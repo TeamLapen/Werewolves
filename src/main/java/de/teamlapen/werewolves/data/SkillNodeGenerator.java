@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class SkillNodeGenerator extends de.teamlapen.vampirism.data.SkillNodeProvider {
+public class SkillNodeGenerator extends de.teamlapen.vampirism.data.provider.SkillNodeProvider {
 
     public SkillNodeGenerator(PackOutput packOutput) {
         super(packOutput, REFERENCE.MODID);

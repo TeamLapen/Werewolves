@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.api.VampirismRegistries;
+import de.teamlapen.vampirism.api.entity.player.task.Task;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -113,5 +115,13 @@ public class ModTags {
             return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(REFERENCE.MODID, name));
         }
 
+    }
+
+    public static class Tasks {
+        public static final TagKey<Task> IS_WEREWOLF = tag("is_werewolf");
+
+        private static @NotNull TagKey<Task> tag(@NotNull String name) {
+            return TagKey.create(VampirismRegistries.TASK_ID, new ResourceLocation(REFERENCE.MODID, name));
+        }
     }
 }

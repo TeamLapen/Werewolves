@@ -1,0 +1,37 @@
+{
+  "requirements": {
+    "requirements": [
+      {
+        "type": "vampirism:entity",
+        "amount": 3,
+        "description": {
+          "translate": "entity.werewolves.alpha_werewolf"
+        },
+        "entityType": "werewolves:alpha_werewolf",
+        "id": "werewolves:alpha_werewolf"
+      },
+      {
+        "type": "vampirism:item",
+        "description": {
+          "translate": "item.minecraft.gold_ingot"
+        },
+        "id": "minecraft:gold_ingot",
+        "item": {
+          "Count": 2,
+          "id": "minecraft:gold_ingot"
+        }
+      }
+    ]
+  },
+  "rewards": {
+    "type": "vampirism:refinement",
+    "faction": {
+      "id": "werewolves:werewolf"
+    },
+    "rarity": "epic"
+  },
+  "title": {
+    "translate": "task.werewolves.random_refinement2"
+  },
+  "unlocker": []
+}

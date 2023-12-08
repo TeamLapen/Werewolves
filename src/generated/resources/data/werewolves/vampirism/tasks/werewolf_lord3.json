@@ -1,0 +1,66 @@
+{
+  "requirements": {
+    "requirements": [
+      {
+        "type": "vampirism:item",
+        "description": {
+          "translate": "item.minecraft.gold_ingot"
+        },
+        "id": "minecraft:gold_ingot",
+        "item": {
+          "Count": 32,
+          "id": "minecraft:gold_ingot"
+        }
+      },
+      {
+        "type": "vampirism:entity_type",
+        "amount": 20,
+        "description": {
+          "translate": "entity_tag.vampirism.hunter"
+        },
+        "entityType": "vampirism:hunter",
+        "id": "vampirism:hunter"
+      },
+      {
+        "type": "vampirism:entity_type",
+        "amount": 20,
+        "description": {
+          "translate": "entity_tag.vampirism.vampire"
+        },
+        "entityType": "vampirism:vampire",
+        "id": "vampirism:vampire"
+      },
+      {
+        "type": "vampirism:item",
+        "description": {
+          "translate": "item.werewolves.werewolf_tooth"
+        },
+        "id": "werewolves:werewolf_tooth",
+        "item": {
+          "Count": 3,
+          "id": "werewolves:werewolf_tooth"
+        }
+      }
+    ]
+  },
+  "rewards": {
+    "type": "vampirism:lord_level",
+    "description": {
+      "translate": "task_reward.vampirism.lord_level_reward",
+      "with": [
+        "3"
+      ]
+    },
+    "targetLevel": 3
+  },
+  "title": {
+    "translate": "task.werewolves.werewolf_lord3"
+  },
+  "unlocker": [
+    {
+      "type": "vampirism:lord_level",
+      "exact": true,
+      "reqLordLevel": 2
+    }
+  ]
+}

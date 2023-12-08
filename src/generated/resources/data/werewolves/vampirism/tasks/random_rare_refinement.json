@@ -1,0 +1,26 @@
+{
+  "requirements": {
+    "requirements": [
+      {
+        "type": "vampirism:stat",
+        "amount": 1,
+        "description": {
+          "translate": "stat.minecraft.raid_win"
+        },
+        "id": "minecraft:raid_win",
+        "stat": "minecraft:raid_win"
+      }
+    ]
+  },
+  "rewards": {
+    "type": "vampirism:refinement",
+    "faction": {
+      "id": "werewolves:werewolf"
+    },
+    "rarity": "rare"
+  },
+  "title": {
+    "translate": "task.werewolves.random_rare_refinement"
+  },
+  "unlocker": []
+}
