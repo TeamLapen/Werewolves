@@ -1,0 +1,17 @@
+{
+  "values": [
+    "werewolves:werewolf_lord1",
+    "werewolves:werewolf_lord2",
+    "werewolves:werewolf_lord3",
+    "werewolves:werewolf_lord4",
+    "werewolves:werewolf_lord5",
+    "werewolves:werewolf_minion_binding",
+    "werewolves:werewolf_minion_upgrade_simple",
+    "werewolves:werewolf_minion_upgrade_enhanced",
+    "werewolves:werewolf_minion_upgrade_special",
+    "werewolves:random_refinement1",
+    "werewolves:random_refinement2",
+    "werewolves:random_refinement3",
+    "werewolves:random_rare_refinement"
+  ]
+}

@@ -22,7 +22,6 @@ public class RegistryManager implements IInitListener {
         ModRefinements.register(bus);
         ModRefinementSets.register(bus);
         ModSounds.register(bus);
-        ModTasks.register(bus);
         ModTiles.register(bus);
         ModVillage.register(bus);
         ModLootTables.register(bus);

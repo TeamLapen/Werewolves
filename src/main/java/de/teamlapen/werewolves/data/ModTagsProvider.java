@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.data;
 
+import de.teamlapen.vampirism.api.VampirismRegistries;
+import de.teamlapen.vampirism.api.entity.player.task.Task;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
@@ -40,6 +42,7 @@ public class ModTagsProvider {
         gen.addProvider(event.includeServer(), new ModPoiTypesProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), new ModVillageProfessionProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), new ModDamageTypeProvider(output, future, existingFileHelper));
+        gen.addProvider(event.includeServer(), new ModTasksTagProvider(output, future, existingFileHelper));
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
@@ -166,6 +169,19 @@ public class ModTagsProvider {
             this.tag(ModTags.DamageTypes.WEREWOLF_FUR_IMMUNE).add(DamageTypes.SWEET_BERRY_BUSH, DamageTypes.CACTUS, DamageTypes.HOT_FLOOR);
             this.tag(DamageTypeTags.WITCH_RESISTANT_TO).add(ModDamageTypes.BLOOD_LOSS);
             this.tag(DamageTypeTags.BYPASSES_ARMOR).add(ModDamageTypes.BLOOD_LOSS);
+        }
+    }
+
+    private static class ModTasksTagProvider extends TagsProvider<Task> {
+
+        public ModTasksTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+            super(output, VampirismRegistries.TASK_ID, lookupProvider, REFERENCE.MODID, existingFileHelper);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.@NotNull Provider pProvider) {
+            this.tag(de.teamlapen.vampirism.core.ModTags.Tasks.IS_UNIQUE).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5);
+            this.tag(ModTags.Tasks.IS_WEREWOLF).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5, ModTasks.WEREWOLF_MINION_BINDING, ModTasks.WEREWOLF_MINION_UPGRADE_SIMPLE, ModTasks.WEREWOLF_MINION_UPGRADE_ENHANCED, ModTasks.WEREWOLF_MINION_UPGRADE_SPECIAL, ModTasks.RANDOM_REFINEMENT_1, ModTasks.RANDOM_REFINEMENT_2, ModTasks.RANDOM_REFINEMENT_3, ModTasks.RANDOM_RARE_REFINEMENT);
         }
     }
 }

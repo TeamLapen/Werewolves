@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -13,6 +14,7 @@ public class ModRegistries {
             .add(Registries.PLACED_FEATURE, WerewolvesBiomeFeatures::createPlacedFeatures)
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, WerewolvesBiomeFeatures::createBiomeModifier)
             .add(Registries.DAMAGE_TYPE, ModDamageTypes::createDamageTypes)
+            .add(VampirismRegistries.TASK_ID, ModTasks::createTasks)
             ;
 
 }

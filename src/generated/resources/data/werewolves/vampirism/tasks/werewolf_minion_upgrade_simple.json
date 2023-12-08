@@ -1,0 +1,52 @@
+{
+  "requirements": {
+    "requirements": [
+      {
+        "type": "vampirism:entity_type",
+        "amount": 6,
+        "description": {
+          "translate": "entity_tag.vampirism.advanced_hunter"
+        },
+        "entityType": "vampirism:advanced_hunter",
+        "id": "vampirism:advanced_hunter"
+      },
+      {
+        "type": "vampirism:entity_type",
+        "amount": 8,
+        "description": {
+          "translate": "entity_tag.vampirism.advanced_vampire"
+        },
+        "entityType": "vampirism:advanced_vampire",
+        "id": "vampirism:advanced_vampire"
+      },
+      {
+        "type": "vampirism:item",
+        "description": {
+          "translate": "item.minecraft.gold_block"
+        },
+        "id": "minecraft:gold_block",
+        "item": {
+          "Count": 16,
+          "id": "minecraft:gold_block"
+        }
+      }
+    ]
+  },
+  "rewards": {
+    "type": "vampirism:item",
+    "item": {
+      "Count": 1,
+      "id": "werewolves:werewolf_minion_upgrade_simple"
+    }
+  },
+  "title": {
+    "translate": "task.werewolves.werewolf_minion_upgrade_simple"
+  },
+  "unlocker": [
+    {
+      "type": "vampirism:lord_level",
+      "exact": false,
+      "reqLordLevel": 2
+    }
+  ]
+}
