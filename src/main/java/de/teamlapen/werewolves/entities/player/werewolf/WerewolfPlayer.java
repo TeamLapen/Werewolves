@@ -201,6 +201,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     public void onUpdate() {
         this.player.getCommandSenderWorld().getProfiler().push("werewolves_werewolfplayer");
+        super.onUpdate();
         if (getLevel() > 0) {
             if (!isRemote()) {
                 boolean sync = false;
@@ -473,6 +474,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     @Override
     public void onLevelChanged(int newLevel, int oldLevel) {
+        super.onLevelChanged(newLevel, oldLevel);
         this.applyEntityAttributes();
         if (!isRemote()) {
             ScoreboardUtil.updateScoreboard(this.player, WUtils.WEREWOLF_LEVEL_CRITERIA, newLevel);
