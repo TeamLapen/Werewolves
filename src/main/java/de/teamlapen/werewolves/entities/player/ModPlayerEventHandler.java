@@ -24,6 +24,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.TierSortingRegistry;
@@ -194,6 +195,18 @@ public class ModPlayerEventHandler {
             }
             event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void useItem(PlayerInteractEvent.RightClickItem event) {
+        if (Helper.isWerewolf(event.getEntity()) && event.getItemStack().getItem() instanceof Equipable) {
+            WerewolfPlayer.getOpt(event.getEntity()).ifPresent(s -> {
+                if (!s.canWearArmor(event.getItemStack())) {
+                    event.setCancellationResult(InteractionResult.FAIL);
+                    event.getEntity().displayClientMessage(Component.translatable("text.werewolves.equipment.equip_failed"), true);
+                }
+            });
         }
     }
 

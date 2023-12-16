@@ -27,8 +27,14 @@ public class WerewolfInventory {
         this.inventories = Collections.unmodifiableMap(inventories);
     }
 
-    public NonNullList<ItemStack> getArmor(WerewolfForm form) {
-        return inventories.get(form);
+    public NonNullList<ItemStack> getArmor(WerewolfForm form, boolean allowArmorInHumanlikeForm) {
+        var inventory = inventories.get(form);
+        if (form != WerewolfForm.NONE && form.isHumanLike() && allowArmorInHumanlikeForm) {
+            if (inventory.stream().allMatch(ItemStack::isEmpty)) {
+                inventory = inventories.get(WerewolfForm.NONE);
+            }
+        }
+        return inventory;
     }
 
     public Map<WerewolfForm, NonNullList<ItemStack>> getInventories() {
