@@ -247,6 +247,7 @@
   "text.werewolves.swords": "Swords",
   "text.werewolves.oil.when_applied": "When Applied:",
   "text.werewolves.oil.silver.more_damage": "Werewolves receive %s%% more damage",
+  "text.werewolves.equipment.equip_failed": "You cannot equip this item",
   "__comment": "guide-api",
   "gui.vampirism.taskmaster.text.werewolves_werewolf": "Be not afraid\n, your secret is safe with me and if you intend to help us with a few things we can protect this village from unwanted disturbance and you will be rewarded upon completion. Please browse the available tasks and accept any you like.",
   "guide.werewolves.entity.werewolf.title": "Werewolf",

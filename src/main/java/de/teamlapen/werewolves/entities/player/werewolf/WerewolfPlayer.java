@@ -92,6 +92,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return opt;
     }
 
+    public static LazyOptional<WerewolfPlayer> getOptSave(Player player) {
+        if (player == null || !player.isAlive())  {
+            return LazyOptional.empty();
+        }
+        return getOpt(player);
+    }
+
     /**
      * gets werewolf player optional
      * <p>
@@ -145,6 +152,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     public void switchForm(WerewolfForm form) {
+        if (this.form == form) return;
         WerewolfForm oldForm = this.form;
         this.form = form;
         this.player.refreshDimensions();
@@ -163,12 +171,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return stacks.stream().allMatch(this::canWearArmor);
     }
 
-    private boolean canWearArmor(WerewolfForm form, List<ItemStack> stack) {
+    public boolean canWearArmor(WerewolfForm form, List<ItemStack> stack) {
         return stack.stream().allMatch(s -> canWearArmor(form, s));
     }
 
-    private boolean canWearArmor(WerewolfForm form, ItemStack stack) {
-        if (stack.getItem() instanceof IWerewolfArmor) {
+    public boolean canWearArmor(WerewolfForm form, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return true;
+        } else if (stack.getItem() instanceof IWerewolfArmor) {
             return form.isTransformed();
         } else {
             return form.isHumanLike() && (!form.isTransformed() || this.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get()));
@@ -176,12 +186,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     private void swapArmorItems(WerewolfForm from, WerewolfForm to) {
-        NonNullList<ItemStack> armorTo = this.inventory.getArmor(to);
+        boolean allowArmor = this.skillHandler.isSkillEnabled(ModSkills.WEAR_ARMOR.get());
+        NonNullList<ItemStack> armorTo = this.inventory.getArmor(to, allowArmor);
         NonNullList<ItemStack> equippedArmor = this.player.getInventory().armor;
-        if (canWearArmor(to, equippedArmor) && armorTo.stream().allMatch(ItemStack::isEmpty)) {
-            return;
-        }
-        NonNullList<ItemStack> armorFrom = this.inventory.getArmor(from);
+        NonNullList<ItemStack> armorFrom = this.inventory.getArmor(from, allowArmor);
         for (int i = 0; i < equippedArmor.size(); i++) {
             armorFrom.set(i, equippedArmor.get(i));
         }

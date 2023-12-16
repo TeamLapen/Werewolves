@@ -42,7 +42,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 
     @Inject(method = "renderHand(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;Lnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/model/geom/ModelPart;)V", at = @At("RETURN"))
     private void renderWerewolfLeftHand(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, ModelPart pRendererArm, ModelPart pRendererArmwear, CallbackInfo ci) {
-        WerewolfPlayer.getOpt(pPlayer).filter(werewolf -> werewolf.getForm() == WerewolfForm.HUMAN).ifPresent(werewolf -> {
+        WerewolfPlayer.getOptSave(pPlayer).filter(werewolf -> werewolf.getForm() == WerewolfForm.HUMAN).ifPresent(werewolf -> {
             ModelPart armPart = pRendererArm == this.model.rightArm ? this.werewolfEarsModel.rightArm : this.werewolfEarsModel.leftArm;
             this.model.copyPropertiesTo(this.werewolfEarsModel);
             armPart.render(pMatrixStack, pBuffer.getBuffer(RenderType.entityCutout(this.textures.get(werewolf.getSkinType() % this.textures.size()))), pCombinedLight, OverlayTexture.NO_OVERLAY);

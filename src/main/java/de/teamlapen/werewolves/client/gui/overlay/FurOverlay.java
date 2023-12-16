@@ -22,7 +22,7 @@ public class FurOverlay implements IGuiOverlay {
     @Override
     public void render(ForgeGui gui, GuiGraphics graphics, float partialTicks, int width, int height) {
         if (WerewolvesConfig.CLIENT.disableScreenFurRendering.get()) return;
-        if (this.mc.options.getCameraType() == CameraType.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOpt(this.mc.player).map(FormHelper::isFormActionActive).orElse(false)) {
+        if (this.mc.options.getCameraType() == CameraType.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && WerewolfPlayer.getOptSave(this.mc.player).map(FormHelper::isFormActionActive).orElse(false)) {
             graphics.blit(FUR, 0, 0, 0, 0, this.mc.getWindow().getScreenWidth(), this.mc.getWindow().getScreenHeight(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight());
         }
     }
