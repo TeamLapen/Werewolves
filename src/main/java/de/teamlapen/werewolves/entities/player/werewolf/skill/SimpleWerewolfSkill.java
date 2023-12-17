@@ -27,11 +27,19 @@ import java.util.function.Supplier;
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
     public SimpleWerewolfSkill() {
-        this(false);
+        super(false);
+    }
+
+    public SimpleWerewolfSkill(int skillPointCost) {
+        super(skillPointCost, false);
     }
 
     public SimpleWerewolfSkill(boolean desc) {
-        if (desc) setHasDefaultDescription();
+        super(desc);
+    }
+
+    public SimpleWerewolfSkill(int skillPoints, boolean desc) {
+        super(skillPoints, desc);
     }
 
     @Nonnull

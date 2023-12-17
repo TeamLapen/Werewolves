@@ -104,7 +104,7 @@ public class ModEntityEventHandler {
                 float damageReduction = FormHelper.getForm(event.getEntity()).getDamageReduction();
                 damageReduction *= event.getEntity() instanceof Player ? WerewolfPlayer.getOpt(((Player) event.getEntity())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR.get())).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
                 if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {
-                    damageReduction *= 0.3;
+                    damageReduction *= 0.3f;
                 }
                 damage -= event.getAmount() * damageReduction;
                 event.setAmount(Mth.clamp(damage, 0, Float.MAX_VALUE));
