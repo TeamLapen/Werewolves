@@ -643,7 +643,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     public void loadData(CompoundTag compound) {
         super.loadData(compound);
         this.actionHandler.loadFromNbt(compound);
+        int maxSkillPoints = this.skillHandler.getMaxSkillPoints(); // tmp fix
         this.skillHandler.loadFromNbt(compound);
+        this.skillHandler.addSkillPoints(maxSkillPoints - this.skillHandler.getMaxSkillPoints()); // tmp fix
         this.levelHandler.loadFromNbt(compound);
         this.inventory.load(compound.getCompound("inventory"));
         CompoundTag armor = compound.getCompound("armor");
