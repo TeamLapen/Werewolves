@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SilverArmorItem extends ArmorItem implements ISilverItem {
 
-    public static final ArmorMaterial SILVER = new ArmorMaterial("werewolves:silver", 15, ArmorMaterial.createReduction(2, 5, 6, 2), 9, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, () -> Ingredient.of(ModTags.Items.SILVER_INGOT));
+    public static final ArmorMaterial SILVER = new ArmorMaterial("werewolves:silver", 15, ArmorMaterial.createReduction(2, 6,5, 2), 9, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, () -> Ingredient.of(ModTags.Items.SILVER_INGOT));
 
     public SilverArmorItem(ArmorItem.Type type, Item.Properties properties) {
         super(SILVER, type, properties);

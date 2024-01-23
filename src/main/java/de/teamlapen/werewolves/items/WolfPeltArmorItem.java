@@ -33,7 +33,7 @@ public class WolfPeltArmorItem extends ArmorItem implements IFactionExclusiveIte
 
     public static final ArmorMaterial.Tiered PELT = new ArmorMaterial.Tiered("werewolves:pelt", IItemWithTier.TIER.NORMAL,15, ArmorMaterial.createReduction(1,1,1,1), 9, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> Ingredient.of(ModItems.PELT.get()));
     public static final ArmorMaterial.Tiered DARK_PELT = new ArmorMaterial.Tiered("werewolves:dark_pelt", IItemWithTier.TIER.ENHANCED,25, ArmorMaterial.createReduction(1,2,2,1), 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> Ingredient.of(ModItems.DARK_PELT.get()));
-    public static final ArmorMaterial.Tiered WHITE_PELT = new ArmorMaterial.Tiered("werewolves:white_pelt", IItemWithTier.TIER.ULTIMATE,35, ArmorMaterial.createReduction(2,2,3,1), 20, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> Ingredient.EMPTY);
+    public static final ArmorMaterial.Tiered WHITE_PELT = new ArmorMaterial.Tiered("werewolves:white_pelt", IItemWithTier.TIER.ULTIMATE,35, ArmorMaterial.createReduction(2,3,2,1), 20, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> Ingredient.EMPTY);
 
     private final @NotNull TIER tier;
     public WolfPeltArmorItem(ArmorMaterial.Tiered material, Type pType, Properties pProperties) {
