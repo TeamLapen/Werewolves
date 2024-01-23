@@ -95,11 +95,11 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     protected void removeArmorModifier(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
+//        ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
     }
 
     protected void addArmorModifier(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).addArmorModifier();
+//        ((WerewolfPlayer) werewolfPlayer).addArmorModifier();
     }
 
     @Override
@@ -120,6 +120,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public void onReActivated(IWerewolfPlayer werewolf) {
+        ((WerewolfPlayer) werewolf).setForm(this, this.form);
         this.removeArmorModifier(werewolf);
         werewolf.getRepresentingPlayer().refreshDisplayName();
     }

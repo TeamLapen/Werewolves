@@ -617,10 +617,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     public void saveData(CompoundTag compound) {
         super.saveData(compound);
-        this.actionHandler.saveToNbt(compound);
-        this.skillHandler.saveToNbt(compound);
-        this.levelHandler.saveToNbt(compound);
         compound.put("inventory", this.inventory.save());
+        this.skillHandler.saveToNbt(compound);
+        this.actionHandler.saveToNbt(compound);
+        this.levelHandler.saveToNbt(compound);
         compound.putString("form", this.form.getName());
         if (this.lastFormAction != null) {
             compound.putString("lastFormAction", RegUtil.id(this.lastFormAction).toString());
@@ -642,12 +642,12 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     public void loadData(CompoundTag compound) {
         super.loadData(compound);
-        this.actionHandler.loadFromNbt(compound);
+        this.inventory.load(compound.getCompound("inventory"));
         int maxSkillPoints = this.skillHandler.getMaxSkillPoints(); // tmp fix
         this.skillHandler.loadFromNbt(compound);
         this.skillHandler.addSkillPoints(maxSkillPoints - this.skillHandler.getMaxSkillPoints()); // tmp fix
+        this.actionHandler.loadFromNbt(compound);
         this.levelHandler.loadFromNbt(compound);
-        this.inventory.load(compound.getCompound("inventory"));
         CompoundTag armor = compound.getCompound("armor");
         for (int i = 0; i < armor.size(); i++) {
             try { //TODO remove
@@ -678,10 +678,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     protected void writeFullUpdate(CompoundTag nbt) {
         super.writeFullUpdate(nbt);
+        nbt.put("inventory", this.inventory.save());
         this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
         this.levelHandler.saveToNbt(nbt);
-        nbt.put("inventory", this.inventory.save());
         nbt.putString("form", this.form.getName());
         nbt.putInt("biteTicks", this.specialAttributes.biteTicks);
         CompoundTag eye = new CompoundTag();
@@ -699,10 +699,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     protected void loadUpdate(CompoundTag nbt) {
         super.loadUpdate(nbt);
+        this.inventory.load(nbt.getCompound("inventory"));
         this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
         this.levelHandler.loadFromNbt(nbt);
-        this.inventory.load(nbt.getCompound("inventory"));
         if (NBTHelper.containsString(nbt, "form")) {
             this.switchForm(WerewolfForm.getForm(nbt.getString("form")));
         }
