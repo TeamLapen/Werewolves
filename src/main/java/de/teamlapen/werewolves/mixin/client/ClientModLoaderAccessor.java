@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(ClientModLoader.class)
 public interface ClientModLoaderAccessor {
 
-    @Accessor("error")
+    @Accessor(value = "error", remap = false)
     static LoadingFailedException getError() {
         throw new IllegalStateException("Failed to inject Accessor");
     }

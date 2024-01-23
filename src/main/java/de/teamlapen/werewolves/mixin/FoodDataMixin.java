@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(FoodData.class)
 public class FoodDataMixin {
 
-    @ModifyVariable(method = "Lnet/minecraft/world/food/FoodData;eat(Lnet/minecraft/world/item/Item;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V", at = @At("STORE"), ordinal = 0)
+    @ModifyVariable(method = "Lnet/minecraft/world/food/FoodData;eat(Lnet/minecraft/world/item/Item;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V", at = @At("STORE"), ordinal = 0, remap = false)
     private FoodProperties eat(FoodProperties value, Item pItem, ItemStack pStack, @org.jetbrains.annotations.Nullable net.minecraft.world.entity.LivingEntity entity) {
         if (entity instanceof Player player && Helper.isWerewolf(player)) {
             if (value.isMeat()) {
