@@ -316,7 +316,7 @@ public class BalanceConfig {
             builder.pop();
 
             builder.push("thick_fur");
-            this.thick_fur_multiplier = builder.comment("Multiplier for the default damage reduction of the werewolf fur").defineInRange("thick_fur_multiplier", 2f, 1, 10);
+            this.thick_fur_multiplier = builder.comment("Multiplier for the default damage reduction of the werewolf fur").defineInRange("thick_fur_multiplier", 1.5f, 1, 10);
             builder.pop();
         }
     }

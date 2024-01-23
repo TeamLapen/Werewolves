@@ -104,7 +104,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
+        ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
         werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
     }
 
@@ -214,5 +214,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             }
         }
         return limit;
+    }
+
+    @Nonnull
+    public WerewolfForm getForm() {
+        return form;
     }
 }

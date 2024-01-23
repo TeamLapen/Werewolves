@@ -7,6 +7,7 @@ import de.teamlapen.vampirism.entity.player.skills.ActionSkill;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.entities.player.werewolf.skill.FormActionSkill;
 import de.teamlapen.werewolves.entities.player.werewolf.skill.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -22,16 +23,16 @@ public class ModSkills {
 
     public static final DeferredRegister<ISkill<?>> SKILLS = DeferredRegister.create(VampirismRegistries.SKILLS_ID, REFERENCE.MODID);
 
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> HUMAN_FORM = SKILLS.register("human_form", () -> new ActionSkill<>(ModActions.HUMAN_FORM, true));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> HUMAN_FORM = SKILLS.register("human_form", () -> new FormActionSkill(ModActions.HUMAN_FORM, 2));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> NIGHT_VISION = SKILLS.register("night_vision", () -> new SimpleWerewolfSkill(true).setToggleActions(
             (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
             (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = false));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> RAGE = SKILLS.register("rage", () -> new ActionSkill<>(ModActions.RAGE, 2,true));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> BEAST_FORM = SKILLS.register("beast_form", () -> new ActionSkill<>(ModActions.BEAST_FORM, 3,true));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> SURVIVAL_FORM = SKILLS.register("survival_form", () -> new ActionSkill<>(ModActions.SURVIVAL_FORM, 3,true));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> BEAST_FORM = SKILLS.register("beast_form", () -> new FormActionSkill(ModActions.BEAST_FORM, 3));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> SURVIVAL_FORM = SKILLS.register("survival_form", () -> new FormActionSkill(ModActions.SURVIVAL_FORM, 3));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> STUN_BITE = SKILLS.register("stun_bite", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> BLEEDING_BITE = SKILLS.register("bleeding_bite", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> DAMAGE = SKILLS.register("damage", () -> new SimpleWerewolfSkill(true));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> DAMAGE = SKILLS.register("damage", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> RESISTANCE = SKILLS.register("resistance", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> HEALTH_AFTER_KILL = SKILLS.register("health_after_kill", () -> new SimpleWerewolfSkill(1, true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> HOWLING = SKILLS.register("howling", () -> new ActionSkill<>(ModActions.HOWLING, true));

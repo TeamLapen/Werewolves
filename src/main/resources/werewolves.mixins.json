@@ -20,6 +20,7 @@
     "SmithingTemplateItemAccessor",
     "TargetingConditionsAccessor",
     "VanillaBlockLootAccessor",
+    "entity.LivingEntityMixin",
     "entity.MixinVillagerEntity",
     "entity.MobMixin",
     "entity.PlayerAccessor",

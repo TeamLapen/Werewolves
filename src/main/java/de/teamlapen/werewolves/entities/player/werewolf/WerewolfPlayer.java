@@ -32,18 +32,14 @@ import de.teamlapen.werewolves.util.*;
 import de.teamlapen.werewolves.world.ModDamageSources;
 import de.teamlapen.werewolves.world.WerewolvesWorld;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -151,6 +147,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
+    public WerewolfInventory getInventory() {
+        return inventory;
+    }
+
     public void switchForm(WerewolfForm form) {
         if (this.form == form) return;
         WerewolfForm oldForm = this.form;
@@ -159,7 +159,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         if (!this.form.isHumanLike()) {
             ((PlayerAccessor) this.player).invoke_removeEntitiesOnShoulder();
         }
-        this.swapArmorItems(oldForm, form);
+        if (!this.player.level().isClientSide) {
+            this.inventory.swapArmorItems(form);
+        }
     }
 
     @Override
@@ -182,19 +184,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             return form.isTransformed();
         } else {
             return form.isHumanLike() && (!form.isTransformed() || this.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get()));
-        }
-    }
-
-    private void swapArmorItems(WerewolfForm from, WerewolfForm to) {
-        boolean allowArmor = this.skillHandler.isSkillEnabled(ModSkills.WEAR_ARMOR.get());
-        NonNullList<ItemStack> armorTo = this.inventory.getArmor(to, allowArmor);
-        NonNullList<ItemStack> equippedArmor = this.player.getInventory().armor;
-        NonNullList<ItemStack> armorFrom = this.inventory.getArmor(from, allowArmor);
-        for (int i = 0; i < equippedArmor.size(); i++) {
-            armorFrom.set(i, equippedArmor.get(i));
-        }
-        for (int i = 0; i < equippedArmor.size(); i++) {
-            equippedArmor.set(i, armorTo.get(i));
         }
     }
 
@@ -400,6 +389,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     public void onDeath(DamageSource damageSource) {
         super.onDeath(damageSource);
         this.actionHandler.deactivateAllActions();
+        this.inventory.dropEquipment();
     }
 
     @Nonnull
@@ -657,9 +647,19 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
             }
         }
-        if (NBTHelper.containsString(compound, "form")) {
-            this.switchForm(WerewolfForm.getForm(compound.getString("form")));
-        }
+//        if (NBTHelper.containsString(compound, "form")) {
+//            WerewolfForm form = WerewolfForm.getForm(compound.getString("form"));
+//            if (form != WerewolfForm.NONE) {
+//                NonNullList<ItemStack> itemStacks = this.inventory.getInventories().get(WerewolfForm.NONE);
+//                for (int i = 0; i < 4; i++) {
+//                    ItemStack itemStack = itemStacks.get(i);
+//                    if (!itemStack.isEmpty()) {
+//                        this.player.getInventory().armor.set(i, itemStack);
+//                    }
+//                }
+//            }
+//            this.switchForm(WerewolfForm.getForm(compound.getString("form")));
+//        }
         if (NBTHelper.containsString(compound, "lastFormAction")) {
             this.lastFormAction = ((WerewolfFormAction) RegUtil.getAction(new ResourceLocation(compound.getString("lastFormAction"))));
         }
@@ -679,8 +679,8 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     protected void writeFullUpdate(CompoundTag nbt) {
         super.writeFullUpdate(nbt);
         nbt.put("inventory", this.inventory.save());
-        this.actionHandler.writeUpdateForClient(nbt);
         this.skillHandler.writeUpdateForClient(nbt);
+        this.actionHandler.writeUpdateForClient(nbt);
         this.levelHandler.saveToNbt(nbt);
         nbt.putString("form", this.form.getName());
         nbt.putInt("biteTicks", this.specialAttributes.biteTicks);
@@ -700,11 +700,11 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     protected void loadUpdate(CompoundTag nbt) {
         super.loadUpdate(nbt);
         this.inventory.load(nbt.getCompound("inventory"));
-        this.actionHandler.readUpdateFromServer(nbt);
         this.skillHandler.readUpdateFromServer(nbt);
+        this.actionHandler.readUpdateFromServer(nbt);
         this.levelHandler.loadFromNbt(nbt);
         if (NBTHelper.containsString(nbt, "form")) {
-            this.switchForm(WerewolfForm.getForm(nbt.getString("form")));
+            this.switchForm(form);
         }
         if (nbt.contains("biteTicks")) {
             this.specialAttributes.biteTicks = nbt.getInt("biteTicks");
