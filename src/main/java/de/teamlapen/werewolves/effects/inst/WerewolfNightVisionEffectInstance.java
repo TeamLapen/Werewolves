@@ -17,7 +17,7 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
     }
 
     public WerewolfNightVisionEffectInstance(MobEffectInstance otherEffect) {
-        super(MobEffects.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false, false, otherEffect, Optional.empty());
+        super(MobEffects.NIGHT_VISION, -1, 0, false, false, false, otherEffect, Optional.empty());
         this.setCurativeItems(Collections.emptyList());
     }
 
