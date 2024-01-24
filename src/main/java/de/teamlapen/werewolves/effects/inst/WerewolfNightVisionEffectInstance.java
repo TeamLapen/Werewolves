@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.effects.inst;
 
+import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
+import de.teamlapen.vampirism.effects.VampirismNightVisionPotion;
 import de.teamlapen.werewolves.mixin.MobEffectInstanceAccessor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,6 +21,7 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
     public WerewolfNightVisionEffectInstance(MobEffectInstance otherEffect) {
         super(MobEffects.NIGHT_VISION, -1, 0, false, false, false, otherEffect, Optional.empty());
         this.setCurativeItems(Collections.emptyList());
+        ((EffectInstanceWithSource) this).setSource(VampirismNightVisionPotion.ID);
     }
 
     public boolean update(@Nonnull MobEffectInstance other) {
