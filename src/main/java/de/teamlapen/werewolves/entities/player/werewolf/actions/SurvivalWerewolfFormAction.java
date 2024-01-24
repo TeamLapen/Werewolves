@@ -3,9 +3,11 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.ModSkills;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
@@ -25,12 +27,22 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
         attributes.add(new Modifier(Attributes.ATTACK_DAMAGE, UUID.fromString("4e36859f-fadd-43cb-8e0d-722b7ab2cd4c"), UUID.fromString("a62d12ee-20e1-4169-a802-1eab2d0cc471"), 0.5, "survival_form_attack_damage", () -> WerewolvesConfig.BALANCE.SKILLS.survival_form_attack_damage.get() * 0.5, WerewolvesConfig.BALANCE.SKILLS.survival_form_attack_damage, ModSkills.DAMAGE, AttributeModifier.Operation.ADDITION));
     }
 
+    public static void climberSkillEnabled(IWerewolfPlayer werewolf) {
+        if (werewolf.getActionHandler().isActionActive(ModActions.SURVIVAL_FORM.get())) {
+            checkStepHeight(werewolf, true);
+        }
+    }
+
+    public static void climberSkillDisabled(IWerewolfPlayer werewolf) {
+        if (werewolf.getActionHandler().isActionActive(ModActions.SURVIVAL_FORM.get())) {
+            checkStepHeight(werewolf, false);
+        }
+    }
+
     @Override
     protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
         if (super.activate(werewolf, context)) {
-            if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get())) {
-                werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));
-            }
+            checkStepHeight(werewolf, werewolf.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get()));
             return true;
         } else {
             return false;
@@ -40,9 +52,7 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     @Override
     public void onReActivated(IWerewolfPlayer werewolf) {
         super.onReActivated(werewolf);
-        if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get())) {
-            werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));
-        }
+        checkStepHeight(werewolf, werewolf.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get()));
     }
 
     @Override
@@ -53,7 +63,17 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     @Override
     public void onDeactivated(IWerewolfPlayer werewolf) {
         super.onDeactivated(werewolf);
-        werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get()).removeModifier(CLIMBER_ID);
+        checkStepHeight(werewolf, false);
+    }
+
+    public static void checkStepHeight(IWerewolfPlayer werewolf, boolean active) {
+        AttributeInstance attribute = werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get());
+        if (active) {
+            attribute.removeModifier(CLIMBER_ID);
+            attribute.addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));
+        } else {
+            attribute.removeModifier(CLIMBER_ID);
+        }
     }
 
     @Override

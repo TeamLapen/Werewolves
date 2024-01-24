@@ -7,6 +7,7 @@ import de.teamlapen.vampirism.entity.player.skills.ActionSkill;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.entities.player.werewolf.actions.SurvivalWerewolfFormAction;
 import de.teamlapen.werewolves.entities.player.werewolf.skill.FormActionSkill;
 import de.teamlapen.werewolves.entities.player.werewolf.skill.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -42,7 +43,7 @@ public class ModSkills {
     public static final RegistryObject<ISkill<IWerewolfPlayer>> WOLF_PACK = SKILLS.register("wolf_pack", () -> new SimpleWerewolfSkill(1).defaultDescWithEnhancement(HOWLING::get));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> MOVEMENT_TACTICS = SKILLS.register("movement_tactics", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(SURVIVAL_FORM::get));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> THROAT_SEEKER = SKILLS.register("throat_seeker", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> CLIMBER = SKILLS.register("climber", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(SURVIVAL_FORM::get));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> CLIMBER = SKILLS.register("climber", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(SURVIVAL_FORM::get).setToggleActions(SurvivalWerewolfFormAction::climberSkillEnabled, SurvivalWerewolfFormAction::climberSkillDisabled));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> WOLF_PAWN = SKILLS.register("wolf_pawn", () -> new SimpleWerewolfSkill(1,true)); //TODO maybe add soul sand & slime & ice & webs as blocks that do not affect movement speed
     public static final RegistryObject<ISkill<IWerewolfPlayer>> NOT_MEAT = SKILLS.register("not_meat", () -> new SimpleWerewolfSkill(3,true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> WATER_LOVER = SKILLS.register("water_lover", () -> new SimpleWerewolfSkill(true));
