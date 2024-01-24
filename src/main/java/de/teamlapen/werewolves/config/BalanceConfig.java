@@ -362,12 +362,14 @@ public class BalanceConfig {
 
         public final ForgeConfigSpec.IntValue silverBoltEffectDuration;
         public final ForgeConfigSpec.IntValue silverItemEffectDuration;
+        public final ForgeConfigSpec.IntValue silverArmorAttackEffectDuration;
         public final ForgeConfigSpec.BooleanValue skeletonIgnoreWerewolves;
 
         public Util(ForgeConfigSpec.Builder builder) {
             this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 6, 1, Integer.MAX_VALUE);
             this.silverItemEffectDuration = builder.comment("The duration of the silver effect when attacking with a silver item", "in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
             this.skeletonIgnoreWerewolves = builder.comment("if skeletons should ignore werewolves").define("skeletonIgnoreWerewolves", true);
+            this.silverArmorAttackEffectDuration = builder.comment("The duration of the silver effect when attacking an entity with silver armor as werewolf per armor item", "in ticks").defineInRange("silverArmorAttackEffectDuration", 5, 0, Integer.MAX_VALUE);
         }
     }
 

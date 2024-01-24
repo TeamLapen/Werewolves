@@ -18,10 +18,12 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Equipable;
@@ -44,6 +46,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 public class ModPlayerEventHandler {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -238,6 +241,12 @@ public class ModPlayerEventHandler {
                 });
             } else if (event.getSource().is(ModTags.DamageTypes.WEREWOLF_FUR_IMMUNE) && WerewolfPlayer.getOpt(player).filter(w -> w.getForm().isTransformed()).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())).orElse(false)) {
                 event.setCanceled(true);
+            }
+        }
+        if (event.getSource().is(DamageTypes.MOB_ATTACK) && event.getSource().getDirectEntity() instanceof LivingEntity source && Helper.isWerewolf(source)) {
+            int sum = StreamSupport.stream(event.getEntity().getArmorSlots().spliterator(), false).mapToInt(stack -> stack.getItem() instanceof ISilverItem ? 1 : 0).sum();
+            if (sum > 0) {
+                source.addEffect(SilverEffect.createSilverEffect(source, WerewolvesConfig.BALANCE.UTIL.silverArmorAttackEffectDuration.get() * sum, 0));
             }
         }
     }

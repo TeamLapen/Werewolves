@@ -8,6 +8,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
+import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModDamageTypes;
 import de.teamlapen.werewolves.core.ModSkills;
@@ -57,6 +58,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
+import java.util.stream.StreamSupport;
 
 public class ModEntityEventHandler {
 
@@ -75,6 +77,12 @@ public class ModEntityEventHandler {
         if (event.getTarget() instanceof WerewolfTransformable) {
             if (((WerewolfTransformable) event.getTarget()).canTransform()) {
                 ((WerewolfTransformable) event.getTarget()).transformToWerewolf(TransformType.TIME_LIMITED);
+            }
+        }
+        if (Helper.isWerewolf(event.getEntity())) {
+            int sum = StreamSupport.stream(event.getTarget().getArmorSlots().spliterator(), false).mapToInt(stack -> stack.getItem() instanceof ISilverItem ? 1 : 0).sum();
+            if (sum > 0) {
+                event.getEntity().addEffect(SilverEffect.createSilverEffect(event.getEntity(), WerewolvesConfig.BALANCE.UTIL.silverArmorAttackEffectDuration.get() * sum, 0));
             }
         }
     }
