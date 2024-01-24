@@ -7,8 +7,10 @@ import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
 import de.teamlapen.vampirism.items.VampirismItemBloodFoodItem;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.*;
+import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.effects.inst.UnWerewolfEffectInstance;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
@@ -32,6 +34,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.*;
@@ -273,6 +276,13 @@ public class ModPlayerEventHandler {
                         || event.getTargetBlock().is(BlockTags.MINEABLE_WITH_SHOVEL)
                         || event.getTargetBlock().is(BlockTags.MINEABLE_WITH_HOE)));
             });
+        }
+    }
+
+    @SubscribeEvent
+    public void tickTool(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && Helper.isWerewolf(event.player) && (event.player.getMainHandItem().getItem() instanceof ISilverItem || event.player.getOffhandItem().getItem() instanceof ISilverItem) && event.player.tickCount % 10 == 0) {
+            event.player.addEffect(SilverEffect.createSilverEffect(event.player, 15, 0));
         }
     }
 }
