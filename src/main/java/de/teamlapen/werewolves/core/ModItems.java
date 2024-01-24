@@ -121,6 +121,7 @@ public class ModItems {
     public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_LEGGINGS = register("white_pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.LEGGINGS, props()));
     public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_BOOTS = register("white_pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.BOOTS, props()));
     public static final RegistryObject<SmithingTemplateItem> WHITE_PELT_UPGRADE_SMITHING_TEMPLATE = register("white_pelt_upgrade_smithing_template", ModSmithingTemplates::createWhitePeltUpgradeTemplate);
+    public static final RegistryObject<Item> WOLFSBANE_FINDER = register("wolfsbane_finder", () -> new Item(props().rarity(Rarity.RARE)));
 
 
     public static class V {

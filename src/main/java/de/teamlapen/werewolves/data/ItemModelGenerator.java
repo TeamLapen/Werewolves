@@ -90,6 +90,7 @@ public class ItemModelGenerator extends BaseItemModelGenerator {
             add(ModItems.WHITE_PELT_LEGGINGS);
             add(ModItems.WHITE_PELT_BOOTS);
             add(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE);
+            add(ModItems.WOLFSBANE_FINDER);
         }};
         Set<Supplier<? extends Block>> blockLayer = new HashSet<>() {{
             add(ModBlocks.WOLFSBANE);

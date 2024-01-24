@@ -136,6 +136,7 @@ public class WerewolvesCreativeTab {
             addItem(INJECTION_UN_WEREWOLF);
             addItem(WOLFSBANE_DIFFUSER_CORE);
             addItem(WOLFSBANE_DIFFUSER_CORE_IMPROVED);
+            addItem(WOLFSBANE_FINDER);
         }
     }
 }

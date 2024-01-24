@@ -161,5 +161,6 @@ public class RecipeGenerator extends VanillaRecipeProvider {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_LEGGINGS.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_LEGGINGS.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_LEGGINGS.get()) + "_smithing");
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_BOOTS.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_BOOTS.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_BOOTS.get()) + "_smithing");
         copySmithingTemplate(consumer, ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get(), ModItems.WEREWOLF_TOOTH.get());
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.WOLFSBANE_FINDER.get()).pattern("XXX").pattern("XYX").pattern("ZAZ").define('X', silver_ingot).define('Y', wolfsbane).define('Z', planks).define('A', Tags.Items.DUSTS_REDSTONE).unlockedBy("has_redstone", has(Tags.Items.DUSTS_REDSTONE)).unlockedBy("has_silver_ingot", has(silver_ingot)).save(consumer);
     }
 }

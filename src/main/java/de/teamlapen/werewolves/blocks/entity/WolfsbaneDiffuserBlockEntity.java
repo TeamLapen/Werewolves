@@ -71,6 +71,10 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
         return this.saveWithoutMetadata();
     }
 
+    public boolean isInRange(@NotNull BlockPos pos) {
+        return new ChunkPos(this.getBlockPos()).getChessboardDistance(new ChunkPos(pos)) <= radius();
+    }
+
     @Override
     public void load(@NotNull CompoundTag compound) {
         super.load(compound);
