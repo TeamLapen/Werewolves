@@ -5,10 +5,14 @@ import de.teamlapen.vampirism.api.items.IFactionExclusiveItem;
 import de.teamlapen.vampirism.api.items.IItemWithTier;
 import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.items.IWerewolfArmor;
 import de.teamlapen.werewolves.client.model.armor.WolfHeadModel;
 import de.teamlapen.werewolves.core.ModItems;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.ArmorMaterial;
+import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
@@ -17,6 +21,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -70,5 +75,15 @@ public class WolfPeltArmorItem extends ArmorItem implements IFactionExclusiveIte
     @Override
     public TIER getVampirismTier() {
         return this.tier;
+    }
+
+    @Override
+    public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
+        return super.canEquip(stack, armorType, entity) && Helper.isWerewolf(entity) && (!(entity instanceof Player player) || WerewolfPlayer.getOpt(player).map(s -> s.canWearArmor(stack)).orElse(false));
+    }
+
+    @Override
+    public boolean canWear(IWerewolfPlayer player, WerewolfForm form) {
+        return true;
     }
 }

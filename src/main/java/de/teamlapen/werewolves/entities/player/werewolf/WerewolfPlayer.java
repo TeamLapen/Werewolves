@@ -180,8 +180,8 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     public boolean canWearArmor(WerewolfForm form, ItemStack stack) {
         if (stack.isEmpty()) {
             return true;
-        } else if (stack.getItem() instanceof IWerewolfArmor) {
-            return form.isTransformed();
+        } else if (stack.getItem() instanceof IWerewolfArmor armor) {
+            return armor.canWear(this, form);
         } else {
             return form.isHumanLike() && (!form.isTransformed() || this.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get()));
         }
