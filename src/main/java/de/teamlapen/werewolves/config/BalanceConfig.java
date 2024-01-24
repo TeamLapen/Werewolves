@@ -312,7 +312,7 @@ public class BalanceConfig {
             builder.pop();
 
             builder.push("movement tactics");
-            this.movement_tactics_doge_chance = builder.comment("Doge chance for the movement tactics skill").defineInRange("movement_tactics_doge_chance", 0.25D, 0D, 1D);
+            this.movement_tactics_doge_chance = builder.comment("Doge chance for the movement tactics skill").defineInRange("movement_tactics_doge_chance", 0.3D, 0D, 1D);
             builder.pop();
 
             builder.push("thick_fur");
