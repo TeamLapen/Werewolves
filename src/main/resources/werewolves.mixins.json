@@ -16,6 +16,7 @@
     "MobEffectInstanceAccessor",
     "NearestAttackabletargetGoalAccessor",
     "ObjectiveCriteriaAccessor",
+    "PowderSnowBlockMixin",
     "RegistriesDatapackGeneratorAccessor",
     "SmithingTemplateItemAccessor",
     "TargetingConditionsAccessor",

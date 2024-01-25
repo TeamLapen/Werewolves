@@ -196,7 +196,7 @@
   "skill.werewolves.movement_tactics.desc": "Adds a chance to dodge attacks while sprinting in werewolf form",
   "skill.werewolves.throat_seeker.desc": "Adds a chance to instantly kill entities when attacking from behind (target health needs to be below 25%)",
   "skill.werewolves.climber.desc": "Automatically step up blocks when in Survivalist Form",
-  "skill.werewolves.wolf_pawn.desc": "Receive no damage from blocks like cacti, berry bushes & magma blocks and receive less damage from falling",
+  "skill.werewolves.wolf_pawn.desc": "Receive no damage from blocks like cacti, berry bushes & magma blocks, receive less damage from falling and walk on powder snow without sinking",
   "skill.werewolves.not_meat.desc": "Be able to eat food that's not meat",
   "skill.werewolves.water_lover.desc": "Receive no de-buff from being under water",
   "skill.werewolves.free_will.desc": "You are no longer forced into werewolf form at full moon",

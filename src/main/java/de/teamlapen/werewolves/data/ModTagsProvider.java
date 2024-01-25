@@ -8,14 +8,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.BiomeTagsProvider;
-import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.data.tags.PoiTypeTagsProvider;
-import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.data.tags.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -43,6 +41,7 @@ public class ModTagsProvider {
         gen.addProvider(event.includeServer(), new ModVillageProfessionProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), new ModDamageTypeProvider(output, future, existingFileHelper));
         gen.addProvider(event.includeServer(), new ModTasksTagProvider(output, future, existingFileHelper));
+        gen.addProvider(event.includeServer(), new ModEntityTagProvider(output, future, existingFileHelper));
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
@@ -234,6 +233,19 @@ public class ModTagsProvider {
         protected void addTags(HolderLookup.@NotNull Provider pProvider) {
             this.tag(de.teamlapen.vampirism.core.ModTags.Tasks.IS_UNIQUE).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5);
             this.tag(ModTags.Tasks.IS_WEREWOLF).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5, ModTasks.WEREWOLF_MINION_BINDING, ModTasks.WEREWOLF_MINION_UPGRADE_SIMPLE, ModTasks.WEREWOLF_MINION_UPGRADE_ENHANCED, ModTasks.WEREWOLF_MINION_UPGRADE_SPECIAL, ModTasks.RANDOM_REFINEMENT_1, ModTasks.RANDOM_REFINEMENT_2, ModTasks.RANDOM_REFINEMENT_3, ModTasks.RANDOM_RARE_REFINEMENT);
+        }
+    }
+
+    private static class ModEntityTagProvider extends EntityTypeTagsProvider {
+
+
+        public ModEntityTagProvider(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pProvider, @Nullable ExistingFileHelper existingFileHelper) {
+            super(pOutput, pProvider, REFERENCE.MODID, existingFileHelper);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.@NotNull Provider pProvider) {
+            this.tag(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS).add(ModEntities.WEREWOLF_SURVIVALIST.get());
         }
     }
 }
