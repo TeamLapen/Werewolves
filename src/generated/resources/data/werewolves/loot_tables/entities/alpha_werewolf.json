@@ -27,7 +27,7 @@
         {
           "type": "minecraft:item",
           "name": "werewolves:dark_pelt",
-          "weight": 20
+          "weight": 40
         },
         {
           "type": "minecraft:item",
@@ -37,7 +37,7 @@
       "name": "pelt",
       "rolls": {
         "type": "minecraft:uniform",
-        "max": 3.0,
+        "max": 2.0,
         "min": 1.0
       }
     },
@@ -50,7 +50,7 @@
         {
           "chance": 0.1,
           "condition": "minecraft:random_chance_with_looting",
-          "looting_multiplier": 0.1
+          "looting_multiplier": 0.015
         }
       ],
       "entries": [
