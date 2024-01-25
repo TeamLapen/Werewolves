@@ -196,6 +196,7 @@ public class ModPlayerEventHandler {
             WerewolfPlayer.getOpt(event.getEntity()).ifPresent(s -> {
                 if (!s.canWearArmor(event.getItemStack())) {
                     event.setCancellationResult(InteractionResult.FAIL);
+                    event.setCanceled(true);
                     event.getEntity().displayClientMessage(Component.translatable("text.werewolves.equipment.equip_failed"), true);
                 }
             });
