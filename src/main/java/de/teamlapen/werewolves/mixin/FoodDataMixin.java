@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.mixin;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.food.FoodProperties;
@@ -24,6 +25,7 @@ public class FoodDataMixin {
                     return werewolves$builder(value).saturationMod(value.getSaturationModifier() * 2).nutrition(value.getNutrition() * 2).build();
                 }
             } else if (WerewolfPlayer.getOpt(player).map(s -> !s.getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT.get())).orElse(true)) {
+                player.displayClientMessage(Component.translatable("text.werewolves.taste_not_right"), true);
                 return werewolves$builder(value).saturationMod(0).nutrition(0).build();
             }
         }

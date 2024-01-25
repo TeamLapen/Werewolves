@@ -8,6 +8,7 @@
   "keys.werewolves.bite": "Bite",
   "text.werewolves.slayed_creatures": "Creatures",
   "text.werewolves.nomount.transformed": "Cannot mount while being transformed",
+  "text.werewolves.taste_not_right": "This does not taste right",
   "__comment": "worldgen",
   "biome.werewolves.werewolf_heaven": "Werewolf Forest",
   "biome.werewolves.werewolf_forest": "Werewolf Forest",
