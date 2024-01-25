@@ -181,7 +181,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public int getDuration(IWerewolfPlayer werewolf) {
-        return 10000;
+        return Integer.MAX_VALUE;
     }
 
     @Override
