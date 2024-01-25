@@ -19,26 +19,32 @@ This mod allows you to become a werewolf with all its benefits and drawbacks.
 
 ## Links
 
-Download: [Curseforge](https://www.curseforge.com/minecraft/mc-mods/werewolves-become-a-beast)  
-Translate: [Crowdin](https://crowdin.com/project/werewolves)  
-Wiki: [Wiki](https://wiki.werewolves.dev/docs/wiki/intro)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg)](https://www.curseforge.com/minecraft/mc-mods/werewolves-become-a-beast)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/mod/werewolves)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/translate/crowdin_vector.svg)](https://translate.werewolves.dev)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/ghpages_vector.svg)](https://wiki.werewolves.dev/docs/wiki/intro)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg)](https://discord.gg/wuamm4P)
 
-Vampirism [Github](https://github.com/TeamLapen/Vampirism)  
-Vampirism [Curseforge](https://www.curseforge.com/minecraft/mc-mods/vampirism-become-a-vampire)
+#### Vampirism
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg)](https://github.com/TeamLapen/Vampirism)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg)](https://www.curseforge.com/minecraft/mc-mods/vampirism-become-a-vampire)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/mod/vampirism)
 
 ## People
 
 - [Cheaterpaul](https://github.com/Cheaterpaul) _Everything_
+- [Mike](https://github.com/supermike1999) _Tester_ & _Ideas_
+- [LilCatGod](https://github.com/LilCatGod) _Tester_ & _Ideas_
 
 ## Special Thanks to
 
 - [maxanier](https://maxanier.de) _Vampirism_
 - [RebelT](https://github.com/TheRebelT) _Models & Textures_
-- [1LiterZinalco](https://lunofe.de/) _Models_
+- [lunofe](https://github.com/lunofe) _Models_
 - Йода _Textures_
 - CritterCarnival _Textures_
 - [Talonerd](https://twitter.com/Talonerd) _Textures_
-- [Grid](https://www.curseforge.com/members/gridexpert/projects) _Textures_
+- [Grid](https://github.com/TheGridExpert) _Textures_
 - drań _Models & Textures_
 
 ## Setup Gradle build script and Maven mirror
