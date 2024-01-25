@@ -8,11 +8,13 @@ import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.SurvivalWerewolfFormAction;
+import de.teamlapen.werewolves.entities.player.werewolf.skill.DiggerSkill;
 import de.teamlapen.werewolves.entities.player.werewolf.skill.FormActionSkill;
 import de.teamlapen.werewolves.entities.player.werewolf.skill.SimpleWerewolfSkill;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -55,16 +57,8 @@ public class ModSkills {
     public static final RegistryObject<ISkill<IWerewolfPlayer>> SIXTH_SENSE = SKILLS.register("sixth_sense", () -> new SimpleWerewolfSkill(1,true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> HEALTH_REG = SKILLS.register("health_reg", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> THICK_FUR = SKILLS.register("thick_fur", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> DIGGER = SKILLS.register("digger", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get, HUMAN_FORM::get)
-            .setToggleActions(
-                    (p) -> {((WerewolfPlayer) p).getSpecialAttributes().diggingLevel += 1; ((WerewolfPlayer) p).getSpecialAttributes().diggingSpeed += 2; },
-                    (p) -> {((WerewolfPlayer) p).getSpecialAttributes().diggingLevel -= 1; ((WerewolfPlayer) p).getSpecialAttributes().diggingSpeed -= 2; }
-            ));
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> ENHANCED_DIGGER = SKILLS.register("enhanced_digger", () -> new SimpleWerewolfSkill(3).defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get, HUMAN_FORM::get)
-            .setToggleActions(
-                    (p) -> {((WerewolfPlayer) p).getSpecialAttributes().diggingLevel += 1; ((WerewolfPlayer) p).getSpecialAttributes().diggingSpeed += 2; },
-                    (p) -> {((WerewolfPlayer) p).getSpecialAttributes().diggingLevel -= 1; ((WerewolfPlayer) p).getSpecialAttributes().diggingSpeed -= 2; }
-            ));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> DIGGER = SKILLS.register("digger", DiggerSkill::new);
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> ENHANCED_DIGGER = SKILLS.register("enhanced_digger", DiggerSkill::new);
     public static final RegistryObject<ISkill<IWerewolfPlayer>> MINION_STATS_INCREASE = SKILLS.register("werewolf_minion_stats_increase", () -> new SimpleWerewolfSkill.LordWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> MINION_COLLECT = SKILLS.register("werewolf_minion_collect", () -> new SimpleWerewolfSkill.LordWerewolfSkill(true));
 

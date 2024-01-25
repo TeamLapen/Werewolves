@@ -32,6 +32,9 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
 
     @Override
     public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+        if (!Helper.isWerewolf(entityLivingBaseIn)) {
+            entityLivingBaseIn.removeEffect(this);
+        }
     }
 
     @Override

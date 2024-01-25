@@ -25,11 +25,14 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.util.LazyOptional;
@@ -54,7 +57,6 @@ import java.util.stream.StreamSupport;
 public class ModPlayerEventHandler {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static final UUID CLAWS = UUID.fromString("70435284-afcd-4470-85c2-d9b36b3d94e8");
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onAttachCapability(AttachCapabilitiesEvent<Entity> event) {
@@ -107,23 +109,8 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onEquipmentChange(LivingEquipmentChangeEvent event) {
-        if (event.getEntity() instanceof Player) {
-            if (Helper.isWerewolf(((Player) event.getEntity()))) {
-                if (WerewolfPlayer.get(((Player) event.getEntity())).getForm().isTransformed()) {
-                    if (event.getTo().isEmpty()) { // see WerewolfFormAction#applyModifier
-                        //noinspection StatementWithEmptyBody
-                        if (((Player) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
-//                            double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
-//                            if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
-//                                damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
-//                            }
-//                            ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).applyPersistentModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
-                        }
-                    } else {
-                        ((Player) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).removeModifier(CLAWS);
-                    }
-                }
-            }
+        if (event.getSlot() == EquipmentSlot.MAINHAND && event.getEntity() instanceof Player player) {
+            WerewolfPlayer.getOpt(player).ifPresent(s -> s.checkToolDamage(event.getFrom(), event.getTo(), false));
         }
     }
 
@@ -271,7 +258,7 @@ public class ModPlayerEventHandler {
     public void isCorrectToolForDrop(PlayerEvent.HarvestCheck event) {
         if(!event.canHarvest() && Helper.isWerewolf(event.getEntity())) {
             WerewolfPlayer.getOpt(event.getEntity()).filter(a -> a.getForm().isTransformed()).ifPresent(werewolf -> {
-                event.setCanHarvest(event.getEntity().getMainHandItem().isEmpty() && TierSortingRegistry.isCorrectTierForDrops(werewolf.getDigDropTier(), event.getTargetBlock())
+                event.setCanHarvest(event.getEntity().getMainHandItem().isEmpty() && werewolf.getDigDropTier().map(tier -> TierSortingRegistry.isCorrectTierForDrops(tier, event.getTargetBlock())).orElse(false)
                         && (event.getTargetBlock().is(BlockTags.MINEABLE_WITH_PICKAXE)
                         || event.getTargetBlock().is(BlockTags.MINEABLE_WITH_SHOVEL)
                         || event.getTargetBlock().is(BlockTags.MINEABLE_WITH_HOE)));

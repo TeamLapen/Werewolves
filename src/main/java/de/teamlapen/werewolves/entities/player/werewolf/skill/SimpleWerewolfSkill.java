@@ -100,12 +100,14 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
         @Override
         protected void onDisabled(IWerewolfPlayer player) {
+            super.onDisabled(player);
             AttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
             attributes.removeModifier(this.attribute);
         }
 
         @Override
         protected void onEnabled(IWerewolfPlayer player) {
+            super.onEnabled(player);
             AttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
             if (attributes.getModifier(this.attribute) == null) {
                 attributes.addPermanentModifier(new AttributeModifier(this.attribute, RegUtil.id(this).toString() + "_skill", this.attribute_value.apply(player), this.operation));

@@ -53,7 +53,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.common.ForgeMod;
@@ -63,6 +62,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -73,6 +73,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
+    private static final UUID CLAWS = UUID.fromString("70435284-afcd-4470-85c2-d9b36b3d94e8");
 
     public static final Capability<IWerewolfPlayer> CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
@@ -153,7 +154,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     public void switchForm(WerewolfForm form) {
         if (this.form == form) return;
-        WerewolfForm oldForm = this.form;
         this.form = form;
         this.player.refreshDimensions();
         if (!this.form.isHumanLike()) {
@@ -162,6 +162,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         if (!this.player.level().isClientSide) {
             this.inventory.swapArmorItems(form);
         }
+        checkToolDamage(this.player.getMainHandItem(), this.player.getMainHandItem(), true);
     }
 
     @Override
@@ -556,8 +557,8 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return null;
     }
 
-    public Tier getDigDropTier() {
-        return Tiers.values()[this.specialAttributes.diggingLevel];
+    public Optional<Tier> getDigDropTier() {
+        return Optional.ofNullable(this.specialAttributes.diggerTier);
     }
 
     public float getDigSpeed() {
@@ -758,6 +759,22 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                 inst.loadData(nbt);
             }
         };
+    }
+
+    public void checkToolDamage(@NotNull ItemStack from, @NotNull ItemStack itemInHand, boolean forceCalculation) {
+        AttributeInstance attribute = player.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (this.getLevel() > 0 && this.form.isTransformed() && itemInHand.isEmpty()) {
+            if (!from.isEmpty() || forceCalculation) {
+                float damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get().floatValue();
+                if (specialAttributes.diggerTier != null) {
+                    damage += 1 + specialAttributes.diggerTier.getAttackDamageBonus();
+                }
+                attribute.removeModifier(CLAWS);
+                attribute.addTransientModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
+            }
+        } else {
+            attribute.removeModifier(CLAWS);
+        }
     }
 
     @Override
