@@ -388,5 +388,10 @@
   "subtitles.werewolves.entity.werewolf.growl": "Werewolf Growling",
   "__comment": "other",
   "block.werewolves.wolfsbane_diffuser.improved": "Improved",
-  "block.werewolves.wolfsbane_diffuser.long": "Long"
+  "block.werewolves.wolfsbane_diffuser.long": "Long",
+  "__comment": "death",
+  "death.attack.bite": "%1$s was bitten to death",
+  "death.attack.bite.player": "%1$s was bitten by %2$s",
+  "death.attack.blood_loss": "%1$s bled to death",
+  "death.attack.blood_loss.player": "%1$s bled to death after being bitten by %2$s"
 }
