@@ -210,7 +210,7 @@ public class BalanceConfig {
             this.beast_form_armor = builder.defineInRange("beast_form_armor", 20, 0, 20.0);
             this.beast_form_armor_toughness = builder.defineInRange("beast_form_armor_toughness", 8, 0, 10.0);
             this.beast_form_health = builder.defineInRange("beast_form_health", 8.0, 0.0, 20.0);
-            this.beast_form_bite_damage = builder.defineInRange("beast_form_bite_damage", 4.0, 0.0, Double.MAX_VALUE);
+            this.beast_form_bite_damage = builder.defineInRange("beast_form_bite_damage", 6.0, 0.0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("survival_form");
@@ -220,7 +220,7 @@ public class BalanceConfig {
             this.survival_form_attack_damage = builder.defineInRange("survival_form_attack_damage", 1.5D, 0, 100);
             this.survival_form_armor = builder.defineInRange("survival_form_armor", 16, 0, 20.0);
             this.survival_form_armor_toughness = builder.defineInRange("survival_form_armor_toughness", 6, 0, 10.0);
-            this.survival_form_bite_damage = builder.defineInRange("survival_form_bite_damage", 3.0, 0.0, Double.MAX_VALUE);
+            this.survival_form_bite_damage = builder.defineInRange("survival_form_bite_damage", 4.0, 0.0, Double.MAX_VALUE);
             this.survival_form_health = builder.defineInRange("survival_form_health", 4.0, 0.0, Double.MAX_VALUE);
             builder.pop();
 
