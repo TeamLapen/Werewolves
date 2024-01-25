@@ -28,9 +28,9 @@ public class ModEffects {
             return WReference.WEREWOLF_FACTION;
         }
     });
+    public static final RegistryObject<MobEffect> STUN = EFFECTS.register("stun", StunEffect::new);
 
     public static class V {
-        public static final RegistryObject<MobEffect> FREEZE = RegistryObject.create(new ResourceLocation("vampirism", "freeze"), ForgeRegistries.Keys.MOB_EFFECTS, REFERENCE.MODID);
         public static final RegistryObject<MobEffect> POISON = RegistryObject.create(new ResourceLocation("vampirism", "poison"), ForgeRegistries.Keys.MOB_EFFECTS, REFERENCE.MODID);
 
         private static void init() {

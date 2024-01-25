@@ -474,7 +474,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     if (this.skillHandler.isRefinementEquipped(ModRefinements.STUN_BITE.get())) {
                         duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
                     }
-                    entity.addEffect(new MobEffectInstance(ModEffects.V.FREEZE.get(), duration));
+                    entity.addEffect(new MobEffectInstance(ModEffects.STUN.get(), duration * 4));
                 }
                 if (this.skillHandler.isSkillEnabled(ModSkills.BLEEDING_BITE.get())) {
                     entity.addEffect(new MobEffectInstance(ModEffects.BLEEDING.get(), WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.BLEEDING_BITE.get()) ? 3 : 0));
