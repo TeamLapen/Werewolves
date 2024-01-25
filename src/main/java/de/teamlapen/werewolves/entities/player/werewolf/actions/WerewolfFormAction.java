@@ -87,19 +87,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             FormHelper.deactivateWerewolfActions(werewolf);
         }
         ((WerewolfPlayer) werewolf).setForm(this, this.form);
-        this.removeArmorModifier(werewolf);
         this.applyModifier(werewolf);
         werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
         werewolf.getRepresentingPlayer().refreshDisplayName();
         return true;
-    }
-
-    protected void removeArmorModifier(IWerewolfPlayer werewolfPlayer) {
-//        ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
-    }
-
-    protected void addArmorModifier(IWerewolfPlayer werewolfPlayer) {
-//        ((WerewolfPlayer) werewolfPlayer).addArmorModifier();
     }
 
     @Override
@@ -112,7 +103,6 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     public void onDeactivated(IWerewolfPlayer werewolf) {
         float healthPerc = werewolf.getRepresentingPlayer().getHealth() / werewolf.getRepresentingPlayer().getMaxHealth();
         ((WerewolfPlayer) werewolf).setForm(this, WerewolfForm.NONE);
-        this.addArmorModifier(werewolf);
         this.removeModifier(werewolf);
         werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
         werewolf.getRepresentingPlayer().refreshDisplayName();
@@ -121,7 +111,6 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     @Override
     public void onReActivated(IWerewolfPlayer werewolf) {
         ((WerewolfPlayer) werewolf).setForm(this, this.form);
-        this.removeArmorModifier(werewolf);
         werewolf.getRepresentingPlayer().refreshDisplayName();
     }
 

@@ -8,6 +8,7 @@ import de.teamlapen.vampirism.entity.player.skills.VampirismSkill;
 import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -46,6 +47,18 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     @Override
     public Optional<IPlayableFaction<?>> getFaction() {
         return Optional.of(WReference.WEREWOLF_FACTION);
+    }
+
+    @Override
+    protected void onEnabled(IWerewolfPlayer player) {
+        super.onEnabled(player);
+        ((WerewolfPlayer) player).checkWerewolfFormModifier();
+    }
+
+    @Override
+    protected void onDisabled(IWerewolfPlayer player) {
+        super.onDisabled(player);
+        ((WerewolfPlayer) player).checkWerewolfFormModifier();
     }
 
     public SimpleWerewolfSkill defaultDescWithExtra(Supplier<Component> text) {

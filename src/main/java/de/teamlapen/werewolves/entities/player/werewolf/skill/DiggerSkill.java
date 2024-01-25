@@ -11,12 +11,14 @@ public class DiggerSkill extends SimpleWerewolfSkill {
 
     @Override
     protected void onEnabled(IWerewolfPlayer player) {
+        super.onEnabled(player);
         ((WerewolfPlayer) player).getSpecialAttributes().increaseDiggerLevel();
         ((WerewolfPlayer) player).checkToolDamage(player.getRepresentingPlayer().getMainHandItem(),player.getRepresentingPlayer().getMainHandItem(), true);
     }
 
     @Override
     protected void onDisabled(IWerewolfPlayer player) {
+        super.onDisabled(player);
         ((WerewolfPlayer) player).getSpecialAttributes().decreaseDiggerLevel();
         ((WerewolfPlayer) player).checkToolDamage(player.getRepresentingPlayer().getMainHandItem(),player.getRepresentingPlayer().getMainHandItem(), true);
     }

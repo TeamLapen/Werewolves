@@ -777,6 +777,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
+    public void checkWerewolfFormModifier() {
+        WerewolfFormAction.getAllAction().stream().filter(action -> getActionHandler().isActionActive(action)).findAny().ifPresent(action -> {
+            action.removeModifier(this);
+            action.applyModifier(this);
+        });
+    }
+
     @Override
     public int getEyeType(WerewolfForm form) {
         return this.eyeType.getOrDefault(form, 0);
