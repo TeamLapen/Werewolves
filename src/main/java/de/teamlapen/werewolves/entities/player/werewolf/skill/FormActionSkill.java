@@ -20,6 +20,8 @@ public class FormActionSkill extends ActionSkill<IWerewolfPlayer> {
     @Override
     protected void onDisabled(IWerewolfPlayer player) {
         super.onDisabled(player);
-        ((WerewolfPlayer) player).getInventory().dropFormEquipment(this.action.get().getForm());
+        if (!player.getRepresentingPlayer().level().isClientSide) {
+            ((WerewolfPlayer) player).getInventory().dropFormEquipment(this.action.get().getForm());
+        }
     }
 }

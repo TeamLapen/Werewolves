@@ -29,7 +29,7 @@ public class WerewolfInventory {
     public void swapArmorItems(WerewolfForm to) {
         var armor = werewolf.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get()) && to != WerewolfForm.NONE && to.isHumanLike();
         List<ItemStack> previousArmor = werewolf.getRepresentingPlayer().getInventory().armor;
-        this.inventories.put(this.form, List.copyOf(previousArmor));
+        this.inventories.put(this.form, new ArrayList<>(previousArmor));
         previousArmor.clear();
         List<ItemStack> itemStacks = this.inventories.get(to);
         if (armor && itemStacks.stream().allMatch(ItemStack::isEmpty)) {
@@ -43,11 +43,12 @@ public class WerewolfInventory {
     }
 
     public void dropEquipment() {
+        Player player = this.werewolf.getRepresentingPlayer();
         for (List<ItemStack> list : this.inventories.values()) {
             for (int i = 0; i < list.size(); i++) {
                 ItemStack stack = list.get(i);
                 if (!stack.isEmpty()) {
-                    this.werewolf.getRepresentingPlayer().drop(stack, true, false);
+                    player.drop(stack, true, false);
                     list.set(i, ItemStack.EMPTY);
                 }
             }
@@ -55,11 +56,14 @@ public class WerewolfInventory {
     }
 
     public void dropFormEquipment(WerewolfForm form) {
+        Player player = this.werewolf.getRepresentingPlayer();
         List<ItemStack> list = this.inventories.get(form);
         for (int i = 0; i < list.size(); i++) {
             ItemStack stack = list.get(i);
             if (!stack.isEmpty()) {
-                this.werewolf.getRepresentingPlayer().drop(stack, true, false);
+                if(!player.addItem(stack)) {
+                    player.drop(stack,false);
+                }
                 list.set(i, ItemStack.EMPTY);
             }
         }
