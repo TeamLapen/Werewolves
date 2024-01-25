@@ -390,7 +390,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     public void onDeath(DamageSource damageSource) {
         super.onDeath(damageSource);
         this.actionHandler.deactivateAllActions();
-        this.inventory.dropEquipment();
     }
 
     @Nonnull
