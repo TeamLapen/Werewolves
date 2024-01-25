@@ -3,9 +3,11 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
+import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.ModSkills;
@@ -106,6 +108,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         this.removeModifier(werewolf);
         werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
         werewolf.getRepresentingPlayer().refreshDisplayName();
+        if (werewolf.getActionHandler().isActionActive(ModActions.RAGE.get())) {
+            werewolf.getActionHandler().deactivateAction(ModActions.RAGE.get());
+        }
     }
 
     @Override
@@ -208,5 +213,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     @Nonnull
     public WerewolfForm getForm() {
         return form;
+    }
+
+    public static class FormActionContext extends ActionHandler.ActivationContext {
+
+
     }
 }
