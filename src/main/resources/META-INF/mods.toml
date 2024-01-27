@@ -11,7 +11,7 @@ displayName = "Werewolves"
 displayURL = "https://werewolves.cheaterpaul.de"
 description = "Allows you to become a Werewolf"
 logoFile = "logo.png"
-credits = "RebelT (models/textures), Maxanier (vampirism), 1LiterZinalco (models) Йода (textures), CritterCarnival (textures), Talonerd (textures), https://freesound.org (sounds)"
+credits = "RebelT (models/textures), Maxanier (vampirism), 1LiterZinalco (models) Йода (textures), CritterCarnival (textures), Talonerd (textures), https://freesound.org (sounds), Mike (testing/ideas), LilCatGod (testing/ideas)"
 authors = "Cheaterpaul"
 [[dependencies.werewolves]]
 modId = "forge"
