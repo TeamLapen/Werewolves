@@ -10,7 +10,7 @@ if (hasProperty("release")) {
 } else if (hasProperty("alpha")) {
     project.type = "alpha"
     project.classification = "public"
-    project.mod_version = project.mod_version + "-alpha+" + getDate()
+    project.mod_version = project.mod_version + "-alpha" + getDate()
 } else if (hasProperty("testing")) {
     project.type = "test"
     project.classification = "private"
