@@ -29,8 +29,8 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.provider.Ski
 
         ResourceLocation beast1 = werewolf(skill2, ModSkills.RAGE).build(consumer, this.modId("beast1"));
         ResourceLocation beast2 = werewolf(beast1, ModSkills.BEAST_FORM).build(consumer, this.modId("beast2"));
-        ResourceLocation beast3_1 = werewolf(beast2, ModSkills.THICK_FUR).build(consumer, this.modId("beast3_1"));
-        ResourceLocation beast3 = werewolf(beast2, ModSkills.DAMAGE, ModSkills.RESISTANCE).build(consumer, this.modId("beast3"));
+        ResourceLocation beast3_1 = werewolf(beast2, ModSkills.DAMAGE).build(consumer, this.modId("beast3_1"));
+        ResourceLocation beast3 = werewolf(beast2, ModSkills.THICK_FUR, ModSkills.RESISTANCE).build(consumer, this.modId("beast3"));
         ResourceLocation beast4 = werewolf(beast3, ModSkills.STUN_BITE, ModSkills.BLEEDING_BITE).build(consumer, this.modId("beast4"));
         ResourceLocation beast5 = werewolf(beast4, ModSkills.HEALTH_AFTER_KILL).build(consumer, this.modId("beast5"));
 
@@ -44,17 +44,17 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.provider.Ski
         ResourceLocation survival4 = werewolf(survival3, ModSkills.LEAP, ModSkills.CLIMBER).build(consumer, this.modId("survival4"));
         ResourceLocation survival5 = werewolf(survival4, ModSkills.MOVEMENT_TACTICS).build(consumer, this.modId("survival5"));
 
-
         ResourceLocation util1 = werewolf(skill2, ModSkills.HOWLING).build(consumer, this.modId("util1"));
-        ResourceLocation util2 = werewolf(util1, ModSkills.WOLF_PACK).build(consumer, this.modId("util2"));
-        ResourceLocation util3 = werewolf(util2, ModSkills.NOT_MEAT, ModSkills.WATER_LOVER).build(consumer, this.modId("util3"));
+        ResourceLocation util2 = werewolf(util1, ModSkills.WOLF_PACK, ModSkills.DIGGER).build(consumer, this.modId("util2"));
+        ResourceLocation util3 = werewolf(util2, ModSkills.NOT_MEAT, ModSkills.HEALTH_REG).build(consumer, this.modId("util3"));
 
         ResourceLocation other1 = werewolf(util3, ModSkills.FREE_WILL).build(consumer, this.modId("other1"));
         ResourceLocation other2 = werewolf(other1, ModSkills.SILVER_BLOODED).build(consumer, this.modId("other2"));
         ResourceLocation other3 = werewolf(other2, ModSkills.WEAR_ARMOR).build(consumer, this.modId("other3"));
 
-        ResourceLocation other4 = werewolf(util3, ModSkills.HEALTH_REG).build(consumer, this.modId("other4"));
+        ResourceLocation other4 = werewolf(util3, ModSkills.WATER_LOVER).build(consumer, this.modId("other4"));
         ResourceLocation other5 = werewolf(other4, ModSkills.HIDE_NAME).build(consumer, this.modId("other5"));
+        ResourceLocation other6 = werewolf(other4, ModSkills.ENHANCED_DIGGER).build(consumer, this.modId("other6"));
 
         ResourceLocation lord0 = modId("werewolf_lord");
 

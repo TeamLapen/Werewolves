@@ -5,7 +5,6 @@ import com.google.common.collect.Sets;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
@@ -19,24 +18,27 @@ import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.api.items.IWerewolfArmor;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.effects.LupusSanguinemEffect;
+import de.teamlapen.werewolves.effects.WolfsbaneEffect;
 import de.teamlapen.werewolves.effects.inst.WerewolfNightVisionEffectInstance;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
+import de.teamlapen.werewolves.mixin.entity.PlayerAccessor;
 import de.teamlapen.werewolves.util.*;
 import de.teamlapen.werewolves.world.ModDamageSources;
+import de.teamlapen.werewolves.world.WerewolvesWorld;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -51,8 +53,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
@@ -60,6 +63,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -70,17 +74,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
+    private static final UUID CLAWS = UUID.fromString("70435284-afcd-4470-85c2-d9b36b3d94e8");
 
-    public static final Capability<IWerewolfPlayer> CAP = CapabilityManager.get(new CapabilityToken<>() {
-    });
-
-    private void applyEntityAttributes() {
-        try {
-            this.player.getAttribute(ModAttributes.BITE_DAMAGE.get());
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
-    }
+    public static final Capability<IWerewolfPlayer> CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static WerewolfPlayer get(@Nonnull Player playerEntity) {
         return (WerewolfPlayer) playerEntity.getCapability(CAP).orElseThrow(() -> new IllegalStateException("Cannot get werewolf player capability from player" + playerEntity));
@@ -92,6 +88,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             LOGGER.warn("Cannot get Werewolf player capability. This might break mod functionality.", new Throwable().fillInStackTrace());
         }
         return opt;
+    }
+
+    public static LazyOptional<WerewolfPlayer> getOptSave(Player player) {
+        if (player == null || !player.isAlive())  {
+            return LazyOptional.empty();
+        }
+        return getOpt(player);
     }
 
     /**
@@ -118,10 +121,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     private WerewolfFormAction lastFormAction;
     @Nonnull
     private final LevelHandler levelHandler = new LevelHandler(this);
-    private boolean checkArmorModifer;
     private final Map<WerewolfForm, Integer> eyeType = new HashMap<>();
     private final Map<WerewolfForm, Integer> skinType = new HashMap<>();
     private final Map<WerewolfForm, Boolean> glowingEyes = new HashMap<>();
+
+    private final WerewolfInventory inventory = new WerewolfInventory(this);
+
+    private int sleepTimer;
 
     public WerewolfPlayer(@Nonnull Player player) {
         super(player);
@@ -143,9 +149,44 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
+    public WerewolfInventory getInventory() {
+        return inventory;
+    }
+
     public void switchForm(WerewolfForm form) {
+        if (this.form == form) return;
         this.form = form;
         this.player.refreshDimensions();
+        if (!this.form.isHumanLike()) {
+            ((PlayerAccessor) this.player).invoke_removeEntitiesOnShoulder();
+        }
+        if (!this.player.level().isClientSide) {
+            this.inventory.swapArmorItems(form);
+        }
+        checkToolDamage(this.player.getMainHandItem(), this.player.getMainHandItem(), true);
+    }
+
+    @Override
+    public boolean canWearArmor(ItemStack stack) {
+        return canWearArmor(this.form, stack);
+    }
+
+    public boolean canWearArmor(List<ItemStack> stacks) {
+        return stacks.stream().allMatch(this::canWearArmor);
+    }
+
+    public boolean canWearArmor(WerewolfForm form, List<ItemStack> stack) {
+        return stack.stream().allMatch(s -> canWearArmor(form, s));
+    }
+
+    public boolean canWearArmor(WerewolfForm form, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return true;
+        } else if (stack.getItem() instanceof IWerewolfArmor armor) {
+            return armor.canWear(this, form);
+        } else {
+            return form.isHumanLike() && (!form.isTransformed() || this.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get()));
+        }
     }
 
     @Override
@@ -155,10 +196,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         oldWerewolf.saveData(nbt);
         this.loadData(nbt);
         return oldWerewolf;
-    }
-
-    public void requestArmorEvaluation() {
-        this.checkArmorModifer = true;
     }
 
     public void removeArmorModifier() {
@@ -172,8 +209,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         Set<UUID> uuids = Sets.newHashSet(ArmorItemAccessor.getARMOR_MODIFIERS().values());
         int i = 0;
         for (ItemStack stack : this.player.getArmorSlots()) {
-            EquipmentSlot slotType = EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i);
-            ++i;
+            EquipmentSlot slotType = EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i++);
             Multimap<Attribute, AttributeModifier> map = stack.getAttributeModifiers(slotType);
             for (Map.Entry<Attribute, Collection<AttributeModifier>> entry : map.asMap().entrySet()) {
                 for (AttributeModifier modifier : entry.getValue()) {
@@ -230,7 +266,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                             }
                         }
 
-                        if (this.player.isInWater() && this.player.isEyeInFluid(FluidTags.WATER) && !this.skillHandler.isSkillEnabled(ModSkills.WATER_LOVER.get())) {
+                        if (this.player.isInWater() && this.player.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) && !this.skillHandler.isSkillEnabled(ModSkills.WATER_LOVER.get())) {
                             this.player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 50, 0, true, true));
                         }
                     }
@@ -261,6 +297,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                         }
                     }
                 }
+
+                if (this.player.tickCount % de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level(), true)) {
+                    this.player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(this.player, de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS + 10, this.wolfsbaneCache));
+                }
             } else {
 
                 this.actionHandler.updateActions();
@@ -278,42 +318,23 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                 }
             }
 
-            if (this.checkArmorModifer && this.form.isTransformed()) {
-                if (!(this.form.isHumanLike() && this.skillHandler.isSkillEnabled(ModSkills.WEAR_ARMOR.get()))) {
-                    this.removeArmorModifier();
-                }
-                this.checkArmorModifer = false;
-            }
-
             this.specialAttributes.biteTicks = Math.max(0, this.specialAttributes.biteTicks - 1);
 
+        } else if (!this.isRemote() && this.player.isSleeping() && this.player.hasEffect(ModEffects.LUPUS_SANGUINEM.get())) {
+            if (this.sleepTimer++ >= 200) {
+                this.player.getEffect(ModEffects.LUPUS_SANGUINEM.get()).applyEffect(this.player);
+                this.player.removeEffect(ModEffects.LUPUS_SANGUINEM.get());
+                this.player.stopSleeping();
+            }
+        } else {
+            this.sleepTimer = 0;
         }
         this.player.getCommandSenderWorld().getProfiler().pop();
     }
 
     private void tickFoodStats() {
-        Difficulty difficulty = this.player.level().getDifficulty();
-        boolean flag = this.player.level().getGameRules().getBoolean(GameRules.RULE_NATURAL_REGENERATION);
         FoodData stats = this.player.getFoodData();
-        if (flag && stats.getSaturationLevel() > 0.0F && player.isHurt() && stats.getFoodLevel() >= 20) {
-            if (((FoodStatsAccessor) stats).getFoodTimer() >= 9) {
-                float f = Math.min(stats.getSaturationLevel(), 6.0F);
-                player.heal(f / 6.0F);
-                stats.addExhaustion(f);
-            }
-        } else if (flag && stats.getFoodLevel() >= 18 && player.isHurt()) {
-            if (((FoodStatsAccessor) stats).getFoodTimer() >= 79) {
-                player.heal(1.0F);
-                stats.addExhaustion(6.0F);
-            }
-        } else if (stats.getFoodLevel() <= 0) {
-            if (((FoodStatsAccessor) stats).getFoodTimer() >= 79) {
-                if (player.getHealth() > 10.0F || difficulty == Difficulty.HARD || player.getHealth() > 1.0F && difficulty == Difficulty.NORMAL) {
-                    DamageHandler.hurtVanilla(player, DamageSources::starve, 1.0F);
-                }
-
-            }
-        }
+        ((FoodStatsAccessor) stats).setTickTimer(((FoodStatsAccessor) stats).getTickTimer() + 1);
     }
 
     public boolean setGlowingEyes(WerewolfForm form, boolean on) {
@@ -448,14 +469,17 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             this.getRepresentingPlayer().playNotifySound(ModSounds.ENTITY_WEREWOLF_BITE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             this.eatEntity(entity);
             this.specialAttributes.biteTicks = WerewolvesConfig.BALANCE.PLAYER.bite_cooldown.get();
-            if (this.skillHandler.isSkillEnabled(ModSkills.STUN_BITE.get())) {
-                int duration = WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get();
-                if (this.skillHandler.isRefinementEquipped(ModRefinements.STUN_BITE.get())) {
-                    duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
+            if (!getForm().isHumanLike()) {
+                if (this.skillHandler.isSkillEnabled(ModSkills.STUN_BITE.get())) {
+                    int duration = WerewolvesConfig.BALANCE.SKILLS.stun_bite_duration.get();
+                    if (this.skillHandler.isRefinementEquipped(ModRefinements.STUN_BITE.get())) {
+                        duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
+                    }
+                    entity.addEffect(new MobEffectInstance(ModEffects.STUN.get(), duration * 4));
                 }
-                entity.addEffect(new MobEffectInstance(ModEffects.V.FREEZE.get(), duration));
-            } else if (this.skillHandler.isSkillEnabled(ModSkills.BLEEDING_BITE.get())) {
-                entity.addEffect(new MobEffectInstance(ModEffects.BLEEDING.get(), WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.BLEEDING_BITE.get()) ? 3 : 0));
+                if (this.skillHandler.isSkillEnabled(ModSkills.BLEEDING_BITE.get())) {
+                    entity.addEffect(new MobEffectInstance(ModEffects.BLEEDING.get(), WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.BLEEDING_BITE.get()) ? 3 : 0));
+                }
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)), false);
             if (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.INFECT_PLAYER)) {
@@ -496,6 +520,15 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
+    private int wolfsbaneCache = -1;
+
+    public boolean isAffectedByWolfsbane(LevelAccessor accessor, boolean forceRefresh) {
+        if (forceRefresh) {
+            this.wolfsbaneCache = accessor instanceof Level level ? WerewolvesWorld.getOpt(level).map(x -> x.isEffectedByWolfsbane(getRepresentingPlayer().blockPosition())).orElse(-1) : -1;
+        }
+        return this.wolfsbaneCache > -1;
+    }
+
     /**
      * feeds it self from bitten entities
      *
@@ -524,10 +557,12 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return null;
     }
 
-    @Nonnull
-    @Override
-    public IPlayableFaction<IWerewolfPlayer> getFaction() {
-        return WReference.WEREWOLF_FACTION;
+    public Optional<Tier> getDigDropTier() {
+        return Optional.ofNullable(this.specialAttributes.diggerTier);
+    }
+
+    public float getDigSpeed() {
+        return this.specialAttributes.diggingSpeed;
     }
 
     @Override
@@ -573,8 +608,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     public void saveData(CompoundTag compound) {
         super.saveData(compound);
-        this.actionHandler.saveToNbt(compound);
+        compound.put("inventory", this.inventory.save());
         this.skillHandler.saveToNbt(compound);
+        this.actionHandler.saveToNbt(compound);
         this.levelHandler.saveToNbt(compound);
         compound.putString("form", this.form.getName());
         if (this.lastFormAction != null) {
@@ -591,11 +627,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.glowingEyes.forEach((key, value) -> glowingEye.putBoolean(key.getName(), value));
         compound.put("glowingEyes", glowingEye);
         compound.putDouble("transformationTime", this.specialAttributes.transformationTime);
+        ListTag armor = new ListTag();
     }
 
     @Override
     public void loadData(CompoundTag compound) {
         super.loadData(compound);
+        this.inventory.load(compound.getCompound("inventory"));
         this.skillHandler.loadFromNbt(compound);
         this.actionHandler.loadFromNbt(compound);
         this.levelHandler.loadFromNbt(compound);
@@ -608,9 +646,19 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
             }
         }
-        if (NBTHelper.containsString(compound, "form")) {
-            this.switchForm(WerewolfForm.getForm(compound.getString("form")));
-        }
+//        if (NBTHelper.containsString(compound, "form")) {
+//            WerewolfForm form = WerewolfForm.getForm(compound.getString("form"));
+//            if (form != WerewolfForm.NONE) {
+//                NonNullList<ItemStack> itemStacks = this.inventory.getInventories().get(WerewolfForm.NONE);
+//                for (int i = 0; i < 4; i++) {
+//                    ItemStack itemStack = itemStacks.get(i);
+//                    if (!itemStack.isEmpty()) {
+//                        this.player.getInventory().armor.set(i, itemStack);
+//                    }
+//                }
+//            }
+//            this.switchForm(WerewolfForm.getForm(compound.getString("form")));
+//        }
         if (NBTHelper.containsString(compound, "lastFormAction")) {
             this.lastFormAction = ((WerewolfFormAction) RegUtil.getAction(new ResourceLocation(compound.getString("lastFormAction"))));
         }
@@ -629,8 +677,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     protected void writeFullUpdate(CompoundTag nbt) {
         super.writeFullUpdate(nbt);
-        this.actionHandler.writeUpdateForClient(nbt);
+        nbt.put("inventory", this.inventory.save());
         this.skillHandler.writeUpdateForClient(nbt);
+        this.actionHandler.writeUpdateForClient(nbt);
         this.levelHandler.saveToNbt(nbt);
         nbt.putString("form", this.form.getName());
         nbt.putInt("biteTicks", this.specialAttributes.biteTicks);
@@ -649,11 +698,12 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     protected void loadUpdate(CompoundTag nbt) {
         super.loadUpdate(nbt);
-        this.actionHandler.readUpdateFromServer(nbt);
+        this.inventory.load(nbt.getCompound("inventory"));
         this.skillHandler.readUpdateFromServer(nbt);
+        this.actionHandler.readUpdateFromServer(nbt);
         this.levelHandler.loadFromNbt(nbt);
         if (NBTHelper.containsString(nbt, "form")) {
-            this.switchForm(WerewolfForm.getForm(nbt.getString("form")));
+            this.switchForm(form);
         }
         if (nbt.contains("biteTicks")) {
             this.specialAttributes.biteTicks = nbt.getInt("biteTicks");
@@ -672,6 +722,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
         if (nbt.contains("transformationTime")) {
             this.specialAttributes.transformationTime = nbt.getFloat("transformationTime");
+        }
+    }
+
+    private void applyEntityAttributes() {
+        try {
+            this.player.getAttribute(ModAttributes.BITE_DAMAGE.get());
+        } catch (Exception e) {
+            LOGGER.error(e);
         }
     }
 
@@ -703,6 +761,29 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         };
     }
 
+    public void checkToolDamage(@NotNull ItemStack from, @NotNull ItemStack itemInHand, boolean forceCalculation) {
+        AttributeInstance attribute = player.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (this.getLevel() > 0 && this.form.isTransformed() && itemInHand.isEmpty()) {
+            if (!from.isEmpty() || forceCalculation) {
+                float damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get().floatValue();
+                if (specialAttributes.diggerTier != null) {
+                    damage += 1 + specialAttributes.diggerTier.getAttackDamageBonus();
+                }
+                attribute.removeModifier(CLAWS);
+                attribute.addTransientModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
+            }
+        } else {
+            attribute.removeModifier(CLAWS);
+        }
+    }
+
+    public void checkWerewolfFormModifier() {
+        WerewolfFormAction.getAllAction().stream().filter(action -> getActionHandler().isActionActive(action)).findAny().ifPresent(action -> {
+            action.removeModifier(this);
+            action.applyModifier(this);
+        });
+    }
+
     @Override
     public int getEyeType(WerewolfForm form) {
         return this.eyeType.getOrDefault(form, 0);
@@ -716,5 +797,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     public boolean hasGlowingEyes(WerewolfForm form) {
         return this.glowingEyes.getOrDefault(form, false);
+    }
+
+    public void dropEquipment() {
+        this.inventory.dropEquipment();
     }
 }

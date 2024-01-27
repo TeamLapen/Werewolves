@@ -2,17 +2,24 @@ package de.teamlapen.werewolves.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerModel<T> {
@@ -84,6 +91,18 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
     }
 
     @Override
-    public void translateToHand(@Nonnull HumanoidArm p_225599_1_, @Nonnull PoseStack p_225599_2_) {
+    public void translateToHand(@Nonnull HumanoidArm arm, @Nonnull PoseStack stack) {
     }
+
+    protected static List<ResourceLocation> getTextures(String texturePath) {
+        return Minecraft.getInstance().getResourceManager().listResources(texturePath, s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+    }
+
+    protected HumanoidArm getAttackArm(T pEntity) {
+        HumanoidArm humanoidarm = pEntity.getMainArm();
+        return pEntity.swingingArm == InteractionHand.MAIN_HAND ? humanoidarm : humanoidarm.getOpposite();
+    }
+
+    @Override
+    protected abstract @NotNull ModelPart getArm(@NotNull HumanoidArm pSide);
 }

@@ -22,8 +22,8 @@ public class ModTags {
         public static final TagKey<Block> SILVER_ORE = forge("ores/silver");
         public static final TagKey<Block> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");
         public static final TagKey<Block> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
-        public static final TagKey<Block> MAGIC_LOGS = forge("magic_logs");
-        public static final TagKey<Block> JACARANDA_LOGS = forge("jacaranda_logs");
+        public static final TagKey<Block> MAGIC_LOG = forge("magic_log");
+        public static final TagKey<Block> JACARANDA_LOG = forge("jacaranda_log");
         public static final TagKey<Block> NEEDS_SILVER_TOOL = forge("needs_silver_tool");
 
 
@@ -50,8 +50,12 @@ public class ModTags {
         public static final TagKey<Item> RAW_MATERIALS_SILVER = forge("raw_materials/silver");
         public static final TagKey<Item> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");
         public static final TagKey<Item> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
-        public static final TagKey<Item> MAGIC_LOGS = forge("magic_logs");
-        public static final TagKey<Item> JACARANDA_LOGS = forge("jacaranda_logs");
+        public static final TagKey<Item> MAGIC_LOG = forge("magic_log");
+        public static final TagKey<Item> JACARANDA_LOG = forge("jacaranda_log");
+        public static final TagKey<Item> WOLF_PELT_ARMOR_NORMAL = werewolves("armor/wolf_pelt/normal");
+        public static final TagKey<Item> WOLF_PELT_ARMOR_ENHANCED = werewolves("armor/wolf_pelt/enhanced");
+        public static final TagKey<Item> WOLF_PELT_ARMOR_ULTIMATE = werewolves("armor/wolf_pelt/ultimate");
+        public static final TagKey<Item> WOLF_PELT_ARMOR = werewolves("armor/wolf_pelt");
 
         private static TagKey<Item> mc(ResourceLocation id) {
             return ItemTags.create(id);

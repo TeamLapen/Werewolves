@@ -6,6 +6,7 @@ import de.teamlapen.lib.lib.network.AbstractPacketDispatcher;
 import de.teamlapen.lib.lib.network.ISyncable;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.data.ModBlockFamilies;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.client.core.ClientRegistryHandler;
@@ -46,6 +47,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Optional;
@@ -128,7 +130,7 @@ public class WerewolvesMod {
     }
 
 
-    private void setup(final FMLCommonSetupEvent event) {
+    private void setup(final @NotNull FMLCommonSetupEvent event) {
         setupAPI();
 
         dispatcher.registerPackets();
@@ -141,13 +143,13 @@ public class WerewolvesMod {
         event.enqueueWork(TerraBlenderCompat::registerBiomeProviderIfPresentUnsafe);
     }
 
-    private void loadComplete(final FMLLoadCompleteEvent event) {
+    private void loadComplete(final @NotNull FMLLoadCompleteEvent event) {
         registryManager.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
         proxy.onInitStep(IInitListener.Step.LOAD_COMPLETE, event);
         event.enqueueWork(OverworldModifications::addBiomesToOverworldUnsafe);
     }
 
-    private void processIMC(final InterModProcessEvent event) {
+    private void processIMC(final @NotNull InterModProcessEvent event) {
         registryManager.onInitStep(IInitListener.Step.PROCESS_IMC, event);
         proxy.onInitStep(IInitListener.Step.PROCESS_IMC, event);
     }
@@ -158,7 +160,7 @@ public class WerewolvesMod {
         HelperRegistry.registerSyncablePlayerCapability((Capability<ISyncable.ISyncableEntityCapabilityInst>) (Object) WerewolfPlayer.CAP, REFERENCE.WEREWOLF_PLAYER_KEY, WerewolfPlayer.class);
     }
 
-    private void registerCapability(RegisterCapabilitiesEvent event) {
+    private void registerCapability(@NotNull RegisterCapabilitiesEvent event) {
         event.register(IWerewolfPlayer.class);
     }
 
@@ -168,7 +170,7 @@ public class WerewolvesMod {
     }
 
     @SubscribeEvent
-    public void onCommandsRegister(RegisterCommandsEvent event) {
+    public void onCommandsRegister(@NotNull RegisterCommandsEvent event) {
         ModCommands.registerCommands(event.getDispatcher());
     }
 }

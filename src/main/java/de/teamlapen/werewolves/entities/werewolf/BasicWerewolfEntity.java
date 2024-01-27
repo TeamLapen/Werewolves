@@ -270,7 +270,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             getEntityData().set(LEVEL, level);
             this.updateEntityAttributes();
             if (level == 2) {
-                this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1000000, 1));
+                this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1000000, 1, false, false));
             }
             this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
         }

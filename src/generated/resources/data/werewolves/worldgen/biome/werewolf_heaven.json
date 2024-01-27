@@ -8,18 +8,18 @@
   },
   "downfall": 0.0,
   "effects": {
-    "fog_color": 5033215,
-    "foliage_color": 7397557,
-    "grass_color": 6934491,
+    "fog_color": 4473924,
+    "foliage_color": 3627832,
+    "grass_color": 4473924,
     "mood_sound": {
       "block_search_extent": 8,
       "offset": 2.0,
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000
     },
-    "sky_color": 6740991,
-    "water_color": 5033215,
-    "water_fog_color": 5033215
+    "sky_color": 4473924,
+    "water_color": 4473924,
+    "water_fog_color": 4473924
   },
   "features": [
     [],
@@ -27,7 +27,9 @@
       "minecraft:lake_lava_underground",
       "minecraft:lake_lava_surface"
     ],
-    [],
+    [
+      "werewolves:forest_rock"
+    ],
     [
       "minecraft:monster_room",
       "minecraft:monster_room_deep"
@@ -68,9 +70,12 @@
     [],
     [
       "minecraft:glow_lichen",
+      "minecraft:patch_large_fern",
       "werewolves:heaven_trees",
+      "werewolves:wolf_berry_bush",
       "minecraft:flower_default",
-      "minecraft:patch_grass_forest",
+      "minecraft:patch_tall_grass",
+      "minecraft:patch_grass_savanna",
       "minecraft:patch_berry_rare"
     ]
   ],

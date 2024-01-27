@@ -34,6 +34,11 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
     }
 
     @Override
+    public boolean canBeUsedBy(IWerewolfPlayer player) {
+        return player.getForm().isTransformed();
+    }
+
+    @Override
     public void onActivatedClient(IWerewolfPlayer iWerewolfPlayer) {
     }
 

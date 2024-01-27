@@ -1,6 +1,8 @@
 package de.teamlapen.werewolves.client.render;
 
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,13 +14,13 @@ import java.util.Collections;
 import java.util.List;
 
 public record WerewolfModelWrapper<T extends LivingEntity>(WerewolfBaseModel<T> model,
-                                                           Collection<RenderLayer<T, WerewolfBaseModel<T>>> layers,
+                                                           Collection<? extends RenderLayer<T, WerewolfBaseModel<T>>> layers,
                                                            List<ResourceLocation> textures, float shadow,
                                                            boolean skipPlayerModel) {
 
     public static class Builder<T extends LivingEntity> {
         private WerewolfBaseModel<T> model = null;
-        private Collection<RenderLayer<T, WerewolfBaseModel<T>>> layers = Collections.emptyList();
+        private Collection<? extends RenderLayer<T, WerewolfBaseModel<T>>> layers = Collections.emptyList();
         private List<ResourceLocation> textures = Collections.emptyList();
         private float shadow = 0f;
         private boolean skipPlayerModel = false;
@@ -28,7 +30,7 @@ public record WerewolfModelWrapper<T extends LivingEntity>(WerewolfBaseModel<T> 
             return this;
         }
 
-        public Builder<T> layers(@Nonnull Collection<RenderLayer<T, WerewolfBaseModel<T>>> function) {
+        public Builder<T> layers(@Nonnull Collection<? extends RenderLayer<T, WerewolfBaseModel<T>>> function) {
             this.layers = function;
             return this;
         }

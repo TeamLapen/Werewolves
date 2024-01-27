@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "werewolves:item/white_pelt_upgrade_smithing_template"
+  }
+}

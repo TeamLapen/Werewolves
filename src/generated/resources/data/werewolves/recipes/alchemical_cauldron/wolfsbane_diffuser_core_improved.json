@@ -1,0 +1,18 @@
+{
+  "type": "vampirism:alchemical_cauldron",
+  "cookTime": 200,
+  "experience": 2.0,
+  "fluidItem": {
+    "item": "werewolves:wolfsbane"
+  },
+  "ingredient": {
+    "item": "werewolves:wolfsbane_diffuser_core"
+  },
+  "reqLevel": 1,
+  "result": {
+    "item": "werewolves:wolfsbane_diffuser_core_improved"
+  },
+  "skill": [
+    "vampirism:garlic_diffuser_improved"
+  ]
+}

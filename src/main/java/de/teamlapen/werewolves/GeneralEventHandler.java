@@ -23,7 +23,7 @@ public class GeneralEventHandler {
     }
 
     @SubscribeEvent
-    public void onAttackCapabilityWorld(@NotNull AttachCapabilitiesEvent<Level> event) {
+    public void onAttachCapabilityWorld(@NotNull AttachCapabilitiesEvent<Level> event) {
         event.addCapability(REFERENCE.WORLD_CAP_KEY, WerewolvesWorld.createNewCapability(event.getObject()));
     }
 }

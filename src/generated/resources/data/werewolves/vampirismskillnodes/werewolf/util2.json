@@ -1,6 +1,7 @@
 {
   "parent": "werewolves:werewolf/util1",
   "skills": [
-    "werewolves:wolf_pack"
+    "werewolves:wolf_pack",
+    "werewolves:digger"
   ]
 }

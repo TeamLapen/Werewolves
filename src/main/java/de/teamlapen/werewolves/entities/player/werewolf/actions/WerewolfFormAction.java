@@ -3,9 +3,11 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
+import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.ModSkills;
@@ -87,24 +89,15 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             FormHelper.deactivateWerewolfActions(werewolf);
         }
         ((WerewolfPlayer) werewolf).setForm(this, this.form);
-        this.removeArmorModifier(werewolf);
         this.applyModifier(werewolf);
         werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
         werewolf.getRepresentingPlayer().refreshDisplayName();
         return true;
     }
 
-    protected void removeArmorModifier(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).removeArmorModifier();
-    }
-
-    protected void addArmorModifier(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).addArmorModifier();
-    }
-
     @Override
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).switchForm(this.form);
+        ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
         werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
     }
 
@@ -112,15 +105,17 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     public void onDeactivated(IWerewolfPlayer werewolf) {
         float healthPerc = werewolf.getRepresentingPlayer().getHealth() / werewolf.getRepresentingPlayer().getMaxHealth();
         ((WerewolfPlayer) werewolf).setForm(this, WerewolfForm.NONE);
-        this.addArmorModifier(werewolf);
         this.removeModifier(werewolf);
         werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
         werewolf.getRepresentingPlayer().refreshDisplayName();
+        if (werewolf.getActionHandler().isActionActive(ModActions.RAGE.get())) {
+            werewolf.getActionHandler().deactivateAction(ModActions.RAGE.get());
+        }
     }
 
     @Override
     public void onReActivated(IWerewolfPlayer werewolf) {
-        this.removeArmorModifier(werewolf);
+        ((WerewolfPlayer) werewolf).setForm(this, this.form);
         werewolf.getRepresentingPlayer().refreshDisplayName();
     }
 
@@ -180,7 +175,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public int getDuration(IWerewolfPlayer werewolf) {
-        return 10000;
+        return Integer.MAX_VALUE;
     }
 
     @Override
@@ -191,7 +186,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (player.getRepresentingPlayer().isPassenger() && !this.form.isHumanLike()) return false;
         boolean active = player.getActionHandler().isActionActive(this);
         if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active && !player.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL.get())) return false;
-        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level().getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_HEAVEN);
+        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level().getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_FOREST);
     }
 
     public boolean consumesWerewolfTime() {
@@ -213,5 +208,15 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             }
         }
         return limit;
+    }
+
+    @Nonnull
+    public WerewolfForm getForm() {
+        return form;
+    }
+
+    public static class FormActionContext extends ActionHandler.ActivationContext {
+
+
     }
 }

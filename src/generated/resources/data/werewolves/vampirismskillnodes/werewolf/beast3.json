@@ -1,7 +1,7 @@
 {
   "parent": "werewolves:werewolf/beast2",
   "skills": [
-    "werewolves:damage",
+    "werewolves:thick_fur",
     "werewolves:resistance"
   ]
 }

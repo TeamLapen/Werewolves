@@ -1,14 +1,13 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.items.*;
 import de.teamlapen.werewolves.misc.WerewolvesCreativeTab;
 import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.ModSmithingTemplates;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.ChatFormatting;
@@ -18,8 +17,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -58,7 +57,7 @@ public class ModItems {
         @Override
         public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
             if (Helper.isWerewolf(entity)) {
-                entity.addEffect(SilverEffect.createEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20));
+                entity.addEffect(SilverEffect.createSilverEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20, 0));
             }
         }
     }));
@@ -90,6 +89,41 @@ public class ModItems {
     public static final RegistryObject<WerewolfRefinementItem> CHARM_BRACELET = register("charm_bracelet", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.RING));
     public static final RegistryObject<WerewolfRefinementItem> DREAM_CATCHER = register("dream_catcher", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.OBI_BELT));
 
+    public static final RegistryObject<SilverArmorItem> SILVER_HELMET = register("silver_helmet", () -> new SilverArmorItem(ArmorItem.Type.HELMET, props()));
+    public static final RegistryObject<SilverArmorItem> SILVER_CHESTPLATE = register("silver_chestplate", () -> new SilverArmorItem(ArmorItem.Type.CHESTPLATE, props()));
+    public static final RegistryObject<SilverArmorItem> SILVER_LEGGINGS = register("silver_leggings", () -> new SilverArmorItem(ArmorItem.Type.LEGGINGS, props()));
+    public static final RegistryObject<SilverArmorItem> SILVER_BOOTS = register("silver_boots", () -> new SilverArmorItem(ArmorItem.Type.BOOTS, props()));
+
+    public static final RegistryObject<Item> WOLF_BERRIES = register("wolf_berries", () -> new ItemNameBlockItem(ModBlocks.WOLF_BERRY_BUSH.get(), props().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).build())));
+
+    public static final RegistryObject<SignItem> JACARANDA_SIGN = register("jacaranda_sign", () -> new SignItem(props().stacksTo(16), ModBlocks.JACARANDA_SIGN.get(), ModBlocks.JACARANDA_WALL_SIGN.get()));
+    public static final RegistryObject<SignItem> MAGIC_SIGN = register("magic_sign", () -> new SignItem(props().stacksTo(16), ModBlocks.MAGIC_SIGN.get(), ModBlocks.MAGIC_WALL_SIGN.get()));
+    public static final RegistryObject<WerewolvesBoatItem> JACARANDA_BOAT = register("jacaranda_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, false, props().stacksTo(1)));
+    public static final RegistryObject<WerewolvesBoatItem> MAGIC_BOAT = register("magic_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, false, props().stacksTo(1)));
+    public static final RegistryObject<WerewolvesBoatItem> JACARANDA_CHEST_BOAT = register("jacaranda_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, true, props().stacksTo(1)));
+    public static final RegistryObject<WerewolvesBoatItem> MAGIC_CHEST_BOAT = register("magic_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, true, props().stacksTo(1)));
+
+    public static final RegistryObject<Item> WOLFSBANE_DIFFUSER_CORE = register("wolfsbane_diffuser_core", () -> new Item(props()));
+    public static final RegistryObject<Item> WOLFSBANE_DIFFUSER_CORE_IMPROVED = register("wolfsbane_diffuser_core_improved", () -> new Item(props()));
+    public static final RegistryObject<Item> PELT = register("pelt", () -> new Item(props()));
+    public static final RegistryObject<Item> DARK_PELT = register("dark_pelt", () -> new Item(props()));
+    public static final RegistryObject<Item> WHITE_PELT = register("white_pelt", () -> new Item(props()));
+    public static final RegistryObject<WolfPeltArmorItem> PELT_HELMET = register("pelt_helmet", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.HELMET, props()));
+    public static final RegistryObject<WolfPeltArmorItem> PELT_CHESTPLATE = register("pelt_chestplate", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.CHESTPLATE, props()));
+    public static final RegistryObject<WolfPeltArmorItem> PELT_LEGGINGS = register("pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.LEGGINGS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> PELT_BOOTS = register("pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.BOOTS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> DARK_PELT_HELMET = register("dark_pelt_helmet", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.HELMET, props()));
+    public static final RegistryObject<WolfPeltArmorItem> DARK_PELT_CHESTPLATE = register("dark_pelt_chestplate", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.CHESTPLATE, props()));
+    public static final RegistryObject<WolfPeltArmorItem> DARK_PELT_LEGGINGS = register("dark_pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.LEGGINGS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> DARK_PELT_BOOTS = register("dark_pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.BOOTS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_HELMET = register("white_pelt_helmet", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.HELMET, props()));
+    public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_CHESTPLATE = register("white_pelt_chestplate", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.CHESTPLATE, props()));
+    public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_LEGGINGS = register("white_pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.LEGGINGS, props()));
+    public static final RegistryObject<WolfPeltArmorItem> WHITE_PELT_BOOTS = register("white_pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.BOOTS, props()));
+    public static final RegistryObject<SmithingTemplateItem> WHITE_PELT_UPGRADE_SMITHING_TEMPLATE = register("white_pelt_upgrade_smithing_template", ModSmithingTemplates::createWhitePeltUpgradeTemplate);
+    public static final RegistryObject<Item> WOLFSBANE_FINDER = register("wolfsbane_finder", () -> new Item(props().rarity(Rarity.RARE)));
+
+
     public static class V {
         public static final RegistryObject<Item> HUMAN_HEART = item("human_heart");
         public static final RegistryObject<Item> INJECTION_EMPTY = item("injection_empty");
@@ -97,6 +131,7 @@ public class ModItems {
         public static final RegistryObject<Item> OBLIVION_POTION = item("oblivion_potion");
         public static final RegistryObject<Item> VAMPIRE_BOOK = item("vampire_book");
         public static final RegistryObject<Item> CROSSBOW_ARROW_NORMAL = item("crossbow_arrow_normal");
+        public static final RegistryObject<Item> GARLIC_DIFFUSER_CORE = item("garlic_diffuser_core");
 
         private static RegistryObject<Item> item(String name) {
             return RegistryObject.create(new ResourceLocation("vampirism", name), ForgeRegistries.Keys.ITEMS, REFERENCE.MODID);

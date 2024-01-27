@@ -7,8 +7,10 @@ import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
 import de.teamlapen.vampirism.items.VampirismItemBloodFoodItem;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.*;
+import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.effects.inst.UnWerewolfEffectInstance;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
@@ -16,22 +18,33 @@ import de.teamlapen.werewolves.mixin.LivingEntityAccessor;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.event.entity.player.SleepingTimeCheckEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
@@ -39,11 +52,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 public class ModPlayerEventHandler {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static final UUID CLAWS = UUID.fromString("70435284-afcd-4470-85c2-d9b36b3d94e8");
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onAttachCapability(AttachCapabilitiesEvent<Entity> event) {
@@ -58,21 +71,8 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
-    public void onFootEatenStart(LivingEntityUseItemEvent.Start event) {
-        if (event.getEntity() instanceof Player && Helper.isWerewolf((Player) event.getEntity())) {
-            if (!Helper.canWerewolfPlayerEatItem(((Player) event.getEntity()), event.getItem())) {
-                event.setCanceled(true);
-                ((Player) event.getEntity()).displayClientMessage(Component.translatable("text.werewolves.no_meat"), true);
-            }
-        }
-    }
-
-    @SubscribeEvent
     public void onFootEatenFinish(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity() instanceof Player && Helper.isWerewolf((Player) event.getEntity())) {
-            if (Helper.isRawMeat(event.getItem())) {
-                ((Player) event.getEntity()).getFoodData().eat(event.getItem().getItem(), event.getItem());
-            }
             if (event.getItem().getItem() instanceof VampirismItemBloodFoodItem) {
                 event.getEntity().removeEffect(MobEffects.CONFUSION);
             }
@@ -109,24 +109,8 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onEquipmentChange(LivingEquipmentChangeEvent event) {
-        if (event.getEntity() instanceof Player) {
-            if (Helper.isWerewolf(((Player) event.getEntity()))) {
-                if (WerewolfPlayer.get(((Player) event.getEntity())).getForm().isTransformed()) {
-                    if (event.getTo().isEmpty()) { // see WerewolfFormAction#applyModifier
-                        //noinspection StatementWithEmptyBody
-                        if (((Player) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).getModifier(CLAWS) == null) {
-//                            double damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get();
-//                            if (WerewolfPlayer.get(((PlayerEntity) event.getEntity())).getSkillHandler().isSkillEnabled(WerewolfSkills.better_claws)) {
-//                                damage += WerewolvesConfig.BALANCE.SKILLS.better_claw_damage.get();
-//                            }
-//                            ((PlayerEntity) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).applyPersistentModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
-                        }
-                    } else {
-                        ((Player) event.getEntity()).getAttribute(Attributes.ATTACK_DAMAGE).removeModifier(CLAWS);
-                    }
-                    WerewolfPlayer.getOpt(((Player) event.getEntity())).filter(werewolf -> !(werewolf.getForm().isHumanLike() && werewolf.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get()))).ifPresent(WerewolfPlayer::requestArmorEvaluation);
-                }
-            }
+        if (event.getSlot() == EquipmentSlot.MAINHAND && event.getEntity() instanceof Player player) {
+            WerewolfPlayer.getOpt(player).ifPresent(s -> s.checkToolDamage(event.getFrom(), event.getTo(), false));
         }
     }
 
@@ -207,6 +191,19 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
+    public void useItem(PlayerInteractEvent.RightClickItem event) {
+        if (Helper.isWerewolf(event.getEntity()) && event.getItemStack().getItem() instanceof Equipable) {
+            WerewolfPlayer.getOpt(event.getEntity()).ifPresent(s -> {
+                if (!s.canWearArmor(event.getItemStack())) {
+                    event.setCancellationResult(InteractionResult.FAIL);
+                    event.setCanceled(true);
+                    event.getEntity().displayClientMessage(Component.translatable("text.werewolves.equipment.equip_failed"), true);
+                }
+            });
+        }
+    }
+
+    @SubscribeEvent
     public void playerSize(EntityEvent.Size event) {
         if (event.getEntity() instanceof Player player && player.getInventory() != null && event.getEntity().isAlive()) {
             LazyOptional<WerewolfPlayer> werewolf = WerewolfPlayer.getOpt(((Player) event.getEntity()));
@@ -237,6 +234,12 @@ public class ModPlayerEventHandler {
                 event.setCanceled(true);
             }
         }
+        if (event.getSource().is(DamageTypes.MOB_ATTACK) && event.getSource().getDirectEntity() instanceof LivingEntity source && Helper.isWerewolf(source)) {
+            int sum = StreamSupport.stream(event.getEntity().getArmorSlots().spliterator(), false).mapToInt(stack -> stack.getItem() instanceof ISilverItem ? 1 : 0).sum();
+            if (sum > 0) {
+                source.addEffect(SilverEffect.createSilverEffect(source, WerewolvesConfig.BALANCE.UTIL.silverArmorAttackEffectDuration.get() * sum, 0));
+            }
+        }
     }
 
     @SubscribeEvent
@@ -244,6 +247,30 @@ public class ModPlayerEventHandler {
         if (event.isMounting() && WerewolfPlayer.getOptEx(event.getEntityMounting()).map(p -> !p.getForm().isHumanLike()).orElse(false)) {
             event.setCanceled(true);
             ((Player) event.getEntityMounting()).displayClientMessage(Component.translatable("text.werewolves.nomount.transformed"), true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onSleepTime(SleepingTimeCheckEvent event) {
+
+    }
+
+    @SubscribeEvent
+    public void isCorrectToolForDrop(PlayerEvent.HarvestCheck event) {
+        if(!event.canHarvest() && Helper.isWerewolf(event.getEntity())) {
+            WerewolfPlayer.getOpt(event.getEntity()).filter(a -> a.getForm().isTransformed()).ifPresent(werewolf -> {
+                event.setCanHarvest(event.getEntity().getMainHandItem().isEmpty() && werewolf.getDigDropTier().map(tier -> TierSortingRegistry.isCorrectTierForDrops(tier, event.getTargetBlock())).orElse(false)
+                        && (event.getTargetBlock().is(BlockTags.MINEABLE_WITH_PICKAXE)
+                        || event.getTargetBlock().is(BlockTags.MINEABLE_WITH_SHOVEL)
+                        || event.getTargetBlock().is(BlockTags.MINEABLE_WITH_HOE)));
+            });
+        }
+    }
+
+    @SubscribeEvent
+    public void tickTool(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && Helper.isWerewolf(event.player) && (event.player.getMainHandItem().getItem() instanceof ISilverItem || event.player.getOffhandItem().getItem() instanceof ISilverItem) && event.player.tickCount % 10 == 0) {
+            event.player.addEffect(SilverEffect.createSilverEffect(event.player, 15, 0));
         }
     }
 }

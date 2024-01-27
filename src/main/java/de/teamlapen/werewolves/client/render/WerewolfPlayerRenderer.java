@@ -3,157 +3,58 @@ package de.teamlapen.werewolves.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
-import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nonnull;
+import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
-public class WerewolfPlayerRenderer extends BaseWerewolfRenderer<AbstractClientPlayer> {
+public abstract class WerewolfPlayerRenderer<T extends LivingEntity, E extends HumanoidModel<T>> extends LivingEntityRenderer<T, E>  {
 
-    private boolean skipPlayerModel;
-
-    public WerewolfPlayerRenderer(EntityRendererProvider.Context context) {
-        super(context, 0.5f);
-    }
-
-    @Override
-    public void switchModel(WerewolfForm type) {
-        if (this.form == type) return;
-        super.switchModel(type);
-        this.skipPlayerModel = getWrapper(type).skipPlayerModel();
-    }
-
-    private void setModelVisible(@Nonnull AbstractClientPlayer clientPlayer) {
-        WerewolfBaseModel<AbstractClientPlayer> playerModel = this.getModel();
-        if (clientPlayer.isSpectator()) {
-            playerModel.setAllVisible(false);
-            playerModel.head.visible = true;
-        } else {
-            playerModel.setAllVisible(true);
-            playerModel.crouching = clientPlayer.isCrouching();
-        }
-    }
-
-    public boolean renderRightArm(PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn) {
-        WerewolfForm form = WerewolfPlayer.get(playerIn).getForm();
-        if (!form.isHumanLike()) {
-            form = WerewolfForm.BEAST;
-        }
-        this.switchModel(form);
-        ModelPart arm = this.getModel().getRightArmModel();
-        if (arm != null) {
-            if (shouldRenderArm(HumanoidArm.RIGHT, playerIn)) {
-                matrixStackIn.pushPose();
-                matrixStackIn.scale(1.2f, 1f, 1.2f);
-                matrixStackIn.translate(0, 0.2, 0.4);
-                this.renderItem(matrixStackIn, bufferIn, combinedLightIn, playerIn, arm);
-                matrixStackIn.popPose();
-            } else {
-                return false;
+    public static Optional<String> getWerewolfRenderer(AbstractClientPlayer player) {
+        if (Helper.isWerewolf(player)) {
+            WerewolfPlayer werewolf = WerewolfPlayer.get(player);
+            WerewolfForm form = werewolf.getForm();
+            if (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen && ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).isRenderForm()) {
+                form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).getActiveForm();
+            }
+            if (form == WerewolfForm.BEAST) {
+                return Optional.of(REFERENCE.MODID+":beast");
+            } else if (form == WerewolfForm.SURVIVALIST) {
+                return Optional.of(REFERENCE.MODID+":survivalist");
             }
         }
-        return !form.isHumanLike();
+        return Optional.empty();
     }
 
-    public boolean renderLeftArm(PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn) {
-        WerewolfForm form = WerewolfPlayer.get(playerIn).getForm();
-        if (!form.isHumanLike()) {
-            form = WerewolfForm.BEAST;
-        }
-        this.switchModel(form);
-        ModelPart arm = this.getModel().getLeftArmModel();
-        if (arm != null) {
-
-            if (shouldRenderArm(HumanoidArm.LEFT, playerIn)) {
-                matrixStackIn.pushPose();
-                matrixStackIn.scale(1.2f, 1f, 1.2f);
-                matrixStackIn.translate(0, 0.2, 0.4);
-                this.renderItem(matrixStackIn, bufferIn, combinedLightIn, playerIn, arm);
-                matrixStackIn.popPose();
-            } else {
-                return false;
-            }
-        }
-        return !form.isHumanLike();
+    public WerewolfPlayerRenderer(EntityRendererProvider.Context context, E model, float shadowRadius) {
+        super(context, model, shadowRadius);
     }
 
-    private boolean shouldRenderArm(HumanoidArm armSide, @Nonnull AbstractClientPlayer player) {
-        HumanoidArm side = player.getMainArm();
-        ItemStack mainStack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        ItemStack offStack = player.getItemInHand(InteractionHand.OFF_HAND);
+    public abstract void renderRightHand(PoseStack stack, MultiBufferSource bufferSource, int p_117773_, T entity);
 
-        if (armSide == side) {
-            return mainStack.getItem() != Items.FILLED_MAP;
-        } else {
-            return !(offStack.getItem() == Items.FILLED_MAP || (offStack.isEmpty() && mainStack.getItem() == Items.FILLED_MAP));
-        }
-    }
+    public abstract void renderLeftHand(PoseStack stack, MultiBufferSource bufferSource, int p_117816_, T entity);
 
-    private void renderItem(PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, AbstractClientPlayer playerIn, @Nonnull ModelPart rendererArmIn) {
-        WerewolfBaseModel<AbstractClientPlayer> model = this.getModel();
-        this.setModelVisible(playerIn);
-        model.attackTime = 0F;
+    protected void renderHand(PoseStack stack, MultiBufferSource bufferSource, int p_117778_, T entity, ModelPart arm) {
+        E model = this.getModel();
+        model.attackTime = 0.0F;
         model.crouching = false;
-        model.swimAmount = 0F;
-        //model.setupAnim(playerIn, 0, 0, 0, 0, 0);
-//        model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(this.getTextureLocation(playerIn))), combinedLightIn, OverlayTexture.NO_OVERLAY, 1,1,1,1);
-//        rendererArmIn.xRot = 0F;
-        rendererArmIn.render(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(this.getTextureLocation(playerIn))), combinedLightIn, OverlayTexture.NO_OVERLAY);
-    }
-
-    /**
-     * @return if the player model should be renderer
-     */
-    public boolean render(@Nonnull WerewolfPlayer entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
-        WerewolfForm form = entity.getForm();
-        if (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen) {
-            form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).getActiveForm();
-        }
-        this.switchModel(form);
-        //noinspection ConstantConditions
-        if (this.model != null && this.skipPlayerModel) {
-            this.render(((AbstractClientPlayer) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-            return true;
-        }
-        return false;
-    }
-
-    public void renderPost(PlayerModel<AbstractClientPlayer> entityModel, WerewolfPlayer entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
-        //noinspection ConstantConditions
-        if (this.model != null && !this.skipPlayerModel) {
-            this.model.setPlayerModel(entityModel);
-            render(((AbstractClientPlayer) entity.getRepresentingPlayer()), entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-        }
-    }
-
-    /**
-     * use {@link #render(WerewolfPlayer, float, float, PoseStack, MultiBufferSource, int)}
-     */
-    @Deprecated
-    @Override
-    public void render(@Nonnull AbstractClientPlayer entity, float entityYaw, float partialTicks, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn) {
-        if (!entity.isLocalPlayer() || this.entityRenderDispatcher.camera.getEntity() == entity) {
-            this.setModelVisible(entity);
-            super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-        }
-    }
-
-    public WerewolfForm getForm() {
-        return form;
+        model.swimAmount = 0.0F;
+        model.setupAnim(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        arm.xRot = 0.0F;
+        arm.render(stack, bufferSource.getBuffer(RenderType.entitySolid(getTextureLocation(entity))), p_117778_, OverlayTexture.NO_OVERLAY);
     }
 }

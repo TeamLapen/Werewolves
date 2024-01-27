@@ -6,13 +6,17 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Model made by Rebel
@@ -205,6 +209,11 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
     }
 
     @Override
+    protected @NotNull ModelPart getArm(@NotNull HumanoidArm pSide) {
+        return pSide == HumanoidArm.LEFT ? this.armRight : this.armLeft;
+    }
+
+    @Override
     public void renderToBuffer(@Nonnull PoseStack matrixStackIn, @Nonnull VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
@@ -246,5 +255,10 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
     @Override
     protected Iterable<ModelPart> bodyParts() {
         return ImmutableList.of(this.body);
+    }
+
+    @Nonnull
+    public static List<ResourceLocation> get4LTextures() {
+        return WerewolfBeastModel.getBeastTextures();
     }
 }

@@ -9,10 +9,9 @@
       }
     },
     "foliage_placer": {
-      "type": "minecraft:blob_foliage_placer",
-      "height": 3,
+      "type": "werewolves:magic",
       "offset": 0,
-      "radius": 2
+      "radius": 1
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
@@ -35,9 +34,9 @@
     },
     "trunk_placer": {
       "type": "minecraft:straight_trunk_placer",
-      "base_height": 4,
+      "base_height": 5,
       "height_rand_a": 2,
-      "height_rand_b": 0
+      "height_rand_b": 2
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",

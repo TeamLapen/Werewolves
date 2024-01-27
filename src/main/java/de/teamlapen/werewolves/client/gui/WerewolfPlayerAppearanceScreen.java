@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.client.gui.components.HoverList;
 import de.teamlapen.vampirism.client.gui.screens.AppearanceScreen;
 import de.teamlapen.werewolves.WerewolvesMod;
-import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -15,11 +14,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -124,11 +123,11 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
      */
     private void switchToForm(WerewolfForm form) {
         if (this.eyeButton != null) {
-            ((ScreenAccessor) this).invokeRemoveWidget(this.eyeButton);
-            ((ScreenAccessor) this).invokeRemoveWidget(this.skinButton);
-            ((ScreenAccessor) this).invokeRemoveWidget(this.eyeList);
-            ((ScreenAccessor) this).invokeRemoveWidget(this.skinList);
-            ((ScreenAccessor) this).invokeRemoveWidget(this.glowingEyesButton);
+            this.removeWidget(this.eyeButton);
+            this.removeWidget(this.skinButton);
+            this.removeWidget(this.eyeList);
+            this.removeWidget(this.skinList);
+            this.removeWidget(this.glowingEyesButton);
         }
         if (this.activeForm != null) {
             this.updateServer();
@@ -138,7 +137,6 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
         this.skinType = werewolf.getSkinType(form);
         this.eyeType = werewolf.getEyeType(form);
         this.glowingEyes = werewolf.hasGlowingEyes(form);
-
         this.glowingEyesButton = this.addRenderableWidget(new Checkbox(this.guiLeft + 20, this.guiTop + 90, 99, 20, Component.translatable("gui.vampirism.appearance.glowing_eye"), this.glowingEyes) {
             public void onPress() {
                 super.onPress();
@@ -160,12 +158,51 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
     }
 
     @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        List<? extends GuiEventListener> copyOf = List.copyOf(this.children());
+        for (int i = copyOf.size() -1 ; i >= 0; i--) {
+            GuiEventListener listener = copyOf.get(i);
+            if (listener.mouseClicked(pMouseX, pMouseY, pButton)) {
+                this.setFocused(listener);
+                if (pButton == 0) {
+                    this.setDragging(true);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Optional<GuiEventListener> getChildAt(double pMouseX, double pMouseY) {
+        List<? extends GuiEventListener> children = this.children();
+        for (int i = children.size() - 1; i >= 0; i--) {
+            GuiEventListener guieventlistener = children.get(i);
+            if (guieventlistener.isMouseOver(pMouseX, pMouseY)) {
+                return Optional.of(guieventlistener);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
     public void render(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         this.renderForm = true;
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.eyeList.render(graphics, mouseX, mouseY, partialTicks);
         this.skinList.render(graphics, mouseX, mouseY, partialTicks);
         this.renderForm = false;
+    }
+
+    @Override
+    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+        if (!this.eyeList.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY)) {
+            if (!this.skinList.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY)) {
+                return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+            }
+        }
+        return true;
     }
 
     /**

@@ -32,16 +32,4 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
     public boolean consumesWerewolfTime() {
         return false;
     }
-
-    @Override
-    protected void removeArmorModifier(IWerewolfPlayer werewolfPlayer) {
-        if (werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get())) return;
-        super.removeArmorModifier(werewolfPlayer);
-    }
-
-    @Override
-    protected void addArmorModifier(IWerewolfPlayer werewolfPlayer) {
-        if (werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR.get())) return;
-        super.addArmorModifier(werewolfPlayer);
-    }
 }

@@ -63,3 +63,9 @@ If you would like to setup Werewolves in another way or another IDE, you should 
 1. Make sure `src/main/java` ist marked as source folders and `src/main/resources` is marked as resource folders.  
 2. Werewolves might have a few dependencies (e.g. Vampirism), which are specified in the gradle files and should be automatically downloaded and added when you run `ideaModule` or `eclipse`.  
 3. Werewolves requires at least Java 8 
+
+## Using JetBrains Runtime
+
+If you want to use better hot-reloading take a look at https://forge.gemwire.uk/wiki/Hotswap
+
+The `runClientJBR` and `runServerJBR` tasks are configured witht he jvm `AllowEnhancedClassRedefinition` flag set to true.

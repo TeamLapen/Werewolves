@@ -8,6 +8,7 @@ import de.teamlapen.vampirism.entity.player.skills.VampirismSkill;
 import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -27,17 +28,37 @@ import java.util.function.Supplier;
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
     public SimpleWerewolfSkill() {
-        this(false);
+        super(false);
+    }
+
+    public SimpleWerewolfSkill(int skillPointCost) {
+        super(skillPointCost, false);
     }
 
     public SimpleWerewolfSkill(boolean desc) {
-        if (desc) setHasDefaultDescription();
+        super(desc);
+    }
+
+    public SimpleWerewolfSkill(int skillPoints, boolean desc) {
+        super(skillPoints, desc);
     }
 
     @Nonnull
     @Override
     public Optional<IPlayableFaction<?>> getFaction() {
         return Optional.of(WReference.WEREWOLF_FACTION);
+    }
+
+    @Override
+    protected void onEnabled(IWerewolfPlayer player) {
+        super.onEnabled(player);
+        ((WerewolfPlayer) player).checkWerewolfFormModifier();
+    }
+
+    @Override
+    protected void onDisabled(IWerewolfPlayer player) {
+        super.onDisabled(player);
+        ((WerewolfPlayer) player).checkWerewolfFormModifier();
     }
 
     public SimpleWerewolfSkill defaultDescWithExtra(Supplier<Component> text) {
@@ -92,12 +113,14 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
         @Override
         protected void onDisabled(IWerewolfPlayer player) {
+            super.onDisabled(player);
             AttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
             attributes.removeModifier(this.attribute);
         }
 
         @Override
         protected void onEnabled(IWerewolfPlayer player) {
+            super.onEnabled(player);
             AttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
             if (attributes.getModifier(this.attribute) == null) {
                 attributes.addPermanentModifier(new AttributeModifier(this.attribute, RegUtil.id(this).toString() + "_skill", this.attribute_value.apply(player), this.operation));

@@ -11,6 +11,7 @@ public class BalanceConfig {
     public final Potions POTIONS;
     public final Util UTIL;
     public final Oils OILS;
+    public final Blocks BLOCKS;
 
     BalanceConfig(ForgeConfigSpec.Builder builder) {
 
@@ -35,6 +36,9 @@ public class BalanceConfig {
         builder.push("oils");
         OILS = new Oils(builder);
         builder.pop();
+        builder.push("blocks");
+        BLOCKS = new Blocks(builder);
+        builder.pop();
     }
 
     public static class Player {
@@ -48,7 +52,7 @@ public class BalanceConfig {
             werewolf_damage = builder.comment("Level based damage attribute modifier").defineInRange("werewolf_damage", 1.0, 0, 10);
             werewolf_speed_amount = builder.comment("Level based speed attribute modifier").defineInRange("werewolf_speed_amount", 0.2, 0, 5);
             werewolf_armor_toughness = builder.comment("Level based armor toughness attribute modifier").defineInRange("werewolf_armor_toughness", 3.0, 0, 10.0);
-            werewolf_claw_damage = builder.comment("Level based claw damage attribute modifier").defineInRange("werewolf_claw_damage", 2d, 0, Integer.MAX_VALUE);
+            werewolf_claw_damage = builder.comment("Level based claw damage attribute modifier").defineInRange("werewolf_claw_damage", 1d, 0, Integer.MAX_VALUE);
             bite_cooldown = builder.comment("Cooldown of bite attack (in ticks)").defineInRange("bite_cooldown", 120, 5, Integer.MAX_VALUE);
         }
     }
@@ -206,7 +210,7 @@ public class BalanceConfig {
             this.beast_form_armor = builder.defineInRange("beast_form_armor", 20, 0, 20.0);
             this.beast_form_armor_toughness = builder.defineInRange("beast_form_armor_toughness", 8, 0, 10.0);
             this.beast_form_health = builder.defineInRange("beast_form_health", 8.0, 0.0, 20.0);
-            this.beast_form_bite_damage = builder.defineInRange("beast_form_bite_damage", 4.0, 0.0, Double.MAX_VALUE);
+            this.beast_form_bite_damage = builder.defineInRange("beast_form_bite_damage", 6.0, 0.0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("survival_form");
@@ -216,7 +220,7 @@ public class BalanceConfig {
             this.survival_form_attack_damage = builder.defineInRange("survival_form_attack_damage", 1.5D, 0, 100);
             this.survival_form_armor = builder.defineInRange("survival_form_armor", 16, 0, 20.0);
             this.survival_form_armor_toughness = builder.defineInRange("survival_form_armor_toughness", 6, 0, 10.0);
-            this.survival_form_bite_damage = builder.defineInRange("survival_form_bite_damage", 3.0, 0.0, Double.MAX_VALUE);
+            this.survival_form_bite_damage = builder.defineInRange("survival_form_bite_damage", 4.0, 0.0, Double.MAX_VALUE);
             this.survival_form_health = builder.defineInRange("survival_form_health", 4.0, 0.0, Double.MAX_VALUE);
             builder.pop();
 
@@ -308,11 +312,11 @@ public class BalanceConfig {
             builder.pop();
 
             builder.push("movement tactics");
-            this.movement_tactics_doge_chance = builder.comment("Doge chance for the movement tactics skill").defineInRange("movement_tactics_doge_chance", 0.25D, 0D, 1D);
+            this.movement_tactics_doge_chance = builder.comment("Doge chance for the movement tactics skill").defineInRange("movement_tactics_doge_chance", 0.3D, 0D, 1D);
             builder.pop();
 
             builder.push("thick_fur");
-            this.thick_fur_multiplier = builder.comment("Multiplier for the default damage reduction of the werewolf fur").defineInRange("thick_fur_multiplier", 1.5, 1, 10);
+            this.thick_fur_multiplier = builder.comment("Multiplier for the default damage reduction of the werewolf fur").defineInRange("thick_fur_multiplier", 1.5f, 1, 10);
             builder.pop();
         }
     }
@@ -358,12 +362,14 @@ public class BalanceConfig {
 
         public final ForgeConfigSpec.IntValue silverBoltEffectDuration;
         public final ForgeConfigSpec.IntValue silverItemEffectDuration;
+        public final ForgeConfigSpec.IntValue silverArmorAttackEffectDuration;
         public final ForgeConfigSpec.BooleanValue skeletonIgnoreWerewolves;
 
         public Util(ForgeConfigSpec.Builder builder) {
             this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 6, 1, Integer.MAX_VALUE);
             this.silverItemEffectDuration = builder.comment("The duration of the silver effect when attacking with a silver item", "in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
             this.skeletonIgnoreWerewolves = builder.comment("if skeletons should ignore werewolves").define("skeletonIgnoreWerewolves", true);
+            this.silverArmorAttackEffectDuration = builder.comment("The duration of the silver effect when attacking an entity with silver armor as werewolf per armor item", "in ticks").defineInRange("silverArmorAttackEffectDuration", 5, 0, Integer.MAX_VALUE);
         }
     }
 
@@ -375,6 +381,25 @@ public class BalanceConfig {
         public Oils(ForgeConfigSpec.Builder builder) {
             this.silverOil1Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil1Duration", 15, 1, Integer.MAX_VALUE);
             this.silverOil2Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil2Duration", 40, 1, Integer.MAX_VALUE);
+        }
+    }
+
+    public static class Blocks {
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserNormalDist;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserLongDist;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserImprovedDist;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserNormalDuration;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserLongDuration;
+        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserImprovedDuration;
+
+        public Blocks(ForgeConfigSpec.Builder builder) {
+            this.wolfsbaneDiffuserNormalDist = builder.comment("The chunk radius a normal diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserNormalDist", 1, 0, 5);
+            this.wolfsbaneDiffuserLongDist = builder.comment("The chunk radius a long diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserLongDist", 0, 0, 5);
+            this.wolfsbaneDiffuserImprovedDist = builder.comment("The chunk radius a improved diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserImprovedDist", 2, 0, 5);
+
+            this.wolfsbaneDiffuserNormalDuration = builder.comment("The duration in seconds a normal diffusor is active per charge").defineInRange("wolfsbaneDiffuserNormalDuration", 600, 1, Integer.MAX_VALUE);
+            this.wolfsbaneDiffuserLongDuration = builder.comment("The duration in seconds a long diffusor is active per charge").defineInRange("wolfsbaneDiffuserLongDuration", 1200, 1, Integer.MAX_VALUE);
+            this.wolfsbaneDiffuserImprovedDuration = builder.comment("The duration in seconds a improved diffusor is active per charge").defineInRange("wolfsbaneDiffuserImprovedDuration", 600, 1, Integer.MAX_VALUE);
         }
     }
 }

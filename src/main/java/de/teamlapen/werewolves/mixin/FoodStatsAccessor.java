@@ -12,4 +12,10 @@ public interface FoodStatsAccessor {
 
     @Accessor("tickTimer")
     void setFoodTimer(int timer);
+
+    @Accessor("tickTimer")
+    void setTickTimer(int timer);
+
+    @Accessor("tickTimer")
+    int getTickTimer();
 }

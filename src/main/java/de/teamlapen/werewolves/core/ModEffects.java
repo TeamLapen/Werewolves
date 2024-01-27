@@ -18,7 +18,8 @@ public class ModEffects {
 
     public static final RegistryObject<LupusSanguinemEffect> LUPUS_SANGUINEM = EFFECTS.register("lupus_sanguinem", LupusSanguinemEffect::new);
     public static final RegistryObject<HowlingEffect> HOWLING = EFFECTS.register("howling", HowlingEffect::new);
-    public static final RegistryObject<SilverEffect> SILVER = EFFECTS.register("silver", SilverEffect::new);
+    public static final RegistryObject<WerewolfWeakeningEffect> SILVER = EFFECTS.register("silver", SilverEffect::new);
+    public static final RegistryObject<WerewolfWeakeningEffect> WOLFSBANE = EFFECTS.register("wolfsbane", WolfsbaneEffect::new);
     public static final RegistryObject<BleedingEffect> BLEEDING = EFFECTS.register("bleeding", BleedingEffect::new);
     public static final RegistryObject<UnWerewolfEffect> UN_WEREWOLF = EFFECTS.register("un_werewolf", UnWerewolfEffect::new);
     public static final RegistryObject<MobEffect> BAD_OMEN_WEREWOLF = EFFECTS.register("bad_omen_werewolf", () -> new BadOmenEffect() {
@@ -27,9 +28,9 @@ public class ModEffects {
             return WReference.WEREWOLF_FACTION;
         }
     });
+    public static final RegistryObject<MobEffect> STUN = EFFECTS.register("stun", StunEffect::new);
 
     public static class V {
-        public static final RegistryObject<MobEffect> FREEZE = RegistryObject.create(new ResourceLocation("vampirism", "freeze"), ForgeRegistries.Keys.MOB_EFFECTS, REFERENCE.MODID);
         public static final RegistryObject<MobEffect> POISON = RegistryObject.create(new ResourceLocation("vampirism", "poison"), ForgeRegistries.Keys.MOB_EFFECTS, REFERENCE.MODID);
 
         private static void init() {

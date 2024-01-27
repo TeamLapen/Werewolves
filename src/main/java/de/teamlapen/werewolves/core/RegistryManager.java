@@ -31,6 +31,7 @@ public class RegistryManager implements IInitListener {
         ModOils.register(bus);
         ModMinionTasks.register(bus);
         ModEntityActions.register(bus);
+        ModWorld.register(bus);
     }
 
     public RegistryManager() {
@@ -48,6 +49,7 @@ public class RegistryManager implements IInitListener {
                 ModEntities.registerSpawns();
                 WerewolvesBiomeFeatures.init();
                 event.enqueueWork(ModVillage::villageTradeSetup);
+                ModTiles.registerTileExtensionsUnsafe();
                 break;
             case LOAD_COMPLETE:
                 break;

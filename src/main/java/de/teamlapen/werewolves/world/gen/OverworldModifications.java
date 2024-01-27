@@ -28,7 +28,7 @@ public class OverworldModifications {
             LOGGER.info("Werewolves Biomes are added via TerraBlender. Not adding them to overworld preset.");
             return;
         }
-        if (WerewolvesConfig.COMMON.disableWerewolfHeaven.get()) {
+        if (WerewolvesConfig.COMMON.disableWerewolfForest.get()) {
             return;
         }
 
@@ -79,9 +79,9 @@ public class OverworldModifications {
                 LOGGER.debug("Removed a total of {} points from {}", removed, oldCount);
 
 
-                LOGGER.info("Adding biome {} to ParameterPoints {} in Preset.OVERWORLD", ModBiomes.WEREWOLF_HEAVEN, Arrays.toString(forestPoints));
+                LOGGER.info("Adding biome {} to ParameterPoints {} in Preset.OVERWORLD", ModBiomes.WEREWOLF_FOREST, Arrays.toString(forestPoints));
                 for (Climate.ParameterPoint forestPoint : forestPoints) {
-                    biomes.add(Pair.of(forestPoint, (Holder<Biome>) keyFunction.apply(ModBiomes.WEREWOLF_HEAVEN)));
+                    biomes.add(Pair.of(forestPoint, (Holder<Biome>) keyFunction.apply(ModBiomes.WEREWOLF_FOREST)));
                 }
 
                 return (Climate.ParameterList<T>) new Climate.ParameterList<>(biomes);

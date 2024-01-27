@@ -89,6 +89,11 @@ minecraft {
             taskName 'runClient2'
             arg '--username=Dev2'
         }
+        clientJBR {
+            parent runs.client
+            taskName 'runClientJBR'
+            jvmArg "-XX:+AllowEnhancedClassRedefinition"
+        }
         server {
             property 'mixin.env.disableRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
@@ -106,6 +111,11 @@ minecraft {
 
 
             }
+        }
+        serverJBR {
+            parent runs.server
+            taskName 'runServerJBR'
+            jvmArg "-XX:+AllowEnhancedClassRedefinition"
         }
         data {
             property 'mixin.env.disableRefMap', 'true'
