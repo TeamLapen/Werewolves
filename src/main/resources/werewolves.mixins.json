@@ -3,6 +3,7 @@
   "package": "de.teamlapen.werewolves.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "werewolves.refmap.json",
+  "plugin": "de.teamlapen.werewolves.WerewolvesMixinConfigPlugin",
   "mixins": [
     "ArmorItemAccessor",
     "ArmorItemMixin",
@@ -40,10 +41,8 @@
     "client.PlayerRendererMixin",
     "client.RenderStateShardAccessor",
     "client.RenderTypeAccessor",
-    "client.ScreenMixin"
+    "client.ScreenMixin",
+    "client.modcompat.epicfight.EpicFightRenderEngineMixin"
   ],
-  "injectors": {
-    "defaultRequire": 1
-  },
   "minVersion": "0.8.5"
 }
