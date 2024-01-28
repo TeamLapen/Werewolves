@@ -3,11 +3,13 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModAttributes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.UUID;
 
@@ -22,8 +24,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
-        addEffectInstance(werewolf, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, this.getDuration(werewolf), 1, false, false));
-        addEffectInstance(werewolf, new MobEffectInstance(MobEffects.DAMAGE_BOOST, this.getDuration(werewolf), 0, false, false));
+        applyEffects(werewolf);
         werewolf.getRepresentingPlayer().getAttribute(ModAttributes.BITE_DAMAGE.get()).addPermanentModifier(new AttributeModifier(BITE_MODIFIER, "rage_bite_modifier", WerewolvesConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADDITION));
         return true;
     }
@@ -56,12 +57,22 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean onUpdate(IWerewolfPlayer iWerewolfPlayer) {
+        if (!iWerewolfPlayer.isRemote() && iWerewolfPlayer.getRepresentingPlayer().tickCount % 20 == 0) {
+            applyEffects(iWerewolfPlayer);
+        }
         return false;
     }
 
     @Override
     public int getCooldown(IWerewolfPlayer werewolf) {
         return WerewolvesConfig.BALANCE.SKILLS.rage_cooldown.get() * 20;
+    }
+
+    protected void applyEffects(IWerewolfPlayer werewolf) {
+        int speedAmplifier = werewolf.getForm() == WerewolfForm.SURVIVALIST ? 1 : 0;
+        int damageAmplifier = werewolf.getForm() == WerewolfForm.BEAST ? 1 : 0;
+        addEffectInstance(werewolf, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, speedAmplifier, false, false));
+        addEffectInstance(werewolf, new MobEffectInstance(MobEffects.DAMAGE_BOOST, 22, damageAmplifier, false, false));
     }
 
 
