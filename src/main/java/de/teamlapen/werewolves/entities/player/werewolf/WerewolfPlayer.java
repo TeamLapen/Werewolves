@@ -779,8 +779,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     public void checkWerewolfFormModifier() {
         WerewolfFormAction.getAllAction().stream().filter(action -> getActionHandler().isActionActive(action)).findAny().ifPresent(action -> {
-            action.removeModifier(this);
-            action.applyModifier(this);
+            action.checkDayNightModifier(this);
         });
     }
 

@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.ModSkills;
@@ -46,5 +47,14 @@ public class BeastWerewolfFormAction extends WerewolfFormAction {
             }
         }
         return limit;
+    }
+
+    @Override
+    public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
+        if (werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.BEAST_RAGE.get()) && werewolfPlayer.getActionHandler().isActionActive(ModActions.RAGE.get())) {
+            checkDayNightModifier(werewolfPlayer, true);
+        } else {
+            super.checkDayNightModifier(werewolfPlayer);
+        }
     }
 }

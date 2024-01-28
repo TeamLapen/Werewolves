@@ -89,7 +89,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             FormHelper.deactivateWerewolfActions(werewolf);
         }
         ((WerewolfPlayer) werewolf).setForm(this, this.form);
-        this.applyModifier(werewolf);
+        this.checkDayNightModifier(werewolf);
         werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
         werewolf.getRepresentingPlayer().refreshDisplayName();
         return true;
@@ -141,19 +141,17 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
-        Player player = werewolfPlayer.getRepresentingPlayer();
-        boolean night = Helper.isNight(player.getCommandSenderWorld());
-        for (Modifier attribute : this.attributes) {
-            if (player.getAttribute(attribute.attribute).getModifier(!night ? attribute.nightUuid : attribute.dayUuid) != null) {
-                removeModifier(werewolfPlayer);
-                applyModifier(werewolfPlayer);
-            }
-        }
+        boolean night = Helper.isNight(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld());
+        checkDayNightModifier(werewolfPlayer, night);
     }
 
-    public void applyModifier(IWerewolfPlayer werewolf) {
+    protected void checkDayNightModifier(IWerewolfPlayer werewolfPlayer, boolean night) {
+        removeModifier(werewolfPlayer);
+        applyModifier(werewolfPlayer, night);
+    }
+
+    public void applyModifier(IWerewolfPlayer werewolf, boolean night) {
         Player player = werewolf.getRepresentingPlayer();
-        boolean night = Helper.isNight(player.getCommandSenderWorld());
         for (Modifier attribute : this.attributes) {
             AttributeInstance ins = player.getAttribute(attribute.attribute);
             if (ins != null && ins.getModifier(attribute.dayUuid) == null) {
