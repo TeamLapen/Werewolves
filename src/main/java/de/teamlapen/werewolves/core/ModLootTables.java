@@ -41,6 +41,7 @@ public class ModLootTables {
     public static final ResourceLocation stronghold_corridor = chest("stronghold_corridor");
     public static final ResourceLocation desert_pyramid = chest("desert_pyramid");
     public static final ResourceLocation stronghold_library = chest("stronghold_library");
+    public static final ResourceLocation nether_bridge = chest("nether_bridge");
 
 
     static void register(IEventBus bus){

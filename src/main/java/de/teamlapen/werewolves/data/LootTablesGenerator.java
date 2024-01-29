@@ -245,6 +245,11 @@ public class LootTablesGenerator extends LootTableProvider {
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
+                    .withPool(LootPool.lootPool()
+                            .name("werewolf_pelt_upgrade")
+                            .when(LootItemRandomChanceCondition.randomChance(0.02f))
+                            .setRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
             );
             consumer.accept(ModLootTables.desert_pyramid, LootTable.lootTable()
                     .withPool(accessories)
@@ -261,6 +266,11 @@ public class LootTablesGenerator extends LootTableProvider {
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
+                    .withPool(LootPool.lootPool()
+                            .name("werewolf_pelt_upgrade")
+                            .when(LootItemRandomChanceCondition.randomChance(0.02f))
+                            .setRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
             );
             consumer.accept(ModLootTables.stronghold_corridor, LootTable.lootTable()
                     .withPool(accessories)
@@ -269,9 +279,21 @@ public class LootTablesGenerator extends LootTableProvider {
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.WEREWOLF_TOOTH.get()).setWeight(5))
                             .add(EmptyLootItem.emptyItem().setWeight(10)))
+                    .withPool(LootPool.lootPool()
+                            .name("werewolf_pelt_upgrade")
+                            .when(LootItemRandomChanceCondition.randomChance(0.02f))
+                            .setRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
             );
             consumer.accept(ModLootTables.stronghold_library, LootTable.lootTable()
                     .withPool(accessories)
+            );
+            consumer.accept(ModLootTables.nether_bridge, LootTable.lootTable()
+                    .withPool(LootPool.lootPool()
+                            .name("werewolf_pelt_upgrade")
+                            .when(LootItemRandomChanceCondition.randomChance(0.05f))
+                            .setRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
             );
         }
     }

@@ -53,6 +53,23 @@
       ],
       "name": "main",
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "chance": 0.02,
+          "condition": "minecraft:random_chance"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:white_pelt_upgrade_smithing_template"
+        }
+      ],
+      "name": "werewolf_pelt_upgrade",
+      "rolls": 1.0
     }
   ],
   "random_sequence": "werewolves:inject/chest/jungle_temple"
