@@ -31,7 +31,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public int getDuration(IWerewolfPlayer werewolf) {
-        return WerewolvesConfig.BALANCE.SKILLS.rage_duration.get() * 20;
+        return (WerewolvesConfig.BALANCE.SKILLS.rage_duration.get()  + WerewolvesConfig.BALANCE.SKILLS.rage_duration_level_increase.get() * werewolf.getLevel()) * 20;
     }
 
     @Override
