@@ -81,13 +81,11 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onKilled(LivingDeathEvent event) {
-        if (event.getSource().getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getSource().getEntity()))) {
+        if (Helper.isLiving(event.getEntity()) && event.getSource().getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getSource().getEntity()))) {
             WerewolfPlayer player = WerewolfPlayer.get(((Player) event.getSource().getEntity()));
             if (player.getSkillHandler().isSkillEnabled(ModSkills.HEALTH_AFTER_KILL.get())) {
                 ((Player) event.getSource().getEntity()).addEffect(new MobEffectInstance(MobEffects.REGENERATION, player.getSkillHandler().isRefinementEquipped(ModRefinements.HEALTH_AFTER_KILL.get()) ? 5 : 4, 10));
-            }/* else if (player.getSkillHandler().isSkillEnabled(WerewolfSkills.speed_after_kill)) {
-                player.getRepresentingPlayer().addPotionEffect(new EffectInstance(Effects.SPEED, 40));
-            }*/
+            }
             ((Player) event.getSource().getEntity()).getFoodData().setSaturation(((Player) event.getSource().getEntity()).getFoodData().getSaturationLevel() + 0.5F);
         }
     }

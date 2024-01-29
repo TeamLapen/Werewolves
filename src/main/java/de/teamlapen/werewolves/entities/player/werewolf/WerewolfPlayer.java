@@ -490,7 +490,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     private void eatEntity(LivingEntity entity) {
-        if (entity.isInvertedHealAndHarm()) return;
+        if (!Helper.isLiving(entity)) return;
         if (!entity.isAlive() && entity.getType().getCategory().isPersistent()) {
             this.player.getFoodData().eat(1, 1);
         }

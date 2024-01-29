@@ -113,4 +113,8 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return stack.getItem() instanceof ISilverItem || stack.is(ModTags.Items.SILVER_ITEM);
     }
 
+    public static boolean isLiving(LivingEntity entity) {
+        return entity.isInvertedHealAndHarm() || isVampire(entity);
+    }
+
 }
