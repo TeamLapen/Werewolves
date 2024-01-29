@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#forge:ingots/silver",
+    "#werewolves:tools/silver",
+    "#forge:nuggets/silver",
+    "#forge:raw_materials/silver",
+    "#forge:storage_blocks/raw_silver",
+    "#forge:storage_blocks/silver"
+  ]
+}

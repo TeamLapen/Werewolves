@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
+import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.core.ModTags;
@@ -106,6 +107,10 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
             comp.append(delimiter).append(components[i]);
         }
         return comp;
+    }
+
+    public static boolean isSilverItem(ItemStack stack) {
+        return stack.getItem() instanceof ISilverItem || stack.is(ModTags.Items.SILVER_ITEM);
     }
 
 }

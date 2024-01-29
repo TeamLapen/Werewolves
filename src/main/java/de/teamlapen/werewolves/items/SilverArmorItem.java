@@ -29,7 +29,7 @@ public class SilverArmorItem extends ArmorItem implements ISilverItem {
         if (player.tickCount % 16 == 8) {
             IFaction<?> f = VampirismPlayerAttributes.get(player).faction;
             if (WReference.WEREWOLF_FACTION.equals(f)) {
-                player.addEffect(SilverEffect.createSilverEffect(player, 20, 1));
+                player.addEffect(SilverEffect.createSilverEffect(player, 20, 1, true));
             }
         }
     }

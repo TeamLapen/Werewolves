@@ -22,11 +22,18 @@ public class SilverEffect extends WerewolfWeakeningEffect {
     }
 
     public static MobEffectInstance createSilverEffect(LivingEntity entity, int defaultDuration, int amplifier) {
+        return createSilverEffect(entity, defaultDuration, amplifier, false);
+    }
+    public static MobEffectInstance createSilverEffect(LivingEntity entity, int defaultDuration, int amplifier, boolean isContinued) {
         if (entity instanceof Player && Helper.isWerewolf(((Player) entity))) {
             if (WerewolfPlayer.getOpt(((Player) entity)).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.SILVER_BLOODED.get())).orElse(false)) {
-                defaultDuration /= 2f;
+                if (amplifier > 0) {
+                    amplifier--;
+                } else if (!isContinued){
+                    defaultDuration /= 2;
+                }
             }
         }
-        return new MobEffectInstance(ModEffects.SILVER.get(), defaultDuration, amplifier);
+        return new MobEffectInstance(ModEffects.SILVER.get(), defaultDuration, amplifier, isContinued, true);
     }
 }
