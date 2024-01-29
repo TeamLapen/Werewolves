@@ -57,7 +57,7 @@ public class ModItems {
         @Override
         public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
             if (Helper.isWerewolf(entity)) {
-                entity.addEffect(SilverEffect.createSilverEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20, 0));
+                entity.addEffect(SilverEffect.createSilverEffect(entity, WerewolvesConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20, 1));
             }
         }
     }));
