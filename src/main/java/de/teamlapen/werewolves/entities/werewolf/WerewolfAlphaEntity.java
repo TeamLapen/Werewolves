@@ -216,7 +216,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     public int getSkinType(@Nullable WerewolfForm form) {
-        return 0;
+        return this.getId();
     }
 
     @Override
