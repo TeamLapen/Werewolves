@@ -1,7 +1,5 @@
 package de.teamlapen.werewolves.entities.player;
 
-import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
-import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
 import de.teamlapen.vampirism.items.VampirismItemBloodFoodItem;
@@ -27,12 +25,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.util.LazyOptional;
@@ -51,7 +46,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 public class ModPlayerEventHandler {
@@ -102,6 +96,10 @@ public class ModPlayerEventHandler {
                 werewolf.getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
             }
 
+            if (werewolf.getForm().isTransformed() && werewolf.getSkillHandler().isSkillEnabled(ModSkills.JUMP.get())) {
+                event.setDistance(event.getDistance() - 0.5f);
+            }
+
         }
     }
 
@@ -133,6 +131,10 @@ public class ModPlayerEventHandler {
                     }
                 } else {
                     werewolf.getSpecialAttributes().leap = false;
+                }
+
+                if (werewolf.getForm().isTransformed() && werewolf.getSkillHandler().isSkillEnabled(ModSkills.JUMP.get())) {
+                    event.getEntity().setDeltaMovement(event.getEntity().getDeltaMovement().add(0, 0.5 * 0.1,0));
                 }
             }
         }
@@ -216,19 +218,20 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void onPlayerAttacked(LivingAttackEvent event) {
         if (event.getEntity() instanceof Player player && Helper.isWerewolf((player))) {
-            if (player.isSprinting() && event.getSource().getEntity() != null) {
-                WerewolfPlayer.getOpt(((Player) player)).filter(w -> w.getForm() == WerewolfForm.SURVIVALIST).map(WerewolfPlayer::getSkillHandler).ifPresent(skillHandler -> {
-                    if (skillHandler.isSkillEnabled(ModSkills.MOVEMENT_TACTICS.get())) {
-                        float limit = WerewolvesConfig.BALANCE.SKILLS.movement_tactics_doge_chance.get().floatValue();
-                        if (skillHandler.isRefinementEquipped(ModRefinements.GREATER_DOGE_CHANCE.get())) {
-                            limit += WerewolvesConfig.BALANCE.REFINEMENTS.greater_doge_chance.get().floatValue();
-                        }
-                        if (player.getRandom().nextFloat() < limit) {
-                            event.setCanceled(true);
-                        }
+            WerewolfPlayer.getOpt(player).filter(w -> w.getForm() == WerewolfForm.SURVIVALIST).map(WerewolfPlayer::getSkillHandler).ifPresent(skillHandler -> {
+                if (player.getDeltaMovement().lengthSqr() > 0.01 && skillHandler.isSkillEnabled(ModSkills.ARROW_AWARENESS.get()) && event.getSource().is(DamageTypes.ARROW) && event.getEntity().getRandom().nextFloat() < 0.4) {
+                    event.setCanceled(true);
+                } else if (player.isSprinting() && event.getSource().getEntity() != null && skillHandler.isSkillEnabled(ModSkills.MOVEMENT_TACTICS.get())) {
+                    float limit = WerewolvesConfig.BALANCE.SKILLS.movement_tactics_doge_chance.get().floatValue();
+                    if (skillHandler.isRefinementEquipped(ModRefinements.GREATER_DOGE_CHANCE.get())) {
+                        limit += WerewolvesConfig.BALANCE.REFINEMENTS.greater_doge_chance.get().floatValue();
                     }
-                });
-            } else if (event.getSource().is(ModTags.DamageTypes.WEREWOLF_FUR_IMMUNE) && WerewolfPlayer.getOpt(player).filter(w -> w.getForm().isTransformed()).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())).orElse(false)) {
+                    if (player.getRandom().nextFloat() < limit) {
+                        event.setCanceled(true);
+                    }
+                }
+            });
+            if (!event.isCanceled() && event.getSource().is(ModTags.DamageTypes.WEREWOLF_FUR_IMMUNE) && WerewolfPlayer.getOpt(player).filter(w -> w.getForm().isTransformed()).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())).orElse(false)) {
                 event.setCanceled(true);
             }
         }

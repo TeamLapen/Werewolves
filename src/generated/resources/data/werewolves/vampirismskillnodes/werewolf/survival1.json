@@ -1,7 +1,7 @@
 {
   "parent": "werewolves:werewolf/skill2",
   "skills": [
-    "werewolves:sixth_sense",
-    "werewolves:sense"
+    "werewolves:jump",
+    "werewolves:speed"
   ]
 }

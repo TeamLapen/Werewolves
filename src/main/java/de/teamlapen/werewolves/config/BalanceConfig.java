@@ -141,6 +141,9 @@ public class BalanceConfig {
         //speed skill
         public final ForgeConfigSpec.DoubleValue speed_amount;
 
+        //jump skill
+        public final ForgeConfigSpec.DoubleValue jump_amount;
+
         //rage action
         public final ForgeConfigSpec.BooleanValue rage_enabled;
         public final ForgeConfigSpec.IntValue rage_duration;
@@ -258,6 +261,10 @@ public class BalanceConfig {
             this.speed_amount = builder.defineInRange("speed_amount", 0.013, 0.0, 1);
             builder.pop();
 
+            builder.push("jump");
+            this.jump_amount = builder.defineInRange("jump_amount", 0.2, 0.0, 1);
+            builder.pop();
+
             builder.push("rage");
             this.rage_enabled = builder.define("rage_enabled", true);
             this.rage_duration = builder.comment("The minimum duration","In seconds").defineInRange("rage_duration", 10, 0, Integer.MAX_VALUE);
@@ -274,7 +281,7 @@ public class BalanceConfig {
             builder.pop();
 
             builder.push("stun_bite");
-            this.stun_bite_duration = builder.comment("In ticks").defineInRange("stun_bite_duration", 30, 0, Integer.MAX_VALUE);
+            this.stun_bite_duration = builder.comment("In ticks").defineInRange("stun_bite_duration", 40, 0, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("bleeding_bite");

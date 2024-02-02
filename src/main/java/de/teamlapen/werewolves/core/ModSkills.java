@@ -40,6 +40,7 @@ public class ModSkills {
     public static final RegistryObject<ISkill<IWerewolfPlayer>> HOWLING = SKILLS.register("howling", () -> new ActionSkill<>(ModActions.HOWLING, true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> SENSE = SKILLS.register("sense", () -> new ActionSkill<>(ModActions.SENSE, true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> SPEED = SKILLS.register("speed", () -> new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> JUMP = SKILLS.register("jump", () -> new SimpleWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> LEAP = SKILLS.register("leap", () -> new ActionSkill<>(ModActions.LEAP, true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> WOLF_PACK = SKILLS.register("wolf_pack", () -> new SimpleWerewolfSkill(1).defaultDescWithEnhancement(HOWLING::get));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> MOVEMENT_TACTICS = SKILLS.register("movement_tactics", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(SURVIVAL_FORM::get));
@@ -61,6 +62,8 @@ public class ModSkills {
     public static final RegistryObject<ISkill<IWerewolfPlayer>> MINION_STATS_INCREASE = SKILLS.register("werewolf_minion_stats_increase", () -> new SimpleWerewolfSkill.LordWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> MINION_COLLECT = SKILLS.register("werewolf_minion_collect", () -> new SimpleWerewolfSkill.LordWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> BEAST_RAGE = SKILLS.register("beast_rage", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(BEAST_FORM::get));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> ARROW_AWARENESS = SKILLS.register("arrow_awareness", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(SURVIVAL_FORM::get));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> EFFICIENT_DIET = SKILLS.register("efficient_diet", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(SURVIVAL_FORM::get));
 
     static {
         SKILLS.register(SkillType.LEVEL.createIdForFaction(REFERENCE.WEREWOLF_PLAYER_KEY).getPath(), () -> new SimpleWerewolfSkill(false));

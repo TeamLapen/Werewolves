@@ -47,6 +47,7 @@ public class ModTags {
         public static final TagKey<Item> RAWMEATS = forge("rawmeats");
         public static final TagKey<Item> COOKEDMEATS = forge("cookedmeats");
         public static final TagKey<Item> SILVER_TOOL = werewolves("tools/silver");
+        public static final TagKey<Item> SILVER_ARMOR = werewolves("armor/silver");
         public static final TagKey<Item> SILVER_ITEM = werewolves("type/silver");
         public static final TagKey<Item> RAW_MATERIALS_SILVER = forge("raw_materials/silver");
         public static final TagKey<Item> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");

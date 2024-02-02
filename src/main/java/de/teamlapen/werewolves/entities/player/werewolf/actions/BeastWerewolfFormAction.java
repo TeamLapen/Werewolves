@@ -7,6 +7,7 @@ import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.ModSkills;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -50,11 +51,21 @@ public class BeastWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
+    protected boolean usesTransformationTime(IWerewolfPlayer werewolf) {
+        return super.usesTransformationTime(werewolf) && !(werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_RAGE.get()) && werewolf.getActionHandler().isActionActive(ModActions.RAGE.get()));
+    }
+
+    @Override
     public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
         if (werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.BEAST_RAGE.get()) && werewolfPlayer.getActionHandler().isActionActive(ModActions.RAGE.get())) {
             checkDayNightModifier(werewolfPlayer, true);
         } else {
             super.checkDayNightModifier(werewolfPlayer);
         }
+    }
+
+    @Override
+    public boolean consumesWerewolfTime(IWerewolfPlayer werewolf) {
+        return werewolf.getActionHandler().isActionActive(ModActions.RAGE.get()) && werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_RAGE.get());
     }
 }

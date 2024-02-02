@@ -254,7 +254,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     skillHandler.writeUpdateForClient(syncPacket);
                 }
                 if (this.player.level().getGameTime() % 10 == 0) {
-                    if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
+                    if (this.specialAttributes.transformationTime > 0 && WerewolfPlayer.getOpt(player).resolve().flatMap(werewolf -> FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime(werewolf))).orElse(true)) {
                         this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue(), 0, 1);
                         syncPacket.putDouble("transformationTime", this.specialAttributes.transformationTime);
                     }
@@ -475,7 +475,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     if (this.skillHandler.isRefinementEquipped(ModRefinements.STUN_BITE.get())) {
                         duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
                     }
-                    entity.addEffect(new MobEffectInstance(ModEffects.STUN.get(), duration * 4));
+                    entity.addEffect(new MobEffectInstance(ModEffects.STUN.get(), duration));
                 }
                 if (this.skillHandler.isSkillEnabled(ModSkills.BLEEDING_BITE.get())) {
                     entity.addEffect(new MobEffectInstance(ModEffects.BLEEDING.get(), WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.BLEEDING_BITE.get()) ? 3 : 0));

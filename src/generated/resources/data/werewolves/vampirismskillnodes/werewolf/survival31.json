@@ -1,7 +1,6 @@
 {
   "parent": "werewolves:werewolf/survival3",
   "skills": [
-    "werewolves:efficient_diet",
-    "werewolves:arrow_awareness"
+    "werewolves:leap"
   ]
 }

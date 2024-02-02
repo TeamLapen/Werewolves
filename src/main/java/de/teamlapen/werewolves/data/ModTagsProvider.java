@@ -146,7 +146,7 @@ public class ModTagsProvider {
             this.tag(ModTags.Items.WOLF_PELT_ARMOR_ENHANCED).add(ModItems.DARK_PELT_HELMET.get(), ModItems.DARK_PELT_CHESTPLATE.get(), ModItems.DARK_PELT_LEGGINGS.get(), ModItems.DARK_PELT_BOOTS.get());
             this.tag(ModTags.Items.WOLF_PELT_ARMOR_ULTIMATE).add(ModItems.WHITE_PELT_HELMET.get(), ModItems.WHITE_PELT_CHESTPLATE.get(), ModItems.WHITE_PELT_LEGGINGS.get(), ModItems.WHITE_PELT_BOOTS.get());
             this.tag(ModTags.Items.WOLF_PELT_ARMOR).addTags(ModTags.Items.WOLF_PELT_ARMOR_NORMAL, ModTags.Items.WOLF_PELT_ARMOR_ENHANCED, ModTags.Items.WOLF_PELT_ARMOR_ULTIMATE);
-            this.tag(ModTags.Items.SILVER_ITEM).addTags(ModTags.Items.SILVER_INGOT, ModTags.Items.SILVER_TOOL, ModTags.Items.SILVER_NUGGET, ModTags.Items.RAW_MATERIALS_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER);
+            this.tag(ModTags.Items.SILVER_ITEM).addTags(ModTags.Items.SILVER_INGOT, ModTags.Items.SILVER_TOOL, ModTags.Items.SILVER_NUGGET, ModTags.Items.RAW_MATERIALS_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER, ModTags.Items.SILVER_ARMOR);
         }
 
         @SuppressWarnings("UnusedReturnValue")

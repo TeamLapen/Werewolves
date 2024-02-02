@@ -125,13 +125,14 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
             checkDayNightModifier(werewolfPlayer);
         }
 
-        if (!usesTransformationTime(werewolfPlayer.getRepresentingPlayer())) {
+        if (!usesTransformationTime(werewolfPlayer)) {
             return false;
         }
         return increaseWerewolfTime(werewolfPlayer) || (werewolfPlayer.getRepresentingPlayer() instanceof ServerPlayer && !PermissionAPI.getPermission((ServerPlayer) werewolfPlayer.getRepresentingPlayer(), Permissions.FORM));
     }
 
-    protected boolean usesTransformationTime(LivingEntity player) {
+    protected boolean usesTransformationTime(IWerewolfPlayer werewolf) {
+        Player player = werewolf.getRepresentingPlayer();
         return !Helper.isNight(player.level()) && !FormHelper.isInWerewolfBiome(player.level(), player.blockPosition());
     }
 
@@ -189,6 +190,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     public boolean consumesWerewolfTime() {
         return true;
+    }
+
+    public boolean consumesWerewolfTime(IWerewolfPlayer werewolf) {
+        return consumesWerewolfTime();
     }
 
     /**
