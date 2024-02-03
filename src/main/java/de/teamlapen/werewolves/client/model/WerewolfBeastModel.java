@@ -206,6 +206,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     @SuppressWarnings("DuplicatedCode")
     @Override
     public void setupAnim(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.crouching = entityIn.isCrouching();
         boolean flag1 = entityIn.isVisuallySwimming();
         this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
         if (this.swimAmount > 0.0f) {

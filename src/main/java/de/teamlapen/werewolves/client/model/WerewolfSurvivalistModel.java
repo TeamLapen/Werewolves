@@ -64,6 +64,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public static final String FOOT_LEFT_2 = "footLeft_2";
 
     public final ModelPart head;
+    public final ModelPart hip;
     public final ModelPart body;
     public final ModelPart armLeft;
     public final ModelPart armRight;
@@ -79,17 +80,17 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public WerewolfSurvivalistModel(ModelPart part) {
         super(part);
         this.body = part.getChild(BODY);
-        ModelPart hip = this.body.getChild("hip");
-        this.tail = hip.getChild(TAIL);
-        this.legRight = hip.getChild(LEG_RIGHT);
-        this.legLeft = hip.getChild(LEG_LEFT);
+        this.hip = this.body.getChild("hip");
+        this.tail = this.hip.getChild(TAIL);
+        this.legRight = this.hip.getChild(LEG_RIGHT);
+        this.legLeft = this.hip.getChild(LEG_LEFT);
         this.armLeft = this.body.getChild(ARM_LEFT);
         this.armRight = this.body.getChild(ARM_RIGHT);
         this.neck = this.body.getChild("neck");
-        this.joint = neck.getChild("joint");
-        this.head = joint.getChild(HEAD);
+        this.joint = this.neck.getChild("joint");
+        this.head = this.joint.getChild(HEAD);
         this.jaw = this.head.getChild(JAW);
-        this.jawTeeth = jaw.getChild(JAW_TEETH);
+        this.jawTeeth = this.jaw.getChild(JAW_TEETH);
     }
 
     @Nonnull
@@ -176,6 +177,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     @SuppressWarnings("DuplicatedCode")
     @Override
     public void setupAnim(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.crouching = entityIn.isCrouching();
         boolean flag1 = entityIn.isVisuallySwimming();
         this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
         if (this.swimAmount > 0.0f) {
@@ -202,6 +204,21 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.armRight.xRot += Mth.cos(limbSwing * 0.6662F * 0.8f) * 0.8F * limbSwingAmount;
         this.armLeft.xRot += Mth.cos(limbSwing * 0.6662F * 0.8f + (float) Math.PI) * 0.8F * limbSwingAmount;
 
+        if (this.crouching) {
+            this.armLeft.xRot += -0.4f;
+            this.armRight.xRot += -0.4f;
+            this.legLeft.xRot += 0.1f;
+            this.legRight.xRot += 0.1f;
+            this.body.y = 10.5F;
+            this.neck.xRot = -0.1141592653589793F;
+            this.hip.xRot = 0.05f;
+            this.hip.y = 7f;
+        } else {
+            this.body.y = 9.5F;
+            this.neck.xRot = -0.3141592653589793F;
+            this.hip.xRot = 0;
+            this.hip.y = 6f;
+        }
 
         //reset tail rotation angle
         this.tail.xRot = -0.22759093446006054F;

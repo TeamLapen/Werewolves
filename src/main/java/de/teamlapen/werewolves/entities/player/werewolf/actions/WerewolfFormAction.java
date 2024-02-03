@@ -137,7 +137,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     protected boolean increaseWerewolfTime(IWerewolfPlayer werewolfPlayer) {
-        if (!consumesWerewolfTime()) return false;
+        if (!consumesWerewolfTime(werewolfPlayer)) return false;
         return (((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime = Mth.clamp(((WerewolfPlayer) werewolfPlayer).getSpecialAttributes().transformationTime + ((double) 1 / (double) getTimeModifier(werewolfPlayer)), 0, 1)) == 1;
     }
 
@@ -184,10 +184,26 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         }
         if (player.getRepresentingPlayer().isPassenger() && !this.form.isHumanLike()) return false;
         boolean active = player.getActionHandler().isActionActive(this);
-        if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld()) && active && !player.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL.get())) return false;
-        return consumesWerewolfTime() || active || (((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7) || player.getRepresentingPlayer().level().getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_FOREST);
+        if (active) {
+            if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld())) {
+                return player.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL.get());
+            } else {
+                return true;
+            }
+        } else {
+            if (player.getForm().isTransformed()) {
+                return true;
+            } else {
+                if (player.getRepresentingPlayer().level().getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_FOREST)) {
+                    return true;
+                } else {
+                    return ((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7;
+                }
+            }
+        }
     }
 
+    @Deprecated
     public boolean consumesWerewolfTime() {
         return true;
     }

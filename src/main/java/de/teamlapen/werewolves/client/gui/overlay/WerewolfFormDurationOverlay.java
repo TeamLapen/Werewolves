@@ -27,7 +27,7 @@ public class WerewolfFormDurationOverlay implements IGuiOverlay {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             if (werewolf.getSpecialAttributes().transformationTime > 0) {
                 double perc = 1 - werewolf.getSpecialAttributes().transformationTime;
-                float trans = FormHelper.getActiveFormAction(werewolf).map(WerewolfFormAction::consumesWerewolfTime).orElse(false) ? 1f : 0.7f;
+                float trans = FormHelper.getActiveFormAction(werewolf).map(werewolfFormAction -> werewolfFormAction.consumesWerewolfTime(werewolf)).orElse(false) ? 1f : 0.7f;
                 renderExpBar(graphics, perc, trans);
             }
         }

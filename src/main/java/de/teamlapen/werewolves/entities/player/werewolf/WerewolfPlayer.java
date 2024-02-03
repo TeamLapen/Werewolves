@@ -306,7 +306,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                 this.actionHandler.updateActions();
 
                 if (this.player.level().getGameTime() % 10 == 0) {
-                    if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime()).orElse(true)) {
+                    if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime(this)).orElse(true)) {
                         this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue()), 0, 1);
                     }
                 }
