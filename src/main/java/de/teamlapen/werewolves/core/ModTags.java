@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.core;
 
+import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -97,9 +98,18 @@ public class ModTags {
 
     public static class PoiTypes {
         public static final TagKey<PoiType> IS_WEREWOLF = tag("is_werewolf");
+        public static final TagKey<PoiType> HAS_FACTION = vampirism("has_faction");
 
         private static @NotNull TagKey<PoiType> tag(@NotNull String name) {
-            return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(REFERENCE.MODID, name));
+            return tag(REFERENCE.MODID, name);
+        }
+
+        private static @NotNull TagKey<PoiType> vampirism(@NotNull String name) {
+            return tag(de.teamlapen.vampirism.REFERENCE.MODID, name);
+        }
+
+        private static @NotNull TagKey<PoiType> tag(@NotNull String modid, @NotNull String name) {
+            return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(modid, name));
         }
 
     }
