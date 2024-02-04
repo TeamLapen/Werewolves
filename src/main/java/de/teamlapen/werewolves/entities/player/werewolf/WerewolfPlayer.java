@@ -254,7 +254,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     skillHandler.writeUpdateForClient(syncPacket);
                 }
                 if (this.player.level().getGameTime() % 10 == 0) {
-                    if (this.specialAttributes.transformationTime > 0 && WerewolfPlayer.getOpt(player).resolve().flatMap(werewolf -> FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime(werewolf))).orElse(true)) {
+                    if (this.specialAttributes.transformationTime > 0 && !FormHelper.isFormActionActive(this)) {
                         this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue(), 0, 1);
                         syncPacket.putDouble("transformationTime", this.specialAttributes.transformationTime);
                     }
@@ -306,7 +306,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                 this.actionHandler.updateActions();
 
                 if (this.player.level().getGameTime() % 10 == 0) {
-                    if (this.specialAttributes.transformationTime > 0 && FormHelper.getActiveFormAction(this).map(action -> !action.consumesWerewolfTime(this)).orElse(true)) {
+                    if (this.specialAttributes.transformationTime > 0 && !FormHelper.isFormActionActive(this)) {
                         this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue()), 0, 1);
                     }
                 }
