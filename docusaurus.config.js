@@ -25,6 +25,12 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/TeamLapen/Werewolves/tree/gh-pages-source/',
+          lastVersion: 'current',
+          versions: {
+            current: {
+              label: '1.x',
+            }
+          }
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -53,6 +59,11 @@ const config = {
             href: 'https://github.com/Teamlapen/Vampirism/wiki',
             label: 'Vampirism Wiki',
             position: 'left'
+          },
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+            dropdownActiveClassDisabled: true,
           },
           {
             href: 'https://www.curseforge.com/minecraft/mc-mods/werewolves-become-a-beast',
