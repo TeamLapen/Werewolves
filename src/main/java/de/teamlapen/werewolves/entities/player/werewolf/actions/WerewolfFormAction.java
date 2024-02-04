@@ -147,8 +147,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     protected void checkDayNightModifier(IWerewolfPlayer werewolfPlayer, boolean night) {
+        float healthPerc = werewolfPlayer.getRepresentingPlayer().getHealth() / werewolfPlayer.getRepresentingPlayer().getMaxHealth();
         removeModifier(werewolfPlayer);
         applyModifier(werewolfPlayer, night);
+        werewolfPlayer.getRepresentingPlayer().setHealth(werewolfPlayer.getRepresentingPlayer().getMaxHealth() * healthPerc);
     }
 
     public void applyModifier(IWerewolfPlayer werewolf, boolean night) {
