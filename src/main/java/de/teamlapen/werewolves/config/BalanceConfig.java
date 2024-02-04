@@ -267,7 +267,7 @@ public class BalanceConfig {
 
             builder.push("rage");
             this.rage_enabled = builder.define("rage_enabled", true);
-            this.rage_duration = builder.comment("The minimum duration","In seconds").defineInRange("rage_duration", 10, 0, Integer.MAX_VALUE);
+            this.rage_duration = builder.comment("The minimum duration","In seconds").defineInRange("rage_duration", 30, 0, Integer.MAX_VALUE);
             this.rage_duration_level_increase = builder.comment("The duration is increased each level by this value","In seconds").defineInRange("rage_duration_level_increase", 2, 0, Integer.MAX_VALUE);
             this.rage_cooldown = builder.comment("In seconds").defineInRange("rage_cooldown", 60, 0, Integer.MAX_VALUE);
             this.rage_bite_damage = builder.defineInRange("rage_bite_damage", 4, 0, Double.MAX_VALUE);
