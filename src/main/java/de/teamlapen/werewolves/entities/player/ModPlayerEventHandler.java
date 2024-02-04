@@ -75,7 +75,7 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onKilled(LivingDeathEvent event) {
-        if (Helper.isLiving(event.getEntity()) && event.getSource().getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getSource().getEntity()))) {
+        if (!Helper.isNoLiving(event.getEntity()) && event.getSource().getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getSource().getEntity()))) {
             WerewolfPlayer player = WerewolfPlayer.get(((Player) event.getSource().getEntity()));
             if (player.getSkillHandler().isSkillEnabled(ModSkills.HEALTH_AFTER_KILL.get())) {
                 ((Player) event.getSource().getEntity()).addEffect(new MobEffectInstance(MobEffects.REGENERATION, player.getSkillHandler().isRefinementEquipped(ModRefinements.HEALTH_AFTER_KILL.get()) ? 5 : 4, 10));
@@ -270,8 +270,13 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void tickTool(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && Helper.isWerewolf(event.player) && (Helper.isSilverItem(event.player.getMainHandItem())) || Helper.isSilverItem(event.player.getOffhandItem()) && event.player.tickCount % 10 == 0) {
-            event.player.addEffect(SilverEffect.createSilverEffect(event.player, 20, 1, true));
+        if (event.phase == TickEvent.Phase.END && Helper.isWerewolf(event.player)) {
+            if ((Helper.isSilverItem(event.player.getMainHandItem())) || Helper.isSilverItem(event.player.getOffhandItem()) && event.player.tickCount % 10 == 0) {
+                event.player.addEffect(SilverEffect.createSilverEffect(event.player, 20, 1, true));
+            }
+            if (StreamSupport.stream(event.player.getArmorSlots().spliterator(), false).anyMatch(Helper::isSilverItem)) {
+                event.player.addEffect(SilverEffect.createSilverEffect(event.player, 20, 1, true));
+            }
         }
     }
 }
