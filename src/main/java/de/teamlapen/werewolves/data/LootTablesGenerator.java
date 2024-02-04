@@ -193,6 +193,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(LootPool.lootPool()
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
+                            .add(LootItem.lootTableItem(ModItems.WEREWOLF_TOOTH.get()))
                             .setRolls(UniformGenerator.between(1, 2)))
                     .withPool(LootPool.lootPool()
                             .name("pelt")
