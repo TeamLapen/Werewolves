@@ -18,10 +18,14 @@ import stoneAltarFireBowlFireUrl from './stone_altar_fire_bowl_fire.png'
 import stoneAltarFireBowlSoulFireUrl from './stone_altar_fire_bowl_soul_fire.png'
 import wolfsBaneUrl from './wolfsbane.png'
 
-export const baseUrl = "https://raw.githubusercontent.com/TeamLapen/Werewolves/1d6b8071e8cf4c1782502248e39a732a142c8a0b/src/main/resources/assets/werewolves/textures/item/"
+export const baseUrl = "https://raw.githubusercontent.com/TeamLapen/Werewolves/766c697f268eace4e8453d5dfe67e7c79f03c224/src/main/resources/assets/werewolves/textures/"
 
 export function image(imageName) {
-    return baseUrl + imageName;
+    return baseUrl + "item/" + imageName;
+}
+
+export function block(imageName) {
+    return baseUrl + "block/" + imageName;
 }
 
 export const liverImage = image("liver.png")
@@ -42,6 +46,28 @@ export const silverPickaxeImage = image("silver_pickaxe.png")
 export const silverAxeImage = image("silver_axe.png")
 export const silverShovelImage = image("silver_shovel.png")
 export const silverHoeImage = image("silver_hoe.png")
+export const silverHelmet = image("silver_helmet.png")
+export const silverChestplate = image("silver_chestplate.png")
+export const silverLeggings = image("silver_leggings.png")
+export const silverBoots = image("silver_boots.png")
+export const peltHelmetImage = image("pelt_helmet.png")
+export const peltChestplateImage = image("pelt_chestplate.png")
+export const peltLeggingsImage = image("pelt_leggings.png")
+export const peltBootsImage = image("pelt_boots.png")
+export const darkPeltHelmetImage = image("dark_pelt_helmet.png")
+export const darkPeltChestplateImage = image("dark_pelt_chestplate.png")
+export const darkPeltLeggingsImage = image("dark_pelt_leggings.png")
+export const darkPeltBootsImage = image("dark_pelt_boots.png")
+export const whitePeltHelmetImage = image("white_pelt_helmet.png")
+export const whitePeltChestplateImage = image("white_pelt_chestplate.png")
+export const whitePeltLeggingsImage = image("white_pelt_leggings.png")
+export const whitePeltBootsImage = image("white_pelt_boots.png")
+export const whitePeltImage = image("white_pelt.png")
+export const darkPeltImage = image("dark_pelt.png")
+export const peltImage = image("pelt.png")
+export const wolfBerriesImage = image("wolf_berries.png")
+export const wolfsbaneFinderImage = image("wolfsbane_finder.png")
+export const daffodilImage = block("daffodil.png")
 export const boneNecklace = "https://i.ibb.co/FHzGJVM/bone-necklace.png"
 export const dreamCatcher = "https://i.ibb.co/p0snzZ1/dream-catcher.png"
 export const charmBracelet = "https://i.ibb.co/hXkL3G7/charm-bracelet.png"
@@ -129,5 +155,89 @@ export const stoneAltarFireBowls = [
         alt: "stone altar soul fire",
     },
 ];
-
-
+export const peltImages = [
+    {
+        src: peltImage,
+        alt: "pelt",
+    },
+    {
+        src: darkPeltImage,
+        alt: "dark pelt",
+    },
+    {
+        src: whitePeltImage,
+        alt: "white pelt",
+    },
+]
+export const peltArmorImages = [
+    {
+        src: peltHelmetImage,
+        alt: "pelt helmet",
+    },
+    {
+        src: peltChestplateImage,
+        alt: "pelt chestplate",
+    },
+    {
+        src: peltLeggingsImage,
+        alt: "pelt leggings",
+    },
+    {
+        src: peltBootsImage,
+        alt: "pelt boots",
+    },
+]
+export const darkPeltArmorImages = [
+    {
+        src: darkPeltHelmetImage,
+        alt: "dark pelt helmet",
+    },
+    {
+        src: darkPeltChestplateImage,
+        alt: "dark pelt chestplate",
+    },
+    {
+        src: darkPeltLeggingsImage,
+        alt: "dark pelt leggings",
+    },
+    {
+        src: darkPeltBootsImage,
+        alt: "dark pelt boots",
+    },
+]
+export const whitePeltArmorImages = [
+    {
+        src: whitePeltHelmetImage,
+        alt: "white pelt helmet",
+    },
+    {
+        src: whitePeltChestplateImage,
+        alt: "white pelt chestplate",
+    },
+    {
+        src: whitePeltLeggingsImage,
+        alt: "white pelt leggings",
+    },
+    {
+        src: whitePeltBootsImage,
+        alt: "white pelt boots",
+    },
+]
+export const silverArmorImages = [
+    {
+        src: silverHelmet,
+        alt: "silver helmet",
+    },
+    {
+        src: silverChestplate,
+        alt: "silver chestplate",
+    },
+    {
+        src: silverLeggings,
+        alt: "silver leggings",
+    },
+    {
+        src: silverBoots,
+        alt: "silver boots",
+    },
+]

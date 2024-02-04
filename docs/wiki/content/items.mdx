@@ -3,8 +3,28 @@ sidebar_position: 1
 title: Items
 ---
 
-import {silverToolSource, liverSource, silverIngotSource, accessoriesSource, silverNuggetCrafting, plantOilBrewing, silverOilSource, werewolfToothSource, strangeInjectionSource, crackedBoneSource, minionCharmSource} from './_recipes.mdx'
-import {silverToolImages, liverImage, silverIngotImage, accessoriesImages, plantOilImage, werewolfToothImage, strangeInjectionImage, crackedBoneImage, minionCharmTextures, silverOilImage,silverNuggetImage,rawSilverImage} from '../assets/images/_images.mdx'
+import {TieredItem} from "../../../src/components/Items.mdx";import {silverToolSource, liverSource, silverIngotSource, accessoriesSource, silverNuggetCrafting, plantOilBrewing, silverOilSource, werewolfToothSource, strangeInjectionSource, crackedBoneSource, minionCharmSource} from './_recipes.mdx'
+import {
+    silverToolImages,
+    liverImage,
+    silverIngotImage,
+    accessoriesImages,
+    plantOilImage,
+    werewolfToothImage,
+    strangeInjectionImage,
+    crackedBoneImage,
+    minionCharmTextures,
+    silverOilImage,
+    silverNuggetImage,
+    rawSilverImage,
+    wolfsbaneFinderImage,
+    wolfBerriesImage,
+    peltImages,
+    daffodilImage,
+    peltArmorImages,
+    darkPeltArmorImages,
+    whitePeltArmorImages, silverArmorImages
+} from '../assets/images/_images.mdx'
 import {Item, Items} from '@site/src/components/Items.mdx'
 
 export const ItemStats = ({name,damage, attackspeed, durability}) => (
@@ -98,4 +118,32 @@ Required as item requirement for the [werewolf leveling ritual](../werewolf/leve
 
 When you are a Werewolf Lord you can bind other werewolves to your tribe by providing them with a Moon Charm. Once they accepted you as their leader you can level them up by giving them a appropriate upgraded Moon Charm depending on their needs. More Details on the [Werewolf Lord page](../werewolf/lord.md)
 </Items>
+
+<Items title="Silver Armor" img={silverArmorImages}>
+
+</Items>
+
+<TieredItem title="Pelt Armor" tiers={ [
+        {
+            title: "Normal",
+            img: peltArmorImages
+        },
+        {
+            title: "Enhanced",
+            img: darkPeltArmorImages
+        },
+        {
+            title: "Ultimate",
+            img: whitePeltArmorImages
+        }
+    ]}/>
+
+<Item title="Wolf Berries" img={wolfBerriesImage} >
+</Item>
+
+<Item title="Wolfsbane Finder" img={wolfsbaneFinderImage} >
+</Item>
+
+<Item title="Daffodil" img={daffodilImage} >
+</Item>
 
