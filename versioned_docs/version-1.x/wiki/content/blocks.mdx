@@ -1,0 +1,85 @@
+---
+sidebar_position: 4
+title: Blocks
+---
+
+import {
+    jacarandaLog,
+    jacarandaSapling,
+    magicLeaves,
+    magicLogs,
+    magicPlanks,
+    magicSapling, rawSilverBlock, deepslateSilverOre,
+    silverBlock, jacarandaLeaves,
+    silverOre, stoneAltar, stoneAltarFireBowls
+} from "../assets/images/_images.mdx";
+import {
+    silverBlockCrafting,
+    magicPlanksCrafting,
+    rawSilverBlockCrafting,
+    stoneAltarCrafting,
+    stoneAltarFireBowlCrafting,
+    oakFromJacarandaCrafting,
+    magicLogsCraftingUsage,
+    rawSilverBlockCraftingUsage
+} from './_recipes.mdx'
+import {Block, Blocks} from "@site/src/components/Blocks.mdx";
+
+
+
+
+
+<Block title="Jacaranda Leaves" img={jacarandaLeaves} >
+
+Grows on Jacaranda Trees
+</Block>
+
+<Block title="Jacaranda Log" img={jacarandaLog} usage={oakFromJacarandaCrafting}>
+
+Log block for the Jacaranda Tree
+</Block>
+<Block title="Jacaranda Sapling" img={jacarandaSapling} >
+
+Grows into a Jacaranda Tree and dropped from [Jacaranda Leaves](#jacaranda-leaves)
+</Block>
+<Block title="Magic Leaves" img={magicLeaves} >
+
+Grows on Magic Trees
+</Block>
+<Block title="Magic Log" img={magicLogs} usage={magicLogsCraftingUsage}>
+
+Log block for the Magic Tree
+</Block>
+<Block title="Magic Planks" img={magicPlanks} source={magicPlanksCrafting}>
+
+</Block>
+<Block title="Magic Sapling" img={magicSapling} >
+
+Grows into a Magic Tree and dropped from [Magic Leaves](#magic-leaves)
+</Block>
+<Block title="Silver Block" img={silverBlock} source={silverBlockCrafting}>
+
+Storage/Decorative Block
+Crafted with 9 [Silver Ingots](./items.mdx#silver-ingot)
+</Block>
+<Block title="Raw Silver Block" img={rawSilverBlock} source={rawSilverBlockCrafting} usage={rawSilverBlockCraftingUsage}>
+
+</Block>
+<Block title="Silver Ore" img={silverOre} >
+
+Found underground and can be melted into [Silver Ingots](./items.mdx#silver-ingot)
+
+Silver Ore is distributed between y = 0 and y= 96 with y = 48 as its peak
+</Block>
+<Block title="Deepslate Silver Ore" img={deepslateSilverOre} >
+
+</Block>
+<Block title="Stone Altar" img={stoneAltar} source={stoneAltarCrafting}>
+
+The Stone Altar is the main block for the werewolf player leveling [ritual](../werewolf/leveling.md#ritual)
+</Block>
+<Blocks title="Stone Altar Fire Bowl" img={stoneAltarFireBowls} source={stoneAltarFireBowlCrafting}>
+
+Support blocks for the Stone Altar
+Can be set on fire with flint and steel or a (soul-) torch
+</Blocks>

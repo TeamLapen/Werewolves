@@ -1,0 +1,78 @@
+---
+sidebar_position: 3
+title: Configuration
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Werewolves is highly configurably, like Vampirism.
+
+:::info
+
+Go [here](#configuration-options) for all configuration options
+
+:::
+
+## Configuration Files
+
+Werewolves's configuration is split across several files:
+
+- werewolves-client.toml (located in `.minecraft/config/`) for client specific options
+- werewolves-common.toml (located in `.minecraft/config/`) for common options
+- werewolves-server.toml (located in `<world-dir>/serverconfig/`) for gameplay options per world
+- werewolves-balance.toml (located in `<world-dir>/serverconfig/`) for fine-tuning of the balancing per world
+
+If you want to change the world specific options before creating a world, either to change world-generation or to change it for all created worlds, you can use the defaultconfigs folder. It is located in your .minecraft or server directory. Copy a server or balance config from an existing world to this folder and change the values as desired. It will be used for new worlds.
+
+## Meat configuration
+
+Because werewolf player are bound to eat meat items they may find themselves with items from other mods that can not be eaten.
+This can be caused by a missing `isMeat` flag by the mod or a missing entry in the `cookedmeats` or `rawmeats` item tag.
+
+To allow there items to be eaten anyway there are 4 options you could take:
+1. add the item ids the `customRawMeatItems` or `customMeatItems` config options in the server config depending on the fact if it is a raw or cooked meat. (and optionally option 3)
+2. add the item ids to the `rawmeats` or `cookedmeats` item tag via a datapack .(and optionally option 3)
+3. contact us in the `w-chatroom` channel on the Vampirism [Discord Server](https://discord.gg/EYBe7rKKAQ) with the item ids, so we may add them for future releases.
+4. contact the mod author of the item to mark the item as meat
+
+
+## Permission
+Using appropriate server mods/plugins certain actions can also be controlled with permissions.
+See [Permissions](./Permissions)
+
+## Configuration options
+
+<Tabs>
+<TabItem label="Client" value="client" default>
+
+### Disable screen overlays rendering
+- `disableScreenFurRendering` to disable the fur border when in werewolf form
+- `disableFangCrosshairRendering` to disable the crosshair replacement of the werewolf fangs
+
+</TabItem>
+<TabItem label="Common" value="common">
+
+### World Gen
+- `disableWerewolfHeaven` disable the [Werewolf Heaven](./content/biomes.mdx#werewolf-heaven) biome
+- `disableOreGen` remove the generation of silver ore
+- `werewolfHeavenWeight` modify the biome weight of the [Werewolf Heaven](./content/biomes.mdx#werewolf-heaven)
+
+</TabItem>
+<TabItem label="Server" value="server">
+
+### General configuration
+- `disableToothInfection` disable the option to infect yourself with a werewolf tooth
+- `werewolfFormFreeFormBiomes` add additional item to the list of biomes werewolves can stay in werewolf form unlimited
+
+### Meat configuration
+- `customRawMeatItems` add other food items to the list of items that should be considered raw meat
+- `customMeatItems` add other food items to the list of items that should be considered meat
+
+</TabItem>
+<TabItem label="Balance" value="balance">
+
+### Balance configuration
+In the Balance config there are several config options to fine tune every skill, action, refinement, entities and player settings.  They are to many to display them here. An example can be viewed [here](./assets/files/werewolves-balance.toml)
+</TabItem>
+</Tabs>

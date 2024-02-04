@@ -1,0 +1,116 @@
+import {sumSource, craftingRecipe, craftingRecipes} from "@site/src/components/Recipes";
+import {
+    silverSwordRecipe,
+    silverPickaxeRecipe,
+    silverAxeRecipe,
+    silverShovelRecipe,
+    silverHoeRecipe,
+    silverIngotRecipe,
+    silverIngot1Recipe,
+    silverIngot2Recipe,
+    silverIngot3Recipe,
+    silverIngot4Recipe,
+    silverNuggetRecipe,
+    silverNugget2Recipe,
+    plantOilRecipe,
+    silverOil1Recipe,
+    silverOil2Recipe,
+    rawSilverRecipe,
+    rawSilverBlockRecipe,
+    stoneAltarFireBowlRecipe,
+    magicPlanksRecipe, oakPlanksFromJacarandaRecipe, stoneAltarRecipe, silverBlockRecipe
+} from '../assets/recipes/_recipes.mdx'
+
+export const silverSwordCrafting = craftingRecipe(silverSwordRecipe)
+export const silverPickAxeCrafting = craftingRecipe(silverPickaxeRecipe)
+export const silverAxeCrafting = craftingRecipe(silverAxeRecipe)
+export const silverShovelCrafting = craftingRecipe(silverShovelRecipe)
+export const silverHoeCrafting = craftingRecipe(silverHoeRecipe)
+export const silverIngotCrafting = craftingRecipes([silverIngot3Recipe, silverIngot4Recipe])
+export const silverIngotBurning = craftingRecipes([silverIngotRecipe,silverIngot1Recipe,silverIngot2Recipe], "Burning")
+export const silverNuggetCrafting = craftingRecipes([silverNuggetRecipe, silverNugget2Recipe])
+export const plantOilBrewing = craftingRecipe(plantOilRecipe, "Brewing")
+export const silverOil1Brewing = craftingRecipe(silverOil1Recipe, "Brewing")
+export const silverOil2Brewing = craftingRecipe(silverOil2Recipe, "Brewing")
+export const magicPlanksCrafting = craftingRecipe(magicPlanksRecipe)
+export const oakFromJacarandaCrafting = craftingRecipe(oakPlanksFromJacarandaRecipe)
+export const stoneAltarCrafting = craftingRecipe(stoneAltarRecipe)
+export const stoneAltarFireBowlCrafting = craftingRecipe(stoneAltarFireBowlRecipe)
+export const rawSilverCrafting = craftingRecipe(rawSilverRecipe)
+export const rawSilverBlockCrafting = craftingRecipe(rawSilverBlockRecipe)
+export const silverBlockCrafting = craftingRecipe(silverBlockRecipe)
+export const magicLogsCraftingUsage = craftingRecipe(magicPlanksRecipe)
+export const rawSilverBlockCraftingUsage = craftingRecipe(rawSilverRecipe)
+
+export const accessoriesSource = [
+    {
+        type: 'list',
+        title: 'Entity Drops',
+        source: ["Beast Werewolf", "Survivalist Werewolf"]
+    },
+    {
+        type: 'list',
+        title: 'Chest Loot',
+        source: ["Abandoned Mineshaft","Desert Pyramid","Jungle Temple","Stronghold Corridor","Stronghold Library",]
+    },
+];
+export const liverSource = [
+    {
+        type: 'list',
+        title: 'Entity Drops',
+        source: ["Villager", "Beast Werewolf", "Survivalist Werewolf", "Lycanthrope"]
+    },
+    {
+        type: 'list',
+        title: 'Chest Loot',
+        source: ["Desert Pyramid"]
+    },
+];
+export const werewolfToothSource = [
+    {
+        type: 'list',
+        title: 'Entity Drops',
+        source: ["Alpha Werewolf"]
+    },
+    {
+        type: 'list',
+        title: 'Chest Loot',
+        source: ["Stronghold Corridor"]
+    },
+];
+export const crackedBoneSource = [
+    {
+        type: 'list',
+        title: 'Entity Drops',
+        source: ["Skeleton","Beast Werewolf","Survivalist Werewolf","Lycanthrope"]
+    },
+    {
+        type: 'list',
+        title: 'Chest Loot',
+        source: ["Abandoned Mineshaft", "Jungle Temple"]
+    },
+];
+export const minionCharmSource = [
+    {
+        type: 'list',
+        title: 'Tasks',
+        source: ["The Minion Charm can be acquired once reaching lord level 1","The Minion Moon Charm Upgrade Tasks is unlocked once reaching lord level 2","Enhanced Minion Moon Charm Upgrade Tasks is unlocked once reaching lord level 3","Special Minion Moon Charm Upgrade Tasks is unlocked once reaching lord level 5"]
+    },
+];
+export const strangeInjectionSource = [
+    {
+        type: 'list',
+        title: 'Interaction',
+        source: ["Click a werewolf with a syringe"]
+    },
+];
+
+export function silverToolSource() {
+    return sumSource([silverSwordCrafting, silverPickAxeCrafting, silverAxeCrafting, silverShovelCrafting, silverHoeCrafting])
+}
+export function silverIngotSource(){
+    return sumSource([silverIngotBurning, silverIngotCrafting])
+}
+export function silverOilSource(){
+    return sumSource([silverOil1Brewing, silverOil2Brewing])
+}

@@ -1,0 +1,73 @@
+---
+sidebar_position: 5
+title: Commands
+---
+
+The `/werewolves` command is the parent command for everything (except test commands)
+
+## Appearance commands
+
+:::info
+
+These commands can be used by everyone
+
+:::
+
+the appearance of the werewolf forms can be configured over the Appearance Screen or these commands
+
+#### Parameter
+
+Although the `<form>` parameter may accept the `BEAST4L` values it will have no effect
+
+### Eye appearance
+`/werewolves eye <form> <type>`
+
+- `<form>`: one of `BEAST` or `SURVIVAL`
+- `<type>`: the eye texture id
+
+### Skin appearance
+`/werewolves skin <form> <type>`
+
+- `<form>`: one of `BEAST`, `SURVIVAL`, `HUMAN`
+- `<type>`: the skin texture id
+
+### Glowing Eyes
+`/werewolves glowingEye <form> <on>`
+
+- `<form>`: one of `BEAST`, `SURVIVAL`
+- `<on>` : `true`/`false`
+
+## Test commands
+
+:::caution
+
+Test commands are cheat only
+
+:::
+
+All test commands are extensions for `/vampirism-test` 
+### Summon Minion
+
+As Werewolf lord you can summon a werewolf minion.
+
+`/vampirism-test minion spawnNew werewolf [<name> [ <skinType> [ <eyeType> [ <glowingEye> [ <form>]]]]]`
+
+- `<name>`: a name for the minion
+- `<skinType>`: the skin id for the minion
+- `<eyeType>`: the eye id for the minion
+- `<glowingEye>`: if the minion's eyes should glow
+- `<form>`: the werewolf form of the minion `BEAST`, `SURVIVALIST`, `HUMAN` or `BEAST4L`
+
+### Werewolf transform
+
+With the following commands `IWerewolfTransformable` entities (such as Villager, Lycanthrope) can be transformed into or out of a werewolf form.
+
+##### Into werewolf form
+`/vampirism-test werewolf-transform to-werewolf`
+
+This will transform all entities that can transform into werewolf form to transform into it. With this command they will be only a limited time in werewolf form.
+
+##### Out of werewolf form
+`/vampirism-test werewolf-transform from-werewolf`
+
+This will transform all entities that can transform into human form into human form.
