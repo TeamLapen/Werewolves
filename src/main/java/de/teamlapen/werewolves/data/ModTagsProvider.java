@@ -235,7 +235,8 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.@NotNull Provider pProvider) {
-            this.tag(de.teamlapen.vampirism.core.ModTags.Tasks.IS_UNIQUE).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5);
+            this.tag(ModTags.Tasks.AWARDS_LORD_LEVEL).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5);
+            this.tag(ModTags.Tasks.HAS_FACTION).addTags(ModTags.Tasks.IS_WEREWOLF);
             this.tag(ModTags.Tasks.IS_WEREWOLF).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5, ModTasks.WEREWOLF_MINION_BINDING, ModTasks.WEREWOLF_MINION_UPGRADE_SIMPLE, ModTasks.WEREWOLF_MINION_UPGRADE_ENHANCED, ModTasks.WEREWOLF_MINION_UPGRADE_SPECIAL, ModTasks.RANDOM_REFINEMENT_1, ModTasks.RANDOM_REFINEMENT_2, ModTasks.RANDOM_REFINEMENT_3, ModTasks.RANDOM_RARE_REFINEMENT);
         }
     }
@@ -250,6 +251,7 @@ public class ModTagsProvider {
         @Override
         protected void addTags(HolderLookup.@NotNull Provider pProvider) {
             this.tag(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS).add(ModEntities.WEREWOLF_SURVIVALIST.get());
+            this.tag(ModTags.Entities.WEREWOLF).add(ModEntities.ALPHA_WEREWOLF.get(), ModEntities.WEREWOLF_BEAST.get(), ModEntities.WEREWOLF_SURVIVALIST.get(), ModEntities.HUMAN_WEREWOLF.get(), ModEntities.WEREWOLF_MINION.get(), ModEntities.TASK_MASTER_WEREWOLF.get());
         }
     }
 }

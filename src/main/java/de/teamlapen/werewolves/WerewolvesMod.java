@@ -6,15 +6,13 @@ import de.teamlapen.lib.lib.network.AbstractPacketDispatcher;
 import de.teamlapen.lib.lib.network.ISyncable;
 import de.teamlapen.lib.lib.util.IInitListener;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.data.ModBlockFamilies;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.client.core.ClientRegistryHandler;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModCommands;
-import de.teamlapen.werewolves.core.ModItems;
-import de.teamlapen.werewolves.core.ModLootTables;
-import de.teamlapen.werewolves.core.RegistryManager;
+import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.entities.ModEntityEventHandler;
 import de.teamlapen.werewolves.entities.player.ModPlayerEventHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -29,8 +27,13 @@ import de.teamlapen.werewolves.util.*;
 import de.teamlapen.werewolves.world.gen.OverworldModifications;
 import de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -119,6 +122,11 @@ public class WerewolvesMod {
                     .name("text.werewolves.werewolf")
                     .namePlural("text.vampirism.werewolves")
                     .refinementItems(WerewolfRefinementItem::getRefinementItem)
+                    .addTag(Registries.BIOME, ModTags.Biomes.IS_WEREWOLF_BIOME)
+                    .addTag(Registries.POINT_OF_INTEREST_TYPE, ModTags.PoiTypes.IS_WEREWOLF)
+                    .addTag(Registries.VILLAGER_PROFESSION, ModTags.Professions.IS_WEREWOLF)
+                    .addTag(Registries.ENTITY_TYPE, ModTags.Entities.WEREWOLF)
+                    .addTag(VampirismRegistries.TASK_ID, ModTags.Tasks.IS_WEREWOLF)
                     .register();
             WReference.WEREWOLF_CREATURE_ATTRIBUTES = WerewolvesMod.WEREWOLF_CREATURE_ATTRIBUTES;
             setupAPI = true;

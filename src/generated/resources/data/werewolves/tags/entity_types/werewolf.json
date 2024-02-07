@@ -1,0 +1,10 @@
+{
+  "values": [
+    "werewolves:alpha_werewolf",
+    "werewolves:werewolf_beast",
+    "werewolves:werewolf_survivalist",
+    "werewolves:human_werewolf",
+    "werewolves:werewolf_minion",
+    "werewolves:task_master_werewolf"
+  ]
+}

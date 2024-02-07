@@ -10,6 +10,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
@@ -135,9 +136,27 @@ public class ModTags {
 
     public static class Tasks {
         public static final TagKey<Task> IS_WEREWOLF = tag("is_werewolf");
+        public static final TagKey<Task> AWARDS_LORD_LEVEL = vampirism("awards_lord_level");
+        public static final TagKey<Task> HAS_FACTION = vampirism("has_faction");
 
         private static @NotNull TagKey<Task> tag(@NotNull String name) {
             return TagKey.create(VampirismRegistries.TASK_ID, new ResourceLocation(REFERENCE.MODID, name));
+        }
+
+        private static @NotNull TagKey<Task> vampirism(@NotNull String name) {
+            return TagKey.create(VampirismRegistries.TASK_ID, new ResourceLocation(de.teamlapen.vampirism.REFERENCE.MODID, name));
+        }
+    }
+
+    public static class Entities {
+        public static final TagKey<EntityType<?>> WEREWOLF = tag("werewolf");
+
+        private static @NotNull TagKey<EntityType<?>> tag(@NotNull ResourceLocation resourceLocation) {
+            return TagKey.create(Registries.ENTITY_TYPE, resourceLocation);
+        }
+
+        private static @NotNull TagKey<EntityType<?>> tag(@NotNull String name) {
+            return tag(new ResourceLocation(REFERENCE.MODID, name));
         }
     }
 }
