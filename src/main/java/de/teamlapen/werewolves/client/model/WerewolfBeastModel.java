@@ -11,6 +11,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -90,6 +91,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     public final ModelPart earRight;
     public final ModelPart joint;
     public final ModelPart neck;
+    private final List<ModelPart> parts;
 
     public WerewolfBeastModel(ModelPart part) {
         super(part);
@@ -111,6 +113,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         this.jaw = this.head.getChild(JAW);
         this.earLeft = this.head.getChild(EAR_LEFT);
         this.earRight = this.head.getChild(EAR_RIGHT);
+        this.parts = part.getAllParts().filter(s -> !s.isEmpty()).toList();
     }
 
     @SuppressWarnings({"unused", "DuplicatedCode"})
@@ -331,5 +334,10 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     @Override
     protected @NotNull ModelPart getArm(@NotNull HumanoidArm pSide) {
         return pSide == HumanoidArm.LEFT ? this.rightArm : this.leftArm;
+    }
+
+    @Override
+    public ModelPart getRandomModelPart(RandomSource pRandom) {
+        return this.parts.get(pRandom.nextInt(this.parts.size()));
     }
 }
