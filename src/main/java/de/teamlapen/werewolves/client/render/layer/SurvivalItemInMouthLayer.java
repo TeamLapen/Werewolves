@@ -5,7 +5,6 @@ import com.mojang.math.Axis;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.ArmedModel;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -17,11 +16,11 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class SurvivalItemInMouthLayer<T extends LivingEntity> extends ItemInHandLayer<T, WerewolfSurvivalistModel<T>> {
+public class SurvivalItemInMouthLayer<T extends LivingEntity, M extends WerewolfSurvivalistModel<T> & ArmedModel> extends ItemInHandLayer<T, M> {
 
     private final ItemInHandRenderer itemInHandRenderer;
 
-    public SurvivalItemInMouthLayer(RenderLayerParent<T, WerewolfSurvivalistModel<T>> p_234846_, ItemInHandRenderer p_234847_) {
+    public SurvivalItemInMouthLayer(RenderLayerParent<T, M> p_234846_, ItemInHandRenderer p_234847_) {
         super(p_234846_, p_234847_);
         this.itemInHandRenderer = p_234847_;
     }

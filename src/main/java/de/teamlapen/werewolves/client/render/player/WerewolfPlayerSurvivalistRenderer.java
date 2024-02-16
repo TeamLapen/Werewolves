@@ -8,26 +8,25 @@ import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
 import de.teamlapen.werewolves.client.render.layer.SurvivalItemInMouthLayer;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class WerewolfPlayerSurvivalistRenderer extends WerewolfPlayerRenderer<WerewolfSurvivalistModel<AbstractClientPlayer>> {
+public class WerewolfPlayerSurvivalistRenderer extends WerewolfPlayerRenderer<AbstractClientPlayer, WerewolfSurvivalistModel<AbstractClientPlayer>> {
 
     private final List<ResourceLocation> textures;
     public WerewolfPlayerSurvivalistRenderer(EntityRendererProvider.Context context) {
         super(context, new WerewolfSurvivalistModel<>(context.bakeLayer(ModModelRender.WEREWOLF_SURVIVALIST)), 1F);
         this.textures = WerewolfSurvivalistModel.getSurvivalTextures();
 
-        this.addWerewolfLayer(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.SURVIVALIST, this.cast()));
-        this.addWerewolfLayer(new SurvivalItemInMouthLayer<>(this.cast(), context.getItemInHandRenderer()));
+        this.addLayer(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.SURVIVALIST, this));
+        this.addLayer(new ArrowLayer<>(context, this));
+        this.addLayer(new SurvivalItemInMouthLayer<>(this, context.getItemInHandRenderer()));
 
     }
 
@@ -44,11 +43,6 @@ public class WerewolfPlayerSurvivalistRenderer extends WerewolfPlayerRenderer<We
 
     @Override
     public void renderLeftHand(PoseStack stack, MultiBufferSource bufferSource, int p_117816_, AbstractClientPlayer entity) {
-
-    }
-
-    @Override
-    protected void setupSwimRotations(AbstractClientPlayer pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
 
     }
 }
