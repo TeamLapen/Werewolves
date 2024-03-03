@@ -47,6 +47,16 @@ This mod allows you to become a werewolf with all its benefits and drawbacks.
 - [Grid](https://github.com/TheGridExpert) _Textures_
 - drań _Models & Textures_
 
+## Incompatibilities
+
+Werewolves replaces the player's model with different werewolf models. By default this is incompatible with any other mod that does similar actions. Most of the time it will not crash, but animations may not work, or the model may be invisible. 
+Since Forge does not specifically support different player models other than a specific player one and core mod modifications by such mods are incompatible, this will problem will continue to stay around.
+
+### Known mods with incompatibilities
+- Epic Fight (details [here](https://github.com/TeamLapen/Werewolves/issues/181))
+- Better Combat (details [here](https://github.com/ZsoltMolnarrr/BetterCombat?tab=readme-ov-file#-mod-compatibility))
+- MCA Reborn (details [here](https://github.com/TeamLapen/Werewolves/issues/182))
+
 ## Setup Gradle build script and Maven mirror
 
 [Gradle setup](docs/GRADLE.md)

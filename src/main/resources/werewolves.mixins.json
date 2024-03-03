@@ -30,9 +30,7 @@
     "entity.PlayerEntityMixin"
   ],
   "client": [
-    "client.AbstractClientPlayerMixin",
     "client.ClientModLoaderAccessor",
-    "client.EntityRenderersMixin",
     "client.InGameGuiAccessor",
     "client.ItemInHandRendererMixin",
     "client.LayerRendererAccessor",

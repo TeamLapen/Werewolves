@@ -14,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
@@ -40,6 +41,7 @@ public class ClientProxy extends CommonProxy {
             case CLIENT_SETUP -> {
                 MinecraftForge.EVENT_BUS.register(clientHandler = new ClientEventHandler());
                 MinecraftForge.EVENT_BUS.register(hudOverlay = new ModHUDOverlay());
+                FMLJavaModLoadingContext.get().getModEventBus().addListener(clientHandler::onAddLayer);
                 event.enqueueWork(() -> {
                     Sheets.addWoodType(LogBlock.MAGIC);
                     Sheets.addWoodType(LogBlock.JACARANDA);

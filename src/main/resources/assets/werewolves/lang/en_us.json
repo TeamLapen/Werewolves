@@ -9,6 +9,8 @@
   "text.werewolves.slayed_creatures": "Creatures",
   "text.werewolves.nomount.transformed": "Cannot mount while being transformed",
   "text.werewolves.taste_not_right": "This does not taste right",
+  "text.werewolves.mca_integration.first": "MCA Reborn is partially incompatible with Werewolves.",
+  "text.werewolves.mca_integration.seconds": "Too fix this take a look here.",
   "__comment": "worldgen",
   "biome.werewolves.werewolf_heaven": "Werewolf Forest",
   "biome.werewolves.werewolf_forest": "Werewolf Forest",
