@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.client.render.player;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
@@ -13,6 +14,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,6 +51,16 @@ public class WerewolfPlayerBeastRenderer extends WerewolfPlayerRenderer<Abstract
         //noinspection UnstableApiUsage
         if (!net.minecraftforge.client.ForgeHooksClient.renderSpecificFirstPersonArm(stack, bufferSource, p_117816_, entity, HumanoidArm.LEFT)) {
             this.renderHand(stack, bufferSource, p_117816_, entity, this.model.getLeftArmModel());
+        }
+    }
+
+    @Override
+    protected void setupSwimRotations(AbstractClientPlayer pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+        float f3 = pEntityLiving.isInWater() || pEntityLiving.isInFluidType((fluidType, height) -> pEntityLiving.canSwimInFluidType(fluidType)) ? -70.0F - pEntityLiving.getXRot() : -70.0F;
+        float f4 = Mth.lerp(pEntityLiving.getSwimAmount(pPartialTicks), 0.0F, f3);
+        pMatrixStack.mulPose(Axis.XP.rotationDegrees(f4));
+        if (pEntityLiving.isVisuallySwimming()) {
+            pMatrixStack.translate(0.0F, -1.0F, 0.3F);
         }
     }
 }

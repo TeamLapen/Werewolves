@@ -10,6 +10,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -75,6 +76,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public final ModelPart jawTeeth;
     public final ModelPart neck;
     public final ModelPart joint;
+    private final List<ModelPart> parts;
 
 
     public WerewolfSurvivalistModel(ModelPart part) {
@@ -91,6 +93,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.head = this.joint.getChild(HEAD);
         this.jaw = this.head.getChild(JAW);
         this.jawTeeth = this.jaw.getChild(JAW_TEETH);
+        this.parts = part.getAllParts().filter(s -> !s.isEmpty()).toList();
     }
 
     @Nonnull
@@ -180,15 +183,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.crouching = entityIn.isCrouching();
         boolean flag1 = entityIn.isVisuallySwimming();
         this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
-        if (this.swimAmount > 0.0f) {
-            if (flag1) {
-                this.head.xRot = this.rotlerpRad(this.head.xRot, (-(float) Math.PI / 4F), this.swimAmount);
-            } else {
-                this.head.xRot = this.rotlerpRad(this.head.xRot, headPitch * ((float) Math.PI / 180F), this.swimAmount);
-            }
-        } else {
-            this.head.xRot = headPitch * ((float) Math.PI / 180F);
-        }
+        this.head.xRot = headPitch * ((float) Math.PI / 180F);
 
         setupAttackAnimation(entityIn, ageInTicks);
 
@@ -266,6 +261,11 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
             }
         }
         return locs;
+    }
+
+    @Override
+    public @NotNull ModelPart getRandomModelPart(RandomSource pRandom) {
+        return this.parts.get(pRandom.nextInt(this.parts.size()));
     }
 
 }
