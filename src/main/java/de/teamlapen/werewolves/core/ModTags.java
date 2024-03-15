@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -48,6 +47,7 @@ public class ModTags {
         public static final TagKey<Item> SILVER_NUGGET = forge("nuggets/silver");
         public static final TagKey<Item> RAWMEATS = forge("rawmeats");
         public static final TagKey<Item> COOKEDMEATS = forge("cookedmeats");
+        public static final TagKey<Item> MEAT = werewolves("meat");
         public static final TagKey<Item> SILVER_TOOL = werewolves("tools/silver");
         public static final TagKey<Item> SILVER_ARMOR = werewolves("armor/silver");
         public static final TagKey<Item> SILVER_ITEM = werewolves("type/silver");

@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,18 +74,42 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return missing;
     }
 
+    @Deprecated
     @SuppressWarnings("ConstantConditions")
     public static boolean canWerewolfEatItem(LivingEntity entity, ItemStack stack) {
-        return !stack.isEdible() || stack.is(ModTags.Items.COOKEDMEATS) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()) || stack.is(ModTags.Items.RAWMEATS) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()) || stack.getItem().getFoodProperties(stack, entity).isMeat();
+        return isMeat(entity, stack);
     }
 
+    @Deprecated
     public static boolean canWerewolfPlayerEatItem(Player player, ItemStack stack) {
         return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT.get())).orElse(false);
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings({"DataFlowIssue"})
+    public static boolean isMeat(@Nullable LivingEntity entity, ItemStack stack) {
+        return stack.isEdible() && (stack.getFoodProperties(entity).isMeat() || stack.is(ModTags.Items.MEAT) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()));
+    }
+
+    @Deprecated
+    public static boolean isMeat(ItemStack stack) {
+        return isMeat(null, stack);
+    }
+
+    public static boolean isRawMeat( @Nullable LivingEntity entity, ItemStack stack) {
+        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAWMEATS) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()));
+    }
+
+    @Deprecated
     public static boolean isRawMeat(ItemStack stack) {
-        return stack.isEdible() && stack.getItem().getFoodProperties().isMeat() && stack.is(ModTags.Items.RAWMEATS);
+        return isRawMeat(null, stack);
+    }
+
+    /**
+     * Should only be called when {@link #isMeat(net.minecraft.world.entity.LivingEntity, net.minecraft.world.item.ItemStack)} was {@code true} previously.<p>
+     * Otherwise use {@link #isRawMeat(net.minecraft.world.entity.LivingEntity, net.minecraft.world.item.ItemStack)}
+     */
+    public static boolean isRawMeatSkipMeat(ItemStack stack) {
+        return stack.is(ModTags.Items.RAWMEATS);
     }
 
     public static Optional<IWerewolf> asIWerewolf(LivingEntity entity) {

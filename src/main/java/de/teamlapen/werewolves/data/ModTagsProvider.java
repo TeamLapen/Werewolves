@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -148,6 +147,7 @@ public class ModTagsProvider {
             this.tag(ModTags.Items.WOLF_PELT_ARMOR).addTags(ModTags.Items.WOLF_PELT_ARMOR_NORMAL, ModTags.Items.WOLF_PELT_ARMOR_ENHANCED, ModTags.Items.WOLF_PELT_ARMOR_ULTIMATE);
             this.tag(ModTags.Items.SILVER_ARMOR).add(ModItems.SILVER_CHESTPLATE.get(), ModItems.SILVER_HELMET.get(), ModItems.SILVER_LEGGINGS.get(), ModItems.SILVER_BOOTS.get());
             this.tag(ModTags.Items.SILVER_ITEM).addTags(ModTags.Items.SILVER_INGOT, ModTags.Items.SILVER_TOOL, ModTags.Items.SILVER_NUGGET, ModTags.Items.RAW_MATERIALS_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER, ModTags.Items.SILVER_ARMOR);
+            this.tag(ModTags.Items.MEAT).addTags(ModTags.Items.RAWMEATS, ModTags.Items.COOKEDMEATS);
         }
 
         @SuppressWarnings("UnusedReturnValue")

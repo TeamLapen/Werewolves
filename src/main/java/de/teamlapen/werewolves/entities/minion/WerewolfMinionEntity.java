@@ -85,7 +85,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     @Override
     protected boolean canConsume(ItemStack stack) {
         if (!super.canConsume(stack)) return false;
-        if (stack.isEdible() && !Helper.canWerewolfEatItem(this, stack)) return false;
+        if (stack.isEdible() && !Helper.isMeat(this, stack)) return false;
         boolean fullHealth = this.getHealth() == this.getMaxHealth();
         return !fullHealth || !stack.isEdible();
     }
@@ -93,8 +93,9 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     @Nonnull
     @Override
     public ItemStack eat(@Nonnull Level world, @Nonnull ItemStack stack) {
-        if (stack.isEdible() && Helper.isRawMeat(stack)) {
-            float healAmount = stack.getItem().getFoodProperties().getNutrition() / 2f;
+        if (stack.isEdible() && Helper.isRawMeat(this, stack)) {
+            @SuppressWarnings("DataFlowIssue")
+            float healAmount = stack.getFoodProperties(this).getNutrition() / 2f;
             this.heal(healAmount);
         }
         return super.eat(world, stack);
