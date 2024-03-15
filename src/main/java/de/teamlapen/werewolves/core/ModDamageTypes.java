@@ -17,8 +17,8 @@ public class ModDamageTypes {
     }
 
     public static void createDamageTypes(BootstapContext<DamageType> context) {
-        context.register(BITE, new DamageType("werewolves_bite", 0.1F));
-        context.register(BLOOD_LOSS, new DamageType("werewolves_blood_loss", 0.2F));
+        context.register(BITE, new DamageType("werewolves.bite", 0.1F));
+        context.register(BLOOD_LOSS, new DamageType("werewolves.blood_loss", 0.2F));
     }
 
 }
