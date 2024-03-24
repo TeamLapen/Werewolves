@@ -23,6 +23,7 @@ import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,13 +33,19 @@ import javax.annotation.Nullable;
 
 @Mixin(Villager.class)
 public abstract class MixinVillagerEntity extends AbstractVillager implements IVillagerTransformable {
+    @Unique
     @SuppressWarnings("WrongEntityDataParameterClass")
     private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(Villager.class, EntityDataSerializers.INT);
 
+    @Unique
     private boolean werewolf;
+    @Unique
     private WerewolfForm form = WerewolfForm.BEAST;
+    @Unique
     private final EntityActionTier entityTier = EntityActionTier.Medium;
+    @Unique
     private EntityClassType entityClass;
+    @Unique
     protected int rage;
 
     @Deprecated
@@ -77,7 +84,7 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     public boolean hurt(@Nonnull DamageSource source, float amount) {
         if (super.hurt(source, amount)) {
             if (isWerewolf()) {
-                this.rage += amount * 10;
+                this.rage += (int) (amount * 10);
             }
             return true;
         } else {

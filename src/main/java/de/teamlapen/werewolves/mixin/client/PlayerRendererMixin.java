@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -26,7 +27,9 @@ import java.util.List;
 @Mixin(PlayerRenderer.class)
 public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
+    @Unique
     private WerewolfEarsModel<AbstractClientPlayer> werewolfEarsModel;
+    @Unique
     private List<ResourceLocation> textures;
     @Deprecated
     private PlayerRendererMixin(EntityRendererProvider.Context p_174289_, PlayerModel<AbstractClientPlayer> p_174290_, float p_174291_) {
@@ -42,10 +45,11 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 
     @Inject(method = "renderHand(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;Lnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/model/geom/ModelPart;)V", at = @At("RETURN"))
     private void renderWerewolfLeftHand(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, ModelPart pRendererArm, ModelPart pRendererArmwear, CallbackInfo ci) {
-        WerewolfPlayer.getOptSave(pPlayer).filter(werewolf -> werewolf.getForm() == WerewolfForm.HUMAN).ifPresent(werewolf -> {
+        WerewolfPlayer werewolf = WerewolfPlayer.get(pPlayer);
+        if (werewolf.getForm() == WerewolfForm.HUMAN) {
             ModelPart armPart = pRendererArm == this.model.rightArm ? this.werewolfEarsModel.rightArm : this.werewolfEarsModel.leftArm;
             this.model.copyPropertiesTo(this.werewolfEarsModel);
             armPart.render(pMatrixStack, pBuffer.getBuffer(RenderType.entityCutout(this.textures.get(werewolf.getSkinType() % this.textures.size()))), pCombinedLight, OverlayTexture.NO_OVERLAY);
-        });
+        }
     }
 }

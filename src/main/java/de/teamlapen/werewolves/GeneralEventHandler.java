@@ -2,15 +2,13 @@ package de.teamlapen.werewolves;
 
 import de.teamlapen.werewolves.util.Permissions;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.world.WerewolvesWorld;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.server.permission.PermissionAPI;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.server.permission.PermissionAPI;
 import org.jetbrains.annotations.NotNull;
 
 public class GeneralEventHandler {
@@ -22,8 +20,4 @@ public class GeneralEventHandler {
         }
     }
 
-    @SubscribeEvent
-    public void onAttachCapabilityWorld(@NotNull AttachCapabilitiesEvent<Level> event) {
-        event.addCapability(REFERENCE.WORLD_CAP_KEY, WerewolvesWorld.createNewCapability(event.getObject()));
-    }
 }

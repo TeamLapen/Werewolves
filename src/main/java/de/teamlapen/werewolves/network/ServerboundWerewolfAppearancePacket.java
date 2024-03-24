@@ -1,41 +1,39 @@
 package de.teamlapen.werewolves.network;
 
-import de.teamlapen.lib.network.IMessage;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
-public record ServerboundWerewolfAppearancePacket(int entityId, String name, WerewolfForm form, int... data) implements IMessage.IServerBoundMessage {
+public record ServerboundWerewolfAppearancePacket(int entityId, String name, WerewolfForm form, int... data) implements CustomPacketPayload {
 
-    static void encode(ServerboundWerewolfAppearancePacket msg, FriendlyByteBuf buf) {
-        buf.writeVarInt(msg.entityId);
-        buf.writeUtf(msg.name);
-        buf.writeUtf(msg.form.getName());
-        buf.writeVarInt(msg.data.length);
-        for (int value : msg.data) {
-            buf.writeVarInt(value);
-        }
+    public static final ResourceLocation ID = new ResourceLocation(REFERENCE.MODID, "werewolf_appearance");
+    public static final Codec<ServerboundWerewolfAppearancePacket> CODEC = RecordCodecBuilder.create(inst -> {
+        return inst.group(
+                Codec.INT.fieldOf("entityId").forGetter(ServerboundWerewolfAppearancePacket::entityId),
+                Codec.STRING.fieldOf("name").forGetter(ServerboundWerewolfAppearancePacket::name),
+                WerewolfForm.CODEC.fieldOf("form").forGetter(msg -> msg.form),
+                Codec.INT_STREAM.xmap(IntStream::toArray, Arrays::stream).fieldOf("data").forGetter(l -> l.data)
+        ).apply(inst, ServerboundWerewolfAppearancePacket::new);
+    });
+
+    @Override
+    public void write(FriendlyByteBuf buffer) {
+        buffer.writeJsonWithCodec(CODEC, this);
     }
 
-    static ServerboundWerewolfAppearancePacket decode(FriendlyByteBuf buf) {
-        int entityId = buf.readVarInt();
-        String newName = buf.readUtf(MinionData.MAX_NAME_LENGTH);
-        String form = buf.readUtf(32767);
-        int[] data = new int[buf.readVarInt()];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = buf.readVarInt();
-        }
-        return new ServerboundWerewolfAppearancePacket(entityId, newName, WerewolfForm.getForm(form), data);
+    @Override
+    public @NotNull ResourceLocation id() {
+        return ID;
     }
-
-    public static void handle(final ServerboundWerewolfAppearancePacket msg, Supplier<NetworkEvent.Context> contextSupplier) {
-        final NetworkEvent.Context ctx = contextSupplier.get();
-        ctx.enqueueWork(() -> WerewolvesMod.proxy.handleAppearancePacket(ctx.getSender(), msg));
-        ctx.setPacketHandled(true);
-    }
-
 }

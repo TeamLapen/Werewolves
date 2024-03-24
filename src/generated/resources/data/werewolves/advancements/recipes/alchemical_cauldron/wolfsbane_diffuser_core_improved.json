@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "werewolves:alchemical_cauldron/wolfsbane_diffuser_core_improved"
+        "recipe": "werewolves:wolfsbane_diffuser_core_improved"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,8 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "werewolves:alchemical_cauldron/wolfsbane_diffuser_core_improved"
+      "werewolves:wolfsbane_diffuser_core_improved"
     ]
-  },
-  "sends_telemetry_event": true
+  }
 }

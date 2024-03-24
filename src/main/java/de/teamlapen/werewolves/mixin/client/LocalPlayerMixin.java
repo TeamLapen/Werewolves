@@ -28,7 +28,8 @@ public abstract class LocalPlayerMixin extends AbstractClientPlayer {
     public void sendPosition(CallbackInfo ci) {
         if (!isControlledCamera()) return;
         if (!this.isAlive()) return;
-        if (!WerewolfPlayer.getOpt(this).map(w -> w.getForm() == WerewolfForm.SURVIVALIST && w.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get())).orElse(false)) {
+        WerewolfPlayer werewolf = WerewolfPlayer.get(this);
+        if (werewolf.getForm() != WerewolfForm.SURVIVALIST && werewolf.getSkillHandler().isSkillEnabled(ModSkills.CLIMBER.get())) {
             return;
         }
         this.autoJumpEnabled = false;

@@ -24,7 +24,7 @@ public class WerewolfEyeCommand extends BasicCommand {
 
     @SuppressWarnings("SameReturnValue")
     private static int setEye(CommandContext<CommandSourceStack> context, Player playerEntity, int type, WerewolfForm form) {
-        WerewolfPlayer.getOpt(playerEntity).ifPresent(w -> w.setEyeType(form, type));
+        WerewolfPlayer.get(playerEntity).setEyeType(form, type);
         return 0;
     }
 }

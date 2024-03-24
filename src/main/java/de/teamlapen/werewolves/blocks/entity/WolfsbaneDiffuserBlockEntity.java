@@ -1,10 +1,9 @@
 package de.teamlapen.werewolves.blocks.entity;
 
-import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.werewolves.blocks.WolfsbaneDiffuserBlock;
 import de.teamlapen.werewolves.core.ModTiles;
-import de.teamlapen.werewolves.world.WerewolvesWorld;
+import de.teamlapen.werewolves.world.LevelWolfsbane;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -15,8 +14,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -84,9 +81,8 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
         this.setFueledTime(compound.getInt("fueled"));
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void onDataPacket(Connection net, @NotNull ClientboundBlockEntityDataPacket pkt) {
+    public void onDataPacket(@NotNull Connection net, @NotNull ClientboundBlockEntityDataPacket pkt) {
         if (hasLevel()) {
             CompoundTag nbt = pkt.getTag();
             this.handleUpdateTag(nbt);
@@ -193,8 +189,7 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
                 chunks[i++] = new ChunkPos(x + baseX, z + baseZ);
             }
         }
-        //noinspection DataFlowIssue
-        this.id = WerewolvesWorld.getOpt(getLevel()).map(vw -> vw.registerWolfsbaneDiffuserBlock(this.fueled > 0 ? this.type.amplifier : 0, chunks)).orElse(0);
+        this.id = LevelWolfsbane.getOpt(getLevel()).map(s -> s.registerWolfsbaneDiffuserBlock(this.fueled > 0 ? this.type.amplifier : 0, chunks)).orElse(0);
         this.registered = i != 0;
 
     }
@@ -212,8 +207,7 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
 
     private void unregister() {
         if (this.registered && hasLevel()) {
-            //noinspection DataFlowIssue
-            WerewolvesWorld.getOpt(getLevel()).ifPresent(vw -> vw.removeWolfsbaneBlocksBlock(id));
+            LevelWolfsbane.getOpt(getLevel()).ifPresent(vw -> vw.removeWolfsbaneBlocksBlock(id));
             this.registered = false;
         }
     }

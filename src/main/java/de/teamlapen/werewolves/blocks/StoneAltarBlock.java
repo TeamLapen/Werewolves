@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.blocks;
 
+import com.mojang.serialization.MapCodec;
 import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.core.ModTiles;
 import de.teamlapen.werewolves.util.WUtils;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -39,6 +41,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import javax.annotation.Nonnull;
@@ -55,9 +58,13 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     public static final BooleanProperty SOUL_FIRE = WUtils.SOUL_FIRE;
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final String REG_NAME = "stone_altar";
+    protected static final MapCodec<StoneAltarBlock> CODEC = simpleCodec(StoneAltarBlock::new);
 
     public StoneAltarBlock() {
-        super(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT) ? 14 : 0));
+        this(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT) ? 14 : 0));
+    }
+    public StoneAltarBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false).setValue(HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.SIGNAL_FIRE, false));
     }
 
@@ -66,6 +73,11 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         VoxelShape b = Block.box(1, 7, 1, 15, 10, 15);
 
         return Shapes.or(a, b);
+    }
+
+    @Override
+    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nonnull
@@ -83,7 +95,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public boolean isBurning(BlockState state, BlockGetter world, BlockPos pos) {
+    public boolean isBurning(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
         return state.getValue(LIT);
     }
 
@@ -247,7 +259,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
+    public @NotNull BlockState rotate(BlockState state, @NotNull LevelAccessor world, @NotNull BlockPos pos, Rotation rotation) {
         return state.setValue(HORIZONTAL_FACING, rotation.rotate(state.getValue(HORIZONTAL_FACING)));
     }
 

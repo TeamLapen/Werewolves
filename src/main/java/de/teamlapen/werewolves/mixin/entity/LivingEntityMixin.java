@@ -21,7 +21,7 @@ public abstract class LivingEntityMixin {
     @Inject(method = "addEatEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;isEdible()Z", shift = At.Shift.AFTER), cancellable = true)
     private void test(ItemStack pFood, Level pLevel, LivingEntity pLivingEntity, CallbackInfo ci) {
         var food = pFood.getFoodProperties(pLivingEntity);
-        if (food != null && !food.isMeat() && pLivingEntity instanceof  Player player && Helper.isWerewolf(player) && WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getSkillHandler).filter(s -> s.isSkillEnabled(ModSkills.NOT_MEAT.get())).isEmpty()) {
+        if (food != null && !food.isMeat() && pLivingEntity instanceof  Player player && Helper.isWerewolf(player) && !WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT.get())) {
             ci.cancel();
         }
     }

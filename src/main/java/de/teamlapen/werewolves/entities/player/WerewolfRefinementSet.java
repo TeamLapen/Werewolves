@@ -4,19 +4,19 @@ import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
 import de.teamlapen.vampirism.entity.player.refinements.RefinementSet;
 import de.teamlapen.werewolves.api.WReference;
-import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class WerewolfRefinementSet extends RefinementSet {
 
-    public WerewolfRefinementSet(Rarity rarity, int color, Set<RegistryObject<? extends IRefinement>> refinements) {
+    public WerewolfRefinementSet(Rarity rarity, int color, Set<Supplier<? extends IRefinement>> refinements) {
         super(rarity, color, refinements);
     }
 
     @SafeVarargs
-    public WerewolfRefinementSet(Rarity rarity, int color, RegistryObject<? extends IRefinement>... refinements) {
+    public WerewolfRefinementSet(Rarity rarity, int color, Supplier<? extends IRefinement>... refinements) {
         super(rarity, color, refinements);
     }
 

@@ -406,5 +406,8 @@
   "__comment": "death",
   "death.attack.werewolves.bite": "%1$s was bitten by %2$s",
   "death.attack.werewolves.blood_loss": "%1$s bled to death",
-  "death.attack.werewolves.blood_loss.player": "%1$s bled to death after being bitten by %2$s"
+  "death.attack.werewolves.blood_loss.player": "%1$s bled to death after being bitten by %2$s",
+  "__comment": "command",
+  "command.werewolves.argument.form.notfound": "%s not found",
+  "command.werewolves.argument.form.not_supported": "%s is not allowed here"
 }

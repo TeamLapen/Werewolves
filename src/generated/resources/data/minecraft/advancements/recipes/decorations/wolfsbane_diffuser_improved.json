@@ -32,15 +32,14 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_garlic_diffuser",
-      "has_diamond",
-      "has_the_recipe"
+      "has_diamond"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:wolfsbane_diffuser_improved"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

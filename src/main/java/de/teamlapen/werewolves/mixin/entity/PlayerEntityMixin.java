@@ -34,13 +34,15 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         super(p_i48577_1_, p_i48577_2_);
     }
 
+    @SuppressWarnings("UnreachableCode")
     @Redirect(method = "getDigSpeed(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)F", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;getDestroySpeed(Lnet/minecraft/world/level/block/state/BlockState;)F"))
     private float werewolfDigSpeed(Inventory inventory, BlockState state) {
         float f = this.inventory.getDestroySpeed(state);
         if (Helper.isWerewolf((Player)(Object)this)) {
             ItemStack stack = this.inventory.player.getMainHandItem();
             if (stack.isEmpty()) {
-                return Math.max(f, WerewolfPlayer.getOpt((Player)(Object)this).map(WerewolfPlayer::getDigSpeed).orElse(1.0F));
+                //noinspection DataFlowIssue
+                return Math.max(f, WerewolfPlayer.get((Player)(Object)this).getDigSpeed());
             }
         }
         return f;
@@ -48,11 +50,16 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "dropEquipment", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;dropAll()V"))
     private void dropWerewolfEquipment(CallbackInfo ci) {
-        WerewolfPlayer.getOpt(((Player) (Object) this)).ifPresent(WerewolfPlayer::dropEquipment);
+        WerewolfPlayer.get(((Player) (Object) this)).dropEquipment();
     }
 
+    @SuppressWarnings("UnreachableCode")
     @ModifyArg(method = "causeFoodExhaustion", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/food/FoodData;addExhaustion(F)V"))
     private float manipulateExhaustion(float pExhaustion) {
-        return WerewolfPlayer.getOpt((Player)(Object) this).filter(s -> s.getForm() == WerewolfForm.SURVIVALIST).map(WerewolfPlayer::getSkillHandler).map(l -> l.isSkillEnabled(ModSkills.EFFICIENT_DIET.get())).map(s -> pExhaustion * 0.7f).orElse(pExhaustion);
+        WerewolfPlayer werewolf = WerewolfPlayer.get((Player) (Object) this);
+        if (werewolf.getForm() == WerewolfForm.SURVIVALIST && werewolf.getSkillHandler().isSkillEnabled(ModSkills.EFFICIENT_DIET.get())) {
+            return pExhaustion * 0.7f;
+        }
+        return pExhaustion;
     }
 }

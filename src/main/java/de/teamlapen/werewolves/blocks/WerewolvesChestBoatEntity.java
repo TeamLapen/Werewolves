@@ -16,7 +16,6 @@ import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
 public class WerewolvesChestBoatEntity extends ChestBoat implements IWerewolvesBoat {
@@ -63,12 +62,6 @@ public class WerewolvesChestBoatEntity extends ChestBoat implements IWerewolvesB
     @Override
     public void setType(@NotNull IWerewolvesBoat.BoatType type) {
         this.entityData.set(DATA_ID_TYPE, type.ordinal());
-    }
-
-    @NotNull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @NotNull

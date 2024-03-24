@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_stone_bricks",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_stone_bricks"
     ]
   ],
   "rewards": {
     "recipes": [
       "werewolves:stone_altar"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

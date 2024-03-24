@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.WerewolvesMod;
+import de.teamlapen.werewolves.client.WerewolvesModClient;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -17,6 +18,6 @@ public class LevelRendererMixin {
 
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endLastBatch()V", shift = At.Shift.AFTER))
     private void test(PoseStack p_109600_, float p_109601_, long p_109602_, boolean p_109603_, Camera p_109604_, GameRenderer p_109605_, LightTexture p_109606_, Matrix4f p_109607_, CallbackInfo ci) {
-        WerewolvesMod.proxy.endVisionBatch();
+        WerewolvesModClient.getInstance().getRenderHandler().endVisionBatch();
     }
 }

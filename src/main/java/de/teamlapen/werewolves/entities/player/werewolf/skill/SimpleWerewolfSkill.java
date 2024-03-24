@@ -1,13 +1,17 @@
 package de.teamlapen.werewolves.entities.player.werewolf.skill;
 
+import com.mojang.datafixers.util.Either;
+import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillType;
 import de.teamlapen.vampirism.api.entity.player.skills.SkillType;
+import de.teamlapen.vampirism.entity.player.hunter.skills.HunterSkills;
 import de.teamlapen.vampirism.entity.player.skills.VampirismSkill;
 import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.ChatFormatting;
@@ -29,19 +33,19 @@ import java.util.function.Supplier;
 public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
     public SimpleWerewolfSkill() {
-        super(false);
+        super(Either.left(ModSkills.Trees.LEVEL), false);
     }
 
     public SimpleWerewolfSkill(int skillPointCost) {
-        super(skillPointCost, false);
+        super(Either.left(ModSkills.Trees.LEVEL), skillPointCost, false);
     }
 
     public SimpleWerewolfSkill(boolean desc) {
-        super(desc);
+        super(Either.left(ModSkills.Trees.LEVEL), desc);
     }
 
     public SimpleWerewolfSkill(int skillPoints, boolean desc) {
-        super(skillPoints, desc);
+        super(Either.left(ModSkills.Trees.LEVEL), skillPoints, desc);
     }
 
     @Nonnull
@@ -67,11 +71,6 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         return this;
     }
 
-    public SimpleWerewolfSkill setToggleActions(BiConsumer<IWerewolfPlayer, Boolean> action) {
-        this.setToggleActions(w -> action.accept(w, true), w -> action.accept(w, false));
-        return this;
-    }
-
     @SafeVarargs
     public final SimpleWerewolfSkill defaultDescWithExtra(MutableComponent prefix, Supplier<ISkill<?>>... skills) {
         this.setDescription(() -> {
@@ -92,14 +91,19 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         return defaultDescWithExtra(Component.translatable("text.werewolves.skills.upgrade"), skill);
     }
 
-    public static class LordWerewolfSkill extends SimpleWerewolfSkill {
-        public LordWerewolfSkill(boolean desc) {
-            super((desc));
+    public static class LordWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
+        public LordWerewolfSkill(int skillPointCost, boolean desc) {
+            super(Either.left(ModSkills.Trees.LORD), skillPointCost, desc);
         }
 
         @Override
-        public @NotNull ISkillType getType() {
-            return SkillType.LORD;
+        public @NotNull Optional<IPlayableFaction<?>> getFaction() {
+            return Optional.of(WReference.WEREWOLF_FACTION);
+        }
+
+        public LordWerewolfSkill setToggleActions(BiConsumer<IWerewolfPlayer, Boolean> action) {
+            this.setToggleActions(w -> action.accept(w, true), w -> action.accept(w, false));
+            return this;
         }
     }
     public static class AttributeSkill extends SimpleWerewolfSkill {
@@ -120,14 +124,14 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         @Override
         protected void onDisabled(IWerewolfPlayer player) {
             super.onDisabled(player);
-            AttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
+            AttributeInstance attributes = player.asEntity().getAttribute(this.attributeType);
             attributes.removeModifier(this.attribute);
         }
 
         @Override
         protected void onEnabled(IWerewolfPlayer player) {
             super.onEnabled(player);
-            AttributeInstance attributes = player.getRepresentingPlayer().getAttribute(this.attributeType);
+            AttributeInstance attributes = player.asEntity().getAttribute(this.attributeType);
             if (attributes.getModifier(this.attribute) == null) {
                 attributes.addPermanentModifier(new AttributeModifier(this.attribute, RegUtil.id(this).toString() + "_skill", this.attribute_value.apply(player), this.operation));
             }

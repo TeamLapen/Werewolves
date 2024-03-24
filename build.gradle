@@ -1,38 +1,41 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {url='https://repo.spongepowered.org/repository/maven-public'}
-    }
-    dependencies {
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT', changing: true
-    }
-}
-
 plugins {
-    id 'net.minecraftforge.gradle' version '6.0+'
-    id 'com.matthewprenger.cursegradle' version '1.2.0'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    id 'de.undercouch.download' version '3.3.0'
+    id 'net.neoforged.gradle.userdev' version '7.+'
+    id "net.neoforged.gradle.mixin" version "7.+"
     id 'idea'
     id 'eclipse'
-    id "com.modrinth.minotaur" version "2.+"
+    id "me.modmuss50.mod-publish-plugin" version "0.4.2"
 }
 
-apply from: 'https://raw.githubusercontent.com/SizableShrimp/ForgeUpdatesRemapper/main/remapper.gradle'
+group = mod_group_id
+version = mod_version
 
-group = 'de.teamlapen.werewolves' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'Werewolves'
+base {
+    archivesName = mod_name
+}
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-// Declare here to use in gradle/versioning.gradle
-ext.mod_version="Test"
-ext.type="test"
-ext.classification = "test"
-
 sourceSets {
-    api
+    api {
+        compileClasspath += configurations["compileClasspath"]
+    }
     main {
+
+        java {
+            //if you want to exclude a package do it here, but use the package as path (e.g. de/teamlapen/vampirism for de.teamlapen.vampirism)
+            // if you want intellij to ignore the package, you need to add it in the settings (File -> Settings -> Build, Execution, Deployment -> Compiler -> Excludes)
+            // exclude(<package>)
+            if (!include_jei.toBoolean()) {
+                exclude('de/teamlapen/werewolves/modcompat/jei')
+            }
+            if (!include_guideapi.toBoolean()) {
+                exclude('de/teamlapen/werewolves/modcompat/guide')
+            }
+            if (!include_terrablender.toBoolean()) {
+                exclude('de/teamlapen/werewolves/modcompat/terrablender')
+            }
+        }
+        //noinspection GroovyAssignabilityCheck
         compileClasspath += sourceSets.api.output
         runtimeClasspath += sourceSets.api.output
 
@@ -44,20 +47,71 @@ apply from: 'gradle/versioning.gradle'
 apply from: 'gradle/forge.gradle'
 apply from: 'gradle/artifacts.gradle'
 apply from: 'gradle/deploy.gradle'
+apply from: 'gradle/crowdin.gradle'
 
-configurations {
-    apiCompile.extendsFrom(compile)
-    apiImplementation.extendsFrom(implementation)
-    apiRuntimeOnly.extendsFrom(runtimeOnly)
-}
 
 idea {
     module {
-        for (String excludeDirName in ["run", "out", "logs", "gradle"]) {
+        for (String excludeDirName in ["run", "out", "logs", "runs"]) {
             File excludeDir = new File(projectDir, excludeDirName)
             excludeDirs.add(excludeDir)
         }
-        downloadJavadoc = true
         downloadSources = true
     }
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description,
+            jei_version: jei_version,
+            guideapi_version: guideapi_version,
+            vampirism_version: vampirism_version,
+            mod_url: mod_url,
+            mod_issue_tracker: mod_issue_tracker,
+            pack_format_number: pack_format_number,
+            vampirism_version_range: vampirism_version_range,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    from sourceSets.main.output.classesDirs
+    from sourceSets.api.output.classesDirs
+    from sourceSets.main.output.resourcesDir
+    from sourceSets.api.output.resourcesDir
+
+    from{
+        fileTree('build/translations').matching{
+            exclude "**/en_us.json" //Don't override local source file
+        }
+    }
+
+    manifest {
+        attributes([
+                'Specification-Title'     : mod_id,
+                'Specification-Vendor'    : mod_authors,
+                'Specification-Version'   : '1', // We are version 1 of ourselves
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "FMLAT"                   : "accesstransformer.cfg",
+        ])
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+configurations.all {
+    print(it.name + "\n")
 }

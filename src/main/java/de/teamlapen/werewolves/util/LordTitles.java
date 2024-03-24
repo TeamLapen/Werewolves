@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.util;
 
+import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import net.minecraft.network.chat.Component;
 
 public class LordTitles extends de.teamlapen.vampirism.util.LordTitles {
@@ -11,7 +12,7 @@ public class LordTitles extends de.teamlapen.vampirism.util.LordTitles {
     private static final Component WEREWOLF_5 = Component.translatable("text.werewolves.lord_title.werewolf.5");
     private static final Component EMPTY = Component.empty();
 
-    public static Component getWerewolfTitle(int level, boolean female) {
+    public static Component getWerewolfTitle(int level, IPlayableFaction.TitleGender female) {
         return switch (level) {
             case 1 -> WEREWOLF_1;
             case 2 -> WEREWOLF_2;

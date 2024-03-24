@@ -70,18 +70,17 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_silver_axe",
       "has_silver_hoe",
       "has_silver_pickaxe",
       "has_silver_shovel",
-      "has_silver_sword",
-      "has_the_recipe"
+      "has_silver_sword"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:silver_nugget_from_smelting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

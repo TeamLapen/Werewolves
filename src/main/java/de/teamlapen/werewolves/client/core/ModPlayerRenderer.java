@@ -36,7 +36,11 @@ public class ModPlayerRenderer {
     }
 
     private boolean render(AbstractClientPlayer player, Function<WerewolfForm, Boolean> renderFunction) {
-        return WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getForm).filter(s -> s.isTransformed() && !s.isHumanLike()).map(renderFunction).orElse(false);
+        WerewolfPlayer werewolf = WerewolfPlayer.get(player);
+        if (werewolf.getForm().isTransformed() && !werewolf.getForm().isHumanLike()) {
+            return renderFunction.apply(werewolf.getForm());
+        }
+        return false;
     }
 
     public boolean renderArm(AbstractClientPlayer player, PoseStack stack, MultiBufferSource bufferSource, int pCombinedLight, HumanoidArm arm) {

@@ -12,8 +12,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.neoforged.neoforge.client.gui.overlay.ExtendedGui;
+import net.neoforged.neoforge.client.gui.overlay.IGuiOverlay;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -22,10 +23,10 @@ public class ActionCooldownOverlay implements IGuiOverlay {
     private final Minecraft mc = Minecraft.getInstance();
 
     @Override
-    public void render(ForgeGui gui, GuiGraphics graphics, float partialTicks, int width, int height) {
+    public void render(@NotNull ExtendedGui gui, @NotNull GuiGraphics graphics, float partialTicks, int width, int height) {
         if (Helper.isWerewolf(this.mc.player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
-            List<IAction<IWerewolfPlayer>> actions = werewolf.getActionHandler().getUnlockedActions().stream().filter(action -> action instanceof IActionCooldownMenu).filter(action -> werewolf.getActionHandler().isActionOnCooldown(action)).toList();
+            List<IAction<IWerewolfPlayer>> actions = werewolf.getActionHandler().getUnlockedActions().stream().filter(IActionCooldownMenu.class::isInstance).filter(action -> werewolf.getActionHandler().isActionOnCooldown(action)).toList();
 
 
             int x = 12;

@@ -18,10 +18,10 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.common.loot.LootModifier;
-import net.minecraftforge.common.loot.LootModifierManager;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.common.loot.LootModifier;
+import net.neoforged.neoforge.common.loot.LootModifierManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -29,46 +29,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.minecraft.world.level.storage.loot.Deserializers.createLootTableSerializer;
 import static net.minecraft.world.level.storage.loot.LootTable.createStackSplitter;
 
 @ParametersAreNonnullByDefault
 public class MobLootModifier extends LootModifier {
-    private static final Gson LOOT_TABLE_SERIALIZER = createLootTableSerializer().create();
-
-
-    private static final Codec<LootTable> LOOT_TABLE_CODEC = Codec.PASSTHROUGH.flatXmap(
-            dynamic -> {
-                try {
-                    return DataResult.success(ForgeHooks.loadLootTable(LOOT_TABLE_SERIALIZER, new ResourceLocation("none"), getJson(dynamic), true));
-                } catch (Exception e) {
-                    LootModifierManager.LOGGER.warn("Unable to decode loot table", e);
-                    return DataResult.error(e::getMessage);
-                }
-            },
-            lootTable -> {
-                try {
-                    JsonElement e = LOOT_TABLE_SERIALIZER.toJsonTree(lootTable);
-                    return DataResult.success(new Dynamic<>(JsonOps.INSTANCE, e));
-                } catch (Exception e) {
-                    LootModifierManager.LOGGER.warn("Unable to encode loot table", e);
-                    return DataResult.error(e::getMessage);
-                }
-            }
-    );
+    private static final Codec<LootTable> LOOT_TABLE_CODEC = LootTable.CODEC;
     public static final Codec<MobLootModifier> CODEC = RecordCodecBuilder.create(inst -> {
         return codecStart(inst).and(LOOT_TABLE_CODEC.fieldOf("lootTable").forGetter(a -> a.lootTable)).apply(inst, MobLootModifier::new);
     });
 
-    private static <U> JsonElement getJson(Dynamic<?> dynamic) {
-        Dynamic<U> typed = (Dynamic<U>) dynamic;
-        return typed.getValue() instanceof JsonElement ?
-                (JsonElement) typed.getValue() :
-                typed.getOps().convertTo(JsonOps.INSTANCE, typed.getValue());
-    }
-
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public @NotNull Codec<? extends IGlobalLootModifier> codec() {
         return CODEC;
     }
 

@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.blocks;
 
+import com.mojang.serialization.MapCodec;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -28,8 +30,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,9 +43,14 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty SOUL_FIRE = WUtils.SOUL_FIRE;
     protected static final VoxelShape SHAPE = makeShape();
+    protected static final MapCodec<StoneAltarFireBowlBlock> CODEC = simpleCodec(StoneAltarFireBowlBlock::new);
 
     public StoneAltarFireBowlBlock() {
-        super(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT) ? 14 : 0));
+        this(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT) ? 14 : 0));
+    }
+
+    public StoneAltarFireBowlBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.getStateDefinition().any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false).setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.SIGNAL_FIRE, false));
     }
 
@@ -89,7 +95,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
     }
 
     @Override
-    public boolean isBurning(BlockState state, BlockGetter world, BlockPos pos) {
+    public boolean isBurning(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
         return super.isBurning(state, world, pos);
     }
 
@@ -109,7 +115,6 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
         return false;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (stateIn.getValue(LIT)) {
@@ -125,5 +130,10 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
+    }
+
+    @Override
+    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
     }
 }

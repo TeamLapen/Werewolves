@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.api.entities.werewolf;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
@@ -10,6 +11,7 @@ import java.util.*;
 
 public class WerewolfForm {
     private static final Map<String, WerewolfForm> REGISTRY = new HashMap<>();
+    public static final Codec<WerewolfForm> CODEC = Codec.STRING.xmap(WerewolfForm::getForm, WerewolfForm::getName);
     public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false, 0, 0F, true);
     public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true, 3, 0.05F, true);
     public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true, 8, 0.3F, true);

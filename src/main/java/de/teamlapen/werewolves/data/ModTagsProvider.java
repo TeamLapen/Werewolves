@@ -17,11 +17,10 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,6 +47,7 @@ public class ModTagsProvider {
             super(output, lookupProvider, REFERENCE.MODID, existingFileHelper);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         protected void addTags(HolderLookup.@NotNull Provider holderLookup) {
             this.tag(ModTags.Blocks.SILVER_ORE).add(ModBlocks.SILVER_ORE.get(), ModBlocks.DEEPSLATE_SILVER_ORE.get());
@@ -203,7 +203,7 @@ public class ModTagsProvider {
 
     private static class ModVillageProfessionProvider extends TagsProvider<VillagerProfession> {
         public ModVillageProfessionProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
-            super(output, ForgeRegistries.Keys.VILLAGER_PROFESSIONS, lookupProvider, REFERENCE.MODID, existingFileHelper);
+            super(output, Registries.VILLAGER_PROFESSION, lookupProvider, REFERENCE.MODID, existingFileHelper);
         }
 
         @Override
@@ -230,7 +230,7 @@ public class ModTagsProvider {
     private static class ModTasksTagProvider extends TagsProvider<Task> {
 
         public ModTasksTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
-            super(output, VampirismRegistries.TASK_ID, lookupProvider, REFERENCE.MODID, existingFileHelper);
+            super(output, VampirismRegistries.Keys.TASK, lookupProvider, REFERENCE.MODID, existingFileHelper);
         }
 
         @Override

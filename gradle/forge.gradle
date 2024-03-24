@@ -29,181 +29,75 @@ repositories {
             includeGroup "mezz.jei"
         }
     }
+
+    maven {
+        name = "Forge"
+        url = "https://maven.minecraftforge.net"
+    }
     mavenCentral()
     mavenLocal()
 }
 
-apply from: 'gradle/crowdin.gradle'
-
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
-    //Vampirism
-    implementation fg.deobf("de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}")
-    implementation fg.deobf("de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}")
+    implementation "net.neoforged:neoforge:${forge_version}"
 
-    //Utility
-    compileOnly fg.deobf("mezz.jei:jei-1.20.1-common-api:${project.jei_version}") //API for compile
-    compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge-api:${project.jei_version}") //API for compile
-    runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:${project.jei_version}") //Full for runtime
+    implementation "de.teamlapen.vampirism:Vampirism:${project.minecraft_version}-${project.vampirism_version}"
 
-    //Mixin preprocessor
-    if (System.getProperty("idea.sync.active") != "true") {
-        annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    if (include_jei.toBoolean()) {
+        compileOnly "mezz.jei:jei-${jei_mc_version}-common-api:${project.jei_version}" //API for compile
+        compileOnly "mezz.jei:jei-${jei_mc_version}-neoforge-api:${project.jei_version}" //API for compile
+        runtimeOnly "mezz.jei:jei-${jei_mc_version}-neoforge:${project.jei_version}" //Full for runtime
     }
 
-    // Terrablender for biome addition
-    compileOnly fg.deobf("com.github.glitchfiend:TerraBlender-forge:${project.terrablender_version}")
-    // Only enable for testing
-//    runtimeOnly fg.deobf("com.github.glitchfiend:TerraBlender-forge:${project.terrablender_version}")
+    if (include_guideapi.toBoolean()) {
+        compileOnly "de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}"
+        runtimeOnly "de.maxanier.guideapi:Guide-API-VP:${project.guideapi_version}"
+    }
 
-    // Blame for debugging
-//    runtimeOnly fg.deobf("com.telepathicgrunt:Blame:${project.blame_version}")
+    if (include_terrablender.toBoolean()) {
+        compileOnly "com.github.glitchfiend:TerraBlender-neoforge:${project.terrablender_version}"
+        runtimeOnly "com.github.glitchfiend:TerraBlender-neoforge:${project.terrablender_version}"
+    }
+
+    if (include_jade.toBoolean()) {
+        runtimeOnly "curse.maven:jade-324717:" + project.jade_version
+    }
 }
 
-minecraft {
-    mappings channel: "${project.mcp_channel}".toString(), version: "${project.mcp_mappings}".toString()
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    copyIdeResources = true
+minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
 
-    runs {
-        client {
-            taskName 'runClient'
-            property 'mixin.env.disableRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            property 'forge.logging.console.level', 'debug'
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'vampirism_target', 'dev_client'
-            workingDirectory project.file('run/client').canonicalPath
-            jvmArg '-ea:de.teamlapen...'
+runs {
+    configureEach {
+        systemProperty 'forge.logging.console.level', 'debug'
 
-            mods {
-                werewolves {
-                    source sourceSets.main
-                    source sourceSets.api
-                }
-            }
-
-        }
-        client2 {
-            parent runs.client
-            taskName 'runClient2'
-            arg '--username=Dev2'
-        }
-        clientJBR {
-            parent runs.client
-            taskName 'runClientJBR'
-            jvmArg "-XX:+AllowEnhancedClassRedefinition"
-        }
-        server {
-            property 'mixin.env.disableRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'vampirism_target', 'dev_server'
-            workingDirectory project.file('run/server').canonicalPath
-            jvmArg '-ea:de.teamlapen...'
-
-            mods {
-                werewolves {
-                    source sourceSets.main
-                    source sourceSets.api
-                }
-
-
-            }
-        }
-        serverJBR {
-            parent runs.server
-            taskName 'runServerJBR'
-            jvmArg "-XX:+AllowEnhancedClassRedefinition"
-        }
-        data {
-            property 'mixin.env.disableRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'vampirism_target', 'dev_data'
-            workingDirectory project.file('run/data').canonicalPath
-            args '--mod', 'werewolves', '--all', '--output', file('src/generated/resources/'),  '--existing', sourceSets.main.resources.srcDirs[0]
-            mods {
-                werewolves {
-                    source sourceSets.main
-                    source sourceSets.api
-                }
-            }
-        }
+        modSources = [project.sourceSets.api, project.sourceSets.main]
+    }
+    client {
+        systemProperty 'vampirism_target', 'dev'
+        jvmArgument '-XX:+AllowEnhancedClassRedefinition'
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
     }
 
+    server {
+        systemProperty 'vampirism_target', 'dev'
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        programArgument '--nogui'
+    }
+
+    gameTestServer {
+        systemProperty 'vampirism_target', 'dev'
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
+
+    data {
+        systemProperty 'vampirism_target', 'dev_data'
+        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+    }
 }
 
-jar {
-    finalizedBy('reobfJar')
-
-    //Keep the jar as clean as possible
-    includeEmptyDirs = false
-
-    from sourceSets.main.output.classesDirs
-    from sourceSets.main.output.resourcesDir
-    from sourceSets.api.output.classesDirs
-    from sourceSets.api.output.resourcesDir
-
-    from{
-        fileTree('build/translations').matching{
-            exclude "**/en_us.json" //Don't override local source file
-        }
+subsystems {
+    parchment {
+        minecraftVersion = project.parchment_minecraft_version
+        mappingsVersion = project.parchment_mappings_version
     }
-
-
-
-    manifest {
-        attributes([
-                "FMLAT": "accesstransformer.cfg",
-                "Specification-Title": "werewolves",
-                "Specification-Vendor": "cheaterpaul",
-                "Specification-Version": "1", // We are version 1 of ourselves
-                "Implementation-Title": "Werewolves",
-                "Implementation-Version": "${mod_version}",
-                "Implementation-Vendor" :"cheaterpaul",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs": "werewolves.mixins.json"
-        ])
-    }
-
-}
-
-//Replace strings in IDEA folders as well
-def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
-def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
-def replaceProperties = ['version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'jei_version': jei_version, 'guideapi_version': guideapi_version, 'vampirism_version': vampirism_version]
-processResources {
-    inputs.properties replaceProperties
-    replaceProperties.put 'project', project
-
-    filesMatching(resourceTargets) {
-        expand replaceProperties
-    }
-
-    intoTargets.each { target ->
-        if (file(target).exists()) {
-            copy {
-                from(sourceSets.main.resources) {
-                    include resourceTargets
-                    expand replaceProperties
-                }
-                into target
-            }
-        }
-    }
-    exclude '**/Thumbs.db'
-
-}
-
-apply plugin: 'org.spongepowered.mixin'
-
-mixin {
-    add sourceSets.main, "werewolves.refmap.json"
-    config 'werewolves.mixins.json'
-
-    debug.verbose = true
-    debug.export = true
 }

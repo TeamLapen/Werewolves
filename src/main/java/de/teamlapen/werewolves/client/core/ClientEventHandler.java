@@ -1,10 +1,12 @@
 package de.teamlapen.werewolves.client.core;
 
+import de.teamlapen.vampirism.REFERENCE;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.gui.screens.VampirismContainerScreen;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.client.WerewolvesModClient;
 import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.client.render.player.WerewolfPlayerBeastRenderer;
@@ -14,11 +16,11 @@ import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
-import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -30,16 +32,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.*;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.client.event.*;
 
 
-@OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
     private int zoomTime = 0;
     private double zoomAmount = 0;
@@ -59,17 +57,14 @@ public class ClientEventHandler {
     public void onGuiInitPost(ScreenEvent.Init.Post event) {
         if (event.getScreen() instanceof VampirismContainerScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
-                ResourceLocation icon = new ResourceLocation(REFERENCE.MODID, "textures/gui/appearance_button.png");
-                var button = ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((VampirismContainerScreen) event.getScreen()).getGuiLeft() + 47, ((VampirismContainerScreen) event.getScreen()).getGuiTop() + 90, 20, 20, 0, 0, 20, icon, 20, 40, (context) -> {
-                    Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getScreen()));
-                }, Component.empty()));
+                WidgetSprites icon = new WidgetSprites(new ResourceLocation(de.teamlapen.vampirism.REFERENCE.MODID, "widget/appearance"), new ResourceLocation(REFERENCE.MODID, "widget/appearance_highlighted"));
+                var button = ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((VampirismContainerScreen) event.getScreen()).getGuiLeft() + 47, ((VampirismContainerScreen) event.getScreen()).getGuiTop() + 90, 20, 20, icon, (context) -> Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getScreen())), Component.empty()));
                 button.setTooltip(Tooltip.create(Component.translatable("gui.vampirism.vampirism_menu.appearance_menu")));
 
-                WerewolfPlayer.getOptSave(Minecraft.getInstance().player).ifPresent(werewolf -> {
-                    if (werewolf.getMaxLevel() == werewolf.getLevel()) return;
-                    AbstractContainerScreen<?> screen = ((AbstractContainerScreen<?>) event.getScreen());
-                    ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ExpBar(screen.getGuiLeft() - 14, screen.getGuiTop()));
-                });
+                WerewolfPlayer werewolf = WerewolfPlayer.get(Minecraft.getInstance().player);
+                if (werewolf.getMaxLevel() == werewolf.getLevel()) return;
+                AbstractContainerScreen<?> screen = ((AbstractContainerScreen<?>) event.getScreen());
+                ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ExpBar(screen.getGuiLeft() - 14, screen.getGuiTop()));
             }
         }
     }
@@ -87,14 +82,10 @@ public class ClientEventHandler {
         }
     }
 
-    public void onAddLayer(EntityRenderersEvent.AddLayers event) {
-        ClientRegistryHandler.initRenderer(event.getContext());
-    }
-
     @SubscribeEvent
     public void onPlayerRender(RenderPlayerEvent.Pre event) {
         if (Helper.isWerewolf(event.getEntity())) {
-            if (ClientRegistryHandler.getModPlayerRenderer().renderPlayer((AbstractClientPlayer) event.getEntity(), 1, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight())) {
+            if (WerewolvesModClient.getInstance().getModPlayerRenderer().renderPlayer((AbstractClientPlayer) event.getEntity(), 1, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight())) {
                 event.setCanceled(true);
             }
         }
@@ -102,8 +93,8 @@ public class ClientEventHandler {
 
     public void onZoomPressed() {
         this.zoomTime = 20;
-        this.zoomAmount = Minecraft.getInstance().options.fov.get() / 4f / this.zoomTime;
-        this.zoomModifier = Minecraft.getInstance().options.fov.get() - Minecraft.getInstance().options.fov.get() / 4f;
+        this.zoomAmount = Minecraft.getInstance().options.fov().get() / 4f / this.zoomTime;
+        this.zoomModifier = Minecraft.getInstance().options.fov().get() - Minecraft.getInstance().options.fov().get() / 4f;
     }
 
     private static boolean shouldShowInTooltip(int p_242394_0_, ItemStack.TooltipPart p_242394_1_) {

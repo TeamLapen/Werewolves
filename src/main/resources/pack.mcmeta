@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "Werewolves Resources",
-        "pack_format": 15
+        "description": "${mod_id} Resources",
+        "pack_format": ${pack_format_number}
     }
 }

@@ -26,7 +26,7 @@ public class WerewolfTransformCommand extends BasicCommand {
     @SuppressWarnings("SameReturnValue")
     private static int transformToWerewolf(Player player) {
         try {
-            List<LivingEntity> entites = player.level().getEntitiesOfClass(LivingEntity.class, new AABB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
+            List<LivingEntity> entites = player.level().getEntitiesOfClass(LivingEntity.class, new AABB(player.blockPosition()).inflate(10), WerewolfTransformable.class::isInstance);
             entites.forEach(entity -> ((WerewolfTransformable) entity).transformToWerewolf(TransformType.TIME_LIMITED));
         } catch (Exception e) {
             LogManager.getLogger().error(e);
@@ -36,7 +36,7 @@ public class WerewolfTransformCommand extends BasicCommand {
 
     @SuppressWarnings("SameReturnValue")
     private static int transformFromWerewolf(Player player) {
-        List<LivingEntity> entites = player.level().getEntitiesOfClass(LivingEntity.class, new AABB(player.blockPosition()).inflate(10), entity -> entity instanceof WerewolfTransformable);
+        List<LivingEntity> entites = player.level().getEntitiesOfClass(LivingEntity.class, new AABB(player.blockPosition()).inflate(10), WerewolfTransformable.class::isInstance);
         entites.forEach(entity -> ((WerewolfTransformable) entity).transformBack());
         return 0;
     }

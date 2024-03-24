@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_white_pelt",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_white_pelt"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:white_pelt_boots_smithing"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(targets = "net.minecraft.world.inventory.InventoryMenu$1")
 public abstract class InventoryMenuSlotMixin {
 
+    @Unique
     private Player player;
 
     /**
@@ -29,8 +31,8 @@ public abstract class InventoryMenuSlotMixin {
 
     @Inject(method = "mayPlace(Lnet/minecraft/world/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
     private void mayPlace(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (!(stack.getItem() instanceof IWerewolfArmor)) {
-            WerewolfPlayer.getOpt(this.player).filter(werewolf -> !werewolf.canWearArmor(stack)).ifPresent(s -> cir.setReturnValue(false));
+        if (!(stack.getItem() instanceof IWerewolfArmor) && !WerewolfPlayer.get(this.player).canWearArmor(stack)) {
+            cir.setReturnValue(false);
         }
     }
 }

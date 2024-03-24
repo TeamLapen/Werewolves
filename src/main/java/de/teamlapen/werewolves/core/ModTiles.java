@@ -1,26 +1,26 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.vampirism.mixin.TileEntityTypeAccessor;
+import de.teamlapen.vampirism.mixin.accessor.TileEntityTypeAccessor;
 import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.blocks.entity.WolfsbaneDiffuserBlockEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class ModTiles {
 
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, REFERENCE.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, REFERENCE.MODID);
 
-    public static final RegistryObject<BlockEntityType<StoneAltarBlockEntity>> STONE_ALTAR = BLOCK_ENTITY_TYPES.register("stone_altar", () -> create(StoneAltarBlockEntity::new, ModBlocks.STONE_ALTAR.get()));
-    public static final RegistryObject<BlockEntityType<WolfsbaneDiffuserBlockEntity>> WOLFSBANE_DIFFUSER = BLOCK_ENTITY_TYPES.register("wolfsbane_diffuser", () -> create(WolfsbaneDiffuserBlockEntity::new, ModBlocks.WOLFSBANE_DIFFUSER.get(), ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StoneAltarBlockEntity>> STONE_ALTAR = BLOCK_ENTITY_TYPES.register("stone_altar", () -> create(StoneAltarBlockEntity::new, ModBlocks.STONE_ALTAR.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WolfsbaneDiffuserBlockEntity>> WOLFSBANE_DIFFUSER = BLOCK_ENTITY_TYPES.register("wolfsbane_diffuser", () -> create(WolfsbaneDiffuserBlockEntity::new, ModBlocks.WOLFSBANE_DIFFUSER.get(), ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get()));
 
     static void register(IEventBus bus) {
         BLOCK_ENTITY_TYPES.register(bus);

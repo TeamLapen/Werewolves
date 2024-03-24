@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.config;
 
-import net.minecraft.world.item.alchemy.Potions;
-import net.minecraftforge.common.ForgeConfigSpec;
+
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class BalanceConfig {
 
@@ -14,7 +14,7 @@ public class BalanceConfig {
     public final Oils OILS;
     public final Blocks BLOCKS;
 
-    BalanceConfig(ForgeConfigSpec.Builder builder) {
+    BalanceConfig(ModConfigSpec.Builder builder) {
 
         builder.push("player");
         PLAYER = new Player(builder);
@@ -43,13 +43,13 @@ public class BalanceConfig {
     }
 
     public static class Player {
-        public final ForgeConfigSpec.DoubleValue werewolf_speed_amount;
-        public final ForgeConfigSpec.DoubleValue werewolf_armor_toughness;
-        public final ForgeConfigSpec.DoubleValue werewolf_damage;
-        public final ForgeConfigSpec.DoubleValue werewolf_claw_damage;
-        public final ForgeConfigSpec.IntValue bite_cooldown;
+        public final ModConfigSpec.DoubleValue werewolf_speed_amount;
+        public final ModConfigSpec.DoubleValue werewolf_armor_toughness;
+        public final ModConfigSpec.DoubleValue werewolf_damage;
+        public final ModConfigSpec.DoubleValue werewolf_claw_damage;
+        public final ModConfigSpec.IntValue bite_cooldown;
 
-        public Player(ForgeConfigSpec.Builder builder) {
+        public Player(ModConfigSpec.Builder builder) {
             werewolf_damage = builder.comment("Level based damage attribute modifier").defineInRange("werewolf_damage", 1.0, 0, 10);
             werewolf_speed_amount = builder.comment("Level based speed attribute modifier").defineInRange("werewolf_speed_amount", 0.2, 0, 5);
             werewolf_armor_toughness = builder.comment("Level based armor toughness attribute modifier").defineInRange("werewolf_armor_toughness", 3.0, 0, 10.0);
@@ -59,19 +59,19 @@ public class BalanceConfig {
     }
 
     public static class MobProps {
-        public final ForgeConfigSpec.DoubleValue werewolf_max_health;
-        public final ForgeConfigSpec.DoubleValue werewolf_max_health_pl;
-        public final ForgeConfigSpec.DoubleValue werewolf_attack_damage;
-        public final ForgeConfigSpec.DoubleValue werewolf_attack_damage_pl;
-        public final ForgeConfigSpec.DoubleValue werewolf_speed;
+        public final ModConfigSpec.DoubleValue werewolf_max_health;
+        public final ModConfigSpec.DoubleValue werewolf_max_health_pl;
+        public final ModConfigSpec.DoubleValue werewolf_attack_damage;
+        public final ModConfigSpec.DoubleValue werewolf_attack_damage_pl;
+        public final ModConfigSpec.DoubleValue werewolf_speed;
 
-        public final ForgeConfigSpec.IntValue werewolf_transform_duration;
+        public final ModConfigSpec.IntValue werewolf_transform_duration;
 
-        public final ForgeConfigSpec.DoubleValue human_werewolf_max_health;
-        public final ForgeConfigSpec.DoubleValue human_werewolf_attack_damage;
-        public final ForgeConfigSpec.DoubleValue human_werewolf_speed;
+        public final ModConfigSpec.DoubleValue human_werewolf_max_health;
+        public final ModConfigSpec.DoubleValue human_werewolf_attack_damage;
+        public final ModConfigSpec.DoubleValue human_werewolf_speed;
 
-        public MobProps(ForgeConfigSpec.Builder builder) {
+        public MobProps(ModConfigSpec.Builder builder) {
             builder.push("werewolf");
             werewolf_attack_damage = builder.defineInRange("werewolf_attack_damage", 3, 0, Double.MAX_VALUE);
             werewolf_attack_damage_pl = builder.defineInRange("werewolf_attack_damage_pl", 1, 0, Double.MAX_VALUE);
@@ -92,111 +92,111 @@ public class BalanceConfig {
     public static class Skills {
 
         //werewolf action
-        public final ForgeConfigSpec.BooleanValue human_form_enabled;
-        public final ForgeConfigSpec.IntValue human_form_cooldown;
-        public final ForgeConfigSpec.DoubleValue human_form_speed_amount;
-        public final ForgeConfigSpec.DoubleValue human_form_armor;
-        public final ForgeConfigSpec.DoubleValue human_form_armor_toughness;
+        public final ModConfigSpec.BooleanValue human_form_enabled;
+        public final ModConfigSpec.IntValue human_form_cooldown;
+        public final ModConfigSpec.DoubleValue human_form_speed_amount;
+        public final ModConfigSpec.DoubleValue human_form_armor;
+        public final ModConfigSpec.DoubleValue human_form_armor_toughness;
 
-        public final ForgeConfigSpec.BooleanValue beast_form_enabled;
-        public final ForgeConfigSpec.IntValue beast_form_cooldown;
-        public final ForgeConfigSpec.DoubleValue beast_form_speed_amount;
-        public final ForgeConfigSpec.DoubleValue beast_form_attack_damage;
-        public final ForgeConfigSpec.DoubleValue beast_form_armor;
-        public final ForgeConfigSpec.DoubleValue beast_form_armor_toughness;
-        public final ForgeConfigSpec.DoubleValue beast_form_health;
-        public final ForgeConfigSpec.DoubleValue beast_form_bite_damage;
+        public final ModConfigSpec.BooleanValue beast_form_enabled;
+        public final ModConfigSpec.IntValue beast_form_cooldown;
+        public final ModConfigSpec.DoubleValue beast_form_speed_amount;
+        public final ModConfigSpec.DoubleValue beast_form_attack_damage;
+        public final ModConfigSpec.DoubleValue beast_form_armor;
+        public final ModConfigSpec.DoubleValue beast_form_armor_toughness;
+        public final ModConfigSpec.DoubleValue beast_form_health;
+        public final ModConfigSpec.DoubleValue beast_form_bite_damage;
 
-        public final ForgeConfigSpec.BooleanValue survival_form_enabled;
-        public final ForgeConfigSpec.IntValue survival_form_cooldown;
-        public final ForgeConfigSpec.DoubleValue survival_form_speed_amount;
-        public final ForgeConfigSpec.DoubleValue survival_form_attack_damage;
-        public final ForgeConfigSpec.DoubleValue survival_form_armor;
-        public final ForgeConfigSpec.DoubleValue survival_form_armor_toughness;
-        public final ForgeConfigSpec.DoubleValue survival_form_bite_damage;
-        public final ForgeConfigSpec.DoubleValue survival_form_health;
+        public final ModConfigSpec.BooleanValue survival_form_enabled;
+        public final ModConfigSpec.IntValue survival_form_cooldown;
+        public final ModConfigSpec.DoubleValue survival_form_speed_amount;
+        public final ModConfigSpec.DoubleValue survival_form_attack_damage;
+        public final ModConfigSpec.DoubleValue survival_form_armor;
+        public final ModConfigSpec.DoubleValue survival_form_armor_toughness;
+        public final ModConfigSpec.DoubleValue survival_form_bite_damage;
+        public final ModConfigSpec.DoubleValue survival_form_health;
 
-        public final ForgeConfigSpec.IntValue werewolf_form_time_limit;
+        public final ModConfigSpec.IntValue werewolf_form_time_limit;
 
         //howling action
-        public final ForgeConfigSpec.BooleanValue howling_enabled;
-        public final ForgeConfigSpec.DoubleValue howling_attackspeed_amount;
-        public final ForgeConfigSpec.IntValue howling_cooldown;
-        public final ForgeConfigSpec.IntValue howling_duration;
-        public final ForgeConfigSpec.IntValue howling_disabled_duration;
+        public final ModConfigSpec.BooleanValue howling_enabled;
+        public final ModConfigSpec.DoubleValue howling_attackspeed_amount;
+        public final ModConfigSpec.IntValue howling_cooldown;
+        public final ModConfigSpec.IntValue howling_duration;
+        public final ModConfigSpec.IntValue howling_disabled_duration;
 
         //bite action
-        public final ForgeConfigSpec.BooleanValue bite_enabled;
-        public final ForgeConfigSpec.IntValue bite_cooldown;
+        public final ModConfigSpec.BooleanValue bite_enabled;
+        public final ModConfigSpec.IntValue bite_cooldown;
 
         //health skill
-        public final ForgeConfigSpec.DoubleValue health_amount;
+        public final ModConfigSpec.DoubleValue health_amount;
 
         //health_reg skill
-        public final ForgeConfigSpec.DoubleValue health_reg_modifier;
+        public final ModConfigSpec.DoubleValue health_reg_modifier;
 
         //resistance skill
-        public final ForgeConfigSpec.DoubleValue resistance_amount;
+        public final ModConfigSpec.DoubleValue resistance_amount;
 
         //speed skill
-        public final ForgeConfigSpec.DoubleValue speed_amount;
+        public final ModConfigSpec.DoubleValue speed_amount;
 
         //jump skill
-        public final ForgeConfigSpec.DoubleValue jump_amount;
+        public final ModConfigSpec.DoubleValue jump_amount;
 
         //rage action
-        public final ForgeConfigSpec.BooleanValue rage_enabled;
-        public final ForgeConfigSpec.IntValue rage_duration;
-        public final ForgeConfigSpec.IntValue rage_duration_level_increase;
-        public final ForgeConfigSpec.IntValue rage_cooldown;
-        public final ForgeConfigSpec.DoubleValue rage_bite_damage;
+        public final ModConfigSpec.BooleanValue rage_enabled;
+        public final ModConfigSpec.IntValue rage_duration;
+        public final ModConfigSpec.IntValue rage_duration_level_increase;
+        public final ModConfigSpec.IntValue rage_cooldown;
+        public final ModConfigSpec.DoubleValue rage_bite_damage;
 
         //sense action
-        public final ForgeConfigSpec.BooleanValue sense_enabled;
-        public final ForgeConfigSpec.IntValue sense_radius;
-        public final ForgeConfigSpec.IntValue sense_duration;
-        public final ForgeConfigSpec.IntValue sense_cooldown;
+        public final ModConfigSpec.BooleanValue sense_enabled;
+        public final ModConfigSpec.IntValue sense_radius;
+        public final ModConfigSpec.IntValue sense_duration;
+        public final ModConfigSpec.IntValue sense_cooldown;
 
         //stun bite skill
-        public final ForgeConfigSpec.IntValue stun_bite_duration;
+        public final ModConfigSpec.IntValue stun_bite_duration;
 
         //bleeding bite skill
-        public final ForgeConfigSpec.IntValue bleeding_bite_duration;
+        public final ModConfigSpec.IntValue bleeding_bite_duration;
 
         //better claws
-        public final ForgeConfigSpec.DoubleValue better_claw_damage;
+        public final ModConfigSpec.DoubleValue better_claw_damage;
 
         //fear action
-        public final ForgeConfigSpec.BooleanValue fear_action_enabled;
-        public final ForgeConfigSpec.IntValue fear_action_cooldown;
+        public final ModConfigSpec.BooleanValue fear_action_enabled;
+        public final ModConfigSpec.IntValue fear_action_cooldown;
 
         //hide name action
-        public final ForgeConfigSpec.BooleanValue hide_name_enabled;
-        public final ForgeConfigSpec.IntValue hide_name_cooldown;
-        public final ForgeConfigSpec.IntValue hide_name_duration;
+        public final ModConfigSpec.BooleanValue hide_name_enabled;
+        public final ModConfigSpec.IntValue hide_name_cooldown;
+        public final ModConfigSpec.IntValue hide_name_duration;
 
         //leap action
-        public final ForgeConfigSpec.BooleanValue leap_enabled;
-        public final ForgeConfigSpec.IntValue leap_cooldown;
+        public final ModConfigSpec.BooleanValue leap_enabled;
+        public final ModConfigSpec.IntValue leap_cooldown;
 
         //hide name action
-        public final ForgeConfigSpec.BooleanValue sixth_sense_enabled;
-        public final ForgeConfigSpec.IntValue sixth_sense_cooldown;
-        public final ForgeConfigSpec.IntValue sixth_sense_duration;
+        public final ModConfigSpec.BooleanValue sixth_sense_enabled;
+        public final ModConfigSpec.IntValue sixth_sense_cooldown;
+        public final ModConfigSpec.IntValue sixth_sense_duration;
 
         //wolf pack action
-        public final ForgeConfigSpec.BooleanValue wolf_pack_enabled;
-        public final ForgeConfigSpec.IntValue wolf_pack_cooldown;
-        public final ForgeConfigSpec.IntValue wolf_pack_wolf_duration;
-        public final ForgeConfigSpec.IntValue wolf_pack_wolf_amount;
+        public final ModConfigSpec.BooleanValue wolf_pack_enabled;
+        public final ModConfigSpec.IntValue wolf_pack_cooldown;
+        public final ModConfigSpec.IntValue wolf_pack_wolf_duration;
+        public final ModConfigSpec.IntValue wolf_pack_wolf_amount;
 
         //movement tactics
-        public final ForgeConfigSpec.DoubleValue movement_tactics_doge_chance;
+        public final ModConfigSpec.DoubleValue movement_tactics_doge_chance;
 
         //thick fur
-        public final ForgeConfigSpec.DoubleValue thick_fur_multiplier;
+        public final ModConfigSpec.DoubleValue thick_fur_multiplier;
 
-        public Skills(ForgeConfigSpec.Builder builder) {
+        public Skills(ModConfigSpec.Builder builder) {
             builder.push("werewolf_form");
 
             builder.push("human_form");
@@ -333,18 +333,18 @@ public class BalanceConfig {
 
     public static class Refinements {
 
-        public final ForgeConfigSpec.DoubleValue greater_doge_chance;
-        public final ForgeConfigSpec.IntValue more_wolves;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_general_1;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_general_2;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_survival_1;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_survival_2;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_beast_1;
-        public final ForgeConfigSpec.IntValue werewolf_form_duration_beast_2;
-        public final ForgeConfigSpec.IntValue rage_fury_timer_extend;
-        public final ForgeConfigSpec.IntValue stun_bite_duration_extend;
+        public final ModConfigSpec.DoubleValue greater_doge_chance;
+        public final ModConfigSpec.IntValue more_wolves;
+        public final ModConfigSpec.IntValue werewolf_form_duration_general_1;
+        public final ModConfigSpec.IntValue werewolf_form_duration_general_2;
+        public final ModConfigSpec.IntValue werewolf_form_duration_survival_1;
+        public final ModConfigSpec.IntValue werewolf_form_duration_survival_2;
+        public final ModConfigSpec.IntValue werewolf_form_duration_beast_1;
+        public final ModConfigSpec.IntValue werewolf_form_duration_beast_2;
+        public final ModConfigSpec.IntValue rage_fury_timer_extend;
+        public final ModConfigSpec.IntValue stun_bite_duration_extend;
 
-        public Refinements(ForgeConfigSpec.Builder builder) {
+        public Refinements(ModConfigSpec.Builder builder) {
             this.greater_doge_chance = builder.comment("Increased doge chance for movement tactics skill").defineInRange("greater_doge_chance", 0.1, 0, 1);
             this.more_wolves = builder.comment("Increased wolf spawning for the howling action").defineInRange("more_wolves", 1, 0, 5);
             this.werewolf_form_duration_general_1 = builder.comment("In Seconds").defineInRange("werewolf_form_duration_general_1", 20, 0, Integer.MAX_VALUE);
@@ -359,10 +359,10 @@ public class BalanceConfig {
     }
 
     public static class Potions {
-        public final ForgeConfigSpec.DoubleValue silverStatsReduction;
-        public final ForgeConfigSpec.DoubleValue bleedingEffectDamage;
+        public final ModConfigSpec.DoubleValue silverStatsReduction;
+        public final ModConfigSpec.DoubleValue bleedingEffectDamage;
 
-        public Potions(ForgeConfigSpec.Builder builder) {
+        public Potions(ModConfigSpec.Builder builder) {
             this.silverStatsReduction = builder.comment("How much a Werewolf should be weakened by the silver effect").defineInRange("silverStatsReduction", -0.3, -1, 0);
             this.bleedingEffectDamage = builder.comment("How much damage the bleeding effect should do per damaging tick").defineInRange("bleedingEffectDamage", 0.4, 0, Double.MAX_VALUE);
         }
@@ -370,12 +370,12 @@ public class BalanceConfig {
 
     public static class Util {
 
-        public final ForgeConfigSpec.IntValue silverBoltEffectDuration;
-        public final ForgeConfigSpec.IntValue silverItemEffectDuration;
-        public final ForgeConfigSpec.IntValue silverArmorAttackEffectDuration;
-        public final ForgeConfigSpec.BooleanValue skeletonIgnoreWerewolves;
+        public final ModConfigSpec.IntValue silverBoltEffectDuration;
+        public final ModConfigSpec.IntValue silverItemEffectDuration;
+        public final ModConfigSpec.IntValue silverArmorAttackEffectDuration;
+        public final ModConfigSpec.BooleanValue skeletonIgnoreWerewolves;
 
-        public Util(ForgeConfigSpec.Builder builder) {
+        public Util(ModConfigSpec.Builder builder) {
             this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 5, 1, Integer.MAX_VALUE);
             this.silverItemEffectDuration = builder.comment("The duration of the silver effect when attacking with a silver item", "in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
             this.skeletonIgnoreWerewolves = builder.comment("if skeletons should ignore werewolves").define("skeletonIgnoreWerewolves", true);
@@ -385,24 +385,24 @@ public class BalanceConfig {
 
     public static class Oils {
 
-        public final ForgeConfigSpec.IntValue silverOil1Duration;
-        public final ForgeConfigSpec.IntValue silverOil2Duration;
+        public final ModConfigSpec.IntValue silverOil1Duration;
+        public final ModConfigSpec.IntValue silverOil2Duration;
 
-        public Oils(ForgeConfigSpec.Builder builder) {
+        public Oils(ModConfigSpec.Builder builder) {
             this.silverOil1Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil1Duration", 15, 1, Integer.MAX_VALUE);
             this.silverOil2Duration = builder.comment("the amount of hits the oil stays on the weapon").defineInRange("silverOil2Duration", 40, 1, Integer.MAX_VALUE);
         }
     }
 
     public static class Blocks {
-        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserNormalDist;
-        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserLongDist;
-        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserImprovedDist;
-        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserNormalDuration;
-        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserLongDuration;
-        public final ForgeConfigSpec.IntValue wolfsbaneDiffuserImprovedDuration;
+        public final ModConfigSpec.IntValue wolfsbaneDiffuserNormalDist;
+        public final ModConfigSpec.IntValue wolfsbaneDiffuserLongDist;
+        public final ModConfigSpec.IntValue wolfsbaneDiffuserImprovedDist;
+        public final ModConfigSpec.IntValue wolfsbaneDiffuserNormalDuration;
+        public final ModConfigSpec.IntValue wolfsbaneDiffuserLongDuration;
+        public final ModConfigSpec.IntValue wolfsbaneDiffuserImprovedDuration;
 
-        public Blocks(ForgeConfigSpec.Builder builder) {
+        public Blocks(ModConfigSpec.Builder builder) {
             this.wolfsbaneDiffuserNormalDist = builder.comment("The chunk radius a normal diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserNormalDist", 1, 0, 5);
             this.wolfsbaneDiffuserLongDist = builder.comment("The chunk radius a long diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserLongDist", 0, 0, 5);
             this.wolfsbaneDiffuserImprovedDist = builder.comment("The chunk radius a improved diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserImprovedDist", 2, 0, 5);

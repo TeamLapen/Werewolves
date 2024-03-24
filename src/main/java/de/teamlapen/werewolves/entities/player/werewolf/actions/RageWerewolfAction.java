@@ -25,7 +25,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
     @Override
     protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
         applyEffects(werewolf);
-        werewolf.getRepresentingPlayer().getAttribute(ModAttributes.BITE_DAMAGE.get()).addPermanentModifier(new AttributeModifier(BITE_MODIFIER, "rage_bite_modifier", WerewolvesConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADDITION));
+        werewolf.asEntity().getAttribute(ModAttributes.BITE_DAMAGE.get()).addPermanentModifier(new AttributeModifier(BITE_MODIFIER, "rage_bite_modifier", WerewolvesConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADDITION));
         return true;
     }
 
@@ -47,7 +47,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
     public void onDeactivated(IWerewolfPlayer werewolf) {
         removePotionEffect(werewolf, MobEffects.DAMAGE_BOOST);
         removePotionEffect(werewolf, MobEffects.MOVEMENT_SPEED);
-        werewolf.getRepresentingPlayer().getAttribute(ModAttributes.BITE_DAMAGE.get()).removeModifier(BITE_MODIFIER);
+        werewolf.asEntity().getAttribute(ModAttributes.BITE_DAMAGE.get()).removeModifier(BITE_MODIFIER);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
 
     @Override
     public boolean onUpdate(IWerewolfPlayer iWerewolfPlayer) {
-        if (!iWerewolfPlayer.isRemote() && iWerewolfPlayer.getRepresentingPlayer().tickCount % 20 == 0) {
+        if (!iWerewolfPlayer.isRemote() && iWerewolfPlayer.asEntity().tickCount % 20 == 0) {
             applyEffects(iWerewolfPlayer);
         }
         return false;

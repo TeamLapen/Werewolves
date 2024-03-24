@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +23,7 @@ public class ModWorldEventHandler {
     @SubscribeEvent
     public void onVillageCaptureFinish(VampirismVillageEvent.VillagerCaptureFinish.Pre event) {
         Level world = ((BlockEntity) event.getTotem()).getLevel();
-        List<Mob> werewolves = world.getEntitiesOfClass(Mob.class, event.getVillageArea(), entity -> entity instanceof WerewolfTransformable);
+        List<Mob> werewolves = world.getEntitiesOfClass(Mob.class, event.getVillageArea(), WerewolfTransformable.class::isInstance);
         if (WReference.WEREWOLF_FACTION.equals(event.getControllingFaction())) {
             werewolves.forEach(e -> {
                 if (((WerewolfTransformable) e).canTransform()) {

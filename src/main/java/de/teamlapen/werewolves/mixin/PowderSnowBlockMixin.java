@@ -16,8 +16,11 @@ public class PowderSnowBlockMixin {
 
     @Inject(method = "canEntityWalkOnPowderSnow(Lnet/minecraft/world/entity/Entity;)Z", at = @At(value = "RETURN", ordinal = 1), cancellable = true)
     private static void walk(Entity pEntity, CallbackInfoReturnable<Boolean> cir) {
-        if (!cir.getReturnValue() && pEntity instanceof Player player && WerewolfPlayer.getOpt(player).filter(a -> a.getForm() == WerewolfForm.SURVIVALIST).filter(s -> s.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())).isPresent()) {
-            cir.setReturnValue(true);
+        if (!cir.getReturnValue() && pEntity instanceof Player player) {
+            WerewolfPlayer werewolf = WerewolfPlayer.get(player);
+            if (werewolf.getForm() == WerewolfForm.SURVIVALIST && werewolf.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())) {
+                cir.setReturnValue(true);
+            }
         }
     }
 }

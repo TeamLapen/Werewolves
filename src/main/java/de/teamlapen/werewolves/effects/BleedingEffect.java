@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.effects;
 
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.entity.IExtendedCreatureVampirism;
 import de.teamlapen.vampirism.api.entity.vampire.IVampire;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -20,7 +21,7 @@ public class BleedingEffect extends WerewolvesEffect {
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         int j = 20 >> amplifier;
         if (j > 0) {
             return duration % j == 0;
@@ -41,12 +42,13 @@ public class BleedingEffect extends WerewolvesEffect {
             if (entityLivingBaseIn.getRandom().nextInt(8) == 0) {
                 if (Helper.isVampire(entityLivingBaseIn)) {
                     if (entityLivingBaseIn instanceof Player) {
-                        VampirePlayer.getOpt(((Player) entityLivingBaseIn)).map(vampire -> vampire.useBlood(1, true));
+                        VampirePlayer.get(((Player) entityLivingBaseIn)).useBlood(1, true);
                     } else if (entityLivingBaseIn instanceof IVampire) {
                         ((IVampire) entityLivingBaseIn).useBlood(1, true);
                     }
                 } else if (entityLivingBaseIn instanceof PathfinderMob) {
-                    VampirismAPI.getExtendedCreatureVampirism((PathfinderMob) entityLivingBaseIn).ifPresent(creature -> creature.setBlood(creature.getBlood() - 1));
+                    IExtendedCreatureVampirism creature = VampirismAPI.extendedCreatureVampirism((PathfinderMob) entityLivingBaseIn);
+                    creature.setBlood(creature.getBlood() - 1);
                 }
             }
         }

@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_silver_block",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_silver_block"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:silver_ingot"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

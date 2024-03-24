@@ -11,7 +11,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -41,8 +43,8 @@ public class SilverOil extends WeaponOil {
     }
 
     @Override
-    public void getDescription(ItemStack stack, List<Component> tooltips) {
-        super.getDescription(stack, tooltips);
+    public void getDescription(ItemStack stack, @Nullable Level level, List<Component> tooltips) {
+        super.getDescription(stack, level, tooltips);
         tooltips.add(Component.translatable("text.werewolves.oil.when_applied").withStyle(ChatFormatting.GRAY));
         tooltips.add(Component.literal("  ").append(Component.translatable("text.werewolves.oil.silver.more_damage", getDamageModifier() * 100).withStyle(ChatFormatting.DARK_GREEN)));
     }

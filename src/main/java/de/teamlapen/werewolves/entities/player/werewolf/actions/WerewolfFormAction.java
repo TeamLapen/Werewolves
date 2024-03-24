@@ -22,7 +22,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.server.permission.PermissionAPI;
+import net.neoforged.neoforge.server.permission.PermissionAPI;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -84,30 +84,32 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
-        float healthPerc = werewolf.getRepresentingPlayer().getHealth() / werewolf.getRepresentingPlayer().getMaxHealth();
+        Player player = werewolf.asEntity();
+        float healthPerc = player.getHealth() / player.getMaxHealth();
         if (isWerewolfFormActionActive(werewolf.getActionHandler())) {
             FormHelper.deactivateWerewolfActions(werewolf);
         }
         ((WerewolfPlayer) werewolf).setForm(this, this.form);
         this.checkDayNightModifier(werewolf);
-        werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
-        werewolf.getRepresentingPlayer().refreshDisplayName();
+        player.setHealth(player.getMaxHealth() * healthPerc);
+        player.refreshDisplayName();
         return true;
     }
 
     @Override
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
         ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
-        werewolfPlayer.getRepresentingPlayer().refreshDisplayName();
+        werewolfPlayer.asEntity().refreshDisplayName();
     }
 
     @Override
     public void onDeactivated(IWerewolfPlayer werewolf) {
-        float healthPerc = werewolf.getRepresentingPlayer().getHealth() / werewolf.getRepresentingPlayer().getMaxHealth();
+        Player player = werewolf.asEntity();
+        float healthPerc = player.getHealth() / player.getMaxHealth();
         ((WerewolfPlayer) werewolf).setForm(this, WerewolfForm.NONE);
         this.removeModifier(werewolf);
-        werewolf.getRepresentingPlayer().setHealth(werewolf.getRepresentingPlayer().getMaxHealth() * healthPerc);
-        werewolf.getRepresentingPlayer().refreshDisplayName();
+        player.setHealth(player.getMaxHealth() * healthPerc);
+        player.refreshDisplayName();
         if (werewolf.getActionHandler().isActionActive(ModActions.RAGE.get())) {
             werewolf.getActionHandler().deactivateAction(ModActions.RAGE.get());
         }
@@ -116,23 +118,23 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     @Override
     public void onReActivated(IWerewolfPlayer werewolf) {
         ((WerewolfPlayer) werewolf).setForm(this, this.form);
-        werewolf.getRepresentingPlayer().refreshDisplayName();
+        werewolf.asEntity().refreshDisplayName();
     }
 
     @Override
     public boolean onUpdate(IWerewolfPlayer werewolfPlayer) {
-        if (werewolfPlayer.getRepresentingPlayer().level().getGameTime() % 20 == 0) {
+        if (werewolfPlayer.asEntity().level().getGameTime() % 20 == 0) {
             checkDayNightModifier(werewolfPlayer);
         }
 
         if (!usesTransformationTime(werewolfPlayer)) {
             return false;
         }
-        return increaseWerewolfTime(werewolfPlayer) || (werewolfPlayer.getRepresentingPlayer() instanceof ServerPlayer && !PermissionAPI.getPermission((ServerPlayer) werewolfPlayer.getRepresentingPlayer(), Permissions.FORM));
+        return increaseWerewolfTime(werewolfPlayer) || (werewolfPlayer.asEntity() instanceof ServerPlayer && !PermissionAPI.getPermission((ServerPlayer) werewolfPlayer.asEntity(), Permissions.FORM));
     }
 
     protected boolean usesTransformationTime(IWerewolfPlayer werewolf) {
-        Player player = werewolf.getRepresentingPlayer();
+        Player player = werewolf.asEntity();
         return !Helper.isNight(player.level()) && !FormHelper.isInWerewolfBiome(player.level(), player.blockPosition());
     }
 
@@ -142,19 +144,20 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     public void checkDayNightModifier(IWerewolfPlayer werewolfPlayer) {
-        boolean night = Helper.isNight(werewolfPlayer.getRepresentingPlayer().getCommandSenderWorld());
+        boolean night = Helper.isNight(werewolfPlayer.asEntity().getCommandSenderWorld());
         checkDayNightModifier(werewolfPlayer, night);
     }
 
     protected void checkDayNightModifier(IWerewolfPlayer werewolfPlayer, boolean night) {
-        float healthPerc = werewolfPlayer.getRepresentingPlayer().getHealth() / werewolfPlayer.getRepresentingPlayer().getMaxHealth();
+        Player player = werewolfPlayer.asEntity();
+        float healthPerc = player.getHealth() / player.getMaxHealth();
         removeModifier(werewolfPlayer);
         applyModifier(werewolfPlayer, night);
-        werewolfPlayer.getRepresentingPlayer().setHealth(werewolfPlayer.getRepresentingPlayer().getMaxHealth() * healthPerc);
+        player.setHealth(player.getMaxHealth() * healthPerc);
     }
 
     public void applyModifier(IWerewolfPlayer werewolf, boolean night) {
-        Player player = werewolf.getRepresentingPlayer();
+        Player player = werewolf.asEntity();
         for (Modifier attribute : this.attributes) {
             AttributeInstance ins = player.getAttribute(attribute.attribute);
             if (ins != null && ins.getModifier(attribute.dayUuid) == null) {
@@ -164,7 +167,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     public void removeModifier(IWerewolfPlayer werewolf) {
-        Player player = werewolf.getRepresentingPlayer();
+        Player player = werewolf.asEntity();
         for (Modifier attribute : this.attributes) {
             AttributeInstance ins = player.getAttribute(attribute.attribute);
             if (ins != null) {
@@ -180,38 +183,34 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    public boolean canBeUsedBy(IWerewolfPlayer player) {
-        if (player.getRepresentingPlayer() instanceof ServerPlayer && (!PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.TRANSFORMATION) || !PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.FORM))) {
+    public boolean canBeUsedBy(IWerewolfPlayer werewolf) {
+        Player player = werewolf.asEntity();
+        if (player instanceof ServerPlayer && (!PermissionAPI.getPermission((ServerPlayer) player, Permissions.TRANSFORMATION) || !PermissionAPI.getPermission((ServerPlayer) player, Permissions.FORM))) {
             return false;
         }
-        if (player.getRepresentingPlayer().isPassenger() && !this.form.isHumanLike()) return false;
-        boolean active = player.getActionHandler().isActionActive(this);
+        if (player.isPassenger() && !this.form.isHumanLike()) return false;
+        boolean active = werewolf.getActionHandler().isActionActive(this);
         if (active) {
-            if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld())) {
-                return player.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL.get());
+            if (Helper.isFullMoon(player.getCommandSenderWorld())) {
+                return werewolf.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL.get());
             } else {
                 return true;
             }
         } else {
-            if (player.getForm().isTransformed()) {
+            if (werewolf.getForm().isTransformed()) {
                 return true;
             } else {
-                if (player.getRepresentingPlayer().level().getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_FOREST)) {
+                if (player.level().getBiome(player.blockPosition()).is(ModBiomes.WEREWOLF_FOREST)) {
                     return true;
                 } else {
-                    return ((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7;
+                    return ((WerewolfPlayer) werewolf).getSpecialAttributes().transformationTime < 0.7;
                 }
             }
         }
     }
 
-    @Deprecated
-    public boolean consumesWerewolfTime() {
-        return true;
-    }
-
     public boolean consumesWerewolfTime(IWerewolfPlayer werewolf) {
-        return consumesWerewolfTime();
+        return true;
     }
 
     /**

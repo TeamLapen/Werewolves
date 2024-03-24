@@ -26,7 +26,7 @@ public class SurvivalItemInMouthLayer<T extends LivingEntity, M extends Werewolf
     }
 
     @Override
-    protected void renderArmWithItem(@NotNull LivingEntity entity, ItemStack itemStack, ItemDisplayContext transformType, @NotNull HumanoidArm arm, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int p_117191_) {
+    protected void renderArmWithItem(@NotNull LivingEntity entity, ItemStack itemStack, @NotNull ItemDisplayContext transformType, @NotNull HumanoidArm arm, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int p_117191_) {
         if (!itemStack.isEmpty()) {
             poseStack.pushPose();
 

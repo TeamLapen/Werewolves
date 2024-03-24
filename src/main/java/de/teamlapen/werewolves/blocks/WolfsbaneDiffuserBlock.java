@@ -1,5 +1,8 @@
 package de.teamlapen.werewolves.blocks;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import de.teamlapen.vampirism.blocks.CoffinBlock;
 import de.teamlapen.vampirism.blocks.GarlicDiffuserBlock;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.werewolves.WerewolvesMod;
@@ -15,6 +18,7 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -24,6 +28,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -42,6 +47,12 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
 
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     private static final VoxelShape shape = makeShape();
+    protected static final MapCodec<WolfsbaneDiffuserBlock> CODEC = RecordCodecBuilder.mapCodec(inst ->
+            inst.group(
+                    StringRepresentable.fromEnum(Type::values).fieldOf("type").forGetter(b -> b.type),
+                    propertiesCodec()
+            ).apply(inst, WolfsbaneDiffuserBlock::new)
+    );
 
     private static @NotNull VoxelShape makeShape() {
         VoxelShape a = Block.box(1, 0, 1, 15, 2, 15);
@@ -52,7 +63,11 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
     private final Type type;
 
     public WolfsbaneDiffuserBlock(Type type) {
-        super(Properties.of().mapColor(MapColor.STONE).strength(3f).sound(SoundType.STONE).noOcclusion());
+        this(type, BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(40.0F, 1200.0F).sound(SoundType.STONE).noOcclusion());
+    }
+
+    public WolfsbaneDiffuserBlock(Type type, BlockBehaviour.Properties properties) {
+        super(properties);
         this.type = type;
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
     }
@@ -86,7 +101,12 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
     }
 
     @Override
-    public RenderShape getRenderShape(@NotNull BlockState pState) {
+    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
         return RenderShape.MODEL;
     }
 
@@ -131,7 +151,7 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
+    public @NotNull InteractionResult use(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
         ItemStack heldItem = pPlayer.getItemInHand(pHand);
         if (!heldItem.isEmpty() && ModBlocks.WOLFSBANE.get().asItem() == heldItem.getItem()) {
             if (!pLevel.isClientSide) {

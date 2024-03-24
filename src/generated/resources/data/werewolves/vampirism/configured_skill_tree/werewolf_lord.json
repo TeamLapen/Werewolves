@@ -1,0 +1,18 @@
+{
+  "children": [
+    {
+      "node": "werewolves:werewolf/lord_2"
+    },
+    {
+      "node": "werewolves:werewolf/lord_3"
+    },
+    {
+      "node": "werewolves:werewolf/lord_4"
+    },
+    {
+      "node": "werewolves:werewolf/lord_5"
+    }
+  ],
+  "node": "werewolves:werewolf/lord_root",
+  "skill_tree": "werewolves:werewolf/lord"
+}

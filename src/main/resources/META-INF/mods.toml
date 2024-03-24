@@ -1,27 +1,32 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
-issueTrackerURL = "https://github.com/TeamLapen/Werewolves/issues"
-license = "LGPL-3.0"
+loaderVersion = "${loader_version_range}"
+issueTrackerURL = "${mod_issue_tracker}"
+license = "${mod_license}"
+
+[[mixins]]
+    config = "werewolves.mixins.json"
+
 
 [[mods]]
-modId = "werewolves"
-namespace = "werewolves"
-version = "${version}"
-displayName = "Werewolves"
-displayURL = "https://werewolves.dev"
-description = "Allows you to become a Werewolf"
-logoFile = "logo.png"
-credits = "RebelT (models/textures), Maxanier (vampirism), 1LiterZinalco (models) Йода (textures), CritterCarnival (textures), Talonerd (textures), https://freesound.org (sounds), Mike (testing/ideas), LilCatGod (testing/ideas)"
-authors = "Cheaterpaul"
-[[dependencies.werewolves]]
-modId = "forge"
-mandatory = true
-versionRange = "[${forge_version},)"
-ordering = "NONE"
-side = "BOTH"
-[[dependencies.werewolves]]
-modId = "vampirism"
-mandatory = true
-versionRange = "[${vampirism_version},)"
-ordering = "AFTER"
-side = "BOTH"
+    modId = "${mod_id}"
+    namespace = "werewolves"
+    version = "${mod_version}"
+    displayName = "${mod_name}"
+    displayURL = "${mod_url}"
+    logoFile = "logo.png"
+    credits = "RebelT (models/textures), Maxanier (vampirism), 1LiterZinalco (models) Йода (textures), CritterCarnival (textures), Talonerd (textures), https://freesound.org (sounds), Mike (testing/ideas), LilCatGod (testing/ideas)"
+    authors = "${mod_authors}"
+    description = '''${mod_description}'''
+    updateJSONURL = "https://api.modrinth.com/updates/werewolves/forge_updates.json"
+[[dependencies.${ mod_id }]]
+    modId = "neoforge"
+    type = "required"
+    versionRange = "${forge_version_range}"
+    ordering = "NONE"
+    side = "BOTH"
+[[dependencies.${ mod_id }]]
+    modId = "vampirism"
+    type = "required"
+    versionRange = "${vampirism_version_range}"
+    ordering = "BEFORE"
+    side = "BOTH"

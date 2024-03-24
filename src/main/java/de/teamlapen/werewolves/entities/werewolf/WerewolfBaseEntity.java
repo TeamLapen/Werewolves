@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class WerewolfBaseEntity extends VampirismEntity implements IWerewolfMob {
 
@@ -33,12 +34,17 @@ public abstract class WerewolfBaseEntity extends VampirismEntity implements IWer
     }
 
     @Override
-    public MobCategory getClassification(boolean forSpawnCount) {
+    public @NotNull MobCategory getClassification(boolean forSpawnCount) {
         return forSpawnCount && this.countAsMonsterForSpawn ? MobCategory.MONSTER : super.getClassification(forSpawnCount);
     }
 
     @Override
     public LivingEntity getRepresentingEntity() {
+        return this;
+    }
+
+    @Override
+    public @NotNull LivingEntity asEntity() {
         return this;
     }
 

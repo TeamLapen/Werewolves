@@ -1,12 +1,14 @@
 package de.teamlapen.werewolves.entities.player.werewolf;
 
+import de.teamlapen.lib.lib.storage.ISyncableSaveData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class LevelHandler {
-
+public class LevelHandler implements ISyncableSaveData {
+    private static final String KEY_LEVEL = "level";
     private final WerewolfPlayer player;
     private int levelProgress;
 
@@ -20,12 +22,6 @@ public class LevelHandler {
 
     public float getLevelPerc() {
         return Mth.clamp((float) this.levelProgress / getNeededProgress(), 0, 1);
-    }
-
-    public void saveToNbt(@Nonnull CompoundTag compound) {
-        CompoundTag nbt = new CompoundTag();
-        nbt.putInt("progress", levelProgress);
-        compound.put("level", nbt);
     }
 
     public void loadFromNbt(@Nonnull CompoundTag compound) {
@@ -48,5 +44,34 @@ public class LevelHandler {
 
     public void reset() {
         this.levelProgress = 0;
+    }
+
+    @Override
+    public @NotNull CompoundTag serializeNBT() {
+        CompoundTag nbt = new CompoundTag();
+        nbt.putInt("progress", levelProgress);
+        return nbt;
+    }
+
+    @Override
+    public void deserializeNBT(@NotNull CompoundTag compoundTag) {
+        if (compoundTag.contains("level")) {
+            this.levelProgress = compoundTag.getCompound("level").getInt("progress");
+        }
+    }
+
+    @Override
+    public void deserializeUpdateNBT(@NotNull CompoundTag compoundTag) {
+        deserializeNBT(compoundTag);
+    }
+
+    @Override
+    public @NotNull CompoundTag serializeUpdateNBT() {
+        return serializeNBT();
+    }
+
+    @Override
+    public String nbtKey() {
+        return KEY_LEVEL;
     }
 }

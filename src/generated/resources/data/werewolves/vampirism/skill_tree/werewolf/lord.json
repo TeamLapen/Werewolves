@@ -1,0 +1,21 @@
+{
+  "display": {
+    "Count": 1,
+    "id": "werewolves:werewolf_minion_charm"
+  },
+  "faction": {
+    "id": "werewolves:werewolf"
+  },
+  "name": {
+    "translate": "text.vampirism.skills.lord"
+  },
+  "unlock_predicate": {
+    "type_specific": {
+      "type": "vampirism:faction",
+      "faction": {
+        "id": "werewolves:werewolf"
+      },
+      "lord_level": 1
+    }
+  }
+}

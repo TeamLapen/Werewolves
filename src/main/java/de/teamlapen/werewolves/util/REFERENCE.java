@@ -14,6 +14,5 @@ public class REFERENCE {
     public static final ResourceLocation EXTENDED_WEREWOLF_KEY = new ResourceLocation(MODID, "iextendedwerewolf");
     public static final int EYE_TYPE_COUNT = 6;
     public static ArtifactVersion VERSION = new DefaultArtifactVersion("0.0.0");
-    public static final ResourceLocation WORLD_CAP_KEY = new ResourceLocation(MODID, "world");
 
 }

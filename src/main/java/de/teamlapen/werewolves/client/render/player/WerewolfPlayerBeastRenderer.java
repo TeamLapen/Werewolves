@@ -16,6 +16,8 @@ import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
+import net.neoforged.neoforge.client.ClientHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -40,16 +42,14 @@ public class WerewolfPlayerBeastRenderer extends WerewolfPlayerRenderer<Abstract
 
     @Override
     public void renderRightHand(PoseStack stack, MultiBufferSource bufferSource, int p_117773_, AbstractClientPlayer entity) {
-        //noinspection UnstableApiUsage
-        if (!net.minecraftforge.client.ForgeHooksClient.renderSpecificFirstPersonArm(stack, bufferSource, p_117773_, entity, HumanoidArm.RIGHT)) {
+        if (!ClientHooks.renderSpecificFirstPersonArm(stack, bufferSource, p_117773_, entity, HumanoidArm.RIGHT)) {
             this.renderHand(stack, bufferSource, p_117773_, entity, this.model.getRightArmModel());
         }
     }
 
     @Override
     public void renderLeftHand(PoseStack stack, MultiBufferSource bufferSource, int p_117816_, AbstractClientPlayer entity) {
-        //noinspection UnstableApiUsage
-        if (!net.minecraftforge.client.ForgeHooksClient.renderSpecificFirstPersonArm(stack, bufferSource, p_117816_, entity, HumanoidArm.LEFT)) {
+        if (!ClientHooks.renderSpecificFirstPersonArm(stack, bufferSource, p_117816_, entity, HumanoidArm.LEFT)) {
             this.renderHand(stack, bufferSource, p_117816_, entity, this.model.getLeftArmModel());
         }
     }

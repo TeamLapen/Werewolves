@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.world.gen;
 
 import com.mojang.datafixers.util.Pair;
-import de.teamlapen.vampirism.mixin.MultiNoiseBiomeSourceParameterListPresetAccessor;
+import de.teamlapen.vampirism.mixin.accessor.MultiNoiseBiomeSourceParameterListPresetAccessor;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.modcompat.terrablender.TerraBlenderCompat;
@@ -23,6 +23,7 @@ import java.util.function.Function;
 public class OverworldModifications {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @SuppressWarnings({"UnreachableCode", "DataFlowIssue"})
     public static void addBiomesToOverworldUnsafe() {
         if (TerraBlenderCompat.areBiomesAddedViaTerraBlender()) { //If we are already adding the biome to the overworld using TerraBlender, we shouldn't hack it into the overworld preset
             LOGGER.info("Werewolves Biomes are added via TerraBlender. Not adding them to overworld preset.");
@@ -43,6 +44,7 @@ public class OverworldModifications {
 
         MultiNoiseBiomeSourceParameterList.Preset.SourceProvider wrapperParameterSourceFunction = new MultiNoiseBiomeSourceParameterList.Preset.SourceProvider() {
 
+            @SuppressWarnings("unchecked")
             @Override
             public <T> Climate.@NotNull ParameterList<T> apply(@NotNull Function<ResourceKey<Biome>, T> keyFunction) {
                 //Create copy of vanilla list

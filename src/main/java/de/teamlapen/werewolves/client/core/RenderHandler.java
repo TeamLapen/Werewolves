@@ -18,13 +18,12 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderLivingEvent;
+import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -72,9 +71,9 @@ public class RenderHandler implements ResourceManagerReloadListener {
         if (this.mc.level == null || this.mc.player == null || !this.mc.player.isAlive()) return;
         if (event.phase == TickEvent.Phase.END) return;
         this.lastTicks = this.ticks;
-        LazyOptional<WerewolfPlayer> werewolf = WerewolfPlayer.getOpt(this.mc.player);
+        WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
 
-        if (werewolf.filter(s -> s.getActionHandler().isActionActive(ModActions.SENSE.get())).isPresent()) {
+        if (werewolf.getActionHandler().isActionActive(ModActions.SENSE.get())) {
             if (this.ticks < VISION_FADE_TICKS) {
                 this.ticks++;
             }

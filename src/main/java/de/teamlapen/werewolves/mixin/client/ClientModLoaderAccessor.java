@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.mixin.client;
 
-import net.minecraftforge.client.loading.ClientModLoader;
-import net.minecraftforge.fml.LoadingFailedException;
+import net.neoforged.fml.LoadingFailedException;
+import net.neoforged.neoforge.client.loading.ClientModLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

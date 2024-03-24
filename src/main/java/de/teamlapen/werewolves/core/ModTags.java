@@ -140,11 +140,11 @@ public class ModTags {
         public static final TagKey<Task> HAS_FACTION = vampirism("has_faction");
 
         private static @NotNull TagKey<Task> tag(@NotNull String name) {
-            return TagKey.create(VampirismRegistries.TASK_ID, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(VampirismRegistries.Keys.TASK, new ResourceLocation(REFERENCE.MODID, name));
         }
 
         private static @NotNull TagKey<Task> vampirism(@NotNull String name) {
-            return TagKey.create(VampirismRegistries.TASK_ID, new ResourceLocation(de.teamlapen.vampirism.REFERENCE.MODID, name));
+            return TagKey.create(VampirismRegistries.Keys.TASK, new ResourceLocation(de.teamlapen.vampirism.REFERENCE.MODID, name));
         }
     }
 

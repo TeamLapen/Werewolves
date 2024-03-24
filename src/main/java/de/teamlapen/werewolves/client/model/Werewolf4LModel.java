@@ -10,8 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -22,7 +20,6 @@ import java.util.List;
  * Model made by Rebel
  * Created using Tabula 7.1.0
  */
-@OnlyIn(Dist.CLIENT)
 public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
 
     private static final String BODY = "body";

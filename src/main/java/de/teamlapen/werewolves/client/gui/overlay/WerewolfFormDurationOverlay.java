@@ -8,12 +8,14 @@ import de.teamlapen.werewolves.mixin.client.InGameGuiAccessor;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.neoforged.neoforge.client.gui.overlay.ExtendedGui;
+import net.neoforged.neoforge.client.gui.overlay.IGuiOverlay;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfFormDurationOverlay implements IGuiOverlay {
 
@@ -21,7 +23,7 @@ public class WerewolfFormDurationOverlay implements IGuiOverlay {
     public static final ResourceLocation ICONS = new ResourceLocation("textures/gui/icons.png");
 
     @Override
-    public void render(ForgeGui gui, GuiGraphics graphics, float partialTicks, int width, int height) {
+    public void render(@NotNull ExtendedGui gui, @NotNull GuiGraphics graphics, float partialTicks, int width, int height) {
         Player player = this.mc.player;
         if (Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);

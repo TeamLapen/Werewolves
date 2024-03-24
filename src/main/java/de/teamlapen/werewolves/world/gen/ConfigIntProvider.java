@@ -6,7 +6,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.IntProviderType;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.neoforged.fml.util.ObfuscationReflectionHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;

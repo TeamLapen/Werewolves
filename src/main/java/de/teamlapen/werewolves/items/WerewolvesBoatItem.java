@@ -42,7 +42,7 @@ public class WerewolvesBoatItem extends Item {
      */
     @Override
     @NotNull
-    public InteractionResultHolder<ItemStack> use(Level p_77659_1_, @NotNull Player p_77659_2_, InteractionHand p_77659_3_) {
+    public InteractionResultHolder<ItemStack> use(@NotNull Level p_77659_1_, @NotNull Player p_77659_2_, @NotNull InteractionHand p_77659_3_) {
         ItemStack itemstack = p_77659_2_.getItemInHand(p_77659_3_);
         HitResult hitresult = getPlayerPOVHitResult(p_77659_1_, p_77659_2_, ClipContext.Fluid.ANY);
         if (hitresult.getType() == HitResult.Type.MISS) {

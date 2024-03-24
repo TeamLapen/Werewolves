@@ -26,7 +26,7 @@ public class SilverEffect extends WerewolfWeakeningEffect {
     }
     public static MobEffectInstance createSilverEffect(LivingEntity entity, int defaultDuration, int amplifier, boolean isContinued) {
         if (entity instanceof Player && Helper.isWerewolf(((Player) entity))) {
-            if (WerewolfPlayer.getOpt(((Player) entity)).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.SILVER_BLOODED.get())).orElse(false)) {
+            if (WerewolfPlayer.get(((Player) entity)).getSkillHandler().isSkillEnabled(ModSkills.SILVER_BLOODED.get())) {
                 if (amplifier > 0) {
                     amplifier--;
                 } else if (!isContinued){

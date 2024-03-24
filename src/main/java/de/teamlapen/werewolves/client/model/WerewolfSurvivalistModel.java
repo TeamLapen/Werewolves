@@ -13,8 +13,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -25,7 +23,6 @@ import java.util.List;
  * WerewolfSurvivalistModel - Rebel
  * Created using Tabula 7.1.0
  */
-@OnlyIn(Dist.CLIENT)
 public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
     public static final String BODY = "body";
     public static final String HIP = "hip";
@@ -200,8 +197,8 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.armLeft.xRot += Mth.cos(limbSwing * 0.6662F * 0.8f + (float) Math.PI) * 0.8F * limbSwingAmount;
 
         if (this.crouching) {
-            this.armLeft.xRot += -0.4f;
-            this.armRight.xRot += -0.4f;
+            this.armLeft.xRot -= 0.4f;
+            this.armRight.xRot -= 0.4f;
             this.legLeft.xRot += 0.1f;
             this.legRight.xRot += 0.1f;
             this.body.y = 10.5F;
@@ -243,7 +240,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.jaw.translateAndRotate(stack);
     }
 
-    protected void setupAttackAnimation(T entity, float ageInTicks) {
+    protected void setupAttackAnimation(@NotNull T entity, float ageInTicks) {
         if (this.attackTime > 0) {
             float f = this.attackTime;
             f = 1.0F - f;

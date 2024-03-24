@@ -7,21 +7,22 @@ import de.teamlapen.vampirism.entity.minion.management.CollectResourcesTask;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.Arrays;
 
 public class ModMinionTasks {
 
-    public static final DeferredRegister<IMinionTask<?, ?>> TASKS = DeferredRegister.create(VampirismRegistries.MINION_TASKS_ID, REFERENCE.MODID);
+    public static final DeferredRegister<IMinionTask<?, ?>> TASKS = DeferredRegister.create(VampirismRegistries.Keys.MINION_TASK, REFERENCE.MODID);
 
-    public static final RegistryObject<CollectResourcesTask<WerewolfMinionEntity.WerewolfMinionData>> COLLECT_WEREWOLF_ITEMS = TASKS.register("collect_werewolf_items", () -> new CollectResourcesTask<>(WReference.WEREWOLF_FACTION,
+    public static final DeferredHolder<IMinionTask<?,?>, CollectResourcesTask<WerewolfMinionEntity.WerewolfMinionData>> COLLECT_WEREWOLF_ITEMS = TASKS.register("collect_werewolf_items", () -> new CollectResourcesTask<>(WReference.WEREWOLF_FACTION,
             data -> (int) (VampirismConfig.BALANCE.miResourceCooldown.get() * (1f - data.getResourceEfficiencyLevel() / WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES * 0.4f)),
             Arrays.asList(
                     WeightedEntry.wrap(new ItemStack(ModItems.LIVER.get()), 6),
@@ -34,17 +35,17 @@ public class ModMinionTasks {
                     WeightedEntry.wrap(new ItemStack(ModItems.V.HUMAN_HEART.get()), 1)), ModSkills.MINION_COLLECT));
 
     public static class V {
-        public final static RegistryObject<IMinionTask<?, ?>> FOLLOW_LORD = task("follow_lord");
-        public final static RegistryObject<IMinionTask<?, ?>> DEFEND_AREA = task("defend_area");
-        public final static RegistryObject<IMinionTask<?, ?>> STAY = task("stay");
-        public final static RegistryObject<IMinionTask<?, ?>> PROTECT_LORD = task("protect_lord");
+        public final static DeferredHolder<IMinionTask<?,?>, IMinionTask<?, ?>> FOLLOW_LORD = task("follow_lord");
+        public final static DeferredHolder<IMinionTask<?,?>, IMinionTask<?, ?>> DEFEND_AREA = task("defend_area");
+        public final static DeferredHolder<IMinionTask<?,?>, IMinionTask<?, ?>> STAY = task("stay");
+        public final static DeferredHolder<IMinionTask<?,?>, IMinionTask<?, ?>> PROTECT_LORD = task("protect_lord");
 
         private static void init() {
 
         }
 
-        private static RegistryObject<IMinionTask<?, ?>> task(String name) {
-            return RegistryObject.create(new ResourceLocation("vampirism", name), VampirismRegistries.MINION_TASKS_ID, REFERENCE.MODID);
+        private static DeferredHolder<IMinionTask<?,?>, IMinionTask<?, ?>> task(String name) {
+            return DeferredHolder.create(ResourceKey.create(VampirismRegistries.Keys.MINION_TASK, new ResourceLocation("vampirism", name)));
         }
     }
 

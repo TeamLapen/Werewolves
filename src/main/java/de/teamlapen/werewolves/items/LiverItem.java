@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.items;
 
 import de.teamlapen.vampirism.api.entity.vampire.IVampire;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
+import de.teamlapen.vampirism.entity.vampire.DrinkBloodContext;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,16 +22,12 @@ public class LiverItem extends Item {
     @Nonnull
     @Override
     public ItemStack finishUsingItem(@Nonnull ItemStack stack, @Nonnull Level worldIn, @Nonnull LivingEntity entityLiving) {
-        //copied from VampirismItemBloodFood
-        assert stack.getItem().getFoodProperties() != null;
         if (entityLiving instanceof Player player) {
-            VampirePlayer.getOpt(player).ifPresent((v) -> {
-                v.drinkBlood(stack.getItem().getFoodProperties().getNutrition(), stack.getItem().getFoodProperties().getSaturationModifier());
-            });
+            VampirePlayer.get(player).drinkBlood(stack.getFoodProperties(player).getNutrition(), stack.getFoodProperties(player).getSaturationModifier(), new DrinkBloodContext(stack));
             worldIn.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
             entityLiving.eat(worldIn, stack);
-        } else if (entityLiving instanceof IVampire) {
-            ((IVampire) entityLiving).drinkBlood(stack.getItem().getFoodProperties().getNutrition(), stack.getItem().getFoodProperties().getSaturationModifier());
+        } else if (entityLiving instanceof IVampire vampire) {
+            vampire.drinkBlood(stack.getFoodProperties(entityLiving).getNutrition(), stack.getFoodProperties(entityLiving).getSaturationModifier(), new DrinkBloodContext(stack));
             stack.shrink(1);
         } else {
             entityLiving.eat(worldIn, stack); //Shrinks stack and applies human food effects

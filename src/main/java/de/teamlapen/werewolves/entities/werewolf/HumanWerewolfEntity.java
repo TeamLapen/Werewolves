@@ -85,7 +85,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     @Override
     public boolean hurt(@Nonnull DamageSource source, float amount) {
         if (super.hurt(source, amount)) {
-            this.rage += amount * 10;
+            this.rage += (int) (amount * 10);
             return true;
         } else {
             return false;

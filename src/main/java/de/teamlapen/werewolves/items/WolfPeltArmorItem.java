@@ -8,7 +8,7 @@ import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.items.IWerewolfArmor;
-import de.teamlapen.werewolves.client.model.armor.WolfHeadModel;
+import de.teamlapen.werewolves.client.extensions.ItemExtensions;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.ArmorMaterial;
@@ -27,7 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,16 +53,11 @@ public class WolfPeltArmorItem extends ArmorItem implements IFactionExclusiveIte
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            @Override
-            public @NotNull Model getGenericArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-                return equipmentSlot == EquipmentSlot.HEAD ? WolfHeadModel.getInstance(original) : IClientItemExtensions.super.getGenericArmorModel(livingEntity, itemStack, equipmentSlot, original);
-            }
-        });
+        consumer.accept(ItemExtensions.WOLF_PELT);
     }
 
     @Override
-    public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+    public @Nullable String getArmorTexture(@NotNull ItemStack stack, @NotNull Entity entity, @NotNull EquipmentSlot slot, @NotNull String type) {
         return slot == EquipmentSlot.HEAD ? REFERENCE.MODID + ":textures/models/armor/" + RegUtil.id(this).getPath() + ".png" : super.getArmorTexture(stack, entity, slot, type);
     }
 
@@ -78,8 +73,8 @@ public class WolfPeltArmorItem extends ArmorItem implements IFactionExclusiveIte
     }
 
     @Override
-    public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
-        return super.canEquip(stack, armorType, entity) && Helper.isWerewolf(entity) && (!(entity instanceof Player player) || WerewolfPlayer.getOpt(player).map(s -> s.canWearArmor(stack)).orElse(false));
+    public boolean canEquip(@NotNull ItemStack stack, @NotNull EquipmentSlot armorType, @NotNull Entity entity) {
+        return super.canEquip(stack, armorType, entity) && Helper.isWerewolf(entity) && (!(entity instanceof Player player) || WerewolfPlayer.get(player).canWearArmor(stack));
     }
 
     @Override

@@ -2,6 +2,8 @@ package de.teamlapen.werewolves.client.render.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
+import de.teamlapen.werewolves.mixin.client.ItemInHandRendererMixin;
+import de.teamlapen.werewolves.mixin.client.PlayerItemInHandLayerAccessor;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -34,14 +36,14 @@ public class BeastItemInHandLayer<T extends Player, M extends WerewolfBeastModel
 
         modelpart.xRot = f;
         boolean flag = arm == HumanoidArm.LEFT;
-        poseStack.translate((double)((flag ? -2.5F : 2.5F) / 16.0F), -0.0625D, 0.0D);
+        poseStack.translate((flag ? -2.5F : 2.5F) / 16.0F, -0.0625D, 0.0D);
         poseStack.scale(0.7f,0.7f,0.7f);
-        this.itemInHandRenderer.renderItem(entity, itemStack, ItemDisplayContext.HEAD, false, poseStack, bufferSource, p_174523_);
+        ((PlayerItemInHandLayerAccessor)this).getItemInHandRenderer().renderItem(entity, itemStack, ItemDisplayContext.HEAD, false, poseStack, bufferSource, p_174523_);
         poseStack.popPose();
     }
 
     @Override
-    protected void renderArmWithItem(LivingEntity pLivingEntity, ItemStack pItemStack, ItemDisplayContext pDisplayContext, HumanoidArm pArm, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+    protected void renderArmWithItem(@NotNull LivingEntity pLivingEntity, @NotNull ItemStack pItemStack, @NotNull ItemDisplayContext pDisplayContext, @NotNull HumanoidArm pArm, @NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight) {
         super.renderArmWithItem(pLivingEntity, pItemStack, pDisplayContext, pArm, pPoseStack, pBuffer, pPackedLight);
 
     }

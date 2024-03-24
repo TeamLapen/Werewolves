@@ -29,7 +29,7 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    public boolean consumesWerewolfTime() {
+    public boolean consumesWerewolfTime(IWerewolfPlayer werewolf) {
         return false;
     }
 }

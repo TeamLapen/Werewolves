@@ -10,18 +10,18 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.core.registries.Registries;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.List;
 
 public class ModCommands {
 
-    public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(ForgeRegistries.COMMAND_ARGUMENT_TYPES, REFERENCE.MODID);
+    public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registries.COMMAND_ARGUMENT_TYPE, REFERENCE.MODID);
 
-    public static final RegistryObject<ArgumentTypeInfo<?, ?>> WEREWOLF_FORM = COMMAND_ARGUMENT_TYPES.register("werewolf_form", () -> ArgumentTypeInfos.registerByClass(WerewolfFormArgument.class, new WerewolfFormArgument.Info()));
+    public static final DeferredHolder<ArgumentTypeInfo<?, ?>, ArgumentTypeInfo<WerewolfFormArgument, WerewolfFormArgument.Info.Template>> WEREWOLF_FORM = COMMAND_ARGUMENT_TYPES.register("werewolf_form", () -> ArgumentTypeInfos.registerByClass(WerewolfFormArgument.class, new WerewolfFormArgument.Info()));
 
 
     static void register(IEventBus bus) {
@@ -47,7 +47,6 @@ public class ModCommands {
 
         for (String s : test) {
             dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(s)
-                    .then(MinionCommand.register())
                     .then(WerewolfTransformCommand.register()));
         }
     }

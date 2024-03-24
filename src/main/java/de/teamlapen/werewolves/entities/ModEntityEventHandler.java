@@ -43,13 +43,13 @@ import net.minecraft.world.entity.monster.Stray;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -110,7 +110,12 @@ public class ModEntityEventHandler {
             if (!event.getSource().is(DamageTypeTags.WITCH_RESISTANT_TO)) {
                 float damage = event.getAmount();
                 float damageReduction = FormHelper.getForm(event.getEntity()).getDamageReduction();
-                damageReduction *= event.getEntity() instanceof Player ? WerewolfPlayer.getOpt(((Player) event.getEntity())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR.get())).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
+                if (event.getEntity() instanceof Player player) {
+                    WerewolfPlayer werewolfPlayer = WerewolfPlayer.get(player);
+                    if (!werewolfPlayer.getForm().isHumanLike() && werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR.get())) {
+                        damageReduction *= WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get().floatValue();
+                    }
+                }
                 if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {
                     damageReduction *= 0.3f;
                 }
@@ -124,9 +129,9 @@ public class ModEntityEventHandler {
     @SubscribeEvent
     public void onTargetChange(LivingChangeTargetEvent event) {
         if (event.getNewTarget() instanceof ServerPlayer player && Helper.isWerewolf(player)) {
-            WerewolfPlayer.getOpt(player).filter(werewolf -> werewolf.getSkillHandler().isSkillEnabled(ModSkills.SIXTH_SENSE.get())).ifPresent(werewolf -> {
-                WerewolvesMod.dispatcher.sendTo(new ClientboundAttackTargetEventPacket(event.getEntity().getId()), player);
-            });
+            if(WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(ModSkills.SIXTH_SENSE.get())) {
+                player.connection.send(new ClientboundAttackTargetEventPacket(event.getEntity().getId()));
+            }
         }
     }
 
@@ -182,7 +187,7 @@ public class ModEntityEventHandler {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Could not replace " + name + " attack target task for " + entity.getType().getDescription(), e);
+            LOGGER.error("Could not replace {} attack target task for {}", name, entity.getType().getDescription(), e);
         }
     }
 

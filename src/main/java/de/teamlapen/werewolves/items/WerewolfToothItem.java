@@ -27,8 +27,7 @@ public class WerewolfToothItem extends Item {
     public InteractionResultHolder<ItemStack> use(@Nonnull Level world, @Nonnull Player player, @Nonnull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (!world.isClientSide) {
-            //noinspection removal
-            if (WerewolvesConfig.SERVER.disableToothInfection.get() || WerewolvesConfig.SERVER.disableWerewolfToothInfection.get()) {
+            if (WerewolvesConfig.SERVER.disableWerewolfToothInfection.get()) {
                 player.displayClientMessage(Component.translatable("text.vampirism.deactivated_by_serveradmin"), true);
             } else {
                 if (Helper.canBecomeWerewolf(player)) {

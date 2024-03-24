@@ -33,7 +33,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean isWerewolf(Player entity) {
-        return VampirismAPI.getFactionPlayerHandler((entity)).map(h -> WReference.WEREWOLF_FACTION.equals(h.getCurrentFaction())).orElse(false);
+        return  WReference.WEREWOLF_FACTION.equals(VampirismAPI.factionPlayerHandler(entity).getCurrentFaction());
     }
 
     public static boolean hasFaction(Entity entity) {
@@ -47,7 +47,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean canBecomeWerewolf(Player player) {
-        return FactionPlayerHandler.getOpt(player).map((v) -> v.canJoin(WReference.WEREWOLF_FACTION)).orElse(false);
+        return FactionPlayerHandler.get(player).canJoin(WReference.WEREWOLF_FACTION);
     }
 
     public static boolean isNight(Level world) {
@@ -116,14 +116,14 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         if (entity instanceof IWerewolf werewolf) {
             return Optional.of(werewolf);
         } else if (entity instanceof Player player) {
-            return WerewolfPlayer.getOpt(player).resolve().map(IWerewolf.class::cast);
+            return Optional.of(WerewolfPlayer.get(player));
         } else {
             return Optional.empty();
         }
     }
 
     public static boolean matchesItem(Ingredient ingredient, ItemStack searchStack) {
-        return Arrays.stream(ingredient.getItems()).anyMatch(stack -> ItemStack.isSameItem(stack, searchStack) && stack.areShareTagsEqual(searchStack));
+        return Arrays.stream(ingredient.getItems()).anyMatch(stack -> ItemStack.isSameItem(stack, searchStack) && ItemStack.isSameItemSameTags(stack, searchStack));
     }
 
     public static MutableComponent joinComponents(String delimiter, MutableComponent... components) {

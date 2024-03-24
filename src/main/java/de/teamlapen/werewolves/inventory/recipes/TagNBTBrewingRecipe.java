@@ -2,12 +2,13 @@ package de.teamlapen.werewolves.inventory.recipes;
 
 import com.mojang.datafixers.util.Either;
 import de.teamlapen.werewolves.util.Helper;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.brewing.IBrewingRecipe;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.brewing.IBrewingRecipe;
 
 import javax.annotation.Nonnull;
 
@@ -46,7 +47,7 @@ public class TagNBTBrewingRecipe implements IBrewingRecipe {
     }
 
     public ItemStack[] getIngredient() {
-        return ingredient.map(i -> ForgeRegistries.ITEMS.tags().getTag(i).stream().map(ItemStack::new).toArray(ItemStack[]::new), Ingredient::getItems);
+        return ingredient.map(i -> BuiltInRegistries.ITEM.getTag(i).stream().flatMap(HolderSet.ListBacked::stream).map(ItemStack::new).toArray(ItemStack[]::new), Ingredient::getItems);
     }
 
     public Ingredient getInput() {

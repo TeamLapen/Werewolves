@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_pelt",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_pelt"
     ]
   ],
   "rewards": {
     "recipes": [
       "werewolves:pelt_boots"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

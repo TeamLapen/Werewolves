@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_wolfsbane",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_wolfsbane"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:purple_dye"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

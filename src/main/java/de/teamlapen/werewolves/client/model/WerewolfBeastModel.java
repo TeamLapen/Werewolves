@@ -14,8 +14,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -26,7 +24,6 @@ import java.util.List;
  * Model made by Rebel
  * Created using Tabula 7.1.0
  */
-@OnlyIn(Dist.CLIENT)
 public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
 
     public static final String BODY = "body";
@@ -337,7 +334,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     }
 
     @Override
-    public ModelPart getRandomModelPart(RandomSource pRandom) {
+    public @NotNull ModelPart getRandomModelPart(RandomSource pRandom) {
         return this.parts.get(pRandom.nextInt(this.parts.size()));
     }
 }

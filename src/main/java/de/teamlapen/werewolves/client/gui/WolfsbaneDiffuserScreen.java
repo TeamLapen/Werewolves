@@ -34,14 +34,14 @@ public class WolfsbaneDiffuserScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(graphics);
-
-        this.renderGuiBackground(graphics);
-
-        this.drawTitle(graphics);
-
         super.render(graphics, mouseX, mouseY, partialTicks);
+        this.drawTitle(graphics);
+    }
 
+    @Override
+    public void renderBackground(@NotNull GuiGraphics guiGraphics, int p_296369_, int p_296477_, float p_294317_) {
+        super.renderBackground(guiGraphics, p_296369_, p_296477_, p_294317_);
+        this.renderGuiBackground(guiGraphics);
     }
 
     private void updateProgress() {

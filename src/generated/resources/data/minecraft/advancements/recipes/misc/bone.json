@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_broken_bone",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_broken_bone"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:bone"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

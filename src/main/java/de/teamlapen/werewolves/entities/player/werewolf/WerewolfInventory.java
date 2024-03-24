@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.entities.player.werewolf;
 
 import com.google.common.collect.ImmutableMap;
+import de.teamlapen.lib.lib.storage.ISyncableSaveData;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.ModSkills;
 import net.minecraft.core.NonNullList;
@@ -9,12 +10,13 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class WerewolfInventory {
-
+public class WerewolfInventory implements ISyncableSaveData {
+    private static final String KEY_INVENTORY = "inventory";
     private final WerewolfPlayer werewolf;
     private final Map<WerewolfForm, List<ItemStack>> inventories;
     private WerewolfForm form = WerewolfForm.NONE;
@@ -69,7 +71,8 @@ public class WerewolfInventory {
         }
     }
 
-    public CompoundTag save() {
+    @Override
+    public @NotNull CompoundTag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
         nbt.putString("lastForm", this.form.getName());
         CompoundTag tag = new CompoundTag();
@@ -90,9 +93,10 @@ public class WerewolfInventory {
         return nbt;
     }
 
-    public void load(CompoundTag tag) {
-        this.form = Objects.requireNonNullElse(WerewolfForm.getForm(tag.getString("lastForm")), WerewolfForm.NONE);
-        CompoundTag inventory = tag.getCompound("inventory");
+    @Override
+    public void deserializeNBT(@NotNull CompoundTag compoundTag) {
+        this.form = Objects.requireNonNullElse(WerewolfForm.getForm(compoundTag.getString("lastForm")), WerewolfForm.NONE);
+        CompoundTag inventory = compoundTag.getCompound("inventory");
         inventory.getAllKeys().stream().map(WerewolfForm::getForm).forEach(form -> {
             ListTag list = inventory.getList(form.getName(), 10);
             for (int i = 0; i < list.size(); i++) {
@@ -102,5 +106,20 @@ public class WerewolfInventory {
                 this.inventories.get(form).set(slot, stack);
             }
         });
+    }
+
+    @Override
+    public void deserializeUpdateNBT(@NotNull CompoundTag compoundTag) {
+        deserializeNBT(compoundTag);
+    }
+
+    @Override
+    public @NotNull CompoundTag serializeUpdateNBT() {
+        return serializeNBT();
+    }
+
+    @Override
+    public String nbtKey() {
+        return KEY_INVENTORY;
     }
 }

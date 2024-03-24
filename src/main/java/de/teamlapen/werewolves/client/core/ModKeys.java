@@ -7,20 +7,22 @@ import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.network.ServerboundBiteEventPackage;
 import de.teamlapen.werewolves.network.ServerboundSimpleInputEventPacket;
+import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.client.settings.KeyModifier;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.neoforged.neoforge.client.settings.KeyModifier;
+import net.neoforged.neoforge.common.NeoForge;
+import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
@@ -34,11 +36,8 @@ public class ModKeys {
     private static final KeyMapping LEAP = new KeyMapping(LEAP_KEY, KeyConflictContext.IN_GAME, KeyModifier.CONTROL, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_SPACE, CATEGORY);
     private static final KeyMapping BITE = new KeyMapping(BITE_KEY, KeyConflictContext.IN_GAME, KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY);
 
-    public static void register(ClientEventHandler clientEventHandler) {
-        MinecraftForge.EVENT_BUS.register(new ModKeys(clientEventHandler));
-    }
-
-    static void registerKeyMapping(@Nonnull RegisterKeyMappingsEvent event){
+    @ApiStatus.Internal
+    public static void registerKeyMapping(@Nonnull RegisterKeyMappingsEvent event){
         event.register(LEAP);
         event.register(BITE);
     }
@@ -50,25 +49,37 @@ public class ModKeys {
     }
 
     @SubscribeEvent
+    public void handleMouseButton(InputEvent.MouseButton.Pre event) {
+        handleInputEvent(event);
+    }
+
+    @SubscribeEvent
+    public void handleKey(InputEvent.Key event) {
+        handleInputEvent(event);
+    }
+
     public void handleInputEvent(InputEvent event) {
         Optional<KeyMapping> keyOpt = getPressedKeyBinding();
         keyOpt.ifPresent(key -> {
-            Player player = Minecraft.getInstance().player;
-            LazyOptional<WerewolfPlayer> werewolfOpt = WerewolfPlayer.getOptEx(Minecraft.getInstance().player);
+            LocalPlayer player = Minecraft.getInstance().player;
             if (key == LEAP) {
-                werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.LEAP.get()) && w.getForm().isTransformed()).ifPresent(w -> {
-                    WerewolvesMod.dispatcher.sendToServer(new ServerboundSimpleInputEventPacket(ServerboundSimpleInputEventPacket.Type.LEAP));
-                    WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
-                });
+                if (Helper.isWerewolf(player)) {
+                    WerewolfPlayer werewolf = WerewolfPlayer.get(player);
+                    if (!werewolf.getActionHandler().isActionOnCooldown(ModActions.LEAP.get()) && werewolf.getForm().isTransformed()) {
+                        player.connection.send(new ServerboundSimpleInputEventPacket(ServerboundSimpleInputEventPacket.Type.LEAP));
+                        werewolf.getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
+                    }
+                }
             } else if (key == BITE) {
-                werewolfOpt.ifPresent(werewolf -> {
+                if (Helper.isWerewolf(player)) {
+                    WerewolfPlayer werewolf = WerewolfPlayer.get(player);
                     HitResult mouseOver = Minecraft.getInstance().hitResult;
                     Entity entity = mouseOver instanceof EntityHitResult ? ((EntityHitResult) mouseOver).getEntity() : null;
                     if (entity instanceof LivingEntity && werewolf.canBite() && werewolf.canBiteEntity(((LivingEntity) entity))) {
-                        WerewolvesMod.dispatcher.sendToServer(new ServerboundBiteEventPackage(((EntityHitResult) mouseOver).getEntity().getId()));
+                        player.connection.send(new ServerboundBiteEventPackage(((EntityHitResult) mouseOver).getEntity().getId()));
                         clientEventHandler.onZoomPressed();
                     }
-                });
+                }
             }
         });
     }

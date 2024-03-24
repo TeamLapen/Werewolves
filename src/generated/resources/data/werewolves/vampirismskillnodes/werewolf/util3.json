@@ -1,7 +1,0 @@
-{
-  "parent": "werewolves:werewolf/util2",
-  "skills": [
-    "werewolves:not_meat",
-    "werewolves:health_reg"
-  ]
-}

@@ -8,7 +8,9 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "faction": "werewolves:werewolf",
+              "faction": {
+                "id": "werewolves:werewolf"
+              },
               "function": "vampirism:add_refinement_set"
             }
           ],
@@ -18,7 +20,9 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "faction": "werewolves:werewolf",
+              "faction": {
+                "id": "werewolves:werewolf"
+              },
               "function": "vampirism:add_refinement_set"
             }
           ],
@@ -28,7 +32,9 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "faction": "werewolves:werewolf",
+              "faction": {
+                "id": "werewolves:werewolf"
+              },
               "function": "vampirism:add_refinement_set"
             }
           ],

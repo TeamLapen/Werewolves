@@ -1,9 +1,10 @@
 package de.teamlapen.werewolves.util;
 
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.server.permission.events.PermissionGatherEvent;
-import net.minecraftforge.server.permission.nodes.PermissionNode;
-import net.minecraftforge.server.permission.nodes.PermissionTypes;
+
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.server.permission.events.PermissionGatherEvent;
+import net.neoforged.neoforge.server.permission.nodes.PermissionNode;
+import net.neoforged.neoforge.server.permission.nodes.PermissionTypes;
 
 public class Permissions {
     public static final PermissionNode<Boolean> WEREWOLVES = new PermissionNode<>(REFERENCE.MODID, "check", PermissionTypes.BOOLEAN, ((player, playerUUID, context) -> true));

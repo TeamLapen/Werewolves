@@ -1,0 +1,20 @@
+{
+  "display": {
+    "Count": 1,
+    "id": "werewolves:liver"
+  },
+  "faction": {
+    "id": "werewolves:werewolf"
+  },
+  "name": {
+    "translate": "text.vampirism.skills.level"
+  },
+  "unlock_predicate": {
+    "type_specific": {
+      "type": "vampirism:faction",
+      "faction": {
+        "id": "werewolves:werewolf"
+      }
+    }
+  }
+}

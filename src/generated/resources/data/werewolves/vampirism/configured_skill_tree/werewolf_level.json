@@ -1,0 +1,117 @@
+{
+  "children": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "node": "werewolves:werewolf/beast6"
+                                },
+                                {
+                                  "node": "werewolves:werewolf/beast7"
+                                }
+                              ],
+                              "node": "werewolves:werewolf/beast5"
+                            }
+                          ],
+                          "node": "werewolves:werewolf/beast4"
+                        }
+                      ],
+                      "node": "werewolves:werewolf/beast3"
+                    },
+                    {
+                      "node": "werewolves:werewolf/beast3_1"
+                    }
+                  ],
+                  "node": "werewolves:werewolf/beast2"
+                }
+              ],
+              "node": "werewolves:werewolf/beast1"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "node": "werewolves:werewolf/survival5"
+                            }
+                          ],
+                          "node": "werewolves:werewolf/survival4"
+                        },
+                        {
+                          "node": "werewolves:werewolf/survival31"
+                        }
+                      ],
+                      "node": "werewolves:werewolf/survival3"
+                    }
+                  ],
+                  "node": "werewolves:werewolf/survival2"
+                }
+              ],
+              "node": "werewolves:werewolf/survival1"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "node": "werewolves:werewolf/other3"
+                                }
+                              ],
+                              "node": "werewolves:werewolf/other2"
+                            }
+                          ],
+                          "node": "werewolves:werewolf/other1"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "node": "werewolves:werewolf/other6"
+                                }
+                              ],
+                              "node": "werewolves:werewolf/other5"
+                            }
+                          ],
+                          "node": "werewolves:werewolf/other4"
+                        }
+                      ],
+                      "node": "werewolves:werewolf/util3"
+                    }
+                  ],
+                  "node": "werewolves:werewolf/util2"
+                }
+              ],
+              "node": "werewolves:werewolf/util1"
+            }
+          ],
+          "node": "werewolves:werewolf/skill2"
+        }
+      ],
+      "node": "werewolves:werewolf/skill1"
+    }
+  ],
+  "node": "werewolves:werewolf/level_root",
+  "skill_tree": "werewolves:werewolf/level"
+}

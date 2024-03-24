@@ -10,7 +10,7 @@ import de.teamlapen.werewolves.core.ModSkills;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraftforge.common.ForgeMod;
+import net.neoforged.neoforge.common.NeoForgeMod;
 
 import java.util.UUID;
 
@@ -67,7 +67,7 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     public static void checkStepHeight(IWerewolfPlayer werewolf, boolean active) {
-        AttributeInstance attribute = werewolf.getRepresentingPlayer().getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get());
+        AttributeInstance attribute = werewolf.asEntity().getAttribute(NeoForgeMod.STEP_HEIGHT.value());
         if (active) {
             attribute.removeModifier(CLIMBER_ID);
             attribute.addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));

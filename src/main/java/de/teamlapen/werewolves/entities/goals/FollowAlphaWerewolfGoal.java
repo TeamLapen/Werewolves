@@ -31,7 +31,7 @@ public class FollowAlphaWerewolfGoal<T extends WerewolfBaseEntity & IEntityFollo
     @Override
     public boolean canUse() {
         if (this.entity.getLeader().isEmpty()) {
-            List<WerewolfBaseEntity> list = this.entity.getCommandSenderWorld().getEntitiesOfClass(WerewolfBaseEntity.class, this.entity.getBoundingBox().inflate(16, 8, 16), entity -> entity instanceof IEntityLeader);
+            List<WerewolfBaseEntity> list = this.entity.getCommandSenderWorld().getEntitiesOfClass(WerewolfBaseEntity.class, this.entity.getBoundingBox().inflate(16, 8, 16), IEntityLeader.class::isInstance);
             double d0 = Double.MAX_VALUE;
             IEntityLeader newLeader = null;
             for (WerewolfBaseEntity entity : list) {

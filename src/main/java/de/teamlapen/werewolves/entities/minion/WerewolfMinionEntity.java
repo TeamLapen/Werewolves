@@ -10,17 +10,15 @@ import de.teamlapen.vampirism.config.BalanceMobProps;
 import de.teamlapen.vampirism.entity.VampirismEntity;
 import de.teamlapen.vampirism.entity.minion.MinionEntity;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
+import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.client.gui.WerewolfMinionAppearanceScreen;
-import de.teamlapen.werewolves.client.gui.WerewolfMinionStatsScreen;
 import de.teamlapen.werewolves.core.ModMinionTasks;
 import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.items.WerewolfMinionUpgradeItem;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -38,19 +36,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.WerewolfMinionData> implements IWerewolf {
-
-    public static void registerMinionData() {
-        MinionData.registerDataType(WerewolfMinionEntity.WerewolfMinionData.ID, WerewolfMinionEntity.WerewolfMinionData::new);
-    }
 
     public static AttributeSupplier.Builder getAttributeBuilder() {
         return BasicWerewolfEntity.getAttributeBuilder();
@@ -70,20 +62,18 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         return false;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void openAppearanceScreen() {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().setScreen(new WerewolfMinionAppearanceScreen(this, Minecraft.getInstance().screen)));
+        WerewolvesMod.proxy.displayWerewolfMinionAppearanceScreen(this);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void openStatsScreen() {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().setScreen(new WerewolfMinionStatsScreen(this, Minecraft.getInstance().screen)));
+        WerewolvesMod.proxy.displayWerewolfStatsScreen(this);
     }
 
     @Override
-    protected boolean canConsume(ItemStack stack) {
+    protected boolean canConsume(@NotNull ItemStack stack) {
         if (!super.canConsume(stack)) return false;
         if (stack.isEdible() && !Helper.isMeat(this, stack)) return false;
         boolean fullHealth = this.getHealth() == this.getMaxHealth();
@@ -108,7 +98,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     @Override
-    public Predicate<ItemStack> getEquipmentPredicate(EquipmentSlot slotType) {
+    public @NotNull Predicate<ItemStack> getEquipmentPredicate(EquipmentSlot slotType) {
         return itemStack -> ((itemStack.getItem() instanceof IFactionExclusiveItem) && ((IFactionExclusiveItem) itemStack.getItem()).getExclusiveFaction(itemStack).equals(WReference.WEREWOLF_FACTION)) || itemStack.getUseAnimation() == UseAnim.DRINK || itemStack.getUseAnimation() == UseAnim.EAT;
     }
 
@@ -211,7 +201,8 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             this.form = form;
         }
 
-        private WerewolfMinionData() {
+        public WerewolfMinionData() {
+            super();
         }
 
         @Override
@@ -265,7 +256,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void resetStats(MinionEntity<?> entity) {
+        public void resetStats(@NotNull MinionEntity<?> entity) {
             this.inventoryLevel = 0;
             this.strengthLevel = 0;
             this.healthLevel = 0;
@@ -296,7 +287,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public boolean upgradeStat(int statId, MinionEntity<?> entity) {
+        public boolean upgradeStat(int statId, @NotNull MinionEntity<?> entity) {
             if (super.upgradeStat(statId, entity)) return true;
             if (getRemainingStatPoints() == 0) {
                 LOGGER.warn("Cannot upgrade minion stat as no stat points are left");
@@ -337,7 +328,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void deserializeNBT(CompoundTag nbt) {
+        public void deserializeNBT(@NotNull CompoundTag nbt) {
             super.deserializeNBT(nbt);
             this.level = nbt.getInt("level");
             this.inventoryLevel = nbt.getInt("l_inv");
@@ -352,7 +343,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void serializeNBT(CompoundTag tag) {
+        public void serializeNBT(@NotNull CompoundTag tag) {
             super.serializeNBT(tag);
             tag.putInt("level", this.level);
             tag.putInt("l_inv", this.inventoryLevel);
@@ -373,6 +364,22 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
 
         public void setIncreasedStats(boolean hasIncreasedStats) {
             this.hasIncreasedStats = hasIncreasedStats;
+        }
+
+        public void setSkinType(int skinType) {
+            this.skinType = skinType;
+        }
+
+        public void setEyeType(int eyeType) {
+            this.eyeType = eyeType;
+        }
+
+        public void setGlowingEyes(boolean glowingEyes) {
+            this.glowingEyes = glowingEyes;
+        }
+
+        public void setForm(WerewolfForm form) {
+            this.form = form;
         }
     }
 }

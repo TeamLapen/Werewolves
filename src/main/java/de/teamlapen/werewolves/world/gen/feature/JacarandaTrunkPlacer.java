@@ -19,9 +19,7 @@ import java.util.function.BiConsumer;
 
 public class JacarandaTrunkPlacer extends TrunkPlacer {
 
-    public static final Codec<JacarandaTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> {
-        return trunkPlacerParts(instance).apply(instance, JacarandaTrunkPlacer::new);
-    });
+    public static final Codec<JacarandaTrunkPlacer> CODEC = RecordCodecBuilder.create(instance -> trunkPlacerParts(instance).apply(instance, JacarandaTrunkPlacer::new));
 
     public JacarandaTrunkPlacer(int pBaseHeight, int pHeightRandA, int pHeightRandB) {
         super(pBaseHeight, pHeightRandA, pHeightRandB);

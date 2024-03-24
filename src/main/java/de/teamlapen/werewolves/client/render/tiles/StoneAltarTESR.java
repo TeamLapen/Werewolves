@@ -11,12 +11,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-@OnlyIn(Dist.CLIENT)
 public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity> {
     private static final ItemStack LIVER_STACK = ModItems.LIVER.get().getDefaultInstance();
     private static final ItemStack BONE_STACK = ModItems.CRACKED_BONE.get().getDefaultInstance();

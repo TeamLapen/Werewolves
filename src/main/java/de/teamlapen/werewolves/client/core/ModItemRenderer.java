@@ -4,14 +4,13 @@ import de.teamlapen.vampirism.api.entity.player.refinement.IRefinementSet;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.items.CrossbowArrowItem;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import org.jetbrains.annotations.ApiStatus;
 
-@OnlyIn(Dist.CLIENT)
 public class ModItemRenderer {
 
-    static void registerColors(RegisterColorHandlersEvent.Item event) {
+    @ApiStatus.Internal
+    public static void registerColors(RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
                 return ((CrossbowArrowItem) stack.getItem()).getType().color;

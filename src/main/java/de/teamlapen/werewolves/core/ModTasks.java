@@ -21,9 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 
 @SuppressWarnings("unused")
 public class ModTasks {
@@ -44,7 +41,7 @@ public class ModTasks {
     public static final ResourceKey<Task> RANDOM_RARE_REFINEMENT = key("random_rare_refinement");
 
     private static ResourceKey<Task> key(String path) {
-        return ResourceKey.create(VampirismRegistries.TASK_ID, new ResourceLocation(REFERENCE.MODID, path));
+        return ResourceKey.create(VampirismRegistries.Keys.TASK, new ResourceLocation(REFERENCE.MODID, path));
     }
 
     public static void createTasks(BootstapContext<Task> context) {
@@ -82,7 +79,7 @@ public class ModTasks {
                 .addRequirement(ModTags.Entities.HUNTER, 10)
                 .addRequirement(new ItemStack(ModItems.WEREWOLF_TOOTH.get(), 2))
                 .addRequirement(new ItemStack(Items.GOLD_INGOT, 32))
-                .addRequirement(ModStats.win_village_capture, 3)
+                .addRequirement(ModStats.WIN_VILLAGE_CAPTURE.get(), 3)
                 .build());
         context.register(WEREWOLF_LORD_2, TaskBuilder.builder(WEREWOLF_LORD_2).defaultTitle().setReward(new LordLevelReward(2))
                 .unlockedBy(new LordLvlUnlocker(1, true))
@@ -111,7 +108,7 @@ public class ModTasks {
                 .addRequirement(ModTags.Entities.HUNTER, 50)
                 .addRequirement(new ItemStack(ModItems.WEREWOLF_TOOTH.get(), 4))
                 .addRequirement(new ItemStack(Items.GOLD_INGOT, 64))
-                .addRequirement(ModStats.capture_village, 6)
+                .addRequirement(ModStats.CAPTURE_VILLAGE.get(), 6)
                 .build());
         context.register(RANDOM_REFINEMENT_1, TaskBuilder.builder(RANDOM_REFINEMENT_1).defaultTitle().addRequirement(ModTags.Entities.ADVANCED_HUNTER, 10)
                 .addRequirement(new ItemStack(Items.GOLD_INGOT, 2))

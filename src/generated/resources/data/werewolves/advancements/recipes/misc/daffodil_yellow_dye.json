@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_daffodil",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_daffodil"
     ]
   ],
   "rewards": {
     "recipes": [
       "werewolves:daffodil_yellow_dye"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

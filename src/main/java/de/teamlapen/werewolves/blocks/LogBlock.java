@@ -13,8 +13,8 @@ import net.minecraft.world.level.material.MapColor;
 
 public class LogBlock extends RotatedPillarBlock {
 
-    public static final BlockSetType JACARANDA_BLOCK_TYPE = BlockSetType.register(new BlockSetType("jacaranda"));
-    public static final BlockSetType MAGIC_BLOCK_TYPE = BlockSetType.register(new BlockSetType("magic"));
+    public static final BlockSetType JACARANDA_BLOCK_TYPE = WBlockSetTypes.JACARANDA;
+    public static final BlockSetType MAGIC_BLOCK_TYPE = WBlockSetTypes.MAGIC;
     public static final WoodType JACARANDA = WoodType.register(new WoodType("werewolves:jacaranda", JACARANDA_BLOCK_TYPE));
     public static final WoodType MAGIC = WoodType.register(new WoodType("werewolves:magic", MAGIC_BLOCK_TYPE));
 

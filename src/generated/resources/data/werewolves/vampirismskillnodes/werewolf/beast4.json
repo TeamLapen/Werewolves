@@ -1,7 +1,0 @@
-{
-  "parent": "werewolves:werewolf/beast3",
-  "skills": [
-    "werewolves:stun_bite",
-    "werewolves:bleeding_bite"
-  ]
-}

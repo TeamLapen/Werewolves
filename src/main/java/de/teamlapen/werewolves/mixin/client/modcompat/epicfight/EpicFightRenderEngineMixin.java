@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.mixin.client.modcompat.epicfight;
 import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.client.event.RenderLivingEvent;
+import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;

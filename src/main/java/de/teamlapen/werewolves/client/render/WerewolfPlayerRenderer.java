@@ -18,12 +18,10 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class WerewolfPlayerRenderer<T extends LivingEntity, E extends HumanoidModel<T>> extends LivingEntityRenderer<T, E>  {
 
     public static Optional<String> getWerewolfRenderer(AbstractClientPlayer player) {
@@ -61,7 +59,7 @@ public abstract class WerewolfPlayerRenderer<T extends LivingEntity, E extends H
     }
 
     @Override
-    protected void setupRotations(T pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+    protected void setupRotations(T pEntityLiving, @NotNull PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         float f = pEntityLiving.getSwimAmount(pPartialTicks);
         if (pEntityLiving.isFallFlying()) {
             super.setupRotations(pEntityLiving, pMatrixStack, pAgeInTicks, pRotationYaw, pPartialTicks);

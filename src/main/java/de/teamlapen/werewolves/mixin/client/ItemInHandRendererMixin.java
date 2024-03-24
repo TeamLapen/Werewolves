@@ -1,18 +1,10 @@
 package de.teamlapen.werewolves.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import de.teamlapen.werewolves.client.core.ClientRegistryHandler;
-import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
-import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.client.WerewolvesModClient;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.entity.HumanoidArm;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,14 +20,14 @@ public class ItemInHandRendererMixin {
 
     @Inject(method = "renderPlayerArm", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/EntityRenderDispatcher;getRenderer(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/client/renderer/entity/EntityRenderer;", shift = At.Shift.BEFORE), cancellable = true)
     private void renderWerewolfPlayerArm(PoseStack stack, MultiBufferSource bufferSource, int pCombinedLight, float p_109350_, float p_109351_, HumanoidArm arm, CallbackInfo ci) {
-        if (ClientRegistryHandler.getModPlayerRenderer().renderArm(this.minecraft.player, stack, bufferSource, pCombinedLight, arm)) {
+        if (WerewolvesModClient.getInstance().getModPlayerRenderer().renderArm(this.minecraft.player, stack, bufferSource, pCombinedLight, arm)) {
             ci.cancel();
         }
     }
 
     @Inject(method = "renderMapHand", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/EntityRenderDispatcher;getRenderer(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/client/renderer/entity/EntityRenderer;", shift = At.Shift.BEFORE), cancellable = true)
     private void renderWerewolfMapHand(PoseStack p_109362_, MultiBufferSource p_109363_, int p_109364_, HumanoidArm p_109365_, CallbackInfo ci) {
-        if (ClientRegistryHandler.getModPlayerRenderer().renderArmMap(this.minecraft.player, p_109362_, p_109363_, p_109364_, p_109365_)) {
+        if (WerewolvesModClient.getInstance().getModPlayerRenderer().renderArmMap(this.minecraft.player, p_109362_, p_109363_, p_109364_, p_109365_)) {
             ci.cancel();
         }
     }

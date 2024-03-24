@@ -4,7 +4,7 @@ import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class ModRegistries {
 
@@ -12,9 +12,11 @@ public class ModRegistries {
             .add(Registries.BIOME, ModBiomes::createBiomes)
             .add(Registries.CONFIGURED_FEATURE, WerewolvesBiomeFeatures::createConfiguredFeatures)
             .add(Registries.PLACED_FEATURE, WerewolvesBiomeFeatures::createPlacedFeatures)
-            .add(ForgeRegistries.Keys.BIOME_MODIFIERS, WerewolvesBiomeFeatures::createBiomeModifier)
+            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, WerewolvesBiomeFeatures::createBiomeModifier)
             .add(Registries.DAMAGE_TYPE, ModDamageTypes::createDamageTypes)
-            .add(VampirismRegistries.TASK_ID, ModTasks::createTasks)
+            .add(VampirismRegistries.Keys.TASK, ModTasks::createTasks)
+            .add(VampirismRegistries.Keys.SKILL_NODE, ModSkills.Nodes::createSkillNodes)
+            .add(VampirismRegistries.Keys.SKILL_TREE, ModSkills.Trees::createSkillTrees)
             ;
 
 }

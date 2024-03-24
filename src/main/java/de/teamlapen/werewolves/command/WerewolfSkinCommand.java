@@ -32,7 +32,7 @@ public class WerewolfSkinCommand extends BasicCommand {
 
     @SuppressWarnings("SameReturnValue")
     private static int setSkin(CommandContext<CommandSourceStack> context, Player playerEntity, int type, WerewolfForm form) {
-        WerewolfPlayer.getOpt(playerEntity).ifPresent(w -> w.setSkinType(form, type));
+        WerewolfPlayer.get(playerEntity).setSkinType(form, type);
         return 0;
     }
 }

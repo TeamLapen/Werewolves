@@ -36,9 +36,7 @@ public class DefendLeaderGoal<T extends Mob & IEntityFollower> extends TargetGoa
 
     public void start() {
         this.mob.setTarget(this.attacker);
-        this.entity.getLeader().ifPresent(leader -> {
-            this.timestamp = leader.getRepresentingEntity().getLastHurtByMobTimestamp();
-        });
+        this.entity.getLeader().ifPresent(leader -> this.timestamp = leader.getRepresentingEntity().getLastHurtByMobTimestamp());
         super.start();
     }
 }

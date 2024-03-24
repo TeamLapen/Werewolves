@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.blocks;
 
+import com.mojang.serialization.MapCodec;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
@@ -30,9 +31,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.NotNull;
 
 public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
@@ -40,6 +43,7 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     private static final VoxelShape SAPLING_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 8.0D, 13.0D);
     private static final VoxelShape MID_GROWTH_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
+    protected static final MapCodec<WolfBerryBushBlock> CODEC = simpleCodec(WolfBerryBushBlock::new);
 
     public WolfBerryBushBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -47,8 +51,13 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public @NotNull ItemStack getCloneItemStack(@NotNull BlockGetter block, @NotNull BlockPos pos, @NotNull BlockState state) {
-        return new ItemStack(ModItems.WOLF_BERRIES.get());
+    protected @NotNull MapCodec<? extends BushBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public @NotNull ItemStack getCloneItemStack(@NotNull BlockState state, @NotNull HitResult target, @NotNull LevelReader level, @NotNull BlockPos pos, @NotNull Player player) {
+        return ModItems.WOLF_BERRIES.asItem().getDefaultInstance();
     }
 
     @Override
@@ -68,11 +77,11 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
     @Override
     public void randomTick(BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         int i = state.getValue(AGE);
-        if (i < MAX_AGE && level.getRawBrightness(pos.above(), 0) >= 9 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt(5) == 0)) {
+        if (i < MAX_AGE && level.getRawBrightness(pos.above(), 0) >= 9 && CommonHooks.onCropsGrowPre(level, pos, state, random.nextInt(5) == 0)) {
             BlockState blockstate = state.setValue(AGE, i + 1);
             level.setBlock(pos, blockstate, 2);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(blockstate));
-            net.minecraftforge.common.ForgeHooks.onCropsGrowPost(level, pos, state);
+            CommonHooks.onCropsGrowPost(level, pos, state);
         }
     }
 
@@ -113,7 +122,7 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, BlockState state, boolean p_50900_) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader p_256559_, @NotNull BlockPos p_50898_, BlockState state) {
         return state.getValue(AGE) < MAX_AGE;
     }
 

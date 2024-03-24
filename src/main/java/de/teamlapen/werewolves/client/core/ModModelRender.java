@@ -15,8 +15,10 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.WolfRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.asm.mixin.injection.Inject;
 
 public class ModModelRender {
 
@@ -27,7 +29,8 @@ public class ModModelRender {
     public static final ModelLayerLocation EARS_CLAWS_SLIM = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "slim");
     public static final ModelLayerLocation WOLF_HEAD = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "wolf_head"), "main");
 
-    static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+    @ApiStatus.Internal
+    public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.ALPHA_WEREWOLF.get(), WerewolfAlphaRenderer::new);
         event.registerEntityRenderer(ModEntities.WEREWOLF_BEAST.get(), WerewolfBeastRenderer::new);
         event.registerEntityRenderer(ModEntities.WEREWOLF_SURVIVALIST.get(), WerewolfSurvivalistRenderer::new);
@@ -39,7 +42,8 @@ public class ModModelRender {
         event.registerEntityRenderer(ModEntities.CHEST_BOAT.get(), context -> new WerewolvesBoatRenderer(context, true));
     }
 
-    static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+    @ApiStatus.Internal
+    public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(EARS_CLAWS, WerewolfEarsModel::createDefaultLayer);
         event.registerLayerDefinition(EARS_CLAWS_SLIM, WerewolfEarsModel::createSlimLayer);
         event.registerLayerDefinition(WEREWOLF_4L, Werewolf4LModel::createBodyLayer);

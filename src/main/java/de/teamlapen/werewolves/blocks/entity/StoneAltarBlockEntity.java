@@ -32,12 +32,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,7 +52,6 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     private Player player;
     private UUID playerUuid;
     private int ticks;
-    private final LazyOptional<IItemHandler> itemHandlerOptional = LazyOptional.of(this::createWrapper);
     private List<BlockPos> fire_bowls;
 
     public StoneAltarBlockEntity(BlockPos pos, BlockState state) {
@@ -118,7 +115,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
 
     public boolean loadRitual(UUID playerUuid) {
         if (this.level == null) return false;
-        if (this.level.players().size() == 0) return false;
+        if (this.level.players().isEmpty()) return false;
         this.player = this.level.getPlayerByUUID(playerUuid);
         if (this.player != null && player.isAlive()) {
             this.targetLevel = WerewolfPlayer.get(player).getLevel() + 1;
@@ -164,21 +161,20 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     }
 
     public void endRitual() {
-        WerewolfPlayer.getOpt(this.player).ifPresent(werewolf -> {
-            werewolf.getLevelHandler().reset();
-            werewolf.syncLevelHandler();
-        });
-        FactionPlayerHandler.getOpt(this.player).ifPresent(handler -> {
-            int lvl = handler.getCurrentLevel() + 1;
-            handler.setFactionLevel(WReference.WEREWOLF_FACTION, lvl);
-        });
+        WerewolfPlayer werewolf = WerewolfPlayer.get(this.player);
+        werewolf.getLevelHandler().reset();
+        werewolf.syncLevelHandler();
+        FactionPlayerHandler handler = FactionPlayerHandler.get(this.player);
+        int lvl = handler.getCurrentLevel() + 1;
+        handler.setFactionLevel(WReference.WEREWOLF_FACTION, lvl);
     }
 
     public void consumeItems() {
-        FactionPlayerHandler.getOpt(this.player).map(FactionPlayerHandler::getCurrentLevel).map(s -> ((WerewolfLevelConf.StoneAltarRequirement) WerewolfLevelConf.getInstance().getRequirement(s+1))).ifPresent(req -> {
-            this.getItem(0).shrink(req.liverAmount);
-            this.getItem(1).shrink(req.bonesAmount);
-        });
+        WerewolfLevelConf.LevelRequirement requirement = WerewolfLevelConf.getInstance().getRequirement(FactionPlayerHandler.get(this.player).getCurrentLevel() + 1);
+        if (requirement instanceof WerewolfLevelConf.StoneAltarRequirement stoneAltarRequirement) {
+            this.getItem(0).shrink(stoneAltarRequirement.liverAmount);
+            this.getItem(1).shrink(stoneAltarRequirement.bonesAmount);
+        }
     }
 
     public Phase getCurrentPhase() {
@@ -203,7 +199,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
             return Result.NIGHT_ONLY;
         } else if (!checkItemRequirements(player)) {
             return Result.INV_MISSING;
-        } else if (!WerewolfPlayer.getOpt(player).map(w -> w.getLevelHandler().canLevelUp()).orElse(false) && !VampirismMod.inDev) {
+        } else if (!WerewolfPlayer.get(player).getLevelHandler().canLevelUp() && !VampirismMod.inDev) {
             return Result.TO_LESS_BLOOD;
         }
         return Result.OK;
@@ -279,9 +275,8 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
         return tag;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+    public void onDataPacket(@NotNull Connection net, @NotNull ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
         if (pkt.getTag() != null) {
             this.load(pkt.getTag());//TODO check
@@ -289,7 +284,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
+    public void handleUpdateTag(@NotNull CompoundTag tag) {
         super.handleUpdateTag(tag);
     }
 

@@ -34,6 +34,7 @@ import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -129,7 +130,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public boolean killedEntity(ServerLevel level, LivingEntity entity) {
+    public boolean killedEntity(@NotNull ServerLevel level, @NotNull LivingEntity entity) {
         super.killedEntity(level, entity);
         if (entity instanceof WerewolfAlphaEntity) {
             this.setHealth(this.getMaxHealth());
@@ -158,9 +159,9 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     public int suggestEntityLevel(Difficulty d) {
-        int avg = Math.round(((d.avgPercLevel) / 100F - 5 / 14F) / (1F - 5 / 14F) * MAX_LEVEL);
-        int max = Math.round(((d.maxPercLevel) / 100F - 5 / 14F) / (1F - 5 / 14F) * MAX_LEVEL);
-        int min = Math.round(((d.minPercLevel) / 100F - 5 / 14F) / (1F - 5 / 14F) * (MAX_LEVEL));
+        int avg = Math.round(((d.avgPercLevel()) / 100F - 5 / 14F) / (1F - 5 / 14F) * MAX_LEVEL);
+        int max = Math.round(((d.maxPercLevel()) / 100F - 5 / 14F) / (1F - 5 / 14F) * MAX_LEVEL);
+        int min = Math.round(((d.minPercLevel()) / 100F - 5 / 14F) / (1F - 5 / 14F) * (MAX_LEVEL));
 
         return switch (random.nextInt(7)) {
             case 0 -> min;
@@ -200,9 +201,9 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, AbstractSkeleton.class, false));
     }
 
-    private boolean isLowerLevel(LivingEntity player) {
-        if (player instanceof Player) {
-            int playerLevel = FactionPlayerHandler.getOpt((Player) player).map(FactionPlayerHandler::getCurrentLevel).orElse(0);
+    private boolean isLowerLevel(LivingEntity entity) {
+        if (entity instanceof Player player) {
+            int playerLevel = FactionPlayerHandler.get(player).getCurrentLevel();
             return (playerLevel - 8) / 2F - this.getEntityLevel() <= 0;
         }
         return false;

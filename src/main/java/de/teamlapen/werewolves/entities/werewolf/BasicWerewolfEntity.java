@@ -39,6 +39,7 @@ import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WerewolfVillageData;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -65,7 +66,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -211,7 +211,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         }
         if (nbt.contains("transformed")) {
             ResourceLocation id = new ResourceLocation(nbt.getString("transformed_id"));
-            EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(id);
+            EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(id);
+            //noinspection ConstantValue
             if (type != null) {
                 Entity entity = type.create(this.level());
                 if (entity instanceof LivingEntity && entity instanceof WerewolfTransformable) {
@@ -282,33 +283,32 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Nonnull
     @Override
     protected InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
-        int werewolfLevel = WerewolfPlayer.getOpt(player).map(FactionBasePlayer::getLevel).orElse(0);
+        int werewolfLevel = WerewolfPlayer.get(player).getLevel();
         if (werewolfLevel > 0) {
-            FactionPlayerHandler.getOpt(player).ifPresent(fph -> {
-                if (fph.getMaxMinions() > 0) {
-                    ItemStack heldItem = player.getItemInHand(hand);
+            FactionPlayerHandler fph = FactionPlayerHandler.get(player);
+            if (fph.getMaxMinions() > 0) {
+                ItemStack heldItem = player.getItemInHand(hand);
 
-                    if (this.getEntityLevel() > 0) {
-                        if (heldItem.getItem() == ModItems.WEREWOLF_MINION_CHARM.get()) {
-                            player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.unavailable"), true);
+                if (this.getEntityLevel() > 0) {
+                    if (heldItem.getItem() == ModItems.WEREWOLF_MINION_CHARM.get()) {
+                        player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.unavailable"), true);
+                    }
+                } else {
+                    boolean freeSlot = MinionWorldData.getData(player.level()).map(data -> data.getOrCreateController(fph)).map(PlayerMinionController::hasFreeMinionSlot).orElse(false);
+                    player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.available"), false);
+                    if (heldItem.getItem() == ModItems.WEREWOLF_MINION_CHARM.get()) {
+                        if (!freeSlot) {
+                            player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.no_free_slot"), false);
+                        } else {
+                            player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.start_serving"), false);
+                            convertToMinion(player);
+                            if (!player.getAbilities().instabuild) heldItem.shrink(1);
                         }
-                    } else {
-                        boolean freeSlot = MinionWorldData.getData(player.level()).map(data -> data.getOrCreateController(fph)).map(PlayerMinionController::hasFreeMinionSlot).orElse(false);
-                        player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.available"), false);
-                        if (heldItem.getItem() == ModItems.WEREWOLF_MINION_CHARM.get()) {
-                            if (!freeSlot) {
-                                player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.no_free_slot"), false);
-                            } else {
-                                player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.start_serving"), false);
-                                convertToMinion(player);
-                                if (!player.getAbilities().instabuild) heldItem.shrink(1);
-                            }
-                        } else if (freeSlot) {
-                            player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.WEREWOLF_MINION_CHARM.get().getDescriptionId())), false);
-                        }
+                    } else if (freeSlot) {
+                        player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.WEREWOLF_MINION_CHARM.get().getDescriptionId())), false);
                     }
                 }
-            });
+            }
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
@@ -318,36 +318,35 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
      * Assumes preconditions as been met. Checks conditions but does not give feedback to user
      */
     public void convertToMinion(Player lord) {
-        FactionPlayerHandler.getOpt(lord).ifPresent(fph -> {
-            if (fph.getMaxMinions() > 0) {
-                MinionWorldData.getData(lord.level()).map(w -> w.getOrCreateController(fph)).ifPresent(controller -> {
-                    if (controller.hasFreeMinionSlot()) {
-                        if (fph.getCurrentFaction() == this.getFaction()) {
-                            boolean hasIncreasedStats = fph.getCurrentFactionPlayer().map(IFactionPlayer::getSkillHandler).map(skillHandler -> skillHandler.isSkillEnabled(ModSkills.MINION_STATS_INCREASE.get())).orElse(false);
-                            WerewolfMinionEntity.WerewolfMinionData data = new WerewolfMinionEntity.WerewolfMinionData("Minion", this.getSkinType(), this.getEyeType(), this.hasGlowingEyes(), this.getForm(), hasIncreasedStats);
-                            int id = controller.createNewMinionSlot(data, ModEntities.WEREWOLF_MINION.get());
-                            if (id < 0) {
-                                LOGGER.error("Failed to get minion slot");
-                                return;
-                            }
-                            WerewolfMinionEntity minion = ModEntities.WEREWOLF_MINION.get().create(this.level());
-                            minion.claimMinionSlot(id, controller);
-                            minion.copyPosition(this);
-                            minion.markAsConverted();
-                            controller.activateTask(0, MinionTasks.STAY.get());
-                            UtilLib.replaceEntity(this, minion);
-
-                        } else {
-                            LOGGER.warn("Wrong faction for minion");
+        FactionPlayerHandler fph = FactionPlayerHandler.get(lord);
+        if (fph.getMaxMinions() > 0) {
+            MinionWorldData.getData(lord.level()).map(w -> w.getOrCreateController(fph)).ifPresent(controller -> {
+                if (controller.hasFreeMinionSlot()) {
+                    if (fph.getCurrentFaction() == this.getFaction()) {
+                        boolean hasIncreasedStats = fph.getCurrentFactionPlayer().map(IFactionPlayer::getSkillHandler).map(skillHandler -> skillHandler.isSkillEnabled(ModSkills.MINION_STATS_INCREASE.get())).orElse(false);
+                        WerewolfMinionEntity.WerewolfMinionData data = new WerewolfMinionEntity.WerewolfMinionData("Minion", this.getSkinType(), this.getEyeType(), this.hasGlowingEyes(), this.getForm(), hasIncreasedStats);
+                        int id = controller.createNewMinionSlot(data, ModEntities.WEREWOLF_MINION.get());
+                        if (id < 0) {
+                            LOGGER.error("Failed to get minion slot");
+                            return;
                         }
+                        WerewolfMinionEntity minion = ModEntities.WEREWOLF_MINION.get().create(this.level());
+                        minion.claimMinionSlot(id, controller);
+                        minion.copyPosition(this);
+                        minion.markAsConverted();
+                        controller.activateTask(0, MinionTasks.STAY.get());
+                        UtilLib.replaceEntity(this, minion);
+
                     } else {
-                        LOGGER.warn("No free slot");
+                        LOGGER.warn("Wrong faction for minion");
                     }
-                });
-            } else {
-                LOGGER.error("Can't have minions");
-            }
-        });
+                } else {
+                    LOGGER.warn("No free slot");
+                }
+            });
+        } else {
+            LOGGER.error("Can't have minions");
+        }
     }
 
     @Override
@@ -363,9 +362,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     @Override
     public int suggestEntityLevel(Difficulty difficulty) {
         return switch (this.random.nextInt(5)) {
-            case 0 -> (int) (difficulty.minPercLevel / 100F * MAX_LEVEL);
-            case 1 -> (int) (difficulty.avgPercLevel / 100F * MAX_LEVEL);
-            case 2 -> (int) (difficulty.maxPercLevel / 100F * MAX_LEVEL);
+            case 0 -> (int) (difficulty.minPercLevel() / 100F * MAX_LEVEL);
+            case 1 -> (int) (difficulty.avgPercLevel() / 100F * MAX_LEVEL);
+            case 2 -> (int) (difficulty.maxPercLevel() / 100F * MAX_LEVEL);
             default -> this.random.nextInt(MAX_LEVEL + 1);
         };
     }

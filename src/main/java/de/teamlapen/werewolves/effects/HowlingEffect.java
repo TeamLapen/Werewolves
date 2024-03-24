@@ -20,27 +20,4 @@ public class HowlingEffect extends WerewolvesEffect {
         this.addAttributeModifier(Attributes.ATTACK_SPEED, ATTACK_SPEED, 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
-    @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
-        return duration == WerewolvesConfig.BALANCE.SKILLS.howling_disabled_duration.get() * 20;
-    }
-
-    @Override
-    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
-        this.removeAttributeModifiers(entityLivingBaseIn, entityLivingBaseIn.getAttributes(), amplifier);
-    }
-
-    @Override
-    public void removeAttributeModifiers(@Nonnull LivingEntity entityLivingBaseIn, @Nonnull AttributeMap attributeMapIn, int amplifier) {
-        if (Helper.isWerewolf(entityLivingBaseIn)) {
-            super.removeAttributeModifiers(entityLivingBaseIn, attributeMapIn, amplifier);
-        }
-    }
-
-    @Override
-    public void addAttributeModifiers(@Nonnull LivingEntity entityLivingBaseIn, @Nonnull AttributeMap attributeMapIn, int amplifier) {
-        if (Helper.isWerewolf(entityLivingBaseIn)) {
-            super.addAttributeModifiers(entityLivingBaseIn, attributeMapIn, amplifier);
-        }
-    }
 }

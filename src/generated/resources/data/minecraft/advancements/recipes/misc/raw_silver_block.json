@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_raw_silver",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_raw_silver"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:raw_silver_block"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

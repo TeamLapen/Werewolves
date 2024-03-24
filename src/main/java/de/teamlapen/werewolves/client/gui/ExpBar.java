@@ -8,6 +8,7 @@ import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.LevelHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.util.MultilineTooltipEx;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -24,13 +25,14 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ExpBar extends AbstractWidget {
     private static final ResourceLocation ICON = new ResourceLocation(REFERENCE.MODID, "textures/gui/exp_bar.png");
 
     public ExpBar(int xIn, int yIn) {
         super(xIn, yIn, 15, 123, Component.translatable("text.werewolves.skill_screen.level_progression", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100)));
-        this.setTooltip(new MultilineTooltip(createToolTip()));
+        this.setTooltip(new MultilineTooltipEx(createToolTip()));
     }
 
     @Override
@@ -40,18 +42,13 @@ public class ExpBar extends AbstractWidget {
         float perc = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc();
 
         int ySize = ((int) (111 * perc));
-        int color = VampirismAPI.getFactionPlayerHandler(Minecraft.getInstance().player).map(IFactionPlayerHandler::getCurrentFaction).map(IFaction::getColor).orElse(Color.WHITE.getRGB());
+        int color = Optional.ofNullable(VampirismAPI.factionPlayerHandler(Minecraft.getInstance().player).getCurrentFaction()).map(IFaction::getColor).orElse(Color.WHITE.getRGB());
         graphics.setColor(((color >> 16) & 0xFF) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, 1.0F);
 
         graphics.blit(ICON, this.getX() + 5, this.getY() + 6, 0, 0, 5, 111);
         graphics.blit(ICON, this.getX() + 5, this.getY() + 6 + (111 - ySize), 5, (111 - ySize), 5, ySize);
 
         graphics.setColor(1, 1, 1, 1);
-    }
-
-    @Override
-    protected @NotNull ClientTooltipPositioner createTooltipPositioner() {
-        return DefaultTooltipPositioner.INSTANCE;
     }
 
     public List<Component> createToolTip() {
