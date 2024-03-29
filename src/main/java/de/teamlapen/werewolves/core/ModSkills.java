@@ -68,12 +68,12 @@ public class ModSkills {
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> WATER_LOVER = SKILLS.register("water_lover", () -> new SimpleWerewolfSkill(true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> FREE_WILL = SKILLS.register("free_will", () -> new SimpleWerewolfSkill(true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> WEAR_ARMOR = SKILLS.register("wear_armor", () -> new SimpleWerewolfSkill(3).defaultDescWithFormRequirement(HUMAN_FORM::get));
-    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> SILVER_BLOODED = SKILLS.register("silver_blooded", () -> new SimpleWerewolfSkill(true));
+    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> SILVER_BLOODED = SKILLS.register("silver_blooded", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(HUMAN_FORM::get));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> HIDE_NAME = SKILLS.register("hide_name", () -> new ActionSkill<>(ModActions.HIDE_NAME, Trees.LEVEL, 1,true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> FEAR = SKILLS.register("fear", () -> new ActionSkill<>(ModActions.FEAR, Trees.LEVEL, 1,true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> SIXTH_SENSE = SKILLS.register("sixth_sense", () -> new SimpleWerewolfSkill(1,true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> HEALTH_REG = SKILLS.register("health_reg", () -> new SimpleWerewolfSkill(true));
-    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> THICK_FUR = SKILLS.register("thick_fur", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get));
+    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> THICK_FUR = SKILLS.register("thick_fur", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get, HUMAN_FORM::get));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> DIGGER = SKILLS.register("digger", DiggerSkill::new);
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> ENHANCED_DIGGER = SKILLS.register("enhanced_digger", DiggerSkill::new);
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> MINION_STATS_INCREASE = SKILLS.register("werewolf_minion_stats_increase", () -> new SimpleWerewolfSkill.LordWerewolfSkill(2, true).setToggleActions(IWerewolfPlayer::updateMinionAttributes));
@@ -133,7 +133,7 @@ public class ModSkills {
             context.register(BEAST1, new SkillNode(ModSkills.RAGE));
             context.register(BEAST2, new SkillNode(ModSkills.BEAST_FORM));
             context.register(BEAST3_1, new SkillNode(ModSkills.DAMAGE));
-            context.register(BEAST3, new SkillNode(ModSkills.THICK_FUR, ModSkills.RESISTANCE));
+            context.register(BEAST3, new SkillNode(ModSkills.THICK_FUR));
             context.register(BEAST4, new SkillNode(ModSkills.STUN_BITE, ModSkills.BLEEDING_BITE));
             context.register(BEAST5, new SkillNode(ModSkills.HEALTH_AFTER_KILL));
             context.register(BEAST6, new SkillNode(ModSkills.BEAST_RAGE));

@@ -50,6 +50,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         public final AttributeModifier.Operation operation;
         public final double dayModifier;
 
+        public Modifier(Attribute attribute, UUID uuid, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
+            this(attribute, uuid, uuid, 1, name, player -> valueFunction.get(), operation);
+        }
+
         public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
             this(attribute, dayUuid, nightUuid, dayModifier, name, player -> valueFunction.get(), operation);
         }

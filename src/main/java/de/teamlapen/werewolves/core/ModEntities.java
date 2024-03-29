@@ -89,6 +89,8 @@ public class ModEntities {
     static void onModifyEntityTypeAttributes(EntityAttributeModificationEvent event) {
         event.add(EntityType.PLAYER, ModAttributes.BITE_DAMAGE.get());
         event.add(EntityType.PLAYER, ModAttributes.TIME_REGAIN.get());
+        event.add(EntityType.PLAYER, ModAttributes.FOOD_CONSUMPTION.get());
+        event.add(EntityType.PLAYER, ModAttributes.FOOD_GAIN.get());
     }
 
     public static Set<EntityType<?>> getAllEntities() {

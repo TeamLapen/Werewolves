@@ -71,7 +71,7 @@ public class ModEntityEventHandler {
     public void onEntityAttacked(AttackEntityEvent event) {
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
             if (event.getEntity().getMainHandItem().is(ModTags.Items.SILVER_TOOL)) {
-                ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createSilverEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get(), 0));
+                ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createSilverEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get(), 1));
             }
         }
         if (event.getTarget() instanceof WerewolfTransformable) {
@@ -112,7 +112,7 @@ public class ModEntityEventHandler {
                 float damageReduction = FormHelper.getForm(event.getEntity()).getDamageReduction();
                 if (event.getEntity() instanceof Player player) {
                     WerewolfPlayer werewolfPlayer = WerewolfPlayer.get(player);
-                    if (!werewolfPlayer.getForm().isHumanLike() && werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR.get())) {
+                    if (!werewolfPlayer.getForm().isTransformed() && werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR.get())) {
                         damageReduction *= WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get().floatValue();
                     }
                 }

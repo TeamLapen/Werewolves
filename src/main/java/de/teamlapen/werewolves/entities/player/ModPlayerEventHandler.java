@@ -248,7 +248,7 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void tickTool(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.END && Helper.isWerewolf(event.player)) {
-            if ((Helper.isSilverItem(event.player.getMainHandItem())) || Helper.isSilverItem(event.player.getOffhandItem()) && event.player.tickCount % 10 == 0) {
+            if ((Helper.isSilverItem(event.player.getMainHandItem())) || Helper.isSilverItem(event.player.getOffhandItem()) && event.player.level().getGameTime() % 10 == 0) {
                 event.player.addEffect(SilverEffect.createSilverEffect(event.player, 20, 1, true));
             }
             if (StreamSupport.stream(event.player.getArmorSlots().spliterator(), false).anyMatch(Helper::isSilverItem)) {

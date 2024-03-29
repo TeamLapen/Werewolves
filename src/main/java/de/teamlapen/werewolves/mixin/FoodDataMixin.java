@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.mixin;
 
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
@@ -22,18 +23,24 @@ public class FoodDataMixin {
 
     @ModifyVariable(method = "eat(Lnet/minecraft/world/item/Item;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V", at = @At("STORE"), ordinal = 0, remap = false)
     private FoodProperties eat(FoodProperties value, Item pItem, ItemStack pStack, @org.jetbrains.annotations.Nullable net.minecraft.world.entity.LivingEntity entity) {
+        FoodProperties returnValue = value;
         if (entity instanceof Player player && Helper.isWerewolf(player)) {
+            float foodConsumption = (float) player.getAttributeValue(ModAttributes.FOOD_GAIN.get());
             if (Helper.isMeat(player, pStack)) {
                 if (Helper.isRawMeatSkipMeat(pStack)) {
-                    return werewolves$builder(value).saturationMod(value.getSaturationModifier() * 2).nutrition(value.getNutrition() * 2).build();
+                    returnValue = werewolves$builder(value).saturationMod(value.getSaturationModifier() * 2 * foodConsumption).nutrition((int)(value.getNutrition() * 2 * foodConsumption)).build();
+                } else {
+                    returnValue = werewolves$builder(value).saturationMod(value.getSaturationModifier() * foodConsumption).nutrition((int)(value.getNutrition() * foodConsumption)).build();
                 }
             } else if (!WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT.get())) {
                 player.displayClientMessage(Component.translatable("text.werewolves.taste_not_right"), true);
-                return werewolves$builder(value).saturationMod(0).nutrition(0).build();
+                returnValue = werewolves$builder(value).saturationMod(0).nutrition(0).build();
+            } else {
+                returnValue = werewolves$builder(value).saturationMod(value.getSaturationModifier() * foodConsumption).nutrition((int)(value.getNutrition() * foodConsumption)).build();
             }
         }
 
-        return value;
+        return returnValue;
     }
 
     @Unique

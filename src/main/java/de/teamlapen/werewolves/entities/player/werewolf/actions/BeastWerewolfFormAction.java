@@ -8,6 +8,7 @@ import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.ModSkills;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -19,10 +20,12 @@ public class BeastWerewolfFormAction extends WerewolfFormAction {
         super(WerewolfForm.BEAST);
         attributes.add(new Modifier(ModAttributes.BITE_DAMAGE.get(), UUID.fromString("128d73ba-f99a-452a-96fc-494c317ee7e3"), UUID.fromString("4e32baca-7752-4323-8942-76891822e836"), 1, "beast_form_claw_damage", WerewolvesConfig.BALANCE.SKILLS.beast_form_bite_damage, AttributeModifier.Operation.ADDITION));
         attributes.add(new Modifier(Attributes.MAX_HEALTH, UUID.fromString("5b99db11-01cf-4430-bf41-ff6adc11ccb0"), UUID.fromString("d41d9079-15a0-414d-847e-8708b9226be5"), 0.5, "beast_form_health", WerewolvesConfig.BALANCE.SKILLS.beast_form_health, AttributeModifier.Operation.ADDITION));
-        attributes.add(new Modifier(Attributes.ARMOR, UUID.fromString("0b281a87-829f-4d98-9a3b-116549cfdd57"), UUID.fromString("faebe9f8-d133-44a7-b872-83560ca4d927"), 0.7, "beast_form_armor", () -> WerewolvesConfig.BALANCE.SKILLS.beast_form_armor.get() * 0.8, WerewolvesConfig.BALANCE.SKILLS.beast_form_armor, ModSkills.RESISTANCE, AttributeModifier.Operation.ADDITION));
+        attributes.add(new Modifier(Attributes.ARMOR, UUID.fromString("0b281a87-829f-4d98-9a3b-116549cfdd57"), UUID.fromString("faebe9f8-d133-44a7-b872-83560ca4d927"), 0.7, "beast_form_armor", WerewolvesConfig.BALANCE.SKILLS.beast_form_armor, AttributeModifier.Operation.ADDITION));
         attributes.add(new Modifier(Attributes.ARMOR_TOUGHNESS, UUID.fromString("f47e2130-39c4-496f-8d47-572abdc03920"), UUID.fromString("b8eb47be-1e10-41ce-8ff6-2a5c4aa4f408"), 0.7, "beast_form_armor_toughness", WerewolvesConfig.BALANCE.SKILLS.beast_form_armor_toughness, AttributeModifier.Operation.ADDITION));
         attributes.add(new Modifier(Attributes.MOVEMENT_SPEED, UUID.fromString("e9748d20-a9a5-470c-99a4-44167df71aa5"), UUID.fromString("cf0d3fce-6fb3-4274-842b-bced59637eaf"), 0.5, "beast_form_speed_amount", () -> WerewolvesConfig.BALANCE.SKILLS.beast_form_speed_amount.get() * 0.8, WerewolvesConfig.BALANCE.SKILLS.beast_form_speed_amount, ModSkills.SPEED, AttributeModifier.Operation.MULTIPLY_TOTAL));
         attributes.add(new Modifier(Attributes.ATTACK_DAMAGE, UUID.fromString("2792aac3-5ae1-47d9-8ba6-0b473b6b666a"), UUID.fromString("07a8e8e1-ff43-41f9-8053-c947482ef6c2"), 0.5, "beast_form_attack_damage", () -> WerewolvesConfig.BALANCE.SKILLS.beast_form_attack_damage.get() * 0.5, WerewolvesConfig.BALANCE.SKILLS.beast_form_attack_damage, ModSkills.DAMAGE, AttributeModifier.Operation.ADDITION));
+        attributes.add(new Modifier(ModAttributes.FOOD_CONSUMPTION.get(), UUID.fromString("bce20f12-06c5-4972-b9a3-5156fb6aaaff"), "beast_form_food_consumption", () -> WerewolvesConfig.BALANCE.SKILLS.beast_form_food_consumption.get(), AttributeModifier.Operation.MULTIPLY_TOTAL));
+        attributes.add(new Modifier(ModAttributes.FOOD_GAIN.get(), UUID.fromString("1778b124-bffa-48db-88e8-d2ed6d9189df"), "beast_form_food_gain", () -> WerewolvesConfig.BALANCE.SKILLS.beast_form_food_gain.get() - 1, AttributeModifier.Operation.MULTIPLY_TOTAL));
     }
 
     @Override

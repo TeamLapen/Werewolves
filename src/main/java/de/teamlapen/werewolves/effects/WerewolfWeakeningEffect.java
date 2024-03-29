@@ -18,10 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
 
@@ -81,8 +78,8 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
     public @NotNull Map<Attribute, AttributeModifierTemplate> getAttributeModifiers(@Nullable LivingEntity entity) {
         Map<Attribute, AttributeModifierTemplate> map = new HashMap<>();
         if (entity == null || Helper.isWerewolf(entity)) {
-            int level = 1;
-            int maxLevel = 1;
+            int level;
+            int maxLevel;
             if (entity instanceof Player player) {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(player);
                 level = werewolf.getLevel();
@@ -90,16 +87,24 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
             } else if (entity instanceof IWerewolf werewolf && werewolf instanceof IAdjustableLevel levelEntity) {
                 level = levelEntity.getEntityLevel();
                 maxLevel = levelEntity.getMaxEntityLevel();
+            } else {
+                level = 1;
+                maxLevel = 1;
             }
-            double value = LevelAttributeModifier.calculateModifierValue(level, maxLevel, 0.2f, 1.3);
-            this.modifiers.forEach(modifier -> map.put(modifier.attribute(), modifier.createModifier(value)));
+            this.modifiers.forEach(modifier -> map.put(modifier.attribute, modifier.createModifier(level, maxLevel)));
         }
         return map;
     }
 
-    protected record Modifier(Attribute attribute, UUID uuid, String name) {
+    protected record Modifier(Attribute attribute, UUID uuid, String name, float maxModifier, int startingAmplifier) {
 
-        public AttributeModifierTemplate createModifier(double value) {
+        Modifier(Attribute attribute, UUID uuid, String name, float maxModifier) {
+            this(attribute, uuid, name, maxModifier, 0);
+        }
+
+        public AttributeModifierTemplate createModifier(int level, int maxLevel) {
+            double value = LevelAttributeModifier.calculateModifierValue(level, maxLevel, this.maxModifier, 1.3);
+
             return new AttributeModifierTemplate() {
                 @Override
                 public @NotNull UUID getAttributeModifierId() {
@@ -107,8 +112,10 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
                 }
 
                 @Override
-                public @NotNull AttributeModifier create(int amplifier) {
-                    return new AttributeModifier(uuid(), name(), -value, AttributeModifier.Operation.MULTIPLY_TOTAL);
+                public @NotNull AttributeModifier create(int pAmplifier) {
+                    pAmplifier++;
+                    pAmplifier = Math.max(0, pAmplifier - startingAmplifier);
+                    return new AttributeModifier(uuid(), name(), -pAmplifier * value, AttributeModifier.Operation.MULTIPLY_TOTAL);
                 }
             };
         }
