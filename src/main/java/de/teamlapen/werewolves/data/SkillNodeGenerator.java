@@ -30,7 +30,7 @@ public class SkillNodeGenerator extends de.teamlapen.vampirism.data.provider.Ski
         ResourceLocation beast1 = werewolf(skill2, ModSkills.RAGE).build(consumer, this.modId("beast1"));
         ResourceLocation beast2 = werewolf(beast1, ModSkills.BEAST_FORM).build(consumer, this.modId("beast2"));
         ResourceLocation beast3_1 = werewolf(beast2, ModSkills.DAMAGE).build(consumer, this.modId("beast3_1"));
-        ResourceLocation beast3 = werewolf(beast2, ModSkills.THICK_FUR, ModSkills.RESISTANCE).build(consumer, this.modId("beast3"));
+        ResourceLocation beast3 = werewolf(beast2, ModSkills.THICK_FUR).build(consumer, this.modId("beast3"));
         ResourceLocation beast4 = werewolf(beast3, ModSkills.STUN_BITE, ModSkills.BLEEDING_BITE).build(consumer, this.modId("beast4"));
         ResourceLocation beast5 = werewolf(beast4, ModSkills.HEALTH_AFTER_KILL).build(consumer, this.modId("beast5"));
 

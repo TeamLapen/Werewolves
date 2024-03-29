@@ -71,7 +71,7 @@ public class ModEntityEventHandler {
     public void onEntityAttacked(AttackEntityEvent event) {
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
             if (event.getEntity().getMainHandItem().is(ModTags.Items.SILVER_TOOL)) {
-                ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createSilverEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get(), 0));
+                ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createSilverEffect(((LivingEntity) event.getTarget()), WerewolvesConfig.BALANCE.UTIL.silverItemEffectDuration.get(), 1));
             }
         }
         if (event.getTarget() instanceof WerewolfTransformable) {
@@ -110,7 +110,7 @@ public class ModEntityEventHandler {
             if (!event.getSource().is(DamageTypeTags.WITCH_RESISTANT_TO)) {
                 float damage = event.getAmount();
                 float damageReduction = FormHelper.getForm(event.getEntity()).getDamageReduction();
-                damageReduction *= event.getEntity() instanceof Player ? WerewolfPlayer.getOpt(((Player) event.getEntity())).filter(a -> !a.getForm().isHumanLike()).filter(a -> a.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR.get())).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
+                damageReduction *= event.getEntity() instanceof Player ? WerewolfPlayer.getOpt(((Player) event.getEntity())).filter(a -> !a.getForm().isTransformed()).filter(a -> a.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR.get())).map(a -> WerewolvesConfig.BALANCE.SKILLS.thick_fur_multiplier.get()).orElse(1D).floatValue() : 1F;
                 if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {
                     damageReduction *= 0.3f;
                 }

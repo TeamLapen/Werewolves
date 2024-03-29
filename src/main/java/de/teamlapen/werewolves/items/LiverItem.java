@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 
 public class LiverItem extends Item {
     public LiverItem() {
-        super(new Item.Properties().food(new FoodProperties.Builder().meat().nutrition(6).saturationMod(1.5f).build()));
+        super(new Item.Properties().food(new FoodProperties.Builder().meat().nutrition(6).saturationMod(0.5f).build()));
     }
 
     @Nonnull

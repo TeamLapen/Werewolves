@@ -6,6 +6,8 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
@@ -16,17 +18,28 @@ public class SilverEffect extends WerewolfWeakeningEffect {
 
     private static final String MOVEMENT_SPEED = "d28ab2de-2f21-43fe-914e-2cae40c924e4";
     private static final String ARMOR = "ff4dc3ea-68fe-4bfe-aca6-8db3cf26b285";
+    private static final String DAMAGE = "67318644-855f-49ad-9c74-f310e270a7f5";
 
     public SilverEffect() {
-        super(0xC0C0C0, List.of(new Modifier(Attributes.MOVEMENT_SPEED, UUID.fromString(MOVEMENT_SPEED), "Silver effect"), new Modifier(Attributes.ARMOR, UUID.fromString(ARMOR), "Silver effect")));
+        super(0xC0C0C0, List.of(new Modifier(Attributes.MOVEMENT_SPEED, UUID.fromString(MOVEMENT_SPEED), "Silver effect", 0.15f), new Modifier(Attributes.ARMOR, UUID.fromString(ARMOR), "Silver effect", 0.15f), new Modifier(Attributes.ATTACK_DAMAGE, UUID.fromString(DAMAGE), "Silver effect", 0.075f) {
+            @Override
+            public AttributeModifier createModifier(int level, int maxLevel, int amplifier) {
+                if (amplifier > 0) {
+                    return super.createModifier(level, maxLevel, amplifier);
+                } else {
+                    return new AttributeModifier(this.uuid, this.name, 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
+                }
+            }
+        }));
     }
 
     public static MobEffectInstance createSilverEffect(LivingEntity entity, int defaultDuration, int amplifier) {
         return createSilverEffect(entity, defaultDuration, amplifier, false);
     }
+
     public static MobEffectInstance createSilverEffect(LivingEntity entity, int defaultDuration, int amplifier, boolean isContinued) {
         if (entity instanceof Player && Helper.isWerewolf(((Player) entity))) {
-            if (WerewolfPlayer.getOpt(((Player) entity)).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.SILVER_BLOODED.get())).orElse(false)) {
+            if (WerewolfPlayer.getOpt(((Player) entity)).filter(s -> s.getForm().isHumanLike()).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.SILVER_BLOODED.get())).orElse(false)) {
                 if (amplifier > 0) {
                     amplifier--;
                 } else if (!isContinued){
