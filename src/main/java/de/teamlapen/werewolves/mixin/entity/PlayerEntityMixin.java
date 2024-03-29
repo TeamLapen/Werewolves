@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.mixin.entity;
 
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
@@ -8,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -53,6 +55,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @ModifyArg(method = "causeFoodExhaustion", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/food/FoodData;addExhaustion(F)V"))
     private float manipulateExhaustion(float pExhaustion) {
-        return WerewolfPlayer.getOpt((Player)(Object) this).filter(s -> s.getForm() == WerewolfForm.SURVIVALIST).map(WerewolfPlayer::getSkillHandler).map(l -> l.isSkillEnabled(ModSkills.EFFICIENT_DIET.get())).map(s -> pExhaustion * 0.7f).orElse(pExhaustion);
+        double attribute = this.getAttributeValue(ModAttributes.FOOD_CONSUMPTION.get());
+        return pExhaustion * (float) attribute;
     }
 }

@@ -766,7 +766,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             if (!from.isEmpty() || forceCalculation) {
                 float damage = WerewolvesConfig.BALANCE.PLAYER.werewolf_claw_damage.get().floatValue();
                 if (specialAttributes.diggerTier != null) {
-                    damage += 1 + specialAttributes.diggerTier.getAttackDamageBonus();
+                    damage += 1 + specialAttributes.diggerTier.getAttackDamageBonus() / 2;
                 }
                 attribute.removeModifier(CLAWS);
                 attribute.addTransientModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));

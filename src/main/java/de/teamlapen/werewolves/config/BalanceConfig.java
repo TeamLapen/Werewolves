@@ -51,7 +51,7 @@ public class BalanceConfig {
 
         public Player(ForgeConfigSpec.Builder builder) {
             werewolf_damage = builder.comment("Level based damage attribute modifier").defineInRange("werewolf_damage", 1.0, 0, 10);
-            werewolf_speed_amount = builder.comment("Level based speed attribute modifier").defineInRange("werewolf_speed_amount", 0.2, 0, 5);
+            werewolf_speed_amount = builder.comment("Level based speed attribute modifier").defineInRange("werewolf_speed_amount", 0.1, 0, 5);
             werewolf_armor_toughness = builder.comment("Level based armor toughness attribute modifier").defineInRange("werewolf_armor_toughness", 3.0, 0, 10.0);
             werewolf_claw_damage = builder.comment("Level based claw damage attribute modifier").defineInRange("werewolf_claw_damage", 1d, 0, Integer.MAX_VALUE);
             bite_cooldown = builder.comment("Cooldown of bite attack (in ticks)").defineInRange("bite_cooldown", 120, 5, Integer.MAX_VALUE);
@@ -97,6 +97,8 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue human_form_speed_amount;
         public final ForgeConfigSpec.DoubleValue human_form_armor;
         public final ForgeConfigSpec.DoubleValue human_form_armor_toughness;
+        public final ForgeConfigSpec.DoubleValue human_form_food_consumption;
+        public final ForgeConfigSpec.DoubleValue human_form_food_gain;
 
         public final ForgeConfigSpec.BooleanValue beast_form_enabled;
         public final ForgeConfigSpec.IntValue beast_form_cooldown;
@@ -106,6 +108,8 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue beast_form_armor_toughness;
         public final ForgeConfigSpec.DoubleValue beast_form_health;
         public final ForgeConfigSpec.DoubleValue beast_form_bite_damage;
+        public final ForgeConfigSpec.DoubleValue beast_form_food_consumption;
+        public final ForgeConfigSpec.DoubleValue beast_form_food_gain;
 
         public final ForgeConfigSpec.BooleanValue survival_form_enabled;
         public final ForgeConfigSpec.IntValue survival_form_cooldown;
@@ -115,6 +119,8 @@ public class BalanceConfig {
         public final ForgeConfigSpec.DoubleValue survival_form_armor_toughness;
         public final ForgeConfigSpec.DoubleValue survival_form_bite_damage;
         public final ForgeConfigSpec.DoubleValue survival_form_health;
+        public final ForgeConfigSpec.DoubleValue survival_form_food_consumption;
+        public final ForgeConfigSpec.DoubleValue survival_form_food_gain;
 
         public final ForgeConfigSpec.IntValue werewolf_form_time_limit;
 
@@ -196,6 +202,9 @@ public class BalanceConfig {
         //thick fur
         public final ForgeConfigSpec.DoubleValue thick_fur_multiplier;
 
+        // efficient diet
+        public final ForgeConfigSpec.DoubleValue efficient_diet_food_consumption;
+
         public Skills(ForgeConfigSpec.Builder builder) {
             builder.push("werewolf_form");
 
@@ -203,19 +212,23 @@ public class BalanceConfig {
             this.human_form_enabled = builder.define("human_form_enabled", true);
             this.human_form_cooldown = builder.comment("In seconds").defineInRange("human_form_cooldown", 0, 0, 10000);
             this.human_form_speed_amount = builder.defineInRange("human_form_speed_amount", 0.2, 0, 5);
-            this.human_form_armor = builder.defineInRange("human_form_armor", 5, 0, 20.0);
+            this.human_form_armor = builder.defineInRange("human_form_armor", 4.0, 0, 20.0);
             this.human_form_armor_toughness = builder.defineInRange("human_form_armor_toughness", 2, 0, 10.0);
+            this.human_form_food_consumption = builder.defineInRange("human_form_food_consumption", 0.1, -1, Double.MAX_VALUE);
+            this.human_form_food_gain = builder.defineInRange("human_form_food_gain", 0.85, 0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("beast_form");
             this.beast_form_enabled = builder.define("beast_form_enabled", true);
             this.beast_form_cooldown = builder.comment("In seconds").defineInRange("beast_form_cooldown", 0, 0, 10000);
-            this.beast_form_speed_amount = builder.defineInRange("beast_form_speed_amount", 0.4, 0, 5);
-            this.beast_form_attack_damage = builder.defineInRange("beast_form_attack_damage", 3D, 0, 100);
-            this.beast_form_armor = builder.defineInRange("beast_form_armor", 20, 0, 20.0);
+            this.beast_form_speed_amount = builder.defineInRange("beast_form_speed_amount", 0.3, 0, 5);
+            this.beast_form_attack_damage = builder.defineInRange("beast_form_attack_damage", 2D, 0, 100);
+            this.beast_form_armor = builder.defineInRange("beast_form_armor", 16.0, 0, 20.0);
             this.beast_form_armor_toughness = builder.defineInRange("beast_form_armor_toughness", 8, 0, 10.0);
             this.beast_form_health = builder.defineInRange("beast_form_health", 8.0, 0.0, 20.0);
             this.beast_form_bite_damage = builder.defineInRange("beast_form_bite_damage", 6.0, 0.0, Double.MAX_VALUE);
+            this.beast_form_food_consumption = builder.defineInRange("beast_form_food_consumption", 0.3, -1, Double.MAX_VALUE);
+            this.beast_form_food_gain = builder.defineInRange("beast_form_food_gain", 0.70, 0, Double.MAX_VALUE);
             builder.pop();
 
             builder.push("survival_form");
@@ -223,10 +236,12 @@ public class BalanceConfig {
             this.survival_form_cooldown = builder.comment("In seconds").defineInRange("survival_form_cooldown", 0, 0, 10000);
             this.survival_form_speed_amount = builder.defineInRange("survival_form_speed_amount", 0.5, 0, 5);
             this.survival_form_attack_damage = builder.defineInRange("survival_form_attack_damage", 1.5D, 0, 100);
-            this.survival_form_armor = builder.defineInRange("survival_form_armor", 16, 0, 20.0);
+            this.survival_form_armor = builder.defineInRange("survival_form_armor", 12.8, 0, 20.0);
             this.survival_form_armor_toughness = builder.defineInRange("survival_form_armor_toughness", 6, 0, 10.0);
             this.survival_form_bite_damage = builder.defineInRange("survival_form_bite_damage", 4.0, 0.0, Double.MAX_VALUE);
             this.survival_form_health = builder.defineInRange("survival_form_health", 4.0, 0.0, Double.MAX_VALUE);
+            this.survival_form_food_consumption = builder.defineInRange("survival_form_food_consumption", 0.2, -1, Double.MAX_VALUE);
+            this.survival_form_food_gain = builder.defineInRange("survival_form_food_gain", 0.77, 0, Double.MAX_VALUE);
             builder.pop();
 
             this.werewolf_form_time_limit = builder.comment("Time a player can stay in werewolf form", "In seconds").defineInRange("werewolf_form_time_limit", 80, 1, Integer.MAX_VALUE);
@@ -328,6 +343,10 @@ public class BalanceConfig {
             builder.push("thick_fur");
             this.thick_fur_multiplier = builder.comment("Multiplier for the default damage reduction of the werewolf fur").defineInRange("thick_fur_multiplier", 1.5f, 1, 10);
             builder.pop();
+
+            builder.push("efficient_diet");
+            this.efficient_diet_food_consumption = builder.comment("The modifier by which the food consumption is reduced in with the efficient diet skill enabled").defineInRange("efficient_diet_food_consumption", 0.3, 0, 1);
+            builder.pop();
         }
     }
 
@@ -377,7 +396,7 @@ public class BalanceConfig {
 
         public Util(ForgeConfigSpec.Builder builder) {
             this.silverBoltEffectDuration = builder.comment("in seconds").defineInRange("silverBoldEffectDuration", 5, 1, Integer.MAX_VALUE);
-            this.silverItemEffectDuration = builder.comment("The duration of the silver effect when attacking with a silver item", "in ticks").defineInRange("silverItemEffectDuration", 30, 1, Integer.MAX_VALUE);
+            this.silverItemEffectDuration = builder.comment("The duration of the silver effect when attacking with a silver item", "in ticks").defineInRange("silverItemEffectDuration", 60, 1, Integer.MAX_VALUE);
             this.skeletonIgnoreWerewolves = builder.comment("if skeletons should ignore werewolves").define("skeletonIgnoreWerewolves", true);
             this.silverArmorAttackEffectDuration = builder.comment("The duration of the silver effect when attacking an entity with silver armor as werewolf per armor item", "in ticks").defineInRange("silverArmorAttackEffectDuration", 5, 0, Integer.MAX_VALUE);
         }
