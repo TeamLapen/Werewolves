@@ -161,9 +161,10 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     private void updateAttributes() {
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BalanceMobProps.mobProps.MINION_MAX_HEALTH + BalanceMobProps.mobProps.MINION_MAX_HEALTH_PL * getMinionData().map((WerewolfMinionData::getHealthLevel)).orElse(0));
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(BalanceMobProps.mobProps.MINION_ATTACK_DAMAGE + BalanceMobProps.mobProps.MINION_ATTACK_DAMAGE_PL * getMinionData().map(WerewolfMinionData::getStrengthLevel).orElse(0));
-        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_HUNTER_SPEED); //TODO
+        float statsMultiplier = this.getMinionData().filter(d -> d.hasIncreasedStats).map(a -> 1.2f).orElse(1f);
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue((BalanceMobProps.mobProps.MINION_MAX_HEALTH + BalanceMobProps.mobProps.MINION_MAX_HEALTH_PL * getMinionData().map((WerewolfMinionData::getHealthLevel)).orElse(0)) * statsMultiplier);
+        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue((BalanceMobProps.mobProps.MINION_ATTACK_DAMAGE + BalanceMobProps.mobProps.MINION_ATTACK_DAMAGE_PL * getMinionData().map(WerewolfMinionData::getStrengthLevel).orElse(0)) * statsMultiplier);
+        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_HUNTER_SPEED * statsMultiplier); //TODO
     }
 
     public void setEyeType(int type) {
@@ -197,9 +198,11 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         private int eyeType;
         private boolean glowingEyes;
         private WerewolfForm form = WerewolfForm.BEAST;
+        private boolean hasIncreasedStats;
 
-        public WerewolfMinionData(String name, int skinType, int eyeType, boolean glowingEyes, WerewolfForm form) {
+        public WerewolfMinionData(String name, int skinType, int eyeType, boolean glowingEyes, WerewolfForm form, boolean hasIncreasedStats) {
             super(name, 9);
+            this.hasIncreasedStats = hasIncreasedStats;
             assert !form.isHumanLike();
             this.level = 0;
             this.skinType = skinType;
@@ -345,6 +348,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             this.eyeType = nbt.getInt("e_type");
             this.glowingEyes = nbt.getBoolean("e_glow");
             this.form = WerewolfForm.getForm(nbt.getString("form"));
+            this.hasIncreasedStats = nbt.getBoolean("hasIncreasedStats");
         }
 
         @Override
@@ -359,11 +363,16 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
             tag.putInt("e_type", this.eyeType);
             tag.putBoolean("e_glow", this.glowingEyes);
             tag.putString("form", this.form.getName());
+            tag.putBoolean("hasIncreasedStats", this.hasIncreasedStats);
         }
 
         @Override
         protected ResourceLocation getDataType() {
             return ID;
+        }
+
+        public void setIncreasedStats(boolean hasIncreasedStats) {
+            this.hasIncreasedStats = hasIncreasedStats;
         }
     }
 }

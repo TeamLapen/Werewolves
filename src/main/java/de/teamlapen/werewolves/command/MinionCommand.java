@@ -8,16 +8,21 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import de.teamlapen.lib.lib.util.BasicCommand;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
+import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.minion.MinionEntity;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.vampirism.entity.minion.management.PlayerMinionController;
+import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
+import de.teamlapen.vampirism.entity.player.vampire.skills.VampireSkills;
 import de.teamlapen.vampirism.world.MinionWorldData;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.command.arguments.WerewolfFormArgument;
 import de.teamlapen.werewolves.core.ModEntities;
+import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
+import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -55,7 +60,8 @@ public class MinionCommand extends BasicCommand {
 
 
     private static int spawnNewWerewolfMinion(CommandSourceStack ctx, String name, int skinType, int eyeType, boolean glowingEyes, WerewolfForm form) throws CommandSyntaxException {
-        WerewolfMinionEntity.WerewolfMinionData data = new WerewolfMinionEntity.WerewolfMinionData(name, skinType, eyeType, glowingEyes, form);
+        boolean hasIncreasedStats = WerewolfPlayer.getOpt(ctx.getPlayerOrException()).map(IFactionPlayer::getSkillHandler).map(skillHandler -> skillHandler.isSkillEnabled(ModSkills.MINION_STATS_INCREASE.get())).orElse(false);
+        WerewolfMinionEntity.WerewolfMinionData data = new WerewolfMinionEntity.WerewolfMinionData(name, skinType, eyeType, glowingEyes, form, hasIncreasedStats);
         return spawnNewMinion(ctx, WReference.WEREWOLF_FACTION, data, ModEntities.WEREWOLF_MINION.get());
     }
 

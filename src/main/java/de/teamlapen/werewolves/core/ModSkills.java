@@ -59,7 +59,7 @@ public class ModSkills {
     public static final RegistryObject<ISkill<IWerewolfPlayer>> THICK_FUR = SKILLS.register("thick_fur", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get, SURVIVAL_FORM::get));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> DIGGER = SKILLS.register("digger", DiggerSkill::new);
     public static final RegistryObject<ISkill<IWerewolfPlayer>> ENHANCED_DIGGER = SKILLS.register("enhanced_digger", DiggerSkill::new);
-    public static final RegistryObject<ISkill<IWerewolfPlayer>> MINION_STATS_INCREASE = SKILLS.register("werewolf_minion_stats_increase", () -> new SimpleWerewolfSkill.LordWerewolfSkill(true));
+    public static final RegistryObject<ISkill<IWerewolfPlayer>> MINION_STATS_INCREASE = SKILLS.register("werewolf_minion_stats_increase", () -> new SimpleWerewolfSkill.LordWerewolfSkill(true).setToggleActions(IWerewolfPlayer::updateMinionAttributes));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> MINION_COLLECT = SKILLS.register("werewolf_minion_collect", () -> new SimpleWerewolfSkill.LordWerewolfSkill(true));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> BEAST_RAGE = SKILLS.register("beast_rage", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(BEAST_FORM::get));
     public static final RegistryObject<ISkill<IWerewolfPlayer>> ARROW_AWARENESS = SKILLS.register("arrow_awareness", () -> new SimpleWerewolfSkill(true).defaultDescWithFormRequirement(SURVIVAL_FORM::get));

@@ -22,6 +22,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -63,6 +64,11 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
 
     public SimpleWerewolfSkill defaultDescWithExtra(Supplier<Component> text) {
         this.setDescription(() -> Component.translatable(this.getTranslationKey() + ".desc").append("\n").append(text.get()));
+        return this;
+    }
+
+    public SimpleWerewolfSkill setToggleActions(BiConsumer<IWerewolfPlayer, Boolean> action) {
+        this.setToggleActions(w -> action.accept(w, true), w -> action.accept(w, false));
         return this;
     }
 

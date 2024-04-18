@@ -10,6 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import javax.annotation.Nullable;
+import java.text.DecimalFormat;
 
 public class WerewolfMinionStatsScreen extends MinionStatsScreen<WerewolfMinionEntity.WerewolfMinionData, WerewolfMinionEntity> {
 
@@ -45,11 +46,12 @@ public class WerewolfMinionStatsScreen extends MinionStatsScreen<WerewolfMinionE
 
     @Override
     protected void renderStats(GuiGraphics graphics, WerewolfMinionEntity.WerewolfMinionData data) {
+        DecimalFormat df = new DecimalFormat("0.##");
         renderLevelRow(graphics, data.getLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL + 1);
         renderStatRow(graphics, 0, this.inventoryLevel, Component.literal(String.valueOf(data.getInventorySize())), data.getInventoryLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_INVENTORY + 1);
-        renderStatRow(graphics, 1, this.healthLevel, Component.literal(String.valueOf(entity.getAttribute(Attributes.MAX_HEALTH).getBaseValue())), data.getHealthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_HEALTH + 1);
-        renderStatRow(graphics, 2, this.strengthLevel, Component.literal(String.valueOf(entity.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue())), data.getStrengthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_STRENGTH + 1);
-        renderStatRow(graphics, 3, this.resourceLevel, Component.literal((int) (Math.ceil((float) (data.getResourceEfficiencyLevel() + 1) / (WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1) * 100)) + "%"), data.getResourceEfficiencyLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1);
+        renderStatRow(graphics, 1, this.healthLevel, Component.literal(df.format(entity.getAttribute(Attributes.MAX_HEALTH).getBaseValue())), data.getHealthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_HEALTH + 1);
+        renderStatRow(graphics, 2, this.strengthLevel, Component.literal(df.format(entity.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue())), data.getStrengthLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_STRENGTH + 1);
+        renderStatRow(graphics, 3, this.resourceLevel, Component.literal(String.format("%d%%", (int) Math.ceil((float) (data.getResourceEfficiencyLevel() + 1) / (WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1) * 100))), data.getResourceEfficiencyLevel() + 1, WerewolfMinionEntity.WerewolfMinionData.MAX_LEVEL_RESOURCES + 1);
 
     }
 }
