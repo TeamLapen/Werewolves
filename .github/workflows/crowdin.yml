@@ -15,10 +15,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: 'gradle'
       - name: Determine Crowdin branch
         id: get_crowdin_branch
-        run: echo "crowdin_branch=$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v3
+        run: |
+          output=$(./gradlew crowdinBranch)
+          version=$(echo "$output" | grep -oP 'Crowdin branch: \K\d+\.x')
+          if [[ $version =~ ^1\.x$ ]]; then
+            echo "Crowdin branch: $version"
+            echo "crowdin_branch=$version" >> $GITHUB_OUTPUT
+          else
+            echo "Invalid version: $version"
+            exit 1
+          fi
       - name: Upload translation keys
         uses: crowdin/github-action@v1
         with:

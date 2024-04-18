@@ -56,20 +56,28 @@ jobs:
 
   determine-crowdin-branch:
     runs-on: ubuntu-latest
-    needs: determine-environment
-    environment: ${{ needs.determine-environment.outputs.environment }}
     outputs:
       crowdin_branch: ${{ steps.get_crowdin_branch.outputs.crowdin_branch }}
     steps:
-    - uses: actions/checkout@v3
-    - name: Determine Crowdin branch
-      id: get_crowdin_branch
-      run: |
-        if [[ ${{ needs.determine-environment.outputs.tag }} == 'true' ]]; then
-          echo "crowdin_branch=$(echo ${{ github.ref_name }} | awk -F"-" '{print $2}' | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
-        else
-          echo "crowdin_branch=$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
-        fi
+      - uses: actions/checkout@v4
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: 'gradle'
+      - name: Determine Crowdin branch
+        id: get_crowdin_branch
+        run: |
+          output=$(./gradlew crowdinBranch)
+          version=$(echo "$output" | grep -oP 'Crowdin branch: \K\d+\.x')
+          if [[ $version =~ ^\d+\.x$ ]]; then
+            echo "Crowdin branch: $version"
+            echo "crowdin_branch=$version" >> $GITHUB_OUTPUT
+          else
+            echo "Invalid version: $version"
+            exit 1
+          fi
 
   publish:
     runs-on: ubuntu-latest
