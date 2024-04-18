@@ -27,7 +27,7 @@ jobs:
         run: |
           output=$(./gradlew crowdinBranch)
           version=$(echo "$output" | grep -oP 'Crowdin branch: \K\d+\.x')
-          if [[ $version =~ ^\d+\.x$ ]]; then
+          if [[ $version =~ ^[0-9]+\.x$ ]]; then
             echo "Crowdin branch: $version"
             echo "crowdin_branch=$version" >> $GITHUB_OUTPUT
           else
