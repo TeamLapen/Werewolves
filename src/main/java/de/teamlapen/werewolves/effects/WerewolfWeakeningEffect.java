@@ -97,7 +97,7 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
 
         public AttributeModifier createModifier(int level, int maxLevel, int amplifier) {
             double value = LevelAttributeModifier.calculateModifierValue(level, maxLevel, this.maxModifier, 1.3);
-            return new AttributeModifier(this.uuid, this.name, - amplifier * value, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            return new AttributeModifier(this.uuid, this.name, - (amplifier + 1) * value, AttributeModifier.Operation.MULTIPLY_TOTAL);
         }
     }
 }

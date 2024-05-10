@@ -25,7 +25,7 @@ public class SilverEffect extends WerewolfWeakeningEffect {
             @Override
             public AttributeModifier createModifier(int level, int maxLevel, int amplifier) {
                 if (amplifier > 0) {
-                    return super.createModifier(level, maxLevel, amplifier);
+                    return super.createModifier(level, maxLevel, amplifier-1);
                 } else {
                     return new AttributeModifier(this.uuid, this.name, 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
                 }
