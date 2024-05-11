@@ -96,7 +96,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean isRawMeat( @Nullable LivingEntity entity, ItemStack stack) {
-        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAWMEATS) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()));
+        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAW_FOOD) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()));
     }
 
     @Deprecated
