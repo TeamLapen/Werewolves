@@ -37,7 +37,6 @@ public class BleedingEffect extends WerewolvesEffect {
             return;
         }
 
-        if (entityLivingBaseIn.getHealth() > 1.0F) {
             DamageHandler.hurtModded(entityLivingBaseIn, ModDamageSources::bloodLoss, WerewolvesConfig.BALANCE.POTIONS.bleedingEffectDamage.get().floatValue());
             if (entityLivingBaseIn.getRandom().nextInt(8) == 0) {
                 if (Helper.isVampire(entityLivingBaseIn)) {
@@ -51,6 +50,5 @@ public class BleedingEffect extends WerewolvesEffect {
                     creature.setBlood(creature.getBlood() - 1);
                 }
             }
-        }
     }
 }
