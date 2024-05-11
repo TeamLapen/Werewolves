@@ -36,18 +36,16 @@ public class BleedingEffect extends WerewolvesEffect {
             return;
         }
 
-        if (entityLivingBaseIn.getHealth() > 1.0F) {
-            DamageHandler.hurtModded(entityLivingBaseIn, ModDamageSources::bloodLoss, WerewolvesConfig.BALANCE.POTIONS.bleedingEffectDamage.get().floatValue());
-            if (entityLivingBaseIn.getRandom().nextInt(8) == 0) {
-                if (Helper.isVampire(entityLivingBaseIn)) {
-                    if (entityLivingBaseIn instanceof Player) {
-                        VampirePlayer.getOpt(((Player) entityLivingBaseIn)).map(vampire -> vampire.useBlood(1, true));
-                    } else if (entityLivingBaseIn instanceof IVampire) {
-                        ((IVampire) entityLivingBaseIn).useBlood(1, true);
-                    }
-                } else if (entityLivingBaseIn instanceof PathfinderMob) {
-                    VampirismAPI.getExtendedCreatureVampirism((PathfinderMob) entityLivingBaseIn).ifPresent(creature -> creature.setBlood(creature.getBlood() - 1));
+        DamageHandler.hurtModded(entityLivingBaseIn, ModDamageSources::bloodLoss, WerewolvesConfig.BALANCE.POTIONS.bleedingEffectDamage.get().floatValue());
+        if (entityLivingBaseIn.getRandom().nextInt(8) == 0) {
+            if (Helper.isVampire(entityLivingBaseIn)) {
+                if (entityLivingBaseIn instanceof Player) {
+                    VampirePlayer.getOpt(((Player) entityLivingBaseIn)).map(vampire -> vampire.useBlood(1, true));
+                } else if (entityLivingBaseIn instanceof IVampire) {
+                    ((IVampire) entityLivingBaseIn).useBlood(1, true);
                 }
+            } else if (entityLivingBaseIn instanceof PathfinderMob) {
+                VampirismAPI.getExtendedCreatureVampirism((PathfinderMob) entityLivingBaseIn).ifPresent(creature -> creature.setBlood(creature.getBlood() - 1));
             }
         }
     }
