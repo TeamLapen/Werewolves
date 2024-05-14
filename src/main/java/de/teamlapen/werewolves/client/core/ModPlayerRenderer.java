@@ -2,9 +2,11 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.client.render.player.WerewolfPlayerBeastRenderer;
 import de.teamlapen.werewolves.client.render.player.WerewolfPlayerSurvivalistRenderer;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -36,7 +38,14 @@ public class ModPlayerRenderer {
     }
 
     private boolean render(AbstractClientPlayer player, Function<WerewolfForm, Boolean> renderFunction) {
-        return WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getForm).filter(s -> s.isTransformed() && !s.isHumanLike()).map(renderFunction).orElse(false);
+        WerewolfForm form = WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getForm).orElse(WerewolfForm.NONE);
+        if (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen screen && screen.isRenderForm()) {
+            form = screen.getActiveForm();
+        }
+        if (form.isTransformed() && !form.isHumanLike()) {
+            return renderFunction.apply(form);
+        }
+        return false;
     }
 
     public boolean renderArm(AbstractClientPlayer player, PoseStack stack, MultiBufferSource bufferSource, int pCombinedLight, HumanoidArm arm) {
