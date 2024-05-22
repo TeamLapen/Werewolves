@@ -137,7 +137,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         return increaseWerewolfTime(werewolfPlayer) || (werewolfPlayer.asEntity() instanceof ServerPlayer && !PermissionAPI.getPermission((ServerPlayer) werewolfPlayer.asEntity(), Permissions.FORM));
     }
 
-    protected boolean usesTransformationTime(IWerewolfPlayer werewolf) {
+    public boolean usesTransformationTime(IWerewolfPlayer werewolf) {
         Player player = werewolf.asEntity();
         return !Helper.isNight(player.level()) && !FormHelper.isInWerewolfBiome(player.level(), player.blockPosition());
     }

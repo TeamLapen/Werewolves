@@ -54,7 +54,7 @@ public class BeastWerewolfFormAction extends WerewolfFormAction {
     }
 
     @Override
-    protected boolean usesTransformationTime(IWerewolfPlayer werewolf) {
+    public boolean usesTransformationTime(IWerewolfPlayer werewolf) {
         return super.usesTransformationTime(werewolf) && !(werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_RAGE.get()) && werewolf.getActionHandler().isActionActive(ModActions.RAGE.get()));
     }
 

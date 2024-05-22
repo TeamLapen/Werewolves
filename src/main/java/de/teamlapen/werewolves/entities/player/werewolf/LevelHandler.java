@@ -24,12 +24,6 @@ public class LevelHandler implements ISyncableSaveData {
         return Mth.clamp((float) this.levelProgress / getNeededProgress(), 0, 1);
     }
 
-    public void loadFromNbt(@Nonnull CompoundTag compound) {
-        if (compound.contains("level")) {
-            this.levelProgress = compound.getCompound("level").getInt("progress");
-        }
-    }
-
     public int getLevelProgress() {
         return this.levelProgress;
     }
@@ -55,8 +49,8 @@ public class LevelHandler implements ISyncableSaveData {
 
     @Override
     public void deserializeNBT(@NotNull CompoundTag compoundTag) {
-        if (compoundTag.contains("level")) {
-            this.levelProgress = compoundTag.getCompound("level").getInt("progress");
+        if (compoundTag.contains("progress")) {
+            levelProgress = compoundTag.getInt("progress");
         }
     }
 

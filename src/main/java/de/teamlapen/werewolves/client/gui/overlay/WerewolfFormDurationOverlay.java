@@ -20,14 +20,16 @@ import org.jetbrains.annotations.NotNull;
 public class WerewolfFormDurationOverlay implements IGuiOverlay {
 
     private final Minecraft mc = Minecraft.getInstance();
-    public static final ResourceLocation ICONS = new ResourceLocation("textures/gui/icons.png");
+    protected static final ResourceLocation EXPERIENCE_BAR_BACKGROUND_SPRITE = new ResourceLocation("hud/experience_bar_background");
+    protected static final ResourceLocation EXPERIENCE_BAR_PROGRESS_SPRITE = new ResourceLocation("hud/experience_bar_progress");
 
     @Override
     public void render(@NotNull ExtendedGui gui, @NotNull GuiGraphics graphics, float partialTicks, int width, int height) {
         Player player = this.mc.player;
         if (Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-            if (werewolf.getSpecialAttributes().transformationTime > 0) {
+            WerewolfFormAction lastFormAction = werewolf.getLastFormAction();
+            if (werewolf.getSpecialAttributes().transformationTime > 0 && lastFormAction != null && lastFormAction.consumesWerewolfTime(werewolf)) {
                 double perc = 1 - werewolf.getSpecialAttributes().transformationTime;
                 float trans = FormHelper.getActiveFormAction(werewolf).map(werewolfFormAction -> werewolfFormAction.consumesWerewolfTime(werewolf)).orElse(false) ? 1f : 0.7f;
                 renderExpBar(graphics, perc, trans);
@@ -41,10 +43,17 @@ public class WerewolfFormDurationOverlay implements IGuiOverlay {
         int x = scaledWidth / 2 - 91;
 
         graphics.setColor(1f, 0.1f, 0f, transparency);
+        RenderSystem.disableBlend();
 
-        int k = (int) ((1 - perc) * 183.0F);
-        int l = scaledHeight - 32 + 3;
-        graphics.blit(ICONS, x, l, 0, 64, 182, 5);
-        graphics.blit(ICONS, x + k, l, k, 69, 182 - k, 5);
+            int j = 182;
+            int k = (int)((1-perc) * 183.0F);
+            int l = scaledHeight - 32 + 3;
+            graphics.blitSprite(EXPERIENCE_BAR_BACKGROUND_SPRITE, x, l, j, 5);
+            if (k > 0) {
+                graphics.blitSprite(EXPERIENCE_BAR_PROGRESS_SPRITE, j, 5, k, 0, x+k, l, k, 5);
+            }
+
+        RenderSystem.enableBlend();
+        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }
