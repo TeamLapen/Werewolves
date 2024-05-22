@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.util.AlphanumericComparator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -95,7 +96,7 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
     }
 
     protected static List<ResourceLocation> getTextures(String texturePath) {
-        return Minecraft.getInstance().getResourceManager().listResources(texturePath, s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+        return Minecraft.getInstance().getResourceManager().listResources(texturePath, s -> s.getPath().endsWith(".png")).keySet().stream().sorted(new AlphanumericComparator()).filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
     }
 
     protected HumanoidArm getAttackArm(T pEntity) {
