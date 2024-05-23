@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 
@@ -75,5 +76,13 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
         addEffectInstance(werewolf, new MobEffectInstance(MobEffects.DAMAGE_BOOST, 22, damageAmplifier, false, false));
     }
 
+    @Override
+    public boolean showHudCooldown(Player player) {
+        return true;
+    }
 
+    @Override
+    public boolean showHudDuration(Player player) {
+        return true;
+    }
 }

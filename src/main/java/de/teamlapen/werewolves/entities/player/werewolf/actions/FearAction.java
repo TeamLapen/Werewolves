@@ -6,6 +6,7 @@ import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 
@@ -33,5 +34,10 @@ public class FearAction extends DefaultWerewolfAction implements IActionCooldown
     @Override
     public int getCooldown(IWerewolfPlayer iWerewolfPlayer) {
         return WerewolvesConfig.BALANCE.SKILLS.fear_action_cooldown.get() * 20;
+    }
+
+    @Override
+    public boolean showHudCooldown(Player player) {
+        return true;
     }
 }
