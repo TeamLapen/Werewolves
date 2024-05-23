@@ -19,6 +19,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -162,9 +163,9 @@ public class ModHUDOverlay extends ExtendedGui {
     private void renderCrosshair(RenderGuiOverlayEvent.Pre event) {
         if (WerewolvesConfig.CLIENT.disableFangCrosshairRendering.get()) return;
         if (Helper.isWerewolf(this.mc.player)) {
-            HitResult p = Minecraft.getInstance().hitResult;
-            Entity entity = p instanceof EntityHitResult ? ((EntityHitResult) p).getEntity() : null;
-            if (WerewolfPlayer.get(mc.player).canBite()) {
+            HitResult result = Minecraft.getInstance().hitResult;
+            LivingEntity entity = result instanceof EntityHitResult entityResult ? entityResult.getEntity() instanceof LivingEntity living ? living : null : null;
+            if (entity != null && WerewolfPlayer.get(mc.player).canBite()) {
                 renderFangs(event.getGuiGraphics(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), entity);
                 event.setCanceled(true);
             }
