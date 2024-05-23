@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.entities.player.werewolf.actions;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class HideNameAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
@@ -49,5 +50,15 @@ public class HideNameAction extends DefaultWerewolfAction implements ILastingAct
     @Override
     public boolean canBeUsedBy(@NotNull IWerewolfPlayer werewolf) {
         return werewolf.getForm().isTransformed();
+    }
+
+    @Override
+    public boolean showHudCooldown(Player player) {
+        return true;
+    }
+
+    @Override
+    public boolean showHudDuration(Player player) {
+        return true;
     }
 }

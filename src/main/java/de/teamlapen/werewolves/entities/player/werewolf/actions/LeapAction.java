@@ -54,4 +54,9 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
     public boolean onUpdate(IWerewolfPlayer iWerewolfPlayer) {
         return false;
     }
+
+    @Override
+    public boolean showHudCooldown(Player player) {
+        return true;
+    }
 }

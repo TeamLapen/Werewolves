@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
+import net.minecraft.world.entity.player.Player;
 
 public class SenseWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
 
@@ -43,5 +44,15 @@ public class SenseWerewolfAction extends DefaultWerewolfAction implements ILasti
     @Override
     public int getCooldown(IWerewolfPlayer werewolf) {
         return WerewolvesConfig.BALANCE.SKILLS.sense_cooldown.get() + WerewolvesConfig.BALANCE.SKILLS.sense_duration.get() * 20;
+    }
+
+    @Override
+    public boolean showHudCooldown(Player player) {
+        return true;
+    }
+
+    @Override
+    public boolean showHudDuration(Player player) {
+        return true;
     }
 }
