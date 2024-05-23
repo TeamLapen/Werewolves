@@ -6,7 +6,9 @@ import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.mixin.LivingEntityAccessor;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 public class LeapAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
 
@@ -17,8 +19,8 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     protected boolean activate(IWerewolfPlayer iWerewolfPlayer, ActivationContext context) {
-        ((WerewolfPlayer) iWerewolfPlayer).getSpecialAttributes().leap = false;
-        iWerewolfPlayer.asEntity().getAbilities().setFlyingSpeed(iWerewolfPlayer.asEntity().getAbilities().getFlyingSpeed() + 0.05F);
+        Player player = iWerewolfPlayer.asEntity();
+        player.getAbilities().setFlyingSpeed(player.getAbilities().getFlyingSpeed() + 0.05F);
         return true;
     }
 
@@ -43,6 +45,7 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     public void onDeactivated(IWerewolfPlayer iWerewolfPlayer) {
+        ((WerewolfPlayer) iWerewolfPlayer).getSpecialAttributes().leap = false;
         iWerewolfPlayer.asEntity().getAbilities().setFlyingSpeed(iWerewolfPlayer.asEntity().getAbilities().getFlyingSpeed() - 0.05F);
     }
 

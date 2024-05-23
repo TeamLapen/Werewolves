@@ -62,7 +62,7 @@ public class ModKeys {
         Optional<KeyMapping> keyOpt = getPressedKeyBinding();
         keyOpt.ifPresent(key -> {
             LocalPlayer player = Minecraft.getInstance().player;
-            if (key == LEAP) {
+            if (key == LEAP && Minecraft.getInstance().options.keyJump.isDown()) {
                 if (Helper.isWerewolf(player)) {
                     WerewolfPlayer werewolf = WerewolfPlayer.get(player);
                     if (!werewolf.getActionHandler().isActionOnCooldown(ModActions.LEAP.get()) && werewolf.getForm().isTransformed()) {
@@ -85,10 +85,10 @@ public class ModKeys {
     }
 
     public Optional<KeyMapping> getPressedKeyBinding() {
-        if (LEAP.consumeClick()) {
-            return Optional.of(LEAP);
-        } else if (BITE.consumeClick()) {
+        if (BITE.consumeClick()) {
             return Optional.of(BITE);
+        } else if (LEAP.isDown()) {
+            return Optional.of(LEAP);
         }
         return Optional.empty();
     }
