@@ -54,7 +54,7 @@ public class BalanceConfig {
             werewolf_speed_amount = builder.comment("Level based speed attribute modifier").defineInRange("werewolf_speed_amount", 0.1, 0, 5);
             werewolf_armor_toughness = builder.comment("Level based armor toughness attribute modifier").defineInRange("werewolf_armor_toughness", 3.0, 0, 10.0);
             werewolf_claw_damage = builder.comment("Level based claw damage attribute modifier").defineInRange("werewolf_claw_damage", 1d, 0, Integer.MAX_VALUE);
-            bite_cooldown = builder.comment("Cooldown of bite attack (in ticks)").defineInRange("bite_cooldown", 120, 5, Integer.MAX_VALUE);
+            bite_cooldown = builder.comment("Cooldown of bite attack (in ticks)").defineInRange("bite_cooldown", 200, 5, Integer.MAX_VALUE);
         }
     }
 
@@ -300,7 +300,7 @@ public class BalanceConfig {
             builder.pop();
 
             builder.push("bleeding_bite");
-            this.bleeding_bite_duration = builder.comment("In ticks").defineInRange("bleeding_bite_duration", 100, 0, Integer.MAX_VALUE);
+            this.bleeding_bite_duration = builder.comment("In ticks").defineInRange("bleeding_bite_duration", 60, 0, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("better_claws");

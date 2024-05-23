@@ -20,6 +20,7 @@
     "PowderSnowBlockMixin",
     "RegistriesDatapackGeneratorAccessor",
     "SmithingTemplateItemAccessor",
+    "SuspiciousStewItemMixin",
     "TargetingConditionsAccessor",
     "VanillaBlockLootAccessor",
     "entity.CatMixin",

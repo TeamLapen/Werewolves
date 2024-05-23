@@ -112,6 +112,10 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return stack.is(ModTags.Items.RAW_MEAT);
     }
 
+    public static boolean canEat(LivingEntity entity, ItemStack stack) {
+        return Helper.isMeat(entity, stack) || !(entity instanceof Player player) || !Helper.isWerewolf(player) || WerewolfPlayer.getOpt(player).map(WerewolfPlayer::getSkillHandler).filter(s -> s.isSkillEnabled(ModSkills.NOT_MEAT.get())).isPresent();
+    }
+
     public static Optional<IWerewolf> asIWerewolf(LivingEntity entity) {
         if (entity instanceof IWerewolf werewolf) {
             return Optional.of(werewolf);
