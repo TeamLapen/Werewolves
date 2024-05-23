@@ -1,6 +1,8 @@
 {
   "values": [
     "#forge:rawmeats",
-    "#forge:cookedmeats"
+    "#forge:cookedmeats",
+    "#werewolves:raw_fish",
+    "#werewolves:cooked_fish"
   ]
 }

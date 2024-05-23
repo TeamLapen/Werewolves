@@ -1,0 +1,130 @@
+{
+  "values": [
+    "minecraft:cooked_cod",
+    "minecraft:cooked_salmon",
+    {
+      "id": "upgrade_aquatic:cooked_lionfish",
+      "required": false
+    },
+    {
+      "id": "abnormals_delight:cooked_perch_slice",
+      "required": false
+    },
+    {
+      "id": "abnormals_delight:cooked_pike_slice",
+      "required": false
+    },
+    {
+      "id": "quark:cooked_crab_leg",
+      "required": false
+    },
+    {
+      "id": "forbidden_arcanus:cooked_tentacle",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:cooked_salmon_slice",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:cooked_cod_slice",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_grittle_flatfish",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_municipal_monkfish",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_charscale_moki",
+      "required": false
+    },
+    {
+      "id": "blue_skies:cooked_horizofin_tunid",
+      "required": false
+    },
+    {
+      "id": "biomemakeover:cooked_glowfish",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:cooked_catfish",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:cooked_lobster_tail",
+      "required": false
+    },
+    {
+      "id": "alexsdelight:cooked_catfish_slice",
+      "required": false
+    },
+    {
+      "id": "aquaculture:fish_fillet_cooked",
+      "required": false
+    },
+    {
+      "id": "croptopia:cooked_shrimp",
+      "required": false
+    },
+    {
+      "id": "croptopia:cooked_calamari",
+      "required": false
+    },
+    {
+      "id": "croptopia:cooked_tuna",
+      "required": false
+    },
+    {
+      "id": "croptopia:steamed_crab",
+      "required": false
+    },
+    {
+      "id": "croptopia:crab_legs",
+      "required": false
+    },
+    {
+      "id": "croptopia:steamed_clams",
+      "required": false
+    },
+    {
+      "id": "croptopia:grilled_oysters",
+      "required": false
+    },
+    {
+      "id": "culturaldelights:cooked_squid",
+      "required": false
+    },
+    {
+      "id": "culturaldelights:cooked_calamari",
+      "required": false
+    },
+    {
+      "id": "delightful:crab_rangoon",
+      "required": false
+    },
+    {
+      "id": "ecologics:crab_meat",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:calamari_cooked",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:eel_meat_cooked",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:crab_meat_cooked",
+      "required": false
+    },
+    {
+      "id": "#forge:cooked_fishes",
+      "required": false
+    }
+  ]
+}

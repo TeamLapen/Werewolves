@@ -1,0 +1,132 @@
+{
+  "values": [
+    "minecraft:cod",
+    "minecraft:salmon",
+    "minecraft:pufferfish",
+    "minecraft:tropical_fish",
+    {
+      "id": "upgrade_aquatic:perch",
+      "required": false
+    },
+    {
+      "id": "upgrade_aquatic:pike",
+      "required": false
+    },
+    {
+      "id": "upgrade_aquatic:lionfish",
+      "required": false
+    },
+    {
+      "id": "abnormals_delight:perch_slice",
+      "required": false
+    },
+    {
+      "id": "abnormals_delight:pike_slice",
+      "required": false
+    },
+    {
+      "id": "blue_skies:grittle_flatfish",
+      "required": false
+    },
+    {
+      "id": "blue_skies:municipal_monkfish",
+      "required": false
+    },
+    {
+      "id": "blue_skies:charscale_moki",
+      "required": false
+    },
+    {
+      "id": "blue_skies:horizofin_tunid",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:salmon_slice",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:cod_slice",
+      "required": false
+    },
+    {
+      "id": "forbidden_arcanus:tentacle",
+      "required": false
+    },
+    {
+      "id": "aquaculture:fish_fillet_raw",
+      "required": false
+    },
+    {
+      "id": "croptopia:shrimp",
+      "required": false
+    },
+    {
+      "id": "croptopia:calamari",
+      "required": false
+    },
+    {
+      "id": "croptopia:glowing_calamari",
+      "required": false
+    },
+    {
+      "id": "croptopia:tuna",
+      "required": false
+    },
+    {
+      "id": "croptopia:crab",
+      "required": false
+    },
+    {
+      "id": "croptopia:clam",
+      "required": false
+    },
+    {
+      "id": "croptopia:oyster",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:blobfish",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:lobster_tail",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:flying_fish",
+      "required": false
+    },
+    {
+      "id": "alexsdelight:raw_catfish_slice",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:calamari_raw",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:eel_meat_raw",
+      "required": false
+    },
+    {
+      "id": "betteranimalsplus:crab_meat_raw",
+      "required": false
+    },
+    {
+      "id": "culturaldelights:squid",
+      "required": false
+    },
+    {
+      "id": "culturaldelights:glow_squid",
+      "required": false
+    },
+    {
+      "id": "culturaldelights:raw_calamari",
+      "required": false
+    },
+    {
+      "id": "#forge:raw_fishes",
+      "required": false
+    }
+  ]
+}

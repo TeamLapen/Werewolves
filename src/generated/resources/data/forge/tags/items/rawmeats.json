@@ -24,42 +24,6 @@
       "required": false
     },
     {
-      "id": "upgrade_aquatic:perch",
-      "required": false
-    },
-    {
-      "id": "upgrade_aquatic:pike",
-      "required": false
-    },
-    {
-      "id": "upgrade_aquatic:lionfish",
-      "required": false
-    },
-    {
-      "id": "abnormals_delight:perch_slice",
-      "required": false
-    },
-    {
-      "id": "abnormals_delight:pike_slice",
-      "required": false
-    },
-    {
-      "id": "blue_skies:grittle_flatfish",
-      "required": false
-    },
-    {
-      "id": "blue_skies:municipal_monkfish",
-      "required": false
-    },
-    {
-      "id": "blue_skies:charscale_moki",
-      "required": false
-    },
-    {
-      "id": "blue_skies:horizofin_tunid",
-      "required": false
-    },
-    {
       "id": "blue_skies:venison",
       "required": false
     },
@@ -108,14 +72,6 @@
       "required": false
     },
     {
-      "id": "farmersdelight:salmon_slice",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:cod_slice",
-      "required": false
-    },
-    {
       "id": "farmersdelight:bacon",
       "required": false
     },
@@ -129,10 +85,6 @@
     },
     {
       "id": "farmersdelight:minced_beef",
-      "required": false
-    },
-    {
-      "id": "forbidden_arcanus:tentacle",
       "required": false
     },
     {
@@ -164,10 +116,6 @@
       "required": false
     },
     {
-      "id": "aquaculture:fish_fillet_raw",
-      "required": false
-    },
-    {
       "id": "aquaculture:frog_legs_raw",
       "required": false
     },
@@ -176,35 +124,7 @@
       "required": false
     },
     {
-      "id": "croptopia:shrimp",
-      "required": false
-    },
-    {
-      "id": "croptopia:calamari",
-      "required": false
-    },
-    {
-      "id": "croptopia:glowing_calamari",
-      "required": false
-    },
-    {
-      "id": "croptopia:tuna",
-      "required": false
-    },
-    {
       "id": "croptopia:bacon",
-      "required": false
-    },
-    {
-      "id": "croptopia:crab",
-      "required": false
-    },
-    {
-      "id": "croptopia:clam",
-      "required": false
-    },
-    {
-      "id": "croptopia:oyster",
       "required": false
     },
     {
@@ -224,18 +144,6 @@
       "required": false
     },
     {
-      "id": "alexsmobs:blobfish",
-      "required": false
-    },
-    {
-      "id": "alexsmobs:lobster_tail",
-      "required": false
-    },
-    {
-      "id": "alexsmobs:flying_fish",
-      "required": false
-    },
-    {
       "id": "alexsmobs:kangaroo_meat",
       "required": false
     },
@@ -252,10 +160,6 @@
       "required": false
     },
     {
-      "id": "alexsdelight:raw_catfish_slice",
-      "required": false
-    },
-    {
       "id": "alexsdelight:kangaroo_shank",
       "required": false
     },
@@ -268,19 +172,7 @@
       "required": false
     },
     {
-      "id": "betteranimalsplus:calamari_raw",
-      "required": false
-    },
-    {
-      "id": "betteranimalsplus:eel_meat_raw",
-      "required": false
-    },
-    {
       "id": "betteranimalsplus:turkey_leg_raw",
-      "required": false
-    },
-    {
-      "id": "betteranimalsplus:crab_meat_raw",
       "required": false
     },
     {
@@ -289,18 +181,6 @@
     },
     {
       "id": "betteranimalsplus:venison_raw",
-      "required": false
-    },
-    {
-      "id": "culturaldelights:squid",
-      "required": false
-    },
-    {
-      "id": "culturaldelights:glow_squid",
-      "required": false
-    },
-    {
-      "id": "culturaldelights:raw_calamari",
       "required": false
     },
     {
@@ -389,6 +269,26 @@
     },
     {
       "id": "twilightdelight:hydra_piece",
+      "required": false
+    },
+    {
+      "id": "#forge:raw_bacon",
+      "required": false
+    },
+    {
+      "id": "#forge:raw_beef",
+      "required": false
+    },
+    {
+      "id": "#forge:raw_chicken",
+      "required": false
+    },
+    {
+      "id": "#forge:raw_mutton",
+      "required": false
+    },
+    {
+      "id": "#forge:raw_pork",
       "required": false
     }
   ]

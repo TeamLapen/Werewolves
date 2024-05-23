@@ -87,7 +87,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     @SuppressWarnings({"DataFlowIssue"})
     public static boolean isMeat(@Nullable LivingEntity entity, ItemStack stack) {
-        return stack.isEdible() && (stack.getFoodProperties(entity).isMeat() || stack.is(ModTags.Items.MEAT) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()));
+        return stack.isEdible() && (stack.getFoodProperties(entity).isMeat() || stack.is(ModTags.Items.WEREWOLF_FOOD) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()));
     }
 
     @Deprecated
@@ -96,7 +96,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean isRawMeat( @Nullable LivingEntity entity, ItemStack stack) {
-        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAWMEATS) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()));
+        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAW_MEAT) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()));
     }
 
     @Deprecated
@@ -109,7 +109,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
      * Otherwise use {@link #isRawMeat(net.minecraft.world.entity.LivingEntity, net.minecraft.world.item.ItemStack)}
      */
     public static boolean isRawMeatSkipMeat(ItemStack stack) {
-        return stack.is(ModTags.Items.RAWMEATS);
+        return stack.is(ModTags.Items.RAW_MEAT);
     }
 
     public static Optional<IWerewolf> asIWerewolf(LivingEntity entity) {
