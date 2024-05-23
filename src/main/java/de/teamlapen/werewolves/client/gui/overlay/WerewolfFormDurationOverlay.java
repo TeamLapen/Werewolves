@@ -50,7 +50,7 @@ public class WerewolfFormDurationOverlay implements IGuiOverlay {
             int l = scaledHeight - 32 + 3;
             graphics.blitSprite(EXPERIENCE_BAR_BACKGROUND_SPRITE, x, l, j, 5);
             if (k > 0) {
-                graphics.blitSprite(EXPERIENCE_BAR_PROGRESS_SPRITE, j, 5, k, 0, x+k, l, k, 5);
+                graphics.blitSprite(EXPERIENCE_BAR_PROGRESS_SPRITE, j, 5, k, 0, x+k, l, j-k, 5);
             }
 
         RenderSystem.enableBlend();
