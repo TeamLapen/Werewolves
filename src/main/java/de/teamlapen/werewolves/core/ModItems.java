@@ -93,7 +93,7 @@ public class ModItems {
     public static final DeferredItem<SilverArmorItem> SILVER_LEGGINGS = register("silver_leggings", () -> new SilverArmorItem(ArmorItem.Type.LEGGINGS, props()));
     public static final DeferredItem<SilverArmorItem> SILVER_BOOTS = register("silver_boots", () -> new SilverArmorItem(ArmorItem.Type.BOOTS, props()));
 
-    public static final DeferredItem<Item> WOLF_BERRIES = register("wolf_berries", () -> new ItemNameBlockItem(ModBlocks.WOLF_BERRY_BUSH.get(), props().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).build())));
+    public static final DeferredItem<Item> WOLF_BERRIES = register("wolf_berries", () -> new WolfBerries(ModBlocks.WOLF_BERRY_BUSH.get(), props().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).build())));
 
     public static final DeferredItem<SignItem> JACARANDA_SIGN = register("jacaranda_sign", () -> new SignItem(props().stacksTo(16), ModBlocks.JACARANDA_SIGN.get(), ModBlocks.JACARANDA_WALL_SIGN.get()));
     public static final DeferredItem<SignItem> MAGIC_SIGN = register("magic_sign", () -> new SignItem(props().stacksTo(16), ModBlocks.MAGIC_SIGN.get(), ModBlocks.MAGIC_WALL_SIGN.get()));

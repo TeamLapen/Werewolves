@@ -121,6 +121,10 @@
     {
       "id": "betteranimalsplus:crab_meat_cooked",
       "required": false
+    },
+    {
+      "id": "#forge:cooked_fishes",
+      "required": false
     }
   ]
 }

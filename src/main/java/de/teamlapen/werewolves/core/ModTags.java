@@ -45,12 +45,14 @@ public class ModTags {
         public static final TagKey<Item> SILVER_ORE = forge("ores/silver");
         public static final TagKey<Item> SILVER_INGOT = forge("ingots/silver");
         public static final TagKey<Item> SILVER_NUGGET = forge("nuggets/silver");
-        public static final TagKey<Item> RAWMEATS = forge("rawmeats");
-        public static final TagKey<Item> COOKEDMEATS = forge("cookedmeats");
+        public static final TagKey<Item> RAW_MEAT = forge("rawmeats");
+        public static final TagKey<Item> COOKED_MEAT = forge("cookedmeats");
         public static final TagKey<Item> RAW_FISH = werewolves("raw_fish");
         public static final TagKey<Item> COOKED_FISH = werewolves("cooked_fish");
         public static final TagKey<Item> RAW_FOOD = werewolves("raw_food");
+        @Deprecated
         public static final TagKey<Item> MEAT = werewolves("meat");
+        public static final TagKey<Item> WEREWOLF_FOOD = werewolves("werewolf_food");
         public static final TagKey<Item> SILVER_TOOL = werewolves("tools/silver");
         public static final TagKey<Item> SILVER_ARMOR = werewolves("armor/silver");
         public static final TagKey<Item> SILVER_ITEM = werewolves("type/silver");

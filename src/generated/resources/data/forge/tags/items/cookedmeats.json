@@ -266,6 +266,26 @@
     {
       "id": "twilightdelight:cooked_venison_rib",
       "required": false
+    },
+    {
+      "id": "#forge:cooked_bacon",
+      "required": false
+    },
+    {
+      "id": "#forge:cooked_beef",
+      "required": false
+    },
+    {
+      "id": "#forge:cooked_chicken",
+      "required": false
+    },
+    {
+      "id": "#forge:cooked_mutton",
+      "required": false
+    },
+    {
+      "id": "#forge:cooked_pork",
+      "required": false
     }
   ]
 }

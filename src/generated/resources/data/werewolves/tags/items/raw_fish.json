@@ -123,6 +123,10 @@
     {
       "id": "culturaldelights:raw_calamari",
       "required": false
+    },
+    {
+      "id": "#forge:raw_fishes",
+      "required": false
     }
   ]
 }
