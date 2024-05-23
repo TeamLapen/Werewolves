@@ -4,6 +4,7 @@ import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
 import de.teamlapen.vampirism.items.VampirismItemBloodFoodItem;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -36,10 +37,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
-import net.minecraftforge.event.entity.player.SleepingTimeCheckEvent;
+import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
@@ -85,6 +83,16 @@ public class ModPlayerEventHandler {
     }
 
     @SubscribeEvent
+    public void onFall(PlayerFlyableFallEvent event) {
+        if (Helper.isWerewolf(event.getEntity())) {
+            WerewolfPlayer werewolf = WerewolfPlayer.get( event.getEntity());
+            if (werewolf.getSpecialAttributes().leap) {
+                ((ActionHandler<IWerewolfPlayer>) werewolf.getActionHandler()).deactivateAction(ModActions.LEAP.get(), false, true);
+            }
+        }
+    }
+
+    @SubscribeEvent
     public void onFall(LivingFallEvent event) {
         if (event.getEntity() instanceof Player && Helper.isWerewolf(((Player) event.getEntity()))) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
@@ -93,7 +101,7 @@ public class ModPlayerEventHandler {
                 event.setDamageMultiplier(event.getDamageMultiplier() * 0.8f);
             }
             if (werewolf.getSpecialAttributes().leap) {
-                werewolf.getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
+                ((ActionHandler<IWerewolfPlayer>) werewolf.getActionHandler()).deactivateAction(ModActions.LEAP.get(), false, true);
             }
 
             if (werewolf.getForm().isTransformed() && werewolf.getSkillHandler().isSkillEnabled(ModSkills.JUMP.get())) {
@@ -114,27 +122,24 @@ public class ModPlayerEventHandler {
     public void onJump(LivingEvent.LivingJumpEvent event) {
         if (event.getEntity() instanceof Player) {
             if (Helper.isWerewolf(((Player) event.getEntity()))) {
-                WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
+                LivingEntity entity = event.getEntity();
+                WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) entity));
                 if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())) {
-                    Vec3 motion = event.getEntity().getDeltaMovement().multiply(1.1, 1.2, 1.1);
-                    event.getEntity().setDeltaMovement(motion);
+                    Vec3 motion = entity.getDeltaMovement().multiply(1.1, 1.2, 1.1);
+                    entity.setDeltaMovement(motion);
                 }
 
                 //unnecessary leap attribute because LivingFallEvent is not called for creative player
                 if (werewolf.getActionHandler().isActionActive(ModActions.LEAP.get())) {
-                    if (werewolf.getSpecialAttributes().leap) {
-                        werewolf.getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
-                    } else {
+                    if (!werewolf.getSpecialAttributes().leap) {
                         werewolf.getSpecialAttributes().leap = true;
-                        Vec3 vector3d = event.getEntity().getDeltaMovement();
-                        event.getEntity().setDeltaMovement(vector3d.x, vector3d.y + (((LivingEntityAccessor) event.getEntity()).invokeGetJumpPower_werewolves() * 0.3), vector3d.z);
+                        Vec3 viewVector = entity.getViewVector(0);
+                        entity.addDeltaMovement(new Vec3(viewVector.x, ((LivingEntityAccessor) entity).invokeGetJumpPower_werewolves() * 0.5, viewVector.z).multiply(0.8,0.8,0.8));
                     }
-                } else {
-                    werewolf.getSpecialAttributes().leap = false;
                 }
 
                 if (werewolf.getForm().isTransformed() && werewolf.getSkillHandler().isSkillEnabled(ModSkills.JUMP.get())) {
-                    event.getEntity().setDeltaMovement(event.getEntity().getDeltaMovement().add(0, 0.5 * 0.1,0));
+                    entity.addDeltaMovement(new Vec3(0, 0.5 * 0.1,0));
                 }
             }
         }

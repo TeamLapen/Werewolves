@@ -55,7 +55,7 @@ public class ModKeys {
         keyOpt.ifPresent(key -> {
             Player player = Minecraft.getInstance().player;
             LazyOptional<WerewolfPlayer> werewolfOpt = WerewolfPlayer.getOptEx(Minecraft.getInstance().player);
-            if (key == LEAP) {
+            if (key == LEAP && Minecraft.getInstance().options.keyJump.isDown()) {
                 werewolfOpt.filter(w -> !w.getActionHandler().isActionOnCooldown(ModActions.LEAP.get()) && w.getForm().isTransformed()).ifPresent(w -> {
                     WerewolvesMod.dispatcher.sendToServer(new ServerboundSimpleInputEventPacket(ServerboundSimpleInputEventPacket.Type.LEAP));
                     WerewolfPlayer.get(player).getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
@@ -74,10 +74,10 @@ public class ModKeys {
     }
 
     public Optional<KeyMapping> getPressedKeyBinding() {
-        if (LEAP.consumeClick()) {
-            return Optional.of(LEAP);
-        } else if (BITE.consumeClick()) {
+        if (BITE.consumeClick()) {
             return Optional.of(BITE);
+        } else if (LEAP.isDown()) {
+            return Optional.of(LEAP);
         }
         return Optional.empty();
     }
