@@ -211,7 +211,7 @@ public class BalanceConfig {
             builder.push("human_form");
             this.human_form_enabled = builder.define("human_form_enabled", true);
             this.human_form_cooldown = builder.comment("In seconds").defineInRange("human_form_cooldown", 0, 0, 10000);
-            this.human_form_speed_amount = builder.defineInRange("human_form_speed_amount", 0.2, 0, 5);
+            this.human_form_speed_amount = builder.defineInRange("human_form_speed_amount", 0.05, 0, 5);
             this.human_form_armor = builder.defineInRange("human_form_armor", 4.0, 0, 20.0);
             this.human_form_armor_toughness = builder.defineInRange("human_form_armor_toughness", 2, 0, 10.0);
             this.human_form_food_consumption = builder.defineInRange("human_form_food_consumption", 0.1, -1, Double.MAX_VALUE);
@@ -221,7 +221,7 @@ public class BalanceConfig {
             builder.push("beast_form");
             this.beast_form_enabled = builder.define("beast_form_enabled", true);
             this.beast_form_cooldown = builder.comment("In seconds").defineInRange("beast_form_cooldown", 0, 0, 10000);
-            this.beast_form_speed_amount = builder.defineInRange("beast_form_speed_amount", 0.3, 0, 5);
+            this.beast_form_speed_amount = builder.defineInRange("beast_form_speed_amount", 0.15, 0, 5);
             this.beast_form_attack_damage = builder.defineInRange("beast_form_attack_damage", 2D, 0, 100);
             this.beast_form_armor = builder.defineInRange("beast_form_armor", 16.0, 0, 20.0);
             this.beast_form_armor_toughness = builder.defineInRange("beast_form_armor_toughness", 8, 0, 10.0);
