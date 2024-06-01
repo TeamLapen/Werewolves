@@ -114,7 +114,9 @@ public class ModPlayerEventHandler {
                     if (!werewolf.getSpecialAttributes().leap) {
                         werewolf.getSpecialAttributes().leap = true;
                         Vec3 viewVector = entity.getViewVector(0);
-                        entity.addDeltaMovement(new Vec3(viewVector.x, ((LivingEntityAccessor) entity).invokeGetJumpPower_werewolves() * 0.5, viewVector.z).multiply(0.8,0.8,0.8));
+                        Vec3 leap = new Vec3(viewVector.x, ((LivingEntityAccessor) entity).invokeGetJumpPower_werewolves() * 0.5, viewVector.z);
+                        float leapModifier = werewolf.getForm().getLeapModifier();
+                        entity.addDeltaMovement(leap.multiply(leapModifier, leapModifier, leapModifier));
                     }
                 }
 

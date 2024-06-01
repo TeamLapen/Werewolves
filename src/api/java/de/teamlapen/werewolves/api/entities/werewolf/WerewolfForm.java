@@ -12,11 +12,11 @@ import java.util.*;
 public class WerewolfForm {
     private static final Map<String, WerewolfForm> REGISTRY = new HashMap<>();
     public static final Codec<WerewolfForm> CODEC = Codec.STRING.xmap(WerewolfForm::getForm, WerewolfForm::getName);
-    public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false, 0, 0F, true);
-    public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true, 3, 0.05F, true);
-    public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true, 11, 0.2F, true);
-    public static final WerewolfForm BEAST4L = new WerewolfForm("beast4l", WerewolfSize.BEAST, false, true, 11, 0.3F, false);
-    public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true, 11, 0.4F, false);
+    public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false, 0, 0F, true, 0);
+    public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true, 3, 0.05F, true, 0.16f);
+    public static final WerewolfForm BEAST = new WerewolfForm("beast", WerewolfSize.BEAST, false, true, 11, 0.2F, true, 0.32f);
+    public static final WerewolfForm BEAST4L = new WerewolfForm("beast4l", WerewolfSize.BEAST, false, true, 11, 0.3F, false, 0.32f);
+    public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true, 11, 0.4F, false, 0.8f);
 
     @Nonnull
     private final String name;
@@ -28,8 +28,9 @@ public class WerewolfForm {
     private final Component textComponent;
     private final float damageReduction;
     private final boolean hasArms;
+    private final float leapModifier;
 
-    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, float damageReduction, boolean hasArms) {
+    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, float damageReduction, boolean hasArms, float leapModifier) {
         if (REGISTRY.containsKey(name)) throw new IllegalStateException("this name already exists");
         REGISTRY.put(name, this);
         if (sizeMap == null) {
@@ -43,6 +44,7 @@ public class WerewolfForm {
         this.textComponent = Component.translatable("form.werewolves." + name);
         this.damageReduction = damageReduction;
         this.hasArms = hasArms;
+        this.leapModifier = leapModifier;
     }
 
     public boolean isHumanLike() {
@@ -87,5 +89,9 @@ public class WerewolfForm {
 
     public static Collection<WerewolfForm> getAllForms() {
         return new ArrayList<>(REGISTRY.values());
+    }
+
+    public float getLeapModifier() {
+        return leapModifier;
     }
 }
