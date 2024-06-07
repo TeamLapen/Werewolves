@@ -201,6 +201,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
                 return true;
             }
         } else {
+            if (this.form.getSize(werewolf.asEntity().getPose()).map(dimensions -> dimensions.makeBoundingBox(werewolf.asEntity().position())).filter(s -> werewolf.asEntity().level().collidesWithSuffocatingBlock(werewolf.asEntity(), s)).isPresent()) {
+                return false;
+            }
             if (werewolf.getForm().isTransformed()) {
                 return true;
             } else {
