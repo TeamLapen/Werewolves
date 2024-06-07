@@ -184,26 +184,30 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    public boolean canBeUsedBy(IWerewolfPlayer player) {
-        if (player.getRepresentingPlayer() instanceof ServerPlayer && (!PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.TRANSFORMATION) || !PermissionAPI.getPermission((ServerPlayer) player.getRepresentingPlayer(), Permissions.FORM))) {
+    public boolean canBeUsedBy(IWerewolfPlayer werewolf) {
+        Player player = werewolf.getRepresentingPlayer();
+        if (player instanceof ServerPlayer && (!PermissionAPI.getPermission((ServerPlayer) player, Permissions.TRANSFORMATION) || !PermissionAPI.getPermission((ServerPlayer) player, Permissions.FORM))) {
             return false;
         }
-        if (player.getRepresentingPlayer().isPassenger() && !this.form.isHumanLike()) return false;
-        boolean active = player.getActionHandler().isActionActive(this);
+        if (player.isPassenger() && !this.form.isHumanLike()) return false;
+        boolean active = werewolf.getActionHandler().isActionActive(this);
         if (active) {
-            if (Helper.isFullMoon(player.getRepresentingPlayer().getCommandSenderWorld())) {
-                return player.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL.get());
+            if (Helper.isFullMoon(player.getCommandSenderWorld())) {
+                return werewolf.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL.get());
             } else {
                 return true;
             }
         } else {
-            if (player.getForm().isTransformed()) {
+            if (this.form.getSize(player.getPose()).map(dimensions -> dimensions.makeBoundingBox(player.position())).filter(s -> player.level().collidesWithSuffocatingBlock(player, s)).isPresent()) {
+                return false;
+            }
+            if (werewolf.getForm().isTransformed()) {
                 return true;
             } else {
-                if (player.getRepresentingPlayer().level().getBiome(player.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_FOREST)) {
+                if (player.level().getBiome(werewolf.getRepresentingEntity().blockPosition()).is(ModBiomes.WEREWOLF_FOREST)) {
                     return true;
                 } else {
-                    return ((WerewolfPlayer) player).getSpecialAttributes().transformationTime < 0.7;
+                    return ((WerewolfPlayer) werewolf).getSpecialAttributes().transformationTime < 0.7;
                 }
             }
         }
