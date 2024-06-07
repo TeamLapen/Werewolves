@@ -21,16 +21,7 @@ public class SilverEffect extends WerewolfWeakeningEffect {
     private static final String DAMAGE = "67318644-855f-49ad-9c74-f310e270a7f5";
 
     public SilverEffect() {
-        super(0xC0C0C0, List.of(new Modifier(Attributes.MOVEMENT_SPEED, UUID.fromString(MOVEMENT_SPEED), "Silver effect", 0.15f), new Modifier(Attributes.ARMOR, UUID.fromString(ARMOR), "Silver effect", 0.15f), new Modifier(Attributes.ATTACK_DAMAGE, UUID.fromString(DAMAGE), "Silver effect", 0.075f) {
-            @Override
-            public AttributeModifier createModifier(int level, int maxLevel, int amplifier) {
-                if (amplifier > 0) {
-                    return super.createModifier(level, maxLevel, amplifier-1);
-                } else {
-                    return new AttributeModifier(this.uuid, this.name, 0, AttributeModifier.Operation.MULTIPLY_TOTAL);
-                }
-            }
-        }));
+        super(0xC0C0C0, List.of(new Modifier(Attributes.MOVEMENT_SPEED, UUID.fromString(MOVEMENT_SPEED), "Silver effect", 0.15f), new Modifier(Attributes.ARMOR, UUID.fromString(ARMOR), "Silver effect", 0.15f), new Modifier(Attributes.ATTACK_DAMAGE, UUID.fromString(DAMAGE), "Silver effect", 0.1f)));
     }
 
     public static MobEffectInstance createSilverEffect(LivingEntity entity, int defaultDuration, int amplifier) {
