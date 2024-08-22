@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import de.teamlapen.lib.lib.storage.ISyncableSaveData;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.ModSkills;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -72,7 +73,7 @@ public class WerewolfInventory implements ISyncableSaveData {
     }
 
     @Override
-    public @NotNull CompoundTag serializeNBT() {
+    public @NotNull CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag nbt = new CompoundTag();
         nbt.putString("lastForm", this.form.getName());
         CompoundTag tag = new CompoundTag();
@@ -84,7 +85,7 @@ public class WerewolfInventory implements ISyncableSaveData {
                 if (!stack.isEmpty()) {
                     CompoundTag itemTag = new CompoundTag();
                     itemTag.putByte("Slot", (byte) i);
-                    stack.save(itemTag);
+                    stack.save(provider, itemTag);
                     list.add(itemTag);
                 }
             }
@@ -94,7 +95,7 @@ public class WerewolfInventory implements ISyncableSaveData {
     }
 
     @Override
-    public void deserializeNBT(@NotNull CompoundTag compoundTag) {
+    public void deserializeNBT(HolderLookup.Provider provider, @NotNull CompoundTag compoundTag) {
         this.form = Objects.requireNonNullElse(WerewolfForm.getForm(compoundTag.getString("lastForm")), WerewolfForm.NONE);
         CompoundTag inventory = compoundTag.getCompound("inventory");
         inventory.getAllKeys().stream().map(WerewolfForm::getForm).forEach(form -> {
@@ -102,20 +103,20 @@ public class WerewolfInventory implements ISyncableSaveData {
             for (int i = 0; i < list.size(); i++) {
                 CompoundTag itemTag = list.getCompound(i);
                 int slot = itemTag.getByte("Slot") & 255;
-                ItemStack stack = ItemStack.of(itemTag);
+                ItemStack stack = ItemStack.parseOptional(provider, itemTag);
                 this.inventories.get(form).set(slot, stack);
             }
         });
     }
 
     @Override
-    public void deserializeUpdateNBT(@NotNull CompoundTag compoundTag) {
-        deserializeNBT(compoundTag);
+    public void deserializeUpdateNBT(HolderLookup.Provider provider, @NotNull CompoundTag compoundTag) {
+        deserializeNBT(provider, compoundTag);
     }
 
     @Override
-    public @NotNull CompoundTag serializeUpdateNBT() {
-        return serializeNBT();
+    public @NotNull CompoundTag serializeUpdateNBT(HolderLookup.Provider provider) {
+        return serializeNBT(provider);
     }
 
     @Override

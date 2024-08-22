@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
-import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.network.ServerboundBiteEventPackage;
@@ -13,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -21,7 +19,6 @@ import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.client.settings.KeyModifier;
-import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.glfw.GLFW;
 
@@ -66,7 +63,7 @@ public class ModKeys {
                 if (Helper.isWerewolf(player)) {
                     WerewolfPlayer werewolf = WerewolfPlayer.get(player);
                     if (!werewolf.getActionHandler().isActionOnCooldown(ModActions.LEAP.get()) && werewolf.getForm().isTransformed()) {
-                        player.connection.send(new ServerboundSimpleInputEventPacket(ServerboundSimpleInputEventPacket.Type.LEAP));
+                        player.connection.send(new ServerboundSimpleInputEventPacket(ServerboundSimpleInputEventPacket.Action.LEAP));
                         werewolf.getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
                     }
                 }

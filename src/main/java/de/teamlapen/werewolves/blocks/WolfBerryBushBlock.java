@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -77,11 +78,11 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
     @Override
     public void randomTick(BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         int i = state.getValue(AGE);
-        if (i < MAX_AGE && level.getRawBrightness(pos.above(), 0) >= 9 && CommonHooks.onCropsGrowPre(level, pos, state, random.nextInt(5) == 0)) {
+        if (i < MAX_AGE && level.getRawBrightness(pos.above(), 0) >= 9 && CommonHooks.canCropGrow(level, pos, state, random.nextInt(5) == 0)) {
             BlockState blockstate = state.setValue(AGE, i + 1);
             level.setBlock(pos, blockstate, 2);
+            CommonHooks.fireCropGrowPost(level, pos, state);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(blockstate));
-            CommonHooks.onCropsGrowPost(level, pos, state);
         }
     }
 
@@ -98,21 +99,26 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public @NotNull InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
-        int i = state.getValue(AGE);
-        boolean flag = i == MAX_AGE;
-        if (!flag && player.getItemInHand(hand).is(Items.BONE_MEAL)) {
-            return InteractionResult.PASS;
-        } else if (i > 1) {
-            int j = 1 + level.random.nextInt(2);
-            popResource(level, pos, new ItemStack(ModItems.WOLF_BERRIES.get(), j + (flag ? 1 : 0)));
-            level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
-            BlockState blockstate = state.setValue(AGE, 1);
-            level.setBlock(pos, blockstate, 2);
-            level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockstate));
-            return InteractionResult.sidedSuccess(level.isClientSide);
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        int i = pState.getValue(AGE);
+        boolean flag = i == 3;
+        return !flag && pStack.is(Items.BONE_MEAL) ? ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION : super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        int i = pState.getValue(AGE);
+        boolean flag = i == 3;
+        if (i > 1) {
+            int j = 1 + pLevel.random.nextInt(2);
+            popResource(pLevel, pPos, new ItemStack(ModItems.WOLF_BERRIES.get(), j + (flag ? 1 : 0)));
+            pLevel.playSound(null, pPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + pLevel.random.nextFloat() * 0.4F);
+            BlockState blockstate = pState.setValue(AGE, Integer.valueOf(1));
+            pLevel.setBlock(pPos, blockstate, 2);
+            pLevel.gameEvent(GameEvent.BLOCK_CHANGE, pPos, GameEvent.Context.of(pPlayer, blockstate));
+            return InteractionResult.sidedSuccess(pLevel.isClientSide);
         } else {
-            return super.use(state, level, pos, player, hand, hitResult);
+            return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
         }
     }
 

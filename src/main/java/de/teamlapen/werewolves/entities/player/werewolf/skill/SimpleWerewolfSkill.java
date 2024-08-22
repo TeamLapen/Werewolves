@@ -5,7 +5,6 @@ import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillType;
-import de.teamlapen.vampirism.api.entity.player.skills.SkillType;
 import de.teamlapen.vampirism.entity.player.hunter.skills.HunterSkills;
 import de.teamlapen.vampirism.entity.player.skills.VampirismSkill;
 import de.teamlapen.vampirism.util.RegUtil;
@@ -15,8 +14,10 @@ import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -108,14 +109,12 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
     }
     public static class AttributeSkill extends SimpleWerewolfSkill {
 
-        private final UUID attribute;
-        private final Attribute attributeType;
+        private final Holder<Attribute> attributeType;
         private final AttributeModifier.Operation operation;
         private final Function<IWerewolfPlayer, Double> attribute_value;
 
-        public AttributeSkill(String id, boolean desc, UUID attributeUUID, Attribute attributeType, AttributeModifier.Operation operation, Function<IWerewolfPlayer, Double> attribute_value) {
+        public AttributeSkill(boolean desc, Holder<Attribute> attributeType, AttributeModifier.Operation operation, Function<IWerewolfPlayer, Double> attribute_value) {
             super(desc);
-            this.attribute = attributeUUID;
             this.attributeType = attributeType;
             this.operation = operation;
             this.attribute_value = attribute_value;
@@ -125,15 +124,16 @@ public class SimpleWerewolfSkill extends VampirismSkill<IWerewolfPlayer> {
         protected void onDisabled(IWerewolfPlayer player) {
             super.onDisabled(player);
             AttributeInstance attributes = player.asEntity().getAttribute(this.attributeType);
-            attributes.removeModifier(this.attribute);
+            attributes.removeModifier(RegUtil.id(this));
         }
 
         @Override
         protected void onEnabled(IWerewolfPlayer player) {
             super.onEnabled(player);
             AttributeInstance attributes = player.asEntity().getAttribute(this.attributeType);
-            if (attributes.getModifier(this.attribute) == null) {
-                attributes.addPermanentModifier(new AttributeModifier(this.attribute, RegUtil.id(this).toString() + "_skill", this.attribute_value.apply(player), this.operation));
+            ResourceLocation id = RegUtil.id(this);
+            if (attributes.getModifier(id) == null) {
+                attributes.addPermanentModifier(new AttributeModifier(id, this.attribute_value.apply(player), this.operation));
             }
         }
     }

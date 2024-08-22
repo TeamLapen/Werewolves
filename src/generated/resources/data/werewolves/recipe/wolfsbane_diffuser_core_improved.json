@@ -1,0 +1,17 @@
+{
+  "type": "vampirism:alchemical_cauldron",
+  "experience": 2.0,
+  "fluid": {
+    "item": "werewolves:wolfsbane"
+  },
+  "ingredient": {
+    "item": "werewolves:wolfsbane_diffuser_core"
+  },
+  "result": {
+    "count": 1,
+    "id": "werewolves:wolfsbane_diffuser_core_improved"
+  },
+  "skill": [
+    "vampirism:garlic_diffuser_improved"
+  ]
+}

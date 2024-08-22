@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.world.gen;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import de.teamlapen.werewolves.config.CommonConfig;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import net.minecraft.util.RandomSource;
@@ -13,7 +14,7 @@ import java.lang.reflect.Field;
 
 public class ConfigIntProvider extends IntProvider {
 
-    public static final Codec<ConfigIntProvider> CODEC = Codec.STRING.fieldOf("configFieldName").xmap(ConfigIntProvider::new, (p_236775_0_) -> p_236775_0_.supplier.getPath()).codec();
+    public static final MapCodec<ConfigIntProvider> CODEC = Codec.STRING.fieldOf("configFieldName").xmap(ConfigIntProvider::new, (p_236775_0_) -> p_236775_0_.supplier.getPath());
 
     public static ConfigIntProvider of(CommonConfig.IntValueExt supplier) {
         return new ConfigIntProvider(supplier);

@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.effects.BadOmenEffect;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.effects.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.registries.Registries;
@@ -32,7 +33,7 @@ public class ModEffects {
     public static final DeferredHolder<MobEffect, MobEffect> STUN = EFFECTS.register("stun", StunEffect::new);
 
     public static class V {
-        public static final DeferredHolder<MobEffect, MobEffect> POISON = DeferredHolder.create(ResourceKey.create(Registries.MOB_EFFECT, new ResourceLocation("vampirism", "poison")));
+        public static final DeferredHolder<MobEffect, MobEffect> POISON = DeferredHolder.create(ResourceKey.create(Registries.MOB_EFFECT, WResourceLocation.v("poison")));
 
         private static void init() {
 

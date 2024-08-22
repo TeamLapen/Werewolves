@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.lib.lib.data.BaseItemModelGenerator;
 import de.teamlapen.vampirism.util.RegUtil;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -141,6 +142,12 @@ public class ItemModelGenerator extends BaseItemModelGenerator {
         block(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), "wolfsbane_diffuser_long");
         withExistingParent(ModItems.WOLFSBANE_DIFFUSER_CORE.get(), ModItems.V.GARLIC_DIFFUSER_CORE.get()).texture("texture", "block/wolfsbane_diffuser_inside");
         withExistingParent(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get(), ModItems.V.GARLIC_DIFFUSER_CORE.get()).texture("texture", "block/wolfsbane_diffuser_improved_inside");
+
+        withExistingParent(ModItems.CROSSBOW_ARROW_SILVER_BOLT.get(), vLoc("item/crossbow_arrow"));
+    }
+
+    protected static ResourceLocation vLoc(String string) {
+        return WResourceLocation.v(string);
     }
 
     @NotNull
@@ -188,7 +195,7 @@ public class ItemModelGenerator extends BaseItemModelGenerator {
         if (rl.getPath().contains("/")) {
             return rl;
         }
-        return new ResourceLocation(rl.getNamespace(), folder + "/" + rl.getPath());
+        return WResourceLocation.loc(rl.getNamespace(), folder + "/" + rl.getPath());
     }
 
     @NotNull

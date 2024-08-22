@@ -22,7 +22,6 @@ public class RegistryManager implements IInitListener {
         ModSounds.register(bus);
         ModTiles.register(bus);
         ModVillage.register(bus);
-        ModLootTables.register(bus);
         ModCommands.register(bus);
         ModActions.register(bus);
         ModSkills.register(bus);
@@ -31,6 +30,7 @@ public class RegistryManager implements IInitListener {
         ModEntityActions.register(bus);
         ModWorld.register(bus);
         ModAttachments.register(bus);
+        ModArmorMaterials.register(bus);
     }
 
     public RegistryManager(IEventBus modEventBus) {

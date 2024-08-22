@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public class DaffodilBlock extends FlowerBlock {
 
     public DaffodilBlock() {
-        super(() -> MobEffects.POISON, 9, Block.Properties.of().ignitedByLava().pushReaction(PushReaction.DESTROY).isViewBlocking(UtilLib::never).noCollission().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS));
+        super(MobEffects.POISON, 9, Block.Properties.of().ignitedByLava().pushReaction(PushReaction.DESTROY).isViewBlocking(UtilLib::never).noCollission().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS));
     }
 
     @Override

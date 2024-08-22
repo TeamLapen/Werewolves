@@ -52,7 +52,7 @@ public class AggressiveWolfEntity extends Wolf {
     }
 
     @Override
-    public boolean canBeLeashed(@Nonnull Player player) {
+    public boolean canBeLeashed() {
         return false;
     }
 

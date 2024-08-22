@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.core;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.config.VampirismConfig;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -19,10 +20,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
-import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,9 +68,8 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick(ClientTickEvent.Pre event) {
         if (this.mc.level == null || this.mc.player == null || !this.mc.player.isAlive()) return;
-        if (event.phase == TickEvent.Phase.END) return;
         this.lastTicks = this.ticks;
         WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
 
@@ -134,7 +134,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
 
 
             if (shouldRenderVision()) {
-                this.blurShader.process(event.getPartialTick());
+                this.blurShader.process(event.getPartialTick().getGameTimeDeltaTicks());
                 this.mc.getMainRenderTarget().bindWrite(false);
             }
         }
@@ -181,15 +181,15 @@ public class RenderHandler implements ResourceManagerReloadListener {
         if (this.blurShader != null) {
             this.blurShader.close();
         }
-        ResourceLocation resourcelocationBlur = new ResourceLocation(REFERENCE.VMODID, "shaders/blank.json");
+        ResourceLocation resourcelocationBlur = WResourceLocation.v("shaders/blank.json");
         try {
             this.blurShader = new PostChain(this.mc.getTextureManager(), this.mc.getResourceManager(), this.mc.getMainRenderTarget(), resourcelocationBlur);
             RenderTarget swap = this.blurShader.getTempTarget("swap");
 
-            this.blit = blurShader.addPass("blit", swap, this.mc.getMainRenderTarget());
-            this.blur1 = this.blurShader.addPass("blur", this.mc.getMainRenderTarget(), swap);
+            this.blit = blurShader.addPass("blit", swap, this.mc.getMainRenderTarget(), false);
+            this.blur1 = this.blurShader.addPass("blur", this.mc.getMainRenderTarget(), swap, false);
             this.blur1.getEffect().safeGetUniform("BlurDir").set(1.0F, 0.0F);
-            this.blur2 = this.blurShader.addPass("blur", swap, this.mc.getMainRenderTarget());
+            this.blur2 = this.blurShader.addPass("blur", swap, this.mc.getMainRenderTarget(), false);
             this.blur2.getEffect().safeGetUniform("BlurDir").set(0.0F, 1.0F);
 
             this.blurShader.resize(this.mc.getWindow().getWidth(), this.mc.getWindow().getHeight());

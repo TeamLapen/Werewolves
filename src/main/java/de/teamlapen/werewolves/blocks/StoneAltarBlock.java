@@ -133,8 +133,8 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
 
     @Nonnull
     @Override
-    public InteractionResult use(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand handIn, @Nonnull BlockHitResult hit) {
-        ItemStack heldItem = player.getItemInHand(handIn);
+    public InteractionResult useWithoutItem(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, Player player, @Nonnull BlockHitResult hit) {
+        ItemStack heldItem = player.getItemInHand(InteractionHand.MAIN_HAND);
         StoneAltarBlockEntity te = ((StoneAltarBlockEntity) worldIn.getBlockEntity(pos));
         if (!worldIn.isClientSide && te != null) {
             StoneAltarBlockEntity.Result result = te.canActivate(player);
@@ -227,9 +227,6 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
                     float ry = rand.nextFloat() * 0.8F + 0.1F;
                     float rz = rand.nextFloat() * 0.8F + 0.1F;
                     ItemEntity entityItem = new ItemEntity(world, (float) pos.getX() + rx, (float) pos.getY() + ry, (float) pos.getZ() + rz, item.copy());
-                    if (item.hasTag()) {
-                        entityItem.getItem().setTag(item.getTag().copy());
-                    }
 
                     float factor = 0.05F;
                     entityItem.setDeltaMovement(rand.nextGaussian() * (double) factor, rand.nextGaussian() * (double) factor + 0.20000000298023224D, rand.nextGaussian() * (double) factor);

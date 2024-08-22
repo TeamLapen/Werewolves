@@ -1,16 +1,17 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.advancements.critereon.FactionSubPredicate;
+import de.teamlapen.vampirism.advancements.critereon.PlayerFactionSubPredicate;
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.factions.ISkillNode;
 import de.teamlapen.vampirism.api.entity.factions.ISkillTree;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
-import de.teamlapen.vampirism.api.entity.player.skills.SkillType;
 import de.teamlapen.vampirism.entity.player.lord.skills.LordSkills;
 import de.teamlapen.vampirism.entity.player.skills.ActionSkill;
 import de.teamlapen.vampirism.entity.player.skills.SkillNode;
 import de.teamlapen.vampirism.entity.player.skills.SkillTree;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -21,7 +22,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.skill.SimpleWerewolfSkil
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.HolderGetter;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,15 +34,13 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.ApiStatus;
 
-import static de.teamlapen.werewolves.util.SkillUtils.SPEED_SKILL;
-
 @SuppressWarnings("unused")
 public class ModSkills {
 
     public static final DeferredRegister<ISkill<?>> SKILLS = DeferredRegister.create(VampirismRegistries.Keys.SKILL, REFERENCE.MODID);
 
-    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> LEVEL_ROOT = SKILLS.register(SkillType.LEVEL.createIdForFaction(REFERENCE.WEREWOLF_PLAYER_KEY).getPath(), () -> new SimpleWerewolfSkill(0,false));
-    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> LORD_ROOT = SKILLS.register(SkillType.LORD.createIdForFaction(REFERENCE.WEREWOLF_PLAYER_KEY).getPath(), () -> new SimpleWerewolfSkill.LordWerewolfSkill(0,false));
+    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> LEVEL_ROOT = SKILLS.register(REFERENCE.WEREWOLF_PLAYER_KEY.getPath(), () -> new SimpleWerewolfSkill(0,false));
+    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> LORD_ROOT = SKILLS.register(REFERENCE.WEREWOLF_PLAYER_KEY.withSuffix("_lord").getPath(), () -> new SimpleWerewolfSkill.LordWerewolfSkill(0,false));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> HUMAN_FORM = SKILLS.register("human_form", () -> new FormActionSkill(ModActions.HUMAN_FORM, Trees.LEVEL, 2));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> NIGHT_VISION = SKILLS.register("night_vision", () -> new SimpleWerewolfSkill(true).setToggleActions(
             (player) -> ((WerewolfPlayer) player).getSpecialAttributes().night_vision = true,
@@ -56,7 +55,7 @@ public class ModSkills {
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> HEALTH_AFTER_KILL = SKILLS.register("health_after_kill", () -> new SimpleWerewolfSkill(1, true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> HOWLING = SKILLS.register("howling", () -> new ActionSkill<>(ModActions.HOWLING, Trees.LEVEL, true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> SENSE = SKILLS.register("sense", () -> new ActionSkill<>(ModActions.SENSE, Trees.LEVEL, true));
-    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> SPEED = SKILLS.register("speed", () -> new SimpleWerewolfSkill.AttributeSkill("speed", true, SPEED_SKILL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADDITION, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
+    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> SPEED = SKILLS.register("speed", () -> new SimpleWerewolfSkill.AttributeSkill(true, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.ADD_VALUE, player -> WerewolvesConfig.BALANCE.SKILLS.speed_amount.get()));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> JUMP = SKILLS.register("jump", () -> new SimpleWerewolfSkill(true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> LEAP = SKILLS.register("leap", () -> new ActionSkill<>(ModActions.LEAP, Trees.LEVEL, true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> WOLF_PACK = SKILLS.register("wolf_pack", () -> new SimpleWerewolfSkill(1).defaultDescWithEnhancement(HOWLING::get));
@@ -123,10 +122,10 @@ public class ModSkills {
         public static final ResourceKey<ISkillNode> LORD_5 = node("lord_5");
 
         private static ResourceKey<ISkillNode> node(String path) {
-            return ResourceKey.create(VampirismRegistries.Keys.SKILL_NODE, new ResourceLocation(REFERENCE.MODID, "werewolf/" + path));
+            return ResourceKey.create(VampirismRegistries.Keys.SKILL_NODE, WResourceLocation.mod("werewolf/" + path));
         }
 
-        public static void createSkillNodes(BootstapContext<ISkillNode> context) {
+        public static void createSkillNodes(BootstrapContext<ISkillNode> context) {
             context.register(LEVEL_ROOT, new SkillNode(ModSkills.LEVEL_ROOT));
             context.register(SKILL1, new SkillNode(ModSkills.HUMAN_FORM));
             context.register(SKILL2, new SkillNode(ModSkills.NIGHT_VISION, ModSkills.SENSE));
@@ -167,13 +166,13 @@ public class ModSkills {
         public static final ResourceKey<ISkillTree> LORD = tree("lord");
 
         private static ResourceKey<ISkillTree> tree(String path) {
-            return ResourceKey.create(VampirismRegistries.Keys.SKILL_TREE, new ResourceLocation(REFERENCE.MODID, "werewolf/" + path));
+            return ResourceKey.create(VampirismRegistries.Keys.SKILL_TREE, WResourceLocation.mod("werewolf/" + path));
         }
 
-        public static void createSkillTrees(BootstapContext<ISkillTree> context) {
+        public static void createSkillTrees(BootstrapContext<ISkillTree> context) {
             HolderGetter<ISkillNode> lookup = context.lookup(VampirismRegistries.Keys.SKILL_NODE);
-            context.register(LEVEL, new SkillTree(WReference.WEREWOLF_FACTION, EntityPredicate.Builder.entity().subPredicate(FactionSubPredicate.faction(WReference.WEREWOLF_FACTION)).build(), new ItemStack(ModItems.LIVER.get()), Component.translatable("text.vampirism.skills.level")));
-            context.register(LORD, new SkillTree(WReference.WEREWOLF_FACTION, EntityPredicate.Builder.entity().subPredicate(FactionSubPredicate.lord(WReference.WEREWOLF_FACTION)).build(), new ItemStack(ModItems.WEREWOLF_MINION_CHARM.get()), Component.translatable("text.vampirism.skills.lord")));
+            context.register(LEVEL, new SkillTree(WReference.WEREWOLF_FACTION, EntityPredicate.Builder.entity().subPredicate(PlayerFactionSubPredicate.faction(WReference.WEREWOLF_FACTION)).build(), new ItemStack(ModItems.LIVER.get()), Component.translatable("text.vampirism.skills.level")));
+            context.register(LORD, new SkillTree(WReference.WEREWOLF_FACTION, EntityPredicate.Builder.entity().subPredicate(PlayerFactionSubPredicate.lord(WReference.WEREWOLF_FACTION)).build(), new ItemStack(ModItems.WEREWOLF_MINION_CHARM.get()), Component.translatable("text.vampirism.skills.lord")));
         }
     }
 }

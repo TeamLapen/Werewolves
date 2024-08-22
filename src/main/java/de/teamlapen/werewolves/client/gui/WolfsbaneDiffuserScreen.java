@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.client.gui.ProgressBar;
 import de.teamlapen.vampirism.REFERENCE;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.blocks.entity.WolfsbaneDiffuserBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class WolfsbaneDiffuserScreen extends Screen {
 
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(REFERENCE.MODID, "textures/gui/garlic_diffuser.png");
+    private static final ResourceLocation BACKGROUND = WResourceLocation.v("textures/gui/garlic_diffuser.png");
     protected final int xSize = 220;
     protected final int ySize = 114;
     private final WolfsbaneDiffuserBlockEntity tile;

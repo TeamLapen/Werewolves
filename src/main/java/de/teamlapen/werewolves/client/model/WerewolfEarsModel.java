@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.client.model;
 
 import com.google.common.collect.ImmutableList;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -82,7 +83,7 @@ public class WerewolfEarsModel<T extends LivingEntity> extends HumanoidModel<T> 
         List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/human", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.HUMAN.getSkinTypes()) {
             for (int i = 0; i < WerewolfForm.HUMAN.getSkinTypes(); i++) {
-                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/human/werewolf_ear_claws_" + i + ".png");
+                ResourceLocation s = WResourceLocation.mod("textures/entity/werewolf/human/werewolf_ear_claws_" + i + ".png");
                 if (!locs.contains(s)) {
                     locs.add(s);
                 }

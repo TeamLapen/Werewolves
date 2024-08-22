@@ -5,7 +5,8 @@ import de.teamlapen.vampirism.entity.player.LevelAttributeModifier;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
-import net.minecraft.world.effect.AttributeModifierTemplate;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,19 +31,13 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
-        if (!Helper.isWerewolf(entityLivingBaseIn)) {
-            entityLivingBaseIn.removeEffect(this);
-        }
+    public boolean applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+        return Helper.isWerewolf(entityLivingBaseIn);
     }
 
     @Override
     public void onEffectStarted(@NotNull LivingEntity entity, int amplifier) {
-        if (!Helper.isWerewolf(entity)) {
-            entity.removeEffect(this);
-        } else {
-            this.addAttributeModifiers(entity, entity.getAttributes(), amplifier);
-        }
+        this.addAttributeModifiers(entity, entity.getAttributes(), amplifier);
     }
 
     @Override
@@ -50,10 +45,10 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
     }
 
     public void addAttributeModifiers(LivingEntity livingEntity, @NotNull AttributeMap attributeMap, int pAmplifier) {
-        for(Map.Entry<Attribute, AttributeModifierTemplate> entry : this.getAttributeModifiers(livingEntity).entrySet()) {
+        for(Map.Entry<Holder<Attribute>, AttributeTemplate> entry : this.getAttributeModifiers(livingEntity).entrySet()) {
             AttributeInstance attributeinstance = attributeMap.getInstance(entry.getKey());
             if (attributeinstance != null) {
-                attributeinstance.removeModifier(entry.getValue().getAttributeModifierId());
+                attributeinstance.removeModifier(entry.getValue().modifierId());
                 attributeinstance.addPermanentModifier(entry.getValue().create(pAmplifier));
             }
         }
@@ -61,7 +56,7 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
 
     @Override
     public void removeAttributeModifiers(@NotNull AttributeMap attributeMap) {
-        for(Map.Entry<Attribute, UUID> entry : this.getAttributes().entrySet()) {
+        for(Map.Entry<Holder<Attribute>, ResourceLocation> entry : this.getAttributes().entrySet()) {
             AttributeInstance attributeinstance = attributeMap.getInstance(entry.getKey());
             if (attributeinstance != null) {
                 attributeinstance.removeModifier(entry.getValue());
@@ -69,14 +64,14 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
         }
     }
 
-    public Map<Attribute, UUID> getAttributes() {
-        Map<Attribute, UUID> map = new HashMap<>();
-        this.modifiers.forEach(modifier -> map.put(modifier.attribute(), modifier.uuid()));
+    public Map<Holder<Attribute>, ResourceLocation> getAttributes() {
+        Map<Holder<Attribute>, ResourceLocation> map = new HashMap<>();
+        this.modifiers.forEach(modifier -> map.put(modifier.attribute(), modifier.id()));
         return map;
     }
 
-    public @NotNull Map<Attribute, AttributeModifierTemplate> getAttributeModifiers(@Nullable LivingEntity entity) {
-        Map<Attribute, AttributeModifierTemplate> map = new HashMap<>();
+    public @NotNull Map<Holder<Attribute>, AttributeTemplate> getAttributeModifiers(@Nullable LivingEntity entity) {
+        Map<Holder<Attribute>, AttributeTemplate> map = new HashMap<>();
         if (entity == null || Helper.isWerewolf(entity)) {
             int level;
             int maxLevel;
@@ -96,28 +91,35 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
         return map;
     }
 
-    protected record Modifier(Attribute attribute, UUID uuid, String name, float maxModifier, int startingAmplifier) {
+    protected record Modifier(Holder<Attribute> attribute, ResourceLocation id, float maxModifier, int startingAmplifier) {
 
-        Modifier(Attribute attribute, UUID uuid, String name, float maxModifier) {
-            this(attribute, uuid, name, maxModifier, 0);
+        Modifier(Holder<Attribute> attribute, ResourceLocation id, float maxModifier) {
+            this(attribute, id, maxModifier, 0);
         }
 
-        public AttributeModifierTemplate createModifier(int level, int maxLevel) {
+        public AttributeTemplate createModifier(int level, int maxLevel) {
             double value = LevelAttributeModifier.calculateModifierValue(level, maxLevel, this.maxModifier, 1.3);
 
-            return new AttributeModifierTemplate() {
+            return new AttributeTemplate() {
                 @Override
-                public @NotNull UUID getAttributeModifierId() {
-                    return uuid;
+                public @NotNull ResourceLocation modifierId() {
+                    return id();
                 }
 
                 @Override
                 public @NotNull AttributeModifier create(int pAmplifier) {
                     pAmplifier++;
                     pAmplifier = Math.max(0, pAmplifier - startingAmplifier);
-                    return new AttributeModifier(uuid(), name(), -pAmplifier * value, AttributeModifier.Operation.MULTIPLY_TOTAL);
+                    return new AttributeModifier(id(), -pAmplifier * value, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
                 }
             };
         }
+    }
+
+    public interface AttributeTemplate {
+
+        ResourceLocation modifierId();
+
+        AttributeModifier create(int amplifier);
     }
 }

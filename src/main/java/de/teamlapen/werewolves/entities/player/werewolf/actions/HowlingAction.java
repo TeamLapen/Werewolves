@@ -32,7 +32,7 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
 
     @Override
     protected boolean activate(IWerewolfPlayer werewolfPlayer, ActivationContext context) {
-        if (werewolfPlayer.asEntity().getEffect(ModEffects.HOWLING.get()) != null) {
+        if (werewolfPlayer.asEntity().getEffect(ModEffects.HOWLING) != null) {
             return false;
         }
 
@@ -44,7 +44,7 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
 
     protected void applyHowling(IWerewolfPlayer werewolf) {
         Player player = werewolf.asEntity();
-        var effect = new MobEffectInstance(ModEffects.HOWLING.get(), (WerewolvesConfig.BALANCE.SKILLS.howling_duration.get() + WerewolvesConfig.BALANCE.SKILLS.howling_disabled_duration.get()) * 20, 0, true, false, true);
+        var effect = new MobEffectInstance(ModEffects.HOWLING, (WerewolvesConfig.BALANCE.SKILLS.howling_duration.get() + WerewolvesConfig.BALANCE.SKILLS.howling_disabled_duration.get()) * 20, 0, true, false, true);
         AABB bb = new AABB(player.blockPosition());
         bb.inflate(10);
         player.getCommandSenderWorld().getEntities(EntityTypeTest.forClass(LivingEntity.class), bb, WUtils.IS_WEREWOLF).forEach(s -> s.addEffect(effect));
@@ -74,7 +74,7 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
 
     @Override
     public boolean canBeUsedBy(IWerewolfPlayer player) {
-        return player.asEntity().getEffect(ModEffects.HOWLING.get()) == null;
+        return player.asEntity().getEffect(ModEffects.HOWLING) == null;
     }
 
     @Override

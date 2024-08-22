@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -20,12 +21,13 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("SameParameterValue")
 public class ModTags {
     public static class Blocks extends de.teamlapen.vampirism.core.ModTags.Blocks {
-        public static final TagKey<Block> SILVER_ORE = forge("ores/silver");
-        public static final TagKey<Block> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");
-        public static final TagKey<Block> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
-        public static final TagKey<Block> MAGIC_LOG = forge("magic_log");
-        public static final TagKey<Block> JACARANDA_LOG = forge("jacaranda_log");
-        public static final TagKey<Block> NEEDS_SILVER_TOOL = forge("needs_silver_tool");
+        public static final TagKey<Block> SILVER_ORE = common("ores/silver");
+        public static final TagKey<Block> STORAGE_BLOCKS_SILVER = common("storage_blocks/silver");
+        public static final TagKey<Block> STORAGE_BLOCKS_RAW_SILVER = common("storage_blocks/raw_silver");
+        public static final TagKey<Block> MAGIC_LOG = common("magic_log");
+        public static final TagKey<Block> JACARANDA_LOG = common("jacaranda_log");
+        public static final TagKey<Block> NEEDS_SILVER_TOOL = common("needs_silver_tool");
+        public static final TagKey<Block> INCORRECT_FOR_SILVER_TOOL = common("incorrect_for_silver_tool");
 
 
         private static TagKey<Block> mc(ResourceLocation id) {
@@ -33,34 +35,32 @@ public class ModTags {
         }
 
         private static TagKey<Block> werewolves(String id) {
-            return BlockTags.create(new ResourceLocation(REFERENCE.MODID, id));
+            return BlockTags.create(WResourceLocation.mod(id));
         }
 
-        private static TagKey<Block> forge(String id) {
-            return BlockTags.create(new ResourceLocation("forge", id));
+        private static TagKey<Block> common(String id) {
+            return BlockTags.create(WResourceLocation.common(id));
         }
     }
 
     public static class Items extends de.teamlapen.vampirism.core.ModTags.Items {
-        public static final TagKey<Item> SILVER_ORE = forge("ores/silver");
-        public static final TagKey<Item> SILVER_INGOT = forge("ingots/silver");
-        public static final TagKey<Item> SILVER_NUGGET = forge("nuggets/silver");
-        public static final TagKey<Item> RAW_MEAT = forge("rawmeats");
-        public static final TagKey<Item> COOKED_MEAT = forge("cookedmeats");
+        public static final TagKey<Item> SILVER_ORE = common("ores/silver");
+        public static final TagKey<Item> SILVER_INGOT = common("ingots/silver");
+        public static final TagKey<Item> SILVER_NUGGET = common("nuggets/silver");
+        public static final TagKey<Item> RAW_MEAT = common("rawmeats");
+        public static final TagKey<Item> COOKED_MEAT = common("cookedmeats");
         public static final TagKey<Item> RAW_FISH = werewolves("raw_fish");
         public static final TagKey<Item> COOKED_FISH = werewolves("cooked_fish");
         public static final TagKey<Item> RAW_FOOD = werewolves("raw_food");
-        @Deprecated
-        public static final TagKey<Item> MEAT = werewolves("meat");
         public static final TagKey<Item> WEREWOLF_FOOD = werewolves("werewolf_food");
         public static final TagKey<Item> SILVER_TOOL = werewolves("tools/silver");
         public static final TagKey<Item> SILVER_ARMOR = werewolves("armor/silver");
         public static final TagKey<Item> SILVER_ITEM = werewolves("type/silver");
-        public static final TagKey<Item> RAW_MATERIALS_SILVER = forge("raw_materials/silver");
-        public static final TagKey<Item> STORAGE_BLOCKS_SILVER = forge("storage_blocks/silver");
-        public static final TagKey<Item> STORAGE_BLOCKS_RAW_SILVER = forge("storage_blocks/raw_silver");
-        public static final TagKey<Item> MAGIC_LOG = forge("magic_log");
-        public static final TagKey<Item> JACARANDA_LOG = forge("jacaranda_log");
+        public static final TagKey<Item> RAW_MATERIALS_SILVER = common("raw_materials/silver");
+        public static final TagKey<Item> STORAGE_BLOCKS_SILVER = common("storage_blocks/silver");
+        public static final TagKey<Item> STORAGE_BLOCKS_RAW_SILVER = common("storage_blocks/raw_silver");
+        public static final TagKey<Item> MAGIC_LOG = common("magic_log");
+        public static final TagKey<Item> JACARANDA_LOG = common("jacaranda_log");
         public static final TagKey<Item> WOLF_PELT_ARMOR_NORMAL = werewolves("armor/wolf_pelt/normal");
         public static final TagKey<Item> WOLF_PELT_ARMOR_ENHANCED = werewolves("armor/wolf_pelt/enhanced");
         public static final TagKey<Item> WOLF_PELT_ARMOR_ULTIMATE = werewolves("armor/wolf_pelt/ultimate");
@@ -71,11 +71,11 @@ public class ModTags {
         }
 
         private static TagKey<Item> werewolves(String id) {
-            return ItemTags.create(new ResourceLocation(REFERENCE.MODID, id));
+            return ItemTags.create(WResourceLocation.mod( id));
         }
 
-        private static TagKey<Item> forge(String id) {
-            return ItemTags.create(new ResourceLocation("forge", id));
+        private static TagKey<Item> common(String id) {
+            return ItemTags.create(WResourceLocation.common(id));
         }
     }
 
@@ -98,7 +98,7 @@ public class ModTags {
         }
 
         private static @NotNull TagKey<Biome> tag(@NotNull String name) {
-            return TagKey.create(Registries.BIOME, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(Registries.BIOME, WResourceLocation.mod( name));
         }
     }
 
@@ -115,7 +115,7 @@ public class ModTags {
         }
 
         private static @NotNull TagKey<PoiType> tag(@NotNull String modid, @NotNull String name) {
-            return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(modid, name));
+            return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, WResourceLocation.loc(modid, name));
         }
 
     }
@@ -125,16 +125,17 @@ public class ModTags {
 
 
         private static @NotNull TagKey<VillagerProfession> tag(@NotNull String name) {
-            return TagKey.create(Registries.VILLAGER_PROFESSION, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(Registries.VILLAGER_PROFESSION,WResourceLocation.mod(name));
         }
 
     }
 
     public static class DamageTypes {
         public static final TagKey<DamageType> WEREWOLF_FUR_IMMUNE = tag("werewolf_fur_immune");
+        public static final TagKey<DamageType> WEREWOLF_ARMOR_REDUCTION = tag("werewolf_armor_reduction");
 
         private static @NotNull TagKey<DamageType> tag(@NotNull String name) {
-            return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(Registries.DAMAGE_TYPE, WResourceLocation.mod(name));
         }
 
     }
@@ -145,11 +146,11 @@ public class ModTags {
         public static final TagKey<Task> HAS_FACTION = vampirism("has_faction");
 
         private static @NotNull TagKey<Task> tag(@NotNull String name) {
-            return TagKey.create(VampirismRegistries.Keys.TASK, new ResourceLocation(REFERENCE.MODID, name));
+            return TagKey.create(VampirismRegistries.Keys.TASK, WResourceLocation.mod(name));
         }
 
         private static @NotNull TagKey<Task> vampirism(@NotNull String name) {
-            return TagKey.create(VampirismRegistries.Keys.TASK, new ResourceLocation(de.teamlapen.vampirism.REFERENCE.MODID, name));
+            return TagKey.create(VampirismRegistries.Keys.TASK, WResourceLocation.v(name));
         }
     }
 
@@ -161,7 +162,7 @@ public class ModTags {
         }
 
         private static @NotNull TagKey<EntityType<?>> tag(@NotNull String name) {
-            return tag(new ResourceLocation(REFERENCE.MODID, name));
+            return tag(WResourceLocation.mod(name));
         }
     }
 }

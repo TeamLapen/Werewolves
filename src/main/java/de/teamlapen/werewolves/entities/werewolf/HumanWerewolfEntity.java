@@ -59,12 +59,12 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.getEntityData().define(FORM, -1);
-        this.getEntityData().define(SKIN_TYPE, -1);
-        this.getEntityData().define(EYE_TYPE, -1);
-        this.getEntityData().define(GLOWING_EYES, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FORM, -1);
+        builder.define(SKIN_TYPE, -1);
+        builder.define(EYE_TYPE, -1);
+        builder.define(GLOWING_EYES, false);
     }
 
     @Override
@@ -150,8 +150,8 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
         if (this.getEntityData().get(FORM) == -1) {
             this.getEntityData().set(FORM, this.getRandom().nextInt(2));
         }

@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
+import de.teamlapen.vampirism.util.RegUtil;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -7,6 +9,7 @@ import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.ModSkills;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -19,14 +22,14 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     public static final UUID CLIMBER_ID = UUID.fromString("df949628-07c5-4e9b-974f-9f005a74ab51");
     public SurvivalWerewolfFormAction() {
         super(WerewolfForm.SURVIVALIST);
-        attributes.add(new Modifier(ModAttributes.BITE_DAMAGE.get(), UUID.fromString("7c2ab40d-b71a-4453-aa95-158f69c87696"), UUID.fromString("913462ef-a612-4d2a-a797-525d0535f8d2"), 1, "survival_form_claw_damage", WerewolvesConfig.BALANCE.SKILLS.survival_form_bite_damage, AttributeModifier.Operation.ADDITION));
-        attributes.add(new Modifier(Attributes.MAX_HEALTH, UUID.fromString("d15ec6ad-9dc9-4ff0-ab86-acb502e7670d"), UUID.fromString("f9ee0de4-5903-452a-b42a-ab99d1e89bcf"), 0.5, "survival_form_health", WerewolvesConfig.BALANCE.SKILLS.survival_form_health, AttributeModifier.Operation.ADDITION));
-        attributes.add(new Modifier(Attributes.ARMOR, UUID.fromString("d45bf864-acab-4fb9-9440-0319483e7fdb"), UUID.fromString("2eff230c-b652-4d61-961b-cc992d9eec8a"), 0.7, "survival_form_armor", WerewolvesConfig.BALANCE.SKILLS.survival_form_armor, AttributeModifier.Operation.ADDITION));
-        attributes.add(new Modifier(Attributes.ARMOR_TOUGHNESS, UUID.fromString("ad6a329c-5ca0-4b7b-8bd5-f3f17f3fba00"), UUID.fromString("724e45dd-7454-4c6c-96e0-b485a010e5c0"), 0.7, "survival_form_armor_toughness", WerewolvesConfig.BALANCE.SKILLS.survival_form_armor_toughness, AttributeModifier.Operation.ADDITION));
-        attributes.add(new Modifier(Attributes.MOVEMENT_SPEED, UUID.fromString("429ac45a-05e7-4102-b506-e1f1a3a6aca9"), UUID.fromString("0d027b0c-b87b-484c-b4ca-36bae0a2f9b9"), 0.6, "survival_form_armor_speed", () -> WerewolvesConfig.BALANCE.SKILLS.survival_form_speed_amount.get() * 0.8, WerewolvesConfig.BALANCE.SKILLS.survival_form_speed_amount, ModSkills.SPEED, AttributeModifier.Operation.MULTIPLY_TOTAL));
-        attributes.add(new Modifier(Attributes.ATTACK_DAMAGE, UUID.fromString("4e36859f-fadd-43cb-8e0d-722b7ab2cd4c"), UUID.fromString("a62d12ee-20e1-4169-a802-1eab2d0cc471"), 0.5, "survival_form_attack_damage", () -> WerewolvesConfig.BALANCE.SKILLS.survival_form_attack_damage.get() * 0.5, WerewolvesConfig.BALANCE.SKILLS.survival_form_attack_damage, ModSkills.DAMAGE, AttributeModifier.Operation.ADDITION));
-        attributes.add(new Modifier(ModAttributes.FOOD_CONSUMPTION.get(), UUID.fromString("aa40a9bc-51ce-4d92-a6b8-f9ee331f4e8a"), UUID.fromString("aa40a9bc-51ce-4d92-a6b8-f9ee331f4e8a"),1, "survival_form_food_consumption", WerewolvesConfig.BALANCE.SKILLS.survival_form_food_consumption, () -> WerewolvesConfig.BALANCE.SKILLS.survival_form_food_consumption.get() - WerewolvesConfig.BALANCE.SKILLS.efficient_diet_food_consumption.get(), ModSkills.EFFICIENT_DIET, AttributeModifier.Operation.MULTIPLY_TOTAL));
-        attributes.add(new Modifier(ModAttributes.FOOD_GAIN.get(), UUID.fromString("0fb72714-152d-4edb-9925-13266fae5597"), "survival_form_food_gain", () -> WerewolvesConfig.BALANCE.SKILLS.survival_form_food_gain.get() - 1, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        attributes.add(new Modifier.Builder(ModAttributes.BITE_DAMAGE, WResourceLocation.mod("survival_form_claw_damage")).withValues(WerewolvesConfig.BALANCE.SKILLS.survival_form_bite_damage, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.MAX_HEALTH, WResourceLocation.mod("survival_form_health")).withDayModifier(0.5).withValues(WerewolvesConfig.BALANCE.SKILLS.survival_form_health, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.ARMOR, WResourceLocation.mod("survival_form_armor")).withDayModifier(0.7).withValues(WerewolvesConfig.BALANCE.SKILLS.survival_form_armor, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.ARMOR_TOUGHNESS, WResourceLocation.mod("survival_form_armor_toughness")).withDayModifier(0.7).withValues(WerewolvesConfig.BALANCE.SKILLS.survival_form_armor_toughness, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.MOVEMENT_SPEED, WResourceLocation.mod("survival_form_armor_speed")).withDayModifier(0.6).withValues(() -> WerewolvesConfig.BALANCE.SKILLS.survival_form_speed_amount.get() * 0.8, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).withSkillModifier(ModSkills.SPEED, WerewolvesConfig.BALANCE.SKILLS.survival_form_speed_amount).build());
+        attributes.add(new Modifier.Builder(Attributes.ATTACK_DAMAGE, WResourceLocation.mod("survival_form_attack_damage")).withDayModifier(0.5).withValues(() -> WerewolvesConfig.BALANCE.SKILLS.survival_form_attack_damage.get() * 0.5, AttributeModifier.Operation.ADD_VALUE).withSkillModifier(ModSkills.DAMAGE, WerewolvesConfig.BALANCE.SKILLS.survival_form_attack_damage).build());
+        attributes.add(new Modifier.Builder(ModAttributes.FOOD_CONSUMPTION, WResourceLocation.mod("survival_form_food_consumption")).withValues(WerewolvesConfig.BALANCE.SKILLS.survival_form_food_consumption, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).withSkillModifier(ModSkills.EFFICIENT_DIET, () -> WerewolvesConfig.BALANCE.SKILLS.survival_form_food_consumption.get() - WerewolvesConfig.BALANCE.SKILLS.efficient_diet_food_consumption.get()).build());
+        attributes.add(new Modifier.Builder(ModAttributes.FOOD_GAIN, WResourceLocation.mod("survival_form_food_gain")).withValues(() -> WerewolvesConfig.BALANCE.SKILLS.survival_form_food_gain.get() - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).build());
     }
 
     public static void climberSkillEnabled(IWerewolfPlayer werewolf) {
@@ -69,12 +72,13 @@ public class SurvivalWerewolfFormAction extends WerewolfFormAction {
     }
 
     public static void checkStepHeight(IWerewolfPlayer werewolf, boolean active) {
-        AttributeInstance attribute = werewolf.asEntity().getAttribute(NeoForgeMod.STEP_HEIGHT.value());
+        AttributeInstance attribute = werewolf.asEntity().getAttribute(Attributes.STEP_HEIGHT);
+        ResourceLocation id = ModActions.SURVIVAL_FORM.getId();
         if (active) {
-            attribute.removeModifier(CLIMBER_ID);
-            attribute.addTransientModifier(new AttributeModifier(CLIMBER_ID, "werewolf climber", 0.4, AttributeModifier.Operation.ADDITION));
+            attribute.removeModifier(id);
+            attribute.addTransientModifier(new AttributeModifier(id, 0.4, AttributeModifier.Operation.ADD_VALUE));
         } else {
-            attribute.removeModifier(CLIMBER_ID);
+            attribute.removeModifier(id);
         }
     }
 

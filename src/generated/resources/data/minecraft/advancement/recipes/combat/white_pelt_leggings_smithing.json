@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:white_pelt_leggings_smithing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_white_pelt": {
+      "conditions": {
+        "items": [
+          {
+            "items": "werewolves:white_pelt"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_white_pelt"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:white_pelt_leggings_smithing"
+    ]
+  }
+}

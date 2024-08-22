@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.world.gen;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import de.teamlapen.vampirism.world.gen.modifier.ExtendedAddSpawnsBiomeModifier;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.blocks.WolfBerryBushBlock;
 import de.teamlapen.werewolves.config.CommonConfig;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -15,7 +16,7 @@ import de.teamlapen.werewolves.world.gen.feature.MagicFoliagePlacer;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
@@ -113,7 +114,7 @@ public class WerewolvesBiomeFeatures {
         biomeGeneratorSettings.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, FOREST_ROCK_PLACED);
     }
 
-    public static void createConfiguredFeatures(BootstapContext<ConfiguredFeature<?, ?>> context) {
+    public static void createConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         RuleTest stoneTest = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
         RuleTest deepslateTest = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
@@ -145,7 +146,7 @@ public class WerewolvesBiomeFeatures {
         context.register(FOREST_ROCK, new ConfiguredFeature<>(Feature.FOREST_ROCK, new BlockStateConfiguration(Blocks.COBBLESTONE.defaultBlockState())));
     }
 
-    public static void createPlacedFeatures(BootstapContext<PlacedFeature> context) {
+    public static void createPlacedFeatures(BootstrapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> placedFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
         context.register(WOLFSBANE_PLACED, new PlacedFeature(placedFeatures.getOrThrow(WOLFSBANE), List.of(RarityFilter.onAverageOnceEvery(20), PlacementUtils.HEIGHTMAP, InSquarePlacement.spread())));
         context.register(MAGIC_TREE_PLACED, new PlacedFeature(placedFeatures.getOrThrow(MAGIC_TREE), List.of(PlacementUtils.filteredByBlockSurvival(ModBlocks.MAGIC_SAPLING.get()))));
@@ -158,7 +159,7 @@ public class WerewolvesBiomeFeatures {
         context.register(FOREST_ROCK_PLACED, new PlacedFeature(placedFeatures.getOrThrow(FOREST_ROCK), List.of(CountPlacement.of(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome())));
     }
 
-    public static void createBiomeModifier(BootstapContext<BiomeModifier> context) {
+    public static void createBiomeModifier(BootstrapContext<BiomeModifier> context) {
         HolderGetter<Biome> biomeLookup = context.lookup(Registries.BIOME);
         HolderGetter<PlacedFeature> placedFeatureLookup = context.lookup(Registries.PLACED_FEATURE);
         context.register(WEREWOLF_SPAWN, new ExtendedAddSpawnsBiomeModifier(biomeLookup.getOrThrow(ModTags.Biomes.HasSpawn.WEREWOLF), biomeLookup.getOrThrow(ModTags.Biomes.NoSpawn.WEREWOLF), Lists.newArrayList(new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.WEREWOLF_BEAST.get(), 80, 1, 2, MobCategory.MONSTER), new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(ModEntities.WEREWOLF_SURVIVALIST.get(), 80, 1, 2, MobCategory.MONSTER))));
@@ -181,18 +182,18 @@ public class WerewolvesBiomeFeatures {
     }
 
     private static ResourceKey<ConfiguredFeature<?, ?>> createConfiguredKey(String name) {
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(REFERENCE.MODID, name));
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, WResourceLocation.mod(name));
     }
 
     private static ResourceKey<PlacedFeature> createPlacedKey(String name) {
-        return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(REFERENCE.MODID, name));
+        return ResourceKey.create(Registries.PLACED_FEATURE,WResourceLocation.mod(name));
     }
 
     private static ResourceKey<BiomeModifier> createModifierKey(String name) {
-        return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(REFERENCE.MODID, name));
+        return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, WResourceLocation.mod( name));
     }
 
     private static ResourceKey<StructureSet> createStructureSetKey(String name) {
-        return ResourceKey.create(Registries.STRUCTURE_SET, new ResourceLocation(REFERENCE.MODID, name));
+        return ResourceKey.create(Registries.STRUCTURE_SET, WResourceLocation.mod( name));
     }
 }

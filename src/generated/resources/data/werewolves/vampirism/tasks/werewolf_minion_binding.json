@@ -26,7 +26,7 @@
         },
         "id": "minecraft:gold_ingot",
         "item": {
-          "Count": 32,
+          "count": 32,
           "id": "minecraft:gold_ingot"
         }
       }
@@ -35,7 +35,7 @@
   "rewards": {
     "type": "vampirism:item",
     "item": {
-      "Count": 1,
+      "count": 1,
       "id": "werewolves:werewolf_minion_charm"
     }
   },

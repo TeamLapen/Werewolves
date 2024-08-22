@@ -32,7 +32,7 @@ public class FormHelper {
         noWerewolfFormTickingBiomes.clear();
         List<? extends String> biomes = WerewolvesConfig.SERVER.werewolfFormFreeFormBiomes.get();
         for (String s : biomes) {
-            ResourceLocation id = new ResourceLocation(s);
+            ResourceLocation id = ResourceLocation.parse(s);
             noWerewolfFormTickingBiomes.add(id);
         }
         noWerewolfFormTickingBiomes.add(ModBiomes.WEREWOLF_FOREST.location());

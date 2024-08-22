@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.world.gen.feature;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.teamlapen.werewolves.core.ModWorld;
 import net.minecraft.core.BlockPos;
@@ -19,7 +20,7 @@ import java.util.function.BiConsumer;
 
 public class JacarandaTrunkPlacer extends TrunkPlacer {
 
-    public static final Codec<JacarandaTrunkPlacer> CODEC = RecordCodecBuilder.create(instance -> trunkPlacerParts(instance).apply(instance, JacarandaTrunkPlacer::new));
+    public static final MapCodec<JacarandaTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(instance -> trunkPlacerParts(instance).apply(instance, JacarandaTrunkPlacer::new));
 
     public JacarandaTrunkPlacer(int pBaseHeight, int pHeightRandA, int pHeightRandB) {
         super(pBaseHeight, pHeightRandA, pHeightRandB);

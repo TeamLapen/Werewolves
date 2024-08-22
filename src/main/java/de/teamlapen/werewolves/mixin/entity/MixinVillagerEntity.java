@@ -147,16 +147,16 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     }
 
     @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
         if (this.getEntityData().get(TYPE) == -1) {
             this.getEntityData().set(TYPE, this.getRandom().nextInt(TYPES));
         }
     }
 
     @Inject(method = "defineSynchedData", at = @At("RETURN"))
-    protected void werewolves_defineSynchedData(CallbackInfo ci) {
-        this.getEntityData().define(TYPE, -1);
+    protected void werewolves_defineSynchedData(SynchedEntityData.Builder pBuilder, CallbackInfo ci) {
+        pBuilder.define(TYPE, -1);
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))

@@ -12,6 +12,7 @@ import de.teamlapen.vampirism.entity.minion.MinionEntity;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.ModMinionTasks;
@@ -19,6 +20,7 @@ import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.items.WerewolfMinionUpgradeItem;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -33,6 +35,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
@@ -75,25 +78,24 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     @Override
     protected boolean canConsume(@NotNull ItemStack stack) {
         if (!super.canConsume(stack)) return false;
-        if (stack.isEdible() && !Helper.isMeat(this, stack)) return false;
+        if (stack.getFoodProperties(this) == null || !Helper.isMeat(this, stack)) return false;
         boolean fullHealth = this.getHealth() == this.getMaxHealth();
-        return !fullHealth || !stack.isEdible();
+        return !fullHealth || stack.getFoodProperties(this) == null;
     }
 
-    @Nonnull
     @Override
-    public ItemStack eat(@Nonnull Level world, @Nonnull ItemStack stack) {
-        if (stack.isEdible() && Helper.isRawMeat(this, stack)) {
+    public @NotNull ItemStack eat(@NotNull Level world, @NotNull ItemStack stack, FoodProperties properties) {
+        if (Helper.isRawMeat(this, stack)) {
             @SuppressWarnings("DataFlowIssue")
-            float healAmount = stack.getFoodProperties(this).getNutrition() / 2f;
+            float healAmount = properties.nutrition() / 2f;
             this.heal(healAmount);
         }
-        return super.eat(world, stack);
+        return super.eat(world, stack, properties);
     }
 
     @Override
-    protected void onMinionDataReceived(@Nonnull WerewolfMinionData data) {
-        super.onMinionDataReceived(data);
+    protected void onMinionDataReceived(HolderLookup.Provider provider, @NotNull WerewolfMinionData data) {
+        super.onMinionDataReceived(provider, data);
         this.updateAttributes();
     }
 
@@ -170,7 +172,7 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     }
 
     public static class WerewolfMinionData extends MinionData {
-        public static final ResourceLocation ID = new ResourceLocation(REFERENCE.MODID, "werewolf");
+        public static final ResourceLocation ID = WResourceLocation.mod("werewolf");
 
         public static final int MAX_LEVEL = 6;
         public static final int MAX_LEVEL_INVENTORY = 2;
@@ -272,11 +274,12 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void handleMinionAppearanceConfig(String name, int... data) {
+        public void handleMinionAppearanceConfig(String name, List<Integer> data) {
+            super.handleMinionAppearanceConfig(name, data);
             this.setName(name);
-            this.skinType = data[0];
-            this.eyeType = data[1];
-            this.glowingEyes = data[2] == 1;
+            this.skinType = data.get(0);
+            this.eyeType = data.get(1);
+            this.glowingEyes = data.get(2) == 1;
         }
 
         public boolean setLevel(int level) {
@@ -328,8 +331,8 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void deserializeNBT(@NotNull CompoundTag nbt) {
-            super.deserializeNBT(nbt);
+        public void deserializeNBT(HolderLookup.@NotNull Provider provide, @NotNull CompoundTag nbt) {
+            super.deserializeNBT(provide, nbt);
             this.level = nbt.getInt("level");
             this.inventoryLevel = nbt.getInt("l_inv");
             this.healthLevel = nbt.getInt("l_he");
@@ -343,8 +346,8 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
         }
 
         @Override
-        public void serializeNBT(@NotNull CompoundTag tag) {
-            super.serializeNBT(tag);
+        public void serializeNBT(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provide) {
+            super.serializeNBT(tag, provide);
             tag.putInt("level", this.level);
             tag.putInt("l_inv", this.inventoryLevel);
             tag.putInt("l_he", this.healthLevel);

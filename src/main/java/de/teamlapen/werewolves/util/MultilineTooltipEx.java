@@ -15,8 +15,4 @@ public class MultilineTooltipEx extends MultilineTooltip {
         super(components);
     }
 
-    @Override
-    protected @NotNull ClientTooltipPositioner createTooltipPositioner(boolean p_306065_, boolean p_306270_, @NotNull ScreenRectangle p_305822_) {
-        return DefaultTooltipPositioner.INSTANCE;
-    }
 }

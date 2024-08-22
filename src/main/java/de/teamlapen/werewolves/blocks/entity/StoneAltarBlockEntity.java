@@ -16,6 +16,7 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.inventory.container.StoneAltarContainer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -269,28 +270,28 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
 
     @Nonnull
     @Override
-    public CompoundTag getUpdateTag() {
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
-        this.saveAdditional(tag);
+        this.saveAdditional(tag, provider);
         return tag;
     }
 
     @Override
-    public void onDataPacket(@NotNull Connection net, @NotNull ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
+    public void onDataPacket(@NotNull Connection net, @NotNull ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
+        super.onDataPacket(net, pkt, provider);
         if (pkt.getTag() != null) {
-            this.load(pkt.getTag());//TODO check
+            this.loadAdditional(pkt.getTag(), provider);//TODO check
         }
     }
 
     @Override
-    public void handleUpdateTag(@NotNull CompoundTag tag) {
-        super.handleUpdateTag(tag);
+    public void handleUpdateTag(@NotNull CompoundTag tag, HolderLookup.Provider provider) {
+        super.handleUpdateTag(tag, provider);
     }
 
     @Override
-    public void load(@Nonnull CompoundTag tagCompound) {
-        super.load(tagCompound);
+    public void loadAdditional(@Nonnull CompoundTag tagCompound, HolderLookup.Provider provider) {
+        super.loadAdditional(tagCompound, provider);
         if (tagCompound.hasUUID("player")) {
             UUID playerUuid = tagCompound.getUUID("player");
             if (!this.loadRitual(playerUuid)) {
@@ -302,13 +303,13 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     }
 
     @Override
-    public void saveAdditional(CompoundTag compound) {
+    public void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
         if (player != null) {
             compound.putUUID("player", player.getUUID());
         }
         compound.putInt("ticks", this.ticks);
         compound.putString("phase", this.phase.name());
-        super.saveAdditional(compound);
+        super.saveAdditional(compound, provider);
     }
 
     public enum Result {

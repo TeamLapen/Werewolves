@@ -19,7 +19,7 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
     }
 
     public WerewolfNightVisionEffectInstance(MobEffectInstance otherEffect) {
-        super(MobEffects.NIGHT_VISION, -1, 0, false, false, false, otherEffect, Optional.empty());
+        super(MobEffects.NIGHT_VISION, -1, 0, false, false, false, otherEffect);
         this.getCures().clear();
         ((EffectInstanceWithSource) this).setSource(VReference.PERMANENT_INVISIBLE_MOB_EFFECT);
     }

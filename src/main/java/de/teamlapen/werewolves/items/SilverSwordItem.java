@@ -8,7 +8,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 
 public class SilverSwordItem extends SwordItem implements ISilverItem {
-    public SilverSwordItem(Tier tier, int attackDamageIn, float attackSpeedIn, Properties builder) {
-        super(tier, attackDamageIn, attackSpeedIn, builder);
+    public SilverSwordItem(Tier tier, Properties builder) {
+        super(tier, builder);
     }
 }

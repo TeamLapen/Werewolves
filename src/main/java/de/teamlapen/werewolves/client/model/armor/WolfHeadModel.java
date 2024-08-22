@@ -51,10 +51,10 @@ public class WolfHeadModel extends VampirismArmorModel {
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int pPackedLight, int pPackedOverlay, int color) {
         poseStack.pushPose();
         poseStack.scale(1.2F, 1.2F, 1.2F);
-        this.head.render(poseStack, buffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+        this.head.render(poseStack, buffer, pPackedLight, pPackedOverlay, color);
         poseStack.popPose();
     }
 

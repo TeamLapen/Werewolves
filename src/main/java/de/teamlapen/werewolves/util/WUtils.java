@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 public class WUtils {
     public static final BooleanProperty SOUL_FIRE = BooleanProperty.create("soulfire");
     public static final ObjectiveCriteria WEREWOLF_LEVEL_CRITERIA = ObjectiveCriteriaAccessor.registerCustom("werewolves:werewolf");
-    public static final Tier SILVER_ITEM_TIER = new SimpleTier(2,250,6.0f,2f,14, ModTags.Blocks.NEEDS_SILVER_TOOL, () -> Ingredient.of(ModTags.Items.SILVER_INGOT));
+    public static final Tier SILVER_ITEM_TIER = new SimpleTier(ModTags.Blocks.INCORRECT_FOR_SILVER_TOOL,250,6.0f,2f,14, () -> Ingredient.of(ModTags.Items.SILVER_INGOT));
     public static final Predicate<Entity> IS_WEREWOLF = Helper::isWerewolf;
 
     @SuppressWarnings("EmptyMethod")

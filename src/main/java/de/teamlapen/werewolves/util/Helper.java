@@ -11,6 +11,7 @@ import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -85,9 +86,8 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
         return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT.get())).orElse(false);
     }
 
-    @SuppressWarnings({"DataFlowIssue"})
     public static boolean isMeat(@Nullable LivingEntity entity, ItemStack stack) {
-        return stack.isEdible() && (stack.getFoodProperties(entity).isMeat() || stack.is(ModTags.Items.WEREWOLF_FOOD) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()));
+        return stack.getFoodProperties(entity) != null && (stack.is(ItemTags.MEAT) || stack.is(ModTags.Items.WEREWOLF_FOOD) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()));
     }
 
     @Deprecated
@@ -127,7 +127,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean matchesItem(Ingredient ingredient, ItemStack searchStack) {
-        return Arrays.stream(ingredient.getItems()).anyMatch(stack -> ItemStack.isSameItem(stack, searchStack) && ItemStack.isSameItemSameTags(stack, searchStack));
+        return Arrays.stream(ingredient.getItems()).anyMatch(stack -> ItemStack.isSameItem(stack, searchStack) && ItemStack.isSameItemSameComponents(stack, searchStack));
     }
 
     public static MutableComponent joinComponents(String delimiter, MutableComponent... components) {

@@ -11,15 +11,16 @@ import de.teamlapen.vampirism.entity.player.tasks.reward.RefinementItemReward;
 import de.teamlapen.vampirism.entity.player.tasks.unlock.LordLvlUnlocker;
 import de.teamlapen.vampirism.entity.player.tasks.unlock.LvlUnlocker;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.util.REFERENCE;
 import io.netty.bootstrap.BootstrapConfig;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 
 @SuppressWarnings("unused")
@@ -41,10 +42,10 @@ public class ModTasks {
     public static final ResourceKey<Task> RANDOM_RARE_REFINEMENT = key("random_rare_refinement");
 
     private static ResourceKey<Task> key(String path) {
-        return ResourceKey.create(VampirismRegistries.Keys.TASK, new ResourceLocation(REFERENCE.MODID, path));
+        return ResourceKey.create(VampirismRegistries.Keys.TASK, WResourceLocation.mod(path));
     }
 
-    public static void createTasks(BootstapContext<Task> context) {
+    public static void createTasks(BootstrapContext<Task> context) {
         context.register(WEREWOLF_MINION_BINDING, TaskBuilder.builder(WEREWOLF_MINION_BINDING).defaultTitle().setReward(new ItemStack(ModItems.WEREWOLF_MINION_CHARM.get()))
                 .unlockedBy(new LordLvlUnlocker(1))
                 .addRequirement(ModTags.Entities.ADVANCED_HUNTER, 4)
@@ -127,7 +128,7 @@ public class ModTasks {
                 .build());
 
         context.register(OBLIVION_POTION, TaskBuilder.builder(OBLIVION_POTION).defaultTitle().setReward(new ItemStack(ModItems.V.OBLIVION_POTION.get()))
-                .addRequirement(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.POISON))
+                .addRequirement(PotionContents.createItemStack(Items.POTION, Potions.POISON))
                 .addRequirement(new ItemStack(ModItems.LIVER.get()))
                 .addRequirement(new ItemStack(ModItems.V.HUMAN_HEART.get()))
                 .build());

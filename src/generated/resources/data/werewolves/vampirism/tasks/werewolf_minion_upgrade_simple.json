@@ -26,7 +26,7 @@
         },
         "id": "minecraft:gold_block",
         "item": {
-          "Count": 16,
+          "count": 16,
           "id": "minecraft:gold_block"
         }
       }
@@ -35,7 +35,7 @@
   "rewards": {
     "type": "vampirism:item",
     "item": {
-      "Count": 1,
+      "count": 1,
       "id": "werewolves:werewolf_minion_upgrade_simple"
     }
   },

@@ -36,7 +36,6 @@ import de.teamlapen.werewolves.world.gen.WerewolvesBiomeFeatures;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -60,19 +59,16 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.Optional;
 
-@SuppressWarnings("InstantiationOfUtilityClass")
 @Mod(REFERENCE.MODID)
 public class WerewolvesMod {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final Proxy proxy = FMLEnvironment.dist == Dist.CLIENT ? WerewolvesModClient.getProxy() : new ServerProxy();
-    public static final MobCategory WEREWOLF_CREATURE_TYPE = MobCategory.create("werewolves_werewolf", "werewolves_werewolf", 8, false, false, 128);
-    private static final MobType WEREWOLF_CREATURE_ATTRIBUTES = new MobType();
     public static WerewolvesMod instance;
     public final RegistryManager registryManager;
 
-    public WerewolvesMod(IEventBus modEventBus) {
+    public WerewolvesMod(IEventBus modEventBus, ModContainer modContainer) {
         WerewolvesMod.instance = this;
         registryManager = new RegistryManager(modEventBus);
         WUtils.init();
@@ -98,7 +94,6 @@ public class WerewolvesMod {
         }
 
         NeoForge.EVENT_BUS.register(this);
-        NeoForge.EVENT_BUS.addListener(ModLootTables::onLootLoad);
         NeoForge.EVENT_BUS.register(Permissions.class);
 
 //        if (ModList.get().isLoaded("guideapi_vp")) {
@@ -109,7 +104,7 @@ public class WerewolvesMod {
         WerewolvesBiomeFeatures.register(modEventBus);
         modEventBus.addListener(ModItems::registerOtherCreativeTabItems);
 
-        WerewolvesConfig.registerConfigs(modEventBus);
+        WerewolvesConfig.registerConfigs(modEventBus, modContainer);
     }
 
     private boolean setupAPI;
@@ -129,8 +124,8 @@ public class WerewolvesMod {
                     .minion(WerewolfMinionEntity.WerewolfMinionData.ID, WerewolfMinionEntity.WerewolfMinionData::new)
                     .commandBuilder(ModEntities.WEREWOLF_MINION::get)
                     .with("name", "Werewolf", StringArgumentType.string(), MinionData::setName, StringArgumentType::getString)
-                    .with("skin", -1, IntegerArgumentType.integer(-1), WerewolfMinionEntity.WerewolfMinionData::setSkinType, IntegerArgumentType::getInteger)
-                    .with("eye", -1, IntegerArgumentType.integer(-1), WerewolfMinionEntity.WerewolfMinionData::setEyeType, IntegerArgumentType::getInteger)
+                    .with("skin", 0, IntegerArgumentType.integer(0), WerewolfMinionEntity.WerewolfMinionData::setSkinType, IntegerArgumentType::getInteger)
+                    .with("eye", 0, IntegerArgumentType.integer(0), WerewolfMinionEntity.WerewolfMinionData::setEyeType, IntegerArgumentType::getInteger)
                     .with("glowingEye", false, BoolArgumentType.bool(), WerewolfMinionEntity.WerewolfMinionData::setGlowingEyes, BoolArgumentType::getBool)
                     .with("form", WerewolfForm.BEAST, WerewolfFormArgument.nonHumanForms(),WerewolfMinionEntity.WerewolfMinionData::setForm, WerewolfFormArgument::getForm)
                     .build().build()
@@ -146,7 +141,6 @@ public class WerewolvesMod {
                     .addTag(Registries.ENTITY_TYPE, ModTags.Entities.WEREWOLF)
                     .addTag(VampirismRegistries.Keys.TASK, ModTags.Tasks.IS_WEREWOLF)
                     .register();
-            WReference.WEREWOLF_CREATURE_ATTRIBUTES = WerewolvesMod.WEREWOLF_CREATURE_ATTRIBUTES;
             setupAPI = true;
         }
     }

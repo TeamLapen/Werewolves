@@ -31,15 +31,15 @@ public class CrossbowArrowItem extends ArrowItem implements IVampirismCrossbowAr
     }
 
     @Override
-    public @NotNull AbstractArrow createArrow(@NotNull Level level, @NotNull ItemStack stack, @NotNull LivingEntity entity) {
-        CrossbowArrowEntity arrowEntity = new CrossbowArrowEntity(level, entity, stack);
+    public @NotNull AbstractArrow createArrow(@NotNull Level level, @NotNull ItemStack stack, @NotNull LivingEntity entity, @Nullable ItemStack pWeapon) {
+        CrossbowArrowEntity arrowEntity = new CrossbowArrowEntity(level, entity, stack, pWeapon);
         arrowEntity.setEffectsFromItem(stack);
         arrowEntity.setBaseDamage(this.type.baseDamage * VampirismConfig.BALANCE.crossbowDamageMult.get());
         return arrowEntity;
     }
 
     @Override
-    public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
+    public void appendHoverText(@Nonnull ItemStack stack, @Nullable TooltipContext context, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
         if (this.type.hasToolTip) {
             tooltip.add(Component.translatable(this.getDescriptionId() + ".tooltip").withStyle(ChatFormatting.GRAY));
         }

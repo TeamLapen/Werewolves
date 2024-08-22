@@ -1,7 +1,11 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.items.IEntityCrossbowArrow;
+import de.teamlapen.vampirism.api.items.IItemWithTier;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
+import de.teamlapen.werewolves.api.ModRegistryItems;
+import de.teamlapen.werewolves.api.WEnums;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.items.*;
@@ -14,7 +18,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
@@ -43,16 +46,16 @@ public class ModItems {
     private static final Set<DeferredHolder<Item, ? extends Item>> WEREWOLVES_TAB_ITEMS = new HashSet<>();
     private static final Map<ResourceKey<CreativeModeTab>, Set<DeferredHolder<Item, ? extends Item>>> CREATIVE_TAB_ITEMS = new HashMap<>();
 
-    public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(REFERENCE.MODID, "default"));
+    public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, WResourceLocation.mod("default"));
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register(CREATIVE_TAB_KEY.location().getPath(), () -> WerewolvesCreativeTab.builder(WEREWOLVES_TAB_ITEMS.stream().map(DeferredHolder::get).collect(Collectors.toSet())).build());
 
     public static final DeferredItem<Item> SILVER_INGOT = register("silver_ingot", () -> new Item(props()));
-    public static final DeferredItem<HoeItem> SILVER_HOE = register("silver_hoe", () -> new HoeItem(WUtils.SILVER_ITEM_TIER, -1, -1.0F, props()));
-    public static final DeferredItem<ShovelItem> SILVER_SHOVEL = register("silver_shovel", () -> new ShovelItem(WUtils.SILVER_ITEM_TIER, 1.5F, -3.0F, props()));
-    public static final DeferredItem<AxeItem> SILVER_AXE = register("silver_axe", () -> new AxeItem(WUtils.SILVER_ITEM_TIER, 6.0F, -3.1F, props()));
-    public static final DeferredItem<PickaxeItem> SILVER_PICKAXE = register("silver_pickaxe", () -> new PickaxeItem(WUtils.SILVER_ITEM_TIER, 1, -2.8F, props()));
-    public static final DeferredItem<SilverSwordItem> SILVER_SWORD = register("silver_sword", () -> new SilverSwordItem(WUtils.SILVER_ITEM_TIER, 3, -2.4F, props()));
-    public static final DeferredItem<CrossbowArrowItem> CROSSBOW_ARROW_SILVER_BOLT = register("crossbow_arrow_silver_bolt", () -> new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xc0c0c0, true, true) {
+    public static final DeferredItem<HoeItem> SILVER_HOE = register("silver_hoe", () -> new HoeItem(WUtils.SILVER_ITEM_TIER, props().attributes(HoeItem.createAttributes(WUtils.SILVER_ITEM_TIER, -1, -1.0f))));
+    public static final DeferredItem<ShovelItem> SILVER_SHOVEL = register("silver_shovel", () -> new ShovelItem(WUtils.SILVER_ITEM_TIER, props().attributes(ShovelItem.createAttributes(WUtils.SILVER_ITEM_TIER, 1.5f, -3.0f))));
+    public static final DeferredItem<AxeItem> SILVER_AXE = register("silver_axe", () -> new AxeItem(WUtils.SILVER_ITEM_TIER, props().attributes(AxeItem.createAttributes(WUtils.SILVER_ITEM_TIER, 6.0f, -3.1f))));
+    public static final DeferredItem<PickaxeItem> SILVER_PICKAXE = register("silver_pickaxe", () -> new PickaxeItem(WUtils.SILVER_ITEM_TIER, props().attributes(PickaxeItem.createAttributes(WUtils.SILVER_ITEM_TIER, 1, -2.8f))));
+    public static final DeferredItem<SilverSwordItem> SILVER_SWORD = register("silver_sword", () -> new SilverSwordItem(WUtils.SILVER_ITEM_TIER, props().attributes(SwordItem.createAttributes(WUtils.SILVER_ITEM_TIER, 3, -2.4f))));
+    public static final DeferredItem<CrossbowArrowItem> CROSSBOW_ARROW_SILVER_BOLT = register("crossbow_arrow_silver_bolt", () -> new CrossbowArrowItem(new CrossbowArrowItem.ArrowType("silver_bolt", 3, 0xffc0c0c0, true, true) {
         @Override
         public void onHitEntity(ItemStack arrow, LivingEntity entity, IEntityCrossbowArrow arrowEntity, Entity shootingEntity) {
             if (Helper.isWerewolf(entity)) {
@@ -69,8 +72,8 @@ public class ModItems {
 
     public static final DeferredItem<Item> WEREWOLF_MINION_CHARM = register("werewolf_minion_charm", () -> new Item(props()) {
         @Override
-        public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level level, @Nonnull List<Component> tooltips, @Nonnull TooltipFlag flag) {
-            super.appendHoverText(stack, level, tooltips, flag);
+        public void appendHoverText(@Nonnull ItemStack stack, @Nullable TooltipContext context, @Nonnull List<Component> tooltips, @Nonnull TooltipFlag flag) {
+            super.appendHoverText(stack, context, tooltips, flag);
             tooltips.add(Component.translatable("item.werewolves.moon_charm.desc").withStyle(ChatFormatting.DARK_GRAY));
 
         }
@@ -93,32 +96,32 @@ public class ModItems {
     public static final DeferredItem<SilverArmorItem> SILVER_LEGGINGS = register("silver_leggings", () -> new SilverArmorItem(ArmorItem.Type.LEGGINGS, props()));
     public static final DeferredItem<SilverArmorItem> SILVER_BOOTS = register("silver_boots", () -> new SilverArmorItem(ArmorItem.Type.BOOTS, props()));
 
-    public static final DeferredItem<Item> WOLF_BERRIES = register("wolf_berries", () -> new WolfBerries(ModBlocks.WOLF_BERRY_BUSH.get(), props().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).build())));
+    public static final DeferredItem<Item> WOLF_BERRIES = register("wolf_berries", () -> new WolfBerries(ModBlocks.WOLF_BERRY_BUSH.get(), props().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.1f).build())));
 
     public static final DeferredItem<SignItem> JACARANDA_SIGN = register("jacaranda_sign", () -> new SignItem(props().stacksTo(16), ModBlocks.JACARANDA_SIGN.get(), ModBlocks.JACARANDA_WALL_SIGN.get()));
     public static final DeferredItem<SignItem> MAGIC_SIGN = register("magic_sign", () -> new SignItem(props().stacksTo(16), ModBlocks.MAGIC_SIGN.get(), ModBlocks.MAGIC_WALL_SIGN.get()));
-    public static final DeferredItem<WerewolvesBoatItem> JACARANDA_BOAT = register("jacaranda_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, false, props().stacksTo(1)));
-    public static final DeferredItem<WerewolvesBoatItem> MAGIC_BOAT = register("magic_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, false, props().stacksTo(1)));
-    public static final DeferredItem<WerewolvesBoatItem> JACARANDA_CHEST_BOAT = register("jacaranda_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.JACARANDA, true, props().stacksTo(1)));
-    public static final DeferredItem<WerewolvesBoatItem> MAGIC_CHEST_BOAT = register("magic_chest_boat", () -> new WerewolvesBoatItem(IWerewolvesBoat.BoatType.MAGIC, true, props().stacksTo(1)));
+    public static final DeferredItem<BoatItem> JACARANDA_BOAT = register(ModRegistryItems.JACARANDA_BOAT.getId().getPath(), () -> new BoatItem(false, WEnums.JACARANDA_BOAT_TYPE.getValue(), props().stacksTo(1)));
+    public static final DeferredItem<BoatItem> MAGIC_BOAT = register(ModRegistryItems.MAGIC_BOAT.getId().getPath(), () -> new BoatItem(false, WEnums.MAGIC_BOAT_TYPE.getValue(), props().stacksTo(1)));
+    public static final DeferredItem<BoatItem> JACARANDA_CHEST_BOAT = register(ModRegistryItems.JACARANDA_CHEST_BOAT.getId().getPath(), () -> new BoatItem(true, WEnums.JACARANDA_BOAT_TYPE.getValue(), props().stacksTo(1)));
+    public static final DeferredItem<BoatItem> MAGIC_CHEST_BOAT = register(ModRegistryItems.MAGIC_CHEST_BOAT.getId().getPath(), () -> new BoatItem(true, WEnums.MAGIC_BOAT_TYPE.getValue(), props().stacksTo(1)));
 
     public static final DeferredItem<Item> WOLFSBANE_DIFFUSER_CORE = register("wolfsbane_diffuser_core", () -> new Item(props()));
     public static final DeferredItem<Item> WOLFSBANE_DIFFUSER_CORE_IMPROVED = register("wolfsbane_diffuser_core_improved", () -> new Item(props()));
     public static final DeferredItem<Item> PELT = register("pelt", () -> new Item(props()));
     public static final DeferredItem<Item> DARK_PELT = register("dark_pelt", () -> new Item(props()));
     public static final DeferredItem<Item> WHITE_PELT = register("white_pelt", () -> new Item(props()));
-    public static final DeferredItem<WolfPeltArmorItem> PELT_HELMET = register("pelt_helmet", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.HELMET, props()));
-    public static final DeferredItem<WolfPeltArmorItem> PELT_CHESTPLATE = register("pelt_chestplate", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.CHESTPLATE, props()));
-    public static final DeferredItem<WolfPeltArmorItem> PELT_LEGGINGS = register("pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.LEGGINGS, props()));
-    public static final DeferredItem<WolfPeltArmorItem> PELT_BOOTS = register("pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.PELT, ArmorItem.Type.BOOTS, props()));
-    public static final DeferredItem<WolfPeltArmorItem> DARK_PELT_HELMET = register("dark_pelt_helmet", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.HELMET, props()));
-    public static final DeferredItem<WolfPeltArmorItem> DARK_PELT_CHESTPLATE = register("dark_pelt_chestplate", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.CHESTPLATE, props()));
-    public static final DeferredItem<WolfPeltArmorItem> DARK_PELT_LEGGINGS = register("dark_pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.LEGGINGS, props()));
-    public static final DeferredItem<WolfPeltArmorItem> DARK_PELT_BOOTS = register("dark_pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.DARK_PELT, ArmorItem.Type.BOOTS, props()));
-    public static final DeferredItem<WolfPeltArmorItem> WHITE_PELT_HELMET = register("white_pelt_helmet", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.HELMET, props()));
-    public static final DeferredItem<WolfPeltArmorItem> WHITE_PELT_CHESTPLATE = register("white_pelt_chestplate", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.CHESTPLATE, props()));
-    public static final DeferredItem<WolfPeltArmorItem> WHITE_PELT_LEGGINGS = register("white_pelt_leggings", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.LEGGINGS, props()));
-    public static final DeferredItem<WolfPeltArmorItem> WHITE_PELT_BOOTS = register("white_pelt_boots", () -> new WolfPeltArmorItem(WolfPeltArmorItem.WHITE_PELT, ArmorItem.Type.BOOTS, props()));
+    public static final DeferredItem<WolfPeltArmorItem> PELT_HELMET = register("pelt_helmet", () -> new WolfPeltArmorItem(ModArmorMaterials.PELT, ArmorItem.Type.HELMET, IItemWithTier.TIER.NORMAL));
+    public static final DeferredItem<WolfPeltArmorItem> PELT_CHESTPLATE = register("pelt_chestplate", () -> new WolfPeltArmorItem(ModArmorMaterials.PELT, ArmorItem.Type.CHESTPLATE, IItemWithTier.TIER.NORMAL));
+    public static final DeferredItem<WolfPeltArmorItem> PELT_LEGGINGS = register("pelt_leggings", () -> new WolfPeltArmorItem(ModArmorMaterials.PELT, ArmorItem.Type.LEGGINGS, IItemWithTier.TIER.NORMAL));
+    public static final DeferredItem<WolfPeltArmorItem> PELT_BOOTS = register("pelt_boots", () -> new WolfPeltArmorItem(ModArmorMaterials.PELT, ArmorItem.Type.BOOTS, IItemWithTier.TIER.NORMAL));
+    public static final DeferredItem<WolfPeltArmorItem> DARK_PELT_HELMET = register("dark_pelt_helmet", () -> new WolfPeltArmorItem(ModArmorMaterials.DARK_PELT, ArmorItem.Type.HELMET, IItemWithTier.TIER.ENHANCED));
+    public static final DeferredItem<WolfPeltArmorItem> DARK_PELT_CHESTPLATE = register("dark_pelt_chestplate", () -> new WolfPeltArmorItem(ModArmorMaterials.DARK_PELT, ArmorItem.Type.CHESTPLATE, IItemWithTier.TIER.ENHANCED));
+    public static final DeferredItem<WolfPeltArmorItem> DARK_PELT_LEGGINGS = register("dark_pelt_leggings", () -> new WolfPeltArmorItem(ModArmorMaterials.DARK_PELT, ArmorItem.Type.LEGGINGS, IItemWithTier.TIER.ENHANCED));
+    public static final DeferredItem<WolfPeltArmorItem> DARK_PELT_BOOTS = register("dark_pelt_boots", () -> new WolfPeltArmorItem(ModArmorMaterials.DARK_PELT, ArmorItem.Type.BOOTS, IItemWithTier.TIER.ENHANCED));
+    public static final DeferredItem<WolfPeltArmorItem> WHITE_PELT_HELMET = register("white_pelt_helmet", () -> new WolfPeltArmorItem(ModArmorMaterials.WHITE_PELT, ArmorItem.Type.HELMET, IItemWithTier.TIER.ULTIMATE));
+    public static final DeferredItem<WolfPeltArmorItem> WHITE_PELT_CHESTPLATE = register("white_pelt_chestplate", () -> new WolfPeltArmorItem(ModArmorMaterials.WHITE_PELT, ArmorItem.Type.CHESTPLATE, IItemWithTier.TIER.ULTIMATE));
+    public static final DeferredItem<WolfPeltArmorItem> WHITE_PELT_LEGGINGS = register("white_pelt_leggings", () -> new WolfPeltArmorItem(ModArmorMaterials.WHITE_PELT, ArmorItem.Type.LEGGINGS, IItemWithTier.TIER.ULTIMATE));
+    public static final DeferredItem<WolfPeltArmorItem> WHITE_PELT_BOOTS = register("white_pelt_boots", () -> new WolfPeltArmorItem(ModArmorMaterials.WHITE_PELT, ArmorItem.Type.BOOTS, IItemWithTier.TIER.ULTIMATE));
     public static final DeferredItem<SmithingTemplateItem> WHITE_PELT_UPGRADE_SMITHING_TEMPLATE = register("white_pelt_upgrade_smithing_template", ModSmithingTemplates::createWhitePeltUpgradeTemplate);
     public static final DeferredItem<Item> WOLFSBANE_FINDER = register("wolfsbane_finder", () -> new Item(props().rarity(Rarity.RARE)));
 
@@ -133,7 +136,7 @@ public class ModItems {
         public static final DeferredHolder<Item, Item> GARLIC_DIFFUSER_CORE = item("garlic_diffuser_core");
 
         private static DeferredHolder<Item, Item> item(String name) {
-            return DeferredHolder.create(ResourceKey.create(Registries.ITEM, new ResourceLocation("vampirism", name)));
+            return DeferredHolder.create(ResourceKey.create(Registries.ITEM, WResourceLocation.v(name)));
         }
 
         private static void init() {

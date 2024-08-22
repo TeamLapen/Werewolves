@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.api.entity.minion.IMinionTask;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.vampirism.entity.minion.management.CollectResourcesTask;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.resources.ResourceKey;
@@ -45,7 +46,7 @@ public class ModMinionTasks {
         }
 
         private static DeferredHolder<IMinionTask<?,?>, IMinionTask<?, ?>> task(String name) {
-            return DeferredHolder.create(ResourceKey.create(VampirismRegistries.Keys.MINION_TASK, new ResourceLocation("vampirism", name)));
+            return DeferredHolder.create(ResourceKey.create(VampirismRegistries.Keys.MINION_TASK, WResourceLocation.v(name)));
         }
     }
 

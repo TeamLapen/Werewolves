@@ -1,7 +1,5 @@
 package de.teamlapen.werewolves.entities.player.werewolf;
 
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import de.teamlapen.lib.lib.storage.ISyncableSaveData;
 import de.teamlapen.lib.HelperLib;
 import de.teamlapen.vampirism.api.VampirismAPI;
@@ -10,9 +8,7 @@ import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
-import de.teamlapen.vampirism.api.entity.player.skills.SkillType;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.vampirism.entity.minion.VampireMinionEntity;
 import de.teamlapen.vampirism.entity.player.FactionBasePlayer;
 import de.teamlapen.vampirism.entity.player.LevelAttributeModifier;
 import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
@@ -21,6 +17,7 @@ import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.vampirism.world.MinionWorldData;
 import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.api.WerewolvesAttachments;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -32,12 +29,12 @@ import de.teamlapen.werewolves.effects.WolfsbaneEffect;
 import de.teamlapen.werewolves.effects.inst.WerewolfNightVisionEffectInstance;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
-import de.teamlapen.werewolves.mixin.ArmorItemAccessor;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.mixin.entity.PlayerAccessor;
 import de.teamlapen.werewolves.util.*;
 import de.teamlapen.werewolves.world.LevelWolfsbane;
 import de.teamlapen.werewolves.world.ModDamageSources;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -48,9 +45,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -63,7 +58,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.attachment.IAttachmentSerializer;
 import net.neoforged.neoforge.common.NeoForgeMod;
-import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -78,8 +73,7 @@ import java.util.function.Predicate;
 public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implements IWerewolfPlayer {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final UUID ARMOR_TOUGHNESS = UUID.fromString("f3979aec-b8ef-4e95-84a7-2c6dab8ea46e");
-    private static final UUID CLAWS = UUID.fromString("70435284-afcd-4470-85c2-d9b36b3d94e8");
+    private static final ResourceLocation CLAWS = WResourceLocation.mod("claws");
 
     public static WerewolfPlayer get(@Nonnull Player playerEntity) {
         return playerEntity.getData(ModAttachments.WEREWOLF_PLAYER);
@@ -186,32 +180,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
-    public void removeArmorModifier() {
-        for (UUID uuid : ArmorItemAccessor.getARMOR_MODIFIERS().values()) {
-            this.player.getAttribute(Attributes.ARMOR_TOUGHNESS).removeModifier(uuid);
-            this.player.getAttribute(Attributes.ARMOR).removeModifier(uuid);
-        }
-    }
-
-    public void addArmorModifier() {
-        Set<UUID> uuids = Sets.newHashSet(ArmorItemAccessor.getARMOR_MODIFIERS().values());
-        int i = 0;
-        for (ItemStack stack : this.player.getArmorSlots()) {
-            EquipmentSlot slotType = EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i++);
-            Multimap<Attribute, AttributeModifier> map = stack.getAttributeModifiers(slotType);
-            for (Map.Entry<Attribute, Collection<AttributeModifier>> entry : map.asMap().entrySet()) {
-                for (AttributeModifier modifier : entry.getValue()) {
-                    if (uuids.contains(modifier.getId())) {
-                        AttributeInstance attribute = this.player.getAttribute(entry.getKey());
-                        if (!attribute.hasModifier(modifier)) {
-                            attribute.addPermanentModifier(modifier);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     @Override
     public void onChangedDimension(ResourceKey<Level> registryKey, ResourceKey<Level> registryKey1) {
 
@@ -234,16 +202,16 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                 if (this.actionHandler.updateActions()) {
                     sync = true;
                     syncToAll = true;
-                    syncPacket.put(this.actionHandler.nbtKey(), this.actionHandler.serializeUpdateNBT());
+                    syncPacket.put(this.actionHandler.nbtKey(), this.actionHandler.serializeUpdateNBT(this.player.registryAccess()));
                 }
                 if (this.skillHandler.isDirty()) {
                     sync = true;
                     syncToAll = true;
-                    syncPacket.put(this.skillHandler.nbtKey(), this.skillHandler.serializeUpdateNBT());
+                    syncPacket.put(this.skillHandler.nbtKey(), this.skillHandler.serializeUpdateNBT(this.player.registryAccess()));
                 }
                 if (this.player.level().getGameTime() % 10 == 0) {
                     if (this.specialAttributes.transformationTime > 0 && !FormHelper.isFormActionActive(this)) {
-                        this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue(), 0, 1);
+                        this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.TIME_REGAIN).getValue(), 0, 1);
                         syncPacket.putDouble("transformationTime", this.specialAttributes.transformationTime);
                     }
                     if (this.player.level().getGameTime() % 20 == 0) {
@@ -295,7 +263,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
                 if (this.player.level().getGameTime() % 10 == 0) {
                     if (this.specialAttributes.transformationTime > 0 && !FormHelper.isFormActionActive(this)) {
-                        this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.TIME_REGAIN.get()).getValue()), 0, 1);
+                        this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - ((float) player.getAttribute(ModAttributes.TIME_REGAIN).getValue()), 0, 1);
                     }
                 }
 
@@ -308,16 +276,21 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
             this.specialAttributes.biteTicks = Math.max(0, this.specialAttributes.biteTicks - 1);
 
-        } else if (!this.isRemote() && this.player.isSleeping() && this.player.hasEffect(ModEffects.LUPUS_SANGUINEM.get())) {
+        } else if (!this.isRemote() && this.player.isSleeping() && this.player.hasEffect(ModEffects.LUPUS_SANGUINEM)) {
             if (this.sleepTimer++ >= 200) {
-                this.player.getEffect(ModEffects.LUPUS_SANGUINEM.get()).tick(this.player, () -> {});
-                this.player.removeEffect(ModEffects.LUPUS_SANGUINEM.get());
+                this.player.getEffect(ModEffects.LUPUS_SANGUINEM).tick(this.player, () -> {});
+                this.player.removeEffect(ModEffects.LUPUS_SANGUINEM);
                 this.player.stopSleeping();
             }
         } else {
             this.sleepTimer = 0;
         }
         this.player.getCommandSenderWorld().getProfiler().pop();
+    }
+
+    @Override
+    public void onUpdatePlayer(PlayerTickEvent playerTickEvent) {
+
     }
 
     private void tickFoodStats() {
@@ -343,7 +316,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             this.customization.eyeType.put(form, type);
             if (!isRemote()) {
                 CompoundTag nbt = new CompoundTag();
-                nbt.put(this.customization.nbtKey(), this.customization.serializeEyeNBT());
+                nbt.put(this.customization.nbtKey(), this.customization.serializeEyeNBT(this.player.registryAccess()));
                 this.sync(nbt, true);
             }
             return true;
@@ -356,7 +329,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             this.customization.skinType.put(form, type);
             if (!isRemote()) {
                 CompoundTag nbt = new CompoundTag();
-                nbt.put(this.customization.nbtKey(), this.customization.serializeSkinNBT());
+                nbt.put(this.customization.nbtKey(), this.customization.serializeSkinNBT(this.player.registryAccess()));
                 this.sync(nbt, true);
             }
         }
@@ -404,7 +377,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     public void syncLevelHandler() {
         CompoundTag sync = new CompoundTag();
-        sync.put(this.levelHandler.nbtKey(), this.levelHandler.serializeUpdateNBT());
+        sync.put(this.levelHandler.nbtKey(), this.levelHandler.serializeUpdateNBT(this.player.registryAccess()));
         this.sync(sync, false);
     }
 
@@ -418,13 +391,8 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     }
 
-    @Override
-    public void onUpdatePlayer(TickEvent.Phase phase) {
-
-    }
-
     public boolean canBiteEntity(LivingEntity entity) {
-        return entity.distanceTo(this.player) <= this.player.getAttribute(NeoForgeMod.BLOCK_REACH.value()).getValue() + 1 && (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
+        return entity.distanceTo(this.player) <= this.player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE).getValue() + 1 && (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.getRepresentingPlayer(), Permissions.BITE_PLAYER));
     }
 
     public boolean canBite() {
@@ -444,7 +412,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         if (!this.form.isTransformed()) return false;
         if (!canBite()) return false;
         if (!canBiteEntity(entity)) return false;
-        double damage = this.player.getAttribute(ModAttributes.BITE_DAMAGE.get()).getValue();
+        double damage = this.player.getAttribute(ModAttributes.BITE_DAMAGE).getValue();
         boolean flag = DamageHandler.hurtModded(entity, (ModDamageSources sources) -> sources.bite(this.player), (float) damage);
         if (flag) {
             this.getRepresentingPlayer().playSound(ModSounds.ENTITY_WEREWOLF_BITE.get(), 1.0F, 1.0F);
@@ -457,10 +425,10 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     if (this.skillHandler.isRefinementEquipped(ModRefinements.STUN_BITE.get())) {
                         duration += WerewolvesConfig.BALANCE.REFINEMENTS.stun_bite_duration_extend.get();
                     }
-                    entity.addEffect(new MobEffectInstance(ModEffects.STUN.get(), duration));
+                    entity.addEffect(new MobEffectInstance(ModEffects.STUN, duration));
                 }
                 if (this.skillHandler.isSkillEnabled(ModSkills.BLEEDING_BITE.get())) {
-                    entity.addEffect(new MobEffectInstance(ModEffects.BLEEDING.get(), WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.BLEEDING_BITE.get()) ? 3 : 0));
+                    entity.addEffect(new MobEffectInstance(ModEffects.BLEEDING, WerewolvesConfig.BALANCE.SKILLS.bleeding_bite_duration.get(), this.skillHandler.isRefinementEquipped(ModRefinements.BLEEDING_BITE.get()) ? 3 : 0));
                 }
             }
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putInt("biteTicks", this.specialAttributes.biteTicks)), false);
@@ -484,9 +452,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.applyEntityAttributes();
         if (!isRemote()) {
             ScoreboardUtil.updateScoreboard(this.player, WUtils.WEREWOLF_LEVEL_CRITERIA, newLevel);
-            LevelAttributeModifier.applyModifier(player, Attributes.MOVEMENT_SPEED, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.3, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
-            LevelAttributeModifier.applyModifier(player, Attributes.ARMOR_TOUGHNESS, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL, false);
-            LevelAttributeModifier.applyModifier(player, Attributes.ATTACK_DAMAGE, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_damage.get(), 0.5, AttributeModifier.Operation.ADDITION, false);
+            LevelAttributeModifier.applyModifier(player, Attributes.MOVEMENT_SPEED, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, false);
+            LevelAttributeModifier.applyModifier(player, Attributes.ARMOR_TOUGHNESS, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_speed_amount.get(), 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, false);
+            LevelAttributeModifier.applyModifier(player, Attributes.ATTACK_DAMAGE, "Werewolf", getLevel(), getMaxLevel(), WerewolvesConfig.BALANCE.PLAYER.werewolf_damage.get(), 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, false);
             if (newLevel <= 0) {
                 this.actionHandler.resetTimers();
                 this.skillHandler.disableAllSkills();
@@ -557,10 +525,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return !this.getForm().isTransformed();
     }
 
-    static {
-        LevelAttributeModifier.registerModdedAttributeModifier(Attributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS);
-    }
-
     @Nullable
     public WerewolfFormAction getLastFormAction() {
         return lastFormAction;
@@ -579,13 +543,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     //-- load/save -----------------------------------------------------------------------------------------------------
 
     @Override
-    public @NotNull CompoundTag serializeNBT() {
-        CompoundTag compound = super.serializeNBT();
-        compound.put(this.inventory.nbtKey(), this.inventory.serializeNBT());
-        compound.put(this.skillHandler.nbtKey(), this.skillHandler.serializeNBT());
-        compound.put(this.actionHandler.nbtKey(), this.actionHandler.serializeNBT());
-        compound.put(this.levelHandler.nbtKey(), this.levelHandler.serializeNBT());
-        compound.put(this.customization.nbtKey(), this.customization.serializeNBT());
+    public @NotNull CompoundTag serializeNBT(HolderLookup.Provider provider) {
+        CompoundTag compound = super.serializeNBT(provider);
+        compound.put(this.inventory.nbtKey(), this.inventory.serializeNBT(provider));
+        compound.put(this.skillHandler.nbtKey(), this.skillHandler.serializeNBT(provider));
+        compound.put(this.actionHandler.nbtKey(), this.actionHandler.serializeNBT(provider));
+        compound.put(this.levelHandler.nbtKey(), this.levelHandler.serializeNBT(provider));
+        compound.put(this.customization.nbtKey(), this.customization.serializeNBT(provider));
         compound.putString("form", this.form.getName());
         if (this.lastFormAction != null) {
             compound.putString("lastFormAction", RegUtil.id(this.lastFormAction).toString());
@@ -596,13 +560,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    public @NotNull CompoundTag serializeUpdateNBT() {
-        CompoundTag nbt = super.serializeUpdateNBT();
-        nbt.put(this.inventory.nbtKey(), this.inventory.serializeUpdateNBT());
-        nbt.put(this.skillHandler.nbtKey(), this.skillHandler.serializeUpdateNBT());
-        nbt.put(this.actionHandler.nbtKey(), this.actionHandler.serializeUpdateNBT());
-        nbt.put(this.levelHandler.nbtKey(), this.levelHandler.serializeUpdateNBT());
-        nbt.put(this.customization.nbtKey(), this.customization.serializeUpdateNBT());
+    public @NotNull CompoundTag serializeUpdateNBT(HolderLookup.Provider provider) {
+        CompoundTag nbt = super.serializeUpdateNBT(provider);
+        nbt.put(this.inventory.nbtKey(), this.inventory.serializeUpdateNBT(provider));
+        nbt.put(this.skillHandler.nbtKey(), this.skillHandler.serializeUpdateNBT(provider));
+        nbt.put(this.actionHandler.nbtKey(), this.actionHandler.serializeUpdateNBT(provider));
+        nbt.put(this.levelHandler.nbtKey(), this.levelHandler.serializeUpdateNBT(provider));
+        nbt.put(this.customization.nbtKey(), this.customization.serializeUpdateNBT(provider));
         nbt.putString("form", this.form.getName());
         nbt.putInt("biteTicks", this.specialAttributes.biteTicks);
         nbt.putDouble("transformationTime", this.specialAttributes.transformationTime);
@@ -610,15 +574,15 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    public void deserializeNBT(@NotNull CompoundTag nbt) {
-        super.deserializeNBT(nbt);
-        this.inventory.deserializeNBT(nbt.getCompound(this.inventory.nbtKey()));
-        this.skillHandler.deserializeNBT(nbt.getCompound(this.skillHandler.nbtKey()));
-        this.actionHandler.deserializeNBT(nbt.getCompound(this.actionHandler.nbtKey()));
-        this.levelHandler.deserializeNBT(nbt.getCompound(this.levelHandler.nbtKey()));
-        this.customization.deserializeNBT(nbt.getCompound(this.customization.nbtKey()));
+    public void deserializeNBT(HolderLookup.Provider provider, @NotNull CompoundTag nbt) {
+        super.deserializeNBT(provider, nbt);
+        this.inventory.deserializeNBT(provider, nbt.getCompound(this.inventory.nbtKey()));
+        this.skillHandler.deserializeNBT(provider, nbt.getCompound(this.skillHandler.nbtKey()));
+        this.actionHandler.deserializeNBT(provider, nbt.getCompound(this.actionHandler.nbtKey()));
+        this.levelHandler.deserializeNBT(provider, nbt.getCompound(this.levelHandler.nbtKey()));
+        this.customization.deserializeNBT(provider, nbt.getCompound(this.customization.nbtKey()));
         if (NBTHelper.containsString(nbt, "lastFormAction")) {
-            this.lastFormAction = ((WerewolfFormAction) RegUtil.getAction(new ResourceLocation(nbt.getString("lastFormAction"))));
+            this.lastFormAction = ((WerewolfFormAction) RegUtil.getAction(ResourceLocation.parse(nbt.getString("lastFormAction"))));
         }
         this.specialAttributes.biteTicks = nbt.getInt("biteTicks");
         if (nbt.contains("transformationTime")) {
@@ -627,13 +591,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     }
 
     @Override
-    public void deserializeUpdateNBT(@NotNull CompoundTag nbt) {
-        super.deserializeUpdateNBT(nbt);
-        this.inventory.deserializeUpdateNBT(nbt.getCompound(this.inventory.nbtKey()));
-        this.skillHandler.deserializeUpdateNBT(nbt.getCompound(this.skillHandler.nbtKey()));
-        this.actionHandler.deserializeUpdateNBT(nbt.getCompound(this.actionHandler.nbtKey()));
-        this.levelHandler.deserializeUpdateNBT(nbt.getCompound(this.levelHandler.nbtKey()));
-        this.customization.deserializeUpdateNBT(nbt.getCompound(this.customization.nbtKey()));
+    public void deserializeUpdateNBT(HolderLookup.Provider provider, @NotNull CompoundTag nbt) {
+        super.deserializeUpdateNBT(provider, nbt);
+        this.inventory.deserializeUpdateNBT(provider, nbt.getCompound(this.inventory.nbtKey()));
+        this.skillHandler.deserializeUpdateNBT(provider, nbt.getCompound(this.skillHandler.nbtKey()));
+        this.actionHandler.deserializeUpdateNBT(provider, nbt.getCompound(this.actionHandler.nbtKey()));
+        this.levelHandler.deserializeUpdateNBT(provider, nbt.getCompound(this.levelHandler.nbtKey()));
+        this.customization.deserializeUpdateNBT(provider, nbt.getCompound(this.customization.nbtKey()));
         if (NBTHelper.containsString(nbt, "form")) {
             this.switchForm(form);
         }
@@ -647,7 +611,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     private void applyEntityAttributes() {
         try {
-            this.player.getAttribute(ModAttributes.BITE_DAMAGE.get());
+            this.player.getAttribute(ModAttributes.BITE_DAMAGE);
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -665,7 +629,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     damage += (1 + specialAttributes.diggerTier.getAttackDamageBonus()) / 2;
                 }
                 attribute.removeModifier(CLAWS);
-                attribute.addTransientModifier(new AttributeModifier(CLAWS, "werewolf_claws", damage, AttributeModifier.Operation.ADDITION));
+                attribute.addTransientModifier(new AttributeModifier(CLAWS, damage, AttributeModifier.Operation.ADD_VALUE));
             }
         } else {
             attribute.removeModifier(CLAWS);
@@ -723,7 +687,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         private final Map<WerewolfForm, Boolean> glowingEyes = new HashMap<>();
 
         @Override
-        public @NotNull CompoundTag serializeNBT() {
+        public @NotNull CompoundTag serializeNBT(HolderLookup.Provider provider) {
             CompoundTag tag = new CompoundTag();
             CompoundTag eye = new CompoundTag();
             this.eyeType.forEach((key, value) -> eye.putInt(key.getName(), value));
@@ -737,7 +701,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             return tag;
         }
 
-        public @NotNull CompoundTag serializeEyeNBT() {
+        public @NotNull CompoundTag serializeEyeNBT(HolderLookup.Provider provider) {
             CompoundTag tag = new CompoundTag();
             CompoundTag eye = new CompoundTag();
             this.eyeType.forEach((key, value) -> eye.putInt(key.getName(), value));
@@ -745,7 +709,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
             return tag;
         }
 
-        public @NotNull CompoundTag serializeSkinNBT() {
+        public @NotNull CompoundTag serializeSkinNBT(HolderLookup.Provider provider) {
             CompoundTag tag = new CompoundTag();
             CompoundTag skin = new CompoundTag();
             this.skinType.forEach((key, value) -> skin.putInt(key.getName(), value));
@@ -762,7 +726,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
 
         @Override
-        public void deserializeNBT(@NotNull CompoundTag compoundTag) {
+        public void deserializeNBT(HolderLookup.Provider provider, @NotNull CompoundTag compoundTag) {
             CompoundTag eye = compoundTag.getCompound("eyeTypes");
             eye.getAllKeys().forEach(string -> this.eyeType.put(WerewolfForm.getForm(string), eye.getInt(string)));
             CompoundTag skin = compoundTag.getCompound("skinTypes");
@@ -772,7 +736,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
 
         @Override
-        public void deserializeUpdateNBT(@NotNull CompoundTag compoundTag) {
+        public void deserializeUpdateNBT(HolderLookup.Provider provider, @NotNull CompoundTag compoundTag) {
             if (compoundTag.contains("eyeTypes")) {
                 CompoundTag eye = compoundTag.getCompound("eyeTypes");
                 eye.getAllKeys().forEach(string -> this.eyeType.put(WerewolfForm.getForm(string), eye.getInt(string)));
@@ -788,8 +752,8 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
 
         @Override
-        public @NotNull CompoundTag serializeUpdateNBT() {
-            return serializeNBT();
+        public @NotNull CompoundTag serializeUpdateNBT(HolderLookup.Provider provider) {
+            return serializeNBT(provider);
         }
 
         @Override
@@ -801,18 +765,18 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     public static class Serializer implements IAttachmentSerializer<CompoundTag, WerewolfPlayer> {
 
         @Override
-        public @NotNull WerewolfPlayer read(@NotNull IAttachmentHolder holder, @NotNull CompoundTag tag) {
+        public @NotNull WerewolfPlayer read(@NotNull IAttachmentHolder holder, @NotNull CompoundTag tag, HolderLookup.Provider provider) {
             if(holder instanceof Player player) {
                 var werewolf = new WerewolfPlayer(player);
-                werewolf.deserializeNBT(tag);
+                werewolf.deserializeNBT(provider, tag);
                 return werewolf;
             }
             throw new IllegalArgumentException("Expected Player, got " + holder.getClass().getSimpleName());
         }
 
         @Override
-        public CompoundTag write(WerewolfPlayer attachment) {
-            return attachment.serializeNBT();
+        public CompoundTag write( WerewolfPlayer attachment, HolderLookup.Provider provider) {
+            return attachment.serializeNBT(provider);
         }
     }
 

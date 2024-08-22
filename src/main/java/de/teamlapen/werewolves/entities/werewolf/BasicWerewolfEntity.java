@@ -21,6 +21,7 @@ import de.teamlapen.vampirism.entity.player.FactionBasePlayer;
 import de.teamlapen.vampirism.entity.player.vampire.skills.VampireSkills;
 import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.vampirism.world.MinionWorldData;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.api.entities.IEntityFollower;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -102,10 +103,9 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.xpReward = 3;
     }
 
-    @Nonnull
     @Override
-    public EntityDimensions getDimensions(@Nonnull Pose poseIn) {
-        return this.getForm().getSize(poseIn).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(poseIn));
+    protected @NotNull EntityDimensions getDefaultDimensions(@NotNull Pose pPose) {
+        return this.getForm().getSize(pPose).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(pPose));
     }
 
     @Override
@@ -210,7 +210,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
             this.transformType = TransformType.valueOf(nbt.getString("transformType"));
         }
         if (nbt.contains("transformed")) {
-            ResourceLocation id = new ResourceLocation(nbt.getString("transformed_id"));
+            ResourceLocation id = ResourceLocation.parse(nbt.getString("transformed_id"));
             EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(id);
             //noinspection ConstantValue
             if (type != null) {
@@ -305,7 +305,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                             if (!player.getAbilities().instabuild) heldItem.shrink(1);
                         }
                     } else if (freeSlot) {
-                        player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.require_equipment", UtilLib.translate(ModItems.WEREWOLF_MINION_CHARM.get().getDescriptionId())), false);
+                        player.displayClientMessage(Component.translatable("text.werewolves.basic_werewolf.minion.require_equipment", ModItems.WEREWOLF_MINION_CHARM.get().getDescription()), false);
                     }
                 }
             }
@@ -377,8 +377,8 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
         if (this.getEntityData().get(SKINTYPE) == -1) {
             this.getEntityData().set(SKINTYPE, this.getRandom().nextInt(126));
         }
@@ -464,11 +464,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.getEntityData().define(LEVEL, -1);
-        this.getEntityData().define(SKINTYPE, -1);
-        this.getEntityData().define(EYETYPE, -1);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(LEVEL, -1);
+        pBuilder.define(SKINTYPE, -1);
+        pBuilder.define(EYETYPE, -1);
     }
 
     @Nonnull
@@ -514,11 +514,11 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
         @Nullable
         @Override
-        public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag nbt) {
+        public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
             if (!(reason == MobSpawnType.SPAWN_EGG || reason == MobSpawnType.BUCKET || reason == MobSpawnType.CONVERSION || reason == MobSpawnType.COMMAND) && this.getRandom().nextInt(50) == 0) {
-                this.setItemSlot(EquipmentSlot.HEAD, WerewolfVillageData.createBanner());
+                this.setItemSlot(EquipmentSlot.HEAD, WerewolfVillageData.createBanner(world.registryAccess()));
             }
-            return super.finalizeSpawn(world, difficulty, reason, spawnData, nbt);
+            return super.finalizeSpawn(world, difficulty, reason, spawnData);
         }
     }
 

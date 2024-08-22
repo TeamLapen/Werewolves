@@ -10,19 +10,21 @@ import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModLootTables;
 import de.teamlapen.werewolves.mixin.VanillaBlockLootAccessor;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
@@ -31,29 +33,35 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithEnchantedBonusCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
-public class LootTablesGenerator extends LootTableProvider {
+public class LootTablesGenerator {
 
     private static final float[] DEFAULT_SAPLING_DROP_RATES = new float[]{0.05F, 0.0625F, 0.083333336F, 0.1F};
 
-    public LootTablesGenerator(PackOutput output) {
-        super(output, ModLootTables.getLootTables(), List.of(new SubProviderEntry(ModEntityLootTables::new, LootContextParamSets.ENTITY), new SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK), new SubProviderEntry(ChestLootTables::new, LootContextParamSets.CHEST), new SubProviderEntry(InjectLootTables::new, LootContextParamSets.ENTITY)));
+    public static LootTableProvider getProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        return new LootTableProvider(output, ModLootTables.getLootTables(),
+                List.of(
+                        new LootTableProvider.SubProviderEntry(ModEntityLootTables::new, LootContextParamSets.ENTITY),
+                        new LootTableProvider.SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK),
+                        new LootTableProvider.SubProviderEntry(ChestLootTables::new, LootContextParamSets.CHEST),
+                        new LootTableProvider.SubProviderEntry(EntityInjectLootTables::new, LootContextParamSets.ENTITY)
+                ), lookupProvider);
     }
 
     private static class ModBlockLootTables extends BlockLootSubProvider {
 
-        protected ModBlockLootTables() {
-            super(VanillaBlockLootAccessor.getEXPLOSION_RESISTANT(), FeatureFlags.REGISTRY.allFlags());
+        protected ModBlockLootTables(HolderLookup.Provider provider) {
+            super(VanillaBlockLootAccessor.getEXPLOSION_RESISTANT(), FeatureFlags.REGISTRY.allFlags(), provider);
         }
 
         @Override
@@ -75,9 +83,35 @@ public class LootTablesGenerator extends LootTableProvider {
             });
             this.dropSelf(ModBlocks.DAFFODIL.get());
 
-            this.add(ModBlocks.WOLF_BERRY_BUSH.get(), (p_124086_) -> {
-                return applyExplosionDecay(p_124086_, LootTable.lootTable().withPool(LootPool.lootPool().when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.WOLF_BERRY_BUSH.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WolfBerryBushBlock.AGE, 3))).add(LootItem.lootTableItem(ModItems.WOLF_BERRIES.get())).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))).withPool(LootPool.lootPool().when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.WOLF_BERRY_BUSH.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WolfBerryBushBlock.AGE, 2))).add(LootItem.lootTableItem(ModItems.WOLF_BERRIES.get())).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
-            });
+            HolderLookup.RegistryLookup<Enchantment> enchantments = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+
+            this.add(
+                    ModBlocks.WOLF_BERRY_BUSH.get(),
+                    p_249159_ -> this.applyExplosionDecay(
+                            p_249159_,
+                            LootTable.lootTable()
+                                    .withPool(
+                                            LootPool.lootPool()
+                                                    .when(
+                                                            LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.WOLF_BERRY_BUSH.get())
+                                                                    .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WolfBerryBushBlock.AGE, 3))
+                                                    )
+                                                    .add(LootItem.lootTableItem(ModBlocks.WOLF_BERRY_BUSH.asItem()))
+                                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F)))
+                                                    .apply(ApplyBonusCount.addUniformBonusCount(enchantments.getOrThrow(Enchantments.FORTUNE)))
+                                    )
+                                    .withPool(
+                                            LootPool.lootPool()
+                                                    .when(
+                                                            LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.WOLF_BERRY_BUSH.get())
+                                                                    .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WolfBerryBushBlock.AGE, 2))
+                                                    )
+                                                    .add(LootItem.lootTableItem(ModBlocks.WOLF_BERRY_BUSH.asItem()))
+                                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
+                                                    .apply(ApplyBonusCount.addUniformBonusCount(enchantments.getOrThrow(Enchantments.FORTUNE)))
+                                    )
+                    )
+            );
 
             dropPottedContents(ModBlocks.POTTED_WOLFSBANE.get());
             dropPottedContents(ModBlocks.POTTED_DAFFODIL.get());
@@ -129,8 +163,8 @@ public class LootTablesGenerator extends LootTableProvider {
     }
 
     private static class ModEntityLootTables extends EntityLootSubProvider {
-        protected ModEntityLootTables() {
-            super(FeatureFlags.REGISTRY.allFlags());
+        protected ModEntityLootTables(HolderLookup.Provider provider) {
+            super(FeatureFlags.REGISTRY.allFlags(), provider);
         }
 
         @Override
@@ -141,19 +175,19 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(LootPool.lootPool()
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.33f, 0.05f))
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.LIVER.get())))
                     .withPool(LootPool.lootPool()
                             .name("general2")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.33f, 0.05f))
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(40)))
                     .withPool(LootPool.lootPool()
                             .name("general3")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.33f, 0.05f))
                             .setRolls(UniformGenerator.between(1, 2))
                             .add(LootItem.lootTableItem(ModItems.PELT.get()).setWeight(40))
                             .add(LootItem.lootTableItem(ModItems.DARK_PELT.get()).setWeight(2))
@@ -172,19 +206,19 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(LootPool.lootPool()
                             .name("general")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.33f, 0.05f))
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.LIVER.get())))
                     .withPool(LootPool.lootPool()
                             .name("general2")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.33f, 0.05f))
+                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.33f, 0.05f))
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(6)))
                     .withPool(LootPool.lootPool()
                             .name("hunter")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.1f, 0.015f))
+                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.1f, 0.015f))
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.V.VAMPIRE_BOOK.get()).setWeight(1)))
             );
@@ -204,7 +238,7 @@ public class LootTablesGenerator extends LootTableProvider {
                     .withPool(LootPool.lootPool()
                             .name("vampire_book")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                            .when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.1f, 0.015f))
+                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.1f, 0.015f))
                             .setRolls(ConstantValue.exactly(1))
                             .add(LootItem.lootTableItem(ModItems.V.VAMPIRE_BOOK.get()).apply(AddBookNbtFunction.builder()).setWeight(1))
                     )
@@ -217,86 +251,90 @@ public class LootTablesGenerator extends LootTableProvider {
         }
     }
 
-    private static class InjectLootTables implements LootTableSubProvider {
-        @Override
-        public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
-            consumer.accept(ModLootTables.villager, LootTable.lootTable()
-                    .withPool(LootPool.lootPool().name("liver").setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.5f)))));
-            consumer.accept(ModLootTables.skeleton, LootTable.lootTable()
-                    .withPool(LootPool.lootPool().name("bones").setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.1f)))));
-        }
-    }
-
-    private static class ChestLootTables implements LootTableSubProvider {
+    private record EntityInjectLootTables(HolderLookup.Provider provider) implements LootTableSubProvider {
 
         @Override
-        public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
-            LootPool.Builder accessories = LootPool.lootPool()
-                    .name("accessories")
-                    .setRolls(ConstantValue.exactly(1))
-                    .add(LootItem.lootTableItem(ModItems.BONE_NECKLACE.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
-                    .add(LootItem.lootTableItem(ModItems.CHARM_BRACELET.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
-                    .add(LootItem.lootTableItem(ModItems.DREAM_CATCHER.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)));
-            consumer.accept(ModLootTables.abandoned_mineshaft, LootTable.lootTable()
-                    .withPool(accessories)
-                    .withPool(LootPool.lootPool()
-                            .name("main")
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(5))
-                            .add(EmptyLootItem.emptyItem().setWeight(10)))
-                    .withPool(LootPool.lootPool()
-                            .name("werewolf_pelt_upgrade")
-                            .when(LootItemRandomChanceCondition.randomChance(0.02f))
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
-            );
-            consumer.accept(ModLootTables.desert_pyramid, LootTable.lootTable()
-                    .withPool(accessories)
-                    .withPool(LootPool.lootPool()
-                            .name("main")
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(5))
-                            .add(EmptyLootItem.emptyItem().setWeight(10)))
-            );
-            consumer.accept(ModLootTables.jungle_temple, LootTable.lootTable()
-                    .withPool(accessories)
-                    .withPool(LootPool.lootPool()
-                            .name("main")
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(5))
-                            .add(EmptyLootItem.emptyItem().setWeight(10)))
-                    .withPool(LootPool.lootPool()
-                            .name("werewolf_pelt_upgrade")
-                            .when(LootItemRandomChanceCondition.randomChance(0.02f))
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
-            );
-            consumer.accept(ModLootTables.stronghold_corridor, LootTable.lootTable()
-                    .withPool(accessories)
-                    .withPool(LootPool.lootPool()
-                            .name("main")
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.WEREWOLF_TOOTH.get()).setWeight(5))
-                            .add(EmptyLootItem.emptyItem().setWeight(10)))
-                    .withPool(LootPool.lootPool()
-                            .name("werewolf_pelt_upgrade")
-                            .when(LootItemRandomChanceCondition.randomChance(0.02f))
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
-            );
-            consumer.accept(ModLootTables.stronghold_library, LootTable.lootTable()
-                    .withPool(accessories)
-            );
-            consumer.accept(ModLootTables.nether_bridge, LootTable.lootTable()
-                    .withPool(LootPool.lootPool()
-                            .name("werewolf_pelt_upgrade")
-                            .when(LootItemRandomChanceCondition.randomChance(0.05f))
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
-            );
+            public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+                consumer.accept(ModLootTables.VILLAGER, LootTable.lootTable()
+                        .withPool(LootPool.lootPool().name("liver").setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.5f)))));
+                consumer.accept(ModLootTables.SKELETON, LootTable.lootTable()
+                        .withPool(LootPool.lootPool().name("bones").setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(1).when(LootItemRandomChanceCondition.randomChance(0.1f)))));
+                consumer.accept(ModLootTables.HUNTER_LIVER, LootTable.lootTable()
+                        .withPool(LootPool.lootPool().name("werewolves_general").setRolls(ConstantValue.exactly(1)).when(LootItemKilledByPlayerCondition.killedByPlayer()).when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.provider, 0.33f, 0.005f))
+                                .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(1))));
+            }
         }
-    }
+
+    private record ChestLootTables(HolderLookup.Provider provider) implements LootTableSubProvider {
+
+        @Override
+            public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+                LootPool.Builder accessories = LootPool.lootPool()
+                        .name("accessories")
+                        .setRolls(ConstantValue.exactly(1))
+                        .add(LootItem.lootTableItem(ModItems.BONE_NECKLACE.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                        .add(LootItem.lootTableItem(ModItems.CHARM_BRACELET.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)))
+                        .add(LootItem.lootTableItem(ModItems.DREAM_CATCHER.get()).setWeight(1).apply(RefinementSetFunction.builder(WReference.WEREWOLF_FACTION)));
+                consumer.accept(ModLootTables.ABANDONED_MINESHAFT, LootTable.lootTable()
+                        .withPool(accessories)
+                        .withPool(LootPool.lootPool()
+                                .name("main")
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(5))
+                                .add(EmptyLootItem.emptyItem().setWeight(10)))
+                        .withPool(LootPool.lootPool()
+                                .name("werewolf_pelt_upgrade")
+                                .when(LootItemRandomChanceCondition.randomChance(0.02f))
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
+                );
+                consumer.accept(ModLootTables.DESERT_PYRAMID, LootTable.lootTable()
+                        .withPool(accessories)
+                        .withPool(LootPool.lootPool()
+                                .name("main")
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(5))
+                                .add(EmptyLootItem.emptyItem().setWeight(10)))
+                );
+                consumer.accept(ModLootTables.JUNGLE_TEMPLE, LootTable.lootTable()
+                        .withPool(accessories)
+                        .withPool(LootPool.lootPool()
+                                .name("main")
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(5))
+                                .add(EmptyLootItem.emptyItem().setWeight(10)))
+                        .withPool(LootPool.lootPool()
+                                .name("werewolf_pelt_upgrade")
+                                .when(LootItemRandomChanceCondition.randomChance(0.02f))
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
+                );
+                consumer.accept(ModLootTables.STRONGHOLD_CORRIDOR, LootTable.lootTable()
+                        .withPool(accessories)
+                        .withPool(LootPool.lootPool()
+                                .name("main")
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.WEREWOLF_TOOTH.get()).setWeight(5))
+                                .add(EmptyLootItem.emptyItem().setWeight(10)))
+                        .withPool(LootPool.lootPool()
+                                .name("werewolf_pelt_upgrade")
+                                .when(LootItemRandomChanceCondition.randomChance(0.02f))
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
+                );
+                consumer.accept(ModLootTables.STRONGHOLD_LIBRARY, LootTable.lootTable()
+                        .withPool(accessories)
+                );
+                consumer.accept(ModLootTables.NETHER_BRIDGE, LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .name("werewolf_pelt_upgrade")
+                                .when(LootItemRandomChanceCondition.randomChance(0.05f))
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get())))
+                );
+            }
+        }
 
 }

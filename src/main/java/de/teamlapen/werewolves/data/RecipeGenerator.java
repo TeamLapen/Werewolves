@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.data.recipebuilder.AlchemicalCauldronRecipeBuilder
 import de.teamlapen.vampirism.data.recipebuilder.AlchemyTableRecipeBuilder;
 import de.teamlapen.vampirism.data.recipebuilder.ShapedWeaponTableRecipeBuilder;
 import de.teamlapen.vampirism.entity.player.hunter.skills.HunterSkills;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.core.ModOils;
@@ -25,7 +26,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.crafting.NBTIngredient;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -36,12 +36,12 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static final ImmutableList<ItemLike> SILVER_SMELTABLES = ImmutableList.of(ModBlocks.SILVER_ORE.get(), ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModItems.RAW_SILVER.get());
 
-    public RecipeGenerator(@NotNull PackOutput packOutput) {
-        super(packOutput);
+    public RecipeGenerator(@NotNull PackOutput packOutput, CompletableFuture<HolderLookup.Provider> pRegistries) {
+        super(packOutput, pRegistries);
     }
 
     private static ResourceLocation modId(String name) {
-        return new ResourceLocation(REFERENCE.MODID, name);
+        return WResourceLocation.mod(name);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class RecipeGenerator extends RecipeProvider {
         ItemLike crossbow_arrow = ModItems.V.CROSSBOW_ARROW_NORMAL.get();
         TagKey<Item> planks = ItemTags.PLANKS;
         TagKey<Item> diamond = Tags.Items.GEMS_DIAMOND;
-        TagKey<Item> obsidian = Tags.Items.OBSIDIAN;
+        TagKey<Item> obsidian = Tags.Items.OBSIDIANS;
         ItemLike wolfsbane_diffuser_core = ModItems.WOLFSBANE_DIFFUSER_CORE.get();
         ItemLike wolfsbane_diffuser_core_improved = ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get();
         ItemLike wolfsbane_diffuser = ModBlocks.WOLFSBANE_DIFFUSER.get();
@@ -123,7 +123,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .save(consumer, modId("silver_oil_1"));
         AlchemyTableRecipeBuilder
                 .builder(ModOils.SILVER_OIL_2)
-                .oilIngredient(ModOils.SILVER_OIL_1.get()).unlockedBy("has_silver_oil_1", has(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()))
+                .oilIngredient(ModOils.SILVER_OIL_1).unlockedBy("has_silver_oil_1", has(de.teamlapen.vampirism.core.ModItems.OIL_BOTTLE.get()))
                 .input(Ingredient.of(ModTags.Items.SILVER_INGOT)).unlockedBy("has_silver_ingot", has(ModTags.Items.SILVER_INGOT))
                 .save(consumer, modId("silver_oil_2"));
 

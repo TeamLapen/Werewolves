@@ -1,27 +1,23 @@
 package de.teamlapen.werewolves.network;
 
 import com.mojang.serialization.Codec;
-import de.teamlapen.werewolves.WerewolvesMod;
-import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.network.FriendlyByteBuf;
+import de.teamlapen.werewolves.api.WResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Supplier;
 
 public record ClientboundAttackTargetEventPacket(int entityId) implements CustomPacketPayload {
 
-    public static final ResourceLocation ID = new ResourceLocation(REFERENCE.MODID, "attack_target_event");
-    public static final Codec<ClientboundAttackTargetEventPacket> CODEC = Codec.INT.xmap(ClientboundAttackTargetEventPacket::new, msg -> msg.entityId);
+    public static final Type<ClientboundAttackTargetEventPacket> TYPE = new Type<>(WResourceLocation.mod("attack_target_event"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, ClientboundAttackTargetEventPacket> CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT, ClientboundAttackTargetEventPacket::entityId,
+            ClientboundAttackTargetEventPacket::new
+    );
 
     @Override
-    public void write(FriendlyByteBuf buffer) {
-        buffer.writeJsonWithCodec(CODEC, this);
-    }
-
-    @Override
-    public @NotNull ResourceLocation id() {
-        return ID;
+    public @NotNull Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

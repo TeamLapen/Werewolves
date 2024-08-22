@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.client.core;
 
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.client.model.Werewolf4LModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
@@ -22,12 +23,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 
 public class ModModelRender {
 
-    public static final ModelLayerLocation WEREWOLF_BEAST = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_beast"), "main");
-    public static final ModelLayerLocation WEREWOLF_SURVIVALIST = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_survivalist"), "main");
-    public static final ModelLayerLocation WEREWOLF_4L = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "werewolf_four_legged"), "main");
-    public static final ModelLayerLocation EARS_CLAWS = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "main");
-    public static final ModelLayerLocation EARS_CLAWS_SLIM = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "ears_claws"), "slim");
-    public static final ModelLayerLocation WOLF_HEAD = new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "wolf_head"), "main");
+    public static final ModelLayerLocation WEREWOLF_BEAST = new ModelLayerLocation(WResourceLocation.mod("werewolf_beast"), "main");
+    public static final ModelLayerLocation WEREWOLF_SURVIVALIST = new ModelLayerLocation(WResourceLocation.mod("werewolf_survivalist"), "main");
+    public static final ModelLayerLocation WEREWOLF_4L = new ModelLayerLocation(WResourceLocation.mod( "werewolf_four_legged"), "main");
+    public static final ModelLayerLocation EARS_CLAWS = new ModelLayerLocation(WResourceLocation.mod("ears_claws"), "main");
+    public static final ModelLayerLocation EARS_CLAWS_SLIM = new ModelLayerLocation(WResourceLocation.mod("ears_claws"), "slim");
+    public static final ModelLayerLocation WOLF_HEAD = new ModelLayerLocation(WResourceLocation.mod("wolf_head"), "main");
 
     @ApiStatus.Internal
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -38,8 +39,6 @@ public class ModModelRender {
         event.registerEntityRenderer(ModEntities.WOLF.get(), WolfRenderer::new);
         event.registerEntityRenderer(ModEntities.TASK_MASTER_WEREWOLF.get(), WerewolfTaskMasterRenderer::new);
         event.registerEntityRenderer(ModEntities.WEREWOLF_MINION.get(), WerewolfMinionRenderer::new);
-        event.registerEntityRenderer(ModEntities.BOAT.get(), context -> new WerewolvesBoatRenderer(context, false));
-        event.registerEntityRenderer(ModEntities.CHEST_BOAT.get(), context -> new WerewolvesBoatRenderer(context, true));
     }
 
     @ApiStatus.Internal
@@ -50,20 +49,6 @@ public class ModModelRender {
         event.registerLayerDefinition(WEREWOLF_BEAST, WerewolfBeastModel::createBodyLayer);
         event.registerLayerDefinition(WEREWOLF_SURVIVALIST, WerewolfSurvivalistModel::createBodyLayer);
         event.registerLayerDefinition(WOLF_HEAD, WolfHeadModel::createBodyLayer);
-
-        LayerDefinition boatDefinition = BoatModel.createBodyModel();
-        LayerDefinition chestBoatDefinition = ChestBoatModel.createBodyModel();
-        for (IWerewolvesBoat.BoatType type : IWerewolvesBoat.BoatType.values()) {
-            event.registerLayerDefinition(createBoatModelName(type), () -> boatDefinition);
-            event.registerLayerDefinition(createChestBoatModelName(type), () -> chestBoatDefinition);
-        }
     }
 
-    public static @NotNull ModelLayerLocation createBoatModelName(IWerewolvesBoat.@NotNull BoatType type) {
-        return new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "boat/" + type.getName()), "main");
-    }
-
-    public static @NotNull ModelLayerLocation createChestBoatModelName(IWerewolvesBoat.@NotNull BoatType type) {
-        return new ModelLayerLocation(new ResourceLocation(REFERENCE.MODID, "chest_boat/" + type.getName()), "main");
-    }
 }

@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +30,7 @@ public class WolfsbaneDiffuserBESR implements BlockEntityRenderer<WolfsbaneDiffu
     @Override
     public void render(@NotNull WolfsbaneDiffuserBlockEntity tileEntityIn, float partialTicks, @NotNull PoseStack matrixStackIn, @NotNull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Entity e = Minecraft.getInstance().getCameraEntity();
-        if (e != null && Streams.stream(e.getHandSlots()).map(ItemStack::getItem).anyMatch(i -> i == ModItems.WOLFSBANE_FINDER.get()) && tileEntityIn.isInRange(e.blockPosition())) {
+        if (e instanceof LivingEntity living && Streams.stream(living.getHandSlots()).map(ItemStack::getItem).anyMatch(i -> i == ModItems.WOLFSBANE_FINDER.get()) && tileEntityIn.isInRange(e.blockPosition())) {
             long totalWorldTime = tileEntityIn.getLevel() != null ? tileEntityIn.getLevel().getGameTime() : 0;
             float scale = (float) Mth.clamp(Math.sqrt(tileEntityIn.getBlockPos().distSqr(e.blockPosition())) / 16, 1, 3);
             VertexConsumer vertexConsumer = bufferIn.getBuffer(WolfsbaneDiffuserBESR.Accessor.CUTOUT_NODEPTH);

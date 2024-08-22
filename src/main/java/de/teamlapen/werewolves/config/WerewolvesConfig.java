@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.config;
 import de.teamlapen.werewolves.util.FormHelper;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
@@ -47,11 +48,11 @@ public class WerewolvesConfig {
         BALANCE = specPair.getLeft();
     }
 
-    public static void registerConfigs(IEventBus bus) {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, clientSpec);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, commonSpec);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, serverSpec);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, balanceSpec, "werewolves-balance.toml");
+    public static void registerConfigs(IEventBus bus, ModContainer modContainer) {
+        modContainer.registerConfig(ModConfig.Type.CLIENT, clientSpec);
+        modContainer.registerConfig(ModConfig.Type.COMMON, commonSpec);
+        modContainer.registerConfig(ModConfig.Type.SERVER, serverSpec);
+        modContainer.registerConfig(ModConfig.Type.SERVER, balanceSpec, "werewolves-balance.toml");
         bus.register(WerewolvesConfig.class);
     }
 

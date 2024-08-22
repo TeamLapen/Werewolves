@@ -2,9 +2,13 @@ package de.teamlapen.werewolves.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import de.teamlapen.vampirism.VampirismMod;
+import de.teamlapen.vampirism.blockentity.GarlicDiffuserBlockEntity;
 import de.teamlapen.vampirism.blocks.CoffinBlock;
 import de.teamlapen.vampirism.blocks.GarlicDiffuserBlock;
 import de.teamlapen.vampirism.config.VampirismConfig;
+import de.teamlapen.vampirism.core.ModItems;
+import de.teamlapen.vampirism.core.ModStats;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.blocks.entity.WolfsbaneDiffuserBlockEntity;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -17,8 +21,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -73,7 +79,7 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable BlockGetter pLevel, @NotNull List<Component> pTooltip, @NotNull TooltipFlag pFlag) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Item.TooltipContext context, @NotNull List<Component> pTooltip, @NotNull TooltipFlag pFlag) {
         switch (this.type) {
             case LONG, IMPROVED -> pTooltip.add(Component.translatable(getDescriptionId() + "." + this.type.getSerializedName()).withStyle(ChatFormatting.AQUA));
         }
@@ -151,32 +157,35 @@ public class WolfsbaneDiffuserBlock extends BaseEntityBlock {
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
-        ItemStack heldItem = pPlayer.getItemInHand(pHand);
-        if (!heldItem.isEmpty() && ModBlocks.WOLFSBANE.get().asItem() == heldItem.getItem()) {
-            if (!pLevel.isClientSide) {
-                WolfsbaneDiffuserBlockEntity t = getTile(pLevel, pPos);
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState pState, Level world, BlockPos pos, Player player, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!stack.isEmpty() && ModBlocks.WOLFSBANE.asItem() == stack.getItem()) {
+            if (!world.isClientSide) {
+                WolfsbaneDiffuserBlockEntity t = getTile(world, pos);
                 if (t != null) {
                     if (t.getFuelTime() > 0) {
-                        pPlayer.displayClientMessage(Component.translatable("block.vampirism.garlic_diffuser.already_fueled"), true);
+                        player.sendSystemMessage(Component.translatable("block.vampirism.garlic_diffuser.already_fueled"));
                     } else {
                         t.onFueled();
-                        if (!pPlayer.isCreative()) heldItem.shrink(1);
-                        pPlayer.displayClientMessage(Component.translatable("block.vampirism.garlic_diffuser.successfully_fueled"), true);
+                        if (!player.isCreative()) stack.shrink(1);
+                        player.sendSystemMessage(Component.translatable("block.vampirism.garlic_diffuser.successfully_fueled"));
                     }
 
                 }
             }
-            return InteractionResult.SUCCESS;
-        } else {
-            if (pLevel.isClientSide) {
-                WolfsbaneDiffuserBlockEntity t = getTile(pLevel, pPos);
-                if (t != null) {
-                    WerewolvesMod.proxy.displayWolfsbaneScreen(t, getName());
-                }
+            return ItemInteractionResult.sidedSuccess(world.isClientSide);
+        }
+        return super.useItemOn(stack, pState, world, pos, player, pHand, pHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        if (world.isClientSide) {
+            WolfsbaneDiffuserBlockEntity t = getTile(world, pos);
+            if (t != null) {
+                WerewolvesMod.proxy.displayWolfsbaneScreen(t, getName());
             }
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.sidedSuccess(world.isClientSide);
     }
 
     private WolfsbaneDiffuserBlockEntity getTile(@NotNull BlockGetter level, @NotNull BlockPos pos) {

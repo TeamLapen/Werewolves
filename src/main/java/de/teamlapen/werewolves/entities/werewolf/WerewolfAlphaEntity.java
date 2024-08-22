@@ -116,7 +116,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public int getPortalWaitTime() {
+    public int getPortalCooldown() {
         return 500;
     }
 
@@ -174,13 +174,13 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        getEntityData().define(LEVEL, -1);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(LEVEL, -1);
     }
 
     @Override
-    public int getExperienceReward() {
+    protected int getBaseExperienceReward() {
         return 20 + 5 * getEntityLevel();
     }
 

@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.entities.player.werewolf;
 
 import de.teamlapen.lib.lib.storage.ISyncableSaveData;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
@@ -41,27 +42,27 @@ public class LevelHandler implements ISyncableSaveData {
     }
 
     @Override
-    public @NotNull CompoundTag serializeNBT() {
+    public @NotNull CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag nbt = new CompoundTag();
         nbt.putInt("progress", levelProgress);
         return nbt;
     }
 
     @Override
-    public void deserializeNBT(@NotNull CompoundTag compoundTag) {
+    public void deserializeNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag compoundTag) {
         if (compoundTag.contains("progress")) {
             levelProgress = compoundTag.getInt("progress");
         }
     }
 
     @Override
-    public void deserializeUpdateNBT(@NotNull CompoundTag compoundTag) {
-        deserializeNBT(compoundTag);
+    public void deserializeUpdateNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag compoundTag) {
+        deserializeNBT(provider, compoundTag);
     }
 
     @Override
-    public @NotNull CompoundTag serializeUpdateNBT() {
-        return serializeNBT();
+    public @NotNull CompoundTag serializeUpdateNBT(HolderLookup.@NotNull Provider provider) {
+        return serializeNBT(provider);
     }
 
     @Override

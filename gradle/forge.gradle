@@ -70,16 +70,20 @@ runs {
     configureEach {
         systemProperty 'forge.logging.console.level', 'debug'
 
-        modSources = [project.sourceSets.api, project.sourceSets.main]
+        modSources project.sourceSets.api, project.sourceSets.main
     }
     client {
         systemProperty 'vampirism_target', 'dev'
         jvmArgument '-XX:+AllowEnhancedClassRedefinition'
+        jvmArgument '-XX:+IgnoreUnrecognizedVMOptions'
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        systemProperty 'mixin.debug.export', 'true'
     }
 
     server {
         systemProperty 'vampirism_target', 'dev'
+        jvmArgument '-XX:+AllowEnhancedClassRedefinition'
+        jvmArgument '-XX:+IgnoreUnrecognizedVMOptions'
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         programArgument '--nogui'
     }
@@ -92,12 +96,5 @@ runs {
     data {
         systemProperty 'vampirism_target', 'dev_data'
         programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-    }
-}
-
-subsystems {
-    parchment {
-        minecraftVersion = project.parchment_minecraft_version
-        mappingsVersion = project.parchment_mappings_version
     }
 }

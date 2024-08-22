@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.refinement.IRefinement;
 import de.teamlapen.vampirism.entity.player.refinements.Refinement;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -63,7 +64,7 @@ public class ModRefinements {
         private static void init(){}
 
         private static DeferredHolder<IRefinement, IRefinement> refinement(String name) {
-            return DeferredHolder.create(ResourceKey.create(VampirismRegistries.Keys.REFINEMENT, new ResourceLocation("vampirism", name)));
+            return DeferredHolder.create(ResourceKey.create(VampirismRegistries.Keys.REFINEMENT, WResourceLocation.v(name)));
         }
     }
 

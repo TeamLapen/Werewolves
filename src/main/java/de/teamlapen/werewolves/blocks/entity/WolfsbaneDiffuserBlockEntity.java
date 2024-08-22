@@ -5,6 +5,7 @@ import de.teamlapen.werewolves.blocks.WolfsbaneDiffuserBlock;
 import de.teamlapen.werewolves.core.ModTiles;
 import de.teamlapen.werewolves.world.LevelWolfsbane;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -62,10 +63,9 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
         return this.bootTimer == 0;
     }
 
-    @NotNull
     @Override
-    public CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+        return saveWithoutMetadata(pRegistries);
     }
 
     public boolean isInRange(@NotNull BlockPos pos) {
@@ -73,8 +73,8 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void load(@NotNull CompoundTag compound) {
-        super.load(compound);
+    public void loadAdditional(@NotNull CompoundTag compound, HolderLookup.Provider provider) {
+        super.loadAdditional(compound, provider);
         this.type = WolfsbaneDiffuserBlock.Type.valueOf(compound.getString("type"));
         this.bootTimer = compound.getInt("boot_timer");
         this.maxBootTimer = compound.contains("max_boot_timer") ? compound.getInt("max_boot_timer") : 1;
@@ -82,10 +82,10 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void onDataPacket(@NotNull Connection net, @NotNull ClientboundBlockEntityDataPacket pkt) {
+    public void onDataPacket(@NotNull Connection net, @NotNull ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
         if (hasLevel()) {
             CompoundTag nbt = pkt.getTag();
-            this.handleUpdateTag(nbt);
+            this.handleUpdateTag(nbt, provider);
             if (this.isActive()) {
                 this.register(); //Register in case we weren't active before. Shouldn't have an effect when already registered
             }
@@ -111,8 +111,8 @@ public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void saveAdditional(@NotNull CompoundTag compound) {
-        super.saveAdditional(compound);
+    public void saveAdditional(@NotNull CompoundTag compound, HolderLookup.Provider provider) {
+        super.saveAdditional(compound, provider);
         compound.putString("type", type.name());
         compound.putInt("fueled", fueled);
         if (bootTimer != 0) {

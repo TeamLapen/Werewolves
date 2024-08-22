@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.data;
 
 import de.teamlapen.vampirism.util.RegUtil;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.blocks.StoneAltarBlock;
 import de.teamlapen.werewolves.blocks.StoneAltarFireBowlBlock;
 import de.teamlapen.werewolves.blocks.WolfBerryBushBlock;
@@ -22,7 +23,7 @@ import java.util.Set;
 
 public class BlockStateGenerator extends BlockStateProvider {
 
-    private static final ResourceLocation CUTOUT = new ResourceLocation("cutout");
+    private static final ResourceLocation CUTOUT = WResourceLocation.mc("cutout");
 
     public BlockStateGenerator(@NotNull PackOutput packOutput, @NotNull ExistingFileHelper exFileHelper) {
         super(packOutput, REFERENCE.MODID, exFileHelper);
@@ -132,18 +133,18 @@ public class BlockStateGenerator extends BlockStateProvider {
         simpleBlock(ModBlocks.JACARANDA_SIGN.get(), models().getBuilder("werewolves:jacaranda_sign").texture("particle", "werewolves:block/jacaranda_planks"));
         simpleBlock(ModBlocks.MAGIC_SIGN.get(), models().getBuilder("werewolves:magic_sign").texture("particle", "werewolves:block/magic_planks"));
 
-        trapdoorBlock(ModBlocks.JACARANDA_TRAPDOOR.get(), new ResourceLocation(REFERENCE.MODID, "block/jacaranda_trapdoor"), true);
-        trapdoorBlock(ModBlocks.MAGIC_TRAPDOOR.get(), new ResourceLocation(REFERENCE.MODID, "block/magic_trapdoor"), true);
+        trapdoorBlock(ModBlocks.JACARANDA_TRAPDOOR.get(), WResourceLocation.mod("block/jacaranda_trapdoor"), true);
+        trapdoorBlock(ModBlocks.MAGIC_TRAPDOOR.get(), WResourceLocation.mod( "block/magic_trapdoor"), true);
 
-        doorBlock(ModBlocks.JACARANDA_DOOR.get(), new ResourceLocation(REFERENCE.MODID, "block/jacaranda_door_bottom"), new ResourceLocation(REFERENCE.MODID, "block/jacaranda_door_top"));
-        doorBlock(ModBlocks.MAGIC_DOOR.get(), new ResourceLocation(REFERENCE.MODID, "block/magic_door_bottom"), new ResourceLocation(REFERENCE.MODID, "block/magic_door_top"));
+        doorBlock(ModBlocks.JACARANDA_DOOR.get(), WResourceLocation.mod( "block/jacaranda_door_bottom"), WResourceLocation.mod( "block/jacaranda_door_top"));
+        doorBlock(ModBlocks.MAGIC_DOOR.get(), WResourceLocation.mod( "block/magic_door_bottom"), WResourceLocation.mod( "block/magic_door_top"));
 
     }
 
     private void pressurePlate(Block block, @NotNull ResourceLocation texture) {
         ResourceLocation id = RegUtil.id(block);
-        ModelFile pressure_plate = models().withExistingParent("block/" + id.getPath(), new ResourceLocation("block/pressure_plate_up")).texture("texture", texture.getPath());
-        ModelFile pressure_plate_down = models().withExistingParent("block/" + id.getPath() + "_down", new ResourceLocation("block/pressure_plate_down")).texture("texture", texture.getPath());
+        ModelFile pressure_plate = models().withExistingParent("block/" + id.getPath(), WResourceLocation.mc("block/pressure_plate_up")).texture("texture", texture.getPath());
+        ModelFile pressure_plate_down = models().withExistingParent("block/" + id.getPath() + "_down", WResourceLocation.mc("block/pressure_plate_down")).texture("texture", texture.getPath());
 
         getVariantBuilder(block)
                 .partialState().with(PressurePlateBlock.POWERED, false).modelForState().modelFile(pressure_plate).addModel()

@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.modcompat.terrablender;
 
 import com.mojang.datafixers.util.Pair;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModBiomes;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -31,7 +32,7 @@ public class TerraBlenderRegistration {
 
     static class ForestRegion extends Region {
         public ForestRegion() {
-            super(new ResourceLocation(REFERENCE.MODID, "overworld"), RegionType.OVERWORLD, WerewolvesConfig.COMMON.werewolfBiomeWeightTerrablender.get());
+            super(WResourceLocation.mod("overworld"), RegionType.OVERWORLD, WerewolvesConfig.COMMON.werewolfBiomeWeightTerrablender.get());
         }
 
         @Override

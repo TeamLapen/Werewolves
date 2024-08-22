@@ -22,7 +22,7 @@ public class UnWerewolfEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    public boolean applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
         if (!entityLivingBaseIn.getCommandSenderWorld().isClientSide()) {
             if (entityLivingBaseIn instanceof Player player) {
                 if (Helper.isWerewolf(player)) {
@@ -30,9 +30,11 @@ public class UnWerewolfEffect extends WerewolvesEffect {
                     handler.setFactionAndLevel(null, 0);
                     player.displayClientMessage(Component.translatable("text.werewolves.no_longer_werewolf"), true);
                     LOGGER.debug("Player {} left faction", player);
+                    return false;
                 }
             }
         }
+        return true;
     }
 
     @Override

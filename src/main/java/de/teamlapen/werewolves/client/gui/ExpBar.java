@@ -6,6 +6,7 @@ import de.teamlapen.lib.lib.util.MultilineTooltip;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.entities.player.werewolf.LevelHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.MultilineTooltipEx;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ExpBar extends AbstractWidget {
-    private static final ResourceLocation ICON = new ResourceLocation(REFERENCE.MODID, "textures/gui/exp_bar.png");
+    private static final ResourceLocation ICON = WResourceLocation.mod("textures/gui/exp_bar.png");
 
     public ExpBar(int xIn, int yIn) {
         super(xIn, yIn, 15, 123, Component.translatable("text.werewolves.skill_screen.level_progression", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100)));

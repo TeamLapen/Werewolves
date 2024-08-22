@@ -8,6 +8,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -68,19 +69,18 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
         return SHAPE;
     }
 
-    @Nonnull
     @Override
-    public InteractionResult use(BlockState state, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand handIn, @Nonnull BlockHitResult p_225533_6_) {
-        if (!state.getValue(LIT)) {
-            ItemStack stack = player.getItemInHand(handIn);
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pState.getValue(LIT)) {
+            ItemStack stack = pPlayer.getItemInHand(pHand);
             if (stack.getItem() == Items.TORCH || stack.getItem() == Items.SOUL_TORCH) {
-                if (!state.getValue(WATERLOGGED)) {
-                    worldIn.setBlockAndUpdate(pos, state.setValue(LIT, true).setValue(SOUL_FIRE, stack.getItem() == Items.SOUL_TORCH));
-                    return InteractionResult.sidedSuccess(worldIn.isClientSide);
+                if (!pState.getValue(WATERLOGGED)) {
+                    pLevel.setBlockAndUpdate(pPos, pState.setValue(LIT, true).setValue(SOUL_FIRE, stack.getItem() == Items.SOUL_TORCH));
+                    return ItemInteractionResult.sidedSuccess(pLevel.isClientSide);
                 }
             }
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override

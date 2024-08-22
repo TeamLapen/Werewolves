@@ -26,7 +26,7 @@
         },
         "id": "minecraft:diamond_block",
         "item": {
-          "Count": 3,
+          "count": 3,
           "id": "minecraft:diamond_block"
         }
       },
@@ -37,7 +37,7 @@
         },
         "id": "werewolves:liver",
         "item": {
-          "Count": 16,
+          "count": 16,
           "id": "werewolves:liver"
         }
       },
@@ -48,7 +48,7 @@
         },
         "id": "werewolves:werewolf_tooth",
         "item": {
-          "Count": 1,
+          "count": 1,
           "id": "werewolves:werewolf_tooth"
         }
       }
@@ -57,7 +57,7 @@
   "rewards": {
     "type": "vampirism:item",
     "item": {
-      "Count": 1,
+      "count": 1,
       "id": "werewolves:werewolf_minion_upgrade_enhanced"
     }
   },

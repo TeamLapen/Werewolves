@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
@@ -101,6 +102,7 @@ public class ModTagsProvider {
                     .add(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get())
                     .add(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get())
             ;
+            this.tag(ModTags.Blocks.INCORRECT_FOR_SILVER_TOOL).addTag(BlockTags.NEEDS_DIAMOND_TOOL);
         }
     }
 
@@ -155,19 +157,18 @@ public class ModTagsProvider {
             this.tag(ModTags.Items.WOLF_PELT_ARMOR).addTags(ModTags.Items.WOLF_PELT_ARMOR_NORMAL, ModTags.Items.WOLF_PELT_ARMOR_ENHANCED, ModTags.Items.WOLF_PELT_ARMOR_ULTIMATE);
             this.tag(ModTags.Items.SILVER_ARMOR).add(ModItems.SILVER_CHESTPLATE.get(), ModItems.SILVER_HELMET.get(), ModItems.SILVER_LEGGINGS.get(), ModItems.SILVER_BOOTS.get());
             this.tag(ModTags.Items.SILVER_ITEM).addTags(ModTags.Items.SILVER_INGOT, ModTags.Items.SILVER_TOOL, ModTags.Items.SILVER_NUGGET, ModTags.Items.RAW_MATERIALS_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER, ModTags.Items.SILVER_ARMOR);
-            this.tag(ModTags.Items.MEAT).addTags(ModTags.Items.RAW_MEAT, ModTags.Items.COOKED_MEAT, ModTags.Items.RAW_FISH, ModTags.Items.COOKED_FISH);
             this.tag(ModTags.Items.RAW_FOOD).addTags(ModTags.Items.RAW_MEAT, ModTags.Items.RAW_FISH);
-            this.tag(ModTags.Items.WEREWOLF_FOOD).addTag(ModTags.Items.MEAT).add(ModItems.WOLF_BERRIES.get(), Items.SWEET_BERRIES, Items.GLOW_BERRIES);
+            this.tag(ModTags.Items.WEREWOLF_FOOD).addTag(ItemTags.MEAT).add(ModItems.WOLF_BERRIES.get(), Items.SWEET_BERRIES, Items.GLOW_BERRIES);
         }
 
         @SuppressWarnings("UnusedReturnValue")
         private TagAppender<Item> tag(TagKey<Item> tag, String... locations) {
-            return Arrays.stream(locations).map(ResourceLocation::new).reduce((TagsProvider.TagAppender<Item>)this.tag(tag), TagAppender::addOptional, (a, b) -> a);
+            return Arrays.stream(locations).map(ResourceLocation::parse).reduce((TagsProvider.TagAppender<Item>)this.tag(tag), TagAppender::addOptional, (a, b) -> a);
         }
 
         @SuppressWarnings("UnusedReturnValue")
         private TagAppender<Item> tags(TagKey<Item> tag, String... locations) {
-            return Arrays.stream(locations).map(l -> TagKey.create(Registries.ITEM, new ResourceLocation(l))).reduce((TagsProvider.TagAppender<Item>)this.tag(tag), TagAppender::addOptionalTag, (a, b) -> a);
+            return Arrays.stream(locations).map(l -> TagKey.create(Registries.ITEM, ResourceLocation.parse(l))).reduce((TagsProvider.TagAppender<Item>)this.tag(tag), TagAppender::addOptionalTag, (a, b) -> a);
         }
     }
 
@@ -190,7 +191,7 @@ public class ModTagsProvider {
             this.tag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME).addTag(ModTags.Biomes.IS_WEREWOLF_BIOME);
             this.tag(BiomeTags.IS_OVERWORLD).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_FOREST);
-            this.tag(Tags.Biomes.IS_DENSE).add(ModBiomes.WEREWOLF_FOREST);
+            this.tag(Tags.Biomes.IS_DENSE_VEGETATION_OVERWORLD).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(Tags.Biomes.IS_MAGICAL).add(ModBiomes.WEREWOLF_FOREST);
         }
 
@@ -239,6 +240,7 @@ public class ModTagsProvider {
             this.tag(ModTags.DamageTypes.WEREWOLF_FUR_IMMUNE).add(DamageTypes.SWEET_BERRY_BUSH, DamageTypes.CACTUS, DamageTypes.HOT_FLOOR);
             this.tag(DamageTypeTags.WITCH_RESISTANT_TO).add(ModDamageTypes.BLOOD_LOSS);
             this.tag(DamageTypeTags.BYPASSES_ARMOR).add(ModDamageTypes.BLOOD_LOSS);
+            this.tag(ModTags.DamageTypes.WEREWOLF_ARMOR_REDUCTION).addTag(DamageTypeTags.IS_PLAYER_ATTACK).add(ModDamageTypes.BITE);
         }
     }
 

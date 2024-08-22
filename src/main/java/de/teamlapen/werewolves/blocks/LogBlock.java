@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.blocks;
 
-import de.teamlapen.werewolves.mixin.FireBlockAccessor;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -20,7 +20,7 @@ public class LogBlock extends RotatedPillarBlock {
 
     public LogBlock(Properties properties) {
         super(properties);
-        ((FireBlockAccessor) Blocks.FIRE).invokeSetFireInfo_werewolves(this,5,5);
+        ((FireBlock) Blocks.FIRE).setFlammable(this,5,5);
     }
 
     public LogBlock(MapColor color1, MapColor color2) {

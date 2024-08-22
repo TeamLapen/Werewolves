@@ -58,7 +58,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @SuppressWarnings("UnreachableCode")
     @ModifyArg(method = "causeFoodExhaustion", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/food/FoodData;addExhaustion(F)V"))
     private float manipulateExhaustion(float pExhaustion) {
-        double attribute = this.getAttributeValue(ModAttributes.FOOD_CONSUMPTION.get());
+        double attribute = this.getAttributeValue(ModAttributes.FOOD_CONSUMPTION);
         return pExhaustion * (float) attribute;
     }
 }

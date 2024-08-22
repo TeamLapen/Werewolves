@@ -1,0 +1,29 @@
+{
+  "type": "vampirism:shaped_crafting_weapontable",
+  "category": "misc",
+  "key": {
+    "F": {
+      "tag": "c:feathers"
+    },
+    "S": {
+      "tag": "c:rods/wooden"
+    },
+    "X": {
+      "tag": "c:nuggets/silver"
+    },
+    "Y": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "lava": 1,
+  "pattern": [
+    " X ",
+    "XYX",
+    " S ",
+    " F "
+  ],
+  "result": {
+    "count": 3,
+    "id": "werewolves:crossbow_arrow_silver_bolt"
+  }
+}

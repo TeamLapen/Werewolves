@@ -59,18 +59,18 @@ public abstract class WerewolfPlayerRenderer<T extends LivingEntity, E extends H
     }
 
     @Override
-    protected void setupRotations(T pEntityLiving, @NotNull PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        float f = pEntityLiving.getSwimAmount(pPartialTicks);
-        if (pEntityLiving.isFallFlying()) {
-            super.setupRotations(pEntityLiving, pMatrixStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+    protected void setupRotations(T pEntity, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale) {
+        float f = pEntity.getSwimAmount(pPartialTick);
+        if (pEntity.isFallFlying()) {
+            super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
         } else if (f > 0) {
-            super.setupRotations(pEntityLiving, pMatrixStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-            setupSwimRotations(pEntityLiving, pMatrixStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+            super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
+            setupSwimRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
         } else {
-            super.setupRotations(pEntityLiving, pMatrixStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+            super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
         }
     }
 
-    protected abstract void setupSwimRotations(T pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks);
+    protected abstract void setupSwimRotations(T pEntity, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale);
 
 }

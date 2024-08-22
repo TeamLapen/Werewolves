@@ -15,18 +15,18 @@ public class ModItemRenderer {
             if (tintIndex == 1) {
                 return ((CrossbowArrowItem) stack.getItem()).getType().color;
             }
-            return 0xFFFFFF;
+            return -1;
         }, ModItems.CROSSBOW_ARROW_SILVER_BOLT.get());
         event.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
-                if (stack.getItem() instanceof IRefinementItem) {
-                    IRefinementSet set = ((IRefinementItem) stack.getItem()).getRefinementSet(stack);
+                if (stack.getItem() instanceof IRefinementItem refinementItem) {
+                    IRefinementSet set = refinementItem.getRefinementSet(stack);
                     if (set != null) {
-                        return set.getColor();
+                        return set.getColor() | 0xFF000000;
                     }
                 }
             }
-            return 0xFFFFFF;
+            return -1;
         }, ModItems.DREAM_CATCHER.get(), ModItems.CHARM_BRACELET.get(), ModItems.BONE_NECKLACE.get());
     }
 }

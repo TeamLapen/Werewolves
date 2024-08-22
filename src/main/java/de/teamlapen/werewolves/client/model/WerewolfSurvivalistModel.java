@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.model.geom.ModelPart;
@@ -170,8 +171,8 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     }
 
     @Override
-    public void renderToBuffer(@Nonnull PoseStack matrixStackIn, @Nonnull VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+    public void renderToBuffer(@Nonnull PoseStack matrixStackIn, @Nonnull VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, int color) {
+        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -253,7 +254,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         List<ResourceLocation> locs = getTextures("textures/entity/werewolf/survivalist");
         if (locs.size() < WerewolfForm.SURVIVALIST.getSkinTypes()) {
             for (int i = locs.size(); i < WerewolfForm.SURVIVALIST.getSkinTypes(); i++) {
-                ResourceLocation s = new ResourceLocation(REFERENCE.MODID, "textures/entity/werewolf/survivalist/survivalist_" + i + ".png");
+                ResourceLocation s = WResourceLocation.mod("textures/entity/werewolf/survivalist/survivalist_" + i + ".png");
                 locs.add(s);
             }
         }

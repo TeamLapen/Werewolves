@@ -11,8 +11,9 @@ public class StunEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
+    public boolean applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
         pLivingEntity.setDeltaMovement(0, Math.min(0, pLivingEntity.getDeltaMovement().y()), 0);
+        return true;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.modcompat.jei;
 
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.util.REFERENCE;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -13,7 +14,7 @@ import javax.annotation.Nonnull;
 @JeiPlugin
 public class WerewolvesJEIPlugins implements IModPlugin {
 
-    private static final ResourceLocation ID = new ResourceLocation(REFERENCE.MODID, "plugin");
+    private static final ResourceLocation ID = WResourceLocation.mod("plugin");
 
     @Nonnull
     @Override

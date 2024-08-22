@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "werewolves:white_pelt"
+  },
+  "base": {
+    "item": "werewolves:dark_pelt_boots"
+  },
+  "result": {
+    "count": 1,
+    "id": "werewolves:white_pelt_boots"
+  },
+  "template": {
+    "item": "werewolves:white_pelt_upgrade_smithing_template"
+  }
+}

@@ -15,9 +15,10 @@ import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.Permissions;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -42,38 +43,65 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     protected static class Modifier {
 
-        public final Attribute attribute;
-        public final UUID dayUuid;
-        public final UUID nightUuid;
-        public final String name;
+        public final Holder<Attribute> attribute;
+        public final ResourceLocation dayUuid;
+        public final ResourceLocation nightUuid;
         public final Function<IWerewolfPlayer, Double> value;
         public final AttributeModifier.Operation operation;
         public final double dayModifier;
 
-        public Modifier(Attribute attribute, UUID uuid, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
-            this(attribute, uuid, uuid, 1, name, player -> valueFunction.get(), operation);
-        }
-
-        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, AttributeModifier.Operation operation) {
-            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> valueFunction.get(), operation);
-        }
-
-        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Supplier<Double> valueFunction, Supplier<Double> extendedValueFunction, Supplier<ISkill<IWerewolfPlayer>> extendedSkill, AttributeModifier.Operation operation) {
-            this(attribute, dayUuid, nightUuid, dayModifier, name, player -> player.getSkillHandler().isSkillEnabled(extendedSkill.get()) ? extendedValueFunction.get() : valueFunction.get(), operation);
-        }
-
-        public Modifier(Attribute attribute, UUID dayUuid, UUID nightUuid, double dayModifier, String name, Function<IWerewolfPlayer, Double> valueFunction, AttributeModifier.Operation operation) {
+        public Modifier(Holder<Attribute> attribute, ResourceLocation dayUuid, ResourceLocation nightUuid, double dayModifier, Function<IWerewolfPlayer, Double> valueFunction, AttributeModifier.Operation operation) {
             this.attribute = attribute;
             this.dayUuid = dayUuid;
             this.nightUuid = nightUuid;
-            this.name = name;
             this.value = valueFunction;
             this.operation = operation;
             this.dayModifier = dayModifier;
         }
 
         public AttributeModifier create(IWerewolfPlayer player, boolean night) {
-            return new AttributeModifier(night ? nightUuid : dayUuid, name, night ? value.apply(player) : value.apply(player) * dayModifier, operation);
+            return new AttributeModifier(night ? nightUuid : dayUuid, night ? value.apply(player) : value.apply(player) * dayModifier, operation);
+        }
+
+        protected static class Builder {
+
+            private final Holder<Attribute> attribute;
+            private final ResourceLocation name;
+            private Function<IWerewolfPlayer, Double> valueSupplier;
+            private AttributeModifier.Operation operation;
+            private boolean hasDayModifier;
+            private double dayModifier;
+
+            public Builder(Holder<Attribute> attribute, ResourceLocation name) {
+                this.attribute = attribute;
+                this.name = name;
+            }
+
+            public Builder withValues(Supplier<Double> valueSupplier, AttributeModifier.Operation operation) {
+                this.valueSupplier = werewolfPlayer -> valueSupplier.get();
+                this.operation = operation;
+                return this;
+            }
+
+            public Builder withDayModifier(double dayModifier) {
+                this.dayModifier = dayModifier;
+                this.hasDayModifier = true;
+                return this;
+            }
+
+            public Builder withSkillModifier(Supplier<? extends ISkill<?>> skill, Supplier<Double> valueSupplier) {
+                Objects.requireNonNull(this.valueSupplier);
+                var old = this.valueSupplier;
+                this.valueSupplier = werewolf -> werewolf.getSkillHandler().isSkillEnabled(skill.get()) ? valueSupplier.get() : old.apply(werewolf);
+                return this;
+            }
+
+            public Modifier build() {
+                if (hasDayModifier) {
+                    return new Modifier(attribute, name.withSuffix("_day"), name.withSuffix("_night"), dayModifier, valueSupplier, operation);
+                }
+                return new Modifier(attribute, name, name, 1, valueSupplier, operation);
+            }
         }
     }
 

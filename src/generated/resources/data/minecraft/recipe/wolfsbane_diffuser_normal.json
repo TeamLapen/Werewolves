@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "O": {
+      "tag": "c:obsidians"
+    },
+    "X": {
+      "tag": "minecraft:planks"
+    },
+    "Y": {
+      "tag": "c:gems/diamond"
+    },
+    "Z": {
+      "item": "werewolves:wolfsbane_diffuser_core"
+    }
+  },
+  "pattern": [
+    "XYX",
+    "YZY",
+    "OOO"
+  ],
+  "result": {
+    "count": 1,
+    "id": "werewolves:wolfsbane_diffuser_long"
+  }
+}

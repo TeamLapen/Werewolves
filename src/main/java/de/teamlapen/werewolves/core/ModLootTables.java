@@ -1,84 +1,71 @@
 package de.teamlapen.werewolves.core;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import com.mojang.serialization.Codec;
-import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.world.loot.MobLootModifier;
+import de.teamlapen.werewolves.api.WResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class ModLootTables {
 
-    private static final Map<ResourceLocation, ResourceLocation> INJECTION_TABLES = Maps.newHashMap();
+    private static final Set<ResourceKey<LootTable>> LOOT_TABLES = new HashSet<>();
 
-    public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIER = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, REFERENCE.MODID);
+    private static final Map<ResourceKey<LootTable>, ResourceKey<LootTable>> INJECTION_TABLES = Maps.newHashMap();
 
-    public static final DeferredHolder<Codec<? extends IGlobalLootModifier>, Codec<MobLootModifier>> MOB_MODIFIER = GLOBAL_LOOT_MODIFIER.register("mob_modifier", () -> MobLootModifier.CODEC);
-
-    // entities
-    public static final ResourceLocation villager = entity(EntityType.VILLAGER);
-    public static final ResourceLocation skeleton = entity(EntityType.SKELETON);
+    public static final ResourceKey<LootTable> HUNTER_LIVER = register(WResourceLocation.mod("hunter_liver"));
 
     // chests
-    public static final ResourceLocation abandoned_mineshaft = chest("abandoned_mineshaft");
-    public static final ResourceLocation jungle_temple = chest("jungle_temple");
-    public static final ResourceLocation stronghold_corridor = chest("stronghold_corridor");
-    public static final ResourceLocation desert_pyramid = chest("desert_pyramid");
-    public static final ResourceLocation stronghold_library = chest("stronghold_library");
-    public static final ResourceLocation nether_bridge = chest("nether_bridge");
+    public static final ResourceKey<LootTable> ABANDONED_MINESHAFT = registerInject(BuiltInLootTables.ABANDONED_MINESHAFT);
+    public static final ResourceKey<LootTable> JUNGLE_TEMPLE = registerInject(BuiltInLootTables.JUNGLE_TEMPLE);
+    public static final ResourceKey<LootTable> STRONGHOLD_CORRIDOR = registerInject(BuiltInLootTables.STRONGHOLD_CORRIDOR);
+    public static final ResourceKey<LootTable> DESERT_PYRAMID = registerInject(BuiltInLootTables.DESERT_PYRAMID);
+    public static final ResourceKey<LootTable> STRONGHOLD_LIBRARY = registerInject(BuiltInLootTables.STRONGHOLD_LIBRARY);
+    public static final ResourceKey<LootTable> NETHER_BRIDGE = registerInject(BuiltInLootTables.NETHER_BRIDGE);
 
 
-    static void register(IEventBus bus){
-        GLOBAL_LOOT_MODIFIER.register(bus);
-    }
+    // entities
+    public static final ResourceKey<LootTable> VILLAGER = registerInject(EntityType.VILLAGER);
+    public static final ResourceKey<LootTable> SKELETON = registerInject(EntityType.SKELETON);
 
-    static ResourceLocation entity(EntityType<?> type) {
-        ResourceLocation loc = type.getDefaultLootTable();
-        ResourceLocation newLoc = new ResourceLocation(REFERENCE.MODID, "inject/entity/" + loc.getPath());
+
+    static ResourceKey<LootTable> registerInject(EntityType<?> type) {
+        ResourceKey<LootTable> loc = type.getDefaultLootTable();
+        ResourceKey<LootTable> newLoc = register(WResourceLocation.mod(loc.location().withPrefix("inject/entity/").getPath()));
         INJECTION_TABLES.put(loc, newLoc);
         return newLoc;
     }
 
-    static ResourceLocation chest(String chest) {
-        ResourceLocation loc = new ResourceLocation("chests/" + chest);
-        ResourceLocation newLoc = new ResourceLocation(REFERENCE.MODID, "inject/chest/" + chest);
-        INJECTION_TABLES.put(loc, newLoc);
-        return newLoc;
+    static @NotNull ResourceKey<LootTable> registerInject(ResourceKey<LootTable> originalTable) {
+        ResourceKey<LootTable> key = register(originalTable.location().withPrefix("inject/"));
+        INJECTION_TABLES.put(originalTable, key);
+        return key;
     }
 
-    @SubscribeEvent
-    public static void onLootLoad(LootTableLoadEvent event) {
-        if (INJECTION_TABLES.containsKey(event.getName())) {
-            try {
-                event.getTable().addPool(getInjectPool(event.getName()));
-            } catch (NullPointerException ignored) {
-
-            }
-        }
+    static @NotNull ResourceKey<LootTable> register(@NotNull ResourceLocation resourceLocation) {
+        ResourceKey<LootTable> key = ResourceKey.create(Registries.LOOT_TABLE, resourceLocation);
+        LOOT_TABLES.add(key);
+        return key;
     }
 
-    private static LootPool getInjectPool(ResourceLocation loc) {
-        LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1);
-        return LootPool.lootPool().name("werewolves_inject_pool").setBonusRolls(UniformGenerator.between(0, 1)).setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(INJECTION_TABLES.get(loc)).setWeight(1)).build();
+    public static @NotNull Set<ResourceKey<LootTable>> getLootTables() {
+        return Collections.unmodifiableSet(LOOT_TABLES);
     }
 
-    public static @NotNull Set<ResourceLocation> getLootTables() {
-        return ImmutableSet.copyOf(INJECTION_TABLES.values());
+    public static @NotNull Map<ResourceKey<LootTable>, ResourceKey<LootTable>> getInjectTables() {
+        return Collections.unmodifiableMap(INJECTION_TABLES);
     }
 }

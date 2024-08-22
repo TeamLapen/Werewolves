@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.client.render.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -22,7 +23,7 @@ public class WerewolfEntityFaceOverlayLayer<T extends WerewolfBaseEntity, M exte
         super(entityRendererIn);
         eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
         for (int i = 0; i < eyeOverlays.length; i++) {
-            eyeOverlays[i] = new ResourceLocation(REFERENCE.MODID + ":textures/entity/werewolf/eye/eye_" + (i) + ".png");
+            eyeOverlays[i] = WResourceLocation.mod("textures/entity/werewolf/eye/eye_" + (i) + ".png");
         }
     }
 

@@ -42,10 +42,12 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     }
 
     @Override
-    public void applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    public boolean applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
         if (entityLivingBaseIn instanceof Player) {
             FactionPlayerHandler.get((Player) entityLivingBaseIn).joinFaction(WReference.WEREWOLF_FACTION);
+            return false;
         }
+        return true;
     }
 
 }

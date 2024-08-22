@@ -108,11 +108,11 @@
       }
     ],
     "underground_water_creature": [],
-    "vampirism_hunter": [],
-    "vampirism_vampire": [],
+    "vampirism:hunter": [],
+    "vampirism:vampire": [],
     "water_ambient": [],
     "water_creature": [],
-    "werewolves_werewolf": []
+    "werewolves:werewolf": []
   },
   "temperature": 0.3
 }

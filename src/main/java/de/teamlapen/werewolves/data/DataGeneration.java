@@ -11,6 +11,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -21,7 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@Mod.EventBusSubscriber(modid = REFERENCE.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = REFERENCE.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class DataGeneration {
 
     @SuppressWarnings("UnreachableCode")
@@ -34,13 +35,12 @@ public class DataGeneration {
 
         ModBlockFamilies.init();
         DatapackBuiltinEntriesProvider provider = new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, ModRegistries.DATA_BUILDER, Set.of(REFERENCE.MODID));
+        lookupProvider = provider.getRegistryProvider();
         generator.addProvider(event.includeServer(), provider);
-        //noinspection DataFlowIssue
-        lookupProvider = ((RegistriesDatapackGeneratorAccessor) provider).getRegistries();
         ModTagsProvider.register(generator, event, packOutput, lookupProvider, existingFileHelper);
-        generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput));
-        generator.addProvider(event.includeServer(), new LootTablesGenerator(packOutput));
-        generator.addProvider(event.includeServer(), new GlobalLootTableGenerator(packOutput));
+        generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), LootTablesGenerator.getProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new GlobalLootTableGenerator(packOutput, lookupProvider));
         generator.addProvider(event.includeClient(), new ItemModelGenerator(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new BlockStateGenerator(packOutput, existingFileHelper));
         generator.addProvider(event.includeServer(), new SkillTreeProvider(packOutput, lookupProvider));

@@ -49,9 +49,9 @@ public class WerewolfPlayerSurvivalistRenderer extends WerewolfPlayerRenderer<Ab
     }
 
     @Override
-    protected void setupSwimRotations(AbstractClientPlayer pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+    protected void setupSwimRotations(AbstractClientPlayer pEntityLiving, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTicks, float pScale) {
         float f3 = pEntityLiving.isInWater() || pEntityLiving.isInFluidType((fluidType, height) -> pEntityLiving.canSwimInFluidType(fluidType)) ? -10.0F - pEntityLiving.getXRot() : -10.0F;
         float f4 = Mth.lerp(pEntityLiving.getSwimAmount(pPartialTicks), 0.0F, f3);
-        pMatrixStack.mulPose(Axis.XP.rotationDegrees(f4));
+        pPoseStack.mulPose(Axis.XP.rotationDegrees(f4));
     }
 }

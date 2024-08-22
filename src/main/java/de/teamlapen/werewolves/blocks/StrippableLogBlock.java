@@ -3,8 +3,8 @@ package de.teamlapen.werewolves.blocks;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.neoforge.common.ToolAction;
-import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,10 +25,11 @@ public class StrippableLogBlock extends LogBlock {
     }
 
     @Override
-    public @Nullable BlockState getToolModifiedState(@NotNull BlockState state, @NotNull UseOnContext context, @NotNull ToolAction toolAction, boolean simulate) {
-        if (toolAction == ToolActions.AXE_STRIP) {
+    public @Nullable BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
+        if (itemAbility == ItemAbilities.AXE_STRIP) {
             return stripped.get().defaultBlockState().setValue(AXIS, state.getValue(AXIS));
         }
-        return super.getToolModifiedState(state, context, toolAction, simulate);
+        return super.getToolModifiedState(state, context, itemAbility, simulate);
     }
+
 }

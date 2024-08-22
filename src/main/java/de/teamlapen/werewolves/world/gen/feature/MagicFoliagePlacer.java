@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.world.gen.feature;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.teamlapen.werewolves.core.ModWorld;
 import net.minecraft.core.BlockPos;
@@ -17,7 +18,7 @@ import java.util.function.BiConsumer;
 
 public class MagicFoliagePlacer extends FoliagePlacer {
 
-    public static final Codec<MagicFoliagePlacer> CODEC = RecordCodecBuilder.create((p_68427_) -> {
+    public static final MapCodec<MagicFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec((p_68427_) -> {
         return foliagePlacerParts(p_68427_).apply(p_68427_, MagicFoliagePlacer::new);
     });
 

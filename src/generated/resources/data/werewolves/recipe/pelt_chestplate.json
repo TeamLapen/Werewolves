@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "item": "werewolves:pelt"
+    }
+  },
+  "pattern": [
+    "P P",
+    "PPP",
+    "PPP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "werewolves:pelt_chestplate"
+  }
+}

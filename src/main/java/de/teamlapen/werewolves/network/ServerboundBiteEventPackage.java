@@ -1,27 +1,23 @@
 package de.teamlapen.werewolves.network;
 
 import com.mojang.serialization.Codec;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
-
 public record ServerboundBiteEventPackage(int entityId) implements CustomPacketPayload {
 
-    public static final ResourceLocation ID = new ResourceLocation(REFERENCE.MODID, "bite_event");
-    public static final Codec<ServerboundBiteEventPackage> CODEC = Codec.INT.xmap(ServerboundBiteEventPackage::new, msg -> msg.entityId);
+    public static final Type<ServerboundBiteEventPackage> TYPE = new Type<>(WResourceLocation.mod("bite_event"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundBiteEventPackage> CODEC = StreamCodec.composite(ByteBufCodecs.INT, ServerboundBiteEventPackage::entityId, ServerboundBiteEventPackage::new);
 
     @Override
-    public void write(FriendlyByteBuf buffer) {
-        buffer.writeJsonWithCodec(CODEC, this);
-    }
-
-    @Override
-    public @NotNull ResourceLocation id() {
-        return ID;
+    public @NotNull Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

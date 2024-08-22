@@ -144,10 +144,10 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
                 werewolf.setGlowingEyes(form, glowingEyes);
         }).build());
 
-        this.eyeList = this.addRenderableWidget(HoverList.builder(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100).componentsWithClickAndHover(IntStream.range(0, REFERENCE.EYE_TYPE_COUNT).mapToObj(type -> Component.translatable("text.werewolves.appearance.eye").append(" " + type)).toList(), this::eye, this::hoverEye).build());
+        this.eyeList = this.addRenderableWidget(HoverList.builder(this.guiLeft + 20, this.guiTop + 30 + 19 + 20, 99, 100).componentsWithClickAndHover(IntStream.range(0, REFERENCE.EYE_TYPE_COUNT).mapToObj(type -> Component.translatable("text.werewolves.appearance.eye").append(" " + (type +1))).toList(), this::eye, this::hoverEye).build());
         this.eyeButton = this.addRenderableWidget(new ExtendedButton(eyeList.getX(), eyeList.getY() - 20, eyeList.getWidth(), 20, Component.empty(), (b) -> this.setEyeListVisibility(!eyeList.visible)));
 
-        this.skinList = this.addRenderableWidget(HoverList.builder(this.guiLeft + 20, this.guiTop + 50 + 19 + 20, 99, 80).componentsWithClickAndHover(IntStream.range(0, form.getSkinTypes()).mapToObj(type -> Component.translatable("text.werewolves.appearance.skin").append(" " + type)).toList(), this::skin, this::hoverSkin).build());
+        this.skinList = this.addRenderableWidget(HoverList.builder(this.guiLeft + 20, this.guiTop + 50 + 19 + 20, 99, 80).componentsWithClickAndHover(IntStream.range(0, form.getSkinTypes()).mapToObj(type -> Component.translatable("text.werewolves.appearance.skin").append(" " + (type +1))).toList(), this::skin, this::hoverSkin).build());
         this.skinButton = this.addRenderableWidget(new ExtendedButton(skinList.getX(), skinList.getY() - 20, skinList.getWidth(), 20, Component.empty(), (b) -> this.setSkinListVisibility(!skinList.visible)));
 
         this.setEyeListVisibility(false);

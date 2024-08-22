@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.client.core;
 import de.teamlapen.vampirism.REFERENCE;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.gui.screens.VampirismContainerScreen;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -36,6 +37,7 @@ import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.common.util.TriState;
 
 
 public class ClientEventHandler {
@@ -57,7 +59,7 @@ public class ClientEventHandler {
     public void onGuiInitPost(ScreenEvent.Init.Post event) {
         if (event.getScreen() instanceof VampirismContainerScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
-                WidgetSprites icon = new WidgetSprites(new ResourceLocation(de.teamlapen.vampirism.REFERENCE.MODID, "widget/appearance"), new ResourceLocation(REFERENCE.MODID, "widget/appearance_highlighted"));
+                WidgetSprites icon = new WidgetSprites(WResourceLocation.v("widget/appearance"), WResourceLocation.v("widget/appearance_highlighted"));
                 var button = ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((VampirismContainerScreen) event.getScreen()).getGuiLeft() + 47, ((VampirismContainerScreen) event.getScreen()).getGuiTop() + 90, 20, 20, icon, (context) -> Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getScreen())), Component.empty()));
                 button.setTooltip(Tooltip.create(Component.translatable("gui.vampirism.vampirism_menu.appearance_menu")));
 
@@ -76,7 +78,7 @@ public class ClientEventHandler {
                 WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
                 IActionHandler<IWerewolfPlayer> d = werewolf.getActionHandler();
                 if (d.isActionActive(ModActions.HIDE_NAME.get()) && FormHelper.isFormActionActive(werewolf)) {
-                    event.setResult(Event.Result.DENY);
+                    event.setCanRender(TriState.FALSE);
                 }
             }
         }
@@ -96,15 +98,6 @@ public class ClientEventHandler {
         this.zoomAmount = Minecraft.getInstance().options.fov().get() / 4f / this.zoomTime;
         this.zoomModifier = Minecraft.getInstance().options.fov().get() - Minecraft.getInstance().options.fov().get() / 4f;
     }
-
-    private static boolean shouldShowInTooltip(int p_242394_0_, ItemStack.TooltipPart p_242394_1_) {
-        return (p_242394_0_ & p_242394_1_.getMask()) == 0;
-    }
-
-    private int getHideFlags(ItemStack stack) {
-        return stack.hasTag() && stack.getTag().contains("HideFlags", 99) ? stack.getTag().getInt("HideFlags") : 0;
-    }
-
 
     @SubscribeEvent
     public void onLevelJoined(ClientPlayerNetworkEvent.LoggingIn event) {

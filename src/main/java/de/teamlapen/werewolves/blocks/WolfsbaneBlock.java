@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 
 public class WolfsbaneBlock extends FlowerBlock {
     public WolfsbaneBlock() {
-        super(() -> MobEffects.BLINDNESS, 5, Properties.of().isViewBlocking(UtilLib::never).pushReaction(PushReaction.DESTROY).strength(0f).noCollission().sound(SoundType.GRASS));
+        super(MobEffects.BLINDNESS, 5, Properties.of().isViewBlocking(UtilLib::never).pushReaction(PushReaction.DESTROY).strength(0f).noCollission().sound(SoundType.GRASS));
     }
 
     @Override

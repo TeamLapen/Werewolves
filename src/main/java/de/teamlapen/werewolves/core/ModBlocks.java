@@ -2,6 +2,8 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.blocks.TotemTopBlock;
+import de.teamlapen.werewolves.api.ModRegistryItems;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.blocks.LeavesBlock;
 import de.teamlapen.werewolves.blocks.*;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -59,8 +61,8 @@ public class ModBlocks {
 
     public static final DeferredBlock<LeavesBlock> JACARANDA_LEAVES = registerWithItem("jacaranda_leaves", () -> new LeavesBlock(Block.Properties.of().mapColor(MapColor.COLOR_PINK).isViewBlocking(UtilLib::never).ignitedByLava().strength(0.2F).pushReaction(PushReaction.DESTROY).randomTicks().sound(SoundType.GRASS).noOcclusion()));
     public static final DeferredBlock<LeavesBlock> MAGIC_LEAVES = registerWithItem("magic_leaves", () -> new LeavesBlock(Block.Properties.of().isViewBlocking(UtilLib::never).mapColor(MapColor.COLOR_LIGHT_BLUE).ignitedByLava().strength(0.2F).pushReaction(PushReaction.DESTROY).randomTicks().sound(SoundType.GRASS).noOcclusion()));
-    public static final DeferredBlock<Block> JACARANDA_PLANKS = registerWithItem("jacaranda_planks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK).ignitedByLava().strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-    public static final DeferredBlock<Block> MAGIC_PLANKS = registerWithItem("magic_planks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).ignitedByLava().strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<Block> JACARANDA_PLANKS = registerWithItem(ModRegistryItems.JACARANDA_PLANKS.getId().getPath(), () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK).ignitedByLava().strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<Block> MAGIC_PLANKS = registerWithItem(ModRegistryItems.MAGIC_PLANKS.getId().getPath(), () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).ignitedByLava().strength(2.0F, 3.0F).sound(SoundType.WOOD)));
     public static final DeferredBlock<LogBlock> STRIPPED_JACARANDA_LOG = registerWithItem("stripped_jacaranda_log", () -> new LogBlock(MapColor.COLOR_BLACK, MapColor.COLOR_PINK));
     public static final DeferredBlock<LogBlock> STRIPPED_MAGIC_LOG = registerWithItem("stripped_magic_log", () -> new LogBlock(MapColor.COLOR_LIGHT_BLUE, MapColor.COLOR_LIGHT_BLUE));
     public static final DeferredBlock<LogBlock> JACARANDA_LOG = registerWithItem("jacaranda_log", () -> new StrippableLogBlock(MapColor.COLOR_PINK, MapColor.COLOR_PINK, STRIPPED_JACARANDA_LOG));
@@ -71,8 +73,8 @@ public class ModBlocks {
     public static final DeferredBlock<DoorBlock> MAGIC_DOOR = registerWithItem("magic_door", () -> new DoorBlock(LogBlock.MAGIC_BLOCK_TYPE, BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(3.0F).sound(SoundType.WOOD).noOcclusion()));
     public static final DeferredBlock<TrapDoorBlock> JACARANDA_TRAPDOOR = registerWithItem("jacaranda_trapdoor", () -> new TrapDoorBlock(WBlockSetTypes.JACARANDA, BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_PINK).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(ModBlocks::never)));
     public static final DeferredBlock<TrapDoorBlock> MAGIC_TRAPDOOR = registerWithItem("magic_trapdoor", () -> new TrapDoorBlock(WBlockSetTypes.MAGIC, BlockBehaviour.Properties.of().ignitedByLava().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(ModBlocks::never)));
-    public static final DeferredBlock<StairBlock> JACARANDA_STAIRS = registerWithItem("jacaranda_stairs", () -> new StairBlock(() -> JACARANDA_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(JACARANDA_PLANKS.get())));
-    public static final DeferredBlock<StairBlock> MAGIC_STAIRS = registerWithItem("magic_stairs", () -> new StairBlock(() -> MAGIC_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(MAGIC_PLANKS.get())));
+    public static final DeferredBlock<StairBlock> JACARANDA_STAIRS = registerWithItem("jacaranda_stairs", () -> new StairBlock(JACARANDA_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(JACARANDA_PLANKS.get())));
+    public static final DeferredBlock<StairBlock> MAGIC_STAIRS = registerWithItem("magic_stairs", () -> new StairBlock(MAGIC_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(MAGIC_PLANKS.get())));
     public static final DeferredBlock<LogBlock> STRIPPED_JACARANDA_WOOD = registerWithItem("stripped_jacaranda_wood", () -> new LogBlock(MapColor.COLOR_PINK, MapColor.COLOR_PINK));
     public static final DeferredBlock<LogBlock> STRIPPED_MAGIC_WOOD = registerWithItem("stripped_magic_wood", () -> new LogBlock(MapColor.COLOR_LIGHT_BLUE, MapColor.COLOR_LIGHT_BLUE));
     public static final DeferredBlock<LogBlock> JACARANDA_WOOD = registerWithItem("jacaranda_wood", () -> new StrippableLogBlock(MapColor.COLOR_PINK, MapColor.COLOR_PINK, STRIPPED_JACARANDA_WOOD));
@@ -97,7 +99,7 @@ public class ModBlocks {
 
 
     public static class V {
-        public static final DeferredHolder<Block, Block> MED_CHAIR = DeferredBlock.create(ResourceKey.create(Registries.BLOCK, new ResourceLocation("vampirism", "med_chair")));
+        public static final DeferredHolder<Block, Block> MED_CHAIR = DeferredBlock.create(ResourceKey.create(Registries.BLOCK, WResourceLocation.v("med_chair")));
 
         private static void init() {
 

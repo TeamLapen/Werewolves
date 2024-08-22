@@ -17,7 +17,7 @@
         },
         "id": "minecraft:gold_ingot",
         "item": {
-          "Count": 64,
+          "count": 64,
           "id": "minecraft:gold_ingot"
         }
       },
@@ -46,7 +46,7 @@
         },
         "id": "werewolves:werewolf_tooth",
         "item": {
-          "Count": 4,
+          "count": 4,
           "id": "werewolves:werewolf_tooth"
         }
       }

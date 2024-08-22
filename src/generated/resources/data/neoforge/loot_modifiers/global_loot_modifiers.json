@@ -1,6 +1,14 @@
 {
   "entries": [
-    "werewolves:hunter_liver"
+    "werewolves:inject/chests/stronghold_corridor",
+    "werewolves:inject/chests/desert_pyramid",
+    "werewolves:inject/chests/jungle_temple",
+    "werewolves:inject/entity/entities/skeleton",
+    "werewolves:inject/entity/entities/villager",
+    "werewolves:hunter_liver",
+    "werewolves:inject/chests/nether_bridge",
+    "werewolves:inject/chests/abandoned_mineshaft",
+    "werewolves:inject/chests/stronghold_library"
   ],
   "replace": false
 }

@@ -71,9 +71,9 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(BIOME_TYPE, BuiltInRegistries.VILLAGER_TYPE.getDefaultKey().toString());
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(BIOME_TYPE, BuiltInRegistries.VILLAGER_TYPE.getDefaultKey().toString());
     }
 
     @Override
@@ -83,8 +83,8 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor worldIn, @Nonnull DifficultyInstance difficultyIn, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
-        SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor worldIn, @Nonnull DifficultyInstance difficultyIn, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn) {
+        SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn);
         this.setBiomeType(VillagerType.byBiome(worldIn.getBiome(this.blockPosition())));
         return data;
     }
@@ -110,7 +110,7 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
 
     public VillagerType getBiomeType() {
         String key = this.entityData.get(BIOME_TYPE);
-        ResourceLocation id = new ResourceLocation(key);
+        ResourceLocation id = ResourceLocation.parse(key);
         return BuiltInRegistries.VILLAGER_TYPE.get(id);
     }
 

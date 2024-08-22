@@ -82,14 +82,14 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends Livin
     }
 
     @Override
-    protected void setupRotations(@Nonnull T entityLiving, @Nonnull PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
-        super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-        if (entityLiving.getSwimAmount(partialTicks) > 0.0F && this.form.isHumanLike()) {
-            float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.getXRot() : -90.0F;
-            float f4 = Mth.lerp(entityLiving.getSwimAmount(partialTicks), 0.0F, f3);
-            matrixStackIn.mulPose(Axis.XP.rotationDegrees(f4));
-            if (entityLiving.isVisuallySwimming()) {
-                matrixStackIn.translate(0.0D, -1.0D, 0.3F);
+    protected void setupRotations(T pEntity, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale) {
+        super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
+        if (pEntity.getSwimAmount(pPartialTick) > 0.0F && this.form.isHumanLike()) {
+            float f3 = pEntity.isInWater() ? -90.0F - pEntity.getXRot() : -90.0F;
+            float f4 = Mth.lerp(pEntity.getSwimAmount(pPartialTick), 0.0F, f3);
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(f4));
+            if (pEntity.isVisuallySwimming()) {
+                pPoseStack.translate(0.0D, -1.0D, 0.3F);
             }
         }
     }

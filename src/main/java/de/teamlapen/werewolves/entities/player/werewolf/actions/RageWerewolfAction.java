@@ -1,11 +1,14 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
+import de.teamlapen.vampirism.util.RegUtil;
+import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModAttributes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -16,8 +19,6 @@ import java.util.UUID;
 
 public class RageWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
 
-    private static final UUID BITE_MODIFIER = UUID.fromString("0ae51804-eaf4-456e-b4ff-24ed326557f4");
-
     @Override
     public boolean isEnabled() {
         return WerewolvesConfig.BALANCE.SKILLS.rage_enabled.get();
@@ -26,7 +27,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
     @Override
     protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
         applyEffects(werewolf);
-        werewolf.asEntity().getAttribute(ModAttributes.BITE_DAMAGE.get()).addPermanentModifier(new AttributeModifier(BITE_MODIFIER, "rage_bite_modifier", WerewolvesConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADDITION));
+        werewolf.asEntity().getAttribute(ModAttributes.BITE_DAMAGE).addPermanentModifier(new AttributeModifier(RegUtil.id(this), WerewolvesConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADD_VALUE));
         return true;
     }
 
@@ -48,7 +49,7 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
     public void onDeactivated(IWerewolfPlayer werewolf) {
         removePotionEffect(werewolf, MobEffects.DAMAGE_BOOST);
         removePotionEffect(werewolf, MobEffects.MOVEMENT_SPEED);
-        werewolf.asEntity().getAttribute(ModAttributes.BITE_DAMAGE.get()).removeModifier(BITE_MODIFIER);
+        werewolf.asEntity().getAttribute(ModAttributes.BITE_DAMAGE).removeModifier(RegUtil.id(this));
     }
 
     @Override

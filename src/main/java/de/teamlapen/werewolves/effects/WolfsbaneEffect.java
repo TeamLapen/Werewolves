@@ -13,14 +13,14 @@ public class WolfsbaneEffect extends WerewolfWeakeningEffect {
     private static final String MOVEMENT_SPEED = "8ffcfde9-4799-4120-8714-4f479cc6e23e";
 
     public WolfsbaneEffect() {
-        super(0x6006ab, List.of(new Modifier(Attributes.MOVEMENT_SPEED, UUID.fromString(MOVEMENT_SPEED), "Wolfsbane effect", 0.15f)));
+        super(0x6006ab, List.of(new Modifier(Attributes.MOVEMENT_SPEED, ModEffects.WOLFSBANE.getId(), 0.15f)));
     }
 
     public static MobEffectInstance createWolfsbaneEffect(LivingEntity entity, int defaultDuration) {
-        return new MobEffectInstance(ModEffects.WOLFSBANE.get(), defaultDuration);
+        return new MobEffectInstance(ModEffects.WOLFSBANE, defaultDuration);
     }
 
     public static MobEffectInstance createWolfsbaneEffect(LivingEntity entity, int defaultDuration, int amplifier) {
-        return new MobEffectInstance(ModEffects.WOLFSBANE.get(), defaultDuration, amplifier);
+        return new MobEffectInstance(ModEffects.WOLFSBANE, defaultDuration, amplifier);
     }
 }
