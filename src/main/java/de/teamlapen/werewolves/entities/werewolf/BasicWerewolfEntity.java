@@ -105,7 +105,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
 
     @Override
     protected @NotNull EntityDimensions getDefaultDimensions(@NotNull Pose pPose) {
-        return this.getForm().getSize(pPose).map(p -> p.scale(this.getScale())).orElse(super.getDimensions(pPose));
+        return this.getForm().getSize(pPose).map(p -> p.scale(this.getScale())).orElse(super.getDefaultDimensions(pPose));
     }
 
     @Override
