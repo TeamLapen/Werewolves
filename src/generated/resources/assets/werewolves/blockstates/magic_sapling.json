@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "werewolves:block/jacaranda_sapling"
+      "model": "werewolves:block/magic_sapling"
     }
   }
 }
