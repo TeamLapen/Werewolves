@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.client.ClientUtils;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.render.layer.HumanWerewolfLayer;
@@ -35,13 +36,16 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 
     @Inject(method= "<init>(Lnet/minecraft/client/renderer/entity/EntityRendererProvider$Context;Z)V", at = @At("RETURN"))
     private void addLayers(EntityRendererProvider.Context context, boolean isSlim, CallbackInfo ci) {
-        this.werewolfEarsModel = new WerewolfEarsModel<>(context.bakeLayer(isSlim ? ModModelRender.EARS_CLAWS_SLIM : ModModelRender.EARS_CLAWS));
-        this.addLayer(new HumanWerewolfLayer<>(this, this.werewolfEarsModel));
-        this.textures = WerewolfEarsModel.getHumanTextures();
+        if (ClientUtils.noLoadingExceptions()) {
+            this.werewolfEarsModel = new WerewolfEarsModel<>(context.bakeLayer(isSlim ? ModModelRender.EARS_CLAWS_SLIM : ModModelRender.EARS_CLAWS));
+            this.addLayer(new HumanWerewolfLayer<>(this, this.werewolfEarsModel));
+            this.textures = WerewolfEarsModel.getHumanTextures();
+        }
     }
 
     @Inject(method = "renderHand(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;Lnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/model/geom/ModelPart;)V", at = @At("RETURN"))
     private void renderWerewolfLeftHand(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, ModelPart pRendererArm, ModelPart pRendererArmwear, CallbackInfo ci) {
+        if (textures  == null || werewolfEarsModel == null) return;
         WerewolfPlayer.getOptSave(pPlayer).filter(werewolf -> werewolf.getForm() == WerewolfForm.HUMAN).ifPresent(werewolf -> {
             ModelPart armPart = pRendererArm == this.model.rightArm ? this.werewolfEarsModel.rightArm : this.werewolfEarsModel.leftArm;
             this.model.copyPropertiesTo(this.werewolfEarsModel);
