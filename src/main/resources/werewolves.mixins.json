@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "plugin": "de.teamlapen.werewolves.WerewolvesMixinConfigPlugin",
   "mixins": [
+    "ArmorSlotMixin",
     "BlockFamiliesAccessor",
     "FoodStatsAccessor",
     "GoalSelectorAccessor",
