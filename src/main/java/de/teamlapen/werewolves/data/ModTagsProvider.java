@@ -159,6 +159,16 @@ public class ModTagsProvider {
             this.tag(ModTags.Items.SILVER_ITEM).addTags(ModTags.Items.SILVER_INGOT, ModTags.Items.SILVER_TOOL, ModTags.Items.SILVER_NUGGET, ModTags.Items.RAW_MATERIALS_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER, ModTags.Items.SILVER_ARMOR);
             this.tag(ModTags.Items.RAW_FOOD).addTags(ModTags.Items.RAW_MEAT, ModTags.Items.RAW_FISH);
             this.tag(ModTags.Items.WEREWOLF_FOOD).addTag(ItemTags.MEAT).add(ModItems.WOLF_BERRIES.get(), Items.SWEET_BERRIES, Items.GLOW_BERRIES);
+            this.tag(ItemTags.SWORDS).add(ModItems.SILVER_SWORD.get());
+            this.tag(ItemTags.AXES).add(ModItems.SILVER_AXE.get());
+            this.tag(ItemTags.PICKAXES).add(ModItems.SILVER_PICKAXE.get());
+            this.tag(ItemTags.SHOVELS).add(ModItems.SILVER_SHOVEL.get());
+            this.tag(ItemTags.HOES).add(ModItems.SILVER_HOE.get());
+            this.tag(ItemTags.HEAD_ARMOR).add(ModItems.SILVER_HELMET.get(), ModItems.PELT_HELMET.get(), ModItems.DARK_PELT_HELMET.get(), ModItems.WHITE_PELT_HELMET.get());
+            this.tag(ItemTags.CHEST_ARMOR).add(ModItems.SILVER_CHESTPLATE.get(), ModItems.PELT_CHESTPLATE.get(), ModItems.DARK_PELT_CHESTPLATE.get(), ModItems.WHITE_PELT_CHESTPLATE.get());
+            this.tag(ItemTags.LEG_ARMOR).add(ModItems.SILVER_LEGGINGS.get(), ModItems.PELT_LEGGINGS.get(), ModItems.DARK_PELT_LEGGINGS.get(), ModItems.WHITE_PELT_LEGGINGS.get());
+            this.tag(ItemTags.FOOT_ARMOR).add(ModItems.SILVER_BOOTS.get(), ModItems.PELT_BOOTS.get(), ModItems.DARK_PELT_BOOTS.get(), ModItems.WHITE_PELT_BOOTS.get());
+            this.tag(Tags.Items.MELEE_WEAPON_TOOLS).add(ModItems.SILVER_SWORD.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_AXE.get(), ModItems.SILVER_SHOVEL.get(), ModItems.SILVER_HOE.get());
         }
 
         @SuppressWarnings("UnusedReturnValue")

@@ -6,8 +6,8 @@
     "werewolves:inject/entity/entities/skeleton",
     "werewolves:inject/entity/entities/villager",
     "werewolves:hunter_liver",
-    "werewolves:inject/chests/nether_bridge",
     "werewolves:inject/chests/abandoned_mineshaft",
+    "werewolves:inject/chests/nether_bridge",
     "werewolves:inject/chests/stronghold_library"
   ],
   "replace": false
