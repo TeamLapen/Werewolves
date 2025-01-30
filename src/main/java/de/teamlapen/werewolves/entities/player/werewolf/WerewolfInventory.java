@@ -85,8 +85,7 @@ public class WerewolfInventory implements ISyncableSaveData {
                 if (!stack.isEmpty()) {
                     CompoundTag itemTag = new CompoundTag();
                     itemTag.putByte("Slot", (byte) i);
-                    stack.save(provider, itemTag);
-                    list.add(itemTag);
+                    list.add(stack.save(provider, itemTag));
                 }
             }
             tag.put(form.getName(), list);
