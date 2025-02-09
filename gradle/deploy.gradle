@@ -100,6 +100,9 @@ publishMods {
         accessToken = findProperty("MODRINTH_API") ?: "DUMMY"
         projectId = project.modrinth_id
         minecraftVersions.add(project.minecraft_version)
+        requires("vampirism")
+        optional("jei")
+        optional("guide-api")
     }
 
     curseforge {
@@ -107,5 +110,8 @@ publishMods {
         projectId = project.curseforge_id
         minecraftVersions.add(project.minecraft_version)
         projectSlug = project.curseforge_slug
+        requires("vampirism-become-a-vampire")
+        optional("jei")
+        optional("guide-api-village-and-pillage")
     }
 }
