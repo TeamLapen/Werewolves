@@ -8,7 +8,7 @@ title: Lord
 As Werewolf Lord you can found a tribe for which you can enlist Werewolves as minions.
 
 # Becoming Lord
-The Werewolf Representative will offer the task "Are you worthy?" to become a lord. To complete this task you need to
+After getting to level 14, the Werewolf Representative will offer the task "Are you worthy?" to become a lord. To complete this task you need to
 - Kill 10 Hunter
 - Kill 10 Vampire
 - Have 2 Werewolf Tooth
