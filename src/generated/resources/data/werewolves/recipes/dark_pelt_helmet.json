@@ -4,11 +4,15 @@
   "key": {
     "P": {
       "item": "werewolves:dark_pelt"
+    },
+    "X": {
+      "item": "werewolves:pelt_helmet"
     }
   },
   "pattern": [
     "PPP",
-    "P P"
+    "PXP",
+    "PPP"
   ],
   "result": {
     "item": "werewolves:dark_pelt_helmet"

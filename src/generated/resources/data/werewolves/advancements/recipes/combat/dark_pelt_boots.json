@@ -13,6 +13,18 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_pelt_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "werewolves:pelt_boots"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "werewolves:dark_pelt_boots"
@@ -23,6 +35,7 @@
   "requirements": [
     [
       "has_pelt",
+      "has_pelt_boots",
       "has_the_recipe"
     ]
   ],
