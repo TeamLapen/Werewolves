@@ -12,6 +12,7 @@ import de.teamlapen.werewolves.client.render.player.WerewolfPlayerSurvivalistRen
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.modcompat.playeranimator.PlayerAnimatorCompat;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -93,7 +94,7 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void onPlayerRender(RenderPlayerEvent.Pre event) {
-        if (Helper.isWerewolf(event.getEntity())) {
+        if (Helper.isWerewolf(event.getEntity()) && !PlayerAnimatorCompat.checkAnimation(event.getEntity())) {
             if (ClientRegistryHandler.getModPlayerRenderer().renderPlayer((AbstractClientPlayer) event.getEntity(), 1, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight())) {
                 event.setCanceled(true);
             }
