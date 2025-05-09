@@ -35,7 +35,7 @@ jobs:
             exit 1
           fi
       - name: Upload translation keys
-        uses: crowdin/github-action@v1
+        uses: crowdin/github-action@v2
         with:
           crowdin_branch_name: ${{ steps.get_crowdin_branch.outputs.crowdin_branch }}
         env:
