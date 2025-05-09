@@ -32,7 +32,7 @@ jobs:
       version: ${{ steps.get_environment.outputs.version }}
       tag: ${{ steps.get_environment.outputs.tag }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Determine Environment
       id: get_environment
       run: |
@@ -78,9 +78,9 @@ jobs:
     if: needs.determine-environment.outputs.version != '' && needs.determine-environment.outputs.environment != ''
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
+    - uses: actions/checkout@v4
+    - name: Set up JDK
+      uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'adopt'
@@ -92,6 +92,4 @@ jobs:
       env:
         CROWDIN_KEY: ${{ secrets.CROWDIN_KEY }}
     - name: Publish
-      uses: gradle/gradle-build-action@v2.7.0
-      with:
-        arguments: build publish curseforge modrinth -PMAVEN_URL=${{ secrets.MAVEN_URL }} -PMAVEN_USER=${{ secrets.MAVEN_USER }} -PMAVEN_TOKEN=${{ secrets.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ secrets.CURSEFORGE_API }} -PMODRINTH_API=${{ secrets.MODRINTH_API }} -P${{ needs.determine-environment.outputs.version }}
+      run: ./gradlew build publish curseforge modrinth -PMAVEN_URL=${{ secrets.MAVEN_URL }} -PMAVEN_USER=${{ secrets.MAVEN_USER }} -PMAVEN_TOKEN=${{ secrets.MAVEN_TOKEN }} -PCURSEFORGE_API=${{ secrets.CURSEFORGE_API }} -PMODRINTH_API=${{ secrets.MODRINTH_API }} -P${{ needs.determine-environment.outputs.version }}

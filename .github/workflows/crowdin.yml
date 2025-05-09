@@ -20,7 +20,7 @@ jobs:
         run: echo "crowdin_branch=$(echo ${{ github.ref_name }} | cut -d '.' -f 1,2)" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
       - name: Upload translation keys
-        uses: crowdin/github-action@v1
+        uses: crowdin/github-action@v2
         with:
           crowdin_branch_name: ${{ steps.get_crowdin_branch.outputs.crowdin_branch }}
         env:
