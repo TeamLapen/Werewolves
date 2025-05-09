@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -18,9 +19,8 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
         this(null);
     }
 
-    public WerewolfNightVisionEffectInstance(MobEffectInstance otherEffect) {
-        super(MobEffects.NIGHT_VISION, -1, 0, false, false, false, otherEffect, Optional.empty());
-        this.setCurativeItems(Collections.emptyList());
+    public WerewolfNightVisionEffectInstance(@Nullable MobEffectInstance otherEffect) {
+        super(MobEffects.NIGHT_VISION, -1, 0, false, false, false, checkEffect(otherEffect), Optional.empty());
         ((EffectInstanceWithSource) this).setSource(VampirismNightVisionPotion.ID);
     }
 
@@ -51,8 +51,8 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
         return true;
     }
 
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag nbt) {
-        return nbt;
+    private static @Nullable MobEffectInstance checkEffect(@Nullable MobEffectInstance effectInstance) {
+        return effectInstance != null && !effectInstance.isInfiniteDuration() ? effectInstance : null;
     }
+
 }

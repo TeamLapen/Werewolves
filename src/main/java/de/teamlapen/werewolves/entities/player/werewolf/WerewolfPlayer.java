@@ -10,6 +10,7 @@ import de.teamlapen.vampirism.api.entity.player.actions.IAction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.SkillType;
+import de.teamlapen.vampirism.effects.VampirismNightVisionPotion;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.minion.VampireMinionEntity;
 import de.teamlapen.vampirism.entity.player.FactionBasePlayer;
@@ -286,14 +287,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
                 MobEffectInstance effect = this.player.getEffect(MobEffects.NIGHT_VISION);
                 if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
-                    if (!(effect instanceof WerewolfNightVisionEffectInstance)) {
+                    if (effect == null || !VampirismNightVisionPotion.ID.equals(((EffectInstanceWithSource) effect).getSource())) {
                         if (effect != null) {
                             player.removeEffectNoUpdate(effect.getEffect());
                         }
                         player.addEffect(new WerewolfNightVisionEffectInstance(effect));
                     }
                 } else {
-                    if (effect instanceof WerewolfNightVisionEffectInstance) {
+                    if (effect != null && VampirismNightVisionPotion.ID.equals(((EffectInstanceWithSource) effect).getSource())) {
                         this.player.removeEffect(effect.getEffect());
                         effect = ((EffectInstanceWithSource) effect).getHiddenEffect();
                         if (effect != null) {
