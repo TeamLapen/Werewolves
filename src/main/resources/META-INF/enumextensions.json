@@ -26,6 +26,15 @@
         "class": "de/teamlapen/werewolves/api/WEnums",
         "field": "MAGIC_BOAT_TYPE"
       }
+    },
+    {
+      "enum": "net/minecraft/world/damagesource/DeathMessageType",
+      "name": "WEREWOLVES_BITE",
+      "constructor": "(Ljava/lang/String;Lnet/neoforged/neoforge/common/damagesource/IDeathMessageProvider;)V",
+      "parameters": {
+        "class": "de/teamlapen/werewolves/api/WEnums",
+        "field": "WEREWOLF_BITE"
+      }
     }
   ]
 }
