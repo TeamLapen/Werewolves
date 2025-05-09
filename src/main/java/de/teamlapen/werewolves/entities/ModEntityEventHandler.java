@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.entities;
 
 import de.teamlapen.lib.lib.util.UtilLib;
+import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.util.TotemHelper;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.WReference;
@@ -100,6 +101,8 @@ public class ModEntityEventHandler {
                 }
                 AttributeInstance tmp = new AttributeInstance(Attributes.ARMOR, (a -> {
                 }));
+                AttributeModifier modifier = s.getModifier(VampirePlayer.NATURAL_ARMOR_UUID);
+                if (modifier != null) tmp.addTransientModifier(modifier);
                 s.getModifiers().stream().filter(modifiers::contains).forEach(tmp::addTransientModifier);
                 double value = s.getValue() - (s.getValue() - tmp.getValue());
                 float levelModifier = WerewolfPlayer.getOptEx(event.getSource().getEntity()).map(player -> player.getLevel() / (float) player.getMaxLevel()).orElse(1f);
