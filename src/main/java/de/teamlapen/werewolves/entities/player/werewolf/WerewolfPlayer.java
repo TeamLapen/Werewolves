@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.entities.player.werewolf;
 
 import de.teamlapen.lib.lib.storage.ISyncableSaveData;
 import de.teamlapen.lib.HelperLib;
+import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
@@ -238,14 +239,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
                 MobEffectInstance effect = this.player.getEffect(MobEffects.NIGHT_VISION);
                 if (this.getForm().isTransformed() && this.specialAttributes.night_vision) {
-                    if (!(effect instanceof WerewolfNightVisionEffectInstance)) {
+                    if (effect == null || !VReference.PERMANENT_INVISIBLE_MOB_EFFECT.equals(((EffectInstanceWithSource) effect).getSource())) {
                         if (effect != null) {
                             player.removeEffectNoUpdate(effect.getEffect());
                         }
                         player.addEffect(new WerewolfNightVisionEffectInstance(effect));
                     }
                 } else {
-                    if (effect instanceof WerewolfNightVisionEffectInstance) {
+                    if (effect != null && VReference.PERMANENT_INVISIBLE_MOB_EFFECT.equals(((EffectInstanceWithSource)effect).getSource())) {
                         this.player.removeEffect(effect.getEffect());
                         effect = ((EffectInstanceWithSource) effect).getHiddenEffect();
                         if (effect != null) {
