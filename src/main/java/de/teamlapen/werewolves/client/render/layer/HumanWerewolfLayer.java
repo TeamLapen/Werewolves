@@ -41,7 +41,7 @@ public class HumanWerewolfLayer<T extends LivingEntity, M extends HumanoidModel<
 
     protected static <T extends LivingEntity> void coloredCutoutModelCopyLayerRender(
             HumanoidModel<T> pModelParent,
-            EntityModel<T> pModel,
+            HumanoidModel<T> pModel,
             ResourceLocation pTextureLocation,
             PoseStack pPoseStack,
             MultiBufferSource pBuffer,
