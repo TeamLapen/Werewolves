@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:raw_silver_block"
+        "recipe": "werewolves:silver_ingot_from_smelting_raw_silver"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:raw_silver_block"
+      "werewolves:silver_ingot_from_smelting_raw_silver"
     ]
   }
 }

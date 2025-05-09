@@ -1,32 +1,32 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_silver_ingot": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "werewolves:purple_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wolfsbane": {
       "conditions": {
         "items": [
           {
-            "items": "werewolves:silver_ingot"
+            "items": "werewolves:wolfsbane"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:silver_nugget"
-      },
-      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_silver_ingot"
+      "has_wolfsbane"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:silver_nugget"
+      "werewolves:purple_dye"
     ]
   }
 }

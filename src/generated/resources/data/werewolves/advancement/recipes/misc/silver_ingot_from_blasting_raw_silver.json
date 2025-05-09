@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_silver_block": {
+    "has_raw_silver": {
       "conditions": {
         "items": [
           {
-            "items": "werewolves:silver_block"
+            "items": "werewolves:raw_silver"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:silver_ingot"
+        "recipe": "werewolves:silver_ingot_from_blasting_raw_silver"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_silver_block"
+      "has_raw_silver"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:silver_ingot"
+      "werewolves:silver_ingot_from_blasting_raw_silver"
     ]
   }
 }

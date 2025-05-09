@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_silver_ore": {
+    "has_deepslate_silver_ore": {
       "conditions": {
         "items": [
           {
-            "items": "werewolves:silver_ore"
+            "items": "werewolves:deepslate_silver_ore"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:silver_ingot_from_blasting_silver_ore"
+        "recipe": "werewolves:silver_ingot_from_smelting_deepslate_silver_ore"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_silver_ore"
+      "has_deepslate_silver_ore"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:silver_ingot_from_blasting_silver_ore"
+      "werewolves:silver_ingot_from_smelting_deepslate_silver_ore"
     ]
   }
 }

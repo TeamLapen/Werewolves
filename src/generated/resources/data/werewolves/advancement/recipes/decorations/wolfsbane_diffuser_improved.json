@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:wolfsbane_diffuser_improved"
+        "recipe": "werewolves:wolfsbane_diffuser_improved"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -37,7 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:wolfsbane_diffuser_improved"
+      "werewolves:wolfsbane_diffuser_improved"
     ]
   }
 }

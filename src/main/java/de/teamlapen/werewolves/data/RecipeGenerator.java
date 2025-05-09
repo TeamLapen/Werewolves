@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.data.recipebuilder.AlchemicalCauldronRecipeBuilder
 import de.teamlapen.vampirism.data.recipebuilder.AlchemyTableRecipeBuilder;
 import de.teamlapen.vampirism.data.recipebuilder.ShapedWeaponTableRecipeBuilder;
 import de.teamlapen.vampirism.entity.player.hunter.skills.HunterSkills;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
@@ -12,6 +13,7 @@ import de.teamlapen.werewolves.core.ModOils;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
@@ -22,13 +24,13 @@ import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.SmithingTransformRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -67,10 +69,10 @@ public class RecipeGenerator extends RecipeProvider {
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE, 2)
                 .requires(ModItems.CRACKED_BONE.get()).unlockedBy("has_broken_bone", has(ModItems.CRACKED_BONE.get()))
-                .save(consumer);
+                .save(consumer, WResourceLocation.mod("bone"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.PURPLE_DYE)
                 .requires(ModBlocks.WOLFSBANE.get()).unlockedBy("has_wolfsbane", has(ModBlocks.WOLFSBANE.get()))
-                .save(consumer);
+                .save(consumer, WResourceLocation.mod("purple_dye"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SILVER_HOE.get()).pattern("XX").pattern(" #").pattern(" #")
                 .define('#', sticks).unlockedBy("has_sticks", has(sticks))
@@ -99,13 +101,13 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('S', Items.STONE_BRICKS).unlockedBy("has_stone_bricks", has(Items.STONE_BRICKS))
                 .define('P', ItemTags.PLANKS).unlockedBy("has_planks", has(ItemTags.PLANKS))
                 .save(consumer);
-        nineBlockStorageRecipes(consumer, RecipeCategory.MISC, ModItems.SILVER_INGOT.get(), RecipeCategory.MISC, ModBlocks.SILVER_BLOCK.get());
-        nineBlockStorageRecipes(consumer, RecipeCategory.MISC, ModItems.RAW_SILVER.get(), RecipeCategory.MISC, ModBlocks.RAW_SILVER_BLOCK.get());
-        nineBlockStorageRecipesWithCustomPacking(consumer, RecipeCategory.MISC, ModItems.SILVER_NUGGET.get(), RecipeCategory.MISC, ModItems.SILVER_INGOT.get(), REFERENCE.MODID + ":silver_ingot_from_nuggets", "silver_ingot");
+        nineBlockStorageRecipes(consumer, RecipeCategory.MISC, ModItems.SILVER_INGOT.get(), RecipeCategory.MISC, ModBlocks.SILVER_BLOCK.get(), REFERENCE.MODID + ":silver_block_from_silver_ingot", null, REFERENCE.MODID + ":silver_ingot_from_silver_block", null);
+        nineBlockStorageRecipes(consumer, RecipeCategory.MISC, ModItems.RAW_SILVER.get(), RecipeCategory.MISC, ModBlocks.RAW_SILVER_BLOCK.get(), REFERENCE.MODID + ":raw_silver_block_from_raw_silver_ingot", null, REFERENCE.MODID + ":raw_silver_ingot_from_raw_silver_block", null);
+        nineBlockStorageRecipes(consumer, RecipeCategory.MISC, ModItems.SILVER_NUGGET.get(), RecipeCategory.MISC, ModItems.SILVER_INGOT.get(), REFERENCE.MODID + ":silver_ingot_from_nuggets", null, REFERENCE.MODID + ":silver_nugget_from_ingot", null);
         oreSmelting(consumer, SILVER_SMELTABLES, RecipeCategory.MISC, ModItems.SILVER_INGOT.get(), 0.7f, 200, "silver_ingot");
         oreBlasting(consumer, SILVER_SMELTABLES, RecipeCategory.MISC, ModItems.SILVER_INGOT.get(), 0.7f, 100, "silver_ingot");
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get(), ModItems.SILVER_SWORD.get()), RecipeCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 200).unlockedBy("has_silver_axe", has(ModItems.SILVER_AXE.get())).unlockedBy("has_silver_hoe", has(ModItems.SILVER_HOE.get())).unlockedBy("has_silver_pickaxe", has(ModItems.SILVER_PICKAXE.get())).unlockedBy("has_silver_shovel", has(ModItems.SILVER_SHOVEL.get())).unlockedBy("has_silver_sword", has(ModItems.SILVER_SWORD.get())).save(consumer, getSmeltingRecipeName(ModItems.SILVER_NUGGET.get()));
-        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get(), ModItems.SILVER_SWORD.get()), RecipeCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 100).unlockedBy("has_silver_axe", has(ModItems.SILVER_AXE.get())).unlockedBy("has_silver_hoe", has(ModItems.SILVER_HOE.get())).unlockedBy("has_silver_pickaxe", has(ModItems.SILVER_PICKAXE.get())).unlockedBy("has_silver_shovel", has(ModItems.SILVER_SHOVEL.get())).unlockedBy("has_silver_sword", has(ModItems.SILVER_SWORD.get())).save(consumer, getBlastingRecipeName(ModItems.SILVER_NUGGET.get()));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get(), ModItems.SILVER_SWORD.get()), RecipeCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 200).unlockedBy("has_silver_axe", has(ModItems.SILVER_AXE.get())).unlockedBy("has_silver_hoe", has(ModItems.SILVER_HOE.get())).unlockedBy("has_silver_pickaxe", has(ModItems.SILVER_PICKAXE.get())).unlockedBy("has_silver_shovel", has(ModItems.SILVER_SHOVEL.get())).unlockedBy("has_silver_sword", has(ModItems.SILVER_SWORD.get())).save(consumer, WResourceLocation.mod(getSmeltingRecipeName(ModItems.SILVER_NUGGET.get())));
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get(), ModItems.SILVER_SWORD.get()), RecipeCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 100).unlockedBy("has_silver_axe", has(ModItems.SILVER_AXE.get())).unlockedBy("has_silver_hoe", has(ModItems.SILVER_HOE.get())).unlockedBy("has_silver_pickaxe", has(ModItems.SILVER_PICKAXE.get())).unlockedBy("has_silver_shovel", has(ModItems.SILVER_SHOVEL.get())).unlockedBy("has_silver_sword", has(ModItems.SILVER_SWORD.get())).save(consumer, WResourceLocation.mod(getBlastingRecipeName(ModItems.SILVER_NUGGET.get())));
 
         ShapedWeaponTableRecipeBuilder.shapedWeaponTable(RecipeCategory.MISC,ModItems.CROSSBOW_ARROW_SILVER_BOLT.get(), 3).pattern(" X ").pattern("XYX").pattern(" S ").pattern(" F ")
                 .lava(1)
@@ -148,8 +150,8 @@ public class RecipeGenerator extends RecipeProvider {
         chestBoat(consumer, ModItems.JACARANDA_CHEST_BOAT.get(), ModBlocks.JACARANDA_PLANKS.get());
         chestBoat(consumer, ModItems.MAGIC_CHEST_BOAT.get(), ModBlocks.MAGIC_PLANKS.get());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER_LONG.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core).unlockedBy("has_diamond", has(diamond)).save(consumer, "wolfsbane_diffuser_normal");
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core_improved).unlockedBy("has_garlic_diffuser", has(wolfsbane_diffuser)).unlockedBy("has_diamond", has(diamond)).save(consumer, "wolfsbane_diffuser_improved");
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER_LONG.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core).unlockedBy("has_diamond", has(diamond)).save(consumer, WResourceLocation.mod("wolfsbane_diffuser_normal"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core_improved).unlockedBy("has_garlic_diffuser", has(wolfsbane_diffuser)).unlockedBy("has_diamond", has(diamond)).save(consumer, WResourceLocation.mod("wolfsbane_diffuser_improved"));
         AlchemicalCauldronRecipeBuilder.cauldronRecipe(ModItems.WOLFSBANE_DIFFUSER_CORE.get()).withIngredient(wool).withFluid(wolfsbane).withSkills(HunterSkills.GARLIC_DIFFUSER.get()).save(consumer, modId("wolfsbane_diffuser_core"));
         AlchemicalCauldronRecipeBuilder.cauldronRecipe(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get()).withIngredient(wolfsbane_diffuser_core).withFluid(wolfsbane).withSkills(HunterSkills.GARLIC_DIFFUSER_IMPROVED.get()).experience(2.0f).save(consumer, modId("wolfsbane_diffuser_core_improved"));
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.PELT_HELMET.get()).define('P', pelt).pattern("PPP").pattern("P P").unlockedBy("has_pelt", has(pelt)).save(consumer);
@@ -160,11 +162,69 @@ public class RecipeGenerator extends RecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.DARK_PELT_CHESTPLATE.get()).define('P', dark_pelt).pattern("P P").pattern("PPP").pattern("PPP").unlockedBy("has_pelt", has(dark_pelt)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.DARK_PELT_LEGGINGS.get()).define('P', dark_pelt).pattern("PPP").pattern("P P").pattern("P P").unlockedBy("has_pelt", has(dark_pelt)).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.DARK_PELT_BOOTS.get()).define('P', dark_pelt).pattern("P P").pattern("P P").unlockedBy("has_pelt", has(dark_pelt)).save(consumer);
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_HELMET.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_HELMET.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_HELMET.get()) + "_smithing");
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_CHESTPLATE.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_CHESTPLATE.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_CHESTPLATE.get()) + "_smithing");
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_LEGGINGS.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_LEGGINGS.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_LEGGINGS.get()) + "_smithing");
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_BOOTS.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_BOOTS.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemName(ModItems.WHITE_PELT_BOOTS.get()) + "_smithing");
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_HELMET.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_HELMET.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemNameFull(ModItems.WHITE_PELT_HELMET.get()) + "_smithing");
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_CHESTPLATE.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_CHESTPLATE.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemNameFull(ModItems.WHITE_PELT_CHESTPLATE.get()) + "_smithing");
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_LEGGINGS.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_LEGGINGS.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemNameFull(ModItems.WHITE_PELT_LEGGINGS.get()) + "_smithing");
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get()), Ingredient.of(ModItems.DARK_PELT_BOOTS.get()), Ingredient.of(ModItems.WHITE_PELT.get()), RecipeCategory.COMBAT, ModItems.WHITE_PELT_BOOTS.get()).unlocks("has_white_pelt", has(ModItems.WHITE_PELT.get())).save(consumer, getItemNameFull(ModItems.WHITE_PELT_BOOTS.get()) + "_smithing");
         copySmithingTemplate(consumer, ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get(), ModItems.WEREWOLF_TOOTH.get());
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.WOLFSBANE_FINDER.get()).pattern("XXX").pattern("XYX").pattern("ZAZ").define('X', silver_ingot).define('Y', wolfsbane).define('Z', planks).define('A', Tags.Items.DUSTS_REDSTONE).unlockedBy("has_redstone", has(Tags.Items.DUSTS_REDSTONE)).unlockedBy("has_silver_ingot", has(silver_ingot)).save(consumer);
+    }
+
+    protected static <T extends AbstractCookingRecipe> void oreCooking(
+            RecipeOutput pRecipeOutput,
+            RecipeSerializer<T> pSerializer,
+            AbstractCookingRecipe.Factory<T> pRecipeFactory,
+            List<ItemLike> pIngredients,
+            RecipeCategory pCategory,
+            ItemLike pResult,
+            float pExperience,
+            int pCookingTime,
+            String pGroup,
+            String pSuffix
+    ) {
+        for (ItemLike itemlike : pIngredients) {
+            SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), pCategory, pResult, pExperience, pCookingTime, pSerializer, pRecipeFactory)
+                    .group(pGroup)
+                    .unlockedBy(getHasName(itemlike), has(itemlike))
+                    .save(pRecipeOutput, getItemNameFull(pResult) + pSuffix + "_" + getItemName(itemlike));
+        }
+    }
+
+    protected static String getItemNameFull(ItemLike pItemLike) {
+        return BuiltInRegistries.ITEM.getKey(pItemLike.asItem()).toString();
+    }
+
+    protected static void oreSmelting(
+            RecipeOutput pRecipeOutput, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup
+    ) {
+        oreCooking(
+                pRecipeOutput,
+                RecipeSerializer.SMELTING_RECIPE,
+                SmeltingRecipe::new,
+                pIngredients,
+                pCategory,
+                pResult,
+                pExperience,
+                pCookingTime,
+                pGroup,
+                "_from_smelting"
+        );
+    }
+
+    protected static void oreBlasting(
+            RecipeOutput pRecipeOutput, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup
+    ) {
+        oreCooking(
+                pRecipeOutput,
+                RecipeSerializer.BLASTING_RECIPE,
+                BlastingRecipe::new,
+                pIngredients,
+                pCategory,
+                pResult,
+                pExperience,
+                pCookingTime,
+                pGroup,
+                "_from_blasting"
+        );
     }
 }

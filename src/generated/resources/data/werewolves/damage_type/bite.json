@@ -1,4 +1,5 @@
 {
+  "death_message_type": "werewolves:bite",
   "exhaustion": 0.1,
   "message_id": "werewolves.bite",
   "scaling": "when_caused_by_living_non_player"

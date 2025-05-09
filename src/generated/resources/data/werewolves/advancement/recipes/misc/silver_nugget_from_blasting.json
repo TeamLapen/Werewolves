@@ -53,7 +53,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:silver_nugget_from_blasting"
+        "recipe": "werewolves:silver_nugget_from_blasting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -70,7 +70,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:silver_nugget_from_blasting"
+      "werewolves:silver_nugget_from_blasting"
     ]
   }
 }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_diamond": {
+    "has_silver_ingot": {
       "conditions": {
         "items": [
           {
-            "items": "#c:gems/diamond"
+            "items": "werewolves:silver_ingot"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:wolfsbane_diffuser_normal"
+        "recipe": "werewolves:silver_nugget_from_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_diamond"
+      "has_silver_ingot"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:wolfsbane_diffuser_normal"
+      "werewolves:silver_nugget_from_ingot"
     ]
   }
 }
