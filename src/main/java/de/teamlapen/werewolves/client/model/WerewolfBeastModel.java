@@ -127,14 +127,14 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         PartDefinition snout = head.addOrReplaceChild(SNOUT, CubeListBuilder.create().texOffs(34, 0).addBox(-2.0F, -2.0F, -4.0F, 4, 2, 4), PartPose.offsetAndRotation(0.0F, 2.0F, -5.0F, -0.08726646259971647F, 0.0F, 0.0F));
         PartDefinition hip = body.addOrReplaceChild(HIP, CubeListBuilder.create().texOffs(0, 30).addBox(-3.5F, 0.0F, -3.0F, 7, 9, 6), PartPose.offsetAndRotation(0.0F, 6.0F, 1.0F, 0.5235987755982988F, 0.0F, 0.0F));
         PartDefinition headSidburnLeft = head.addOrReplaceChild(HEAD_SIDBURN_LEFT, CubeListBuilder.create().texOffs(32, 12).addBox(1.0F, -1.0F, -5.0F, 3, 6, 0), PartPose.rotation(0.0F, -0.5235987755982988F, 0.0F));
-        PartDefinition legRight = hip.addOrReplaceChild(LEG_RIGHT, CubeListBuilder.create().texOffs(24, 39).addBox(-4.0F, -2.0F, -3.0F, 4, 8, 6), PartPose.offsetAndRotation(-0.5F, 9.0F, 0.0F, -0.3839724354387525F, 0.0F, 0.0F));
-        PartDefinition jaw = head.addOrReplaceChild(JAW, CubeListBuilder.create().texOffs(50, 0).addBox(-1.5F, 0.0F, -3.5F, 3, 2, 4), PartPose.offsetAndRotation(0.0F, 1.5F, -5.0F, 0.0626F, 0.0F, 0.0F));
+        PartDefinition legRight = hip.addOrReplaceChild(LEG_RIGHT, CubeListBuilder.create().texOffs(24, 39).addBox(0.0F, -2.0F, -3.0F, 4.0F, 8.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 9.0F, 0.0F, -0.3826F, -0.0327F, -0.0809F));
+        PartDefinition jaw = head.addOrReplaceChild(JAW, CubeListBuilder.create().texOffs(50, 0).addBox(-1.5F, 0.0F, -3.5F, 3, 2, 4), PartPose.offsetAndRotation(0.0F, 1.5F, -5.0F, 0.0939f, 0.0F, 0.0F));
         PartDefinition jawFluff = jaw.addOrReplaceChild(JAW_FLUFF, CubeListBuilder.create().texOffs(96, 8).addBox(-1.5F, 2.0F, -3.5F, 3, 2, 4), PartPose.ZERO);
         PartDefinition neckFluff = neck.addOrReplaceChild(NECK_FLUFF, CubeListBuilder.create().texOffs(64, 19).addBox(-3.5F, -5.0F, 2.5F, 7, 8, 2), PartPose.rotation(0.2617993877991494F, 0.0F, 0.0F));
         PartDefinition tail = hip.addOrReplaceChild(TAIL, CubeListBuilder.create().texOffs(62, 30).addBox(-1.5F, 0.0F, -1.5F, 3, 4, 3), PartPose.offsetAndRotation(0.0F, 7.0F, 2.0F, 0.7853981633974483F, 0.0F, 0.0F));
         PartDefinition earLeft = head.addOrReplaceChild(EAR_LEFT, CubeListBuilder.create().texOffs(26, 0).addBox(3.5F, -2.5F, -2.5F, 1, 4, 3), PartPose.rotation(-0.4886921905584123F, 0.3490658503988659F, 0.0F));
-        PartDefinition legRight2 = legRight.addOrReplaceChild(LEG_RIGHT_2, CubeListBuilder.create().texOffs(44, 44).addBox(-3.5F, 2.0F, 3.0F, 3, 10, 4), PartPose.ZERO);
-        PartDefinition footRight = legRight2.addOrReplaceChild(FOOT_RIGHT, CubeListBuilder.create().texOffs(24, 54).addBox(-2.0F, -1.5F, -4.0F, 4, 3, 6), PartPose.offsetAndRotation(-2.0F, 12.0F, 5.0F, 0.3839724354387525F, 0.0F, 0.0F));
+        PartDefinition legRight2 = legRight.addOrReplaceChild(LEG_RIGHT_2, CubeListBuilder.create().texOffs(44, 44).addBox(0.5F, 2.0F, 3.0F, 3.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition footRight = legRight2.addOrReplaceChild(FOOT_RIGHT, CubeListBuilder.create().texOffs(24, 54).addBox(-2.0F, -1.5F, -4.0F, 4.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, 12.0F, 5.0F, 0.384F, 0.0F, 0.0F));
         PartDefinition snoutTeeth = snout.addOrReplaceChild(SNOUT_TEETH, CubeListBuilder.create().texOffs(34, 6).addBox(-2.0F, 0.0F, -4.0F, 4, 2, 4), PartPose.ZERO);
         PartDefinition headSidburnRight = head.addOrReplaceChild(HEAD_SIDBURN_RIGHT, CubeListBuilder.create().texOffs(32, 12).addBox(-4.0F, -1.0F, -5.0F, 3, 6, 0).mirror(), PartPose.rotation(0.0F, 0.5235987755982988F, 0.0F));
         PartDefinition nose = snout.addOrReplaceChild(NOSE, CubeListBuilder.create().texOffs(64, 0).addBox(-1.5F, -3.5F, -3.7F, 3, 2, 5), PartPose.rotation(0.17453292519943295F, 0.0F, 0.0F));
@@ -143,24 +143,24 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         PartDefinition tail3 = tail2.addOrReplaceChild(TAIL_3, CubeListBuilder.create().texOffs(62, 49).addBox(-1.5F, 0.0F, -1.5F, 3, 4, 3), PartPose.offsetAndRotation(0.0F, 7.8F, 0.0F, 0.136659280431156F, 0.0F, 0.0F));
         PartDefinition neckFluffRight = neck.addOrReplaceChild(NECK_FLUFF_RIGHT, CubeListBuilder.create().texOffs(82, 25).addBox(-3.5F, -5.5F, 3.0F, 6, 8, 3), PartPose.rotation(0.3490658503988659F, -1.5707963267948966F, 0.0F));
         PartDefinition headFluff = head.addOrReplaceChild(HEAD_FLUFF, CubeListBuilder.create().texOffs(96, 0).addBox(-3.5F, 3.5F, -5.0F, 7, 2, 6), PartPose.ZERO);
-        PartDefinition legLeft = hip.addOrReplaceChild(LEG_LEFT, CubeListBuilder.create().texOffs(24, 39).addBox(0.0F, -2.0F, -3.0F, 4, 8, 6), PartPose.offsetAndRotation(0.5F, 9.0F, 0.0F, -0.3839724354387525F, 0.0F, 0.0F));
+        PartDefinition legLeft = hip.addOrReplaceChild(LEG_LEFT, CubeListBuilder.create().texOffs(24, 39).addBox(-4.0F, -2.0F, -3.0F, 4.0F, 8.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 9.0F, 0.0F, -0.3826F, 0.0327F, 0.0809F));
         PartDefinition earRight = head.addOrReplaceChild(EAR_RIGHT, CubeListBuilder.create().texOffs(26, 0).addBox(-4.5F, -2.5F, -2.5F, 1, 4, 3), PartPose.rotation(-0.4886921905584123F, -0.3490658503988659F, 0.0F));
         PartDefinition earRight2 = earRight.addOrReplaceChild(EAR_RIGHT_2, CubeListBuilder.create().texOffs(26, 7).addBox(-4.0F, -5.5F, -2.0F, 1, 4, 2), PartPose.rotation(0.0F, 0.0F, -0.17453292519943295F));
-        PartDefinition legLeft2 = legLeft.addOrReplaceChild(LEG_LEFT_2, CubeListBuilder.create().texOffs(44, 44).addBox(0.5F, 2.0F, 3.0F, 3, 10, 4).mirror(), PartPose.ZERO);
-        PartDefinition footLeft = legLeft2.addOrReplaceChild(FOOT_LEFT, CubeListBuilder.create().texOffs(24, 54).addBox(-2.0F, -1.5F, -4.0F, 4, 3, 6).mirror(), PartPose.offsetAndRotation(2.0F, 12.0F, 5.0F, 0.3839724354387525F, 0.0F, 0.0F));
+        PartDefinition legLeft2 = legLeft.addOrReplaceChild(LEG_LEFT_2, CubeListBuilder.create().texOffs(44, 44).mirror().addBox(-3.5F, 2.0F, 3.0F, 3.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition footLeft = legLeft2.addOrReplaceChild(FOOT_LEFT, CubeListBuilder.create().texOffs(24, 54).mirror().addBox(-2.0F, -1.5F, -4.0F, 4.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 12.0F, 5.0F, 0.384F, 0.0F, 0.0F));
         PartDefinition jawTeeth = jaw.addOrReplaceChild(JAW_TEETH, CubeListBuilder.create().texOffs(50, 6).addBox(-1.5F, -1.0F, -3.5F, 3, 1, 4), PartPose.ZERO);
         PartDefinition neckFluffBottom = neck.addOrReplaceChild(NECK_FLUFF_BOTTOM, CubeListBuilder.create().texOffs(80, 0).addBox(-3.0F, -0.6F, 4.5F, 6, 6, 2), PartPose.rotation(1.0471975511965976F, 3.141592653589793F, 0.0F));
         PartDefinition earLeft2 = earLeft.addOrReplaceChild(EAR_LEFT_2, CubeListBuilder.create().texOffs(26, 7).addBox(3.0F, -5.5F, -2.0F, 1, 4, 2), PartPose.rotation(0.0F, 0.0F, 0.17453292519943295F));
         PartDefinition neckFluffLeft = neck.addOrReplaceChild(NECK_FLUFF_LEFT, CubeListBuilder.create().texOffs(82, 25).addBox(-2.5F, -5.5F, 3.0F, 6, 8, 3), PartPose.rotation(0.3490658503988659F, 1.5707963267948966F, 0.0F));
 
-        PartDefinition armRight = body.addOrReplaceChild(ARM_RIGHT, CubeListBuilder.create().texOffs(36, 25).addBox(0.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F), PartPose.offsetAndRotation(4.5F, 3.0F, 0.0F, 0.0F, 0.0F, -0.1F));
+        PartDefinition armRight = body.addOrReplaceChild(ARM_RIGHT, CubeListBuilder.create().texOffs(36, 25).addBox(0.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.5F, 3.0F, 0.0F, -0.377F, -0.0517F, -0.3349F));
         PartDefinition armRight2 = armRight.addOrReplaceChild(ARM_RIGHT_2, CubeListBuilder.create().texOffs(48, 15).addBox(-1.5F, 0.0F, -2.0F, 3.0F, 10.0F, 4.0F), PartPose.offsetAndRotation(2.0F, 7.0F, 0.0F, -1.0F, 0.0F, 0.0F));
         PartDefinition thumbRight = armRight2.addOrReplaceChild(THUMB_RIGHT, CubeListBuilder.create().texOffs(0, 17).addBox(-0.5F, 0.0F, -0.5F, 2.0F, 2.0F, 1.0F), PartPose.offsetAndRotation(-1.2F, 9.0F, -1.5F, -0.2618F, 0.0F, 0.1745F));
         PartDefinition fingerRight = armRight2.addOrReplaceChild(FINGER_RIGHT, CubeListBuilder.create().texOffs(0, 13).addBox(-1.5F, 0.0F, -0.5F, 2.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(1.2F, 9.0F, -1.5F, -0.2618F, 0.0F, -0.1745F));
         PartDefinition fingerRight2 = armRight2.addOrReplaceChild(FINGER_RIGHT_2, CubeListBuilder.create().texOffs(0, 13).addBox(-1.5F, 0.0F, -0.5F, 2.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(1.2F, 9.0F, -0.5F, -0.0873F, 0.0F, -0.1745F));
         PartDefinition fingerRight3 = armRight2.addOrReplaceChild(FINGER_RIGHT_3, CubeListBuilder.create().texOffs(0, 13).addBox(-1.5F, 0.0F, -0.5F, 2.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(1.2F, 9.0F, 0.5F, 0.0873F, 0.0F, -0.1745F));
         PartDefinition fingerRight4 = armRight2.addOrReplaceChild(FINGER_RIGHT_4, CubeListBuilder.create().texOffs(0, 13).addBox(-1.5F, 0.0F, -0.5F, 2.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(1.2F, 9.0F, 1.5F, 0.2618F, 0.0F, -0.1745F));
-        PartDefinition armLeft = body.addOrReplaceChild(ARM_LEFT, CubeListBuilder.create().texOffs(36, 25).mirror().addBox(-4.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F).mirror(false), PartPose.offsetAndRotation(-4.5F, 3.0F, 0.0F, 0.0F, 0.0F, 0.1F));
+        PartDefinition armLeft = body.addOrReplaceChild(ARM_LEFT, CubeListBuilder.create().texOffs(36, 25).mirror().addBox(-4.0F, -2.0F, -2.0F, 4.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.5F, 3.0F, 0.0F, -0.377F, 0.0517F, 0.3349F));
         PartDefinition armLeft2 = armLeft.addOrReplaceChild(ARM_LEFT_2, CubeListBuilder.create().texOffs(48, 15).mirror().addBox(-1.5F, 0.0F, -2.0F, 3.0F, 10.0F, 4.0F).mirror(false), PartPose.offsetAndRotation(-2.0F, 7.0F, 0.0F, -1.0F, 0.0F, 0.0F));
         PartDefinition thumbLeft = armLeft2.addOrReplaceChild(THUMB_LEFT, CubeListBuilder.create().texOffs(0, 17).mirror().addBox(-1.5F, 0.0F, -0.5F, 2.0F, 2.0F, 1.0F).mirror(false), PartPose.offsetAndRotation(1.2F, 9.0F, -1.5F, -0.2618F, 0.0F, -0.1745F));
         PartDefinition fingerLeft = armLeft2.addOrReplaceChild(FINGER_LEFT, CubeListBuilder.create().texOffs(0, 13).mirror().addBox(-0.5F, 0.0F, -0.5F, 2.0F, 3.0F, 1.0F).mirror(false), PartPose.offsetAndRotation(-1.2F, 9.0F, -1.5F, -0.2618F, 0.0F, 0.1745F));
@@ -209,6 +209,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
     @SuppressWarnings("DuplicatedCode")
     @Override
     public void setupAnim(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.parts.forEach(ModelPart::resetPose);
         this.crouching = entityIn.isCrouching();
         boolean flag1 = entityIn.isVisuallySwimming();
         this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
@@ -222,8 +223,8 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
             this.head.xRot = headPitch * ((float) Math.PI / 180F);
         }
 
-        this.rightArm.zRot = 0.0f;
-        this.leftArm.zRot = 0.0f;
+//        this.rightArm.zRot = 0.0f;
+//        this.leftArm.zRot = 0.0f;
         this.armLeft2.xRot = -1f;
         this.armRight2.xRot = -1f;
 
@@ -235,8 +236,8 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         this.rightArm.xRot += Mth.sin(ageInTicks * 0.067F) * 0.05F;
         this.leftArm.xRot -= Mth.sin(ageInTicks * 0.067F) * 0.05F;
 
-        this.legRight.xRot = -0.3839724354387525F;
-        this.legLeft.xRot = -0.3839724354387525F;
+//        this.legRight.xRot = -0.3839724354387525F;
+//        this.legLeft.xRot = -0.3839724354387525F;
 
         this.legRight.xRot += Mth.cos(limbSwing * 0.6662F * 0.7f) * 1.4F * limbSwingAmount;
         this.legLeft.xRot += Mth.cos(limbSwing * 0.6662F * 0.7f + (float) Math.PI) * 1.4F * limbSwingAmount;
@@ -263,8 +264,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         this.tail.xRot += Mth.cos(limbSwing * 0.6662F * 0.7f) * 0.3F * Mth.abs(limbSwingAmount) + 0.3f;
         this.tail.yRot += Mth.sin(limbSwing * 0.6662F * 0.7f) * 0.1F * limbSwingAmount;
 
-        this.jaw.xRot = 0.0626F*2;
-        this.jaw.xRot += Mth.cos(ageInTicks * 0.04F) * 0.07F;
+        this.jaw.xRot += Mth.cos(ageInTicks * 0.04F) * 0.05F;
 
         if (this.attackTime > 0.0F) {
             HumanoidArm humanoidarm = this.getAttackArm(entityIn);
@@ -283,7 +283,8 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
             float f2 = Mth.sin(this.attackTime * (float)Math.PI) * -(this.head.xRot - 0.7F) * 0.75F;
             modelpart.xRot -= f1 * 1.2F + f2;
             modelpart.yRot += this.body.yRot * 2.0F;
-            this.jaw.xRot -= f1 * 1.4F - f2;
+            f2 = Mth.sin(this.attackTime * (float)Math.PI) * 0.75F;
+            this.jaw.xRot += f1 * 1.4F - f2;
             float zChange = Mth.sin(this.attackTime * (float)Math.PI) * -0.4F;
             if (humanoidarm == HumanoidArm.LEFT) {
                 modelpart.zRot -= zChange;
