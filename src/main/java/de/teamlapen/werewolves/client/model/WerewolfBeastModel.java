@@ -128,7 +128,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         PartDefinition hip = body.addOrReplaceChild(HIP, CubeListBuilder.create().texOffs(0, 30).addBox(-3.5F, 0.0F, -3.0F, 7, 9, 6), PartPose.offsetAndRotation(0.0F, 6.0F, 1.0F, 0.5235987755982988F, 0.0F, 0.0F));
         PartDefinition headSidburnLeft = head.addOrReplaceChild(HEAD_SIDBURN_LEFT, CubeListBuilder.create().texOffs(32, 12).addBox(1.0F, -1.0F, -5.0F, 3, 6, 0), PartPose.rotation(0.0F, -0.5235987755982988F, 0.0F));
         PartDefinition legRight = hip.addOrReplaceChild(LEG_RIGHT, CubeListBuilder.create().texOffs(24, 39).addBox(-4.0F, -2.0F, -3.0F, 4, 8, 6), PartPose.offsetAndRotation(-0.5F, 9.0F, 0.0F, -0.3839724354387525F, 0.0F, 0.0F));
-        PartDefinition jaw = head.addOrReplaceChild(JAW, CubeListBuilder.create().texOffs(50, 0).addBox(-1.5F, 0.0F, -3.5F, 3, 2, 4), PartPose.offsetAndRotation(0.0F, 1.5F, -5.0F, 1.2217304763960306F, 0.0F, 0.0F));
+        PartDefinition jaw = head.addOrReplaceChild(JAW, CubeListBuilder.create().texOffs(50, 0).addBox(-1.5F, 0.0F, -3.5F, 3, 2, 4), PartPose.offsetAndRotation(0.0F, 1.5F, -5.0F, 0.0626F, 0.0F, 0.0F));
         PartDefinition jawFluff = jaw.addOrReplaceChild(JAW_FLUFF, CubeListBuilder.create().texOffs(96, 8).addBox(-1.5F, 2.0F, -3.5F, 3, 2, 4), PartPose.ZERO);
         PartDefinition neckFluff = neck.addOrReplaceChild(NECK_FLUFF, CubeListBuilder.create().texOffs(64, 19).addBox(-3.5F, -5.0F, 2.5F, 7, 8, 2), PartPose.rotation(0.2617993877991494F, 0.0F, 0.0F));
         PartDefinition tail = hip.addOrReplaceChild(TAIL, CubeListBuilder.create().texOffs(62, 30).addBox(-1.5F, 0.0F, -1.5F, 3, 4, 3), PartPose.offsetAndRotation(0.0F, 7.0F, 2.0F, 0.7853981633974483F, 0.0F, 0.0F));
@@ -263,6 +263,9 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         this.tail.xRot += Mth.cos(limbSwing * 0.6662F * 0.7f) * 0.3F * Mth.abs(limbSwingAmount) + 0.3f;
         this.tail.yRot += Mth.sin(limbSwing * 0.6662F * 0.7f) * 0.1F * limbSwingAmount;
 
+        this.jaw.xRot = 0.0626F*2;
+        this.jaw.xRot += Mth.cos(ageInTicks * 0.04F) * 0.07F;
+
         if (this.attackTime > 0.0F) {
             HumanoidArm humanoidarm = this.getAttackArm(entityIn);
             ModelPart modelpart = this.getArm(humanoidarm);
@@ -280,6 +283,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
             float f2 = Mth.sin(this.attackTime * (float)Math.PI) * -(this.head.xRot - 0.7F) * 0.75F;
             modelpart.xRot -= f1 * 1.2F + f2;
             modelpart.yRot += this.body.yRot * 2.0F;
+            this.jaw.xRot -= f1 * 1.4F - f2;
             float zChange = Mth.sin(this.attackTime * (float)Math.PI) * -0.4F;
             if (humanoidarm == HumanoidArm.LEFT) {
                 modelpart.zRot -= zChange;
@@ -288,8 +292,6 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
             }
         }
 
-        this.jaw.xRot = 0.8217304763960306f;
-        this.jaw.xRot += Mth.cos(ageInTicks * 0.1F) * 0.07F;
 
         this.earLeft.xRot = -0.4886921905584123F;
         this.earLeft.xRot += Mth.cos(ageInTicks * 0.1F) * 0.07F;
