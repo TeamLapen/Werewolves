@@ -1,0 +1,55 @@
+{
+  "parent": "werewolves:teen_wolf",
+  "criteria": {
+    "dark_pelt": {
+      "conditions": {
+        "items": [
+          {
+            "items": "werewolves:dark_pelt"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "pelt": {
+      "conditions": {
+        "items": [
+          {
+            "items": "werewolves:pelt"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "white_pelt": {
+      "conditions": {
+        "items": [
+          {
+            "items": "werewolves:white_pelt"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.hairy_situation.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "werewolves:pelt"
+    },
+    "title": {
+      "translate": "advancements.werewolves.hairy_situation"
+    }
+  },
+  "requirements": [
+    [
+      "pelt",
+      "dark_pelt",
+      "white_pelt"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

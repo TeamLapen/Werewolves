@@ -1,0 +1,38 @@
+{
+  "parent": "werewolves:dog_soldiers",
+  "criteria": {
+    "killed": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "werewolves:alpha_werewolf"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.natural_succession.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "werewolves:wolfsbane"
+    },
+    "title": {
+      "translate": "advancements.werewolves.natural_succession"
+    }
+  },
+  "requirements": [
+    [
+      "killed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

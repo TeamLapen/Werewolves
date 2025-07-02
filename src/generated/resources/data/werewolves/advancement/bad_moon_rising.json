@@ -1,0 +1,42 @@
+{
+  "parent": "werewolves:teen_wolf",
+  "criteria": {
+    "action": {
+      "conditions": {
+        "action": "transform_full_moon"
+      },
+      "trigger": "werewolves:werewolf_action"
+    },
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.bad_moon_rising.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "werewolves:werewolf_minion_charm"
+    },
+    "title": {
+      "translate": "advancements.werewolves.bad_moon_rising"
+    }
+  },
+  "requirements": [
+    [
+      "action"
+    ],
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

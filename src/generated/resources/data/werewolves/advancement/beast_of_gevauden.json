@@ -1,0 +1,43 @@
+{
+  "parent": "werewolves:little_red_riding_hood",
+  "criteria": {
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    },
+    "village": {
+      "conditions": {
+        "action": "village_conquered"
+      },
+      "trigger": "werewolves:werewolf_action"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.beast_of_gevauden.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "werewolves:pelt_helmet"
+    },
+    "title": {
+      "translate": "advancements.werewolves.beast_of_gevauden"
+    }
+  },
+  "requirements": [
+    [
+      "faction"
+    ],
+    [
+      "village"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

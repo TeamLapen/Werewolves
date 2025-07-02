@@ -1,0 +1,50 @@
+{
+  "parent": "werewolves:dont_touch_that",
+  "criteria": {
+    "action": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:hoglin"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.little_pigs.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:porkchop"
+    },
+    "title": {
+      "translate": "advancements.werewolves.little_pigs"
+    }
+  },
+  "requirements": [
+    [
+      "action"
+    ],
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

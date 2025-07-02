@@ -1,0 +1,33 @@
+{
+  "parent": "werewolves:little_red_riding_hood",
+  "criteria": {
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 14
+      },
+      "trigger": "vampirism:faction"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.unrivaled_predator.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "werewolves:cracked_bone"
+    },
+    "title": {
+      "translate": "advancements.werewolves.unrivaled_predator"
+    }
+  },
+  "requirements": [
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

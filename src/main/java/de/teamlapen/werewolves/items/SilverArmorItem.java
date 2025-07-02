@@ -1,9 +1,12 @@
 package de.teamlapen.werewolves.items;
 
+import de.teamlapen.werewolves.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.items.ISilverItem;
+import de.teamlapen.werewolves.core.ModAdvancements;
 import de.teamlapen.werewolves.core.ModArmorMaterials;
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.util.Helper;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;

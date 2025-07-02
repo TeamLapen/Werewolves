@@ -1,0 +1,56 @@
+{
+  "parent": "werewolves:bite_the_evil_in_the_bud",
+  "criteria": {
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    },
+    "pelt_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "werewolves:white_pelt_helmet"
+          },
+          {
+            "items": "werewolves:white_pelt_chestplate"
+          },
+          {
+            "items": "werewolves:white_pelt_leggings"
+          },
+          {
+            "items": "werewolves:white_pelt_boots"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.thick_fur_coat.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "werewolves:white_pelt_chestplate"
+    },
+    "title": {
+      "translate": "advancements.werewolves.thick_fur_coat"
+    }
+  },
+  "requirements": [
+    [
+      "pelt_helmet"
+    ],
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
