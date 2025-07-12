@@ -26,7 +26,7 @@ public class ModArmorMaterials {
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> SILVER = register("silver", createReduction(2,6,5,2), 9, SoundEvents.ARMOR_EQUIP_IRON, () -> Ingredient.of(ModItems.SILVER_INGOT.get()), 0.0f, 0.0f);
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> PELT = register("pelt", createReduction(1,1,1,1), 9, SoundEvents.ARMOR_EQUIP_LEATHER, () -> Ingredient.of(ModItems.PELT.get()), 0.0f, 0.0f);
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> DARK_PELT = register("dark_pelt", createReduction(1,2,2,1), 15, SoundEvents.ARMOR_EQUIP_LEATHER, () -> Ingredient.of(ModItems.DARK_PELT.get()), 0.0f, 0.0f);
-    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> WHITE_PELT = register("white_pelt", createReduction(2,3,2,1), 20, SoundEvents.ARMOR_EQUIP_LEATHER, () -> Ingredient.of(ModItems.WHITE_PELT.get()), 0.0f, 0.0f);
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> WHITE_PELT = register("white_pelt", createReduction(2,3,3,2), 20, SoundEvents.ARMOR_EQUIP_LEATHER, () -> Ingredient.of(ModItems.WHITE_PELT.get()), 2.0f, 0.0f);
 
     static void register(IEventBus bus) {
         ARMOR_MATERIALS.register(bus);

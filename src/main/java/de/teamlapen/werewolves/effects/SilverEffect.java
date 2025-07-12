@@ -18,7 +18,7 @@ import java.util.UUID;
 public class SilverEffect extends WerewolfWeakeningEffect {
 
     public SilverEffect() {
-        super(0xC0C0C0, List.of(new Modifier(Attributes.MOVEMENT_SPEED, ModEffects.SILVER.getId(), 0.15f), new Modifier(Attributes.ARMOR, ModEffects.SILVER.getId(), 0.15f), new Modifier(Attributes.ATTACK_DAMAGE, ModEffects.SILVER.getId(), 0.1f)));
+        super(0xC0C0C0, List.of(new Modifier(Attributes.MOVEMENT_SPEED, ModEffects.SILVER.getId(), 0.15f), new Modifier(Attributes.ATTACK_DAMAGE, ModEffects.SILVER.getId(), 0.1f)));
     }
 
     public static MobEffectInstance createSilverEffect(LivingEntity entity, int defaultDuration, int amplifier) {

@@ -174,7 +174,7 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void useItem(PlayerInteractEvent.RightClickItem event) {
-        if (Helper.isWerewolf(event.getEntity()) && event.getItemStack().getItem() instanceof Equipable) {
+        if (Helper.isWerewolf(event.getEntity()) && event.getItemStack().getItem() instanceof Equipable equip && equip.getEquipmentSlot().isArmor()) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(event.getEntity());
             if (!werewolf.canWearArmor(event.getItemStack())) {
                 event.setCancellationResult(InteractionResult.FAIL);
@@ -224,6 +224,16 @@ public class ModPlayerEventHandler {
             int sum = StreamSupport.stream(event.getEntity().getArmorSlots().spliterator(), false).mapToInt(stack -> stack.getItem() instanceof ISilverItem ? 1 : 0).sum();
             if (sum > 0) {
                 source.addEffect(SilverEffect.createSilverEffect(source, WerewolvesConfig.BALANCE.UTIL.silverArmorAttackEffectDuration.get() * sum, 0));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerHurt(LivingDamageEvent.Pre event) {
+        if (event.getEntity() instanceof Player player && Helper.isWerewolf(player)) {
+            MobEffectInstance effect = player.getEffect(ModEffects.SILVER);
+            if (effect != null) {
+                event.setNewDamage(event.getNewDamage() * (1 + (effect.getAmplifier() + 1) * 0.1f));
             }
         }
     }
