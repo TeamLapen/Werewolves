@@ -87,7 +87,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean isMeat(@Nullable LivingEntity entity, ItemStack stack) {
-        return stack.getFoodProperties(entity) != null && (stack.is(ItemTags.MEAT) || stack.is(ModTags.Items.WEREWOLF_FOOD) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()));
+        return stack.getFoodProperties(entity) != null && (stack.is(ModTags.Items.WEREWOLF_FOOD) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()));
     }
 
     @Deprecated
@@ -109,7 +109,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
      * Otherwise use {@link #isRawMeat(net.minecraft.world.entity.LivingEntity, net.minecraft.world.item.ItemStack)}
      */
     public static boolean isRawMeatSkipMeat(ItemStack stack) {
-        return stack.is(ModTags.Items.RAW_MEAT);
+        return stack.is(ModTags.Items.RAW_FOOD);
     }
 
     public static boolean canEat(LivingEntity entity, ItemStack stack) {
