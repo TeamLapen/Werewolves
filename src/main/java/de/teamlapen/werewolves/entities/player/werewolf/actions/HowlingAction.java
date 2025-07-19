@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
 import de.teamlapen.lib.lib.util.UtilLib;
+import de.teamlapen.werewolves.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -9,6 +10,7 @@ import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -38,6 +40,10 @@ public class HowlingAction extends DefaultWerewolfAction implements IActionCoold
 
         applyHowling(werewolfPlayer);
         spawnWolves(werewolfPlayer);
+
+        if (werewolfPlayer.asEntity() instanceof ServerPlayer serverPlayer) {
+            ModAdvancements.TRIGGER_VAMPIRE_ACTION.get().trigger(serverPlayer, WerewolfActionCriterionTrigger.Action.HOWLING);
+        }
 
         return true;
     }

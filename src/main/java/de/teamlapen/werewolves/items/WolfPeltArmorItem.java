@@ -39,7 +39,11 @@ public class WolfPeltArmorItem extends ArmorItem implements IFactionExclusiveIte
     private final @NotNull TIER tier;
 
     public WolfPeltArmorItem(Holder<ArmorMaterial> material, Type pType, TIER tier) {
-        super(material, pType, new Properties());
+        super(material, pType, new Properties().durability(pType.getDurability(switch (tier) {
+            case NORMAL -> 15;
+            case ENHANCED -> 20;
+            case ULTIMATE -> 25;
+        })));
         this.tier = tier;
     }
 

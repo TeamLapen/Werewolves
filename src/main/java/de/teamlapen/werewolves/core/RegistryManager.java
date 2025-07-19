@@ -31,6 +31,7 @@ public class RegistryManager implements IInitListener {
         ModWorld.register(bus);
         ModAttachments.register(bus);
         ModArmorMaterials.register(bus);
+        ModAdvancements.register(bus);
     }
 
     public RegistryManager(IEventBus modEventBus) {

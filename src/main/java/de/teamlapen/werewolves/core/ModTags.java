@@ -52,6 +52,7 @@ public class ModTags {
         public static final TagKey<Item> RAW_FISH = werewolves("raw_fish");
         public static final TagKey<Item> COOKED_FISH = werewolves("cooked_fish");
         public static final TagKey<Item> RAW_FOOD = werewolves("raw_food");
+        public static final TagKey<Item> COOKED_FOOD = werewolves("cooked_food");
         public static final TagKey<Item> WEREWOLF_FOOD = werewolves("werewolf_food");
         public static final TagKey<Item> SILVER_TOOL = werewolves("tools/silver");
         public static final TagKey<Item> SILVER_ARMOR = werewolves("armor/silver");
@@ -133,6 +134,7 @@ public class ModTags {
     public static class DamageTypes {
         public static final TagKey<DamageType> WEREWOLF_FUR_IMMUNE = tag("werewolf_fur_immune");
         public static final TagKey<DamageType> WEREWOLF_ARMOR_REDUCTION = tag("werewolf_armor_reduction");
+        public static final TagKey<DamageType> BITE = tag("bite");
 
         private static @NotNull TagKey<DamageType> tag(@NotNull String name) {
             return TagKey.create(Registries.DAMAGE_TYPE, WResourceLocation.mod(name));

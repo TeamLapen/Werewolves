@@ -4,13 +4,11 @@ import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.actions.ILastingAction;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkill;
 import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
+import de.teamlapen.werewolves.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModActions;
-import de.teamlapen.werewolves.core.ModBiomes;
-import de.teamlapen.werewolves.core.ModRefinements;
-import de.teamlapen.werewolves.core.ModSkills;
+import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
@@ -125,6 +123,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         this.checkDayNightModifier(werewolf);
         player.setHealth(player.getMaxHealth() * healthPerc);
         player.refreshDisplayName();
+
+        if (player instanceof ServerPlayer serverPlayer && getForm() != WerewolfForm.NONE && getForm() != WerewolfForm.HUMAN && Helper.isFullMoon(serverPlayer.level())) {
+            ModAdvancements.TRIGGER_VAMPIRE_ACTION.get().trigger(serverPlayer, WerewolfActionCriterionTrigger.Action.TRANSFORM_FULL_MOON);
+        }
         return true;
     }
 

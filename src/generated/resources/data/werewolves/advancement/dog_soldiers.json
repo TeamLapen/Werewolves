@@ -1,0 +1,39 @@
+{
+  "parent": "werewolves:hairy_situation",
+  "criteria": {
+    "forest": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "werewolves:werewolf_heaven"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.dog_soldiers.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "werewolves:magic_sapling"
+    },
+    "title": {
+      "translate": "advancements.werewolves.dog_soldiers"
+    }
+  },
+  "requirements": [
+    [
+      "forest"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

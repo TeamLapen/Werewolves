@@ -1,0 +1,43 @@
+{
+  "parent": "werewolves:insatiable_beast",
+  "criteria": {
+    "armor": {
+      "conditions": {
+        "action": "armor_partial"
+      },
+      "trigger": "werewolves:werewolf_action"
+    },
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.standing_here_i_realize.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:netherite_block"
+    },
+    "title": {
+      "translate": "advancements.werewolves.standing_here_i_realize"
+    }
+  },
+  "requirements": [
+    [
+      "faction"
+    ],
+    [
+      "armor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

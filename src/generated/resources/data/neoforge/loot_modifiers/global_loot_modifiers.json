@@ -1,8 +1,8 @@
 {
   "entries": [
     "werewolves:inject/chests/stronghold_corridor",
-    "werewolves:inject/chests/desert_pyramid",
     "werewolves:inject/chests/jungle_temple",
+    "werewolves:inject/chests/desert_pyramid",
     "werewolves:inject/entity/entities/skeleton",
     "werewolves:inject/entity/entities/villager",
     "werewolves:hunter_liver",

@@ -1,0 +1,243 @@
+{
+  "parent": "werewolves:beast_of_gevauden",
+  "criteria": {
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    },
+    "minecraft:beef": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:beef"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:chicken": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:chicken"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:cod": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:cod"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:cooked_beef": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:cooked_beef"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:cooked_chicken": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:cooked_chicken"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:cooked_cod": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:cooked_cod"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:cooked_mutton": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:cooked_mutton"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:cooked_porkchop": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:cooked_porkchop"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:cooked_rabbit": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:cooked_rabbit"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:cooked_salmon": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:cooked_salmon"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:mutton": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:mutton"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:porkchop": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:porkchop"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:pufferfish": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:pufferfish"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:rabbit": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:rabbit"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:rotten_flesh": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:rotten_flesh"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:salmon": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:salmon"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "minecraft:tropical_fish": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:tropical_fish"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "vampirism:human_heart": {
+      "conditions": {
+        "item": {
+          "items": "vampirism:human_heart"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "werewolves:liver": {
+      "conditions": {
+        "item": {
+          "items": "werewolves:liver"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.insatiable_beast.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "werewolves:liver"
+    },
+    "title": {
+      "translate": "advancements.werewolves.insatiable_beast"
+    }
+  },
+  "requirements": [
+    [
+      "faction"
+    ],
+    [
+      "minecraft:beef"
+    ],
+    [
+      "minecraft:cooked_beef"
+    ],
+    [
+      "minecraft:porkchop"
+    ],
+    [
+      "minecraft:cooked_porkchop"
+    ],
+    [
+      "minecraft:chicken"
+    ],
+    [
+      "minecraft:cooked_chicken"
+    ],
+    [
+      "minecraft:mutton"
+    ],
+    [
+      "minecraft:cooked_mutton"
+    ],
+    [
+      "minecraft:rabbit"
+    ],
+    [
+      "minecraft:cooked_rabbit"
+    ],
+    [
+      "minecraft:cod"
+    ],
+    [
+      "minecraft:cooked_cod"
+    ],
+    [
+      "minecraft:salmon"
+    ],
+    [
+      "minecraft:cooked_salmon"
+    ],
+    [
+      "minecraft:pufferfish"
+    ],
+    [
+      "minecraft:tropical_fish"
+    ],
+    [
+      "minecraft:rotten_flesh"
+    ],
+    [
+      "vampirism:human_heart"
+    ],
+    [
+      "werewolves:liver"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

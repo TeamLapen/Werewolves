@@ -1,0 +1,42 @@
+{
+  "parent": "werewolves:howling_moon",
+  "criteria": {
+    "action": {
+      "conditions": {
+        "action": "touch_silver"
+      },
+      "trigger": "werewolves:werewolf_action"
+    },
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.dont_touch_that.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "werewolves:silver_ingot"
+    },
+    "title": {
+      "translate": "advancements.werewolves.dont_touch_that"
+    }
+  },
+  "requirements": [
+    [
+      "action"
+    ],
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

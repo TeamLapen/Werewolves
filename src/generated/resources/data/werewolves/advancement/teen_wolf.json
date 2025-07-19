@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "werewolves:textures/block/stripped_jacaranda_log.png",
+    "description": {
+      "translate": "advancements.werewolves.teen_wolf.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "werewolves:dark_pelt_helmet"
+    },
+    "title": {
+      "translate": "advancements.werewolves"
+    }
+  },
+  "requirements": [
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -158,7 +158,8 @@ public class ModTagsProvider {
             this.tag(ModTags.Items.SILVER_ARMOR).add(ModItems.SILVER_CHESTPLATE.get(), ModItems.SILVER_HELMET.get(), ModItems.SILVER_LEGGINGS.get(), ModItems.SILVER_BOOTS.get());
             this.tag(ModTags.Items.SILVER_ITEM).addTags(ModTags.Items.SILVER_INGOT, ModTags.Items.SILVER_TOOL, ModTags.Items.SILVER_NUGGET, ModTags.Items.RAW_MATERIALS_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER, ModTags.Items.SILVER_ARMOR);
             this.tag(ModTags.Items.RAW_FOOD).addTags(ModTags.Items.RAW_MEAT, ModTags.Items.RAW_FISH);
-            this.tag(ModTags.Items.WEREWOLF_FOOD).addTag(ItemTags.MEAT).add(ModItems.WOLF_BERRIES.get(), Items.SWEET_BERRIES, Items.GLOW_BERRIES);
+            this.tag(ModTags.Items.COOKED_FOOD).addTags(ModTags.Items.COOKED_MEAT, ModTags.Items.COOKED_FISH);
+            this.tag(ModTags.Items.WEREWOLF_FOOD).addTags(ModTags.Items.RAW_FOOD, ModTags.Items.COOKED_FISH).addTag(ItemTags.MEAT).add(ModItems.WOLF_BERRIES.get(), Items.SWEET_BERRIES, Items.GLOW_BERRIES);
             this.tag(ItemTags.SWORDS).add(ModItems.SILVER_SWORD.get());
             this.tag(ItemTags.AXES).add(ModItems.SILVER_AXE.get());
             this.tag(ItemTags.PICKAXES).add(ModItems.SILVER_PICKAXE.get());
@@ -251,6 +252,7 @@ public class ModTagsProvider {
             this.tag(DamageTypeTags.WITCH_RESISTANT_TO).add(ModDamageTypes.BLOOD_LOSS);
             this.tag(DamageTypeTags.BYPASSES_ARMOR).add(ModDamageTypes.BLOOD_LOSS);
             this.tag(ModTags.DamageTypes.WEREWOLF_ARMOR_REDUCTION).addTag(DamageTypeTags.IS_PLAYER_ATTACK).add(ModDamageTypes.BITE);
+            this.tag(ModTags.DamageTypes.BITE).add(ModDamageTypes.BITE);
         }
     }
 

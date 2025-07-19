@@ -1,0 +1,51 @@
+{
+  "parent": "werewolves:natural_succession",
+  "criteria": {
+    "killed": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type_specific": {
+                "type": "vampirism:faction",
+                "faction": {
+                  "id": "werewolves:werewolf"
+                }
+              }
+            }
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "items": "#werewolves:type/silver"
+              }
+            }
+          }
+        }
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.silver_hand.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "werewolves:silver_sword"
+    },
+    "title": {
+      "translate": "advancements.werewolves.silver_hand"
+    }
+  },
+  "requirements": [
+    [
+      "killed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

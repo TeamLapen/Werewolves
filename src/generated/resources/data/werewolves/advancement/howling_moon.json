@@ -1,0 +1,42 @@
+{
+  "parent": "werewolves:bad_moon_rising",
+  "criteria": {
+    "action": {
+      "conditions": {
+        "action": "howling"
+      },
+      "trigger": "werewolves:werewolf_action"
+    },
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.howling_moon.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "werewolves:werewolf_minion_upgrade_special"
+    },
+    "title": {
+      "translate": "advancements.werewolves.howling_moon"
+    }
+  },
+  "requirements": [
+    [
+      "action"
+    ],
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

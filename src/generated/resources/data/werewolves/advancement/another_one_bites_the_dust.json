@@ -1,0 +1,49 @@
+{
+  "parent": "werewolves:thick_fur_coat",
+  "criteria": {
+    "devour": {
+      "conditions": {
+        "killing_blow": {
+          "tags": [
+            {
+              "expected": true,
+              "id": "werewolves:bite"
+            }
+          ]
+        }
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.another_one_bites_the_dust.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "werewolves:werewolf_tooth"
+    },
+    "title": {
+      "translate": "advancements.werewolves.another_one_bites_the_dust"
+    }
+  },
+  "requirements": [
+    [
+      "faction"
+    ],
+    [
+      "devour"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

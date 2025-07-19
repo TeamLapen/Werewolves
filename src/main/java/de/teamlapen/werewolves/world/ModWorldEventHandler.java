@@ -3,14 +3,19 @@ package de.teamlapen.werewolves.world;
 import de.teamlapen.vampirism.api.entity.CaptureEntityEntry;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.vampirism.api.event.VampirismVillageEvent;
+import de.teamlapen.werewolves.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
+import de.teamlapen.werewolves.core.ModAdvancements;
+import de.teamlapen.werewolves.util.Helper;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.random.WeightedRandom;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -39,6 +44,18 @@ public class ModWorldEventHandler {
                 if (werewolf instanceof IVillagerTransformable) {
                     ((IVillagerTransformable) werewolf).transformBack();
                     ((IVillagerTransformable) werewolf).setWerewolfFaction(false);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onVillageCaptureFinish(VampirismVillageEvent.VillagerCaptureFinish.Post event) {
+        if (event.getCapturingFaction() == WReference.WEREWOLF_FACTION) {
+            var entities = event.getWorld().getEntitiesOfClass(ServerPlayer.class, event.getVillageArea());
+            for (ServerPlayer entity : entities) {
+                if (Helper.isWerewolf(entity)) {
+                    ModAdvancements.TRIGGER_VAMPIRE_ACTION.get().trigger(entity, WerewolfActionCriterionTrigger.Action.VILLAGE_CONQUERED);
                 }
             }
         }

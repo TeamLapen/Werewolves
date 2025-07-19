@@ -1,0 +1,51 @@
+{
+  "parent": "werewolves:little_pigs",
+  "criteria": {
+    "action": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "#vampirism:hunter"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "faction": {
+      "conditions": {
+        "type": "level",
+        "faction": {
+          "id": "werewolves:werewolf"
+        },
+        "level": 1
+      },
+      "trigger": "vampirism:faction"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.little_red_riding_hood.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "vampirism:hunter_axe_normal"
+    },
+    "title": {
+      "translate": "advancements.werewolves.little_red_riding_hood"
+    }
+  },
+  "requirements": [
+    [
+      "action"
+    ],
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

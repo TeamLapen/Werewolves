@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
 import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
 import de.teamlapen.vampirism.items.VampirismItemBloodFoodItem;
+import de.teamlapen.werewolves.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -18,6 +19,7 @@ import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
 import de.teamlapen.werewolves.mixin.LivingEntityAccessor;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -26,6 +28,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -94,6 +97,9 @@ public class ModPlayerEventHandler {
     public void onEquipmentChange(LivingEquipmentChangeEvent event) {
         if (event.getSlot() == EquipmentSlot.MAINHAND && event.getEntity() instanceof Player player) {
             WerewolfPlayer.get(player).checkToolDamage(event.getFrom(), event.getTo(), false);
+        }
+        if (event.getEntity() instanceof ServerPlayer serverPlayer && WerewolfPlayer.get(serverPlayer) instanceof WerewolfPlayer werewolfPlayer && werewolfPlayer.getForm() == WerewolfForm.HUMAN && event.getTo().getItem() instanceof ArmorItem) {
+            ModAdvancements.TRIGGER_VAMPIRE_ACTION.get().trigger(serverPlayer, WerewolfActionCriterionTrigger.Action.ARMOR_PARTIAL);
         }
     }
 
@@ -262,11 +268,17 @@ public class ModPlayerEventHandler {
     @SubscribeEvent
     public void tickTool(PlayerTickEvent.Post event) {
         if (Helper.isWerewolf(event.getEntity())) {
+            boolean applies = false;
             if ((Helper.isSilverItem(event.getEntity().getMainHandItem())) || Helper.isSilverItem(event.getEntity().getOffhandItem()) && event.getEntity().level().getGameTime() % 10 == 0) {
                 event.getEntity().addEffect(SilverEffect.createSilverEffect(event.getEntity(), 20, 1, true));
+                applies = true;
             }
             if (StreamSupport.stream(event.getEntity().getArmorSlots().spliterator(), false).anyMatch(Helper::isSilverItem)) {
                 event.getEntity().addEffect(SilverEffect.createSilverEffect(event.getEntity(), 20, 1, true));
+                applies = true;
+            }
+            if (applies && event.getEntity() instanceof ServerPlayer serverPlayer) {
+                ModAdvancements.TRIGGER_VAMPIRE_ACTION.get().trigger(serverPlayer, WerewolfActionCriterionTrigger.Action.TOUCH_SILVER);
             }
         }
     }
