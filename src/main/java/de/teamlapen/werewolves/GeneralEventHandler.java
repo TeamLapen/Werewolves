@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves;
 
+import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.werewolves.util.Permissions;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.ChatFormatting;
@@ -15,8 +16,8 @@ public class GeneralEventHandler {
 
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getEntity() instanceof ServerPlayer && !PermissionAPI.getPermission((ServerPlayer) event.getEntity(), Permissions.WEREWOLVES)) {
-            event.getEntity().sendSystemMessage(Component.literal("[" + ChatFormatting.DARK_RED + "Werewolves" + ChatFormatting.RESET + "] It seems like the permission plugin used is not properly set up. Make sure all players have 'werewolves.*' for the mod to work (or at least '" + Permissions.WEREWOLVES + "' to suppress this warning)."));
+        if (event.getEntity() instanceof ServerPlayer && !(!VampirismConfig.SERVER.usePermissions.get() || PermissionAPI.getPermission((ServerPlayer) event.getEntity(), Permissions.WEREWOLVES))) {
+            event.getEntity().sendSystemMessage(Component.literal("[" + ChatFormatting.DARK_RED + "Werewolves" + ChatFormatting.RESET + "] It seems like the permission plugin used is not properly set up. Make sure all players have 'werewolves.*' for the mod to work (or at least '" + Permissions.WEREWOLVES.getNodeName() + "' to suppress this warning)."));
         }
     }
 
