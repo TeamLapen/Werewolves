@@ -154,6 +154,18 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     }
 
     @Override
+    public boolean setSkinType(@Nullable WerewolfForm form, int skinType) {
+        this.getEntityData().set(SKINTYPE, skinType);
+        return true;
+    }
+
+    @Override
+    public boolean setEyeType(@Nullable WerewolfForm form, int eyeType) {
+        this.getEntityData().set(EYETYPE, eyeType);
+        return true;
+    }
+
+    @Override
     public void start(TransformType type) {
         this.transformType = type;
         if (type == TransformType.TIME_LIMITED) {

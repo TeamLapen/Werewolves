@@ -228,6 +228,16 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
+    public boolean setSkinType(@org.jetbrains.annotations.Nullable WerewolfForm form, int skinType) {
+        return false;
+    }
+
+    @Override
+    public boolean setEyeType(@org.jetbrains.annotations.Nullable WerewolfForm form, int eyeType) {
+        return false;
+    }
+
+    @Override
     public boolean hasGlowingEyes(WerewolfForm form) {
         return true;
     }

@@ -17,10 +17,7 @@ public interface WerewolfTransformable extends IWerewolfDataholder {
     }
 
     static <T extends Mob> T copyData(T entity, Mob oldEntity) {
-        UUID uuid = entity.getUUID();
         entity.copyPosition(oldEntity);
-        entity.restoreFrom(oldEntity);
-        entity.setUUID(uuid);
         entity.getCommandSenderWorld().addFreshEntity(entity);
         oldEntity.remove(Entity.RemovalReason.DISCARDED);
         entity.setHealth(oldEntity.getHealth() / oldEntity.getMaxHealth() * entity.getMaxHealth());

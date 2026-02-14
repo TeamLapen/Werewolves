@@ -40,6 +40,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -145,6 +146,24 @@ public class WerewolfMinionEntity extends MinionEntity<WerewolfMinionEntity.Were
     @Override
     public int getEyeType(WerewolfForm form) {
         return this.minionData != null ? this.minionData.eyeType : 0;
+    }
+
+    @Override
+    public boolean setSkinType(@Nullable WerewolfForm form, int skinType) {
+        if (this.minionData != null && this.minionData.form == form) {
+            this.minionData.skinType = skinType;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setEyeType(@Nullable WerewolfForm form, int eyeType) {
+        if (this.minionData != null && this.minionData.form == form) {
+            this.minionData.eyeType = eyeType;
+            return true;
+        }
+        return false;
     }
 
     @Override

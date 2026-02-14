@@ -1,9 +1,7 @@
 package de.teamlapen.werewolves.client.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.lib.lib.client.gui.components.HoverList;
 import de.teamlapen.vampirism.client.gui.screens.AppearanceScreen;
-import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.core.ModSkills;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;

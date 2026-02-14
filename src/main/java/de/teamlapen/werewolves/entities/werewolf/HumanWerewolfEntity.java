@@ -177,6 +177,24 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
+    public boolean setSkinType(@org.jetbrains.annotations.Nullable WerewolfForm form, int skinType) {
+        if (this.getForm() == form) {
+            this.getEntityData().set(SKIN_TYPE, skinType);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setEyeType(@org.jetbrains.annotations.Nullable WerewolfForm form, int eyeType) {
+        if (this.getForm() == form) {
+            this.getEntityData().set(EYE_TYPE, eyeType);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean hasGlowingEyes(WerewolfForm form) {
         return this.getEntityData().get(GLOWING_EYES);
     }
@@ -190,6 +208,8 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
             type = ModEntities.WEREWOLF_SURVIVALIST.get();
         }
         BasicWerewolfEntity werewolf = WerewolfTransformable.copyData(type, this);
+        werewolf.setSkinType(this.getForm(), getSkinType(this.getForm()));
+        werewolf.setEyeType(this.getForm(), getEyeType(this.getForm()));
         werewolf.setSourceEntity(this);
         return werewolf;
     }

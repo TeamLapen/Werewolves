@@ -312,6 +312,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return false;
     }
 
+    @Override
     public boolean setEyeType(WerewolfForm form, int type) {
         if (type != this.customization.eyeType.getOrDefault(form, -1)) {
             this.customization.eyeType.put(form, type);
@@ -325,6 +326,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return false;
     }
 
+    @Override
     public boolean setSkinType(WerewolfForm form, int type) {
         if (type != this.customization.skinType.getOrDefault(form, -1)) {
             this.customization.skinType.put(form, type);

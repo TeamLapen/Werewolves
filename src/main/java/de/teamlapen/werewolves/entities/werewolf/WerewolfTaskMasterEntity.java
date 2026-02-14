@@ -135,6 +135,16 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     }
 
     @Override
+    public boolean setSkinType(@org.jetbrains.annotations.Nullable WerewolfForm form, int skinType) {
+        return false;
+    }
+
+    @Override
+    public boolean setEyeType(@org.jetbrains.annotations.Nullable WerewolfForm form, int eyeType) {
+        return false;
+    }
+
+    @Override
     public boolean hasGlowingEyes(WerewolfForm form) {
         return false;
     }
