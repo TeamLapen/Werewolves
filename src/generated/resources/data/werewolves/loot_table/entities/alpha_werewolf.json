@@ -31,15 +31,10 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "werewolves:dark_pelt",
-          "weight": 40
-        },
-        {
-          "type": "minecraft:item",
-          "name": "werewolves:white_pelt"
+          "name": "werewolves:dark_pelt"
         }
       ],
-      "name": "pelt",
+      "name": "dark_pelt",
       "rolls": {
         "type": "minecraft:uniform",
         "max": 2.0,
@@ -56,11 +51,37 @@
           "condition": "minecraft:random_chance_with_enchanted_bonus",
           "enchanted_chance": {
             "type": "minecraft:linear",
-            "base": 0.115,
+            "base": 0.04,
             "per_level_above_first": 0.015
           },
           "enchantment": "minecraft:looting",
-          "unenchanted_chance": 0.1
+          "unenchanted_chance": 0.025
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:white_pelt"
+        }
+      ],
+      "name": "white_pelt",
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        },
+        {
+          "condition": "minecraft:random_chance_with_enchanted_bonus",
+          "enchanted_chance": {
+            "type": "minecraft:linear",
+            "base": 0.075,
+            "per_level_above_first": 0.025
+          },
+          "enchantment": "minecraft:looting",
+          "unenchanted_chance": 0.05
         }
       ],
       "entries": [
