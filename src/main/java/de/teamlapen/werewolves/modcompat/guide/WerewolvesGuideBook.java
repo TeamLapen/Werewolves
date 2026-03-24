@@ -28,6 +28,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import java.util.*;
 
@@ -35,10 +37,12 @@ import static de.teamlapen.vampirism.modcompat.guide.GuideBook.translate;
 import static de.teamlapen.vampirism.modcompat.guide.GuideBook.translateComponent;
 
 @SuppressWarnings("CollectionAddAllCanBeReplacedWithConstructor")
+@EventBusSubscriber(modid = REFERENCE.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class WerewolvesGuideBook {
 
     private final static String IMAGE_BASE = "vampirismguide:textures/images/";
 
+    @SubscribeEvent
     public static void onVampirismGuideBookCategoriesEvent(VampirismGuideBookCategoriesEvent event) {
         BookHelper helper = new BookHelper.Builder(REFERENCE.MODID).build();
         int werewolfPos = -1;
@@ -93,7 +97,7 @@ public class WerewolvesGuideBook {
         stone_altar += translate(base + "leveling.stone.intro", loc(Items.FLINT_AND_STEEL), loc(Items.TORCH));
         levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(Component.literal(stone_altar)), WResourceLocation.mod("guide.werewolves.blocks.stone_altar"), WResourceLocation.mod("guide.werewolves.blocks.stone_altar_fire_bowl")));
         levelingPages.addAll(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.structure", loc(ModBlocks.STONE_ALTAR.get()), loc(ModBlocks.STONE_ALTAR_FIRE_BOWL.get()), loc(ModBlocks.STONE_ALTAR.get()), loc(ModBlocks.STONE_ALTAR_FIRE_BOWL.get()), loc(Items.FLINT_AND_STEEL))));
-        levelingPages.add(new PageTextImage(translateComponent(base + "leveling.stone.image1"), WResourceLocation.mod(IMAGE_BASE + "stone1.png"), false));
+        levelingPages.add(new PageTextImage(translateComponent(base + "leveling.stone.image1"), ResourceLocation.parse(IMAGE_BASE + "stone1.png"), false));
         String item = loc(ModItems.LIVER.get()) + ", " + loc(ModItems.CRACKED_BONE.get());
         levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.items", item)), WResourceLocation.mod("guide.werewolves.items.liver"), WResourceLocation.mod("guide.werewolves.items.cracked_bone"), WResourceLocation.mod("guide.werewolves.werewolf.slayed_creatures")));
         PageTable.Builder requirementBuilder = new PageTable.Builder(4);
