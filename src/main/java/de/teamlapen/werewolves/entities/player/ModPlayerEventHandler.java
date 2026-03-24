@@ -27,6 +27,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Equipable;
@@ -192,7 +193,9 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void playerSize(EntityEvent.Size event) {
-        if (event.getEntity() instanceof Player player && event.getEntity().isAlive()) {
+        // we check for the attribute map, then we are no longer in the entity constructor
+        //noinspection ConstantValue
+        if (event.getEntity() instanceof Player player && player.getAttributes() != null && event.getEntity().isAlive()) {
             WerewolfPlayer.get(((Player) event.getEntity())).getForm().getSize(event.getPose()).ifPresent(size -> {
                 event.setNewSize(size);
             });
