@@ -125,9 +125,9 @@ public class WerewolvesCreativeTab {
             addItem(WEREWOLF_TOOTH);
             addItem(LIVER);
             addItem(WOLF_BERRIES);
-            addItem(BONE_NECKLACE);
-            addItem(DREAM_CATCHER);
-            addItem(CHARM_BRACELET);
+            addItemGen(BONE_NECKLACE);
+            addItemGen(DREAM_CATCHER);
+            addItemGen(CHARM_BRACELET);
             addItem(WEREWOLF_MINION_CHARM);
             addItem(WEREWOLF_MINION_UPGRADE_SIMPLE);
             addItem(WEREWOLF_MINION_UPGRADE_ENHANCED);
