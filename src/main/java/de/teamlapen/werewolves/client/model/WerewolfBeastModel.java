@@ -124,7 +124,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         PartDefinition head = joint.addOrReplaceChild(HEAD, CubeListBuilder.create().texOffs(0, 0).addBox(-3.5F, -3.5F, -5.0F, 7, 7, 6), PartPose.offset(0.0F, 0.0F, 1.0F));
         PartDefinition snout = head.addOrReplaceChild(SNOUT, CubeListBuilder.create().texOffs(34, 0).addBox(-2.0F, -2.0F, -4.0F, 4, 2, 4), PartPose.offsetAndRotation(0.0F, 2.0F, -5.0F, -0.08726646259971647F, 0.0F, 0.0F));
         PartDefinition hip = body.addOrReplaceChild(HIP, CubeListBuilder.create().texOffs(0, 30).addBox(-3.5F, 0.0F, -3.0F, 7, 9, 6), PartPose.offsetAndRotation(0.0F, 6.0F, 1.0F, 0.5235987755982988F, 0.0F, 0.0F));
-        PartDefinition headSidburnLeft = head.addOrReplaceChild(HEAD_SIDBURN_LEFT, CubeListBuilder.create().texOffs(32, 12).addBox(1.0F, -1.0F, -5.0F, 3, 6, 0), PartPose.rotation(0.0F, -0.5235987755982988F, 0.0F));
+        PartDefinition headSidburnLeft = head.addOrReplaceChild(HEAD_SIDBURN_LEFT, CubeListBuilder.create().texOffs(32, 12).mirror().addBox(1.0F, -1.0F, -5.0F, 3, 6, 0), PartPose.rotation(0.0F, -0.5235987755982988F, 0.0F));
         PartDefinition legRight = hip.addOrReplaceChild(LEG_RIGHT, CubeListBuilder.create().texOffs(24, 39).addBox(0.0F, -2.0F, -3.0F, 4.0F, 8.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 9.0F, 0.0F, -0.3826F, -0.0327F, -0.0809F));
         PartDefinition jaw = head.addOrReplaceChild(JAW, CubeListBuilder.create().texOffs(50, 0).addBox(-1.5F, 0.0F, -3.5F, 3, 2, 4), PartPose.offsetAndRotation(0.0F, 1.5F, -5.0F, 0.0939f, 0.0F, 0.0F));
         PartDefinition jawFluff = jaw.addOrReplaceChild(JAW_FLUFF, CubeListBuilder.create().texOffs(96, 8).addBox(-1.5F, 2.0F, -3.5F, 3, 2, 4), PartPose.ZERO);
