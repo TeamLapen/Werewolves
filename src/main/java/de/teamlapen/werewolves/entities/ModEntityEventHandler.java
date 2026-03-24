@@ -149,16 +149,6 @@ public class ModEntityEventHandler {
     }
 
     @SubscribeEvent
-    public void onWerewolfAttackPre(LivingDamageEvent.Pre event) {
-        if (event.getSource().is(DamageTypeTags.IS_PLAYER_ATTACK) && event.getSource().getEntity() instanceof Player player) {
-            WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-            if (checkThroatSeeker(event, player, werewolf)) {
-                return;
-            }
-        }
-    }
-
-    @SubscribeEvent
     public void onWerewolfAttackedPre(LivingDamageEvent.Pre event) {
         if (checkWerewolfResistance(event)) {
             return;
@@ -194,14 +184,6 @@ public class ModEntityEventHandler {
                 damageReduction *= 0.3f;
             }
             event.setNewDamage(damage * (1 - damageReduction));
-        }
-        return false;
-    }
-
-    private boolean checkThroatSeeker(LivingDamageEvent.Pre event, Player player, WerewolfPlayer werewolf) {
-        if (werewolf.getForm() == WerewolfForm.BEAST && werewolf.getSkillHandler().isSkillEnabled(ModSkills.THROAT_SEEKER) && !UtilLib.canReallySee(event.getEntity(), player, true) && player.getRandom().nextInt(4) < 1) {
-            event.setNewDamage(10000f);
-            return true;
         }
         return false;
     }

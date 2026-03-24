@@ -60,7 +60,6 @@ public class ModSkills {
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> LEAP = SKILLS.register("leap", () -> new ActionSkill<>(ModActions.LEAP, Trees.LEVEL, true));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> WOLF_PACK = SKILLS.register("wolf_pack", () -> new SimpleWerewolfSkill(1).defaultDescWithEnhancement(HOWLING::get));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> MOVEMENT_TACTICS = SKILLS.register("movement_tactics", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(SURVIVAL_FORM::get));
-    public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> THROAT_SEEKER = SKILLS.register("throat_seeker", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(BEAST_FORM::get));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> CLIMBER = SKILLS.register("climber", () -> new SimpleWerewolfSkill().defaultDescWithFormRequirement(SURVIVAL_FORM::get).setToggleActions(SurvivalWerewolfFormAction::climberSkillEnabled, SurvivalWerewolfFormAction::climberSkillDisabled));
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> WOLF_PAWN = SKILLS.register("wolf_pawn", () -> new SimpleWerewolfSkill(1,true)); //TODO maybe add soul sand & slime & ice & webs as blocks that do not affect movement speed
     public static final DeferredHolder<ISkill<?>, ISkill<IWerewolfPlayer>> NOT_MEAT = SKILLS.register("not_meat", () -> new SimpleWerewolfSkill(3,true));
