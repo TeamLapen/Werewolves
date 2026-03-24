@@ -91,10 +91,10 @@ public class ModItems {
     public static final DeferredItem<WerewolfRefinementItem> CHARM_BRACELET = register("charm_bracelet", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.RING));
     public static final DeferredItem<WerewolfRefinementItem> DREAM_CATCHER = register("dream_catcher", () -> new WerewolfRefinementItem(props(), IRefinementItem.AccessorySlotType.OBI_BELT));
 
-    public static final DeferredItem<SilverArmorItem> SILVER_HELMET = register("silver_helmet", () -> new SilverArmorItem(ArmorItem.Type.HELMET, props()));
-    public static final DeferredItem<SilverArmorItem> SILVER_CHESTPLATE = register("silver_chestplate", () -> new SilverArmorItem(ArmorItem.Type.CHESTPLATE, props()));
-    public static final DeferredItem<SilverArmorItem> SILVER_LEGGINGS = register("silver_leggings", () -> new SilverArmorItem(ArmorItem.Type.LEGGINGS, props()));
-    public static final DeferredItem<SilverArmorItem> SILVER_BOOTS = register("silver_boots", () -> new SilverArmorItem(ArmorItem.Type.BOOTS, props()));
+    public static final DeferredItem<SilverArmorItem> SILVER_HELMET = register("silver_helmet", () -> new SilverArmorItem(ArmorItem.Type.HELMET, props().durability(ArmorItem.Type.CHESTPLATE.getDurability(15))));
+    public static final DeferredItem<SilverArmorItem> SILVER_CHESTPLATE = register("silver_chestplate", () -> new SilverArmorItem(ArmorItem.Type.CHESTPLATE, props().durability(ArmorItem.Type.CHESTPLATE.getDurability(15))));
+    public static final DeferredItem<SilverArmorItem> SILVER_LEGGINGS = register("silver_leggings", () -> new SilverArmorItem(ArmorItem.Type.LEGGINGS, props().durability(ArmorItem.Type.CHESTPLATE.getDurability(15))));
+    public static final DeferredItem<SilverArmorItem> SILVER_BOOTS = register("silver_boots", () -> new SilverArmorItem(ArmorItem.Type.BOOTS, props().durability(ArmorItem.Type.CHESTPLATE.getDurability(15))));
 
     public static final DeferredItem<Item> WOLF_BERRIES = register("wolf_berries", () -> new WolfBerries(ModBlocks.WOLF_BERRY_BUSH.get(), props().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.1f).build())));
 
