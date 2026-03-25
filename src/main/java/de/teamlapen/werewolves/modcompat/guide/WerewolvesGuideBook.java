@@ -37,12 +37,10 @@ import static de.teamlapen.vampirism.modcompat.guide.GuideBook.translate;
 import static de.teamlapen.vampirism.modcompat.guide.GuideBook.translateComponent;
 
 @SuppressWarnings("CollectionAddAllCanBeReplacedWithConstructor")
-@EventBusSubscriber(modid = REFERENCE.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class WerewolvesGuideBook {
 
     private final static String IMAGE_BASE = "vampirismguide:textures/images/";
 
-    @SubscribeEvent
     public static void onVampirismGuideBookCategoriesEvent(VampirismGuideBookCategoriesEvent event) {
         BookHelper helper = new BookHelper.Builder(REFERENCE.MODID).build();
         int werewolfPos = -1;

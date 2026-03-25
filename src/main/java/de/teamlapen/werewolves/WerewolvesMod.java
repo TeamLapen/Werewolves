@@ -26,6 +26,7 @@ import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.entities.player.ModPlayerEventHandler;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.items.WerewolfRefinementItem;
+import de.teamlapen.werewolves.modcompat.guide.WerewolvesGuideBook;
 import de.teamlapen.werewolves.modcompat.terrablender.TerraBlenderCompat;
 import de.teamlapen.werewolves.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.proxy.Proxy;
@@ -96,9 +97,9 @@ public class WerewolvesMod {
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(Permissions.class);
 
-//        if (ModList.get().isLoaded("guideapi_vp")) {
-//            NeoForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
-//        }
+        if (ModList.get().isLoaded("guideapi_vp")) {
+            NeoForge.EVENT_BUS.addListener(WerewolvesGuideBook::onVampirismGuideBookCategoriesEvent);
+        }
 
         RegistryManager.setupRegistries(modEventBus);
         WerewolvesBiomeFeatures.register(modEventBus);
