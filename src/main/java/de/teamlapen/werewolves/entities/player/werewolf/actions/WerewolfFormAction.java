@@ -117,7 +117,9 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         Player player = werewolf.asEntity();
         float healthPerc = player.getHealth() / player.getMaxHealth();
         if (isWerewolfFormActionActive(werewolf.getActionHandler())) {
+            ((WerewolfPlayer) werewolf).setSwitchingForms(true);
             FormHelper.deactivateWerewolfActions(werewolf);
+            ((WerewolfPlayer) werewolf).setSwitchingForms(false);
         }
         ((WerewolfPlayer) werewolf).setForm(this, this.form);
         this.checkDayNightModifier(werewolf);
@@ -144,7 +146,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         this.removeModifier(werewolf);
         player.setHealth(player.getMaxHealth() * healthPerc);
         player.refreshDisplayName();
-        if (werewolf.getActionHandler().isActionActive(ModActions.RAGE.get())) {
+        if (!((WerewolfPlayer) werewolf).isSwitchingForms() && werewolf.getActionHandler().isActionActive(ModActions.RAGE.get())) {
             werewolf.getActionHandler().deactivateAction(ModActions.RAGE.get());
         }
     }

@@ -30,6 +30,7 @@ import de.teamlapen.werewolves.effects.WolfsbaneEffect;
 import de.teamlapen.werewolves.effects.inst.WerewolfNightVisionEffectInstance;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
+import de.teamlapen.werewolves.entities.player.werewolf.actions.RageWerewolfAction;
 import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
 import de.teamlapen.werewolves.mixin.entity.PlayerAccessor;
 import de.teamlapen.werewolves.util.*;
@@ -112,6 +113,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     private WerewolfForm form = WerewolfForm.NONE;
     @Nullable
     private WerewolfFormAction lastFormAction;
+    private boolean switchingForms = false;
     @Nonnull
     private final LevelHandler levelHandler = new LevelHandler(this);
 
@@ -138,7 +140,18 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.lastFormAction = action;
         if (!this.player.level().isClientSide) {
             this.sync(NBTHelper.nbtWith(nbt -> nbt.putString("form", this.form.getName())), true);
+            if (this.actionHandler.isActionActive(ModActions.RAGE.get())) {
+                ModActions.RAGE.get().applyEffects(this);
+            }
         }
+    }
+
+    public boolean isSwitchingForms() {
+        return this.switchingForms;
+    }
+
+    public void setSwitchingForms(boolean switchingForms) {
+        this.switchingForms = switchingForms;
     }
 
     public WerewolfInventory getInventory() {

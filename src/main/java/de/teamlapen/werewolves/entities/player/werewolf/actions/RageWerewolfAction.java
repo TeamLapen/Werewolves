@@ -70,9 +70,17 @@ public class RageWerewolfAction extends DefaultWerewolfAction implements ILastin
         return WerewolvesConfig.BALANCE.SKILLS.rage_cooldown.get() * 20;
     }
 
-    protected void applyEffects(IWerewolfPlayer werewolf) {
+    public void applyEffects(IWerewolfPlayer werewolf) {
         int speedAmplifier = werewolf.getForm() == WerewolfForm.SURVIVALIST ? 1 : 0;
         int damageAmplifier = werewolf.getForm() == WerewolfForm.BEAST ? 1 : 0;
+        MobEffectInstance currentSpeed = werewolf.asEntity().getEffect(MobEffects.MOVEMENT_SPEED);
+        if (currentSpeed != null && currentSpeed.getAmplifier() != speedAmplifier) {
+            removePotionEffect(werewolf, MobEffects.MOVEMENT_SPEED);
+        }
+        MobEffectInstance currentDamage = werewolf.asEntity().getEffect(MobEffects.DAMAGE_BOOST);
+        if (currentDamage != null && currentDamage.getAmplifier() != damageAmplifier) {
+            removePotionEffect(werewolf, MobEffects.DAMAGE_BOOST);
+        }
         addEffectInstance(werewolf, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, speedAmplifier, false, false));
         addEffectInstance(werewolf, new MobEffectInstance(MobEffects.DAMAGE_BOOST, 22, damageAmplifier, false, false));
     }
