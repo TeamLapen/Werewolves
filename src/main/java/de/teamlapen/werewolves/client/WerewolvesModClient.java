@@ -7,12 +7,12 @@ import de.teamlapen.werewolves.core.RegistryManager;
 import de.teamlapen.werewolves.proxy.ClientProxy;
 import de.teamlapen.werewolves.proxy.Proxy;
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import org.jetbrains.annotations.ApiStatus;
@@ -32,7 +32,7 @@ public class WerewolvesModClient {
     private final RegistryManager registryManager;
     private final ModHUDOverlay modHUDOverlay;
     private final ClientEventHandler clientEventHandler;
-    private RenderHandler renderHandler;
+    private final RenderHandler renderHandler;
 
     private ModPlayerRenderer modPlayerRenderer;
 
@@ -42,6 +42,7 @@ public class WerewolvesModClient {
         this.registryManager = registryManager;
         this.modHUDOverlay = new ModHUDOverlay();
         this.clientEventHandler = new ClientEventHandler();
+        this.renderHandler = new RenderHandler(Minecraft.getInstance());
 
         modbus.addListener(ModKeys::registerKeyMapping);
         modbus.addListener(ModModelRender::onRegisterRenderers);
@@ -50,21 +51,22 @@ public class WerewolvesModClient {
         modbus.addListener(ModScreens::registerScreens);
         modbus.addListener(ModScreens::registerScreenOverlays);
         modbus.addListener(ModItemRenderer::registerColors);
+        modbus.addListener(this::registerReloadListeners);
 
         NeoForge.EVENT_BUS.register(this.clientEventHandler);
         NeoForge.EVENT_BUS.register(this.modHUDOverlay);
         NeoForge.EVENT_BUS.register(new ModKeys(this.clientEventHandler));
+        NeoForge.EVENT_BUS.register(this.renderHandler);
 
     }
 
     @SubscribeEvent
     public void setupClient(@NotNull FMLClientSetupEvent event) {
-        this.renderHandler = new RenderHandler(Minecraft.getInstance());
         this.registryManager.onInitStep(IInitListener.Step.CLIENT_SETUP, event);
+    }
 
-        NeoForge.EVENT_BUS.register(this.renderHandler);
-
-        ((ReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener(this.renderHandler);
+    private void registerReloadListeners(@NotNull RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(this.renderHandler);
     }
 
     @SubscribeEvent

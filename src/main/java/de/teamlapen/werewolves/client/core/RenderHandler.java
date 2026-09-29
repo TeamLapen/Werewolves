@@ -187,9 +187,9 @@ public class RenderHandler implements ResourceManagerReloadListener {
             RenderTarget swap = this.blurShader.getTempTarget("swap");
 
             this.blit = blurShader.addPass("blit", swap, this.mc.getMainRenderTarget(), false);
-            this.blur1 = this.blurShader.addPass("blur", this.mc.getMainRenderTarget(), swap, false);
+            this.blur1 = this.blurShader.addPass("box_blur", this.mc.getMainRenderTarget(), swap, false);
             this.blur1.getEffect().safeGetUniform("BlurDir").set(1.0F, 0.0F);
-            this.blur2 = this.blurShader.addPass("blur", swap, this.mc.getMainRenderTarget(), false);
+            this.blur2 = this.blurShader.addPass("box_blur", swap, this.mc.getMainRenderTarget(), false);
             this.blur2.getEffect().safeGetUniform("BlurDir").set(0.0F, 1.0F);
 
             this.blurShader.resize(this.mc.getWindow().getWidth(), this.mc.getWindow().getHeight());
