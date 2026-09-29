@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 
 public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEntity, VillagerModel<WerewolfTaskMasterEntity>> {
     private final static ResourceLocation texture = WResourceLocation.mc("textures/entity/villager/villager.png");
-    private final static ResourceLocation overlay = WResourceLocation.v("textures/entity/vampire_task_master_overlay.png");
+    private final static ResourceLocation overlay = WResourceLocation.mod("textures/entity/werewolf_task_master_overlay.png");
 
     public WerewolfTaskMasterRenderer(EntityRendererProvider.Context context) {
         super(context, new VillagerModel<>(context.bakeLayer(de.teamlapen.vampirism.client.core.ModEntitiesRender.TASK_MASTER)), 0.5f);
