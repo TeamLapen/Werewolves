@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.FormHelper;
@@ -16,8 +16,8 @@ import net.minecraft.world.entity.player.Player;
 public class WerewolfFormDurationOverlay implements LayeredDraw.Layer {
 
     private final Minecraft mc = Minecraft.getInstance();
-    protected static final ResourceLocation EXPERIENCE_BAR_BACKGROUND_SPRITE = WResourceLocation.mc("hud/experience_bar_background");
-    protected static final ResourceLocation EXPERIENCE_BAR_PROGRESS_SPRITE = WResourceLocation.mc("hud/experience_bar_progress");
+    protected static final ResourceLocation EXPERIENCE_BAR_BACKGROUND_SPRITE = WIdentifier.mc("hud/experience_bar_background");
+    protected static final ResourceLocation EXPERIENCE_BAR_PROGRESS_SPRITE = WIdentifier.mc("hud/experience_bar_progress");
 
     @Override
     public void render(GuiGraphics pGuiGraphics, DeltaTracker pDeltaTracker) {

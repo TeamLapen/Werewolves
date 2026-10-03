@@ -3,15 +3,12 @@ package de.teamlapen.werewolves.client.core;
 import de.teamlapen.vampirism.REFERENCE;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.client.gui.screens.VampirismContainerScreen;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
-import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.WerewolvesModClient;
 import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
-import de.teamlapen.werewolves.client.render.player.WerewolfPlayerBeastRenderer;
-import de.teamlapen.werewolves.client.render.player.WerewolfPlayerSurvivalistRenderer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -24,17 +21,12 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.event.*;
@@ -60,7 +52,7 @@ public class ClientEventHandler {
     public void onGuiInitPost(ScreenEvent.Init.Post event) {
         if (event.getScreen() instanceof VampirismContainerScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
-                WidgetSprites icon = new WidgetSprites(WResourceLocation.v("widget/appearance"), WResourceLocation.v("widget/appearance_highlighted"));
+                WidgetSprites icon = new WidgetSprites(WIdentifier.v("widget/appearance"), WIdentifier.v("widget/appearance_highlighted"));
                 var button = ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((VampirismContainerScreen) event.getScreen()).getGuiLeft() + 47, ((VampirismContainerScreen) event.getScreen()).getGuiTop() + 90, 20, 20, icon, (context) -> Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getScreen())), Component.empty()));
                 button.setTooltip(Tooltip.create(Component.translatable("gui.vampirism.vampirism_menu.appearance_menu")));
 

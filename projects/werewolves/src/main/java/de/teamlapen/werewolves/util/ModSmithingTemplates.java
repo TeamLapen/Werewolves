@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.util;
 
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -11,16 +11,16 @@ import java.util.List;
 import static de.teamlapen.werewolves.mixin.SmithingTemplateItemAccessor.*;
 
 public class ModSmithingTemplates {
-    private static final Component WHITE_PELT_UPGRADE_APPLIES_TO = Component.translatable(Util.makeDescriptionId("item", WResourceLocation.mod("smithing_template.white_pelt_upgrade.applies_to"))).withStyle(getDescriptionFormat());
-    private static final Component WHITE_PELT_UPGRADE_INGREDIENTS = Component.translatable(Util.makeDescriptionId("item", WResourceLocation.mod( "smithing_template.white_pelt_upgrade.ingredients"))).withStyle(getDescriptionFormat());
-    private static final Component WHITE_PELT_UPGRADE = Component.translatable(Util.makeDescriptionId("upgrade", WResourceLocation.mod( "white_pelt_upgrade"))).withStyle(getTitleFormat());
-    private static final Component WHITE_PELT_UPGRADE_BASE_SLOT_DESCRIPTION = Component.translatable(Util.makeDescriptionId("item", WResourceLocation.mod( "smithing_template.white_pelt_upgrade.base_slot_description")));
-    private static final Component WHITE_PELT_UPGRADE_ADDITIONS_SLOT_DESCRIPTION = Component.translatable(Util.makeDescriptionId("item", WResourceLocation.mod( "smithing_template.white_pelt_upgrade.additions_slot_description")));
-    private static final ResourceLocation EMPTY_SLOT_PELT = WResourceLocation.mod("item/empty_slot_pelt");
-    private static final ResourceLocation EMPTY_SLOT_PELT_HELMET = WResourceLocation.mod( "item/empty_slot_pelt_helmet");
-    private static final ResourceLocation EMPTY_SLOT_PELT_CHESTPLATE = WResourceLocation.mod("item/empty_slot_pelt_chestplate");
-    private static final ResourceLocation EMPTY_SLOT_PELT_LEGGINGS =WResourceLocation.mod( "item/empty_slot_pelt_leggings");
-    private static final ResourceLocation EMPTY_SLOT_PELT_BOOTS =WResourceLocation.mod( "item/empty_slot_pelt_boots");
+    private static final Component WHITE_PELT_UPGRADE_APPLIES_TO = Component.translatable(Util.makeDescriptionId("item", WIdentifier.mod("smithing_template.white_pelt_upgrade.applies_to"))).withStyle(getDescriptionFormat());
+    private static final Component WHITE_PELT_UPGRADE_INGREDIENTS = Component.translatable(Util.makeDescriptionId("item", WIdentifier.mod( "smithing_template.white_pelt_upgrade.ingredients"))).withStyle(getDescriptionFormat());
+    private static final Component WHITE_PELT_UPGRADE = Component.translatable(Util.makeDescriptionId("upgrade", WIdentifier.mod( "white_pelt_upgrade"))).withStyle(getTitleFormat());
+    private static final Component WHITE_PELT_UPGRADE_BASE_SLOT_DESCRIPTION = Component.translatable(Util.makeDescriptionId("item", WIdentifier.mod( "smithing_template.white_pelt_upgrade.base_slot_description")));
+    private static final Component WHITE_PELT_UPGRADE_ADDITIONS_SLOT_DESCRIPTION = Component.translatable(Util.makeDescriptionId("item", WIdentifier.mod( "smithing_template.white_pelt_upgrade.additions_slot_description")));
+    private static final ResourceLocation EMPTY_SLOT_PELT = WIdentifier.mod("item/empty_slot_pelt");
+    private static final ResourceLocation EMPTY_SLOT_PELT_HELMET = WIdentifier.mod( "item/empty_slot_pelt_helmet");
+    private static final ResourceLocation EMPTY_SLOT_PELT_CHESTPLATE = WIdentifier.mod("item/empty_slot_pelt_chestplate");
+    private static final ResourceLocation EMPTY_SLOT_PELT_LEGGINGS = WIdentifier.mod( "item/empty_slot_pelt_leggings");
+    private static final ResourceLocation EMPTY_SLOT_PELT_BOOTS = WIdentifier.mod( "item/empty_slot_pelt_boots");
 
     private static List<ResourceLocation> createPeltUpgradeIconList() {
         return List.of(EMPTY_SLOT_PELT_HELMET, EMPTY_SLOT_PELT_CHESTPLATE, EMPTY_SLOT_PELT_LEGGINGS, EMPTY_SLOT_PELT_BOOTS);

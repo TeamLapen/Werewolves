@@ -3,13 +3,12 @@ package de.teamlapen.werewolves.core;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.vampirism.blocks.TotemTopBlock;
 import de.teamlapen.werewolves.api.ModRegistryItems;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.blocks.LeavesBlock;
 import de.teamlapen.werewolves.blocks.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.world.tree.WTreeGrower;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -99,7 +98,7 @@ public class ModBlocks {
 
 
     public static class V {
-        public static final DeferredHolder<Block, Block> MED_CHAIR = DeferredBlock.create(ResourceKey.create(Registries.BLOCK, WResourceLocation.v("med_chair")));
+        public static final DeferredHolder<Block, Block> MED_CHAIR = DeferredBlock.create(ResourceKey.create(Registries.BLOCK, WIdentifier.v("med_chair")));
 
         private static void init() {
 

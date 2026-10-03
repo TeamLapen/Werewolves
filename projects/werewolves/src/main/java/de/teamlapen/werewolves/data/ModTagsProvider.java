@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
-import de.teamlapen.werewolves.api.WResourceLocation;
 import de.teamlapen.werewolves.core.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;

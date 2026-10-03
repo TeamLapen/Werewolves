@@ -2,15 +2,13 @@ package de.teamlapen.werewolves.client.render.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -30,7 +28,7 @@ public class WerewolfFaceOverlayLayer<T extends LivingEntity, E extends Werewolf
         super(renderer);
         this.eyeOverlays = new ResourceLocation[REFERENCE.EYE_TYPE_COUNT];
         for (int i = 0; i < this.eyeOverlays.length; i++) {
-            this.eyeOverlays[i] = WResourceLocation.mod("textures/entity/werewolf/eye/eye_" + (i) + ".png");
+            this.eyeOverlays[i] = WIdentifier.mod("textures/entity/werewolf/eye/eye_" + (i) + ".png");
         }
     }
 

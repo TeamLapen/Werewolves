@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism.client.renderer.entity.layers.TaskMasterTypeLayer;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.entities.werewolf.WerewolfTaskMasterEntity;
 import net.minecraft.client.model.VillagerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -14,8 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 import javax.annotation.Nonnull;
 
 public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEntity, VillagerModel<WerewolfTaskMasterEntity>> {
-    private final static ResourceLocation texture = WResourceLocation.mc("textures/entity/villager/villager.png");
-    private final static ResourceLocation overlay = WResourceLocation.mod("textures/entity/werewolf_task_master_overlay.png");
+    private final static ResourceLocation texture = WIdentifier.mc("textures/entity/villager/villager.png");
+    private final static ResourceLocation overlay = WIdentifier.mod("textures/entity/werewolf_task_master_overlay.png");
 
     public WerewolfTaskMasterRenderer(EntityRendererProvider.Context context) {
         super(context, new VillagerModel<>(context.bakeLayer(de.teamlapen.vampirism.client.core.ModEntitiesRender.TASK_MASTER)), 0.5f);

@@ -11,7 +11,7 @@ import de.teamlapen.vampirism.entity.player.skills.ActionSkill;
 import de.teamlapen.vampirism.entity.player.skills.SkillNode;
 import de.teamlapen.vampirism.entity.player.skills.SkillTree;
 import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
@@ -121,7 +121,7 @@ public class ModSkills {
         public static final ResourceKey<ISkillNode> LORD_5 = node("lord_5");
 
         private static ResourceKey<ISkillNode> node(String path) {
-            return ResourceKey.create(VampirismRegistries.Keys.SKILL_NODE, WResourceLocation.mod("werewolf/" + path));
+            return ResourceKey.create(VampirismRegistries.Keys.SKILL_NODE, WIdentifier.mod("werewolf/" + path));
         }
 
         public static void createSkillNodes(BootstrapContext<ISkillNode> context) {
@@ -165,7 +165,7 @@ public class ModSkills {
         public static final ResourceKey<ISkillTree> LORD = tree("lord");
 
         private static ResourceKey<ISkillTree> tree(String path) {
-            return ResourceKey.create(VampirismRegistries.Keys.SKILL_TREE, WResourceLocation.mod("werewolf/" + path));
+            return ResourceKey.create(VampirismRegistries.Keys.SKILL_TREE, WIdentifier.mod("werewolf/" + path));
         }
 
         public static void createSkillTrees(BootstrapContext<ISkillTree> context) {

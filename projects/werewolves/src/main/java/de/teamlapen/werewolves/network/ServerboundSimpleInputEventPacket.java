@@ -1,9 +1,6 @@
 package de.teamlapen.werewolves.network;
 
-import com.mojang.serialization.Codec;
-import de.teamlapen.werewolves.api.WResourceLocation;
-import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.network.FriendlyByteBuf;
+import de.teamlapen.werewolves.api.WIdentifier;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -14,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public record ServerboundSimpleInputEventPacket(Action action) implements CustomPacketPayload {
 
-    public static final Type<ServerboundSimpleInputEventPacket> TYPE = new Type<>(WResourceLocation.mod("simple_input_event"));
+    public static final Type<ServerboundSimpleInputEventPacket> TYPE = new Type<>(WIdentifier.mod("simple_input_event"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundSimpleInputEventPacket> CODEC = StreamCodec.composite(
             NeoForgeStreamCodecs.enumCodec(Action.class), ServerboundSimpleInputEventPacket::action,
             ServerboundSimpleInputEventPacket::new

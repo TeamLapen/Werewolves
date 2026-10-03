@@ -1,24 +1,20 @@
 package de.teamlapen.werewolves.api.entities.werewolf;
 
-import de.teamlapen.vampirism.api.entity.EntityClassType;
-import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-
-import javax.annotation.Nonnull;
-import java.util.UUID;
 
 public interface WerewolfTransformable extends IWerewolfDataholder {
     int TYPES = 126;
 
     static <T extends Mob> T copyData(EntityType<T> newEntity, Mob oldEntity) {
-        return copyData(newEntity.create(oldEntity.getCommandSenderWorld()), oldEntity);
+        return copyData(newEntity.create(oldEntity.level(), EntitySpawnReason.CONVERSION), oldEntity);
     }
 
     static <T extends Mob> T copyData(T entity, Mob oldEntity) {
         entity.copyPosition(oldEntity);
-        entity.getCommandSenderWorld().addFreshEntity(entity);
+        entity.level().addFreshEntity(entity);
         oldEntity.remove(Entity.RemovalReason.DISCARDED);
         entity.setHealth(oldEntity.getHealth() / oldEntity.getMaxHealth() * entity.getMaxHealth());
         return entity;
@@ -38,12 +34,7 @@ public interface WerewolfTransformable extends IWerewolfDataholder {
 
     boolean canTransform();
 
-    @Nonnull
     WerewolfForm getForm();
-
-    EntityClassType getEntityClass();
-
-    EntityActionTier getEntityTier();
 
     default void reset() {
     }

@@ -1,13 +1,9 @@
 package de.teamlapen.werewolves.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.inventory.container.StoneAltarContainer;
-import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -15,7 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 import javax.annotation.Nonnull;
 
 public class StoneAltarScreen extends AbstractContainerScreen<StoneAltarContainer> {
-    private static final ResourceLocation altarGuiTextures = WResourceLocation.mod("textures/gui/stone_altar.png");
+    private static final ResourceLocation altarGuiTextures = WIdentifier.mod("textures/gui/stone_altar.png");
 
 
     public StoneAltarScreen(StoneAltarContainer screenContainer, Inventory inv, Component titleIn) {

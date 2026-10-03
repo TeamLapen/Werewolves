@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.entities.player.werewolf.actions;
 
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -8,25 +8,21 @@ import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.core.ModAttributes;
 import de.teamlapen.werewolves.core.ModRefinements;
 import de.teamlapen.werewolves.core.ModSkills;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-
-import java.util.UUID;
 
 public class BeastWerewolfFormAction extends WerewolfFormAction {
 
     public BeastWerewolfFormAction() {
         super(WerewolfForm.BEAST);
-        attributes.add(new Modifier.Builder(ModAttributes.BITE_DAMAGE, WResourceLocation.mod("beast_form_claw_damage")).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_bite_damage, AttributeModifier.Operation.ADD_VALUE).build());
-        attributes.add(new Modifier.Builder(Attributes.MAX_HEALTH, WResourceLocation.mod("beast_form_health")).withDayModifier(0.5).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_health, AttributeModifier.Operation.ADD_VALUE).build());
-        attributes.add(new Modifier.Builder(Attributes.ARMOR, WResourceLocation.mod("beast_form_armor")).withDayModifier(0.7).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_armor, AttributeModifier.Operation.ADD_VALUE).build());
-        attributes.add(new Modifier.Builder(Attributes.ARMOR_TOUGHNESS, WResourceLocation.mod("beast_form_armor_toughness")).withDayModifier(0.7).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_armor_toughness, AttributeModifier.Operation.ADD_VALUE).build());
-        attributes.add(new Modifier.Builder(Attributes.MOVEMENT_SPEED, WResourceLocation.mod("beast_form_speed_amount")).withDayModifier(0.5).withValues(() -> WerewolvesConfig.BALANCE.SKILLS.beast_form_speed_amount.get() * 0.8, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).withSkillModifier(ModSkills.SPEED, WerewolvesConfig.BALANCE.SKILLS.beast_form_speed_amount).build());
-        attributes.add(new Modifier.Builder(Attributes.ATTACK_DAMAGE, WResourceLocation.mod("beast_form_attack_damage")).withValues(() -> WerewolvesConfig.BALANCE.SKILLS.beast_form_attack_damage.get() * 0.5, AttributeModifier.Operation.ADD_VALUE).withDayModifier(0.5).withSkillModifier(ModSkills.DAMAGE, WerewolvesConfig.BALANCE.SKILLS.beast_form_attack_damage).build());
-        attributes.add(new Modifier.Builder(ModAttributes.FOOD_CONSUMPTION, WResourceLocation.mod("beast_form_food_consumption")).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_food_consumption, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).build());
-        attributes.add(new Modifier.Builder(ModAttributes.FOOD_GAIN, WResourceLocation.mod("beast_form_food_gain")).withValues(() -> WerewolvesConfig.BALANCE.SKILLS.beast_form_food_gain.get() - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).build());
+        attributes.add(new Modifier.Builder(ModAttributes.BITE_DAMAGE, WIdentifier.mod("beast_form_claw_damage")).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_bite_damage, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.MAX_HEALTH, WIdentifier.mod("beast_form_health")).withDayModifier(0.5).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_health, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.ARMOR, WIdentifier.mod("beast_form_armor")).withDayModifier(0.7).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_armor, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.ARMOR_TOUGHNESS, WIdentifier.mod("beast_form_armor_toughness")).withDayModifier(0.7).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_armor_toughness, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.MOVEMENT_SPEED, WIdentifier.mod("beast_form_speed_amount")).withDayModifier(0.5).withValues(() -> WerewolvesConfig.BALANCE.SKILLS.beast_form_speed_amount.get() * 0.8, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).withSkillModifier(ModSkills.SPEED, WerewolvesConfig.BALANCE.SKILLS.beast_form_speed_amount).build());
+        attributes.add(new Modifier.Builder(Attributes.ATTACK_DAMAGE, WIdentifier.mod("beast_form_attack_damage")).withValues(() -> WerewolvesConfig.BALANCE.SKILLS.beast_form_attack_damage.get() * 0.5, AttributeModifier.Operation.ADD_VALUE).withDayModifier(0.5).withSkillModifier(ModSkills.DAMAGE, WerewolvesConfig.BALANCE.SKILLS.beast_form_attack_damage).build());
+        attributes.add(new Modifier.Builder(ModAttributes.FOOD_CONSUMPTION, WIdentifier.mod("beast_form_food_consumption")).withValues(WerewolvesConfig.BALANCE.SKILLS.beast_form_food_consumption, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).build());
+        attributes.add(new Modifier.Builder(ModAttributes.FOOD_GAIN, WIdentifier.mod("beast_form_food_gain")).withValues(() -> WerewolvesConfig.BALANCE.SKILLS.beast_form_food_gain.get() - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).build());
     }
 
     @Override

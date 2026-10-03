@@ -1,18 +1,13 @@
 package de.teamlapen.werewolves.core;
 
 import com.google.common.collect.Maps;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.LootTableLoadEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -26,7 +21,7 @@ public class ModLootTables {
 
     private static final Map<ResourceKey<LootTable>, ResourceKey<LootTable>> INJECTION_TABLES = Maps.newHashMap();
 
-    public static final ResourceKey<LootTable> HUNTER_LIVER = register(WResourceLocation.mod("hunter_liver"));
+    public static final ResourceKey<LootTable> HUNTER_LIVER = register(WIdentifier.mod("hunter_liver"));
 
     // chests
     public static final ResourceKey<LootTable> ABANDONED_MINESHAFT = registerInject(BuiltInLootTables.ABANDONED_MINESHAFT);
@@ -44,7 +39,7 @@ public class ModLootTables {
 
     static ResourceKey<LootTable> registerInject(EntityType<?> type) {
         ResourceKey<LootTable> loc = type.getDefaultLootTable();
-        ResourceKey<LootTable> newLoc = register(WResourceLocation.mod(loc.location().withPrefix("inject/entity/").getPath()));
+        ResourceKey<LootTable> newLoc = register(WIdentifier.mod(loc.location().withPrefix("inject/entity/").getPath()));
         INJECTION_TABLES.put(loc, newLoc);
         return newLoc;
     }

@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.api.entities.werewolf;
 
-import de.teamlapen.vampirism.api.entity.IFactionMob;
+
+import de.teamlapen.faction.api.world.entities.IFactionMob;
 
 public interface IWerewolfMob extends IFactionMob, IWerewolf {
 }

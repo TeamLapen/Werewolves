@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.entity.hunter.BasicHunterEntity;
 import de.teamlapen.werewolves.api.WEnums;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.entities.AggressiveWolfEntity;
 import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.entities.werewolf.*;
@@ -35,8 +35,8 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<WerewolfAlphaEntity>> ALPHA_WEREWOLF = prepareEntityType("alpha_werewolf", () -> EntityType.Builder.of(WerewolfAlphaEntity::new, WEnums.WEREWOLF_CATEGORY.getValue()).sized(0.8f, 2f), true);
 
     public static class V {
-        public static final DeferredHolder<EntityType<?>, EntityType<BasicHunterEntity>> HUNTER = DeferredHolder.create(ResourceKey.create(Registries.ENTITY_TYPE, WResourceLocation.v("hunter")));
-        public static final DeferredHolder<EntityType<?>, EntityType<BasicHunterEntity.IMob>> HUNTER_IMOB = DeferredHolder.create(ResourceKey.create(Registries.ENTITY_TYPE, WResourceLocation.v("hunter_imob")));
+        public static final DeferredHolder<EntityType<?>, EntityType<BasicHunterEntity>> HUNTER = DeferredHolder.create(ResourceKey.create(Registries.ENTITY_TYPE, WIdentifier.v("hunter")));
+        public static final DeferredHolder<EntityType<?>, EntityType<BasicHunterEntity.IMob>> HUNTER_IMOB = DeferredHolder.create(ResourceKey.create(Registries.ENTITY_TYPE, WIdentifier.v("hunter_imob")));
 
         private static void init() {
 

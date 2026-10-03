@@ -3,10 +3,9 @@ package de.teamlapen.werewolves.client.core;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
 import de.teamlapen.vampirism.config.VampirismConfig;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.core.ModActions;
 import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OutlineBufferSource;
 import net.minecraft.client.renderer.PostChain;
@@ -31,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 public class RenderHandler implements ResourceManagerReloadListener {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -181,7 +179,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
         if (this.blurShader != null) {
             this.blurShader.close();
         }
-        ResourceLocation resourcelocationBlur = WResourceLocation.v("shaders/blank.json");
+        ResourceLocation resourcelocationBlur = WIdentifier.v("shaders/blank.json");
         try {
             this.blurShader = new PostChain(this.mc.getTextureManager(), this.mc.getResourceManager(), this.mc.getMainRenderTarget(), resourcelocationBlur);
             RenderTarget swap = this.blurShader.getTempTarget("swap");

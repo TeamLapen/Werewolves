@@ -1,16 +1,17 @@
 package de.teamlapen.werewolves.api.entities.player;
 
-import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
-import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
-import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.faction.api.factions.IPlayableFaction;
+import de.teamlapen.faction.api.factions.skills.ISkillPlayer;
+import de.teamlapen.faction.api.world.entities.player.IFactionPlayer;
+import de.teamlapen.werewolves.api.WerewolvesFactions;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
-public interface IWerewolfPlayer extends IWerewolf, IFactionPlayer<IWerewolfPlayer> {
+public interface IWerewolfPlayer extends IWerewolf, IFactionPlayer<IWerewolfPlayer>, ISkillPlayer<IWerewolfPlayer> {
     @Override
-    default @NotNull IPlayableFaction<IWerewolfPlayer> getFaction() {
-        return WReference.WEREWOLF_FACTION;
+    default Holder<? extends IPlayableFaction<IWerewolfPlayer>> getFaction() {
+        return WerewolvesFactions.WEREWOLF;
     }
 
     boolean canWearArmor(ItemStack stack);

@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +22,7 @@ public class ModSounds {
     }
 
     private static DeferredHolder<SoundEvent, SoundEvent> create(String soundNameIn) {
-        ResourceLocation resourcelocation = WResourceLocation.mod(soundNameIn);
+        ResourceLocation resourcelocation = WIdentifier.mod(soundNameIn);
         return SOUND_EVENTS.register(soundNameIn, () -> SoundEvent.createVariableRangeEvent(resourcelocation));
     }
 }

@@ -5,7 +5,7 @@ import de.teamlapen.vampirism.api.items.IItemWithTier;
 import de.teamlapen.vampirism.api.items.IRefinementItem;
 import de.teamlapen.werewolves.api.ModRegistryItems;
 import de.teamlapen.werewolves.api.WEnums;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
 import de.teamlapen.werewolves.effects.SilverEffect;
 import de.teamlapen.werewolves.items.*;
@@ -22,7 +22,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -46,7 +45,7 @@ public class ModItems {
     private static final Set<DeferredHolder<Item, ? extends Item>> WEREWOLVES_TAB_ITEMS = new HashSet<>();
     private static final Map<ResourceKey<CreativeModeTab>, Set<DeferredHolder<Item, ? extends Item>>> CREATIVE_TAB_ITEMS = new HashMap<>();
 
-    public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, WResourceLocation.mod("default"));
+    public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, WIdentifier.mod("default"));
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register(CREATIVE_TAB_KEY.location().getPath(), () -> WerewolvesCreativeTab.builder(WEREWOLVES_TAB_ITEMS.stream().map(DeferredHolder::get).collect(Collectors.toSet())).build());
 
     public static final DeferredItem<Item> SILVER_INGOT = register("silver_ingot", () -> new Item(props()));
@@ -136,7 +135,7 @@ public class ModItems {
         public static final DeferredHolder<Item, Item> GARLIC_DIFFUSER_CORE = item("garlic_diffuser_core");
 
         private static DeferredHolder<Item, Item> item(String name) {
-            return DeferredHolder.create(ResourceKey.create(Registries.ITEM, WResourceLocation.v(name)));
+            return DeferredHolder.create(ResourceKey.create(Registries.ITEM, WIdentifier.v(name)));
         }
 
         private static void init() {

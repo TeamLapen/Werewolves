@@ -3,10 +3,8 @@ package de.teamlapen.werewolves.client.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -325,7 +323,7 @@ public class WerewolfBeastModel<T extends LivingEntity> extends WerewolfBaseMode
         List<ResourceLocation> locs = getTextures("textures/entity/werewolf/beast");
         if (locs.size() < WerewolfForm.BEAST.getSkinTypes()) {
             for (int i = locs.size(); i < WerewolfForm.BEAST.getSkinTypes(); i++) {
-                ResourceLocation s = WResourceLocation.mod("textures/entity/werewolf/beast/beast_" + i + ".png");
+                ResourceLocation s = WIdentifier.mod("textures/entity/werewolf/beast/beast_" + i + ".png");
                 locs.add(s);
             }
         }

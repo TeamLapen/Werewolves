@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.api.entities;
 
-import de.teamlapen.vampirism.api.entity.IEntityLeader;
+import de.teamlapen.faction.api.world.entities.IEntityLeader;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

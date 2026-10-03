@@ -11,9 +11,8 @@ import de.teamlapen.vampirism.entity.player.tasks.reward.RefinementItemReward;
 import de.teamlapen.vampirism.entity.player.tasks.unlock.LordLvlUnlocker;
 import de.teamlapen.vampirism.entity.player.tasks.unlock.LvlUnlocker;
 import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.util.REFERENCE;
-import io.netty.bootstrap.BootstrapConfig;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -42,7 +41,7 @@ public class ModTasks {
     public static final ResourceKey<Task> RANDOM_RARE_REFINEMENT = key("random_rare_refinement");
 
     private static ResourceKey<Task> key(String path) {
-        return ResourceKey.create(VampirismRegistries.Keys.TASK, WResourceLocation.mod(path));
+        return ResourceKey.create(VampirismRegistries.Keys.TASK, WIdentifier.mod(path));
     }
 
     public static void createTasks(BootstrapContext<Task> context) {

@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.core;
 
 import de.teamlapen.vampirism.api.VampirismRegistries;
 import de.teamlapen.vampirism.api.entity.player.task.Task;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -35,11 +35,11 @@ public class ModTags {
         }
 
         private static TagKey<Block> werewolves(String id) {
-            return BlockTags.create(WResourceLocation.mod(id));
+            return BlockTags.create(WIdentifier.mod(id));
         }
 
         private static TagKey<Block> common(String id) {
-            return BlockTags.create(WResourceLocation.common(id));
+            return BlockTags.create(WIdentifier.common(id));
         }
     }
 
@@ -72,11 +72,11 @@ public class ModTags {
         }
 
         private static TagKey<Item> werewolves(String id) {
-            return ItemTags.create(WResourceLocation.mod( id));
+            return ItemTags.create(WIdentifier.mod( id));
         }
 
         private static TagKey<Item> common(String id) {
-            return ItemTags.create(WResourceLocation.common(id));
+            return ItemTags.create(WIdentifier.common(id));
         }
     }
 
@@ -99,7 +99,7 @@ public class ModTags {
         }
 
         private static @NotNull TagKey<Biome> tag(@NotNull String name) {
-            return TagKey.create(Registries.BIOME, WResourceLocation.mod( name));
+            return TagKey.create(Registries.BIOME, WIdentifier.mod( name));
         }
     }
 
@@ -116,7 +116,7 @@ public class ModTags {
         }
 
         private static @NotNull TagKey<PoiType> tag(@NotNull String modid, @NotNull String name) {
-            return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, WResourceLocation.loc(modid, name));
+            return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, WIdentifier.loc(modid, name));
         }
 
     }
@@ -126,7 +126,7 @@ public class ModTags {
 
 
         private static @NotNull TagKey<VillagerProfession> tag(@NotNull String name) {
-            return TagKey.create(Registries.VILLAGER_PROFESSION,WResourceLocation.mod(name));
+            return TagKey.create(Registries.VILLAGER_PROFESSION, WIdentifier.mod(name));
         }
 
     }
@@ -137,7 +137,7 @@ public class ModTags {
         public static final TagKey<DamageType> BITE = tag("bite");
 
         private static @NotNull TagKey<DamageType> tag(@NotNull String name) {
-            return TagKey.create(Registries.DAMAGE_TYPE, WResourceLocation.mod(name));
+            return TagKey.create(Registries.DAMAGE_TYPE, WIdentifier.mod(name));
         }
 
     }
@@ -148,11 +148,11 @@ public class ModTags {
         public static final TagKey<Task> HAS_FACTION = vampirism("has_faction");
 
         private static @NotNull TagKey<Task> tag(@NotNull String name) {
-            return TagKey.create(VampirismRegistries.Keys.TASK, WResourceLocation.mod(name));
+            return TagKey.create(VampirismRegistries.Keys.TASK, WIdentifier.mod(name));
         }
 
         private static @NotNull TagKey<Task> vampirism(@NotNull String name) {
-            return TagKey.create(VampirismRegistries.Keys.TASK, WResourceLocation.v(name));
+            return TagKey.create(VampirismRegistries.Keys.TASK, WIdentifier.v(name));
         }
     }
 
@@ -164,7 +164,7 @@ public class ModTags {
         }
 
         private static @NotNull TagKey<EntityType<?>> tag(@NotNull String name) {
-            return tag(WResourceLocation.mod(name));
+            return tag(WIdentifier.mod(name));
         }
     }
 }

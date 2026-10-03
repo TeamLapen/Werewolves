@@ -18,7 +18,7 @@ import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.vampirism.util.ScoreboardUtil;
 import de.teamlapen.vampirism.world.MinionWorldData;
 import de.teamlapen.werewolves.api.WReference;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.WerewolvesAttachments;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -74,7 +74,7 @@ import java.util.function.Predicate;
 public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implements IWerewolfPlayer {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final ResourceLocation CLAWS = WResourceLocation.mod("claws");
+    private static final ResourceLocation CLAWS = WIdentifier.mod("claws");
 
     public static WerewolfPlayer get(@Nonnull Player playerEntity) {
         return playerEntity.getData(ModAttachments.WEREWOLF_PLAYER);

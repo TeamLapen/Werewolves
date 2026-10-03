@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.data;
 
 import de.teamlapen.lib.lib.data.BaseItemModelGenerator;
 import de.teamlapen.vampirism.util.RegUtil;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModItems;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -147,7 +147,7 @@ public class ItemModelGenerator extends BaseItemModelGenerator {
     }
 
     protected static ResourceLocation vLoc(String string) {
-        return WResourceLocation.v(string);
+        return WIdentifier.v(string);
     }
 
     @NotNull
@@ -195,7 +195,7 @@ public class ItemModelGenerator extends BaseItemModelGenerator {
         if (rl.getPath().contains("/")) {
             return rl;
         }
-        return WResourceLocation.loc(rl.getNamespace(), folder + "/" + rl.getPath());
+        return WIdentifier.loc(rl.getNamespace(), folder + "/" + rl.getPath());
     }
 
     @NotNull

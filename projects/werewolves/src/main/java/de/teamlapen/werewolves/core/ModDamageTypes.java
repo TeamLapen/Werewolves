@@ -1,8 +1,7 @@
 package de.teamlapen.werewolves.core;
 
 import de.teamlapen.werewolves.api.WEnums;
-import de.teamlapen.werewolves.api.WResourceLocation;
-import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.api.WIdentifier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -10,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageEffects;
 import net.minecraft.world.damagesource.DamageScaling;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DeathMessageType;
 
 public class ModDamageTypes {
 
@@ -19,7 +17,7 @@ public class ModDamageTypes {
 
 
     private static ResourceKey<DamageType> createKey(@SuppressWarnings("SameParameterValue") String name) {
-        return ResourceKey.create(Registries.DAMAGE_TYPE, WResourceLocation.mod(name));
+        return ResourceKey.create(Registries.DAMAGE_TYPE, WIdentifier.mod(name));
     }
 
     public static void createDamageTypes(BootstrapContext<DamageType> context) {

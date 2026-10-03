@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.world.gen;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import de.teamlapen.vampirism.world.gen.modifier.ExtendedAddSpawnsBiomeModifier;
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.blocks.WolfBerryBushBlock;
 import de.teamlapen.werewolves.config.CommonConfig;
 import de.teamlapen.werewolves.config.WerewolvesConfig;
@@ -11,7 +11,6 @@ import de.teamlapen.werewolves.core.ModBlocks;
 import de.teamlapen.werewolves.core.ModEntities;
 import de.teamlapen.werewolves.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
-import de.teamlapen.werewolves.world.gen.feature.JacarandaTrunkPlacer;
 import de.teamlapen.werewolves.world.gen.feature.MagicFoliagePlacer;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -39,7 +38,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.AcaciaFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.CherryFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaPineFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
@@ -182,18 +180,18 @@ public class WerewolvesBiomeFeatures {
     }
 
     private static ResourceKey<ConfiguredFeature<?, ?>> createConfiguredKey(String name) {
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, WResourceLocation.mod(name));
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, WIdentifier.mod(name));
     }
 
     private static ResourceKey<PlacedFeature> createPlacedKey(String name) {
-        return ResourceKey.create(Registries.PLACED_FEATURE,WResourceLocation.mod(name));
+        return ResourceKey.create(Registries.PLACED_FEATURE, WIdentifier.mod(name));
     }
 
     private static ResourceKey<BiomeModifier> createModifierKey(String name) {
-        return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, WResourceLocation.mod( name));
+        return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, WIdentifier.mod( name));
     }
 
     private static ResourceKey<StructureSet> createStructureSetKey(String name) {
-        return ResourceKey.create(Registries.STRUCTURE_SET, WResourceLocation.mod( name));
+        return ResourceKey.create(Registries.STRUCTURE_SET, WIdentifier.mod( name));
     }
 }

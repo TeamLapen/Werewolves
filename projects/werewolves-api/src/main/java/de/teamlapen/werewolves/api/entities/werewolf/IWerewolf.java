@@ -1,14 +1,14 @@
 package de.teamlapen.werewolves.api.entities.werewolf;
 
-import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
-import de.teamlapen.werewolves.api.WReference;
-import org.jetbrains.annotations.NotNull;
+import de.teamlapen.faction.api.factions.IFaction;
+import de.teamlapen.faction.api.factions.IFactionEntity;
+import de.teamlapen.werewolves.api.WerewolvesFactions;
+import net.minecraft.core.Holder;
 
 public interface IWerewolf extends IFactionEntity, IWerewolfDataholder {
 
     @Override
-    default @NotNull IFaction<?> getFaction() {
-        return WReference.WEREWOLF_FACTION;
+    default Holder<? extends IFaction<?>> getFaction() {
+        return WerewolvesFactions.WEREWOLF;
     }
 }

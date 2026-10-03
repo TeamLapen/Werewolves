@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.api.entities.werewolf;
 
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -23,7 +22,6 @@ public class WerewolfForm {
     public static final WerewolfForm BEAST4L = new WerewolfForm("beast4l", WerewolfSize.BEAST, false, true, 11, 0.3F, false, 0.32f);
     public static final WerewolfForm SURVIVALIST = new WerewolfForm("survivalist", WerewolfSize.SURVIVAL, false, true, 11, 0.4F, false, 0.8f);
 
-    @Nonnull
     private final String name;
     @Nullable
     private final Map<Pose, EntityDimensions> sizeMap;
@@ -35,7 +33,7 @@ public class WerewolfForm {
     private final boolean hasArms;
     private final float leapModifier;
 
-    WerewolfForm(@Nonnull String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, float damageReduction, boolean hasArms, float leapModifier) {
+    WerewolfForm(String name, @Nullable Map<Pose, EntityDimensions> sizeMap, boolean humanLike, boolean transformed, int skinTypes, float damageReduction, boolean hasArms, float leapModifier) {
         if (REGISTRY.containsKey(name)) throw new IllegalStateException("this name already exists");
         REGISTRY.put(name, this);
         if (sizeMap == null) {

@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.core;
 
-import de.teamlapen.werewolves.api.WResourceLocation;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
@@ -43,7 +43,7 @@ public class ModArmorMaterials {
 
     private static DeferredHolder<ArmorMaterial, ArmorMaterial> register(String name, Map<ArmorItem.Type, Integer> defense, int enchantmentValue, Holder<SoundEvent> equipSound, Supplier<Ingredient> repairIngredient, float toughness, float knockbackResistance) {
         return ARMOR_MATERIALS.register(name, () -> {
-            List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(WResourceLocation.mod(name)));
+            List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(WIdentifier.mod(name)));
             return new ArmorMaterial(defense, enchantmentValue, equipSound, repairIngredient, list, toughness, knockbackResistance);
         });
     }
