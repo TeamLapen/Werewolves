@@ -1,117 +1,44 @@
-plugins {
-    id 'net.neoforged.gradle.userdev' version '7.1.20'
-//    id "net.neoforged.gradle.mixin" version "7.1.20"
-    id 'idea'
-    id 'eclipse'
-    id "me.modmuss50.mod-publish-plugin" version "0.7.4"
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.ALL
 }
 
-group = mod_group_id
-version = mod_version
-
-base {
-    archivesName = mod_name
-}
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-
-sourceSets {
-    api {
-        compileClasspath += configurations["compileClasspath"]
-    }
-    main {
-
-        java {
-            //if you want to exclude a package do it here, but use the package as path (e.g. de/teamlapen/vampirism for de.teamlapen.vampirism)
-            // if you want intellij to ignore the package, you need to add it in the settings (File -> Settings -> Build, Execution, Deployment -> Compiler -> Excludes)
-            // exclude(<package>)
-            if (!include_jei.toBoolean()) {
-                exclude('de/teamlapen/werewolves/modcompat/jei')
-            }
-            if (!include_guideapi.toBoolean()) {
-                exclude('de/teamlapen/werewolves/modcompat/guide')
-            }
-            if (!include_terrablender.toBoolean()) {
-                exclude('de/teamlapen/werewolves/modcompat/terrablender')
-            }
-        }
-        //noinspection GroovyAssignabilityCheck
-        compileClasspath += sourceSets.api.output
-        runtimeClasspath += sourceSets.api.output
-
-        resources.srcDirs += 'src/generated/resources'
-    }
-}
-
-apply from: 'gradle/versioning.gradle'
-apply from: 'gradle/forge.gradle'
-apply from: 'gradle/artifacts.gradle'
-apply from: 'gradle/deploy.gradle'
-apply from: 'gradle/crowdin.gradle'
-
-
-idea {
-    module {
-        for (String excludeDirName in ["run", "out", "logs", "runs"]) {
-            File excludeDir = new File(projectDir, excludeDirName)
-            excludeDirs.add(excludeDir)
-        }
-        downloadSources = true
-    }
-}
-
-tasks.named('processResources', ProcessResources).configure {
-    var replaceProperties = [
-            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
-            forge_version: forge_version, forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
-            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors: mod_authors, mod_description: mod_description,
-            jei_version: jei_version,
-            guideapi_version: guideapi_version,
-            vampirism_version: vampirism_version,
-            mod_url: mod_url,
-            mod_issue_tracker: mod_issue_tracker,
-            pack_format_number: pack_format_number,
-            vampirism_version_range: vampirism_version_range,
-    ]
-    inputs.properties replaceProperties
-
-    filesMatching(['META-INF/neoforge.mods.toml', 'pack.mcmeta']) {
-        expand replaceProperties + [project: project]
-    }
-}
-
-tasks.named('jar', Jar).configure {
-    from sourceSets.main.output.classesDirs
-    from sourceSets.api.output.classesDirs
-    from sourceSets.main.output.resourcesDir
-    from sourceSets.api.output.resourcesDir
-
-    from{
-        fileTree('build/translations').matching{
-            exclude "**/en_us.json" //Don't override local source file
+ext.registerJarFiles = { List<String> filePaths ->
+    tasks.withType(Jar).configureEach {
+        filePaths.each { path ->
+            from(rootProject.file(path))
         }
     }
+}
 
-    manifest {
-        attributes([
-                'Specification-Title'     : mod_id,
-                'Specification-Vendor'    : mod_authors,
-                'Specification-Version'   : '1', // We are version 1 of ourselves
-                'Implementation-Title'    : project.name,
-                'Implementation-Version'  : project.jar.archiveVersion,
-                'Implementation-Vendor'   : mod_authors,
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "FMLAT"                   : "accesstransformer.cfg",
-        ])
+if (!project.hasProperty("werewolves_version")) {
+    var tmpVersion = project.minecraft_version + "-" + project.werewolves_mod_version
+    if (project.hasProperty("werewolves_test_id")) {
+        tmpVersion += "-test." + project.property("werewolves_test_id")
+    }
+    allprojects {
+        ext.werewolves_version = tmpVersion
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
+subprojects {
+    apply plugin: 'eclipse'
+    apply plugin: 'maven-publish'
+    apply from: rootProject.file('gradle/idea.gradle')
 
-configurations.all {
-    print(it.name + "\n")
+    afterEvaluate {
+        def mavenUrl = System.getenv("MAVEN_URL")
+        if (mavenUrl) {
+            publishing {
+                repositories {
+                    maven {
+                        url = mavenUrl
+                        credentials {
+                            username = System.getenv("MAVEN_USERNAME") ?: ""
+                            password = System.getenv("MAVEN_PASSWORD") ?: ""
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,0 +1,51 @@
+apply from: rootProject.file('gradle/repositories.gradle')
+
+configurations {
+    localRuntime
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+List<Project> dependencyProjects = [
+        project(':werewolves-api'),
+]
+
+dependencyProjects.forEach {
+    project.evaluationDependsOn(it.path)
+}
+
+dependencies {
+    dependencyProjects.forEach {
+        compileOnly(it)
+        localRuntime(it)
+        testImplementation(it)
+    }
+
+        // TODO check how it is done better. Currently there is a cycle in IItemPropertiesFactionsMock#factions$description -> Item
+        compileOnly(accessTransformers(interfaceInjectionData("de.teamlapen.faction:FactionApi:${project.werewolves_factions_version}")))
+        runtimeOnly(accessTransformers(interfaceInjectionData("de.teamlapen.faction:FactionApi:${project.werewolves_factions_version}")))
+
+    if (include_jei.toBoolean()) {
+        compileOnly "mezz.jei:jei-${jei_mc_version}-common-api:${project.jei_version}"
+        compileOnly "mezz.jei:jei-${jei_mc_version}-neoforge-api:${project.jei_version}"
+        localRuntime "mezz.jei:jei-${jei_mc_version}-neoforge:${project.jei_version}"
+    }
+
+    if (include_guideapi.toBoolean()) {
+        compileOnly "de.maxanier.guideapi:Guide-API-VP:${guideapi_mc_version}-${project.guideapi_version}"
+        localRuntime "de.maxanier.guideapi:Guide-API-VP:${guideapi_mc_version}-${project.guideapi_version}"
+    }
+
+    if (include_terrablender.toBoolean()) {
+        compileOnly "com.github.glitchfiend:TerraBlender-neoforge:${project.terrablender_version}"
+        localRuntime "com.github.glitchfiend:TerraBlender-neoforge:${project.terrablender_version}"
+    }
+
+    if (include_jade.toBoolean()) {
+        localRuntime "curse.maven:jade-324717:" + project.jade_version
+    }
+
+    if (include_jer.toBoolean()) {
+        localRuntime "maven.modrinth:uEfK2CXF:" + project.jer_version
+    }
+
+}

@@ -1,0 +1,200 @@
+plugins {
+    id 'net.neoforged.moddev' version '2.0.141'
+}
+group = project.werewolves_group_id
+version = project.werewolves_version
+
+base {
+    archivesName = project.werewolves_mod_name
+}
+
+apply from: file('integrations.gradle')
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(project.java_version)
+    }
+    withSourcesJar()
+}
+
+// Map subproject sourceSets to the original project directories to avoid moving files for now
+sourceSets {
+    main {
+        resources.srcDirs += file('src/generated/resources')
+    }
+}
+
+for (var integration : integrations) {
+    if (integration.included) {
+        sourceSets.create(integration.name) {
+            java.srcDir "src/integrations/${integration.name}/java"
+
+            compileClasspath += sourceSets.main.output + configurations.compileClasspath
+            runtimeClasspath += output + compileClasspath + sourceSets.main.output
+        }
+    }
+}
+
+integrations.each {
+    if (it.included) {
+        sourceSets.main.runtimeClasspath += sourceSets[it.name].output
+    }
+}
+
+apply from: file('dependencies.gradle')
+
+neoForge {
+    version = project.neoforge_version
+
+//    validateAccessTransformers = true
+
+//    interfaceInjectionData {
+//        from project.file("src/main/resources/META-INF/interfaceinjection.json")
+//        publish project.file("src/main/resources/META-INF/interfaceinjection.json")
+//    }
+
+    accessTransformers {
+        from project.file("src/main/resources/META-INF/accesstransformer.cfg")
+        publish project.file("src/main/resources/META-INF/accesstransformer.cfg")
+    }
+
+    runs {
+        configureEach {
+            logLevel = org.slf4j.event.Level.WARN //ERROR,WARN,INFO,DEBUG,TRACE
+
+            jvmArgument '-XX:+AllowEnhancedClassRedefinition'
+            jvmArgument '-XX:+IgnoreUnrecognizedVMOptions'
+
+            systemProperty 'mixin.debug.export', 'true'
+        }
+
+        client {
+            client()
+
+            systemProperty 'forge.enabledGameTestNamespaces', project.werewolves_mod_id
+        }
+        clientAlternative {
+            client()
+
+            programArgument '--username=Dev2'
+
+            systemProperty 'forge.enabledGameTestNamespaces', project.werewolves_mod_id
+        }
+        clientAuth {
+            client()
+
+            devLogin = true
+
+            systemProperty 'forge.enabledGameTestNamespaces', project.werewolves_mod_id
+        }
+        server {
+            server()
+            programArgument '--nogui'
+
+            systemProperty 'forge.enabledGameTestNamespaces', project.werewolves_mod_id
+        }
+
+        data {
+            clientData()
+
+            programArguments.addAll '--mod', project.werewolves_mod_id, '--all', '--output', project.file('src/generated/resources/').getAbsolutePath(), '--existing', project.file('src/main/resources/').getAbsolutePath()
+        }
+    }
+
+    mods {
+        "${werewolves_mod_id}" {
+            sourceSet(sourceSets.main)
+            sourceSet(project(':werewolves-api').sourceSets.main)
+            integrations.each {
+                if (it.included) {
+                    sourceSet(sourceSets[it.name])
+                }
+            }
+        }
+    }
+}
+
+
+// Mod metadata generation (templates located in root/src/main/templates)
+def generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    def replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neoforge_version,
+            mod_id                 : werewolves_mod_id,
+            mod_name               : werewolves_mod_name,
+            mod_license            : werewolves_mod_license,
+            mod_version            : werewolves_version,
+            mod_authors            : werewolves_authors,
+            mod_description        : werewolves_description,
+            mod_issue_tracker      : werewolves_issue_tracker,
+            mod_url                : werewolves_url,
+            mod_update_url         : werewolves_update_url,
+            factions_mod_id        : factions_mod_id,
+            jei_version            : jei_version,
+            guideapi_version       : guideapi_version,
+            terrablender_version   : terrablender_version,
+            werewolves_factions_version : werewolves_factions_version,
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from file("src/main/templates")
+    into layout.buildDirectory.dir("generated/sources/modMetadata")
+}
+
+// Add generated metadata dir as resource root
+sourceSets.main.resources.srcDir generateModMetadata
+
+neoForge.ideSyncTask generateModMetadata
+
+idea {
+    module {
+        generatedSourceDirs += file('build/generated/sources/annotationProcessor/java/main')
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    javaToolchains {
+        compilerFor{
+            languageVersion = JavaLanguageVersion.of(project.java_version)
+        }
+    }
+}
+
+
+tasks.jar {
+    from (sourceSets.main.output)
+    from (project(':werewolves-api').sourceSets.main.output)
+
+    integrations.each {
+        if (it.included) {
+            from(sourceSets[it.name].output)
+        }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.named("sourcesJar", Jar) {
+    from(sourceSets.main.allJava)
+    from (project(':werewolves-api').sourceSets.main.allJava)
+
+    integrations.each {
+        if (it.included) {
+            from(sourceSets[it.name].allJava)
+        }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveClassifier.set("sources")
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            it.artifactId = project.werewolves_mod_name
+        }
+    }
+}

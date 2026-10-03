@@ -1,0 +1,61 @@
+license = "${mod_license}"
+issueTrackerURL = "${mod_issue_tracker}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+updateJSONURL = "${mod_update_url}"
+displayURL = "${mod_url}"
+logoFile = "logo.png"
+credits = '''
+RebelT (models/textures), Maxanier (vampirism), 1LiterZinalco (models) Йода (textures), CritterCarnival (textures), Talonerd (textures), https://freesound.org (sounds), Mike (testing/ideas), LilCatGod (testing/ideas)
+'''
+authors = "${mod_authors}"
+description = '''${mod_description}'''
+enumExtensions="META-INF/enumextensions.json"
+
+[[mixins]]
+config = "${mod_id}.mixins.json"
+
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"
+
+[[dependencies.${ mod_id }]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neo_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId="${factions_mod_id}"
+type = "required"
+versionRange = "[${werewolves_factions_version},)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "jei"
+type = "optional"
+versionRange = "[${jei_version},)"
+side = "CLIENT"
+
+[[dependencies.${ mod_id }]]
+modId = "guideapi_vp"
+type = "optional"
+versionRange = "[${guideapi_version},)"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "terrablender"
+type = "optional"
+versionRange = "[${terrablender_version},)"
+side = "BOTH"

@@ -1,8 +1,8 @@
-Werewolves for Minecraft 1.21 - Latest branch
+Werewolves for Minecraft 26.1 - Dev branch
 ====
 
 
-![](dev_resources/project/werewolves-title.png)
+![](resources/project/werewolves-title.png)
 
 [![](http://cf.way2muchnoise.eu/short_417851_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/werewolves-become-a-beast)
 [![Java CI](https://github.com/TeamLapen/Werewolves/workflows/Java%20CI/badge.svg?branch=1.16)](https://github.com/TeamLapen/Werewolves/actions)

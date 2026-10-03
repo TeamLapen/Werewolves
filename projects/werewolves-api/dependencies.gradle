@@ -1,0 +1,6 @@
+apply from: rootProject.file('gradle/repositories.gradle')
+
+dependencies {
+
+    api "de.teamlapen.faction:FactionApi-api:${project.werewolves_factions_version}"
+}

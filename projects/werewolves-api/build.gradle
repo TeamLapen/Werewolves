@@ -1,0 +1,37 @@
+plugins {
+    id 'net.neoforged.moddev' version '2.0.141'
+}
+
+group = project.werewolves_group_id
+version = project.werewolves_version
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(project.java_version)
+    }
+    withSourcesJar()
+}
+
+neoForge {
+    version = project.neoforge_version
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    javaToolchains {
+        compilerFor{
+            languageVersion = JavaLanguageVersion.of(project.java_version)
+        }
+    }
+}
+
+apply from: file('dependencies.gradle')
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            it.artifactId = "${project.werewolves_mod_name}-api"
+        }
+    }
+}
