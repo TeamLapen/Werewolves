@@ -36,9 +36,16 @@ public class WerewolfFaceOverlayLayer<T extends LivingEntity, E extends Werewolf
 
     @Override
     public void render(@Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (entity.isInvisible()) {
+            return;
+        }
         IWerewolf werewolf = entity instanceof IWerewolf ? (IWerewolf) entity : WerewolfPlayer.get(((Player) entity));
         int eyeType = Math.max(0, Math.min(getEyeType(werewolf), eyeOverlays.length - 1));
-        VertexConsumer vertexBuilderEye = bufferIn.getBuffer(hasGlowingEyes(werewolf) ? RenderType.eyes(eyeOverlays[eyeType]) : RenderType.entityCutoutNoCull(eyeOverlays[eyeType]));
+        ResourceLocation eyeTexture = eyeOverlays[eyeType];
+        // Non-glowing eyes share the body's render type (entityTranslucent for PlayerModel) so they are drawn in the
+        // same pass as the body; a cutout type can be flushed before the translucent body and get painted over.
+        RenderType eyeRenderType = hasGlowingEyes(werewolf) ? RenderType.eyes(eyeTexture) : this.getParentModel().renderType(eyeTexture);
+        VertexConsumer vertexBuilderEye = bufferIn.getBuffer(eyeRenderType);
         this.getParentModel().renderToBuffer(matrixStack, vertexBuilderEye, packedLightIn, OverlayTexture.NO_OVERLAY);
     }
 

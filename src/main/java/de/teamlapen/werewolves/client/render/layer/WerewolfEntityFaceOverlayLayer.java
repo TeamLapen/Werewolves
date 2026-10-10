@@ -29,6 +29,9 @@ public class WerewolfEntityFaceOverlayLayer<T extends WerewolfBaseEntity, M exte
 
     @Override
     public void render(@Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull WerewolfBaseEntity werewolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (werewolf.isInvisible()) {
+            return;
+        }
         int s = werewolf.getEyeType();
         int eyeType = Math.max(0, s) % (eyeOverlays.length);
         RenderType renderType = RenderType.eyes(eyeOverlays[eyeType]);
