@@ -1,8 +1,7 @@
 package de.teamlapen.werewolves.client.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism.client.gui.screens.MinionStatsScreen;
-import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
+import de.teamlapen.werewolves.common.world.entities.minion.WerewolfMinionEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;

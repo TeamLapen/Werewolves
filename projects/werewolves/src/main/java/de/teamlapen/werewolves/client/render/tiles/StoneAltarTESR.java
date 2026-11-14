@@ -2,9 +2,9 @@ package de.teamlapen.werewolves.client.render.tiles;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import de.teamlapen.werewolves.blocks.StoneAltarBlock;
-import de.teamlapen.werewolves.blocks.entity.StoneAltarBlockEntity;
-import de.teamlapen.werewolves.core.ModItems;
+import de.teamlapen.werewolves.common.world.blocks.StoneAltarBlock;
+import de.teamlapen.werewolves.common.world.blocks.entity.StoneAltarBlockEntity;
+import de.teamlapen.werewolves.common.core.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;

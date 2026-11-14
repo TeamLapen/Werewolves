@@ -1,9 +1,10 @@
 package de.teamlapen.werewolves.util;
 
 import de.teamlapen.werewolves.api.WIdentifier;
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SmithingTemplateItem;
 
 import java.util.List;
@@ -16,21 +17,21 @@ public class ModSmithingTemplates {
     private static final Component WHITE_PELT_UPGRADE = Component.translatable(Util.makeDescriptionId("upgrade", WIdentifier.mod( "white_pelt_upgrade"))).withStyle(getTitleFormat());
     private static final Component WHITE_PELT_UPGRADE_BASE_SLOT_DESCRIPTION = Component.translatable(Util.makeDescriptionId("item", WIdentifier.mod( "smithing_template.white_pelt_upgrade.base_slot_description")));
     private static final Component WHITE_PELT_UPGRADE_ADDITIONS_SLOT_DESCRIPTION = Component.translatable(Util.makeDescriptionId("item", WIdentifier.mod( "smithing_template.white_pelt_upgrade.additions_slot_description")));
-    private static final ResourceLocation EMPTY_SLOT_PELT = WIdentifier.mod("item/empty_slot_pelt");
-    private static final ResourceLocation EMPTY_SLOT_PELT_HELMET = WIdentifier.mod( "item/empty_slot_pelt_helmet");
-    private static final ResourceLocation EMPTY_SLOT_PELT_CHESTPLATE = WIdentifier.mod("item/empty_slot_pelt_chestplate");
-    private static final ResourceLocation EMPTY_SLOT_PELT_LEGGINGS = WIdentifier.mod( "item/empty_slot_pelt_leggings");
-    private static final ResourceLocation EMPTY_SLOT_PELT_BOOTS = WIdentifier.mod( "item/empty_slot_pelt_boots");
+    private static final Identifier EMPTY_SLOT_PELT = WIdentifier.mod("item/empty_slot_pelt");
+    private static final Identifier EMPTY_SLOT_PELT_HELMET = WIdentifier.mod( "item/empty_slot_pelt_helmet");
+    private static final Identifier EMPTY_SLOT_PELT_CHESTPLATE = WIdentifier.mod("item/empty_slot_pelt_chestplate");
+    private static final Identifier EMPTY_SLOT_PELT_LEGGINGS = WIdentifier.mod( "item/empty_slot_pelt_leggings");
+    private static final Identifier EMPTY_SLOT_PELT_BOOTS = WIdentifier.mod( "item/empty_slot_pelt_boots");
 
-    private static List<ResourceLocation> createPeltUpgradeIconList() {
+    private static List<Identifier> createPeltUpgradeIconList() {
         return List.of(EMPTY_SLOT_PELT_HELMET, EMPTY_SLOT_PELT_CHESTPLATE, EMPTY_SLOT_PELT_LEGGINGS, EMPTY_SLOT_PELT_BOOTS);
     }
 
-    private static List<ResourceLocation> createWhitePeltUpgradeMaterialList() {
+    private static List<Identifier> createWhitePeltUpgradeMaterialList() {
         return List.of(EMPTY_SLOT_PELT);
     }
 
-    public static SmithingTemplateItem createWhitePeltUpgradeTemplate() {
-        return new SmithingTemplateItem(WHITE_PELT_UPGRADE_APPLIES_TO, WHITE_PELT_UPGRADE_INGREDIENTS, WHITE_PELT_UPGRADE, WHITE_PELT_UPGRADE_BASE_SLOT_DESCRIPTION, WHITE_PELT_UPGRADE_ADDITIONS_SLOT_DESCRIPTION, createPeltUpgradeIconList(), createWhitePeltUpgradeMaterialList());
+    public static SmithingTemplateItem createWhitePeltUpgradeTemplate(Item.Properties properties) {
+        return new SmithingTemplateItem(WHITE_PELT_UPGRADE_APPLIES_TO, WHITE_PELT_UPGRADE_INGREDIENTS, WHITE_PELT_UPGRADE_BASE_SLOT_DESCRIPTION, WHITE_PELT_UPGRADE_ADDITIONS_SLOT_DESCRIPTION, createPeltUpgradeIconList(), createWhitePeltUpgradeMaterialList(), properties );
     }
 }

@@ -2,8 +2,8 @@ package de.teamlapen.werewolves.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.teamlapen.werewolves.api.WIdentifier;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.entities.player.werewolf.actions.WerewolfFormAction;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.DeltaTracker;

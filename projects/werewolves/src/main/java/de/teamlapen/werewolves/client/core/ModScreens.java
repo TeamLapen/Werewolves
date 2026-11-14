@@ -4,7 +4,7 @@ import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.client.gui.StoneAltarScreen;
 import de.teamlapen.werewolves.client.gui.overlay.FurOverlay;
 import de.teamlapen.werewolves.client.gui.overlay.WerewolfFormDurationOverlay;
-import de.teamlapen.werewolves.core.ModContainer;
+import de.teamlapen.werewolves.common.core.ModContainer;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;

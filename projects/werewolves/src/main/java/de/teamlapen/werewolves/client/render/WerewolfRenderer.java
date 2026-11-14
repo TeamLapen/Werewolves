@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.client.render;
 
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.render.layer.WerewolfEntityFaceOverlayLayer;
-import de.teamlapen.werewolves.entities.werewolf.WerewolfBaseEntity;
+import de.teamlapen.werewolves.common.world.entities.werewolf.WerewolfBaseEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

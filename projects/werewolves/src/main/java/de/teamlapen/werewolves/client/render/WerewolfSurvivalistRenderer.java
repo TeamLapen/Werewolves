@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.client.render;
 
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.entities.werewolf.BasicWerewolfEntity;
+import de.teamlapen.werewolves.common.world.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

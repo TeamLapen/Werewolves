@@ -1,17 +1,17 @@
 package de.teamlapen.werewolves.util;
 
-import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.werewolves.api.WReference;
+import de.teamlapen.faction.api.FactionsApi;
+import de.teamlapen.faction.api.factions.IFaction;
+import de.teamlapen.faction.common.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.api.items.ISilverItem;
-import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.core.ModSkills;
-import de.teamlapen.werewolves.core.ModTags;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.config.ModConfig;
+import de.teamlapen.werewolves.common.core.ModFactions;
+import de.teamlapen.werewolves.common.core.ModSkills;
+import de.teamlapen.werewolves.common.core.ModTags;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,18 +27,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class Helper extends de.teamlapen.vampirism.util.Helper {
+public class Helper extends de.teamlapen.vampirism.common.util.Helper {
 
     public static boolean isWerewolf(Entity entity) {
-        return (entity instanceof Player player && isWerewolf(player)) || WReference.WEREWOLF_FACTION.equals(VampirismAPI.factionRegistry().getFaction(entity));
+        return (entity instanceof Player player && isWerewolf(player)) || IFaction.is(FactionsApi.services().factionHelper().getFaction(entity), ModFactions.WEREWOLF);
     }
 
     public static boolean isWerewolf(Player entity) {
-        return  WReference.WEREWOLF_FACTION.equals(VampirismAPI.factionPlayerHandler(entity).getCurrentFaction());
+        return FactionsApi.factionPlayerHandler(entity).isInFaction(ModFactions.WEREWOLF));
     }
 
     public static boolean hasFaction(Entity entity) {
-        if (VampirismAPI.factionRegistry().getFaction(entity) != null) {
+        if (!IFaction.isNeutral(FactionsApi.services().factionHelper().getFaction(entity))) {
             return true;
         } else return isWerewolf(entity);
     }
@@ -48,7 +48,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean canBecomeWerewolf(Player player) {
-        return FactionPlayerHandler.get(player).canJoin(WReference.WEREWOLF_FACTION);
+        return FactionPlayerHandler.get(player).canJoin(ModFactions.WEREWOLF);
     }
 
     public static boolean isNight(Level world) {
@@ -83,11 +83,11 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
 
     @Deprecated
     public static boolean canWerewolfPlayerEatItem(Player player, ItemStack stack) {
-        return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT.get())).orElse(false);
+        return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT)).orElse(false);
     }
 
     public static boolean isMeat(@Nullable LivingEntity entity, ItemStack stack) {
-        return stack.getFoodProperties(entity) != null && (stack.is(ModTags.Items.WEREWOLF_FOOD) || WerewolvesConfig.SERVER.isCustomMeatItems(stack.getItem()));
+        return stack.getFoodProperties(entity) != null && (stack.is(ModTags.Items.WEREWOLF_FOOD) || ModConfig.SERVER.isCustomMeatItems(stack.getItem()));
     }
 
     @Deprecated
@@ -96,7 +96,7 @@ public class Helper extends de.teamlapen.vampirism.util.Helper {
     }
 
     public static boolean isRawMeat( @Nullable LivingEntity entity, ItemStack stack) {
-        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAW_FOOD) || WerewolvesConfig.SERVER.isCustomRawMeatItems(stack.getItem()));
+        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAW_FOOD) || ModConfig.SERVER.isCustomRawMeatItems(stack.getItem()));
     }
 
     @Deprecated

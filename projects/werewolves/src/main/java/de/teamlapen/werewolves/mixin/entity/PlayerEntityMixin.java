@@ -1,19 +1,14 @@
 package de.teamlapen.werewolves.mixin.entity;
 
-import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.core.ModAttributes;
-import de.teamlapen.werewolves.core.ModSkills;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.core.ModAttributes;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.checkerframework.checker.units.qual.A;

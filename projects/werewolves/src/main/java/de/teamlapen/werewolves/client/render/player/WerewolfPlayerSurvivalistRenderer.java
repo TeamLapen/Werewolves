@@ -8,7 +8,7 @@ import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
 import de.teamlapen.werewolves.client.render.layer.SurvivalItemInMouthLayer;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

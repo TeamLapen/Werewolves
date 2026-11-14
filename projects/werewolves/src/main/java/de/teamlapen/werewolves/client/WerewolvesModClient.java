@@ -1,23 +1,19 @@
 package de.teamlapen.werewolves.client;
 
 import de.teamlapen.lib.lib.util.IInitListener;
-import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.client.core.*;
-import de.teamlapen.werewolves.core.RegistryManager;
-import de.teamlapen.werewolves.proxy.ClientProxy;
-import de.teamlapen.werewolves.proxy.Proxy;
+import de.teamlapen.werewolves.common.core.ModRegistryManager;
+import de.teamlapen.werewolves.client.proxy.ClientProxy;
+import de.teamlapen.werewolves.common.proxy.Proxy;
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
 @ApiStatus.Internal
@@ -29,14 +25,14 @@ public class WerewolvesModClient {
     }
 
     private final IEventBus modEventBus;
-    private final RegistryManager registryManager;
+    private final ModRegistryManager registryManager;
     private final ModHUDOverlay modHUDOverlay;
     private final ClientEventHandler clientEventHandler;
     private final RenderHandler renderHandler;
 
     private ModPlayerRenderer modPlayerRenderer;
 
-    public WerewolvesModClient(IEventBus modbus, RegistryManager registryManager) {
+    public WerewolvesModClient(IEventBus modbus, ModRegistryManager registryManager) {
         INSTANCE = this;
         this.modEventBus = modbus;
         this.registryManager = registryManager;
@@ -50,7 +46,6 @@ public class WerewolvesModClient {
         modbus.addListener(ModBlocksRenderer::registerBlockEntityRenderers);
         modbus.addListener(ModScreens::registerScreens);
         modbus.addListener(ModScreens::registerScreenOverlays);
-        modbus.addListener(ModItemRenderer::registerColors);
         modbus.addListener(this::registerReloadListeners);
 
         NeoForge.EVENT_BUS.register(this.clientEventHandler);

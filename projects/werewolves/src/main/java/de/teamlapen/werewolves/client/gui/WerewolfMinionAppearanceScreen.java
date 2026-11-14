@@ -5,7 +5,7 @@ import de.teamlapen.vampirism.client.gui.screens.AppearanceScreen;
 import de.teamlapen.vampirism.entity.minion.management.MinionData;
 import de.teamlapen.vampirism.network.ServerboundAppearancePacket;
 import de.teamlapen.werewolves.client.render.WerewolfMinionRenderer;
-import de.teamlapen.werewolves.entities.minion.WerewolfMinionEntity;
+import de.teamlapen.werewolves.common.world.entities.minion.WerewolfMinionEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.EditBox;

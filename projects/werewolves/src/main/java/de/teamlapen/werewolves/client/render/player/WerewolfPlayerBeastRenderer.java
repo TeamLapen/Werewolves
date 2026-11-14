@@ -8,23 +8,22 @@ import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
 import de.teamlapen.werewolves.client.render.layer.BeastItemInHandLayer;
 import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.neoforged.neoforge.client.ClientHooks;
-import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class WerewolfPlayerBeastRenderer extends WerewolfPlayerRenderer<AbstractClientPlayer, WerewolfBeastModel<AbstractClientPlayer>> {
 
-    private final List<ResourceLocation> textures;
+    private final List<Identifier> textures;
     public WerewolfPlayerBeastRenderer(EntityRendererProvider.Context context) {
         super(context, new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)), 1F);
         this.textures = WerewolfBeastModel.getBeastTextures();

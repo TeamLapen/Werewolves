@@ -1,17 +1,17 @@
 package de.teamlapen.werewolves.util;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AlphanumericComparator implements Comparator<ResourceLocation> {
+public class AlphanumericComparator implements Comparator<Identifier> {
 
     private final Pattern p = Pattern.compile("(\\D*)(\\d*)");
 
     @Override
-    public int compare(ResourceLocation s, ResourceLocation t1) {
+    public int compare(Identifier s, Identifier t1) {
         String first = s.toString();
         String second = t1.toString();
         Matcher m1 = p.matcher(first);

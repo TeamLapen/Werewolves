@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.Werewolf4LModel;
-import de.teamlapen.werewolves.entities.werewolf.WerewolfAlphaEntity;
+import de.teamlapen.werewolves.common.world.entities.werewolf.WerewolfAlphaEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

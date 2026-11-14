@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.client.gui;
 import de.teamlapen.lib.lib.client.gui.ProgressBar;
 import de.teamlapen.vampirism.REFERENCE;
 import de.teamlapen.werewolves.api.WIdentifier;
-import de.teamlapen.werewolves.blocks.entity.WolfsbaneDiffuserBlockEntity;
+import de.teamlapen.werewolves.common.world.blocks.entity.WolfsbaneDiffuserBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;

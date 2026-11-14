@@ -1,0 +1,46 @@
+package de.teamlapen.werewolves.common.world.effects.inst;
+
+import de.teamlapen.vampirism.api.VReference;
+import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
+import de.teamlapen.werewolves.mixin.MobEffectInstanceAccessor;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import java.util.Collections;
+import java.util.Optional;
+
+public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
+
+    public WerewolfNightVisionEffectInstance() {
+        this(null);
+    }
+
+    public WerewolfNightVisionEffectInstance(@Nullable MobEffectInstance otherEffect) {
+        super(MobEffects.NIGHT_VISION, -1, 0, false, false, false, checkEffect(otherEffect));
+        ((EffectInstanceWithSource) this).setSource(VReference.PERMANENT_INVISIBLE_MOB_EFFECT);
+    }
+
+    public boolean update(@Nonnull MobEffectInstance other) {
+        return false;
+    }
+
+    public boolean equals(Object other) {
+        return other == this;
+    }
+
+    public boolean tick(@Nonnull LivingEntity entityIn, @Nonnull Runnable p_76455_2_) {
+        if (((MobEffectInstanceAccessor) this).getHiddenEffect() != null) {
+            ((MobEffectInstanceAccessor) ((MobEffectInstanceAccessor) this).getHiddenEffect()).invokeTickDownDuration();
+        }
+        return true;
+    }
+
+    private static @Nullable MobEffectInstance checkEffect(@Nullable MobEffectInstance effectInstance) {
+        return effectInstance != null && !effectInstance.isInfiniteDuration() ? effectInstance : null;
+    }
+
+}

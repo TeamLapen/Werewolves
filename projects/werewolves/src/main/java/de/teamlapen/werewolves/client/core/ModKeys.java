@@ -2,10 +2,10 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
-import de.teamlapen.werewolves.core.ModActions;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.network.ServerboundBiteEventPackage;
-import de.teamlapen.werewolves.network.ServerboundSimpleInputEventPacket;
+import de.teamlapen.werewolves.common.core.ModActions;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.network.ServerboundBiteEventPackage;
+import de.teamlapen.werewolves.common.network.ServerboundSimpleInputEventPacket;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;

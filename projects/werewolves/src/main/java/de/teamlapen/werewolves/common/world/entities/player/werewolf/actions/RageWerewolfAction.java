@@ -1,0 +1,83 @@
+package de.teamlapen.werewolves.common.world.entities.player.werewolf.actions;
+
+import de.teamlapen.faction.api.factions.actions.ILastingAction;
+import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
+import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.common.config.ModConfig;
+import de.teamlapen.werewolves.common.core.ModAttributes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
+
+public class RageWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
+
+    @Override
+    public boolean isEnabled() {
+        return ModConfig.BALANCE.SKILLS.rage_enabled.get();
+    }
+
+    @Override
+    protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
+        applyEffects(werewolf);
+        werewolf.asEntity().getAttribute(ModAttributes.BITE_DAMAGE).addPermanentModifier(new AttributeModifier(RegUtil.id(this), ModConfig.BALANCE.SKILLS.rage_bite_damage.get(), AttributeModifier.Operation.ADD_VALUE));
+        return true;
+    }
+
+    @Override
+    public int getDuration(IWerewolfPlayer werewolf) {
+        return (ModConfig.BALANCE.SKILLS.rage_duration.get()  + ModConfig.BALANCE.SKILLS.rage_duration_level_increase.get() * werewolf.getLevel()) * 20;
+    }
+
+    @Override
+    public boolean canBeUsedBy(IWerewolfPlayer player) {
+        return player.getForm().isTransformed();
+    }
+
+    @Override
+    public void onActivatedClient(IWerewolfPlayer iWerewolfPlayer) {
+    }
+
+    @Override
+    public void onDeactivated(IWerewolfPlayer werewolf) {
+        removePotionEffect(werewolf, MobEffects.DAMAGE_BOOST);
+        removePotionEffect(werewolf, MobEffects.MOVEMENT_SPEED);
+        werewolf.asEntity().getAttribute(ModAttributes.BITE_DAMAGE).removeModifier(RegUtil.id(this));
+    }
+
+    @Override
+    public void onReActivated(IWerewolfPlayer iWerewolfPlayer) {
+
+    }
+
+    @Override
+    public boolean onUpdate(IWerewolfPlayer iWerewolfPlayer) {
+        if (!iWerewolfPlayer.isRemote() && iWerewolfPlayer.asEntity().tickCount % 20 == 0) {
+            applyEffects(iWerewolfPlayer);
+        }
+        return false;
+    }
+
+    @Override
+    public int getCooldown(IWerewolfPlayer werewolf) {
+        return ModConfig.BALANCE.SKILLS.rage_cooldown.get() * 20;
+    }
+
+    protected void applyEffects(IWerewolfPlayer werewolf) {
+        int speedAmplifier = werewolf.getForm() == WerewolfForm.SURVIVALIST ? 1 : 0;
+        int damageAmplifier = werewolf.getForm() == WerewolfForm.BEAST ? 1 : 0;
+        addEffectInstance(werewolf, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, speedAmplifier, false, false));
+        addEffectInstance(werewolf, new MobEffectInstance(MobEffects.DAMAGE_BOOST, 22, damageAmplifier, false, false));
+    }
+
+    @Override
+    public boolean showHudCooldown(Player player) {
+        return true;
+    }
+
+    @Override
+    public boolean showHudDuration(Player player) {
+        return true;
+    }
+}

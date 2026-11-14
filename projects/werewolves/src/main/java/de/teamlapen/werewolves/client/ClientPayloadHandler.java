@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.client;
 
-import de.teamlapen.werewolves.WerewolvesMod;
-import de.teamlapen.werewolves.network.ClientboundAttackTargetEventPacket;
+import de.teamlapen.werewolves.common.network.ClientboundAttackTargetEventPacket;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class ClientPayloadHandler {

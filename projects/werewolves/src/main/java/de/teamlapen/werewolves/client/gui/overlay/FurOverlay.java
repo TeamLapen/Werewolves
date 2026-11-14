@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.client.gui.overlay;
 
 import de.teamlapen.werewolves.api.WIdentifier;
-import de.teamlapen.werewolves.config.WerewolvesConfig;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.config.ModConfig;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.CameraType;
@@ -19,7 +19,7 @@ public class FurOverlay implements LayeredDraw.Layer {
 
     @Override
     public void render(@NotNull GuiGraphics pGuiGraphics, @NotNull DeltaTracker pDeltaTracker) {
-        if (this.mc.player != null && !WerewolvesConfig.CLIENT.disableScreenFurRendering.get()) {
+        if (this.mc.player != null && !ModConfig.CLIENT.disableScreenFurRendering.get()) {
             if (this.mc.options.getCameraType() == CameraType.FIRST_PERSON && Helper.isWerewolf(this.mc.player) && FormHelper.isFormActionActive(WerewolfPlayer.get(this.mc.player))) {
                 pGuiGraphics.blit(FUR, 0, 0, 0, 0, this.mc.getWindow().getScreenWidth(), this.mc.getWindow().getScreenHeight(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight());
             }

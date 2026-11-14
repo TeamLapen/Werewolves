@@ -1,10 +1,9 @@
 package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
-import de.teamlapen.werewolves.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
@@ -12,17 +11,15 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public abstract class WerewolfPlayerRenderer<T extends LivingEntity, E extends HumanoidModel<T>> extends LivingEntityRenderer<T, E>  {
+public abstract class WerewolfPlayerRenderer<T extends LivingEntity, S extends LivingEntityRenderState, E extends HumanoidModel<T>> extends LivingEntityRenderer<T, S, E>  {
 
     public static Optional<String> getWerewolfRenderer(AbstractClientPlayer player) {
         if (Helper.isWerewolf(player)) {

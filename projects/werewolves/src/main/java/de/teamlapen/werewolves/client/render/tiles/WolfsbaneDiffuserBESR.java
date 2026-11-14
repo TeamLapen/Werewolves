@@ -6,8 +6,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
-import de.teamlapen.werewolves.blocks.entity.WolfsbaneDiffuserBlockEntity;
-import de.teamlapen.werewolves.core.ModItems;
+import de.teamlapen.werewolves.common.world.blocks.entity.WolfsbaneDiffuserBlockEntity;
+import de.teamlapen.werewolves.common.core.ModBlocks;
+import de.teamlapen.werewolves.common.core.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -43,8 +44,8 @@ public class WolfsbaneDiffuserBESR implements BlockEntityRenderer<WolfsbaneDiffu
             matrixStackIn.translate(-0.5D, 0, -0.5);
             matrixStackIn.pushPose();
 
-            BakedModel garlic_model = Minecraft.getInstance().getItemRenderer().getModel(new ItemStack(de.teamlapen.werewolves.core.ModBlocks.WOLFSBANE.get()), null, null, 0);
-            Minecraft.getInstance().getItemRenderer().renderModelLists(garlic_model, new ItemStack(de.teamlapen.werewolves.core.ModBlocks.WOLFSBANE.get()), combinedLightIn, combinedOverlayIn, matrixStackIn, vertexConsumer);
+            BakedModel garlic_model = Minecraft.getInstance().getItemRenderer().getModel(new ItemStack(ModBlocks.WOLFSBANE.get()), null, null, 0);
+            Minecraft.getInstance().getItemRenderer().renderModelLists(garlic_model, new ItemStack(ModBlocks.WOLFSBANE.get()), combinedLightIn, combinedOverlayIn, matrixStackIn, vertexConsumer);
             matrixStackIn.popPose();
             matrixStackIn.popPose();
         }

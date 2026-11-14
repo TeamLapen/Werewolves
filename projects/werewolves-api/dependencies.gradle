@@ -3,4 +3,5 @@ apply from: rootProject.file('gradle/repositories.gradle')
 dependencies {
 
     api "de.teamlapen.faction:FactionApi-api:${project.werewolves_factions_version}"
+    api "de.teamlapen.vampirism:Vampirism-api:${project.werewolves_vampirism_version}"
 }
