@@ -1,15 +1,14 @@
 package de.teamlapen.werewolves.client.model;
 
-import com.google.common.collect.ImmutableList;
+import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -20,7 +19,7 @@ import java.util.List;
  * Model made by Rebel
  * Created using Tabula 7.1.0
  */
-public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
+public class Werewolf4LModel extends WerewolfBaseModel {
 
     private static final String BODY = "body";
     private static final String HIP = "hip";
@@ -99,7 +98,7 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
 
     @SuppressWarnings({"unused", "DuplicatedCode"})
     public static LayerDefinition createBodyLayer() {
-        MeshDefinition mesh = WerewolfBaseModel.createMesh(CubeDeformation.NONE);
+        MeshDefinition mesh = WerewolfBaseModel.createMesh();
         PartDefinition part = mesh.getRoot();
 
         PartDefinition body = part.addOrReplaceChild(BODY, CubeListBuilder.create().texOffs(0, 13).addBox(-4.5F, 0.0F, -4.0F, 9.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 9.0F, -2.5F, 1.7453F, 0.0F, 0.0F));
@@ -153,14 +152,23 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
     }
 
     @Override
-    public void setupAnim(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        boolean flag1 = entityIn.isVisuallySwimming();
+    public void setupAnim(@Nonnull WerewolfRenderState state) {
+        super.setupAnim(state);
+        float limbSwing = state.walkAnimationPos;
+        float limbSwingAmount = state.walkAnimationSpeed;
+        float ageInTicks = state.ageInTicks;
+        float netHeadYaw = state.yRot;
+        float headPitch = state.xRot;
+        boolean crouching = state.isCrouching;
+        float swimAmount = state.swimAmount;
+        float attackTime = state.attackTime;
+        boolean flag1 = state.isVisuallySwimming;
         this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
-        if (this.swimAmount > 0.0f) {
+        if (swimAmount > 0.0f) {
             if (flag1) {
-                this.head.xRot = this.rotlerpRad(this.head.xRot, (-(float) Math.PI / 4F), this.swimAmount);
+                this.head.xRot = this.rotlerpRad(this.head.xRot, (-(float) Math.PI / 4F), swimAmount);
             } else {
-                this.head.xRot = this.rotlerpRad(this.head.xRot, headPitch * ((float) Math.PI / 180F), this.swimAmount);
+                this.head.xRot = this.rotlerpRad(this.head.xRot, headPitch * ((float) Math.PI / 180F), swimAmount);
             }
         } else {
             this.head.xRot = headPitch * ((float) Math.PI / 180F);
@@ -199,8 +207,8 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
         this.earRight.xRot = -0.4886921905584123F;
         this.earRight.xRot += Mth.cos(ageInTicks * 0.06F) * 0.07F;
 
-        if (this.attackTime > 0.0F) {
-            this.jaw.xRot = 0.2f + this.attackTime * (1.2217304763960306F - 0.2f);
+        if (attackTime > 0.0F) {
+            this.jaw.xRot = 0.2f + attackTime * (1.2217304763960306F - 0.2f);
         }
 
     }
@@ -210,10 +218,7 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
         return pSide == HumanoidArm.LEFT ? this.armRight : this.armLeft;
     }
 
-    @Override
-    public void renderToBuffer(@Nonnull PoseStack matrixStackIn, @Nonnull VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, int color) {
-        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-    }
+
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
@@ -239,23 +244,19 @@ public class Werewolf4LModel<T extends LivingEntity> extends WerewolfBaseModel<T
     @Nullable
     @Override
     public ModelPart getLeftArmModel() {
-        return this.leftArm;
+        return this.armLeft;
     }
 
     @Nullable
     @Override
     public ModelPart getRightArmModel() {
-        return this.rightArm;
+        return this.armRight;
     }
 
-    @Nonnull
-    @Override
-    protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(this.body);
-    }
+
 
     @Nonnull
-    public static List<ResourceLocation> get4LTextures() {
+    public static List<Identifier> get4LTextures() {
         return WerewolfBeastModel.getBeastTextures();
     }
 }

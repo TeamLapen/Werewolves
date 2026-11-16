@@ -1,10 +1,8 @@
 package de.teamlapen.werewolves.mixin.entity;
 
-import de.teamlapen.vampirism.api.entity.EntityClassType;
-import de.teamlapen.vampirism.api.entity.IExtendedCreatureVampirism;
-import de.teamlapen.vampirism.api.entity.actions.EntityActionTier;
-import de.teamlapen.vampirism.api.entity.vampire.IVampire;
-import de.teamlapen.vampirism.entity.ExtendedCreature;
+import de.teamlapen.vampirism.api.world.entity.IExtendedCreatureVampirism;
+import de.teamlapen.vampirism.api.world.entity.vampire.IVampire;
+import de.teamlapen.vampirism.common.world.entity.ExtendedCreature;
 import de.teamlapen.werewolves.api.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -12,15 +10,17 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.common.core.ModEntities;
 import de.teamlapen.werewolves.common.world.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.util.Helper;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.AbstractVillager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -41,10 +41,6 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     private boolean werewolf;
     @Unique
     private WerewolfForm form = WerewolfForm.BEAST;
-    @Unique
-    private final EntityActionTier entityTier = EntityActionTier.Medium;
-    @Unique
-    private EntityClassType entityClass;
     @Unique
     protected int rage;
 
@@ -82,8 +78,8 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     }
 
     @Override
-    public boolean hurt(@Nonnull DamageSource source, float amount) {
-        if (super.hurt(source, amount)) {
+    public boolean hurtServer(@Nonnull ServerLevel level, @Nonnull DamageSource source, float amount) {
+        if (super.hurtServer(level, source, amount)) {
             if (isWerewolf()) {
                 this.rage += (int) (amount * 10);
             }
@@ -124,19 +120,28 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     }
 
     @Override
-    public EntityClassType getEntityClass() {
-        return this.entityClass == null ? this.entityClass = EntityClassType.getRandomClass(this.getRandom()) : this.entityClass;
-    }
-
-    @Override
-    public EntityActionTier getEntityTier() {
-        return this.entityTier;
-    }
-
-    @Override
     public int getSkinType(@Nullable WerewolfForm form) {
         int i = getEntityData().get(TYPE);
         return Math.max(i, 0);
+    }
+
+    @Override
+    public int getEyeType(@Nullable WerewolfForm form) {
+        return 0;
+    }
+
+    @Override
+    public void setSkinType(@Nullable WerewolfForm form, int skinType) {
+        this.getEntityData().set(TYPE, skinType);
+    }
+
+    @Override
+    public void setEyeType(@Nullable WerewolfForm form, int eyeType) {
+    }
+
+    @Override
+    public boolean hasGlowingEyes(WerewolfForm form) {
+        return false;
     }
 
     @Override
@@ -161,32 +166,21 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
-    public void werewolves_addAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
-        CompoundTag nbt = new CompoundTag();
+    public void werewolves_addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
+        ValueOutput nbt = output.child("werewolves");
         nbt.putBoolean("werewolf", this.werewolf);
         if (this.form != null) {
             nbt.putString("form", this.form.getName());
         }
         nbt.putInt("type", this.getSkinType());
-        if (this.entityClass != null) {
-            nbt.putInt("entityclasstype", EntityClassType.getID(this.entityClass));
-        }
-        compound.put("werewolves", nbt);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
-    public void werewolves_readAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
-        CompoundTag nbt = compound.getCompound("werewolves");
-        this.werewolf = nbt.getBoolean("werewolf");
-        if (nbt.contains("form")) {
-            this.form = WerewolfForm.getForm(nbt.getString("form"));
-        }
-        if (nbt.contains("type")) {
-            int t = nbt.getInt("type");
-            this.getEntityData().set(TYPE, t < TYPES && t >= 0 ? t : -1);
-        }
-        if (nbt.contains("entityclasstype")) {
-            this.entityClass = EntityClassType.getEntityClassType(nbt.getInt("entityclasstype"));
-        }
+    public void werewolves_readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
+        input.child("werewolves").ifPresent(nbt -> {
+            this.werewolf = nbt.getBooleanOr("werewolf", false);
+            nbt.getString("form").ifPresent(form -> this.form = WerewolfForm.getForm(form));
+            nbt.getInt("type").ifPresent(t -> this.getEntityData().set(TYPE, t < TYPES && t >= 0 ? t : -1));
+        });
     }
 }

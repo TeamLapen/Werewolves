@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.common.world.effects;
 
-import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.api.entity.IExtendedCreatureVampirism;
-import de.teamlapen.vampirism.api.entity.vampire.IVampire;
-import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
+import net.minecraft.server.level.ServerLevel;
+import de.teamlapen.vampirism.api.VampirismApi;
+import de.teamlapen.vampirism.api.world.entity.IExtendedCreatureVampirism;
+import de.teamlapen.vampirism.api.world.entity.vampire.IVampire;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.util.DamageHandler;
 import de.teamlapen.werewolves.util.Helper;
@@ -30,21 +30,21 @@ public class BleedingEffect extends WerewolvesEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier) {
+    public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity entityLivingBaseIn, int amplifier) {
         if (entityLivingBaseIn.isInvertedHealAndHarm()) {
             return false;
         }
 
-        DamageHandler.hurtModded(entityLivingBaseIn, ModDamageSources::bloodLoss, ModConfig.BALANCE.POTIONS.bleedingEffectDamage.get().floatValue());
+        DamageHandler.hurtModded(serverLevel, entityLivingBaseIn, ModDamageSources::bloodLoss, ModConfig.balance().POTIONS.bleedingEffectDamage.get().floatValue());
         if (entityLivingBaseIn.getRandom().nextInt(8) == 0) {
             if (Helper.isVampire(entityLivingBaseIn)) {
                 if (entityLivingBaseIn instanceof Player) {
-                    VampirePlayer.get(((Player) entityLivingBaseIn)).useBlood(1, true);
+                    VampirismApi.vampirePlayer((Player) entityLivingBaseIn).useBlood(1, true);
                 } else if (entityLivingBaseIn instanceof IVampire) {
                     ((IVampire) entityLivingBaseIn).useBlood(1, true);
                 }
             } else if (entityLivingBaseIn instanceof PathfinderMob) {
-                IExtendedCreatureVampirism creature = VampirismAPI.extendedCreatureVampirism((PathfinderMob) entityLivingBaseIn);
+                IExtendedCreatureVampirism creature = VampirismApi.extendedCreatureVampirism((PathfinderMob) entityLivingBaseIn);
                 creature.setBlood(creature.getBlood() - 1);
             }
         }

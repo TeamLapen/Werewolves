@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.common.world.effects;
 
 import de.teamlapen.werewolves.api.WIdentifier;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class HowlingEffect extends WerewolvesEffect {
 
-    public static final ResourceLocation ATTACK_SPEED = WIdentifier.mod("howling");
+    public static final Identifier ATTACK_SPEED = WIdentifier.mod("howling");
 
     public HowlingEffect() {
         super(MobEffectCategory.BENEFICIAL, 0xFFC90E);

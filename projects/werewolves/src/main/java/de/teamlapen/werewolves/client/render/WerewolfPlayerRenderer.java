@@ -2,72 +2,99 @@ package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
+import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
+import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+import de.teamlapen.werewolves.client.render.state.WerewolvesRenderStates;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.HumanoidArm;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
-public abstract class WerewolfPlayerRenderer<T extends LivingEntity, S extends LivingEntityRenderState, E extends HumanoidModel<T>> extends LivingEntityRenderer<T, S, E>  {
+/**
+ * Renders a player in a non human like werewolf form
+ */
+public abstract class WerewolfPlayerRenderer extends LivingEntityRenderer<AbstractClientPlayer, WerewolfRenderState, WerewolfBaseModel> {
 
     public static Optional<String> getWerewolfRenderer(AbstractClientPlayer player) {
         if (Helper.isWerewolf(player)) {
-            WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-            WerewolfForm form = werewolf.getForm();
-            if (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen && ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).isRenderForm()) {
-                form = ((WerewolfPlayerAppearanceScreen) Minecraft.getInstance().screen).getActiveForm();
-            }
+            WerewolfForm form = WerewolvesRenderStates.getRenderForm(player);
             if (form == WerewolfForm.BEAST) {
-                return Optional.of(REFERENCE.MODID+":beast");
+                return Optional.of(REFERENCE.MODID + ":beast");
             } else if (form == WerewolfForm.SURVIVALIST) {
-                return Optional.of(REFERENCE.MODID+":survivalist");
+                return Optional.of(REFERENCE.MODID + ":survivalist");
             }
         }
         return Optional.empty();
     }
 
-    public WerewolfPlayerRenderer(EntityRendererProvider.Context context, E model, float shadowRadius) {
+    private final WerewolfForm form;
+    private final List<Identifier> textures;
+
+    public WerewolfPlayerRenderer(EntityRendererProvider.Context context, WerewolfBaseModel model, float shadowRadius, WerewolfForm form, List<Identifier> textures) {
         super(context, model, shadowRadius);
+        this.form = form;
+        this.textures = textures;
     }
 
-    public abstract void renderRightHand(PoseStack stack, MultiBufferSource bufferSource, int p_117773_, T entity);
-
-    public abstract void renderLeftHand(PoseStack stack, MultiBufferSource bufferSource, int p_117816_, T entity);
-
-    protected void renderHand(PoseStack stack, MultiBufferSource bufferSource, int p_117778_, T entity, ModelPart arm) {
-        E model = this.getModel();
-        model.attackTime = 0.0F;
-        model.crouching = false;
-        model.swimAmount = 0.0F;
-        model.setupAnim(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        arm.xRot = 0.0F;
-        arm.render(stack, bufferSource.getBuffer(RenderType.entitySolid(getTextureLocation(entity))), p_117778_, OverlayTexture.NO_OVERLAY);
+    public WerewolfForm getForm() {
+        return this.form;
     }
 
     @Override
-    protected void setupRotations(T pEntity, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale) {
-        float f = pEntity.getSwimAmount(pPartialTick);
-        if (pEntity.isFallFlying()) {
-            super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
-        } else if (f > 0) {
-            super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
-            setupSwimRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
-        } else {
-            super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
+    public @NotNull WerewolfRenderState createRenderState() {
+        return new WerewolfRenderState();
+    }
+
+    @Override
+    public void extractRenderState(@NotNull AbstractClientPlayer player, @NotNull WerewolfRenderState state, float partialTicks) {
+        super.extractRenderState(player, state, partialTicks);
+        WerewolfRenderState.extract(player, WerewolfPlayer.get(player), this.form, state, partialTicks, this.itemModelResolver);
+        state.texture = getTexture(state.skinType);
+    }
+
+    protected Identifier getTexture(int skinType) {
+        return this.textures.get(Math.max(0, skinType) % this.textures.size());
+    }
+
+    @Override
+    public @NotNull Identifier getTextureLocation(@NotNull WerewolfRenderState state) {
+        return state.texture;
+    }
+
+    public void renderHand(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, AbstractClientPlayer player, HumanoidArm arm) {
+        ModelPart armPart = arm == HumanoidArm.RIGHT ? this.model.getRightArmModel() : this.model.getLeftArmModel();
+        if (armPart == null) return;
+        this.model.resetPose();
+        armPart.xRot = 0.0F;
+        Identifier texture = getTexture(WerewolfPlayer.get(player).getSkinType(this.form));
+        submitNodeCollector.submitModelPart(armPart, poseStack, RenderTypes.entitySolid(texture), lightCoords, OverlayTexture.NO_OVERLAY, null);
+    }
+
+    @Override
+    protected void setupRotations(@NotNull WerewolfRenderState state, @NotNull PoseStack poseStack, float bodyRot, float entityScale) {
+        super.setupRotations(state, poseStack, bodyRot, entityScale);
+        if (!state.isFallFlying && state.swimAmount > 0) {
+            setupSwimRotations(state, poseStack);
         }
     }
 
-    protected abstract void setupSwimRotations(T pEntity, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale);
+    protected abstract void setupSwimRotations(WerewolfRenderState state, PoseStack poseStack);
 
+    @Nullable
+    public static WerewolfRenderState getState(net.minecraft.client.renderer.entity.state.AvatarRenderState state) {
+        return state.getRenderData(WerewolvesRenderStates.WEREWOLF_PLAYER);
+    }
 }

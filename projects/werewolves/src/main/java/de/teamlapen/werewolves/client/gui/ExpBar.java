@@ -4,7 +4,6 @@ import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModFactions;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.properties.LevelHandler;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.util.MultilineTooltipEx;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;

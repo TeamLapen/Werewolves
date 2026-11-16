@@ -10,7 +10,11 @@ import de.teamlapen.werewolves.common.core.ModFactions;
 import de.teamlapen.werewolves.common.core.ModSkills;
 import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.faction.common.core.FactionDataComponents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.level.MoonPhase;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -52,13 +56,11 @@ public class Helper extends de.teamlapen.vampirism.common.util.Helper {
     }
 
     public static boolean isNight(Level world) {
-        long time = world.getDayTime() % 24000;
-        return !world.dimensionType().hasFixedTime() && time > 12786 && time < 23216;
+        return world.isDarkOutside();
     }
 
     public static boolean isFullMoon(Level world) {
-        long time = world.getDayTime() % 192000;
-        return !world.dimensionType().hasFixedTime() && time > 12786 && time < 23216;
+        return world.isDarkOutside() && world.environmentAttributes().getDimensionValue(EnvironmentAttributes.MOON_PHASE) == MoonPhase.FULL_MOON;
     }
 
     public static Map<Item, Integer> getMissingItems(Container inventory, Item[] items, int[] amount) {
@@ -83,11 +85,11 @@ public class Helper extends de.teamlapen.vampirism.common.util.Helper {
 
     @Deprecated
     public static boolean canWerewolfPlayerEatItem(Player player, ItemStack stack) {
-        return canWerewolfEatItem(player, stack) || WerewolfPlayer.getOpt(player).map(w -> w.getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT)).orElse(false);
+        return canWerewolfEatItem(player, stack) || (isWerewolf(player) && WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT));
     }
 
     public static boolean isMeat(@Nullable LivingEntity entity, ItemStack stack) {
-        return stack.getFoodProperties(entity) != null && (stack.is(ModTags.Items.WEREWOLF_FOOD) || ModConfig.SERVER.isCustomMeatItems(stack.getItem()));
+        return (stack.has(DataComponents.FOOD) || stack.has(FactionDataComponents.FACTION_FOOD)) && (stack.is(ModTags.Items.WEREWOLF_FOOD) || ModConfig.server().isCustomMeatItems(stack.getItem()));
     }
 
     @Deprecated
@@ -96,7 +98,7 @@ public class Helper extends de.teamlapen.vampirism.common.util.Helper {
     }
 
     public static boolean isRawMeat( @Nullable LivingEntity entity, ItemStack stack) {
-        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAW_FOOD) || ModConfig.SERVER.isCustomRawMeatItems(stack.getItem()));
+        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAW_FOOD) || ModConfig.server().isCustomRawMeatItems(stack.getItem()));
     }
 
     @Deprecated
@@ -113,7 +115,7 @@ public class Helper extends de.teamlapen.vampirism.common.util.Helper {
     }
 
     public static boolean canEat(LivingEntity entity, ItemStack stack) {
-        return Helper.isMeat(entity, stack) || !(entity instanceof Player player) || !Helper.isWerewolf(player) || WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT.get());
+        return Helper.isMeat(entity, stack) || !(entity instanceof Player player) || !Helper.isWerewolf(player) || WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(ModSkills.NOT_MEAT);
     }
 
     public static Optional<IWerewolf> asIWerewolf(LivingEntity entity) {
@@ -127,7 +129,7 @@ public class Helper extends de.teamlapen.vampirism.common.util.Helper {
     }
 
     public static boolean matchesItem(Ingredient ingredient, ItemStack searchStack) {
-        return Arrays.stream(ingredient.getItems()).anyMatch(stack -> ItemStack.isSameItem(stack, searchStack) && ItemStack.isSameItemSameComponents(stack, searchStack));
+        return ingredient.test(searchStack);
     }
 
     public static MutableComponent joinComponents(String delimiter, MutableComponent... components) {

@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.client.model;
 
-import com.google.common.collect.ImmutableList;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -9,8 +10,7 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.resources.Identifier;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -20,7 +20,10 @@ import java.util.stream.Collectors;
  * WerewolfEarsModel - RebelT
  * Created using Tabula 7.1.0
  */
-public class WerewolfEarsModel<T extends LivingEntity> extends HumanoidModel<T> {
+/**
+ * Human form werewolf ears and claws. Only the ears and claws are drawn, the remaining humanoid parts are used to copy the pose of the player model.
+ */
+public class WerewolfEarsModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
 
     public static final String HEAD = "head";
     public static final String CLAWS_LEFT = "clawsLeft";
@@ -66,24 +69,24 @@ public class WerewolfEarsModel<T extends LivingEntity> extends HumanoidModel<T> 
     public WerewolfEarsModel(ModelPart part) {
         super(part);
         this.head.skipDraw = true;
+        this.hat.skipDraw = true;
+        this.body.skipDraw = true;
         this.rightArm.skipDraw = true;
         this.leftArm.skipDraw = true;
+        this.rightLeg.skipDraw = true;
+        this.leftLeg.skipDraw = true;
         this.clawsRight = this.rightArm.getChild(CLAWS_RIGHT);
         this.clawsLeft = this.leftArm.getChild(CLAWS_LEFT);
     }
 
-    @Nonnull
-    @Override
-    protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(this.rightArm, this.leftArm);
-    }
+
 
     @Nonnull
-    public static List<ResourceLocation> getHumanTextures() {
-        List<ResourceLocation> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/human", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
+    public static List<Identifier> getHumanTextures() {
+        List<Identifier> locs = Minecraft.getInstance().getResourceManager().listResources("textures/entity/werewolf/human", s -> s.getPath().endsWith(".png")).keySet().stream().filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
         if (locs.size() < WerewolfForm.HUMAN.getSkinTypes()) {
             for (int i = 0; i < WerewolfForm.HUMAN.getSkinTypes(); i++) {
-                ResourceLocation s = WIdentifier.mod("textures/entity/werewolf/human/werewolf_ear_claws_" + i + ".png");
+                Identifier s = WIdentifier.mod("textures/entity/werewolf/human/werewolf_ear_claws_" + i + ".png");
                 if (!locs.contains(s)) {
                     locs.add(s);
                 }

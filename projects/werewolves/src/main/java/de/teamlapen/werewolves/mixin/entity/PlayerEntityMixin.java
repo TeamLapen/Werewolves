@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.checkerframework.checker.units.qual.A;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,9 +31,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     }
 
     @SuppressWarnings("UnreachableCode")
-    @Redirect(method = "getDigSpeed(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)F", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;getDestroySpeed(Lnet/minecraft/world/level/block/state/BlockState;)F"))
-    private float werewolfDigSpeed(Inventory inventory, BlockState state) {
-        float f = this.inventory.getDestroySpeed(state);
+    @Redirect(method = "getDestroySpeed(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)F", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getDestroySpeed(Lnet/minecraft/world/level/block/state/BlockState;)F"))
+    private float werewolfDigSpeed(ItemStack selectedItem, BlockState state) {
+        float f = selectedItem.getDestroySpeed(state);
         if (Helper.isWerewolf((Player)(Object)this)) {
             ItemStack stack = this.inventory.player.getMainHandItem();
             if (stack.isEmpty()) {

@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.common.world.blocks;
 
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+
 import com.mojang.serialization.MapCodec;
 import de.teamlapen.werewolves.common.core.ModItems;
 import de.teamlapen.werewolves.util.Helper;
@@ -10,7 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.VegetationBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -39,7 +41,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.NotNull;
 
-public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
+public class WolfBerryBushBlock extends VegetationBlock implements BonemealableBlock {
     public static final int MAX_AGE = 3;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     private static final VoxelShape SAPLING_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 8.0D, 13.0D);
@@ -52,12 +54,12 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    protected @NotNull MapCodec<? extends BushBlock> codec() {
+    public @NotNull MapCodec<WolfBerryBushBlock> codec() {
         return CODEC;
     }
 
     @Override
-    public @NotNull ItemStack getCloneItemStack(@NotNull BlockState state, @NotNull HitResult target, @NotNull LevelReader level, @NotNull BlockPos pos, @NotNull Player player) {
+    protected @NotNull ItemStack getCloneItemStack(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state, boolean includeData) {
         return ModItems.WOLF_BERRIES.asItem().getDefaultInstance();
     }
 
@@ -87,10 +89,10 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+    protected void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity, @NotNull InsideBlockEffectApplier effectApplier, boolean isPrecise) {
         if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
             entity.makeStuckInBlock(state, new Vec3(0.8D, 0.75D, 0.8D));
-            if (!level.isClientSide && state.getValue(AGE) > 0 && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
+            if (!level.isClientSide() && state.getValue(AGE) > 0 && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
                 if (!Helper.isWerewolf(entity)) {
                     ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0));
                 }
@@ -99,10 +101,10 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         int i = pState.getValue(AGE);
         boolean flag = i == 3;
-        return !flag && pStack.is(Items.BONE_MEAL) ? ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION : super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
+        return !flag && pStack.is(Items.BONE_MEAL) ? InteractionResult.PASS : super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override
@@ -110,13 +112,13 @@ public class WolfBerryBushBlock extends BushBlock implements BonemealableBlock {
         int i = pState.getValue(AGE);
         boolean flag = i == 3;
         if (i > 1) {
-            int j = 1 + pLevel.random.nextInt(2);
+            int j = 1 + pLevel.getRandom().nextInt(2);
             popResource(pLevel, pPos, new ItemStack(ModItems.WOLF_BERRIES.get(), j + (flag ? 1 : 0)));
-            pLevel.playSound(null, pPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + pLevel.random.nextFloat() * 0.4F);
+            pLevel.playSound(null, pPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + pLevel.getRandom().nextFloat() * 0.4F);
             BlockState blockstate = pState.setValue(AGE, Integer.valueOf(1));
             pLevel.setBlock(pPos, blockstate, 2);
             pLevel.gameEvent(GameEvent.BLOCK_CHANGE, pPos, GameEvent.Context.of(pPlayer, blockstate));
-            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+            return InteractionResult.SUCCESS;
         } else {
             return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
         }

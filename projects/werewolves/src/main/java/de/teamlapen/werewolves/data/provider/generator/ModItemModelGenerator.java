@@ -1,26 +1,31 @@
 package de.teamlapen.werewolves.data.provider.generator;
 
-import de.teamlapen.lib.lib.data.BaseItemModelGenerator;
-import de.teamlapen.vampirism.util.RegUtil;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModBlocks;
 import de.teamlapen.werewolves.common.core.ModItems;
-import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
+/**
+ * Item models of all non block items. Block item models are created in {@link ModBlockModelGenerators}
+ */
 public class ModItemModelGenerator extends ItemModelGenerators {
+
+    private static final ModelTemplate DIFFUSER_CORE = new ModelTemplate(Optional.of(vLoc("item/garlic_diffuser_core")), Optional.empty(), TextureSlot.TEXTURE);
 
     public ModItemModelGenerator(ItemModelGenerators generator) {
         super(generator.itemModelOutput, generator.modelOutput);
@@ -28,190 +33,92 @@ public class ModItemModelGenerator extends ItemModelGenerators {
 
     @Override
     public void run() {
-        Set<Supplier<? extends Block>> blockParent = new HashSet<>() {{
-            add(ModBlocks.SILVER_ORE);
-            add(ModBlocks.DEEPSLATE_SILVER_ORE);
-            add(ModBlocks.SILVER_BLOCK);
-            add(ModBlocks.RAW_SILVER_BLOCK);
-            add(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF);
-            add(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED);
-            add(ModBlocks.JACARANDA_LOG);
-            add(ModBlocks.MAGIC_LOG);
-            add(ModBlocks.STRIPPED_JACARANDA_LOG);
-            add(ModBlocks.STRIPPED_MAGIC_LOG);
-            add(ModBlocks.JACARANDA_PLANKS);
-            add(ModBlocks.MAGIC_PLANKS);
-            add(ModBlocks.JACARANDA_STAIRS);
-            add(ModBlocks.MAGIC_STAIRS);
-            add(ModBlocks.JACARANDA_WOOD);
-            add(ModBlocks.MAGIC_WOOD);
-            add(ModBlocks.STRIPPED_JACARANDA_WOOD);
-            add(ModBlocks.STRIPPED_MAGIC_WOOD);
-            add(ModBlocks.JACARANDA_PRESSURE_PLATE);
-            add(ModBlocks.MAGIC_PRESSURE_PLATE);
-            add(ModBlocks.JACARANDA_SLAB);
-            add(ModBlocks.MAGIC_SLAB);
-            add(ModBlocks.JACARANDA_FENCE_GATE);
-            add(ModBlocks.MAGIC_FENCE_GATE);
-            add(ModBlocks.JACARANDA_LEAVES);
-            add(ModBlocks.MAGIC_LEAVES);
-        }};
-        Set<Supplier<? extends Item>> itemsLayer = new HashSet<>() {{
-            add(ModItems.SILVER_INGOT);
-            add(ModItems.LIVER);
-            add(ModItems.CRACKED_BONE);
-            add(ModItems.INJECTION_UN_WEREWOLF);
-            add(ModItems.WEREWOLF_TOOTH);
-            add(ModItems.WEREWOLF_MINION_CHARM);
-            add(ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE);
-            add(ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED);
-            add(ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL);
-            add(ModItems.SILVER_NUGGET);
-            add(ModItems.SILVER_HELMET);
-            add(ModItems.SILVER_CHESTPLATE);
-            add(ModItems.SILVER_LEGGINGS);
-            add(ModItems.SILVER_BOOTS);
-            add(ModItems.WOLF_BERRIES);
-            add(ModItems.JACARANDA_BOAT);
-            add(ModItems.MAGIC_BOAT);
-            add(ModItems.JACARANDA_CHEST_BOAT);
-            add(ModItems.MAGIC_CHEST_BOAT);
-            add(ModItems.PELT);
-            add(ModItems.DARK_PELT);
-            add(ModItems.WHITE_PELT);
-            add(ModItems.PELT_HELMET);
-            add(ModItems.PELT_CHESTPLATE);
-            add(ModItems.PELT_LEGGINGS);
-            add(ModItems.PELT_BOOTS);
-            add(ModItems.DARK_PELT_HELMET);
-            add(ModItems.DARK_PELT_CHESTPLATE);
-            add(ModItems.DARK_PELT_LEGGINGS);
-            add(ModItems.DARK_PELT_BOOTS);
-            add(ModItems.WHITE_PELT_HELMET);
-            add(ModItems.WHITE_PELT_CHESTPLATE);
-            add(ModItems.WHITE_PELT_LEGGINGS);
-            add(ModItems.WHITE_PELT_BOOTS);
-            add(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE);
-            add(ModItems.WOLFSBANE_FINDER);
-        }};
-        Set<Supplier<? extends Block>> blockLayer = new HashSet<>() {{
-            add(ModBlocks.WOLFSBANE);
-            add(ModBlocks.DAFFODIL);
-            add(ModBlocks.JACARANDA_SAPLING);
-            add(ModBlocks.MAGIC_SAPLING);
-        }};
-        Set<Supplier<? extends Item>> itemsHandHeld = new HashSet<>() {{
-            add(ModItems.SILVER_AXE);
-            add(ModItems.SILVER_PICKAXE);
-            add(ModItems.SILVER_SWORD);
-            add(ModItems.SILVER_SHOVEL);
-            add(ModItems.SILVER_HOE);
-        }};
+        Stream.<Supplier<? extends Item>>of(
+                ModItems.SILVER_INGOT,
+                ModItems.LIVER,
+                ModItems.CRACKED_BONE,
+                ModItems.INJECTION_UN_WEREWOLF,
+                ModItems.WEREWOLF_TOOTH,
+                ModItems.WEREWOLF_MINION_CHARM,
+                ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE,
+                ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED,
+                ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL,
+                ModItems.SILVER_NUGGET,
+                ModItems.SILVER_HELMET,
+                ModItems.SILVER_CHESTPLATE,
+                ModItems.SILVER_LEGGINGS,
+                ModItems.SILVER_BOOTS,
+                ModItems.WOLF_BERRIES,
+                ModItems.JACARANDA_BOAT,
+                ModItems.MAGIC_BOAT,
+                ModItems.JACARANDA_CHEST_BOAT,
+                ModItems.MAGIC_CHEST_BOAT,
+                ModItems.PELT,
+                ModItems.DARK_PELT,
+                ModItems.WHITE_PELT,
+                ModItems.PELT_HELMET,
+                ModItems.PELT_CHESTPLATE,
+                ModItems.PELT_LEGGINGS,
+                ModItems.PELT_BOOTS,
+                ModItems.DARK_PELT_HELMET,
+                ModItems.DARK_PELT_CHESTPLATE,
+                ModItems.DARK_PELT_LEGGINGS,
+                ModItems.DARK_PELT_BOOTS,
+                ModItems.WHITE_PELT_HELMET,
+                ModItems.WHITE_PELT_CHESTPLATE,
+                ModItems.WHITE_PELT_LEGGINGS,
+                ModItems.WHITE_PELT_BOOTS,
+                ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE,
+                ModItems.WOLFSBANE_FINDER,
+                ModItems.RAW_SILVER,
+                // since 1.21.5 spawn eggs use their own flat texture instead of a tinted template
+                ModItems.WEREWOLF_BEAST_SPAWN_EGG,
+                ModItems.WEREWOLF_SURVIVALIST_SPAWN_EGG,
+                ModItems.HUMAN_WEREWOLF_SPAWN_EGG,
+                ModItems.ALPHA_WEREWOLF_SPAWN_EGG
+        ).map(Supplier::get).forEach(item -> this.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
 
-        blockParent.stream().map(Supplier::get).forEach(this::block);
-        itemsLayer.stream().map(Supplier::get).forEach(this::item);
-        blockLayer.stream().map(Supplier::get).forEach(this::blockLayer);
-        itemsHandHeld.stream().map(Supplier::get).forEach(item -> item(item, "item/handheld"));
+        Stream.<Supplier<? extends Item>>of(
+                ModItems.SILVER_AXE,
+                ModItems.SILVER_PICKAXE,
+                ModItems.SILVER_SWORD,
+                ModItems.SILVER_SHOVEL,
+                ModItems.SILVER_HOE
+        ).map(Supplier::get).forEach(item -> this.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM));
 
-        this.withExistingParent(ModItems.WEREWOLF_BEAST_SPAWN_EGG.get(), this.mcLoc("item/template_spawn_egg"));
-        this.withExistingParent(ModItems.WEREWOLF_SURVIVALIST_SPAWN_EGG.get(), this.mcLoc("item/template_spawn_egg"));
-        this.withExistingParent(ModItems.HUMAN_WEREWOLF_SPAWN_EGG.get(), this.mcLoc("item/template_spawn_egg"));
-        this.withExistingParent(ModItems.ALPHA_WEREWOLF_SPAWN_EGG.get(), this.mcLoc("item/template_spawn_egg"));
+        Stream.<Supplier<? extends Block>>of(
+                ModBlocks.JACARANDA_SAPLING,
+                ModBlocks.MAGIC_SAPLING
+        ).map(Supplier::get).forEach(this::blockLayer);
 
-        this.item(ModItems.DREAM_CATCHER.get(), modLoc("item/dream_catcher_layer0"), modLoc("item/dream_catcher_layer1"));
-        this.item(ModItems.CHARM_BRACELET.get(), modLoc("item/charm_bracelet_layer0"), modLoc("item/charm_bracelet_layer1"));
-        this.item(ModItems.BONE_NECKLACE.get(), modLoc("item/bone_necklace_layer0"), modLoc("item/bone_necklace_layer1"));
+        this.generateLayeredItem(ModItems.DREAM_CATCHER.get(), new Material(modLoc("item/dream_catcher_layer0")), new Material(modLoc("item/dream_catcher_layer1")));
+        this.generateLayeredItem(ModItems.CHARM_BRACELET.get(), new Material(modLoc("item/charm_bracelet_layer0")), new Material(modLoc("item/charm_bracelet_layer1")));
+        this.generateLayeredItem(ModItems.BONE_NECKLACE.get(), new Material(modLoc("item/bone_necklace_layer0")), new Material(modLoc("item/bone_necklace_layer1")));
 
-        this.item(ModItems.RAW_SILVER.get());
+        this.diffuserCore(ModItems.WOLFSBANE_DIFFUSER_CORE.get(), modLoc("block/wolfsbane_diffuser_inside"));
+        this.diffuserCore(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get(), modLoc("block/wolfsbane_diffuser_improved_inside"));
 
-        withExistingParent(ModBlocks.JACARANDA_TRAPDOOR.get(), modLoc("block/jacaranda_trapdoor_bottom"));
-        withExistingParent(ModBlocks.MAGIC_TRAPDOOR.get(), modLoc("block/magic_trapdoor_bottom"));
-
-        item(ModBlocks.JACARANDA_DOOR.get().asItem(), modLoc("item/jacaranda_door"));
-        item(ModBlocks.MAGIC_DOOR.get().asItem(), modLoc("item/magic_door"));
-
-        item(ModItems.JACARANDA_SIGN.get(), modLoc("item/jacaranda_sign"));
-        item(ModItems.MAGIC_SIGN.get(), modLoc("item/magic_sign"));
-
-        withExistingParent(ModBlocks.JACARANDA_BUTTON.get(), mcLoc("block/button_inventory")).texture("texture", modLoc("block/jacaranda_planks"));
-        withExistingParent(ModBlocks.MAGIC_BUTTON.get(), mcLoc("block/button_inventory")).texture("texture", modLoc("block/magic_planks"));
-        withExistingParent(ModBlocks.JACARANDA_FENCE.get(), mcLoc("block/fence_inventory")).texture("texture", modLoc("block/jacaranda_planks"));
-        withExistingParent(ModBlocks.MAGIC_FENCE.get(), mcLoc("block/fence_inventory")).texture("texture", modLoc("block/magic_planks"));
-
-        block(ModBlocks.WOLFSBANE_DIFFUSER.get(), "wolfsbane_diffuser_normal");
-        block(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), "wolfsbane_diffuser_improved");
-        block(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), "wolfsbane_diffuser_long");
-        withExistingParent(ModItems.WOLFSBANE_DIFFUSER_CORE.get(), ModItems.V.GARLIC_DIFFUSER_CORE.get()).texture("texture", "block/wolfsbane_diffuser_inside");
-        withExistingParent(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get(), ModItems.V.GARLIC_DIFFUSER_CORE.get()).texture("texture", "block/wolfsbane_diffuser_improved_inside");
-
-        withExistingParent(ModItems.CROSSBOW_ARROW_SILVER_BOLT.get(), vLoc("item/crossbow_arrow"));
+        this.flatWithTexture(ModItems.CROSSBOW_ARROW_SILVER_BOLT.get(), vLoc("item/quarrel"));
     }
 
     protected static Identifier vLoc(String string) {
         return WIdentifier.loc("vampirism", string);
     }
 
-    public ItemModelBuilder item(String item, Identifier @NotNull ... texture) {
-        ItemModelBuilder model = withExistingParent(item, mcLoc("item/generated"));
-        for (int i = 0; i < texture.length; i++) {
-            model.texture("layer" + i, texture[i]);
-        }
-        return model;
+    protected static Identifier modLoc(String string) {
+        return WIdentifier.mod(string);
     }
 
-    public ItemModelBuilder item(@NotNull Item item, Identifier... texture) {
-        return item(item, "item/generated", texture);
+    protected void blockLayer(ItemLike block) {
+        Item item = block.asItem();
+        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(TextureMapping.getBlockTexture((Block) block)), this.modelOutput)));
     }
 
-    public ItemModelBuilder item(@NotNull Item item, String parent, Identifier @NotNull ... texture) {
-        if (texture.length == 0) {
-            return withExistingParent(item, mcLoc(parent)).texture("layer0", REFERENCE.MODID + ":item/" + RegUtil.id(item).getPath());
-        }
-        return item(RegUtil.id(item).getPath(), texture);
+    protected void flatWithTexture(Item item, Identifier texture) {
+        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(new Material(texture)), this.modelOutput)));
     }
 
-    public ItemModelBuilder blockLayer(@NotNull Block item, Identifier @NotNull ... texture) {
-        if (texture.length == 0) {
-            return withExistingParent(item, mcLoc("item/generated")).texture("layer0", REFERENCE.MODID + ":block/" + RegUtil.id(item).getPath());
-        }
-        return item(RegUtil.id(item).getPath(), texture);
-    }
-
-    @NotNull
-    public ItemModelBuilder withExistingParent(@NotNull Item name, Identifier parent) {
-        try {
-            return super.withExistingParent(RegUtil.id(name).getPath(), parent);
-        } catch (IllegalStateException e) {
-            return getBuilder(RegUtil.id(name).getPath()).parent(new ModelFile.UncheckedModelFile(extendWithFolder(parent)));
-        }
-    }
-
-    private Identifier extendWithFolder(Identifier rl) {
-        if (rl.getPath().contains("/")) {
-            return rl;
-        }
-        return WIdentifier.loc(rl.getNamespace(), folder + "/" + rl.getPath());
-    }
-
-    @NotNull
-    public ItemModelBuilder withExistingParent(@NotNull Item name, @NotNull Item parent) {
-        return this.withExistingParent(name, RegUtil.id(parent));
-    }
-
-    @NotNull
-    public ItemModelBuilder withExistingParent(@NotNull Block name, Identifier parent) {
-        try {
-            return super.withExistingParent(RegUtil.id(name).getPath(), parent);
-        } catch (IllegalStateException e) {
-            return getBuilder(RegUtil.id(name).getPath()).parent(new ModelFile.UncheckedModelFile(parent));
-        }
-    }
-
-    public ItemModelBuilder block(@NotNull Block name) {
-        try {
-            return super.withExistingParent(RegUtil.id(name).getPath(), REFERENCE.MODID + ":block/" + RegUtil.id(name).getPath());
-        } catch (IllegalStateException e) {
-            return getBuilder(RegUtil.id(name).getPath()).parent(new ModelFile.UncheckedModelFile(REFERENCE.MODID + ":block/" + RegUtil.id(name).getPath()));
-        }
+    protected void diffuserCore(Item item, Identifier texture) {
+        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(DIFFUSER_CORE.create(ModelLocationUtils.getModelLocation(item), new TextureMapping().put(TextureSlot.TEXTURE, new Material(texture)), this.modelOutput)));
     }
 }

@@ -1,35 +1,36 @@
 package de.teamlapen.werewolves.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
 import de.teamlapen.werewolves.util.AlphanumericComparator;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerModel<T> {
+/**
+ * Base model for all werewolf forms.
+ * <p>
+ * Since 1.21.2 a model always renders its complete root part, therefore the werewolf meshes only contain the werewolf parts (no vanilla player parts).
+ */
+public abstract class WerewolfBaseModel extends EntityModel<WerewolfRenderState> implements ArmedModel<WerewolfRenderState>, HeadedModel {
 
-    protected PlayerModel<T> playerModel;
-
-    public static MeshDefinition createMesh(CubeDeformation deformation) {
-        return PlayerModel.createMesh(deformation, false);
+    public static MeshDefinition createMesh() {
+        return new MeshDefinition();
     }
 
     public WerewolfBaseModel(ModelPart part) {
-        super(part, false);
+        super(part);
     }
 
     /**
@@ -60,47 +61,19 @@ public abstract class WerewolfBaseModel<T extends LivingEntity> extends PlayerMo
     @Nullable
     public abstract ModelPart getRightArmModel();
 
+    protected abstract @NotNull ModelPart getArm(@NotNull HumanoidArm pSide);
 
-    public void setPlayerModel(PlayerModel<T> model) {
-        this.playerModel = model;
-    }
-
-    @Nonnull
     @Override
-    protected abstract Iterable<ModelPart> bodyParts();
-
-    @Deprecated
-    @Override
-    public void renderEars(@Nonnull PoseStack stack, @Nonnull VertexConsumer builder, int p_228287_3_, int p_228287_4_) {
-    }
-
-    @Deprecated
-    @Override
-    public void renderCloak(@Nonnull PoseStack stack, @Nonnull VertexConsumer builder, int p_228289_3_, int p_228289_4_) {
+    public @NotNull ModelPart getHead() {
+        ModelPart head = getHeadModel();
+        return head != null ? head : this.root;
     }
 
     @Override
-    public void setupAnim(@Nonnull T p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
-
+    public void translateToHand(@NotNull WerewolfRenderState state, @NotNull HumanoidArm arm, @NotNull PoseStack stack) {
     }
 
-    @Override
-    public void setAllVisible(boolean p_178719_1_) {
-    }
-
-    @Override
-    public void translateToHand(@Nonnull HumanoidArm arm, @Nonnull PoseStack stack) {
-    }
-
-    protected static List<ResourceLocation> getTextures(String texturePath) {
+    protected static List<Identifier> getTextures(String texturePath) {
         return Minecraft.getInstance().getResourceManager().listResources(texturePath, s -> s.getPath().endsWith(".png")).keySet().stream().sorted(new AlphanumericComparator()).filter(r -> REFERENCE.MODID.equals(r.getNamespace())).collect(Collectors.toList());
     }
-
-    protected HumanoidArm getAttackArm(T pEntity) {
-        HumanoidArm humanoidarm = pEntity.getMainArm();
-        return pEntity.swingingArm == InteractionHand.MAIN_HAND ? humanoidarm : humanoidarm.getOpposite();
-    }
-
-    @Override
-    protected abstract @NotNull ModelPart getArm(@NotNull HumanoidArm pSide);
 }

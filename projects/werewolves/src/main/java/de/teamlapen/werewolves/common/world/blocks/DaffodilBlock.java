@@ -1,6 +1,8 @@
 package de.teamlapen.werewolves.common.world.blocks;
 
-import de.teamlapen.lib.lib.util.UtilLib;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+
+import de.teamlapen.vampirism.common.util.UtilLib;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,13 +21,13 @@ import org.jetbrains.annotations.NotNull;
 public class DaffodilBlock extends FlowerBlock {
 
     public DaffodilBlock(BlockBehaviour.Properties properties) {
-        super(MobEffects.POISON, 9, properties.ignitedByLava().pushReaction(PushReaction.DESTROY).isViewBlocking(UtilLib::never).noCollission().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS));
+        super(MobEffects.POISON, 9, properties.ignitedByLava().pushReaction(PushReaction.DESTROY).isViewBlocking(UtilLib::never).noCollision().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS));
     }
 
     @Override
-    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+    protected void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity, @NotNull InsideBlockEffectApplier effectApplier, boolean isPrecise) {
         if (entity instanceof  LivingEntity living && !Helper.isWerewolf(living)) {
-            if (!level.isClientSide && (living.xOld != living.getX() || living.zOld != living.getZ())) {
+            if (!level.isClientSide() && (living.xOld != living.getX() || living.zOld != living.getZ())) {
                 living.addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0));
             }
         }

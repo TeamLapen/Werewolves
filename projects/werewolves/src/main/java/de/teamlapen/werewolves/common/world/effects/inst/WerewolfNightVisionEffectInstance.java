@@ -1,11 +1,8 @@
 package de.teamlapen.werewolves.common.world.effects.inst;
 
-import de.teamlapen.vampirism.api.VReference;
-import de.teamlapen.vampirism.api.VampirismEffects;
-import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.mixin.MobEffectInstanceAccessor;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,11 +31,21 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
         return other == this;
     }
 
-    public boolean tick(@Nonnull LivingEntity entityIn, @Nonnull Runnable p_76455_2_) {
+    @Override
+    public boolean tickServer(@Nonnull ServerLevel serverLevel, @Nonnull LivingEntity entityIn, @Nonnull Runnable onEffectUpdate) {
+        tickHiddenEffect();
+        return true;
+    }
+
+    @Override
+    public void tickClient() {
+        tickHiddenEffect();
+    }
+
+    private void tickHiddenEffect() {
         if (((MobEffectInstanceAccessor) this).getHiddenEffect() != null) {
             ((MobEffectInstanceAccessor) ((MobEffectInstanceAccessor) this).getHiddenEffect()).invokeTickDownDuration();
         }
-        return true;
     }
 
     private static @Nullable MobEffectInstance checkEffect(@Nullable MobEffectInstance effectInstance) {

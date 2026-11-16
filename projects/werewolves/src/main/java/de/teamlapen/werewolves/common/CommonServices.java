@@ -5,6 +5,7 @@ import de.teamlapen.vampirism.common.util.Permissions;
 import de.teamlapen.werewolves.api.IWerewolvesServices;
 import de.teamlapen.werewolves.common.core.ModRegistryManager;
 import de.teamlapen.werewolves.common.network.ModPacketDispatcher;
+import de.teamlapen.werewolves.common.world.ModWorldEventHandler;
 import de.teamlapen.werewolves.common.world.entities.ModEntityEventHandler;
 import de.teamlapen.werewolves.common.world.entities.player.ModPlayerEventHandler;
 import net.neoforged.bus.api.IEventBus;
@@ -28,6 +29,7 @@ public class CommonServices extends Services implements IWerewolvesServices {
     protected void registerGameBus(IEventBus bus) {
         bus.addListener(Permissions::registerNodes);
         this.registryManager.registerGameBus(bus);
+        bus.register(new ModWorldEventHandler());
 //        bus.addListener(ModEntities::onRegisterEntityTypeAttributes);
 //        bus.addListener(ModEntities::onModifyEntityTypeAttributes);
 //        bus.addListener(ModEntities::registerSpawns);

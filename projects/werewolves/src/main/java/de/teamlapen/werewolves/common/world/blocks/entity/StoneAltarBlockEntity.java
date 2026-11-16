@@ -164,7 +164,6 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     public void endRitual() {
         WerewolfPlayer werewolf = WerewolfPlayer.get(this.player);
         werewolf.getLevelHandler().reset();
-        werewolf.syncLevelHandler();
         FactionPlayerHandler handler = FactionPlayerHandler.get(this.player);
         int lvl = handler.getCurrentLevel() + 1;
         handler.setFaction(FactionUpdate.builder().faction(ModFactions.WEREWOLF).level(lvl));

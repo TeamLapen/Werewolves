@@ -6,13 +6,12 @@ import de.teamlapen.werewolves.common.config.CommonConfig;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
-import net.minecraft.util.valueproviders.IntProviderType;
 import net.neoforged.fml.util.ObfuscationReflectionHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 
-public class ConfigIntProvider extends IntProvider {
+public class ConfigIntProvider implements IntProvider {
 
     public static final MapCodec<ConfigIntProvider> CODEC = Codec.STRING.fieldOf("configFieldName").xmap(ConfigIntProvider::new, (p_236775_0_) -> p_236775_0_.supplier.getPath());
 
@@ -26,7 +25,7 @@ public class ConfigIntProvider extends IntProvider {
         CommonConfig.IntValueExt supplier1;
         Field field = ObfuscationReflectionHelper.findField(CommonConfig.class, fieldName);
         try {
-            supplier1 = (CommonConfig.IntValueExt) field.get(ModConfig.COMMON);
+            supplier1 = (CommonConfig.IntValueExt) field.get(ModConfig.common());
         } catch (IllegalAccessException e) {
             supplier1 = null;
         }
@@ -42,17 +41,17 @@ public class ConfigIntProvider extends IntProvider {
     }
 
     @Override
-    public int getMinValue() {
+    public int minInclusive() {
         return supplier.getMinValue();
     }
 
     @Override
-    public int getMaxValue() {
+    public int maxInclusive() {
         return supplier.getMaxValue();
     }
 
     @Override
-    public @NotNull IntProviderType<?> getType() {
-        return WerewolvesBiomeFeatures.CONFIG_INT_PROVIDER.get();
+    public @NotNull MapCodec<? extends IntProvider> codec() {
+        return CODEC;
     }
 }

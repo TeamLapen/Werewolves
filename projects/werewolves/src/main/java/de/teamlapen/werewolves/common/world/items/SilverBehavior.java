@@ -19,7 +19,7 @@ public class SilverBehavior extends QuarrelBehavior {
     @Override
     public void onHitEntity(ItemStack arrow, LivingEntity entity, AbstractArrow arrowEntity, Entity shootingEntity) {
         if (Helper.isWerewolf(entity)) {
-            entity.addEffect(SilverEffect.createSilverEffect(entity, ModConfig.BALANCE.UTIL.silverBoltEffectDuration.get() * 20, 1));
+            entity.addEffect(SilverEffect.createSilverEffect(entity, ModConfig.balance().UTIL.silverBoltEffectDuration.get() * 20, 1));
         }
     }
 }

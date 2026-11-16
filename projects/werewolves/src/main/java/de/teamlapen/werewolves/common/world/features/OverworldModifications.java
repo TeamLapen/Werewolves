@@ -1,10 +1,10 @@
 package de.teamlapen.werewolves.common.world.features;
 
 import com.mojang.datafixers.util.Pair;
-import de.teamlapen.vampirism.mixin.accessor.MultiNoiseBiomeSourceParameterListPresetAccessor;
+import de.teamlapen.vampirism.misc.mixin.accessor.MultiNoiseBiomeSourceParameterListPresetAccessor;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModBiomes;
-import de.teamlapen.werewolves.modcompat.terrablender.TerraBlenderCompat;
+import net.neoforged.fml.ModList;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
@@ -25,11 +25,11 @@ public class OverworldModifications {
 
     @SuppressWarnings({"UnreachableCode", "DataFlowIssue"})
     public static void addBiomesToOverworldUnsafe() {
-        if (TerraBlenderCompat.areBiomesAddedViaTerraBlender()) { //If we are already adding the biome to the overworld using TerraBlender, we shouldn't hack it into the overworld preset
+        if (ModList.get().isLoaded("terrablender")) { //If we are already adding the biome to the overworld using TerraBlender, we shouldn't hack it into the overworld preset
             LOGGER.info("Werewolves Biomes are added via TerraBlender. Not adding them to overworld preset.");
             return;
         }
-        if (ModConfig.COMMON.disableWerewolfForest.get()) {
+        if (ModConfig.common().disableWerewolfForest.get()) {
             return;
         }
 
@@ -69,7 +69,7 @@ public class OverworldModifications {
                     Pair<Climate.ParameterPoint, Holder<Biome>> pair = it.next();
                     //It should be safe to get the biome here because {@link BiomeSource} does so as well right after this function call
                     removed += pair.getSecond().unwrapKey().map(biomeId -> {
-                        if ("minecraft".equals(biomeId.location().getNamespace()) && Arrays.stream(forestPoints).anyMatch(p -> intersects(p, pair.getFirst()))) {
+                        if ("minecraft".equals(biomeId.identifier().getNamespace()) && Arrays.stream(forestPoints).anyMatch(p -> intersects(p, pair.getFirst()))) {
                             it.remove();
                             LOGGER.debug("Removing biome {} from parameter point {} in overworld preset", biomeId, pair.getFirst());
                             return 1;

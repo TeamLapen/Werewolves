@@ -149,7 +149,7 @@ public class ModHUDOverlay {
     }
 
     private void renderCrosshair(RenderGuiLayerEvent.Pre event) {
-        if (ModConfig.CLIENT.disableFangCrosshairRendering.get()) return;
+        if (ModConfig.client().disableFangCrosshairRendering.get()) return;
         if (Helper.isWerewolf(this.mc.player)) {
             HitResult result = Minecraft.getInstance().hitResult;
             LivingEntity entity = result instanceof EntityHitResult entityResult ? entityResult.getEntity() instanceof LivingEntity living ? living : null : null;

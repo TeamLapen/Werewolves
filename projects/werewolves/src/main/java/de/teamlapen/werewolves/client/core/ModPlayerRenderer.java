@@ -2,18 +2,21 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
+import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
 import de.teamlapen.werewolves.client.render.player.WerewolfPlayerBeastRenderer;
 import de.teamlapen.werewolves.client.render.player.WerewolfPlayerSurvivalistRenderer;
-import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+import de.teamlapen.werewolves.client.render.state.WerewolvesRenderStates;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.HumanoidArm;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Function;
-
+/**
+ * Handles rendering of players in non-human like werewolf forms.
+ */
 public class ModPlayerRenderer {
 
     private final WerewolfPlayerBeastRenderer beastRenderer;
@@ -24,52 +27,46 @@ public class ModPlayerRenderer {
         this.survivalistRenderer = new WerewolfPlayerSurvivalistRenderer(context);
     }
 
-    public boolean renderPlayer(AbstractClientPlayer player, float entityYaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight) {
-        return render(player, x -> {
-            if (x == WerewolfForm.SURVIVALIST) {
-                survivalistRenderer.render(player, entityYaw, partialTicks, stack, buffer, packedLight);
-                return true;
-            } else if (x == WerewolfForm.BEAST) {
-                beastRenderer.render(player, entityYaw, partialTicks, stack, buffer, packedLight);
-                return true;
-            }
-            return false;
-        });
-    }
-
-    private boolean render(AbstractClientPlayer player, Function<WerewolfForm, Boolean> renderFunction) {
-        WerewolfForm form = WerewolfPlayer.get(player).getForm();
-        if (Minecraft.getInstance().screen instanceof WerewolfPlayerAppearanceScreen screen && screen.isRenderForm()) {
-            form = screen.getActiveForm();
+    @Nullable
+    private WerewolfPlayerRenderer getRenderer(WerewolfForm form) {
+        if (form == WerewolfForm.SURVIVALIST) {
+            return this.survivalistRenderer;
+        } else if (form == WerewolfForm.BEAST) {
+            return this.beastRenderer;
         }
-        if (form.isTransformed() && !form.isHumanLike()) {
-            return renderFunction.apply(form);
-        }
-        return false;
+        return null;
     }
 
-    public boolean renderArm(AbstractClientPlayer player, PoseStack stack, MultiBufferSource bufferSource, int pCombinedLight, HumanoidArm arm) {
-        return render(player, form -> {
-            if (form == WerewolfForm.SURVIVALIST) {
-                if (arm == HumanoidArm.LEFT) {
-                    survivalistRenderer.renderLeftHand(stack, bufferSource, pCombinedLight, player);
-                } else {
-                    survivalistRenderer.renderRightHand(stack, bufferSource, pCombinedLight, player);
-                }
-                return true;
-            } else if (form == WerewolfForm.BEAST) {
-                if (arm == HumanoidArm.LEFT) {
-                    beastRenderer.renderLeftHand(stack, bufferSource, pCombinedLight, player);
-                } else {
-                    beastRenderer.renderRightHand(stack, bufferSource, pCombinedLight, player);
-                }
-                return true;
-            }
-            return false;
-        });
+    /**
+     * Extract the render state for the given player and form
+     */
+    @Nullable
+    public WerewolfRenderState extract(AbstractClientPlayer player, WerewolfForm form, float partialTicks) {
+        WerewolfPlayerRenderer renderer = getRenderer(form);
+        return renderer != null ? renderer.createRenderState(player, partialTicks) : null;
     }
 
-    public boolean renderArmMap(AbstractClientPlayer player, PoseStack stack, MultiBufferSource bufferSource, int pCombinedLight, HumanoidArm arm) {
-        return render(player, form -> true);
+    /**
+     * Submits the werewolf model for the extracted state
+     *
+     * @return whether the werewolf was rendered and the player rendering should be skipped
+     */
+    public boolean submit(WerewolfRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector) {
+        WerewolfPlayerRenderer renderer = getRenderer(state.form);
+        if (renderer == null) return false;
+        renderer.submit(state, poseStack, submitNodeCollector, Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.cameraRenderState);
+        return true;
+    }
+
+    /**
+     * @return whether the werewolf arm was rendered and the player arm rendering should be skipped
+     */
+    public boolean renderArm(AbstractClientPlayer player, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, HumanoidArm arm) {
+        WerewolfForm form = WerewolvesRenderStates.getRenderForm(player);
+        if (!form.isTransformed() || form.isHumanLike()) return false;
+        WerewolfPlayerRenderer renderer = getRenderer(form);
+        if (renderer == null) return false;
+        renderer.renderHand(poseStack, submitNodeCollector, lightCoords, player, arm);
+        return true;
     }
 }

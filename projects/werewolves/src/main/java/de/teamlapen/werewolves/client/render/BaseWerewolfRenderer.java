@@ -9,94 +9,119 @@ import de.teamlapen.werewolves.client.model.Werewolf4LModel;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.client.render.layer.WerewolfFormFaceOverlayLayer;
-import de.teamlapen.werewolves.util.Helper;
+import de.teamlapen.werewolves.client.render.layer.WerewolfFaceOverlayLayer;
+import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * @param <T> must extend {@link IWerewolf} or be {@link net.minecraft.world.entity.player.Player}
+ * Renders the werewolf model matching the current form of the entity
+ *
+ * @param <T> must implement {@link IWerewolf}
  */
-public abstract class BaseWerewolfRenderer<T extends LivingEntity> extends LivingEntityRenderer<T, WerewolfBaseModel<T>> {
-    private static final Logger LOGGER = LogManager.getLogger();
+public abstract class BaseWerewolfRenderer<T extends LivingEntity & IWerewolf> extends LivingEntityRenderer<T, WerewolfRenderState, WerewolfBaseModel> {
 
-    private final Map<WerewolfForm, WerewolfModelWrapper<T>> models = new HashMap<>();
+    private final Map<WerewolfForm, WerewolfModelWrapper> models = new HashMap<>();
+    private WerewolfForm form = WerewolfForm.NONE;
 
-    protected List<ResourceLocation> textures;
-    protected WerewolfForm form = WerewolfForm.NONE;
-
+    @SuppressWarnings("DataFlowIssue")
     public BaseWerewolfRenderer(EntityRendererProvider.Context context, float size) {
-        //noinspection ConstantConditions
         super(context, null, 0f);
 
-        this.models.put(WerewolfForm.NONE, new WerewolfModelWrapper.Builder<T>()
+        this.models.put(WerewolfForm.NONE, new WerewolfModelWrapper.Builder()
                 .shadow(0)
                 .build());
-        this.models.put(WerewolfForm.BEAST, new WerewolfModelWrapper.Builder<T>()
-                .model(new WerewolfBeastModel<>(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)))
-                .layers(Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST, this)))
+        this.models.put(WerewolfForm.BEAST, new WerewolfModelWrapper.Builder()
+                .model(new WerewolfBeastModel(context.bakeLayer(ModModelRender.WEREWOLF_BEAST)))
+                .layers(Collections.singleton(new WerewolfFaceOverlayLayer(this)))
                 .textures(WerewolfBeastModel.getBeastTextures())
                 .shadow(2.6f * size)
-                .skipPlayerModel()
                 .build());
-        this.models.put(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper.Builder<T>()
-                .model(new WerewolfSurvivalistModel<>(context.bakeLayer(ModModelRender.WEREWOLF_SURVIVALIST)))
-                .layers(Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.SURVIVALIST, this)))
+        this.models.put(WerewolfForm.SURVIVALIST, new WerewolfModelWrapper.Builder()
+                .model(new WerewolfSurvivalistModel(context.bakeLayer(ModModelRender.WEREWOLF_SURVIVALIST)))
+                .layers(Collections.singleton(new WerewolfFaceOverlayLayer(this)))
                 .textures(WerewolfSurvivalistModel.getSurvivalTextures())
                 .shadow(size)
-                .skipPlayerModel()
                 .build());
-        this.models.put(WerewolfForm.BEAST4L, new WerewolfModelWrapper.Builder<T>()
-                .model(new Werewolf4LModel<>(context.bakeLayer(ModModelRender.WEREWOLF_4L)))
-                .layers(Collections.singleton(new WerewolfFormFaceOverlayLayer<>(WerewolfForm.BEAST4L, this)))
+        this.models.put(WerewolfForm.BEAST4L, new WerewolfModelWrapper.Builder()
+                .model(new Werewolf4LModel(context.bakeLayer(ModModelRender.WEREWOLF_4L)))
+                .layers(Collections.singleton(new WerewolfFaceOverlayLayer(this)))
                 .textures(Werewolf4LModel.get4LTextures())
                 .shadow(2.6f * size)
-                .skipPlayerModel()
                 .build());
     }
 
-    public void switchModel(WerewolfForm type) {
-        if (this.form == type) return;
-        this.form = type;
-        WerewolfModelWrapper<T> werewolfModelWrapper = getWrapper(type);
-        this.model = werewolfModelWrapper.model();
-        this.shadowRadius = werewolfModelWrapper.shadow();
-        this.textures = werewolfModelWrapper.textures();
-        this.layers.clear();
-        this.layers.addAll(werewolfModelWrapper.layers());
+    protected WerewolfModelWrapper getWrapper(WerewolfForm type) {
+        return this.models.getOrDefault(type, this.models.get(WerewolfForm.NONE));
     }
 
-    protected WerewolfModelWrapper<T> getWrapper(WerewolfForm type) {
-        return this.models.get(type);
+    /**
+     * Switches model and layers to the given form
+     */
+    protected void switchModel(WerewolfForm type) {
+        if (this.form == type) return;
+        this.form = type;
+        WerewolfModelWrapper wrapper = getWrapper(type);
+        this.model = wrapper.model();
+        this.layers.clear();
+        this.layers.addAll(wrapper.layers());
     }
 
     @Override
-    protected void setupRotations(T pEntity, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale) {
-        super.setupRotations(pEntity, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
-        if (pEntity.getSwimAmount(pPartialTick) > 0.0F && this.form.isHumanLike()) {
-            float f3 = pEntity.isInWater() ? -90.0F - pEntity.getXRot() : -90.0F;
-            float f4 = Mth.lerp(pEntity.getSwimAmount(pPartialTick), 0.0F, f3);
-            pPoseStack.mulPose(Axis.XP.rotationDegrees(f4));
-            if (pEntity.isVisuallySwimming()) {
-                pPoseStack.translate(0.0D, -1.0D, 0.3F);
+    public @NotNull WerewolfRenderState createRenderState() {
+        return new WerewolfRenderState();
+    }
+
+    @Override
+    public void extractRenderState(@NotNull T entity, @NotNull WerewolfRenderState state, float partialTicks) {
+        super.extractRenderState(entity, state, partialTicks);
+        WerewolfForm form = entity.getForm();
+        WerewolfRenderState.extract(entity, entity, form, state, partialTicks, this.itemModelResolver);
+        var textures = getWrapper(form).textures();
+        state.texture = textures.isEmpty() ? MissingTextureAtlasSprite.getLocation() : textures.get(state.skinType % textures.size());
+    }
+
+    @Override
+    protected float getShadowRadius(@NotNull WerewolfRenderState state) {
+        return getWrapper(state.form).shadow();
+    }
+
+    @Override
+    public void submit(@NotNull WerewolfRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState camera) {
+        this.switchModel(state.form);
+        //noinspection ConstantValue
+        if (this.model == null) return;
+        super.submit(state, poseStack, submitNodeCollector, camera);
+    }
+
+    @Override
+    protected void setupRotations(@NotNull WerewolfRenderState state, @NotNull PoseStack poseStack, float bodyRot, float entityScale) {
+        super.setupRotations(state, poseStack, bodyRot, entityScale);
+        if (state.swimAmount > 0.0F && state.form.isHumanLike()) {
+            float f3 = state.isInWater ? -90.0F - state.xRot : -90.0F;
+            float f4 = Mth.lerp(state.swimAmount, 0.0F, f3);
+            poseStack.mulPose(Axis.XP.rotationDegrees(f4));
+            if (state.isVisuallySwimming) {
+                poseStack.translate(0.0D, -1.0D, 0.3F);
             }
         }
     }
 
     @Nonnull
     @Override
-    public ResourceLocation getTextureLocation(@Nonnull T entity) {
-        return this.textures.get(Helper.asIWerewolf(entity).map(s -> s.getSkinType(this.form) % this.form.getSkinTypes()).orElse(0));
+    public Identifier getTextureLocation(@Nonnull WerewolfRenderState state) {
+        return state.texture;
     }
 }

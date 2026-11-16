@@ -73,7 +73,7 @@ public class ModEntities {
             if (!spawnable) {
                 type.noSummon();
             }
-            return type.build(REFERENCE.MODID + ":" + id);
+            return type.build(ResourceKey.create(Registries.ENTITY_TYPE, WIdentifier.mod(id)));
         });
     }
 

@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.common.world.effects.inst;
 
 import de.teamlapen.werewolves.common.core.ModEffects;
 import de.teamlapen.werewolves.util.Helper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,12 +20,12 @@ public class LupusSanguinemEffectInstance extends MobEffectInstance {
     }
 
     @Override
-    public boolean tick(@Nonnull LivingEntity entityIn, @Nonnull Runnable runnable) {
+    public boolean tickServer(@Nonnull ServerLevel serverLevel, @Nonnull LivingEntity entityIn, @Nonnull Runnable runnable) {
         if (this.getDuration() % 10 == 0 && entityIn instanceof Player) {
             if (!Helper.canBecomeWerewolf((Player) entityIn)) {
                 return false;
             }
         }
-        return super.tick(entityIn, runnable);
+        return super.tickServer(serverLevel, entityIn, runnable);
     }
 }

@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.common.world.effects;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +12,7 @@ public class StunEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
+    public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity pLivingEntity, int pAmplifier) {
         pLivingEntity.setDeltaMovement(0, Math.min(0, pLivingEntity.getDeltaMovement().y()), 0);
         return true;
     }

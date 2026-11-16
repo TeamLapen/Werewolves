@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.mixin.entity;
 
+import net.minecraft.server.level.ServerLevel;
+
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.common.world.effects.SilverEffect;
@@ -17,10 +19,10 @@ public abstract class MobMixin {
 
     @Shadow public abstract ItemStack getItemBySlot(EquipmentSlot pSlot);
 
-    @Inject(method = "doHurtTarget(Lnet/minecraft/world/entity/Entity;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", shift = At.Shift.BEFORE))
-    private void applySilverEffect(Entity pEntity, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "doHurtTarget(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/Entity;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z", shift = At.Shift.BEFORE))
+    private void applySilverEffect(ServerLevel level, Entity pEntity, CallbackInfoReturnable<Boolean> cir) {
         if (pEntity instanceof LivingEntity living && Helper.isWerewolf(living) && this.getItemBySlot(EquipmentSlot.MAINHAND).is(ModTags.Items.SILVER_TOOL)) {
-            living.addEffect(SilverEffect.createSilverEffect(living, ModConfig.BALANCE.UTIL.silverItemEffectDuration.get(), 0));
+            living.addEffect(SilverEffect.createSilverEffect(living, ModConfig.balance().UTIL.silverItemEffectDuration.get(), 0));
         }
     }
 }

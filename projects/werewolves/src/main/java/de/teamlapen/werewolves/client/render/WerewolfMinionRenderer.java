@@ -2,12 +2,11 @@ package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
 import de.teamlapen.werewolves.common.world.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionEntity> {
 
@@ -16,16 +15,8 @@ public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionE
     }
 
     @Override
-    public void render(WerewolfMinionEntity entity, float p_225623_2_, float p_225623_3_, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int p_225623_6_) {
-        this.switchModel(entity.getForm());
-        //noinspection ConstantConditions
-        if (this.model == null) return;
-        super.render(entity, p_225623_2_, p_225623_3_, matrixStack, buffer, p_225623_6_);
-    }
-
-    @Override
-    protected void scale(WerewolfMinionEntity entityIn, PoseStack matrixStack, float float1) {
-        float s = entityIn.getScale();
+    protected void scale(@NotNull WerewolfRenderState state, @NotNull PoseStack matrixStack) {
+        float s = state.scale;
         matrixStack.scale(s, s, s);
     }
 

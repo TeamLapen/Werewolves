@@ -1,6 +1,17 @@
 package de.teamlapen.werewolves.client;
 
-import de.teamlapen.lib.lib.util.IInitListener;
+import net.minecraft.world.entity.player.PlayerModelType;
+
+import net.minecraft.client.player.AbstractClientPlayer;
+
+import net.minecraft.client.renderer.entity.player.AvatarRenderer;
+
+import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
+
+import de.teamlapen.werewolves.client.render.layer.HumanWerewolfLayer;
+
+import de.teamlapen.werewolves.client.render.state.WerewolvesRenderStates;
+
 import de.teamlapen.werewolves.client.core.*;
 import de.teamlapen.werewolves.common.core.ModRegistryManager;
 import de.teamlapen.werewolves.client.proxy.ClientProxy;
@@ -8,9 +19,9 @@ import de.teamlapen.werewolves.common.proxy.Proxy;
 import net.minecraft.client.Minecraft;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
+import de.teamlapen.werewolves.api.WIdentifier;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -47,6 +58,12 @@ public class WerewolvesModClient {
         modbus.addListener(ModScreens::registerScreens);
         modbus.addListener(ModScreens::registerScreenOverlays);
         modbus.addListener(this::registerReloadListeners);
+        modbus.addListener(this::onAddLayers);
+        modbus.addListener(WerewolvesRenderStates::addRenderStateModifier);
+        modbus.addListener(RenderHandler::addRenderStateModifier);
+        modbus.addListener(this.renderHandler::createBuffers);
+        modbus.addListener(de.teamlapen.werewolves.client.extensions.EffectExtensions::registerClientExtensions);
+        modbus.register(de.teamlapen.werewolves.client.extensions.ItemExtensions.class);
 
         NeoForge.EVENT_BUS.register(this.clientEventHandler);
         NeoForge.EVENT_BUS.register(this.modHUDOverlay);
@@ -55,18 +72,22 @@ public class WerewolvesModClient {
 
     }
 
-    @SubscribeEvent
-    public void setupClient(@NotNull FMLClientSetupEvent event) {
-        this.registryManager.onInitStep(IInitListener.Step.CLIENT_SETUP, event);
-    }
-
-    private void registerReloadListeners(@NotNull RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener(this.renderHandler);
+    private void registerReloadListeners(@NotNull AddClientReloadListenersEvent event) {
+        event.addListener(WIdentifier.mod("render_handler"), this.renderHandler);
     }
 
     @SubscribeEvent
     public void onAddLayers(EntityRenderersEvent.AddLayers event) {
         this.modPlayerRenderer = new ModPlayerRenderer(event.getContext());
+        WerewolvesRenderStates.clearCaches();
+        if (ClientUtils.noLoadingExceptions()) {
+            for (PlayerModelType skin : event.getSkins()) {
+                AvatarRenderer<AbstractClientPlayer> renderer = event.getPlayerRenderer(skin);
+                if (renderer != null) {
+                    renderer.addLayer(new HumanWerewolfLayer<>(renderer, new WerewolfEarsModel<>(event.getEntityModels().bakeLayer(skin == PlayerModelType.SLIM ? ModModelRender.EARS_CLAWS_SLIM : ModModelRender.EARS_CLAWS))));
+                }
+            }
+        }
     }
 
     public ClientEventHandler getClientEventHandler() {

@@ -6,7 +6,14 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.common.core.ModBiomes;
 import de.teamlapen.werewolves.common.core.ModSounds;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.damagesource.DamageSource;
+import de.teamlapen.faction.api.factions.IFactionPredicate;
+import de.teamlapen.faction.common.factions.FactionPlayerHandler;
+import de.teamlapen.faction.common.world.entities.goals.LookAtClosestVisibleGoal;
+import de.teamlapen.vampirism.api.difficulty.Difficulty;
+import de.teamlapen.vampirism.api.difficulty.IAdjustableLevel;
+import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -30,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolfAlpha {
+public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolfAlpha, IAdjustableLevel {
     public static final int MAX_LEVEL = 4;
     private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(WerewolfAlphaEntity.class, EntityDataSerializers.INT);
 
@@ -123,8 +130,8 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public boolean killedEntity(@NotNull ServerLevel level, @NotNull LivingEntity entity) {
-        super.killedEntity(level, entity);
+    public boolean killedEntity(@NotNull ServerLevel level, @NotNull LivingEntity entity, @NotNull DamageSource source) {
+        super.killedEntity(level, entity, source);
         if (entity instanceof WerewolfAlphaEntity) {
             this.setHealth(this.getMaxHealth());
         }
@@ -132,9 +139,9 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag nbt) {
+    protected void readAdditionalSaveData(@Nonnull ValueInput nbt) {
         super.readAdditionalSaveData(nbt);
-        setEntityLevel(nbt.getInt("level"));
+        nbt.getInt("level").ifPresent(this::setEntityLevel);
     }
 
     @Override
@@ -173,7 +180,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    protected int getBaseExperienceReward() {
+    protected int getBaseExperienceReward(ServerLevel level) {
         return 20 + 5 * getEntityLevel();
     }
 
@@ -188,9 +195,9 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isLowerLevel));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity, level) -> isLowerLevel(entity)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, WerewolfAlphaEntity.class, true, false));
-        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, PathfinderMob.class, 5, true, false, VampirismAPI.factionRegistry().getPredicate(getFaction(), false, true, false, false, null)));
+        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, PathfinderMob.class, 5, true, false, IFactionPredicate.defaultTargets(getFaction()).onlyNonPlayers().build()));
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, AbstractSkeleton.class, false));
     }
 
@@ -219,13 +226,11 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    public boolean setSkinType(@org.jetbrains.annotations.Nullable WerewolfForm form, int skinType) {
-        return false;
+    public void setSkinType(@Nullable WerewolfForm form, int skinType) {
     }
 
     @Override
-    public boolean setEyeType(@org.jetbrains.annotations.Nullable WerewolfForm form, int eyeType) {
-        return false;
+    public void setEyeType(@Nullable WerewolfForm form, int eyeType) {
     }
 
     @Override

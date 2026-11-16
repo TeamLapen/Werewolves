@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.common.server.command;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
-import de.teamlapen.lib.lib.util.BasicCommand;
+import de.teamlapen.faction.common.server.commands.BasicCommand;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.common.server.command.arguments.WerewolfFormArgument;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;

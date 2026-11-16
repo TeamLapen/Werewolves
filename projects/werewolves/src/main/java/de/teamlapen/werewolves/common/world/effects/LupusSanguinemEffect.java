@@ -1,6 +1,8 @@
 package de.teamlapen.werewolves.common.world.effects;
 
-import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
+import net.minecraft.server.level.ServerLevel;
+import de.teamlapen.faction.common.factions.FactionPlayerHandler;
+import de.teamlapen.werewolves.common.core.ModFactions;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.effects.inst.LupusSanguinemEffectInstance;
@@ -18,11 +20,11 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     }
 
     public static void infectRandomByPlayer(@Nonnull LivingEntity entity) {
-        addSanguinemEffectRandom(entity, ModConfig.SERVER.playerBiteInfectChance.get());
+        addSanguinemEffectRandom(entity, ModConfig.server().playerBiteInfectChance.get());
     }
 
     public static void infectRandomByMob(@Nonnull LivingEntity entity) {
-        addSanguinemEffectRandom(entity, ModConfig.SERVER.mobBiteInfectChance.get());
+        addSanguinemEffectRandom(entity, ModConfig.server().mobBiteInfectChance.get());
     }
 
     public static void addSanguinemEffectRandom(@Nonnull LivingEntity entity, double chance) {
@@ -42,9 +44,9 @@ public class LupusSanguinemEffect extends WerewolvesEffect {
     }
 
     @Override
-    public boolean applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    public boolean applyEffectTick(ServerLevel serverLevel, @Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
         if (entityLivingBaseIn instanceof Player) {
-            FactionPlayerHandler.get((Player) entityLivingBaseIn).joinFaction(WReference.WEREWOLF_FACTION);
+            FactionPlayerHandler.get((Player) entityLivingBaseIn).joinFaction(ModFactions.WEREWOLF);
             return false;
         }
         return true;

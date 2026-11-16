@@ -4,6 +4,7 @@ import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.world.entities.player.FactionPlayerConsumer;
 import de.teamlapen.vampirism.common.world.entity.player.vampire.VampirePlayer;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.actions.SurvivalWerewolfFormAction;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -15,13 +16,13 @@ public class ModConsumer {
 
     public static final DeferredHolder<FactionPlayerConsumer, FactionPlayerConsumer> ENABLE_CLIMBER = CONSUMER.register("enable_climber", () -> factionPlayer ->  {
         if (factionPlayer instanceof WerewolfPlayer werewolf) {
-            werewolf.getSkillProperties().climber = true;
+            SurvivalWerewolfFormAction.climberSkillEnabled(werewolf);
         }
     });
     // SurvivalWerewolfFormAction::climberSkillEnabled
     public static final DeferredHolder<FactionPlayerConsumer, FactionPlayerConsumer> DISABLE_CLIMBER = CONSUMER.register("disable_climber", () -> factionPlayer ->  {
         if (factionPlayer instanceof WerewolfPlayer werewolf) {
-            werewolf.getSkillProperties().climber = false;
+            SurvivalWerewolfFormAction.climberSkillDisabled(werewolf);
         }
     });
     public static final DeferredHolder<FactionPlayerConsumer, FactionPlayerConsumer> ENABLE_NIGHT_VISION = CONSUMER.register("enable_night_vision", () -> factionPlayer ->  {

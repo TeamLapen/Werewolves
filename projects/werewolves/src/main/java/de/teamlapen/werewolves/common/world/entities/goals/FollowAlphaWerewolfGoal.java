@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.common.world.entities.goals;
 
-import de.teamlapen.vampirism.api.entity.IEntityLeader;
+import de.teamlapen.faction.api.world.entities.IEntityLeader;
 import de.teamlapen.werewolves.api.entities.IEntityFollower;
 import de.teamlapen.werewolves.common.world.entities.werewolf.WerewolfBaseEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -23,7 +23,7 @@ public class FollowAlphaWerewolfGoal<T extends WerewolfBaseEntity & IEntityFollo
     @Override
     public boolean canContinueToUse() {
         return this.entity.getLeader().map(leader -> {
-            double d0 = this.entity.distanceToSqr(leader.getRepresentingEntity());
+            double d0 = this.entity.distanceToSqr(leader.asEntity());
             return d0 >= DIST && d0 <= 256.0D;
         }).orElse(false);
     }
@@ -31,7 +31,7 @@ public class FollowAlphaWerewolfGoal<T extends WerewolfBaseEntity & IEntityFollo
     @Override
     public boolean canUse() {
         if (this.entity.getLeader().isEmpty()) {
-            List<WerewolfBaseEntity> list = this.entity.getCommandSenderWorld().getEntitiesOfClass(WerewolfBaseEntity.class, this.entity.getBoundingBox().inflate(16, 8, 16), IEntityLeader.class::isInstance);
+            List<WerewolfBaseEntity> list = this.entity.level().getEntitiesOfClass(WerewolfBaseEntity.class, this.entity.getBoundingBox().inflate(16, 8, 16), IEntityLeader.class::isInstance);
             double d0 = Double.MAX_VALUE;
             IEntityLeader newLeader = null;
             for (WerewolfBaseEntity entity : list) {
@@ -51,7 +51,7 @@ public class FollowAlphaWerewolfGoal<T extends WerewolfBaseEntity & IEntityFollo
                 newLeader.increaseFollowerCount();
             }
         }
-        return this.entity.getLeader().map(leader -> leader.getRepresentingEntity().isAlive() && this.entity.distanceToSqr(leader.getRepresentingEntity()) > DIST).orElse(false);
+        return this.entity.getLeader().map(leader -> leader.asEntity().isAlive() && this.entity.distanceToSqr(leader.asEntity()) > DIST).orElse(false);
     }
 
     @Override
@@ -64,8 +64,8 @@ public class FollowAlphaWerewolfGoal<T extends WerewolfBaseEntity & IEntityFollo
         if (--this.delayCounter <= 0 && entity.getLeader().isPresent()) {
             this.delayCounter = 10;
             this.entity.getLeader().ifPresent(leader -> {
-                this.entity.getNavigation().moveTo(leader.getRepresentingEntity(), this.speed);
-                this.entity.lookAt(EntityAnchorArgument.Anchor.EYES, leader.getRepresentingEntity().position().add(0, leader.getRepresentingEntity().getEyeHeight(), 0));
+                this.entity.getNavigation().moveTo(leader.asEntity(), this.speed);
+                this.entity.lookAt(EntityAnchorArgument.Anchor.EYES, leader.asEntity().position().add(0, leader.asEntity().getEyeHeight(), 0));
             });
         }
     }

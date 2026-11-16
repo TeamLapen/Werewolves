@@ -29,7 +29,7 @@ import java.util.Optional;
 public class ModKeys {
     private static final KeyMapping.Category CATEGORY = new KeyMapping.Category(WIdentifier.mod("main"));
     private static final String LEAP_KEY = "keys.werewolves.leap";
-    private static final String BITE_KEY = "keys.werewolves.bite";
+    public static final String BITE_KEY = "keys.werewolves.bite";
 
     private static final KeyMapping LEAP = new KeyMapping(LEAP_KEY, KeyConflictContext.IN_GAME, KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_CONTROL, CATEGORY);
     private static final KeyMapping BITE = new KeyMapping(BITE_KEY, KeyConflictContext.IN_GAME, KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY);

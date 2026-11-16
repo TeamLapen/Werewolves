@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.common.world.entities.player.werewolf.actions;
 
+import de.teamlapen.faction.api.factions.actions.IActionResult;
+
 import de.teamlapen.faction.api.factions.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
@@ -10,17 +12,17 @@ public class SenseWerewolfAction extends DefaultWerewolfAction implements ILasti
 
     @Override
     public boolean isEnabled() {
-        return ModConfig.BALANCE.SKILLS.sense_enabled.get();
+        return ModConfig.balance().SKILLS.sense_enabled.get();
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer player, ActivationContext context) {
-        return true;
+    protected IActionResult activateServer(IWerewolfPlayer player, ActivationContext context) {
+        return IActionResult.SUCCESS;
     }
 
     @Override
     public int getDuration(IWerewolfPlayer werewolf) {
-        return ModConfig.BALANCE.SKILLS.sense_duration.get() * 20;
+        return ModConfig.balance().SKILLS.sense_duration.get() * 20;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class SenseWerewolfAction extends DefaultWerewolfAction implements ILasti
     }
 
     @Override
-    public void onReActivated(IWerewolfPlayer player) {
+    public void onReActivatedServer(IWerewolfPlayer player) {
 
     }
 
@@ -43,16 +45,10 @@ public class SenseWerewolfAction extends DefaultWerewolfAction implements ILasti
 
     @Override
     public int getCooldown(IWerewolfPlayer werewolf) {
-        return ModConfig.BALANCE.SKILLS.sense_cooldown.get() + ModConfig.BALANCE.SKILLS.sense_duration.get() * 20;
+        return ModConfig.balance().SKILLS.sense_cooldown.get() + ModConfig.balance().SKILLS.sense_duration.get() * 20;
     }
 
-    @Override
-    public boolean showHudCooldown(Player player) {
-        return true;
-    }
 
-    @Override
-    public boolean showHudDuration(Player player) {
-        return true;
-    }
+
+
 }

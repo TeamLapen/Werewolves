@@ -47,7 +47,7 @@ public class TagNBTBrewingRecipe implements IBrewingRecipe {
     }
 
     public ItemStack[] getIngredient() {
-        return ingredient.map(i -> BuiltInRegistries.ITEM.getTagOrEmpty(i).flatMap(HolderSet.ListBacked::stream).map(ItemStack::new).toArray(ItemStack[]::new), Ingredient::getItems);
+        return ingredient.map(i -> BuiltInRegistries.ITEM.get(i).stream().flatMap(HolderSet::stream).map(ItemStack::new).toArray(ItemStack[]::new), i -> i.items().map(ItemStack::new).toArray(ItemStack[]::new));
     }
 
     public Ingredient getInput() {

@@ -5,7 +5,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.animal.feline.Cat;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,7 +23,7 @@ public abstract class CatMixin extends TamableAnimal {
 
     @Inject(method = "tryToTame", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/Cat;tame(Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.AFTER))
     private void tame(Player pPlayer, CallbackInfo ci) {
-        if (!this.hasCustomName() && pPlayer.getGameProfile().getName().equals("supermike1999")) {
+        if (!this.hasCustomName() && pPlayer.getGameProfile().name().equals("supermike1999")) {
             this.setCustomName(Component.literal("Tinker"));
         }
     }

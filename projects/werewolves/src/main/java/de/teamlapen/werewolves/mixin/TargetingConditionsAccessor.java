@@ -13,5 +13,5 @@ public interface TargetingConditionsAccessor {
 
     @Nullable
     @Accessor("selector")
-    Predicate<LivingEntity> getSelector();
+    TargetingConditions.Selector getSelector();
 }

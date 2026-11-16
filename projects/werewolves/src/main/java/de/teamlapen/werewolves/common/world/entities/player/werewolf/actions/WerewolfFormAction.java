@@ -1,9 +1,11 @@
 package de.teamlapen.werewolves.common.world.entities.player.werewolf.actions;
 
+import de.teamlapen.faction.api.factions.actions.IActionResult;
+
 import de.teamlapen.faction.api.factions.actions.IActionHandler;
 import de.teamlapen.faction.api.factions.actions.ILastingAction;
 import de.teamlapen.faction.api.factions.skills.ISkill;
-import de.teamlapen.faction.common.factions.actions.ActionHandler;
+import de.teamlapen.faction.api.registries.actions.DeferredAction;
 import de.teamlapen.werewolves.common.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -28,14 +30,12 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class WerewolfFormAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
-    private static final Set<WerewolfFormAction> ALL_ACTION = new HashSet<>();
-
     public static boolean isWerewolfFormActionActive(IActionHandler<IWerewolfPlayer> handler) {
-        return ALL_ACTION.stream().anyMatch(handler::isActionActive);
+        return getAllAction().stream().anyMatch(handler::isActionActive);
     }
 
-    public static Set<Holder<WerewolfFormAction>> getAllAction() {
-        return Collections.unmodifiableSet(ALL_ACTION);
+    public static List<DeferredAction<IWerewolfPlayer, ILastingAction<IWerewolfPlayer>, WerewolfFormAction>> getAllAction() {
+        return List.of(ModActions.HUMAN_FORM, ModActions.BEAST_FORM, ModActions.SURVIVAL_FORM);
     }
 
     protected static class Modifier {
@@ -86,10 +86,10 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
                 return this;
             }
 
-            public Builder withSkillModifier(Supplier<? extends ISkill<?>> skill, Supplier<Double> valueSupplier) {
+            public Builder withSkillModifier(Holder<? extends ISkill<?>> skill, Supplier<Double> valueSupplier) {
                 Objects.requireNonNull(this.valueSupplier);
                 var old = this.valueSupplier;
-                this.valueSupplier = werewolf -> werewolf.getSkillHandler().isSkillEnabled(skill.get()) ? valueSupplier.get() : old.apply(werewolf);
+                this.valueSupplier = werewolf -> werewolf.getSkillHandler().isSkillEnabled(skill) ? valueSupplier.get() : old.apply(werewolf);
                 return this;
             }
 
@@ -106,18 +106,17 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     private final WerewolfForm form;
 
     public WerewolfFormAction(WerewolfForm form) {
-        ALL_ACTION.add(this);
         this.form = form;
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer werewolf, ActivationContext context) {
+    protected IActionResult activateServer(IWerewolfPlayer werewolf, ActivationContext context) {
         Player player = werewolf.asEntity();
         float healthPerc = player.getHealth() / player.getMaxHealth();
         if (isWerewolfFormActionActive(werewolf.getActionHandler())) {
             FormHelper.deactivateWerewolfActions(werewolf);
         }
-        ((WerewolfPlayer) werewolf).setForm(this, this.form);
+        ((WerewolfPlayer) werewolf).setForm(this.<WerewolfFormAction>holder(), this.form);
         this.checkDayNightModifier(werewolf);
         player.setHealth(player.getMaxHealth() * healthPerc);
         player.refreshDisplayName();
@@ -125,12 +124,12 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (player instanceof ServerPlayer serverPlayer && getForm() != WerewolfForm.NONE && getForm() != WerewolfForm.HUMAN && Helper.isFullMoon(serverPlayer.level())) {
             ModAdvancements.TRIGGER_VAMPIRE_ACTION.get().trigger(serverPlayer, WerewolfActionCriterionTrigger.Action.TRANSFORM_FULL_MOON);
         }
-        return true;
+        return IActionResult.SUCCESS;
     }
 
     @Override
     public void onActivatedClient(IWerewolfPlayer werewolfPlayer) {
-        ((WerewolfPlayer) werewolfPlayer).setForm(this, this.form);
+        ((WerewolfPlayer) werewolfPlayer).setForm(this.<WerewolfFormAction>holder(), this.form);
         werewolfPlayer.asEntity().refreshDisplayName();
     }
 
@@ -138,18 +137,18 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     public void onDeactivated(IWerewolfPlayer werewolf) {
         Player player = werewolf.asEntity();
         float healthPerc = player.getHealth() / player.getMaxHealth();
-        ((WerewolfPlayer) werewolf).setForm(this, WerewolfForm.NONE);
+        ((WerewolfPlayer) werewolf).setForm(this.<WerewolfFormAction>holder(), WerewolfForm.NONE);
         this.removeModifier(werewolf);
         player.setHealth(player.getMaxHealth() * healthPerc);
         player.refreshDisplayName();
-        if (werewolf.getActionHandler().isActionActive(ModActions.RAGE.get())) {
-            werewolf.getActionHandler().deactivateAction(ModActions.RAGE.get());
+        if (werewolf.getActionHandler().isActionActive(ModActions.RAGE)) {
+            werewolf.getActionHandler().deactivateAction(ModActions.RAGE);
         }
     }
 
     @Override
-    public void onReActivated(IWerewolfPlayer werewolf) {
-        ((WerewolfPlayer) werewolf).setForm(this, this.form);
+    public void onReActivatedServer(IWerewolfPlayer werewolf) {
+        ((WerewolfPlayer) werewolf).setForm(this.<WerewolfFormAction>holder(), this.form);
         werewolf.asEntity().refreshDisplayName();
     }
 
@@ -215,30 +214,30 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
     }
 
     @Override
-    public boolean canBeUsedBy(IWerewolfPlayer werewolf) {
+    public IActionResult canBeUsedBy(IWerewolfPlayer werewolf) {
         Player player = werewolf.asEntity();
         if (player instanceof ServerPlayer && (!PermissionAPI.getPermission((ServerPlayer) player, Permissions.TRANSFORMATION) || !PermissionAPI.getPermission((ServerPlayer) player, Permissions.FORM))) {
-            return false;
+            return IActionResult.DISALLOWED_PERMISSION;
         }
-        if (player.isPassenger() && !this.form.isHumanLike()) return false;
-        boolean active = werewolf.getActionHandler().isActionActive(this);
+        if (player.isPassenger() && !this.form.isHumanLike()) return IActionResult.RESTRICTED;
+        boolean active = werewolf.getActionHandler().isActionActive(this.<ILastingAction<IWerewolfPlayer>>holder());
         if (active) {
             if (Helper.isFullMoon(player.level())) {
-                return werewolf.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL);
+                return (werewolf.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL)) ? IActionResult.SUCCESS : IActionResult.RESTRICTED;
             } else {
-                return true;
+                return IActionResult.SUCCESS;
             }
         } else {
             if (this.form.getSize(werewolf.asEntity().getPose()).map(dimensions -> dimensions.makeBoundingBox(werewolf.asEntity().position())).filter(s -> werewolf.asEntity().level().collidesWithSuffocatingBlock(werewolf.asEntity(), s)).isPresent()) {
-                return false;
+                return IActionResult.RESTRICTED;
             }
             if (werewolf.getForm().isTransformed()) {
-                return true;
+                return IActionResult.SUCCESS;
             } else {
                 if (player.level().getBiome(player.blockPosition()).is(ModBiomes.WEREWOLF_FOREST)) {
-                    return true;
+                    return IActionResult.SUCCESS;
                 } else {
-                    return ((WerewolfPlayer) werewolf).getSpecialAttributes().transformationTime < 0.7;
+                    return (((WerewolfPlayer) werewolf).getSpecialAttributes().transformationTime < 0.7) ? IActionResult.SUCCESS : IActionResult.RESTRICTED;
                 }
             }
         }
@@ -252,14 +251,14 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
      * ticks this action can be used
      */
     public int getTimeModifier(IWerewolfPlayer werewolf) {
-        int limit = ModConfig.BALANCE.SKILLS.werewolf_form_time_limit.get() * 20;
-        boolean duration1 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_1.get());
-        boolean duration2 = werewolf.getSkillHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_2.get());
+        int limit = ModConfig.balance().SKILLS.werewolf_form_time_limit.get() * 20;
+        boolean duration1 = werewolf.getRefinementHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_1);
+        boolean duration2 = werewolf.getRefinementHandler().isRefinementEquipped(ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_2);
         if (duration1 || duration2) {
             if (duration2) {
-                limit += ModConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_2.get() * 20;
+                limit += ModConfig.balance().REFINEMENTS.werewolf_form_duration_general_2.get() * 20;
             } else {
-                limit += ModConfig.BALANCE.REFINEMENTS.werewolf_form_duration_general_1.get() * 20;
+                limit += ModConfig.balance().REFINEMENTS.werewolf_form_duration_general_1.get() * 20;
             }
         }
         return limit;
@@ -269,8 +268,4 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         return form;
     }
 
-    public static class FormActionContext extends ActionHandler.ActivationContext {
-
-
-    }
 }

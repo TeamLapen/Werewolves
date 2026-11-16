@@ -1,5 +1,13 @@
 package de.teamlapen.werewolves.client.core;
 
+import de.teamlapen.faction.client.gui.screens.ILastScreenProvider;
+
+import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+
+import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
+
+import de.teamlapen.werewolves.client.WerewolvesModClient;
+
 import de.teamlapen.faction.client.gui.screens.FactionMenuScreen;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
@@ -42,7 +50,7 @@ public class ClientEventHandler {
         if (event.getScreen() instanceof FactionMenuScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 WidgetSprites icon = new WidgetSprites(WIdentifier.loc("vampirism","widget/appearance"), WIdentifier.loc("vampirism","widget/appearance_highlighted"));
-                var button = ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((FactionMenuScreen) event.getScreen()).getLeftPos() + 47, ((FactionMenuScreen) event.getScreen()).getTopPos() + 90, 20, 20, icon, (context) -> Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(event.getScreen())), Component.empty()));
+                var button = ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((FactionMenuScreen) event.getScreen()).getLeftPos() + 47, ((FactionMenuScreen) event.getScreen()).getTopPos() + 90, 20, 20, icon, (context) -> Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(ILastScreenProvider.current())), Component.empty()));
                 button.setTooltip(Tooltip.create(Component.translatable("gui.vampirism.vampirism_menu.appearance_menu")));
 
                 WerewolfPlayer werewolf = WerewolfPlayer.get(Minecraft.getInstance().player);
@@ -59,7 +67,7 @@ public class ClientEventHandler {
 //            if (Helper.isWerewolf((Player) event.getEntity())) {
 //                WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
 //                IActionHandler<IWerewolfPlayer> d = werewolf.getActionHandler();
-//                if (d.isActionActive(ModActions.HIDE_NAME.get()) && FormHelper.isFormActionActive(werewolf)) {
+//                if (d.isActionActive(ModActions.HIDE_NAME) && FormHelper.isFormActionActive(werewolf)) {
 //                    event.setCanRender(TriState.FALSE);
 //                }
 //            }
@@ -67,12 +75,22 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerRender(RenderPlayerEvent.Pre event) {
-//        if (Helper.isWerewolf(event.getEntity()) && !PlayerAnimatorCompat.checkAnimation(event.getEntity())) {
-//            if (WerewolvesModClient.getInstance().getModPlayerRenderer().renderPlayer((AbstractClientPlayer) event.getEntity(), 1, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight())) {
-//                event.setCanceled(true);
-//            } TODO
-//        }
+    public void onPlayerRender(RenderPlayerEvent.Pre<?> event) {
+        WerewolfRenderState werewolfState = WerewolfPlayerRenderer.getState(event.getRenderState());
+        ModPlayerRenderer renderer = WerewolvesModClient.getInstance().getModPlayerRenderer();
+        if (werewolfState != null && renderer != null) {
+            if (renderer.submit(werewolfState, event.getPoseStack(), event.getSubmitNodeCollector())) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderArm(RenderArmEvent event) {
+        ModPlayerRenderer renderer = WerewolvesModClient.getInstance().getModPlayerRenderer();
+        if (renderer != null && Helper.isWerewolf(event.getPlayer()) && renderer.renderArm(event.getPlayer(), event.getPoseStack(), event.getSubmitNodeCollector(), event.getPackedLight(), event.getArm())) {
+            event.setCanceled(true);
+        }
     }
 
     public void onZoomPressed() {
@@ -83,8 +101,8 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void onLevelJoined(ClientPlayerNetworkEvent.LoggingIn event) {
-        if (!ModConfig.CLIENT.mcaMessage.get() && ModList.get().isLoaded("mca")) {
-            ModConfig.CLIENT.mcaMessage.set(true);
+        if (!ModConfig.client().mcaMessage.get() && ModList.get().isLoaded("mca")) {
+            ModConfig.client().mcaMessage.set(true);
             Minecraft.getInstance().player.sendSystemMessage(Component.translatable("text.werewolves.mca_integration.first").append(Component.translatable("text.werewolves.mca_integration.seconds").withStyle(style -> style.withClickEvent(new ClickEvent.OpenUrl(URI.create("https://github.com/TeamLapen/Werewolves/issues/182"))).withUnderlined(true))));
         }
     }

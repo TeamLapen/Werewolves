@@ -1,12 +1,13 @@
 package de.teamlapen.werewolves.common.world.effects;
 
+import net.minecraft.server.level.ServerLevel;
 import de.teamlapen.vampirism.api.difficulty.IAdjustableLevel;
-import de.teamlapen.vampirism.entity.player.LevelAttributeModifier;
+import de.teamlapen.vampirism.common.world.entity.player.LevelAttributeModifier;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -30,7 +31,7 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
     }
 
     @Override
-    public boolean applyEffectTick(@Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
+    public boolean applyEffectTick(ServerLevel serverLevel, @Nonnull LivingEntity entityLivingBaseIn, int amplifier) {
         return Helper.isWerewolf(entityLivingBaseIn);
     }
 
@@ -55,7 +56,7 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
 
     @Override
     public void removeAttributeModifiers(@NotNull AttributeMap attributeMap) {
-        for(Map.Entry<Holder<Attribute>, ResourceLocation> entry : this.getAttributes().entrySet()) {
+        for(Map.Entry<Holder<Attribute>, Identifier> entry : this.getAttributes().entrySet()) {
             AttributeInstance attributeinstance = attributeMap.getInstance(entry.getKey());
             if (attributeinstance != null) {
                 attributeinstance.removeModifier(entry.getValue());
@@ -63,8 +64,8 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
         }
     }
 
-    public Map<Holder<Attribute>, ResourceLocation> getAttributes() {
-        Map<Holder<Attribute>, ResourceLocation> map = new HashMap<>();
+    public Map<Holder<Attribute>, Identifier> getAttributes() {
+        Map<Holder<Attribute>, Identifier> map = new HashMap<>();
         this.modifiers.forEach(modifier -> map.put(modifier.attribute(), modifier.id()));
         return map;
     }
@@ -90,9 +91,9 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
         return map;
     }
 
-    protected record Modifier(Holder<Attribute> attribute, ResourceLocation id, float maxModifier, int startingAmplifier) {
+    protected record Modifier(Holder<Attribute> attribute, Identifier id, float maxModifier, int startingAmplifier) {
 
-        Modifier(Holder<Attribute> attribute, ResourceLocation id, float maxModifier) {
+        Modifier(Holder<Attribute> attribute, Identifier id, float maxModifier) {
             this(attribute, id, maxModifier, 0);
         }
 
@@ -101,7 +102,7 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
 
             return new AttributeTemplate() {
                 @Override
-                public @NotNull ResourceLocation modifierId() {
+                public @NotNull Identifier modifierId() {
                     return id();
                 }
 
@@ -117,7 +118,7 @@ public abstract class WerewolfWeakeningEffect extends WerewolvesEffect {
 
     public interface AttributeTemplate {
 
-        ResourceLocation modifierId();
+        Identifier modifierId();
 
         AttributeModifier create(int amplifier);
     }

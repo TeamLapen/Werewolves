@@ -9,7 +9,7 @@ import de.teamlapen.werewolves.util.REFERENCE;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Supplier;
+import net.minecraft.core.Holder;
 
 public class ModRefinementSets {
 
@@ -79,33 +79,33 @@ public class ModRefinementSets {
     }
 
     @SafeVarargs
-    private static IRefinementSet commonW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet commonW(Holder<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.COMMON, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet uncommonW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet uncommonW(Holder<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.UNCOMMON, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet rareW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet rareW(Holder<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.RARE, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet epicW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet epicW(Holder<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.EPIC, refinements);
     }
 
     @SafeVarargs
-    private static IRefinementSet legendaryW(Supplier<IRefinement>... refinements) {
+    private static IRefinementSet legendaryW(Holder<IRefinement>... refinements) {
         return werewolf(IRefinementSet.Rarity.LEGENDARY, refinements);
     }
 
     @SafeVarargs
     @SuppressWarnings("ConstantConditions")
-    private static RefinementSet werewolf(IRefinementSet.Rarity rarity, Supplier<IRefinement>... refinements) {
+    private static RefinementSet werewolf(IRefinementSet.Rarity rarity, Holder<IRefinement>... refinements) {
         return new WerewolfRefinementSet(rarity, rarity.color.getColor(), refinements);
     }
 }

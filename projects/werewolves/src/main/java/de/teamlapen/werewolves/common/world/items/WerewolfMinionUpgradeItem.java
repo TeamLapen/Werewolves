@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.common.world.items;
 
 import de.teamlapen.faction.api.factions.IFaction;
-import de.teamlapen.vampirism.api.entity.factions.IFaction;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.common.core.ModFactions;
 import net.minecraft.ChatFormatting;

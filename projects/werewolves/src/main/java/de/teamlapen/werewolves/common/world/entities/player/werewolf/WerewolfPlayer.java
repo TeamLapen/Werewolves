@@ -1,5 +1,11 @@
 package de.teamlapen.werewolves.common.world.entities.player.werewolf;
 
+import de.teamlapen.faction.common.factions.minions.MinionData;
+
+import de.teamlapen.vampirism.api.world.EnumStrength;
+
+import net.minecraft.world.level.ChunkPos;
+
 import de.teamlapen.faction.api.factions.IDisguise;
 import de.teamlapen.faction.api.factions.actions.IAction;
 import de.teamlapen.faction.api.factions.actions.IActionHandler;
@@ -362,7 +368,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     public boolean isAffectedByWolfsbane(LevelAccessor accessor, boolean forceRefresh) {
         if (forceRefresh) {
-            this.wolfsbaneCache = accessor instanceof Level level ? LevelWolfsbane.getOpt(level).map(x -> x.isEffectedByWolfsbane(asEntity().blockPosition())).orElse(-1) : -1;
+            this.wolfsbaneCache = accessor instanceof Level level ? (LevelWolfsbane.get(level).getStrengthAtChunk(ChunkPos.containing(asEntity().blockPosition())) != EnumStrength.NONE ? 1 : -1) : -1;
         }
         return this.wolfsbaneCache > -1;
     }
@@ -467,7 +473,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     public void checkWerewolfFormModifier() {
         WerewolfFormAction.getAllAction().stream().filter(action -> getActionHandler().isActionActive(action)).findAny().ifPresent(action -> {
-            action.checkDayNightModifier(this);
+            action.value().checkDayNightModifier(this);
         });
     }
 
@@ -523,7 +529,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     public void updateMinionAttributes(boolean increasedStats) {
         MinionWorldData.getData(this.player.level()).flatMap(a -> FactionPlayerHandler.get(this.player).getPlayerLord().map(a::getOrCreateController)).ifPresent(controller -> controller.contactMinions((minion) -> {
-            (minion.getMinionData()).ifPresent(b -> ((WerewolfMinionEntity.WerewolfMinionData) b).setIncreasedStats(increasedStats));
+            (minion.getMinionData()).ifPresent(b -> ((MinionData) b).setIncreasedStats(increasedStats));
         }));
     }
 

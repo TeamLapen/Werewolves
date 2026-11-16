@@ -1,74 +1,103 @@
 package de.teamlapen.werewolves.client.core;
 
-import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import de.teamlapen.faction.api.factions.IFactionEntity;
+import de.teamlapen.vampirism.client.core.ModRenderPipelines;
+import de.teamlapen.vampirism.client.renderer.bloodvision.NoOpOutlineBufferSource;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModActions;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.util.Helper;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.OutlineBufferSource;
 import net.minecraft.client.renderer.PostChain;
-import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.feature.ModelPartFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.state.level.LevelRenderState;
+import net.minecraft.client.renderer.SubmitNodeCollection;
+import net.minecraft.client.renderer.SubmitNodeStorage;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Util;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.ExtractLevelRenderStateEvent;
+import net.neoforged.neoforge.client.event.RegisterRenderBuffersEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import net.neoforged.neoforge.client.event.RenderLivingEvent;
-import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.List;
+import java.util.SequencedMap;
 
+/**
+ * Renders the werewolf sense vision. Entities near the player are highlighted in the color of their faction.
+ * <p>
+ * Based on the Vampirism blood vision renderer
+ */
 public class RenderHandler implements ResourceManagerReloadListener {
-    private static final Logger LOGGER = LogManager.getLogger();
     private static final int ENTITY_NEAR_SQ_DISTANCE = 100;
+    private static final int VISION_FADE_TICKS = 30;
+    private static final ContextKey<Integer> SENSE_COLOR = new ContextKey<>(WIdentifier.mod("sense_color"));
 
     @Nonnull
     private final Minecraft mc;
-    private final int VISION_FADE_TICKS = 30;
-
-    private OutlineBufferSource visionBuffer;
+    private final SubmitNodeStorage nodeCollector = new SubmitNodeStorage();
+    private final OutlineBufferSource noOp = new NoOpOutlineBufferSource();
+    @UnknownNullability
+    private ColoredBufferSource visionBuffer;
+    private List<LivingEntityRenderState> cachedRenderStates = List.of();
 
     private int ticks;
     private int lastTicks;
-    @Nullable
-    private PostChain blurShader;
-
-    private int displayHeight, displayWidth;
-    private boolean isInsideVisionRendering = false;
-
-    private PostPass blit;
-    private PostPass blur1;
-    private PostPass blur2;
 
     public RenderHandler(@Nonnull Minecraft mc) {
         this.mc = mc;
     }
 
-    @SubscribeEvent
-    public void onCameraSetup(@NotNull ViewportEvent.ComputeCameraAngles event) {
-        if (shouldRenderVision()) {
-            updateDisplaySize();
-            adjustVisionShaders(getVisionProgress((float) event.getPartialTick()));
+    public void createBuffers(RegisterRenderBuffersEvent event) {
+        SequencedMap<RenderType, ByteBufferBuilder> map = Util.make(new Object2ObjectLinkedOpenHashMap<>(), m -> m.put(ModRenderPipelines.solidTransparencyEntity(), new ByteBufferBuilder(786432)));
+        this.visionBuffer = new ColoredBufferSource(map, new ByteBufferBuilder(786432));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void addRenderStateModifier(RegisterRenderStateModifiersEvent event) {
+        event.registerEntityModifier((Class<? extends net.minecraft.client.renderer.entity.EntityRenderer<? extends LivingEntity, ? extends LivingEntityRenderState>>) (Object) LivingEntityRenderer.class, RenderHandler::extractSenseColor);
+    }
+
+    private static void extractSenseColor(LivingEntity entity, LivingEntityRenderState state) {
+        int color = 0xA0A0A0;
+        if (entity instanceof IFactionEntity factionEntity && factionEntity.getFaction() != null) {
+            color = factionEntity.getFaction().value().getColor();
+        } else if (!entity.isInvertedHealAndHarm()) {
+            color = 0xFF0000;
         }
+        state.setRenderData(SENSE_COLOR, entity.isInWater() ? null : color);
     }
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent.Pre event) {
         if (this.mc.level == null || this.mc.player == null || !this.mc.player.isAlive()) return;
         this.lastTicks = this.ticks;
-        WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
-
-        if (werewolf.getActionHandler().isActionActive(ModActions.SENSE)) {
+        if (Helper.isWerewolf(this.mc.player) && WerewolfPlayer.get(this.mc.player).getActionHandler().isActionActive(ModActions.SENSE)) {
             if (this.ticks < VISION_FADE_TICKS) {
                 this.ticks++;
             }
@@ -80,118 +109,73 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void onRenderLivingPost(@NotNull RenderLivingEvent.Post<?, ?, ?> event) {
-        if (!this.isInsideVisionRendering && this.shouldRenderVision()) {
-            LivingEntity entity = event.getEntity();
-
-            double dist = this.mc.player.distanceToSqr(entity);
-            if (!(dist > VampirismConfig.BALANCE.vsBloodVisionDistanceSq.get() || entity.isInWater())) {
-                int color = 0xA0A0A0;
-                if (entity instanceof IFactionEntity) {
-                    color = ((IFactionEntity) entity).getFaction().getColor();
-                } else {
-                    if (!entity.isInvertedHealAndHarm()) {
-                        color = 0xFF0000;
-                    }
-                }
-                EntityRenderDispatcher renderManager = this.mc.getEntityRenderDispatcher();
-                if (this.visionBuffer == null) {
-                    this.visionBuffer = new OutlineBufferSource(this.mc.renderBuffers().bufferSource());
-                }
-                int r = color >> 16 & 255;
-                int g = color >> 8 & 255;
-                int b = color & 255;
-                int alpha = (int) ((dist > ENTITY_NEAR_SQ_DISTANCE ? 50 : (dist / (double) ENTITY_NEAR_SQ_DISTANCE * 50d)) * getVisionProgress(event.getPartialTick()));
-                this.visionBuffer.setColor(r, g, b, alpha);
-                float f = Mth.lerp(event.getPartialTick(), entity.yRotO, entity.getYRot());
-                this.isInsideVisionRendering = true;
-                EntityRenderer<? super Entity> entityRenderer = renderManager.getRenderer(entity);
-                entityRenderer.render(entity, f, event.getPartialTick(), event.getPoseStack(), this.visionBuffer, renderManager.getPackedLightCoords(entity, event.getPartialTick()));
-                this.mc.getMainRenderTarget().bindWrite(false);
-                this.isInsideVisionRendering = false;
-            }
+    public void onExtract(ExtractLevelRenderStateEvent event) {
+        if (!shouldRenderVision()) {
+            this.cachedRenderStates = List.of();
+            return;
         }
+        double maxDistance = de.teamlapen.vampirism.common.config.ModConfig.balance().vsBloodVisionDistanceSq.get();
+        this.cachedRenderStates = event.getRenderState().entityRenderStates.stream()
+                .filter(LivingEntityRenderState.class::isInstance)
+                .map(LivingEntityRenderState.class::cast)
+                .filter(x -> x.distanceToCameraSq <= maxDistance)
+                .filter(x -> x.getRenderData(SENSE_COLOR) != null)
+                .toList();
+    }
+
+    @SubscribeEvent
+    public void onRenderWorldLast(RenderLevelStageEvent.AfterWeather event) {
+        if (!shouldRenderVision() || this.visionBuffer == null) return;
+        PostChain blur = this.mc.getShaderManager().getPostChain(Identifier.withDefaultNamespace("blur"), LevelTargetBundle.MAIN_TARGETS);
+        if (blur == null) return;
+        blur.process(this.mc.getMainRenderTarget(), this.mc.gameRenderer.resourcePool);
+
+        PoseStack poseStack = new PoseStack();
+        ModelPartFeatureRenderer parts = this.mc.gameRenderer.getFeatureRenderDispatcher().vampirism$modelPartFeatureRenderer();
+        ModelFeatureRenderer models = this.mc.gameRenderer.getFeatureRenderDispatcher().vampirism$modelFeatureFeatureRenderer();
+        EntityRenderDispatcher dispatcher = event.getLevelRenderer().vampirism$entityRenderDispatcher();
+        float progress = getVisionProgress();
+
+        for (LivingEntityRenderState state : this.cachedRenderStates) {
+            double dist = state.distanceToCameraSq;
+            float alpha = (float) ((dist > ENTITY_NEAR_SQ_DISTANCE ? 50 : (dist / (double) ENTITY_NEAR_SQ_DISTANCE * 50d)) / 255d) * progress;
+            Integer color = state.getRenderData(SENSE_COLOR);
+            this.visionBuffer.setColor(ARGB.color(Mth.clamp(alpha, 0, 1), color == null ? 0xA0A0A0 : color));
+
+            submitEntity(poseStack, event.getLevelRenderState(), state, dispatcher);
+            for (SubmitNodeCollection value : this.nodeCollector.getSubmitsPerOrder().values()) {
+                parts.renderSolid(value, this.visionBuffer, this.noOp, this.visionBuffer);
+                parts.renderTranslucent(value, this.visionBuffer, this.noOp, this.visionBuffer);
+                models.renderSolid(value, this.visionBuffer, this.noOp, this.visionBuffer);
+                models.renderTranslucent(value, this.visionBuffer, this.noOp, this.visionBuffer);
+            }
+            this.nodeCollector.clear();
+            this.visionBuffer.endBatch();
+        }
+        this.cachedRenderStates = List.of();
+    }
+
+    private void submitEntity(PoseStack poseStack, LevelRenderState levelRenderState, EntityRenderState state, EntityRenderDispatcher dispatcher) {
+        Vec3 camera = levelRenderState.cameraRenderState.pos;
+        dispatcher.submit(state, levelRenderState.cameraRenderState, state.x - camera.x(), state.y - camera.y(), state.z - camera.z(), poseStack, this.nodeCollector);
     }
 
     @SubscribeEvent
     public void onWorldLoad(LevelEvent.Load event) {
-        this.ticks = 0;//Reset blood vision on world load
+        this.ticks = 0;
+        this.lastTicks = 0;
     }
 
-    private float getVisionProgress(float partialTicks) {
-        return (ticks + (ticks - lastTicks) * partialTicks) / (float) VISION_FADE_TICKS;
-    }
-
-    @SubscribeEvent
-    public void onRenderWorldLast(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
-            if (mc.level == null) return;
-
-
-            if (shouldRenderVision()) {
-                this.blurShader.process(event.getPartialTick().getGameTimeDeltaTicks());
-                this.mc.getMainRenderTarget().bindWrite(false);
-            }
-        }
-    }
-
-    public void endVisionBatch() {
-        if (shouldRenderVision()) {
-            if (this.visionBuffer != null) this.visionBuffer.endOutlineBatch();
-        }
-    }
-
-    private void updateDisplaySize() {
-        if (displayHeight != mc.getWindow().getHeight() || displayWidth != mc.getWindow().getWidth()) {
-            this.displayHeight = mc.getWindow().getHeight();
-            this.displayWidth = mc.getWindow().getWidth();
-            this.updateFramebufferSize(this.displayWidth, this.displayHeight);
-        }
-    }
-
-    private void adjustVisionShaders(float progress) {
-        if (this.blit == null || this.blur1 == null) return;
-        progress = Mth.clamp(progress, 0, 1);
-        this.blit.getEffect().safeGetUniform("ColorModulate").set((1 - 0.4F * progress), (1 - 0.5F * progress), (1 - 0.3F * progress), 1);
-        this.blur1.getEffect().safeGetUniform("Radius").set((float)Math.round(5.0F * progress));
-        this.blur2.getEffect().safeGetUniform("Radius").set((float)Math.round(5.0F * progress));
-    }
-
-    private void updateFramebufferSize(int width, int height) {
-        if (this.blurShader != null) {
-            this.blurShader.resize(width, height);
-        }
+    private float getVisionProgress() {
+        float partialTicks = this.mc.getDeltaTracker().getGameTimeDeltaPartialTick(false);
+        return Mth.clamp((ticks + (ticks - lastTicks) * partialTicks) / (float) VISION_FADE_TICKS, 0, 1);
     }
 
     private boolean shouldRenderVision() {
-        return this.ticks > 0 && this.blurShader != null && this.mc.player != null;
+        return this.ticks > 0 && this.mc.player != null;
     }
 
     @Override
-    public void onResourceManagerReload(@Nonnull ResourceManager p_10758_) {
-        this.reMakeShader();
-    }
-
-    private void reMakeShader() {
-        if (this.blurShader != null) {
-            this.blurShader.close();
-        }
-        ResourceLocation resourcelocationBlur = WIdentifier.v("shaders/blank.json");
-        try {
-            this.blurShader = new PostChain(this.mc.getTextureManager(), this.mc.getResourceManager(), this.mc.getMainRenderTarget(), resourcelocationBlur);
-            RenderTarget swap = this.blurShader.getTempTarget("swap");
-
-            this.blit = blurShader.addPass("blit", swap, this.mc.getMainRenderTarget(), false);
-            this.blur1 = this.blurShader.addPass("box_blur", this.mc.getMainRenderTarget(), swap, false);
-            this.blur1.getEffect().safeGetUniform("BlurDir").set(1.0F, 0.0F);
-            this.blur2 = this.blurShader.addPass("box_blur", swap, this.mc.getMainRenderTarget(), false);
-            this.blur2.getEffect().safeGetUniform("BlurDir").set(0.0F, 1.0F);
-
-            this.blurShader.resize(this.mc.getWindow().getWidth(), this.mc.getWindow().getHeight());
-
-        } catch (Exception e) {
-            LOGGER.warn("Failed to load blood vision blur shader", e);
-            this.blurShader = null;
-        }
+    public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
     }
 }

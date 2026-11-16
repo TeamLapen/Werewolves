@@ -1,7 +1,17 @@
 package de.teamlapen.werewolves.common.world.entities;
 
-import de.teamlapen.lib.lib.util.UtilLib;
-import de.teamlapen.vampirism.util.TotemHelper;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+
+import net.minecraft.world.entity.EquipmentSlot;
+
+import java.util.Arrays;
+
+import de.teamlapen.werewolves.common.core.ModFactions;
+
+import de.teamlapen.faction.api.factions.IFaction;
+
+import de.teamlapen.vampirism.common.util.UtilLib;
+import de.teamlapen.faction.common.util.TotemHelper;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
@@ -31,10 +41,10 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
-import net.minecraft.world.entity.monster.Skeleton;
-import net.minecraft.world.entity.monster.Stray;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
+import net.minecraft.world.entity.monster.skeleton.Skeleton;
+import net.minecraft.world.entity.monster.skeleton.Stray;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -56,7 +66,7 @@ import java.util.stream.StreamSupport;
 public class ModEntityEventHandler {
 
     private final static Logger LOGGER = LogManager.getLogger();
-    private static final Predicate<LivingEntity> nonWerewolfCheck = entity -> !Helper.isWerewolf(entity);
+    private static final TargetingConditions.Selector nonWerewolfCheck = (entity, level) -> !Helper.isWerewolf(entity);
     private static final Object2BooleanMap<String> entityAIReplacementWarnMap = new Object2BooleanArrayMap<>();
     private static final UUID ARMOR_REDUCTION = UUID.fromString("5b7612e9-1847-435c-b4eb-a455af4ce8c7");
 
@@ -64,7 +74,7 @@ public class ModEntityEventHandler {
     public void onEntityAttacked(AttackEntityEvent event) {
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
             if (event.getEntity().getMainHandItem().is(ModTags.Items.SILVER_TOOL)) {
-                ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createSilverEffect(((LivingEntity) event.getTarget()), ModConfig.BALANCE.UTIL.silverItemEffectDuration.get(), 1));
+                ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createSilverEffect(((LivingEntity) event.getTarget()), ModConfig.balance().UTIL.silverItemEffectDuration.get(), 1));
             }
         }
         if (event.getTarget() instanceof WerewolfTransformable) {
@@ -73,9 +83,9 @@ public class ModEntityEventHandler {
             }
         }
         if (Helper.isWerewolf(event.getEntity()) && event.getTarget() instanceof LivingEntity target) {
-            int sum = StreamSupport.stream(target.getArmorSlots().spliterator(), false).mapToInt(stack -> stack.getItem() instanceof ISilverItem ? 1 : 0).sum();
+            int sum = Arrays.stream(EquipmentSlot.values()).filter(EquipmentSlot::isArmor).map(target::getItemBySlot).mapToInt(stack -> stack.getItem() instanceof ISilverItem ? 1 : 0).sum();
             if (sum > 0) {
-                event.getEntity().addEffect(SilverEffect.createSilverEffect(event.getEntity(), ModConfig.BALANCE.UTIL.silverArmorAttackEffectDuration.get() * sum, 0));
+                event.getEntity().addEffect(SilverEffect.createSilverEffect(event.getEntity(), ModConfig.balance().UTIL.silverArmorAttackEffectDuration.get() * sum, 0));
             }
         }
     }
@@ -83,7 +93,7 @@ public class ModEntityEventHandler {
     @SubscribeEvent
     public void onTargetChange(LivingChangeTargetEvent event) {
         if (event.getNewAboutToBeSetTarget() instanceof ServerPlayer player && Helper.isWerewolf(player)) {
-            if(WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(ModSkills.SIXTH_SENSE.get())) {
+            if(WerewolfPlayer.get(player).getSkillHandler().isSkillEnabled(ModSkills.SIXTH_SENSE)) {
                 player.connection.send(new ClientboundAttackTargetEventPacket(event.getEntity().getId()));
             }
         }
@@ -94,14 +104,14 @@ public class ModEntityEventHandler {
         if (event.getEntity().level().isClientSide()) return;
         if (event.getEntity() instanceof Villager) {
             TotemHelper.getTotemNearPos(((ServerLevel) event.getLevel()), event.getEntity().blockPosition(), true).ifPresent(totem -> {
-                if (WReference.WEREWOLF_FACTION.equals(totem.getControllingFaction())) {
+                if (IFaction.is(totem.getControllingFaction(), ModFactions.WEREWOLF)) {
                     if (((Villager) event.getEntity()).getRandom().nextInt(6) == 0) {
                         ((IVillagerTransformable) event.getEntity()).setWerewolfFaction(true);
                     }
                 }
             });
         }
-        if (ModConfig.BALANCE.UTIL.skeletonIgnoreWerewolves.get()) {
+        if (ModConfig.balance().UTIL.skeletonIgnoreWerewolves.get()) {
             if (event.getEntity() instanceof Skeleton || event.getEntity() instanceof Stray) {
                 //noinspection unchecked
                 makeWerewolfFriendly("skeleton", (AbstractSkeleton) event.getEntity(), NearestAttackableTargetGoal.class, Player.class, 2, (entity, predicate) -> new NearestAttackableTargetGoal<>(entity, Player.class, 10, true, false, predicate), type -> type == EntityType.SKELETON || type == EntityType.STRAY);
@@ -113,7 +123,7 @@ public class ModEntityEventHandler {
      * copy from {@link de.teamlapen.vampirism.entity.ModEntityEventHandler#makeVampireFriendly(String, Mob, Class, Class, int, BiFunction, Predicate)}
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Mob, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, T entity, Class<Q> targetClass, Class<S> targetEntityClass, int attackPriority, BiFunction<T, Predicate<LivingEntity>, Q> replacement, Predicate<EntityType<? extends T>> typeCheck) {
+    public static <T extends Mob, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, T entity, Class<Q> targetClass, Class<S> targetEntityClass, int attackPriority, BiFunction<T, TargetingConditions.Selector, Q> replacement, Predicate<EntityType<? extends T>> typeCheck) {
         try {
             Goal target = null;
             for (WrappedGoal t : ((GoalSelectorAccessor) entity.targetSelector).getAvailableGoals()) {
@@ -128,9 +138,11 @@ public class ModEntityEventHandler {
                 entity.targetSelector.removeGoal(target);
                 EntityType<? extends T> type = (EntityType<? extends T>) entity.getType();
                 if (typeCheck.test(type)) {
-                    Predicate<LivingEntity> newPredicate = nonWerewolfCheck;
-                    if (((TargetingConditionsAccessor) ((NearestAttackabletargetGoalAccessor<?>)target).getTargetConditions()).getSelector() != null) {
-                        newPredicate = newPredicate.and(((TargetingConditionsAccessor) ((NearestAttackabletargetGoalAccessor<?>) target).getTargetConditions()).getSelector());
+                    TargetingConditions.Selector newPredicate = nonWerewolfCheck;
+                    TargetingConditions.Selector oldSelector = ((TargetingConditionsAccessor) ((NearestAttackabletargetGoalAccessor<?>) target).getTargetConditions()).getSelector();
+                    if (oldSelector != null) {
+                        TargetingConditions.Selector first = newPredicate;
+                        newPredicate = (living, level) -> first.test(living, level) && oldSelector.test(living, level);
                     }
                     entity.targetSelector.addGoal(attackPriority, replacement.apply(entity, newPredicate));
                 }
@@ -173,8 +185,8 @@ public class ModEntityEventHandler {
             float damageReduction = FormHelper.getForm(event.getEntity()).getDamageReduction();
             if (event.getEntity() instanceof Player player) {
                 WerewolfPlayer werewolfPlayer = WerewolfPlayer.get(player);
-                if (!werewolfPlayer.getForm().isTransformed() && werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR.get())) {
-                    damageReduction *= ModConfig.BALANCE.SKILLS.thick_fur_multiplier.get().floatValue();
+                if (!werewolfPlayer.getForm().isTransformed() && werewolfPlayer.getSkillHandler().isSkillEnabled(ModSkills.THICK_FUR)) {
+                    damageReduction *= ModConfig.balance().SKILLS.thick_fur_multiplier.get().floatValue();
                 }
             }
             if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {

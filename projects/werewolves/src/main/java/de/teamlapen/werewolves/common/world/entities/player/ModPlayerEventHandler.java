@@ -1,5 +1,9 @@
 package de.teamlapen.werewolves.common.world.entities.player;
 
+import net.minecraft.world.item.equipment.Equippable;
+
+import net.minecraft.core.component.DataComponents;
+
 import de.teamlapen.faction.api.factions.IPlayableFaction;
 import de.teamlapen.faction.api.factions.skills.ISkillHandler;
 import de.teamlapen.faction.common.factions.FactionPlayerHandler;
@@ -88,7 +92,7 @@ public class ModPlayerEventHandler {
         if (event.getSlot() == EquipmentSlot.MAINHAND && event.getEntity() instanceof Player player) {
             WerewolfPlayer.get(player).checkToolDamage(event.getFrom(), event.getTo(), false);
         }
-        if (event.getEntity() instanceof ServerPlayer serverPlayer && WerewolfPlayer.get(serverPlayer) instanceof WerewolfPlayer werewolfPlayer && werewolfPlayer.getForm() == WerewolfForm.HUMAN && event.getTo().getItem() instanceof ArmorItem) {
+        if (event.getEntity() instanceof ServerPlayer serverPlayer && WerewolfPlayer.get(serverPlayer) instanceof WerewolfPlayer werewolfPlayer && werewolfPlayer.getForm() == WerewolfForm.HUMAN && event.getSlot().isArmor() && !event.getTo().isEmpty()) {
             ModAdvancements.TRIGGER_VAMPIRE_ACTION.get().trigger(serverPlayer, WerewolfActionCriterionTrigger.Action.ARMOR_PARTIAL);
         }
     }
@@ -170,7 +174,7 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void useItem(PlayerInteractEvent.RightClickItem event) {
-        if (Helper.isWerewolf(event.getEntity()) && event.getItemStack().getItem() instanceof Equipable equip && equip.getEquipmentSlot().isArmor()) {
+        if (Helper.isWerewolf(event.getEntity()) && event.getItemStack().get(DataComponents.EQUIPPABLE) instanceof Equippable equip && equip.slot().isArmor()) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(event.getEntity());
             if (!werewolf.canWearArmor(event.getItemStack())) {
                 event.setCancellationResult(InteractionResult.FAIL);

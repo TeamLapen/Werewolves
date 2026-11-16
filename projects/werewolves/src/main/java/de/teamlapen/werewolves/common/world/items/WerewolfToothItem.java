@@ -7,7 +7,6 @@ import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -24,25 +23,25 @@ public class WerewolfToothItem extends Item {
 
     @Nonnull
     @Override
-    public InteractionResultHolder<ItemStack> use(@Nonnull Level world, @Nonnull Player player, @Nonnull InteractionHand hand) {
+    public InteractionResult use(@Nonnull Level world, @Nonnull Player player, @Nonnull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!world.isClientSide) {
-            if (ModConfig.SERVER.disableWerewolfToothInfection.get()) {
-                player.displayClientMessage(Component.translatable("text.vampirism.deactivated_by_serveradmin"), true);
+        if (!world.isClientSide()) {
+            if (ModConfig.server().disableWerewolfToothInfection.get()) {
+                player.sendOverlayMessage(Component.translatable("text.vampirism.deactivated_by_serveradmin"));
             } else {
                 if (Helper.canBecomeWerewolf(player)) {
                     LupusSanguinemEffect.addSanguinemEffect(player);
                     player.addEffect(new MobEffectInstance(ModEffects.V.POISON, 60));
                 } else {
                     if (Helper.isWerewolf(player)) {
-                        player.displayClientMessage(Component.translatable("text.werewolves.already_werewolf"), true);
+                        player.sendOverlayMessage(Component.translatable("text.werewolves.already_werewolf"));
                     } else {
-                        player.displayClientMessage(Component.translatable("text.vampirism.immune_to").append(Component.translatable(ModEffects.LUPUS_SANGUINEM.get().getDescriptionId())), true);
+                        player.sendOverlayMessage(Component.translatable("text.vampirism.immune_to").append(Component.translatable(ModEffects.LUPUS_SANGUINEM.get().getDescriptionId())));
                     }
                 }
                 stack.shrink(1);
             }
         }
-        return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
+        return InteractionResult.SUCCESS;
     }
 }

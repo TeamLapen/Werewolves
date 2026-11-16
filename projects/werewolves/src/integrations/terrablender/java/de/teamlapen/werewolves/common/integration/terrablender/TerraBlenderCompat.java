@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.common.integration.terrablender;
 
-import de.teamlapen.vampirism.config.VampirismConfig;
+import de.teamlapen.vampirism.common.config.ModConfig;
 import net.neoforged.fml.ModList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +21,7 @@ public class TerraBlenderCompat {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static void registerBiomeProviderIfPresentUnsafe() {
-        if (!VampirismConfig.COMMON.addVampireForestToOverworld.get()) {
+        if (!ModConfig.common().addVampireForestToOverworld.get()) {
             return;
         }
         if (ModList.get().isLoaded(MOD_ID)) {

@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.common.server.command;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
-import de.teamlapen.lib.lib.util.BasicCommand;
+import de.teamlapen.faction.common.server.commands.BasicCommand;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
 import net.minecraft.commands.CommandSourceStack;
@@ -16,7 +16,7 @@ import java.util.List;
 public class WerewolfTransformCommand extends BasicCommand {
     public static ArgumentBuilder<CommandSourceStack, ?> register() {
         return Commands.literal("werewolf-transform")
-                .requires(context -> context.hasPermission(PERMISSION_LEVEL_CHEAT))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("to-werewolf")
                         .executes(context -> transformToWerewolf(context.getSource().getPlayerOrException())))
                 .then(Commands.literal("from-werewolf")

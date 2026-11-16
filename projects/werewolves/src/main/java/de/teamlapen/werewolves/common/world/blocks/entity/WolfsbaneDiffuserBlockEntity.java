@@ -35,6 +35,15 @@ public class WolfsbaneDiffuserBlockEntity extends DiffuserBlockEntity {
 
     public WolfsbaneDiffuserBlockEntity(BlockPos pPos, BlockState pBlockState, EnumStrength type, int radius) {
         super(ModBlockEntities.WOLFSBANE_DIFFUSER.get(), pPos, pBlockState);
+        this.type = type;
+        this.radius = radius;
+    }
+
+    /**
+     * @return whether the given position is in a chunk affected by this diffuser
+     */
+    public boolean isInRange(BlockPos pos) {
+        return Math.abs((pos.getX() >> 4) - (getBlockPos().getX() >> 4)) <= this.radius && Math.abs((pos.getZ() >> 4) - (getBlockPos().getZ() >> 4)) <= this.radius;
     }
 
     @Override

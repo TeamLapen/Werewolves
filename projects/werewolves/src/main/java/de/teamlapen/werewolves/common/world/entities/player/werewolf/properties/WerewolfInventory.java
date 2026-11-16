@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.common.world.entities.player.werewolf.properties;
 
+import net.minecraft.world.entity.EquipmentSlot;
+
 import com.mojang.serialization.Codec;
 import de.teamlapen.sync.PropertyParentSync;
 import de.teamlapen.werewolves.api.WIdentifier;
@@ -30,7 +32,7 @@ public class WerewolfInventory extends PropertyParentSync {
 
     public void swapArmorItems(WerewolfForm to) {
         var armor = werewolf.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR) && to != WerewolfForm.NONE && to.isHumanLike();
-        List<ItemStack> previousArmor = werewolf.asEntity().getInventory().armor;
+        List<ItemStack> previousArmor = new ArmorView(werewolf.asEntity());
         this.inventories.put(this.form, new ArrayList<>(previousArmor));
         previousArmor.clear();
         List<ItemStack> itemStacks = this.inventories.get(to);
@@ -115,4 +117,40 @@ public class WerewolfInventory extends PropertyParentSync {
         return changed;
     }
 
+
+    /**
+     * Live view on the armor equipment slots of the player (feet, legs, chest, head), replacing the removed {@code Inventory#armor} list
+     */
+    private static class ArmorView extends AbstractList<ItemStack> {
+        private static final EquipmentSlot[] SLOTS = {EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD};
+        private final Player player;
+
+        private ArmorView(Player player) {
+            this.player = player;
+        }
+
+        @Override
+        public ItemStack get(int index) {
+            return this.player.getItemBySlot(SLOTS[index]);
+        }
+
+        @Override
+        public ItemStack set(int index, ItemStack element) {
+            ItemStack old = get(index);
+            this.player.setItemSlot(SLOTS[index], element);
+            return old;
+        }
+
+        @Override
+        public void clear() {
+            for (int i = 0; i < SLOTS.length; i++) {
+                set(i, ItemStack.EMPTY);
+            }
+        }
+
+        @Override
+        public int size() {
+            return SLOTS.length;
+        }
+    }
 }

@@ -29,7 +29,7 @@ public class FormHelper {
 
     public static void reload() {
         noWerewolfFormTickingBiomes.clear();
-        List<? extends String> biomes = ModConfig.SERVER.werewolfFormFreeFormBiomes.get();
+        List<? extends String> biomes = ModConfig.server().werewolfFormFreeFormBiomes.get();
         for (String s : biomes) {
             Identifier id = Identifier.parse(s);
             noWerewolfFormTickingBiomes.add(id);
@@ -57,7 +57,8 @@ public class FormHelper {
 
     public static Optional<Holder<WerewolfFormAction>> getActiveFormAction(IWerewolfPlayer werewolf) {
         // werewolf form actions can not be enabled at the same time
-        return WerewolfFormAction.getAllAction().stream().filter(action -> werewolf.getActionHandler().isActionActive(action)).findAny();
+        //noinspection unchecked
+        return WerewolfFormAction.getAllAction().stream().filter(action -> werewolf.getActionHandler().isActionActive(action)).findAny().map(action -> (Holder<WerewolfFormAction>) (Object) action);
     }
 
     public static void deactivateWerewolfActions(IWerewolfPlayer player) {

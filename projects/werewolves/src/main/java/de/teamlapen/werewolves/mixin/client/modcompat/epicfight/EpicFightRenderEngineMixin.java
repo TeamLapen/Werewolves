@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class EpicFightRenderEngineMixin {
 
     @Inject(method = "renderLivingEvent", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/client/event/RenderLivingEvent$Pre;setCanceled(Z)V", shift = At.Shift.BEFORE), cancellable = true, remap = false)
-    private static void cancelWerewolfPlayerRendering(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event, CallbackInfo ci) {
+    private static void cancelWerewolfPlayerRendering(RenderLivingEvent.Pre<?, ?, ?> event, CallbackInfo ci) {
         if (event.getRenderer() instanceof WerewolfPlayerRenderer) {
             ci.cancel();
         }

@@ -18,7 +18,7 @@ public class PowderSnowBlockMixin {
     private static void walk(Entity pEntity, CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue() && pEntity instanceof Player player) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-            if (werewolf.getForm() == WerewolfForm.SURVIVALIST && werewolf.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN.get())) {
+            if (werewolf.getForm() == WerewolfForm.SURVIVALIST && werewolf.getSkillHandler().isSkillEnabled(ModSkills.WOLF_PAWN)) {
                 cir.setReturnValue(true);
             }
         }

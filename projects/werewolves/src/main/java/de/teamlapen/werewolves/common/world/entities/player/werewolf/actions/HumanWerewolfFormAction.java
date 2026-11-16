@@ -13,21 +13,21 @@ public class HumanWerewolfFormAction extends WerewolfFormAction {
 
     public HumanWerewolfFormAction() {
         super(WerewolfForm.HUMAN);
-        attributes.add(new Modifier.Builder(Attributes.ARMOR, WIdentifier.mod("human_form_armor")).withDayModifier(0.7).withValues(ModConfig.BALANCE.SKILLS.human_form_armor, AttributeModifier.Operation.ADD_VALUE).build());
-        attributes.add(new Modifier.Builder(Attributes.ARMOR_TOUGHNESS, WIdentifier.mod("human_form_armor_toughness")).withDayModifier(0.7).withValues(ModConfig.BALANCE.SKILLS.human_form_armor_toughness, AttributeModifier.Operation.ADD_VALUE).build());
-        attributes.add(new Modifier.Builder(Attributes.MOVEMENT_SPEED, WIdentifier.mod("human_form_speed_amount")).withDayModifier(0.5).withValues(() -> ModConfig.BALANCE.SKILLS.human_form_speed_amount.get() * 0.8, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).withSkillModifier(ModSkills.SPEED, ModConfig.BALANCE.SKILLS.human_form_speed_amount).build());
-        attributes.add(new Modifier.Builder(ModAttributes.FOOD_CONSUMPTION, WIdentifier.mod("human_form_food_consumption")).withValues(ModConfig.BALANCE.SKILLS.human_form_food_consumption, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).build());
-        attributes.add(new Modifier.Builder(ModAttributes.FOOD_GAIN, WIdentifier.mod("human_form_food_gain")).withValues(() -> ModConfig.BALANCE.SKILLS.human_form_food_gain.get() - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).build());
+        attributes.add(new Modifier.Builder(Attributes.ARMOR, WIdentifier.mod("human_form_armor")).withDayModifier(0.7).withValues(ModConfig.balance().SKILLS.human_form_armor, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.ARMOR_TOUGHNESS, WIdentifier.mod("human_form_armor_toughness")).withDayModifier(0.7).withValues(ModConfig.balance().SKILLS.human_form_armor_toughness, AttributeModifier.Operation.ADD_VALUE).build());
+        attributes.add(new Modifier.Builder(Attributes.MOVEMENT_SPEED, WIdentifier.mod("human_form_speed_amount")).withDayModifier(0.5).withValues(() -> ModConfig.balance().SKILLS.human_form_speed_amount.get() * 0.8, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).withSkillModifier(ModSkills.SPEED, ModConfig.balance().SKILLS.human_form_speed_amount).build());
+        attributes.add(new Modifier.Builder(ModAttributes.FOOD_CONSUMPTION, WIdentifier.mod("human_form_food_consumption")).withValues(ModConfig.balance().SKILLS.human_form_food_consumption, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).build());
+        attributes.add(new Modifier.Builder(ModAttributes.FOOD_GAIN, WIdentifier.mod("human_form_food_gain")).withValues(() -> ModConfig.balance().SKILLS.human_form_food_gain.get() - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).build());
     }
 
     @Override
     public boolean isEnabled() {
-        return ModConfig.BALANCE.SKILLS.human_form_enabled.get();
+        return ModConfig.balance().SKILLS.human_form_enabled.get();
     }
 
     @Override
     public int getCooldown(IWerewolfPlayer werewolfPlayer) {
-        return ModConfig.BALANCE.SKILLS.human_form_cooldown.get() * 20;
+        return ModConfig.balance().SKILLS.human_form_cooldown.get() * 20;
     }
 
     @Override

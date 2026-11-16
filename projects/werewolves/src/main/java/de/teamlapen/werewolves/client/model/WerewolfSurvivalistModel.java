@@ -1,18 +1,16 @@
 package de.teamlapen.werewolves.client.model;
 
-import com.google.common.collect.ImmutableList;
+import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -23,7 +21,7 @@ import java.util.List;
  * WerewolfSurvivalistModel - Rebel
  * Created using Tabula 7.1.0
  */
-public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBaseModel<T> {
+public class WerewolfSurvivalistModel extends WerewolfBaseModel {
     public static final String BODY = "body";
     public static final String HIP = "hip";
     public static final String NECK = "neck";
@@ -73,7 +71,6 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
     public final ModelPart jawTeeth;
     public final ModelPart neck;
     public final ModelPart joint;
-    private final List<ModelPart> parts;
 
 
     public WerewolfSurvivalistModel(ModelPart part) {
@@ -90,13 +87,12 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.head = this.joint.getChild(HEAD);
         this.jaw = this.head.getChild(JAW);
         this.jawTeeth = this.jaw.getChild(JAW_TEETH);
-        this.parts = part.getAllParts().filter(s -> !s.isEmpty()).toList();
     }
 
     @Nonnull
     @SuppressWarnings({"unused", "DuplicatedCode"})
     public static LayerDefinition createBodyLayer() {
-        MeshDefinition mesh = WerewolfBaseModel.createMesh(CubeDeformation.NONE);
+        MeshDefinition mesh = WerewolfBaseModel.createMesh();
         PartDefinition root = mesh.getRoot();
 
         PartDefinition body = root.addOrReplaceChild(BODY, CubeListBuilder.create().texOffs(0, 13).addBox(-4.5F, 0.0F, -4.0F, 9, 8, 8), PartPose.offsetAndRotation(0.0F, 9.5F, -2.5F, 1.5707963267948966F, 0.0F, 0.0F));
@@ -163,26 +159,27 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         return this.armRight;
     }
 
-    @Nonnull
-    @Override
-    protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(this.body);
-    }
 
-    @Override
-    public void renderToBuffer(@Nonnull PoseStack matrixStackIn, @Nonnull VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, int color) {
-        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-    }
+
+
 
     @SuppressWarnings("DuplicatedCode")
     @Override
-    public void setupAnim(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.crouching = entityIn.isCrouching();
-        boolean flag1 = entityIn.isVisuallySwimming();
+    public void setupAnim(@Nonnull WerewolfRenderState state) {
+        super.setupAnim(state);
+        float limbSwing = state.walkAnimationPos;
+        float limbSwingAmount = state.walkAnimationSpeed;
+        float ageInTicks = state.ageInTicks;
+        float netHeadYaw = state.yRot;
+        float headPitch = state.xRot;
+        boolean crouching = state.isCrouching;
+        float swimAmount = state.swimAmount;
+        float attackTime = state.attackTime;
+        boolean flag1 = state.isVisuallySwimming;
         this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
         this.head.xRot = headPitch * ((float) Math.PI / 180F);
 
-        setupAttackAnimation(entityIn, ageInTicks);
+        setupAttackAnimation(state, ageInTicks);
 
         this.legRight.xRot = -1.5707963267948966F;
         this.legLeft.xRot = -1.5707963267948966F;
@@ -196,7 +193,7 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.armRight.xRot += Mth.cos(limbSwing * 0.6662F * 0.8f) * 0.8F * limbSwingAmount;
         this.armLeft.xRot += Mth.cos(limbSwing * 0.6662F * 0.8f + (float) Math.PI) * 0.8F * limbSwingAmount;
 
-        if (this.crouching) {
+        if (crouching) {
             this.armLeft.xRot -= 0.4f;
             this.armRight.xRot -= 0.4f;
             this.legLeft.xRot += 0.1f;
@@ -232,6 +229,14 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         return pSide == HumanoidArm.LEFT ? this.armRight : this.armLeft;
     }
 
+    @Override
+    public void translateToHead(@NotNull PoseStack stack) {
+        this.body.translateAndRotate(stack);
+        this.neck.translateAndRotate(stack);
+        this.joint.translateAndRotate(stack);
+        this.head.translateAndRotate(stack);
+    }
+
     public void translateToMouth(@NotNull HumanoidArm arm, @NotNull PoseStack stack) {
         this.body.translateAndRotate(stack);
         this.neck.translateAndRotate(stack);
@@ -240,29 +245,26 @@ public class WerewolfSurvivalistModel<T extends LivingEntity> extends WerewolfBa
         this.jaw.translateAndRotate(stack);
     }
 
-    protected void setupAttackAnimation(@NotNull T entity, float ageInTicks) {
-        if (this.attackTime > 0) {
-            float f = this.attackTime;
+    protected void setupAttackAnimation(@NotNull WerewolfRenderState state, float ageInTicks) {
+        if (state.attackTime > 0) {
+            float f = state.attackTime;
             f = 1.0F - f;
             head.xRot += f;
         }
     }
 
     @Nonnull
-    public static List<ResourceLocation> getSurvivalTextures() {
-        List<ResourceLocation> locs = getTextures("textures/entity/werewolf/survivalist");
+    public static List<Identifier> getSurvivalTextures() {
+        List<Identifier> locs = getTextures("textures/entity/werewolf/survivalist");
         if (locs.size() < WerewolfForm.SURVIVALIST.getSkinTypes()) {
             for (int i = locs.size(); i < WerewolfForm.SURVIVALIST.getSkinTypes(); i++) {
-                ResourceLocation s = WIdentifier.mod("textures/entity/werewolf/survivalist/survivalist_" + i + ".png");
+                Identifier s = WIdentifier.mod("textures/entity/werewolf/survivalist/survivalist_" + i + ".png");
                 locs.add(s);
             }
         }
         return locs;
     }
 
-    @Override
-    public @NotNull ModelPart getRandomModelPart(RandomSource pRandom) {
-        return this.parts.get(pRandom.nextInt(this.parts.size()));
-    }
+
 
 }

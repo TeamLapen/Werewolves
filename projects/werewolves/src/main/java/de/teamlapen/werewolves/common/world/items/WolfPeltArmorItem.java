@@ -6,7 +6,6 @@ import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.items.IWerewolfArmor;
-import de.teamlapen.werewolves.client.extensions.ItemExtensions;
 import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.network.chat.Component;
@@ -18,7 +17,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -38,7 +36,7 @@ public class WolfPeltArmorItem extends Item implements IWerewolfArmor, IItemWith
     }
 
 //    @Override
-//    public @Nullable ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
+//    public @Nullable Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
 //        return slot == EquipmentSlot.HEAD ? WIdentifier.mod("textures/models/armor/" + RegUtil.id(this).getPath() + ".png") : super.getArmorTexture(stack, entity, slot, layer, innerModel);
 //    }
 

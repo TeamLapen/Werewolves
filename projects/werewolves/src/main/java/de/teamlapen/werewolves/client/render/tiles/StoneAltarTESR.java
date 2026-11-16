@@ -2,53 +2,89 @@ package de.teamlapen.werewolves.client.render.tiles;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import de.teamlapen.werewolves.common.core.ModItems;
 import de.teamlapen.werewolves.common.world.blocks.StoneAltarBlock;
 import de.teamlapen.werewolves.common.world.blocks.entity.StoneAltarBlockEntity;
-import de.teamlapen.werewolves.common.core.ModItems;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
+public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity, StoneAltarTESR.StoneAltarRenderState> {
 
-public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity> {
-    private static final ItemStack LIVER_STACK = ModItems.LIVER.get().getDefaultInstance();
-    private static final ItemStack BONE_STACK = ModItems.CRACKED_BONE.get().getDefaultInstance();
+    private final ItemModelResolver itemModelResolver;
 
     public StoneAltarTESR(BlockEntityRendererProvider.Context context) {
+        this.itemModelResolver = context.itemModelResolver();
     }
 
     @Override
-    public void render(@Nonnull StoneAltarBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        if (!tileEntityIn.getItem(0).isEmpty()) {
-            renderItem(tileEntityIn, matrixStackIn);
-            matrixStackIn.translate(-0.5, 0, 0.5); // translate to final location
-            matrixStackIn.mulPose(Axis.YP.rotationDegrees(22.5f)); // rotate final
-            matrixStackIn.mulPose(Axis.XN.rotationDegrees(90f)); // rotate to flat
-            Minecraft.getInstance().getItemRenderer().renderStatic(LIVER_STACK, ItemDisplayContext.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, tileEntityIn.getLevel(), 0);
-            matrixStackIn.popPose();
+    public @NotNull StoneAltarRenderState createRenderState() {
+        return new StoneAltarRenderState();
+    }
+
+    @Override
+    public void extractRenderState(@NotNull StoneAltarBlockEntity blockEntity, @NotNull StoneAltarRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.facing = blockEntity.getBlockState().getValue(StoneAltarBlock.HORIZONTAL_FACING);
+        if (!blockEntity.getItem(0).isEmpty()) {
+            this.itemModelResolver.updateForTopItem(renderState.liver, ModItems.LIVER.get().getDefaultInstance(), ItemDisplayContext.GUI, blockEntity.getLevel(), null, 0);
+        } else {
+            renderState.liver.clear();
         }
-        if (!tileEntityIn.getItem(1).isEmpty()) {
-            renderItem(tileEntityIn, matrixStackIn);
-            matrixStackIn.translate(0.5, 0, 0.5); // translate to final location
-            matrixStackIn.mulPose(Axis.YN.rotationDegrees(22.5f)); // rotate final
-            matrixStackIn.mulPose(Axis.XN.rotationDegrees(90f)); // rotate to flat
-            Minecraft.getInstance().getItemRenderer().renderStatic(BONE_STACK, ItemDisplayContext.GUI, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, tileEntityIn.getLevel(), 0);
-            matrixStackIn.popPose();
+        if (!blockEntity.getItem(1).isEmpty()) {
+            this.itemModelResolver.updateForTopItem(renderState.bone, ModItems.CRACKED_BONE.get().getDefaultInstance(), ItemDisplayContext.GUI, blockEntity.getLevel(), null, 0);
+        } else {
+            renderState.bone.clear();
         }
     }
 
-    private void renderItem(@Nonnull StoneAltarBlockEntity tileEntityIn, @Nonnull PoseStack matrixStackIn) {
-        matrixStackIn.pushPose();
-        matrixStackIn.translate(0.5, 0.64, 0.5); // translate to middle
-        matrixStackIn.scale(0.4f, 0.4f, 0.4f); // adjust item size
-        switch (tileEntityIn.getBlockState().getValue(StoneAltarBlock.HORIZONTAL_FACING)) { // rotated based on facing
-            case WEST -> matrixStackIn.mulPose(Axis.YP.rotationDegrees(90));
-            case SOUTH -> matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));
-            case EAST -> matrixStackIn.mulPose(Axis.YP.rotationDegrees(270));
+    @Override
+    public void submit(@NotNull StoneAltarRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+        if (!renderState.liver.isEmpty()) {
+            prepareItem(renderState, poseStack);
+            poseStack.translate(-0.5, 0, 0.5); // translate to final location
+            poseStack.mulPose(Axis.YP.rotationDegrees(22.5f)); // rotate final
+            poseStack.mulPose(Axis.XN.rotationDegrees(90f)); // rotate to flat
+            renderState.liver.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            poseStack.popPose();
         }
+        if (!renderState.bone.isEmpty()) {
+            prepareItem(renderState, poseStack);
+            poseStack.translate(0.5, 0, 0.5); // translate to final location
+            poseStack.mulPose(Axis.YN.rotationDegrees(22.5f)); // rotate final
+            poseStack.mulPose(Axis.XN.rotationDegrees(90f)); // rotate to flat
+            renderState.bone.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            poseStack.popPose();
+        }
+    }
+
+    private void prepareItem(@NotNull StoneAltarRenderState renderState, @NotNull PoseStack poseStack) {
+        poseStack.pushPose();
+        poseStack.translate(0.5, 0.64, 0.5); // translate to middle
+        poseStack.scale(0.4f, 0.4f, 0.4f); // adjust item size
+        switch (renderState.facing) { // rotated based on facing
+            case WEST -> poseStack.mulPose(Axis.YP.rotationDegrees(90));
+            case SOUTH -> poseStack.mulPose(Axis.YP.rotationDegrees(180));
+            case EAST -> poseStack.mulPose(Axis.YP.rotationDegrees(270));
+            default -> {
+            }
+        }
+    }
+
+    public static class StoneAltarRenderState extends BlockEntityRenderState {
+        public final ItemStackRenderState liver = new ItemStackRenderState();
+        public final ItemStackRenderState bone = new ItemStackRenderState();
+        public Direction facing = Direction.NORTH;
     }
 }

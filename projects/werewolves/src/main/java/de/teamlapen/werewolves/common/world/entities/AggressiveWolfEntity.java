@@ -1,14 +1,16 @@
 package de.teamlapen.werewolves.common.world.entities;
 
-import de.teamlapen.vampirism.util.DamageHandler;
-import net.minecraft.nbt.CompoundTag;
+import de.teamlapen.faction.common.util.DamageHandler;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
@@ -56,23 +58,23 @@ public class AggressiveWolfEntity extends Wolf {
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+    protected void addAdditionalSaveData(@Nonnull ValueOutput compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("restrictLiveSpan", this.restrictLiveSpan);
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+    protected void readAdditionalSaveData(@Nonnull ValueInput compound) {
         super.readAdditionalSaveData(compound);
-        this.restrictLiveSpan = compound.getBoolean("restrictLiveSpan");
+        this.restrictLiveSpan = compound.getBooleanOr("restrictLiveSpan", false);
     }
 
     @Override
     public void tick() {
         super.tick();
         if (this.restrictLiveSpan) {
-            if (this.tickCount > maxTicks) {
-                DamageHandler.hurtVanilla(this, DamageSources::magic, 10);
+            if (this.tickCount > maxTicks && this.level() instanceof ServerLevel serverLevel) {
+                DamageHandler.hurtVanilla(serverLevel, this, DamageSources::magic, 10);
             }
         }
     }

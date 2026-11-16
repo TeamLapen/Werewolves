@@ -1,5 +1,11 @@
 package de.teamlapen.werewolves.common.world.features;
 
+import net.neoforged.neoforge.common.world.BiomeSpecialEffectsBuilder;
+
+import net.minecraft.world.attribute.AmbientSounds;
+
+import net.minecraft.world.attribute.EnvironmentAttributes;
+
 import de.teamlapen.werewolves.common.core.ModEntities;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.world.entity.MobCategory;
@@ -23,25 +29,24 @@ public class WerewolfForestBiome {
                 .downfall(0)
                 .specialEffects(ambienceBuilder.build())
                 .mobSpawnSettings(spawnBuilder.build())
-                .generationSettings(featureBuilder.build());
+                .generationSettings(featureBuilder.build())
+                .setAttribute(EnvironmentAttributes.WATER_FOG_COLOR, 0x444444)
+                .setAttribute(EnvironmentAttributes.SKY_COLOR, 0x444444)
+                .setAttribute(EnvironmentAttributes.FOG_COLOR, 0x444444)
+                .setAttribute(EnvironmentAttributes.AMBIENT_SOUNDS, AmbientSounds.LEGACY_CAVE_SETTINGS);
     }
 
     public static MobSpawnSettings.Builder createMobSpawnBuilder() {
         return new MobSpawnSettings.Builder()
-                .addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(ModEntities.ALPHA_WEREWOLF.get(), 10, 1, 1))
-                .addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_BEAST.get(), 70, 1, 2))
-                .addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_SURVIVALIST.get(), 70, 1, 2));
+                .addSpawn(MobCategory.MONSTER, 10, new MobSpawnSettings.SpawnerData(ModEntities.ALPHA_WEREWOLF.get(), 1, 1))
+                .addSpawn(MobCategory.MONSTER, 70, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_BEAST.get(), 1, 2))
+                .addSpawn(MobCategory.MONSTER, 70, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_SURVIVALIST.get(), 1, 2));
     }
 
     public static BiomeSpecialEffects.Builder createEffectBuilder() {
-        return new BiomeSpecialEffects.Builder()
-                .waterColor(0x444444)
-                .waterFogColor(0x444444)
-                .skyColor(0x444444)
-                .fogColor(0x444444)
+        return BiomeSpecialEffectsBuilder.create(0x444444)
                 .foliageColorOverride(0x375b38)
-                .grassColorOverride(0x444444)
-                .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
+                .grassColorOverride(0x444444);
     }
 
     public static BiomeGenerationSettings.Builder createGenerationBuilder(HolderGetter<PlacedFeature> featureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter) {

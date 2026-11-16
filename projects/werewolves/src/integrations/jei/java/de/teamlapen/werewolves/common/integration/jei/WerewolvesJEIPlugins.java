@@ -5,7 +5,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import javax.annotation.Nonnull;
 
@@ -13,11 +13,11 @@ import javax.annotation.Nonnull;
 @JeiPlugin
 public class WerewolvesJEIPlugins implements IModPlugin {
 
-    private static final ResourceLocation ID = WIdentifier.mod("plugin");
+    private static final Identifier ID = WIdentifier.mod("plugin");
 
     @Nonnull
     @Override
-    public ResourceLocation getPluginUid() {
+    public Identifier getPluginUid() {
         return ID;
     }
 

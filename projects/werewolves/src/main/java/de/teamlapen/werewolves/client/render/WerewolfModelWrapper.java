@@ -1,61 +1,54 @@
 package de.teamlapen.werewolves.client.render;
 
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.PlayerModel;
+import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
-public record WerewolfModelWrapper<T extends LivingEntity>(WerewolfBaseModel<T> model,
-                                                           Collection<? extends RenderLayer<T, WerewolfBaseModel<T>>> layers,
-                                                           List<ResourceLocation> textures, float shadow,
-                                                           boolean skipPlayerModel) {
+public record WerewolfModelWrapper(@Nullable WerewolfBaseModel model,
+                                   Collection<? extends RenderLayer<WerewolfRenderState, WerewolfBaseModel>> layers,
+                                   List<Identifier> textures, float shadow) {
 
-    public static class Builder<T extends LivingEntity> {
-        private WerewolfBaseModel<T> model = null;
-        private Collection<? extends RenderLayer<T, WerewolfBaseModel<T>>> layers = Collections.emptyList();
-        private List<ResourceLocation> textures = Collections.emptyList();
+    public static class Builder {
+        private WerewolfBaseModel model = null;
+        private Collection<? extends RenderLayer<WerewolfRenderState, WerewolfBaseModel>> layers = Collections.emptyList();
+        private List<Identifier> textures = Collections.emptyList();
         private float shadow = 0f;
-        private boolean skipPlayerModel = false;
 
-        public Builder<T> model(WerewolfBaseModel<T> model) {
+        public Builder model(WerewolfBaseModel model) {
             this.model = model;
             return this;
         }
 
-        public Builder<T> layers(@Nonnull Collection<? extends RenderLayer<T, WerewolfBaseModel<T>>> function) {
-            this.layers = function;
+        public Builder layers(@Nonnull Collection<? extends RenderLayer<WerewolfRenderState, WerewolfBaseModel>> layers) {
+            this.layers = layers;
             return this;
         }
 
-        public Builder<T> textures(@Nonnull List<ResourceLocation> textures) {
+        public Builder textures(@Nonnull List<Identifier> textures) {
             this.textures = textures;
             return this;
         }
 
-        public Builder<T> textures(ResourceLocation... textures) {
+        public Builder textures(Identifier... textures) {
             return this.textures(Arrays.asList(textures));
         }
 
-        public Builder<T> shadow(float size) {
+        public Builder shadow(float size) {
             this.shadow = size;
             return this;
         }
 
-        public Builder<T> skipPlayerModel() {
-            this.skipPlayerModel = true;
-            return this;
-        }
-
-        public WerewolfModelWrapper<T> build() {
-            return new WerewolfModelWrapper<>(this.model, this.layers, this.textures, this.shadow, this.skipPlayerModel);
+        public WerewolfModelWrapper build() {
+            return new WerewolfModelWrapper(this.model, this.layers, this.textures, this.shadow);
         }
 
     }

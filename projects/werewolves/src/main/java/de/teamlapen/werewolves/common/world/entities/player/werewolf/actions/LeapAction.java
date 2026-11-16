@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.common.world.entities.player.werewolf.actions;
 
+import de.teamlapen.faction.api.factions.actions.IActionResult;
+
 import de.teamlapen.faction.api.factions.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
@@ -12,25 +14,22 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
 
     @Override
     public boolean isEnabled() {
-        return ModConfig.BALANCE.SKILLS.leap_enabled.get();
+        return ModConfig.balance().SKILLS.leap_enabled.get();
     }
 
     @Override
-    protected boolean activate(IWerewolfPlayer iWerewolfPlayer, ActivationContext context) {
+    protected IActionResult activateServer(IWerewolfPlayer iWerewolfPlayer, ActivationContext context) {
         Player player = iWerewolfPlayer.asEntity();
         player.getAbilities().setFlyingSpeed(player.getAbilities().getFlyingSpeed() + 0.05F);
-        return true;
+        return IActionResult.SUCCESS;
     }
 
     @Override
     public int getCooldown(IWerewolfPlayer player) {
-        return player.getSkillHandler().isRefinementEquipped(ModRefinements.NO_LEAP_COOLDOWN.get()) ? 0 : ModConfig.BALANCE.SKILLS.leap_cooldown.get() * 20;
+        return player.getRefinementHandler().isRefinementEquipped(ModRefinements.NO_LEAP_COOLDOWN) ? 0 : ModConfig.balance().SKILLS.leap_cooldown.get() * 20;
     }
 
-    @Override
-    public boolean showInSelectAction(Player player) {
-        return false;
-    }
+
 
     @Override
     public int getDuration(IWerewolfPlayer iWerewolfPlayer) {
@@ -48,7 +47,7 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
     }
 
     @Override
-    public void onReActivated(IWerewolfPlayer iWerewolfPlayer) {
+    public void onReActivatedServer(IWerewolfPlayer iWerewolfPlayer) {
     }
 
     @Override
@@ -56,8 +55,5 @@ public class LeapAction extends DefaultWerewolfAction implements ILastingAction<
         return false;
     }
 
-    @Override
-    public boolean showHudCooldown(Player player) {
-        return true;
-    }
+
 }

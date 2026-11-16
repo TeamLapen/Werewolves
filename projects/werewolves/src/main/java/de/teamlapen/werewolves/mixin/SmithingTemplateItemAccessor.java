@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.mixin;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.SmithingTemplateItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
@@ -20,22 +20,22 @@ public interface SmithingTemplateItemAccessor {
     }
 
     @Accessor("EMPTY_SLOT_HELMET")
-    static ResourceLocation getEmptySlotHelmet() {
+    static Identifier getEmptySlotHelmet() {
         throw new IllegalStateException("Mixin failed to apply");
     }
 
     @Accessor("EMPTY_SLOT_CHESTPLATE")
-    static ResourceLocation getEmptySlotChestplate() {
+    static Identifier getEmptySlotChestplate() {
         throw new IllegalStateException("Mixin failed to apply");
     }
 
     @Accessor("EMPTY_SLOT_LEGGINGS")
-    static ResourceLocation getEmptySlotLeggings() {
+    static Identifier getEmptySlotLeggings() {
         throw new IllegalStateException("Mixin failed to apply");
     }
 
     @Accessor("EMPTY_SLOT_BOOTS")
-    static ResourceLocation getEmptySlotBoots() {
+    static Identifier getEmptySlotBoots() {
         throw new IllegalStateException("Mixin failed to apply");
     }
 }

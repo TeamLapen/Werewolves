@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.common.world.entities.goals;
 
-import de.teamlapen.vampirism.api.entity.IEntityLeader;
+import de.teamlapen.faction.api.world.entities.IEntityLeader;
 import de.teamlapen.werewolves.api.entities.IEntityFollower;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -28,15 +28,15 @@ public class DefendLeaderGoal<T extends Mob & IEntityFollower> extends TargetGoa
         if (leader.isEmpty()) {
             return false;
         } else {
-            this.attacker = leader.get().getRepresentingEntity().getLastHurtByMob();
-            int i = leader.get().getRepresentingEntity().getLastHurtByMobTimestamp();
+            this.attacker = leader.get().asEntity().getLastHurtByMob();
+            int i = leader.get().asEntity().getLastHurtByMobTimestamp();
             return i != this.timestamp && this.canAttack(this.attacker, TargetingConditions.DEFAULT);
         }
     }
 
     public void start() {
         this.mob.setTarget(this.attacker);
-        this.entity.getLeader().ifPresent(leader -> this.timestamp = leader.getRepresentingEntity().getLastHurtByMobTimestamp());
+        this.entity.getLeader().ifPresent(leader -> this.timestamp = leader.asEntity().getLastHurtByMobTimestamp());
         super.start();
     }
 }

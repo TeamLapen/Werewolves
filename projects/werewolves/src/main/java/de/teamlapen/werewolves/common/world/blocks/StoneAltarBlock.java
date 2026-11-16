@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.common.world.blocks;
 
+import net.minecraft.world.item.ItemStackTemplate;
+
 import com.mojang.serialization.MapCodec;
 import de.teamlapen.werewolves.common.world.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.common.core.ModBlockEntities;
@@ -33,7 +35,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
@@ -56,7 +58,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty SOUL_FIRE = WUtils.SOUL_FIRE;
-    public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final String REG_NAME = "stone_altar";
     protected static final MapCodec<StoneAltarBlock> CODEC = simpleCodec(StoneAltarBlock::new);
 
@@ -86,13 +88,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         return RenderShape.MODEL;
     }
 
-    @Override
-    public void onRemove(BlockState state, @Nonnull Level worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
-        if (state.getBlock() != newState.getBlock()) {
-            this.dropItems(worldIn, pos);
-            super.onRemove(state, worldIn, pos, newState, isMoving);
-        }
-    }
+
 
     @Override
     public boolean isBurning(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
@@ -136,52 +132,52 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     public InteractionResult useWithoutItem(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, Player player, @Nonnull BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(InteractionHand.MAIN_HAND);
         StoneAltarBlockEntity te = ((StoneAltarBlockEntity) worldIn.getBlockEntity(pos));
-        if (!worldIn.isClientSide && te != null) {
+        if (!worldIn.isClientSide() && te != null) {
             StoneAltarBlockEntity.Result result = te.canActivate(player);
             if (!state.getValue(LIT)) {
                 switch (result) {
                     case OTHER_FACTION -> {
-                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.wrong_faction"), true);
+                        player.sendOverlayMessage(Component.translatable("text.werewolves.stone_altar.wrong_faction"));
                         return InteractionResult.CONSUME;
                     }
                     case IS_RUNNING -> {
-                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_still_running"), true);
+                        player.sendOverlayMessage(Component.translatable("text.werewolves.stone_altar.ritual_still_running"));
                         return InteractionResult.CONSUME;
                     }
                 }
                 switch (result) {
                     case NIGHT_ONLY -> {
-                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_night_only"), true);
+                        player.sendOverlayMessage(Component.translatable("text.werewolves.stone_altar.ritual_night_only"));
                         return InteractionResult.CONSUME;
                     }
                     case WRONG_LEVEL -> {
-                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_wrong_level"), true);
+                        player.sendOverlayMessage(Component.translatable("text.werewolves.stone_altar.ritual_wrong_level"));
                         return InteractionResult.CONSUME;
                     }
                     case STRUCTURE_LESS -> {
-                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_structures_missing"), true);
+                        player.sendOverlayMessage(Component.translatable("text.werewolves.stone_altar.ritual_structures_missing"));
                         return InteractionResult.CONSUME;
                     }
                     case STRUCTURE_LIT -> {
-                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_less_lit_structures"), true);
+                        player.sendOverlayMessage(Component.translatable("text.werewolves.stone_altar.ritual_less_lit_structures"));
                         return InteractionResult.CONSUME;
                     }
                     case TO_LESS_BLOOD -> {
-                        player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.ritual_to_less_prey"), true);
+                        player.sendOverlayMessage(Component.translatable("text.werewolves.stone_altar.ritual_to_less_prey"));
                         return InteractionResult.CONSUME;
                     }
                     case INV_MISSING -> {
                         Map<Item, Integer> missing = te.getMissingItems();
                         MutableComponent s = Component.translatable("text.werewolves.stone_altar.ritual_missing_items");
                         missing.forEach((item, integer) -> s.append(" ").append(Component.translatable(item.getDescriptionId()).withStyle((style -> {
-                            return style.withColor(ChatFormatting.AQUA).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemStackInfo(new ItemStack(item, integer))));
+                            return style.withColor(ChatFormatting.AQUA).withHoverEvent(new HoverEvent.ShowItem(new ItemStackTemplate(item, integer)));
                         }))).append(" " + integer));
-                        player.displayClientMessage(s, true);
+                        player.sendOverlayMessage(s);
                         player.openMenu(te);
                     }
                     case OK -> {
                         if (state.getValue(WATERLOGGED)) {
-                            player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.can_not_burn"), true);
+                            player.sendOverlayMessage(Component.translatable("text.werewolves.stone_altar.can_not_burn"));
                             player.openMenu(te);
                             return InteractionResult.CONSUME;
                         }
@@ -194,7 +190,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
                             player.openMenu(te);
                             return InteractionResult.CONSUME;
                         } else {
-                            player.displayClientMessage(Component.translatable("text.werewolves.stone_altar.empty_hand"), true);
+                            player.sendOverlayMessage(Component.translatable("text.werewolves.stone_altar.empty_hand"));
                             return InteractionResult.PASS;
                         }
                     }
@@ -216,27 +212,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         return ModBlockEntities.STONE_ALTAR.get().create(pos, state);
     }
 
-    private void dropItems(Level world, BlockPos pos) {
-        Random rand = new Random();
-        BlockEntity tileEntity = world.getBlockEntity(pos);
-        if (tileEntity instanceof Container inventory) {
-            for (int i = 0; i < inventory.getContainerSize(); ++i) {
-                ItemStack item = inventory.getItem(i);
-                if (!item.isEmpty()) {
-                    float rx = rand.nextFloat() * 0.8F + 0.1F;
-                    float ry = rand.nextFloat() * 0.8F + 0.1F;
-                    float rz = rand.nextFloat() * 0.8F + 0.1F;
-                    ItemEntity entityItem = new ItemEntity(world, (float) pos.getX() + rx, (float) pos.getY() + ry, (float) pos.getZ() + rz, item.copy());
 
-                    float factor = 0.05F;
-                    entityItem.setDeltaMovement(rand.nextGaussian() * (double) factor, rand.nextGaussian() * (double) factor + 0.20000000298023224D, rand.nextGaussian() * (double) factor);
-                    world.addFreshEntity(entityItem);
-                    inventory.setItem(i, ItemStack.EMPTY);
-                }
-            }
-
-        }
-    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

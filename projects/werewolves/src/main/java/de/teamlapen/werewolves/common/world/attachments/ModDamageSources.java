@@ -15,17 +15,17 @@ public class ModDamageSources {
     private final DamageSource bloodLoss;
 
     public ModDamageSources(RegistryAccess registryAccess) {
-        this.damageTypes = registryAccess.registryOrThrow(Registries.DAMAGE_TYPE);
+        this.damageTypes = registryAccess.lookupOrThrow(Registries.DAMAGE_TYPE);
         this.bloodLoss = init(ModDamageTypes.BLOOD_LOSS);
     }
 
     @SuppressWarnings({"SameParameterValue", "unused"})
     private DamageSource init(ResourceKey<DamageType> key) {
-        return new DamageSource(this.damageTypes.getHolderOrThrow(key));
+        return new DamageSource(this.damageTypes.getOrThrow(key));
     }
 
     public DamageSource bite(LivingEntity entity) {
-        return new DamageSource(this.damageTypes.getHolderOrThrow(ModDamageTypes.BITE), entity);
+        return new DamageSource(this.damageTypes.getOrThrow(ModDamageTypes.BITE), entity);
     }
 
     public DamageSource bloodLoss() {
