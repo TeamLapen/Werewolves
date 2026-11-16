@@ -1,61 +1,48 @@
 package de.teamlapen.werewolves.client.gui;
 
-import de.teamlapen.lib.lib.util.MultilineTooltip;
-import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.api.entity.factions.IFaction;
-import de.teamlapen.vampirism.api.entity.factions.IFactionPlayerHandler;
 import de.teamlapen.werewolves.api.WIdentifier;
+import de.teamlapen.werewolves.common.core.ModFactions;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.properties.LevelHandler;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.MultilineTooltipEx;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.resources.Identifier;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class ExpBar extends AbstractWidget {
-    private static final ResourceLocation ICON = WIdentifier.mod("textures/gui/exp_bar.png");
+    private static final Identifier ICON = WIdentifier.mod("textures/gui/exp_bar.png");
 
     public ExpBar(int xIn, int yIn) {
         super(xIn, yIn, 15, 123, Component.translatable("text.werewolves.skill_screen.level_progression", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100)));
-        this.setTooltip(new MultilineTooltipEx(createToolTip()));
+        LevelHandler handler = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler();
+
+        this.setTooltip(Tooltip.create(Component.translatable("text.werewolves.skill_screen.level_progression_label").append(Component.translatable("text.werewolves.skill_screen.prey_snatched", handler.getLevelProgress(), handler.getNeededProgress()))));
     }
 
     @Override
-    public void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        graphics.blit(ICON, this.getX(), this.getY(), 10, 0, this.getWidth(), this.getHeight());
+    public void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+        graphics.blit(RenderPipelines.GUI_TEXTURED, ICON, this.getX(), this.getY(), 10, 0, this.getWidth(), this.getHeight(),256,256);
 
         float perc = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc();
 
         int ySize = ((int) (111 * perc));
-        int color = Optional.ofNullable(VampirismAPI.factionPlayerHandler(Minecraft.getInstance().player).getCurrentFaction()).map(IFaction::getColor).orElse(Color.WHITE.getRGB());
-        graphics.setColor(((color >> 16) & 0xFF) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, 1.0F);
+        var color = ModFactions.WEREWOLF.get().getColor();
 
-        graphics.blit(ICON, this.getX() + 5, this.getY() + 6, 0, 0, 5, 111);
-        graphics.blit(ICON, this.getX() + 5, this.getY() + 6 + (111 - ySize), 5, (111 - ySize), 5, ySize);
-
-        graphics.setColor(1, 1, 1, 1);
-    }
-
-    public List<Component> createToolTip() {
-        List<Component> tooltips = new ArrayList<>();
-        tooltips.add(Component.translatable("text.werewolves.skill_screen.level_progression_label"));
-        LevelHandler handler = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler();
-        tooltips.add(Component.translatable("text.werewolves.skill_screen.prey_snatched", handler.getLevelProgress(), handler.getNeededProgress()));
-        return tooltips;
+        graphics.blit(RenderPipelines.GUI_TEXTURED, ICON, this.getX() + 5, this.getY() + 6, 0, 0, 5, 111,256,256,color);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, ICON, this.getX() + 5, this.getY() + 6 + (111 - ySize), 5, (111 - ySize), 5, ySize,256,256, color);
     }
 
     @Override
-    protected void updateWidgetNarration(@NotNull NarrationElementOutput output) {
+    protected void updateWidgetNarration(NarrationElementOutput output) {
         output.add(NarratedElementType.TITLE, this.getMessage());
     }
 }

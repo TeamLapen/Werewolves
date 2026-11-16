@@ -1,17 +1,19 @@
 package de.teamlapen.werewolves.client.gui;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.world.inventory.container.StoneAltarContainer;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 import javax.annotation.Nonnull;
 
 public class StoneAltarScreen extends AbstractContainerScreen<StoneAltarContainer> {
-    private static final ResourceLocation altarGuiTextures = WIdentifier.mod("textures/gui/stone_altar.png");
+    private static final Identifier altarGuiTextures = WIdentifier.mod("textures/gui/stone_altar.png");
 
 
     public StoneAltarScreen(StoneAltarContainer screenContainer, Inventory inv, Component titleIn) {
@@ -26,16 +28,9 @@ public class StoneAltarScreen extends AbstractContainerScreen<StoneAltarContaine
     }
 
     @Override
-    public void render(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(graphics, mouseX, mouseY, partialTicks);
-        this.renderTooltip(graphics, mouseX, mouseY);
-    }
-
-    @Override
-    protected void renderBg(@Nonnull GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
-        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
         int k = (this.width - this.imageWidth) / 2;
         int l = (this.height - this.imageHeight) / 2;
-        graphics.blit(altarGuiTextures, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(RenderPipelines.GUI, altarGuiTextures, k, l, 0, 0, this.imageWidth, this.imageHeight,256,256);
     }
 }

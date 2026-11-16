@@ -15,6 +15,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
@@ -44,9 +45,9 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
         super(type, worldIn);
     }
 
-    public static boolean spawnPredicateHumanWerewolf(EntityType<? extends PathfinderMob> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, RandomSource random) {
+    public static boolean spawnPredicateHumanWerewolf(EntityType<? extends PathfinderMob> entityType, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos blockPos, RandomSource random) {
         if (world.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) return false;
-        if (spawnReason == MobSpawnType.EVENT) return true;
+        if (spawnReason == EntitySpawnReason.EVENT) return true;
         if (!Monster.isDarkEnoughToSpawn(world, blockPos, random) && !FormHelper.isInWerewolfBiome(world, blockPos)) return false;
         return Mob.checkMobSpawnRules(entityType, world, spawnReason, blockPos, random);
     }
@@ -165,21 +166,17 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
     }
 
     @Override
-    public boolean setSkinType(@org.jetbrains.annotations.Nullable WerewolfForm form, int skinType) {
+    public void setSkinType(@org.jetbrains.annotations.Nullable WerewolfForm form, int skinType) {
         if (this.getForm() == form) {
             this.getEntityData().set(SKIN_TYPE, skinType);
-            return true;
         }
-        return false;
     }
 
     @Override
-    public boolean setEyeType(@org.jetbrains.annotations.Nullable WerewolfForm form, int eyeType) {
+    public void setEyeType(@org.jetbrains.annotations.Nullable WerewolfForm form, int eyeType) {
         if (this.getForm() == form) {
             this.getEntityData().set(EYE_TYPE, eyeType);
-            return true;
         }
-        return false;
     }
 
     @Override

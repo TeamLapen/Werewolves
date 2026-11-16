@@ -1,14 +1,12 @@
 package de.teamlapen.werewolves.client.gui;
 
-import de.teamlapen.lib.lib.client.gui.components.HoverList;
-import de.teamlapen.vampirism.client.gui.screens.AppearanceScreen;
+import de.teamlapen.faction.client.gui.screens.AppearanceScreen;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.common.core.ModSkills;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.common.network.ServerboundWerewolfAppearancePacket;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.Tooltip;
@@ -79,10 +77,10 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
         this.beast = this.addRenderableWidget(new ExtendedButton(this.guiLeft + 71, this.guiTop + 20, 40, 20, WerewolfForm.BEAST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.BEAST)));
         this.survival = this.addRenderableWidget(new ExtendedButton(this.guiLeft + 111, this.guiTop + 20, 55, 20, WerewolfForm.SURVIVALIST.getTextComponent(), (button1) -> switchToForm(WerewolfForm.SURVIVALIST)));
         this.switchToForm(WerewolfForm.HUMAN);
-        if (!werewolf.getSkillHandler().isSkillEnabled(ModSkills.SURVIVAL_FORM.get())) {
+        if (!werewolf.getSkillHandler().isSkillEnabled(ModSkills.SURVIVAL_FORM)) {
             this.survival.setTooltip(notUnlocked);
         }
-        if (!werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_FORM.get())) {
+        if (!werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_FORM)) {
             this.beast.setTooltip(notUnlocked);
         }
     }
@@ -91,8 +89,8 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
      * disable/enable buttons for the different forms
      */
     private void sync() {
-        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_FORM.get());
-        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.SURVIVAL_FORM.get());
+        boolean beastUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.BEAST_FORM);
+        boolean survivalUnlocked = werewolf.getSkillHandler().isSkillEnabled(ModSkills.SURVIVAL_FORM);
         if (this.activeForm == WerewolfForm.BEAST) {
             this.beast.active = false;
             this.human.active = true;

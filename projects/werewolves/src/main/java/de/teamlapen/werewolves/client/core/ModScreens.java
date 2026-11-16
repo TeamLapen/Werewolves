@@ -5,7 +5,6 @@ import de.teamlapen.werewolves.client.gui.StoneAltarScreen;
 import de.teamlapen.werewolves.client.gui.overlay.FurOverlay;
 import de.teamlapen.werewolves.client.gui.overlay.WerewolfFormDurationOverlay;
 import de.teamlapen.werewolves.common.core.ModContainer;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
@@ -20,6 +19,6 @@ public class ModScreens {
     @ApiStatus.Internal
     public static void registerScreenOverlays(RegisterGuiLayersEvent event) {
         event.registerBelowAll(WIdentifier.mod("fur_border"), new FurOverlay());
-        event.registerAbove(VanillaGuiLayers.EXPERIENCE_BAR, WIdentifier.mod("form_duration"), new WerewolfFormDurationOverlay());
+        event.registerAbove(VanillaGuiLayers.EXPERIENCE_LEVEL, WIdentifier.mod("form_duration"), new WerewolfFormDurationOverlay());
     }
 }

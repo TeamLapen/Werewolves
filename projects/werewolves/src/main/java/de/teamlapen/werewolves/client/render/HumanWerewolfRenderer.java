@@ -1,21 +1,17 @@
 package de.teamlapen.werewolves.client.render;
 
-import de.teamlapen.vampirism.client.renderer.entity.DualBipedRenderer;
-import de.teamlapen.vampirism.util.PlayerModelType;
 import de.teamlapen.werewolves.common.world.entities.werewolf.HumanWerewolfEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class HumanWerewolfRenderer extends DualBipedRenderer<HumanWerewolfEntity, PlayerModel<HumanWerewolfEntity>> {
+public class HumanWerewolfRenderer extends DualBipedRenderer<HumanWerewolfEntity, HumanModel<HumanWerewolfEntity>> {
 
     private final PlayerSkin[] textures;
 

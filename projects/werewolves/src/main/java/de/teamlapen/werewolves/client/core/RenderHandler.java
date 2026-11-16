@@ -1,8 +1,6 @@
 package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
-import de.teamlapen.vampirism.api.entity.factions.IFactionEntity;
-import de.teamlapen.vampirism.config.VampirismConfig;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModActions;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
@@ -12,7 +10,6 @@ import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.Mth;
@@ -71,7 +68,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
         this.lastTicks = this.ticks;
         WerewolfPlayer werewolf = WerewolfPlayer.get(this.mc.player);
 
-        if (werewolf.getActionHandler().isActionActive(ModActions.SENSE.get())) {
+        if (werewolf.getActionHandler().isActionActive(ModActions.SENSE)) {
             if (this.ticks < VISION_FADE_TICKS) {
                 this.ticks++;
             }
@@ -83,7 +80,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void onRenderLivingPost(@NotNull RenderLivingEvent.Post<?, ?> event) {
+    public void onRenderLivingPost(@NotNull RenderLivingEvent.Post<?, ?, ?> event) {
         if (!this.isInsideVisionRendering && this.shouldRenderVision()) {
             LivingEntity entity = event.getEntity();
 
