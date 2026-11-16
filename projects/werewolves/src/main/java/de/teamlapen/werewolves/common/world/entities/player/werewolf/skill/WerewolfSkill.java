@@ -8,6 +8,6 @@ import de.teamlapen.werewolves.common.core.ModTags;
 public class WerewolfSkill extends Skill<IWerewolfPlayer> {
 
     public WerewolfSkill(SkillProperties<IWerewolfPlayer> properties) {
-        super(properties.factions(ModTags.Factions.IS_WEREWOLF));
+        super(properties.factions(ModTags.Factions.IS_WEREWOLF).tree(ModTags.SkillTreeTags.WEREWOLF));
     }
 }

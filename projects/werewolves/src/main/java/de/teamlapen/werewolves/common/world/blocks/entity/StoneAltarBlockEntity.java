@@ -15,7 +15,7 @@ import de.teamlapen.werewolves.common.core.ModItems;
 import de.teamlapen.werewolves.common.core.ModBlockEntities;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfLevelConf;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.common.inventory.container.StoneAltarContainer;
+import de.teamlapen.werewolves.common.world.inventory.container.StoneAltarContainer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;

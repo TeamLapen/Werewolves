@@ -1,33 +1,17 @@
 package de.teamlapen.werewolves.client.proxy;
 
-import de.teamlapen.vampirism.client.gui.screens.HunterMinionAppearanceScreen;
-import de.teamlapen.vampirism.client.gui.screens.HunterMinionStatsScreen;
+import de.teamlapen.faction.client.gui.screens.MinionStatsScreen;
 import de.teamlapen.werewolves.common.proxy.CommonProxy;
-import de.teamlapen.werewolves.common.world.blocks.LogBlock;
 import de.teamlapen.werewolves.common.world.blocks.entity.WolfsbaneDiffuserBlockEntity;
 import de.teamlapen.werewolves.client.gui.WerewolfMinionAppearanceScreen;
-import de.teamlapen.werewolves.client.gui.WerewolfMinionStatsScreen;
 import de.teamlapen.werewolves.client.gui.WolfsbaneDiffuserScreen;
 import de.teamlapen.werewolves.common.world.entities.minion.WerewolfMinionEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.network.chat.Component;
-import net.neoforged.fml.event.lifecycle.ParallelDispatchEvent;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 public class ClientProxy extends CommonProxy {
-
-    @Override
-    public void onInitStep(@NotNull Step step, @NotNull ParallelDispatchEvent event) {
-        super.onInitStep(step, event);
-        if (step == Step.CLIENT_SETUP) {
-            event.enqueueWork(() -> {
-                Sheets.addWoodType(LogBlock.MAGIC);
-                Sheets.addWoodType(LogBlock.JACARANDA);
-            });
-        }
-    }
 
     @Override
     public void displayWolfsbaneScreen(WolfsbaneDiffuserBlockEntity tile, Component title) {
@@ -35,13 +19,13 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void displayWerewolfMinionAppearanceScreen(WerewolfMinionEntity entity) {
-        openScreen(new WerewolfMinionAppearanceScreen(entity, Minecraft.getInstance().screen));
+    public void displayWerewolfMinionAppearanceScreen(WerewolfMinionEntity entity, Runnable back) {
+        openScreen(new WerewolfMinionAppearanceScreen(entity, back::run));
     }
 
     @Override
-    public void displayWerewolfStatsScreen(WerewolfMinionEntity entity) {
-        openScreen(new WerewolfMinionStatsScreen(entity, Minecraft.getInstance().screen));
+    public void displayWerewolfStatsScreen(WerewolfMinionEntity entity, Runnable back) {
+        openScreen(new MinionStatsScreen<>(entity, back::run));
     }
 
     public static void runOnRenderThread(Runnable runnable) {
@@ -50,5 +34,11 @@ public class ClientProxy extends CommonProxy {
 
     public static void openScreen(Screen screen) {
         runOnRenderThread(() -> Minecraft.getInstance().setScreen(screen));
+    }
+
+    @Override
+    public void sendToServer(CustomPacketPayload packetPayload) {
+        //noinspection DataFlowIssue
+        Minecraft.getInstance().getConnection().send(packetPayload);
     }
 }

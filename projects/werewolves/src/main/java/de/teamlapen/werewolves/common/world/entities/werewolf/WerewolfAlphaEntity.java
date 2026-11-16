@@ -1,12 +1,6 @@
 package de.teamlapen.werewolves.common.world.entities.werewolf;
 
-import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.api.difficulty.Difficulty;
-import de.teamlapen.vampirism.config.BalanceMobProps;
-import de.teamlapen.vampirism.entity.VampirismEntity;
-import de.teamlapen.vampirism.entity.ai.goals.LookAtClosestVisibleGoal;
-import de.teamlapen.vampirism.entity.factions.FactionPlayerHandler;
-import de.teamlapen.vampirism.entity.vampire.VampireBaseEntity;
+import de.teamlapen.vampirism.common.config.BalanceMobProps;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfAlpha;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.common.core.ModBiomes;
@@ -27,10 +21,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -41,12 +35,12 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(WerewolfAlphaEntity.class, EntityDataSerializers.INT);
 
 
-    public static boolean spawnPredicateAlpha(EntityType<? extends WerewolfAlphaEntity> entityType, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos blockPos, RandomSource random) {
+    public static boolean spawnPredicateAlpha(EntityType<? extends WerewolfAlphaEntity> entityType, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos blockPos, RandomSource random) {
         return world.getBiome(blockPos).is(ModBiomes.WEREWOLF_FOREST) && world.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL && spawnPredicateWerewolf(entityType, world, spawnReason, blockPos, random);
     }
 
     public static AttributeSupplier.Builder getAttributeBuilder() {
-        return VampireBaseEntity.getAttributeBuilder() //TODO values
+        return WerewolfBaseEntity.getAttributeBuilder() //TODO values
                 .add(Attributes.MAX_HEALTH, BalanceMobProps.mobProps.VAMPIRE_BARON_MAX_HEALTH)
                 .add(Attributes.ATTACK_DAMAGE, BalanceMobProps.mobProps.VAMPIRE_BARON_ATTACK_DAMAGE)
                 .add(Attributes.MOVEMENT_SPEED, BalanceMobProps.mobProps.VAMPIRE_BARON_MOVEMENT_SPEED)
@@ -55,14 +49,14 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     private int followingEntities = 0;
 
-    public WerewolfAlphaEntity(EntityType<? extends VampirismEntity> type, Level world) {
+    public WerewolfAlphaEntity(EntityType<? extends WerewolfBaseEntity> type, Level world) {
         super(type, world, true);
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag nbt) {
-        super.addAdditionalSaveData(nbt);
-        nbt.putInt("level", getEntityLevel());
+    protected void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("level", getEntityLevel());
     }
 
     @Override
@@ -75,7 +69,6 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
         return this.followingEntities;
     }
 
-    @Override
     public void setEntityLevel(int level) {
         level = Mth.clamp(level, 0, MAX_LEVEL);
         if (level >= 0) {
@@ -87,12 +80,10 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
         }
     }
 
-    @Override
     public int getEntityLevel() {
         return getEntityData().get(LEVEL);
     }
 
-    @Override
     public int getMaxEntityLevel() {
         return MAX_LEVEL;
     }

@@ -1,6 +1,12 @@
 package de.teamlapen.werewolves.common.network;
 
+import de.teamlapen.vampirism.common.network.packets.client.ClientboundAddGarlicEmitterPacket;
+import de.teamlapen.vampirism.common.network.packets.client.ClientboundRemoveGarlicEmitterPacket;
+import de.teamlapen.vampirism.common.network.packets.client.ClientboundUpdateGarlicEmitterPacket;
 import de.teamlapen.werewolves.client.ClientPayloadHandler;
+import de.teamlapen.werewolves.common.network.client.ClientboundAddWolfsbaneEmitterPacket;
+import de.teamlapen.werewolves.common.network.client.ClientboundRemoveWolfsbaneEmitterPacket;
+import de.teamlapen.werewolves.common.network.client.ClientboundUpdateWolfsbaneEmitterPacket;
 import de.teamlapen.werewolves.common.server.ServerPayloadHandler;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,5 +28,11 @@ public class ModPacketDispatcher {
         registrar.playToServer(ServerboundWerewolfAppearancePacket.TYPE, ServerboundWerewolfAppearancePacket.CODEC, (msg, l) -> ServerPayloadHandler.handleWerewolfAppearancePacket(msg, l));
         registrar.playToServer(ServerboundSimpleInputEventPacket.TYPE, ServerboundSimpleInputEventPacket.CODEC, (msg, l) -> ServerPayloadHandler.handleSimpleInputEventPacket(msg, l));
         registrar.playToServer(ServerboundBiteEventPackage.TYPE, ServerboundBiteEventPackage.CODEC, (msg, l) -> ServerPayloadHandler.handleBiteEventPacket(msg, l));
+
+        registrar.playToClient(ClientboundAddWolfsbaneEmitterPacket.TYPE, ClientboundAddWolfsbaneEmitterPacket.CODEC, (msg, context) -> ClientPayloadHandler.handleAddWolfsbaneEmitterPacket(msg, context));
+        registrar.playToClient(ClientboundRemoveWolfsbaneEmitterPacket.TYPE, ClientboundRemoveWolfsbaneEmitterPacket.CODEC, (msg, context) -> ClientPayloadHandler.handleRemoveWolfsbaneEmitterPacket(msg, context));
+        registrar.playToClient(ClientboundUpdateWolfsbaneEmitterPacket.TYPE, ClientboundUpdateWolfsbaneEmitterPacket.CODEC, (msg, context) -> ClientPayloadHandler.handleUpdateWolfbaneEmitterPacket(msg, context));
+
+
     }
 }

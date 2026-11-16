@@ -1,215 +1,103 @@
 package de.teamlapen.werewolves.common.world.blocks.entity;
 
-import de.teamlapen.vampirism.config.VampirismConfig;
+import de.teamlapen.vampirism.api.world.EnumStrength;
+import de.teamlapen.vampirism.common.world.attachments.LevelGarlic;
+import de.teamlapen.vampirism.common.world.blockentity.diffuser.DiffuserBlockEntity;
+import de.teamlapen.vampirism.common.world.inventory.diffuser.DiffuserMenu;
+import de.teamlapen.werewolves.api.datamaps.IWolfsbaneDiffuserFuel;
+import de.teamlapen.werewolves.common.core.ModDataMaps;
+import de.teamlapen.werewolves.common.core.ModFactions;
 import de.teamlapen.werewolves.common.world.blocks.WolfsbaneDiffuserBlock;
 import de.teamlapen.werewolves.common.core.ModBlockEntities;
-import de.teamlapen.werewolves.common.world.attachments.LevelWolfsbane;
+import de.teamlapen.werewolves.common.world.inventory.diffuser.WolfsbaneDiffuserMenu;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
-public class WolfsbaneDiffuserBlockEntity extends BlockEntity {
+import java.util.List;
 
-    private static final int FUEL_DURATION = 20 * 60 * 2;
-    private WolfsbaneDiffuserBlock.Type type = WolfsbaneDiffuserBlock.Type.NORMAL;
-    private int id;
-    private boolean registered = false;
-    private int fueled = 0;
-    private int bootTimer = -1;
-    private int maxBootTimer;
-    private boolean initiateBootTimer = false;
+public class WolfsbaneDiffuserBlockEntity extends DiffuserBlockEntity {
+
+    private EnumStrength type = EnumStrength.WEAK;
+    private int radius;
+    private int emitterId;
 
     public WolfsbaneDiffuserBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        this(pPos, pBlockState, EnumStrength.WEAK, 0);
+    }
+
+    public WolfsbaneDiffuserBlockEntity(BlockPos pPos, BlockState pBlockState, EnumStrength type, int radius) {
         super(ModBlockEntities.WOLFSBANE_DIFFUSER.get(), pPos, pBlockState);
     }
 
-    public float getBootProgress() {
-        return this.bootTimer > 0 ? (1 - (this.bootTimer / (float) this.maxBootTimer)) : 1f;
-    }
-
-    public int getFuelTime() {
-        return this.fueled;
-    }
-
-    public float getFueledState() {
-        return this.fueled / (float) this.type.fuelTime.get();
+    @Override
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.store("strength", EnumStrength.CODEC, this.type);
+        output.putInt("radius", this.radius);
     }
 
     @Override
-    public void clearRemoved() {
-        super.clearRemoved();
-        if (isActive()) {
-            register();
-        }
-    }
-
-    @Nullable
-    @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    public boolean isActive() {
-        return this.bootTimer == 0;
+    public void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        this.type = input.read("strength", EnumStrength.CODEC).orElse(EnumStrength.WEAK);
+        this.radius = input.getIntOr("radius", 0);
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
-        return saveWithoutMetadata(pRegistries);
-    }
-
-    public boolean isInRange(@NotNull BlockPos pos) {
-        return new ChunkPos(this.getBlockPos()).getChessboardDistance(new ChunkPos(pos)) <= radius();
+    protected Component getDefaultName() {
+        return Component.translatable("container.werewolves.wolfsbane_diffuser");
     }
 
     @Override
-    public void loadAdditional(@NotNull CompoundTag compound, HolderLookup.Provider provider) {
-        super.loadAdditional(compound, provider);
-        this.type = WolfsbaneDiffuserBlock.Type.valueOf(compound.getString("type"));
-        this.bootTimer = compound.getInt("boot_timer");
-        this.maxBootTimer = compound.contains("max_boot_timer") ? compound.getInt("max_boot_timer") : 1;
-        this.setFueledTime(compound.getInt("fueled"));
+    protected DiffuserMenu createMenu(int pContainerId, Inventory pInventory, LockDataHolder lockData) {
+        return new WolfsbaneDiffuserMenu(pContainerId, pInventory, this, this.dataAccess, lockData);
     }
 
     @Override
-    public void onDataPacket(@NotNull Connection net, @NotNull ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
-        if (hasLevel()) {
-            CompoundTag nbt = pkt.getTag();
-            this.handleUpdateTag(nbt, provider);
-            if (this.isActive()) {
-                this.register(); //Register in case we weren't active before. Shouldn't have an effect when already registered
-            }
-        }
-    }
-
-    public void onTouched(@NotNull Player player) {
-
-    }
-    
-    private int radius() {
-        return this.type.range.get();
-    }
-
-    public void onFueled() {
-        this.setFueledTime(this.type.fuelTime.get());
-        this.updateLevel();
-    }
-
-    public void setNewBootDelay(int delayTicks) {
-        this.bootTimer = delayTicks;
-        this.maxBootTimer = delayTicks;
+    protected int getBurnDuration(ItemStack itemStack) {
+        IWolfsbaneDiffuserFuel data = itemStack.typeHolder().getData(ModDataMaps.WOLFSBANE_DIFFUSER_FUEL_MAP);
+        return data != null ? data.burnDuration() : 0;
     }
 
     @Override
-    public void saveAdditional(@NotNull CompoundTag compound, HolderLookup.Provider provider) {
-        super.saveAdditional(compound, provider);
-        compound.putString("type", type.name());
-        compound.putInt("fueled", fueled);
-        if (bootTimer != 0) {
-            compound.putInt("boot_timer", bootTimer);
-            compound.putInt("max_boot_timer", maxBootTimer);
-        }
+    public boolean canOpen(Player pPlayer) {
+        return tryAccess(pPlayer, ModFactions.WEREWOLF, getName()) && super.canOpen(pPlayer);
     }
 
-    public void initiateBootTimer() {
-        this.initiateBootTimer = true;
-    }
 
-    public void setType(WolfsbaneDiffuserBlock.Type type) {
-        this.type = type;
-    }
-
-    public void updateLevel() {
-        this.setChanged();
-        if (this.hasLevel()) {
-            BlockState state = this.level.getBlockState(this.worldPosition);
-            this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
-        }
+    public void onTouched(Player player) {
+        //TODO add wolfsbane effect
     }
 
     @Override
-    public void setRemoved() {
-        super.setRemoved();
-        this.unregister();
-    }
-
-    public static void serverTick(Level level, BlockPos pos, BlockState state, @NotNull WolfsbaneDiffuserBlockEntity blockEntity) {
-        if (level instanceof ServerLevel serverLevel) {
-            if (blockEntity.initiateBootTimer) {
-                blockEntity.initiateBootTimer = false;
-                int bootTime = VampirismConfig.BALANCE.garlicDiffuserStartupTime.get() * 20;
-                if (serverLevel.players().size() <= 1) {
-                    bootTime >>= 2; // /4
+    protected void activateEffect(Level level, BlockPos blockPos, BlockState blockState) {
+        if (emitterId == 0) {
+            int baseX = (getBlockPos().getX() >> 4);
+            int baseZ = (getBlockPos().getZ() >> 4);
+            ChunkPos[] chunks = new ChunkPos[(2 * this.radius + 1) * (2 * this.radius + 1)];
+            int i = 0;
+            for (int x = -this.radius; x <= this.radius; x++) {
+                for (int z = -this.radius; z <= this.radius; z++) {
+                    chunks[i++] = new ChunkPos(x + baseX, z + baseZ);
                 }
-                if (blockEntity.type == WolfsbaneDiffuserBlock.Type.LONG) {
-                    bootTime *= 2;
-                }
-                blockEntity.bootTimer = bootTime;
-                blockEntity.maxBootTimer = bootTime;
-                blockEntity.updateLevel();
             }
-        }
-        if (blockEntity.bootTimer > 0) {
-            if (--blockEntity.bootTimer == 0) {
-                blockEntity.updateLevel();
-                blockEntity.register();
-            }
-        } else if (blockEntity.fueled > 0) {
-            if (blockEntity.fueled == 1) {
-                blockEntity.setFueledTime(0);
-                blockEntity.updateLevel();
-            } else {
-                blockEntity.fueled--;
-                blockEntity.setChanged();
-            }
+            this.emitterId = LevelGarlic.get(level).registerGarlicBlock(this.type, List.of(chunks));
         }
     }
 
-    private void register() {
-        if (this.registered || !hasLevel()) {
-            return;
-        }
-        int baseX = (getBlockPos().getX() >> 4);
-        int baseZ = (getBlockPos().getZ() >> 4);
-        int radius = radius();
-        ChunkPos[] chunks = new ChunkPos[(2 * radius + 1) * (2 * radius + 1)];
-        int i = 0;
-        for (int x = -radius; x <= radius; x++) {
-            for (int z = -radius; z <= radius; z++) {
-                chunks[i++] = new ChunkPos(x + baseX, z + baseZ);
-            }
-        }
-        this.id = LevelWolfsbane.getOpt(getLevel()).map(s -> s.registerWolfsbaneDiffuserBlock(this.fueled > 0 ? this.type.amplifier : 0, chunks)).orElse(0);
-        this.registered = i != 0;
-
-    }
-
-    private void setFueledTime(int time) {
-        int old = fueled;
-        fueled = time;
-        if (time > 0 && old == 0 || time == 0 && old > 0) {
-            if (!isRemoved()) {
-                unregister();
-                register();
-            }
+    @Override
+    public void deactivateEffect(Level level, BlockPos blockPos, BlockState blockState) {
+        if (this.emitterId != 0) {
+            LevelGarlic.get(level).removeGarlicBlock(this.emitterId);
+            this.emitterId = 0;
         }
     }
-
-    private void unregister() {
-        if (this.registered && hasLevel()) {
-            LevelWolfsbane.getOpt(getLevel()).ifPresent(vw -> vw.removeWolfsbaneBlocksBlock(id));
-            this.registered = false;
-        }
-    }
-
 }

@@ -15,9 +15,10 @@ public class ModRegistries {
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, WerewolvesBiomeFeatures::createBiomeModifier)
             .add(Registries.DAMAGE_TYPE, ModDamageTypes::createDamageTypes)
             .add(FactionRegistries.Keys.TASK, ModTasks::createTasks)
-            .add(FactionRegistries.Keys.SKILL_SEGMENT, ModSkills.Nodes::createSkillNodes)
+            .add(FactionRegistries.Keys.SKILL_SEGMENT, ModSkills.Segments::createSkillNodes)
             .add(FactionRegistries.Keys.SKILL_TREE, ModSkills.Trees::createSkillTrees)
             .add(Registries.TRADE_SET, ModTrades::bootstrapTradeSets)
+            .add(Registries.VILLAGER_TRADE, ModTrades::bootstrapTrades)
             ;
 
 }

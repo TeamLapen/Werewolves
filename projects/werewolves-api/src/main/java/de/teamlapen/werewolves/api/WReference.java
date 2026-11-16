@@ -5,6 +5,7 @@ import net.minecraft.resources.Identifier;
 public class WReference {
     public static final String MODID = "werewolves";
 
-    public static final Identifier WEREWOLF_FACTION_ID = WIdentifier.mod("werewolf");
+    public static final Identifier PERMANENT_INVISIBLE_MOB_EFFECT = WIdentifier.mod("permanent");
+
 
 }

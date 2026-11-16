@@ -1,7 +1,8 @@
 package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import de.teamlapen.vampirism.entity.player.actions.ActionHandler;
+import de.teamlapen.faction.common.factions.actions.ActionHandler;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModActions;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.common.network.ServerboundBiteEventPackage;
@@ -26,7 +27,7 @@ import javax.annotation.Nonnull;
 import java.util.Optional;
 
 public class ModKeys {
-    private static final String CATEGORY = "keys.werewolves.category";
+    private static final KeyMapping.Category CATEGORY = new KeyMapping.Category(WIdentifier.mod("main"));
     private static final String LEAP_KEY = "keys.werewolves.leap";
     private static final String BITE_KEY = "keys.werewolves.bite";
 
@@ -62,9 +63,9 @@ public class ModKeys {
             if (key == LEAP && Minecraft.getInstance().options.keyJump.isDown()) {
                 if (Helper.isWerewolf(player)) {
                     WerewolfPlayer werewolf = WerewolfPlayer.get(player);
-                    if (!werewolf.getActionHandler().isActionOnCooldown(ModActions.LEAP.get()) && werewolf.getForm().isTransformed()) {
+                    if (!werewolf.getActionHandler().isActionOnCooldown(ModActions.LEAP) && werewolf.getForm().isTransformed()) {
                         player.connection.send(new ServerboundSimpleInputEventPacket(ServerboundSimpleInputEventPacket.Action.LEAP));
-                        werewolf.getActionHandler().toggleAction(ModActions.LEAP.get(), new ActionHandler.ActivationContext());
+                        werewolf.getActionHandler().toggleAction(ModActions.LEAP, new ActionHandler.ActivationContext());
                     }
                 }
             } else if (key == BITE) {

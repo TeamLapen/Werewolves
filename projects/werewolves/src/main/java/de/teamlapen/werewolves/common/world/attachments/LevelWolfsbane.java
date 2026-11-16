@@ -1,52 +1,137 @@
 package de.teamlapen.werewolves.common.world.attachments;
 
-import com.google.common.base.Preconditions;
-import de.teamlapen.vampirism.api.EnumStrength;
+import com.google.common.collect.Maps;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import de.teamlapen.vampirism.api.world.EnumStrength;
+import de.teamlapen.werewolves.api.world.IWolfsbaneChunkHandler;
 import de.teamlapen.werewolves.common.core.ModAttachments;
-import net.minecraft.core.BlockPos;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.NotNull;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class LevelWolfsbane {
+public class LevelWolfsbane implements IWolfsbaneChunkHandler {
 
 
-    public static Optional<LevelWolfsbane> getOpt(@NotNull Level level) {
-        return Optional.of(level.getData(ModAttachments.LEVEL_WOLFSBANE));
+    public static LevelWolfsbane get(Level level) {
+        return level.getData(ModAttachments.LEVEL_WOLFSBANE);
     }
 
-    private final HashMap<Integer, LevelWolfsbane.Emitter> wolfsbaneEmitter = new HashMap<>();
-    private final HashMap<ChunkPos, Integer> wolfsbaneDiffuser = new HashMap<>();
+    private final HashMap<ChunkPos, de.teamlapen.vampirism.api.world.EnumStrength> strengthHashMap = Maps.newHashMap();
+    protected final HashMap<Integer, LevelWolfsbane.Emitter> emitterHashMap = Maps.newHashMap();
 
-    public int registerWolfsbaneDiffuserBlock(int amplifier, ChunkPos... chunks) {
-        Preconditions.checkArgument(Arrays.stream(chunks).allMatch(Objects::nonNull), "Wolfsbane emitter position cannot be null");
-        var emitter = new LevelWolfsbane.Emitter(amplifier, chunks);
+    @Override
+    public EnumStrength getStrengthAtChunk(ChunkPos pos) {
+        EnumStrength s = strengthHashMap.get(pos);
+        return s == null ? EnumStrength.NONE : s;
+    }
 
-        int hash = emitter.hashCode();
-        this.wolfsbaneEmitter.put(hash, emitter);
-        this.buildWolfsbaneSet();
+    @Override
+    public int registerWolfsbaneBlock(EnumStrength strength, List<ChunkPos> pos) {
+        LevelWolfsbane.Emitter e = new LevelWolfsbane.Emitter(strength, pos);
+        int hash = e.hashCode();
+        emitterHashMap.putIfAbsent(hash, e);
+        notifyChange(e);
+        rebuildStrengthMap();
         return hash;
     }
 
-    public void removeWolfsbaneBlocksBlock(int id) {
-        this.wolfsbaneEmitter.remove(id);
-        this.buildWolfsbaneSet();
+    protected void notifyChange(LevelWolfsbane.Emitter emitter) {
+
     }
 
-    private void buildWolfsbaneSet() {
-        this.wolfsbaneDiffuser.clear();
-        this.wolfsbaneDiffuser.putAll(this.wolfsbaneEmitter.entrySet().stream().flatMap(e -> Arrays.stream(e.getValue().chunks).map(l -> Pair.of(l, e.getKey()))).collect(Collectors.toMap(Pair::getLeft, Pair::getRight, (a, b) -> a > b ? a : b)));
+    protected void notifyRemove(int emitter) {
+
     }
 
-    public int isEffectedByWolfsbane(BlockPos pos) {
-        Integer integer = this.wolfsbaneDiffuser.get(new ChunkPos(pos));
-        return integer == null ? -1 : this.wolfsbaneEmitter.get(integer).amplifier;
+    protected void notifyClear() {
+
     }
 
-    private record Emitter(int amplifier, ChunkPos[] chunks) {
+    public void updatePlayer(ServerPlayer player) {
+
+    }
+
+    @Override
+    public void removeWolfsbaneBlock(int id) {
+        LevelWolfsbane.Emitter e = emitterHashMap.remove(id);
+        notifyRemove(id);
+        rebuildStrengthMap();
+    }
+
+    private void rebuildStrengthMap() {
+        strengthHashMap.clear();
+        for (LevelWolfsbane.Emitter e : emitterHashMap.values()) {
+            for (ChunkPos pos : e.pos) {
+                de.teamlapen.vampirism.api.world.EnumStrength old = strengthHashMap.get(pos);
+                if (old == null || e.strength.isStrongerThan(old)) {
+                    strengthHashMap.put(pos, e.strength);
+                }
+
+            }
+        }
+    }
+
+    public void fill(List<LevelWolfsbane.Emitter> emitters) {
+        this.clearCache();
+        this.emitterHashMap.putAll(emitters.stream().collect(Collectors.toMap(Record::hashCode, x -> x)));
+        rebuildStrengthMap();
+        notifyClear();
+    }
+
+    public void printDebug(CommandSourceStack sender) {
+        for (LevelWolfsbane.Emitter e : emitterHashMap.values()) {
+            sender.sendSuccess(() -> Component.literal("E: " + e.toString()), true);
+        }
+        for (Map.Entry<ChunkPos, de.teamlapen.vampirism.api.world.EnumStrength> e : strengthHashMap.entrySet()) {
+            sender.sendSuccess(() -> Component.literal("S: " + e.toString()), true);
+        }
+    }
+
+    @Override
+    public void clearCache() {
+        this.strengthHashMap.clear();
+        this.emitterHashMap.clear();
+        notifyClear();
+    }
+
+    public record Emitter(de.teamlapen.vampirism.api.world.EnumStrength strength, List<ChunkPos> pos) {
+        public static Codec<LevelWolfsbane.Emitter> CODEC = RecordCodecBuilder.create(inst ->
+                inst.group(
+                        de.teamlapen.vampirism.api.world.EnumStrength.CODEC.fieldOf("strength").forGetter(s -> s.strength),
+                        ChunkPos.CODEC.listOf().fieldOf("pos").forGetter(x -> x.pos)
+                ).apply(inst, LevelWolfsbane.Emitter::new)
+        );
+        public static final StreamCodec<RegistryFriendlyByteBuf, LevelWolfsbane.Emitter> STREAM_CODEC = StreamCodec.composite(
+                NeoForgeStreamCodecs.enumCodec(de.teamlapen.vampirism.api.world.EnumStrength.class), LevelWolfsbane.Emitter::strength,
+                NeoForgeStreamCodecs.CHUNK_POS.apply(ByteBufCodecs.list()), LevelWolfsbane.Emitter::pos,
+                LevelWolfsbane.Emitter::new
+        );
+    }
+
+    public static class Factory implements Function<IAttachmentHolder, LevelWolfsbane> {
+        @Override
+        public LevelWolfsbane apply(IAttachmentHolder holder) {
+            if (holder instanceof Level) {
+                if (holder instanceof ServerLevel serverLevel) {
+                    return new ServerLevelWolfsbane(serverLevel);
+                } else {
+                    return new LevelWolfsbane();
+                }
+            }
+            throw new IllegalArgumentException("Cannot create level garlic for holder " + holder.getClass() + ". Expected Level");
+        }
     }
 }

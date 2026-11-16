@@ -2,6 +2,8 @@ package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.faction.Services;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
@@ -29,6 +31,9 @@ public class ModRegistryManager extends Services {
         ModAttachments.register(bus);
         ModAdvancements.register(bus);
         ModParticles.register(bus);
+        ModConsumer.register(bus);
+        ModMenus.register(bus);
+        ModDataComponents.register(bus);
     }
 
     @Override
@@ -40,5 +45,10 @@ public class ModRegistryManager extends Services {
     @Override
     public void registerGameBus(IEventBus bus) {
         bus.addListener(ModCommands::registerCommands);
+    }
+
+    @SubscribeEvent
+    public void onRegisterDataMapTypes(RegisterDataMapTypesEvent event) {
+        ModDataMaps.registerDataMaps(event);
     }
 }

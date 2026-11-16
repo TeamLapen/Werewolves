@@ -34,8 +34,8 @@ public class ModDataProvider {
         generator.addProvider(true, new ModRecipeProvider.Runner(packOutput, lookupProvider));
         generator.addProvider(true, LootTablesProvider.getProvider(packOutput, lookupProvider));
         generator.addProvider(true, new ModGlobalLootModifierProvider(packOutput, lookupProvider));
-        generator.addProvider(true, new SkillTreeProvider(packOutput, lookupProvider));
         generator.addProvider(true, new ModAdvancementProvider(packOutput, lookupProvider));
+        generator.addProvider(true, new ModDataMapProvider(packOutput, lookupProvider));
     }
 
 //    private static CompletableFuture<HolderLookup.Provider> addVampirismRegistries(CompletableFuture<HolderLookup.Provider> lookupProvider, PackOutput packOutput) {

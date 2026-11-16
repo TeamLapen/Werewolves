@@ -1,12 +1,14 @@
 package de.teamlapen.werewolves.common.world.entities.player.werewolf.skill;
 
+import de.teamlapen.faction.api.factions.skills.SkillProperties;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.common.core.ModSkills;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 
-public class DiggerSkill extends SimpleWerewolfSkill {
-    public DiggerSkill() {
-        this.defaultDescWithFormRequirement(ModSkills.BEAST_FORM::get, ModSkills.SURVIVAL_FORM::get, ModSkills.HUMAN_FORM::get);
+public class DiggerSkill extends WerewolfSkill {
+
+    public DiggerSkill(SkillProperties<IWerewolfPlayer> properties) {
+        super(properties.withDescription(ModSkills.appliesTo(ModSkills.BEAST_FORM, ModSkills.SURVIVAL_FORM, ModSkills.HUMAN_FORM)));
     }
 
     @Override

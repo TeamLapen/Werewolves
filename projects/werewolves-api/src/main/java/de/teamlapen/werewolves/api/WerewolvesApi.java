@@ -1,7 +1,11 @@
 package de.teamlapen.werewolves.api;
 
+import de.teamlapen.vampirism.api.VampirismAttachments;
+import de.teamlapen.vampirism.api.world.IGarlicChunkHandler;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.api.world.IWolfsbaneChunkHandler;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 import java.util.ServiceLoader;
 
@@ -15,6 +19,9 @@ public class WerewolvesApi {
         return player.getData(WerewolvesAttachments.WEREWOLF_PLAYER);
     }
 
+    public static IWolfsbaneChunkHandler wolfsbaneHandler(Level w) {
+        return w.getData(WerewolvesAttachments.WOLFSBANE_HANDLER);
+    }
 
     private static final class Holder {
         private static final IWerewolvesServices SERVICES = load();

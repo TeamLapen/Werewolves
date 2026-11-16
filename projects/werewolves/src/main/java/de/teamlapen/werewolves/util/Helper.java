@@ -34,7 +34,7 @@ public class Helper extends de.teamlapen.vampirism.common.util.Helper {
     }
 
     public static boolean isWerewolf(Player entity) {
-        return FactionsApi.factionPlayerHandler(entity).isInFaction(ModFactions.WEREWOLF));
+        return FactionsApi.factionPlayerHandler(entity).isInFaction(ModFactions.WEREWOLF);
     }
 
     public static boolean hasFaction(Entity entity) {

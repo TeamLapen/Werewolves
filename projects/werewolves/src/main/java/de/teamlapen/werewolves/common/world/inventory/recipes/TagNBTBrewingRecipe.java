@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.common.inventory.recipes;
+package de.teamlapen.werewolves.common.world.inventory.recipes;
 
 import com.mojang.datafixers.util.Either;
 import de.teamlapen.werewolves.util.Helper;

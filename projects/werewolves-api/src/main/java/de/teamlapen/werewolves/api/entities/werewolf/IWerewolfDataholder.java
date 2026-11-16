@@ -16,17 +16,17 @@ public interface IWerewolfDataholder {
         return this.getEyeType(this.getForm());
     }
 
+    default boolean hasGlowingEyes() {
+        return hasGlowingEyes(this.getForm());
+    }
+
     int getSkinType(@Nullable WerewolfForm form);
 
     int getEyeType(@Nullable WerewolfForm form);
 
-    boolean setSkinType(@Nullable WerewolfForm form, int skinType);
+    void setSkinType(@Nullable WerewolfForm form, int skinType);
 
-    boolean setEyeType(@Nullable WerewolfForm form, int eyeType);
-
-    default boolean hasGlowingEyes() {
-        return hasGlowingEyes(this.getForm());
-    }
+    void setEyeType(@Nullable WerewolfForm form, int eyeType);
 
     boolean hasGlowingEyes(WerewolfForm form);
 }

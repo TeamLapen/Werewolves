@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.common.inventory.container;
+package de.teamlapen.werewolves.common.world.inventory.container;
 
 import de.teamlapen.faction.common.world.inventory.InventoryContainerMenu;
 import de.teamlapen.werewolves.common.core.ModBlocks;

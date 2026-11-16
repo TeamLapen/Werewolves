@@ -1,7 +1,9 @@
 package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.faction.common.world.blocks.TotemTopBlock;
+import de.teamlapen.vampirism.api.world.EnumStrength;
 import de.teamlapen.werewolves.api.WIdentifier;
+import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.blocks.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.common.world.features.WTreeGrower;
@@ -31,7 +33,7 @@ public class ModBlocks {
 
     public static final DeferredBlock<DropExperienceBlock> SILVER_ORE = BLOCKS.registerBlock("silver_ore", (props) -> new DropExperienceBlock(ConstantInt.of(0), props.mapColor(MapColor.STONE).strength(3.0F, 5.0F).requiresCorrectToolForDrops()));
     public static final DeferredBlock<DropExperienceBlock> DEEPSLATE_SILVER_ORE = BLOCKS.registerBlock("deepslate_silver_ore", (props) -> new DropExperienceBlock(ConstantInt.of(0), props.mapColor(MapColor.DEEPSLATE).strength(4.5F, 3.0F).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
-    public static final DeferredBlock<WolfsbaneBlock> WOLFSBANE = BLOCKS.registerBlock("wolfsbane", WolfsbaneBlock::new);
+    public static final DeferredBlock<WolfsbaneBlock> WOLFSBANE = BLOCKS.registerBlock("wolfsbane", WolfsbaneBlock::new, (p) -> p.isViewBlocking(ModBlocks::noView).pushReaction(PushReaction.DESTROY).strength(0f).noCollision().sound(SoundType.GRASS));
     public static final DeferredBlock<Block> SILVER_BLOCK = BLOCKS.registerBlock("silver_block", (props) -> new Block(props.mapColor(MapColor.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
     public static final DeferredBlock<Block> RAW_SILVER_BLOCK = BLOCKS.registerBlock("raw_silver_block", (props) -> new Block(props.mapColor(MapColor.RAW_IRON).requiresCorrectToolForDrops().strength(5.0f, 6.0f)));
     public static final DeferredBlock<FlowerPotBlock> POTTED_WOLFSBANE = BLOCKS.registerBlock("potted_wolfsbane", (props) ->  {
@@ -90,9 +92,9 @@ public class ModBlocks {
     public static final DeferredBlock<CeilingHangingSignBlock> MAGIC_HANGING_SIGN = BLOCKS.registerBlock("magic_hanging_sign", props -> new CeilingHangingSignBlock(LogBlock.MAGIC, props), () -> BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_HANGING_SIGN).mapColor(MAGIC_PLANKS.get().defaultMapColor()));
     public static final DeferredBlock<WallHangingSignBlock> MAGIC_WALL_HANGING_SIGN = BLOCKS.registerBlock("magic_wall_hanging_sign", props -> new WallHangingSignBlock(LogBlock.MAGIC, props), () -> BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_HANGING_SIGN).mapColor(MAGIC_PLANKS.get().defaultMapColor()).overrideLootTable(MAGIC_HANGING_SIGN.get().getLootTable()));
 
-    public static final DeferredBlock<WolfsbaneDiffuserBlock> WOLFSBANE_DIFFUSER = BLOCKS.registerBlock("wolfsbane_diffuser_normal", (props) -> new WolfsbaneDiffuserBlock(WolfsbaneDiffuserBlock.Type.NORMAL, props));
-    public static final DeferredBlock<WolfsbaneDiffuserBlock> WOLFSBANE_DIFFUSER_LONG = BLOCKS.registerBlock("wolfsbane_diffuser_long", (props) -> new WolfsbaneDiffuserBlock(WolfsbaneDiffuserBlock.Type.LONG, props));
-    public static final DeferredBlock<WolfsbaneDiffuserBlock> WOLFSBANE_DIFFUSER_IMPROVED = BLOCKS.registerBlock("wolfsbane_diffuser_improved", (props) -> new WolfsbaneDiffuserBlock(WolfsbaneDiffuserBlock.Type.IMPROVED, props));
+    public static final DeferredBlock<WolfsbaneDiffuserBlock> WOLFSBANE_DIFFUSER = BLOCKS.registerBlock("wolfsbane_diffuser_normal", (props) -> new WolfsbaneDiffuserBlock(props, EnumStrength.WEAK, ModConfig.balance().BLOCKS.wolfsbaneDiffuserNormalDist), x -> x.mapColor(MapColor.STONE).strength(40.0F, 1200.0F).sound(SoundType.STONE).noOcclusion());
+    public static final DeferredBlock<WolfsbaneDiffuserBlock> WOLFSBANE_DIFFUSER_LONG = BLOCKS.registerBlock("wolfsbane_diffuser_long", (props) -> new WolfsbaneDiffuserBlock(props, EnumStrength.MEDIUM, ModConfig.balance().BLOCKS.wolfsbaneDiffuserLongDist), () -> BlockBehaviour.Properties.ofFullCopy(WOLFSBANE_DIFFUSER.get()));
+    public static final DeferredBlock<WolfsbaneDiffuserBlock> WOLFSBANE_DIFFUSER_IMPROVED = BLOCKS.registerBlock("wolfsbane_diffuser_improved", (props) -> new WolfsbaneDiffuserBlock(props, EnumStrength.STRONG, ModConfig.balance().BLOCKS.wolfsbaneDiffuserImprovedDist), () -> BlockBehaviour.Properties.ofFullCopy(WOLFSBANE_DIFFUSER.get()));
 
 
     public static class V {

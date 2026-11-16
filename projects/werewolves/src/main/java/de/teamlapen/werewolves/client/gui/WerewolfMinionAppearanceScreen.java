@@ -1,139 +1,103 @@
 package de.teamlapen.werewolves.client.gui;
 
-import de.teamlapen.lib.lib.client.gui.components.HoverList;
-import de.teamlapen.vampirism.client.gui.screens.AppearanceScreen;
-import de.teamlapen.vampirism.entity.minion.management.MinionData;
-import de.teamlapen.vampirism.network.ServerboundAppearancePacket;
-import de.teamlapen.werewolves.client.render.WerewolfMinionRenderer;
+import de.teamlapen.faction.api.world.entities.minion.IMinionData;
+import de.teamlapen.faction.api.world.entities.minion.MinionAppearance;
+import de.teamlapen.faction.client.gui.screens.AppearanceScreen;
+import de.teamlapen.faction.client.gui.screens.ILastScreenProvider;
+import de.teamlapen.faction.common.factions.minions.MinionData;
+import de.teamlapen.faction.common.network.packets.server.ServerboundCustomizationPacket;
+import de.teamlapen.faction.common.world.entities.customization.CustomizationData;
+import de.teamlapen.gui.components.DropdownWidget;
+import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.common.world.entities.minion.WerewolfMinionEntity;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.layouts.LayoutElement;
+import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
-import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
 public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMinionEntity> {
 
     private static final Component NAME = Component.translatable("gui.vampirism.minion_appearance");
 
+    private int skinCount;
     private int skinType;
-    private int eyeType;
-    private boolean glowingEyes;
-    private HoverList<?> skinList;
-    private HoverList<?> eyeList;
-    private ExtendedButton skinButton;
-    private ExtendedButton eyeButton;
-    private Checkbox glowingEyeButton;
-    private EditBox nameWidget;
+    private String minionName = "";
+    private final IMinionData data;
 
-    public WerewolfMinionAppearanceScreen(WerewolfMinionEntity entity, @Nullable Screen backScreen) {
+    public WerewolfMinionAppearanceScreen(WerewolfMinionEntity entity, ILastScreenProvider backScreen) {
+        this.data = entity.getData().orElseThrow();
         super(NAME, entity, backScreen);
     }
 
     @Override
     protected void init() {
+        this.skinCount = 5; //TODO get from resourcepack
+
+        this.minionName = MinionAppearance.NAME_TYPE.currentValue(this.entity, data);
+        this.skinType = MinionAppearance.SKIN_TYPE.currentValue(this.entity, data);
+
         super.init();
-        this.nameWidget = this.addRenderableWidget(new EditBox(font, this.guiLeft + 21, this.guiTop + 29, 98, 12, Component.translatable("gui.vampirism.minion_appearance.name")));
-        this.nameWidget.setValue(entity.getMinionData().map(MinionData::getName).orElse("Minion"));
-        this.nameWidget.setTextColorUneditable(-1);
-        this.nameWidget.setTextColor(-1);
-        this.nameWidget.setMaxLength(MinionData.MAX_NAME_LENGTH);
-        this.nameWidget.setResponder(this::onNameChanged);
-
-        int skinCount = ((WerewolfMinionRenderer) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(this.entity)).getSkinTextureCount(this.entity.getForm());
-        int eyeCount = ((WerewolfMinionRenderer) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(this.entity)).getEyeTextureCount(this.entity.getForm());
-
-        this.eyeType = this.entity.getEyeType();
-        this.skinType = this.entity.getSkinType();
-        this.glowingEyes = this.entity.hasGlowingEyes();
-
-        this.glowingEyeButton = this.addRenderableWidget(Checkbox.builder(Component.translatable("gui.werewolves.minion_appearance.glowing_eyes"), this.font).pos(this.guiLeft + 20, this.guiTop + 86).selected(glowingEyes).onValueChange((button, selected) -> {
-            glowingEyes = selected;
-            entity.setGlowingEyes(glowingEyes);
-        }).build());
-        this.skinList = this.addRenderableWidget(HoverList.builder(this.guiLeft + 20, this.guiTop + 43 + 19, 99, 80).componentsWithClickAndHover(IntStream.range(0, skinCount).mapToObj(type -> Component.translatable("gui.vampirism.minion_appearance.skin").append(" " + (type + 1))).toList(), this::setSkinType, this::previewSkin).build());
-        this.eyeList = this.addRenderableWidget(HoverList.builder(this.guiLeft + 20, this.guiTop + 64 + 19, 99, 60).componentsWithClickAndHover(IntStream.range(0, eyeCount).mapToObj(type -> Component.translatable("gui.vampirism.appearance.eye").append(" " + (type + 1))).toList(), this::setEyeType, this::previewEye).build());
-        this.skinButton = this.addRenderableWidget(new ExtendedButton(this.skinList.getX(), this.skinList.getY() - 20, this.skinList.getWidth() + 1, 20, Component.empty(), (b) -> setSkinListVisibility(!this.skinList.visible)));
-        this.eyeButton = this.addRenderableWidget(new ExtendedButton(this.eyeList.getX(), this.eyeList.getY() - 20, this.eyeList.getWidth() + 1, 20, Component.empty(), (b) -> setEyeListVisibility(!this.eyeList.visible)));
-
-        this.setSkinListVisibility(false);
-        this.setEyeListVisibility(false);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (!this.eyeList.mouseDragged(mouseX, mouseY, button, dragX, dragY)) {
-            if (!this.skinList.mouseDragged(mouseX, mouseY, button, dragX, dragY)) {
-                return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
-            }
-        }
-        return true;
+    protected LayoutElement createLayout() {
+        LinearLayout vertical = LinearLayout.vertical()
+                .spacing(4);
+
+        var name = new EditBox(this.font,  98, 12, Component.translatable("gui.vampirism.minion_appearance.name"));
+        name.setTextColorUneditable(-1);
+        name.setTextColor(-1);
+        name.insertText(this.minionName);
+        name.setMaxLength(MinionData.MAX_NAME_LENGTH);
+        name.setResponder(this::onNameChanged);
+        vertical.addChild(name);
+
+        vertical.addChild(DropdownWidget.simple(0,0)
+                .width(99)
+                .itemHeight(20)
+                .maxVisibleItems(5)
+                .initialSelection(this.skinType)
+                .onSelect(this::skin)
+                .onHover(this::previewSkin)
+                .simpleItems(IntStream.range(0, this.skinCount)
+                        .mapToObj(type -> (Component) Component.translatable("gui.vampirism.minion_appearance.skin").append(" " + (type + 1)))
+                        .toList())
+                .build());
+
+        return vertical;
     }
 
     @Override
     public void removed() {
-        String name = this.nameWidget.getValue();
+        String name = minionName;
         if (name.isEmpty()) {
-            name = Component.translatable("text.vampirism.minion").toString() + this.entity.getMinionId().orElse(0);
+            name = Component.translatable("gui.vampirism.minion_appearance.minion").getString() + entity.getMinionId().orElse(0);
         }
-        this.minecraft.getConnection().send(new ServerboundAppearancePacket(this.entity.getId(), name, this.skinType, this.eyeType, this.glowingEyes ? 1 : 0));
+        WerewolvesMod.proxy.sendToServer(new ServerboundCustomizationPacket(this.entity.getId(), CustomizationData
+                .with(MinionAppearance.NAME_TYPE, name)
+                .with(MinionAppearance.SKIN_TYPE, this.skinType)));
         super.removed();
     }
 
-    private void setEyeType(int type) {
-        this.entity.setEyeType(this.eyeType = type);
-        this.setEyeListVisibility(false);
-    }
-
-    private void setSkinType(int type) {
-        this.entity.setSkinType(this.skinType = type);
-        this.setSkinListVisibility(false);
-    }
-
     private void onNameChanged(String newName) {
-        this.entity.changeMinionName(newName);
-    }
-
-    private void previewEye(int type, boolean hovered) {
-        if (hovered) {
-            this.entity.setEyeType(type);
-        } else {
-            if (this.entity.getEyeType() == type) {
-                this.entity.setEyeType(this.eyeType);
-            }
-        }
+        this.minionName = newName;
+        MinionAppearance.NAME_TYPE.setValue(this.entity, this.data, newName);
     }
 
     private void previewSkin(int type, boolean hovered) {
         if (hovered) {
-            this.entity.setSkinType(type);
+            MinionAppearance.SKIN_TYPE.setValue(this.entity, this.data, type);
         } else {
-            if (this.entity.getSkinType() == type) {
-                this.entity.setSkinType(this.skinType);
+            if (MinionAppearance.SKIN_TYPE.currentValue(this.entity, this.data) == type) {
+                MinionAppearance.SKIN_TYPE.setValue(this.entity, this.data, this.skinType);
             }
         }
     }
 
-    private void setEyeListVisibility(boolean show) {
-        this.eyeButton.setMessage(Component.translatable("gui.vampirism.appearance.eye").append(" " + (this.eyeType + 1)));
-        this.eyeList.visible = show;
-        this.glowingEyeButton.visible = !show;
-        if (show) {
-            this.skinList.visible = false;
-        }
+    private void skin(int type) {
+        MinionAppearance.SKIN_TYPE.setValue(this.entity, this.data, this.skinType = type);
     }
 
-    private void setSkinListVisibility(boolean show) {
-        this.skinButton.setMessage(Component.translatable("gui.vampirism.minion_appearance.skin").append(" " + (skinType + 1)));
-        this.skinList.visible = show;
-        this.eyeButton.visible = !show;
-        this.glowingEyeButton.visible = !show;
-        if (show) {
-            this.eyeList.visible = false;
-        }
-    }
 }

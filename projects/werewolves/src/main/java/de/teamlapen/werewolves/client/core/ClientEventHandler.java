@@ -7,7 +7,6 @@ import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.modcompat.playeranimator.PlayerAnimatorCompat;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;

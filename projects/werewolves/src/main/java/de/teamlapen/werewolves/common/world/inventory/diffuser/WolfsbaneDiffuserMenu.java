@@ -1,0 +1,34 @@
+package de.teamlapen.werewolves.common.world.inventory.diffuser;
+
+import de.teamlapen.vampirism.common.world.blockentity.PlayerOwnedBlockEntity;
+import de.teamlapen.vampirism.common.world.inventory.diffuser.DiffuserMenu;
+import de.teamlapen.werewolves.common.core.ModDataMaps;
+import de.teamlapen.werewolves.common.core.ModMenus;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
+
+public class WolfsbaneDiffuserMenu extends DiffuserMenu {
+
+    public WolfsbaneDiffuserMenu(int pContainerId, Inventory playerInventory, PlayerOwnedBlockEntity.LockDataHolder lockData) {
+        super(ModMenus.WOLFSBANE_DIFFUSER.get(), pContainerId, playerInventory, lockData);
+    }
+
+    public WolfsbaneDiffuserMenu(int pContainerId, Inventory playerInventory, Container pContainer, ContainerData pData, PlayerOwnedBlockEntity.LockDataHolder lockData) {
+        super(ModMenus.WOLFSBANE_DIFFUSER.get(), pContainerId, playerInventory, pContainer, pData, lockData);
+    }
+
+    @Override
+    public boolean isFuel(ItemStack pStack) {
+        return pStack.typeHolder().getData(ModDataMaps.WOLFSBANE_DIFFUSER_FUEL_MAP) != null;
+    }
+
+    public static class Factory extends DiffuserMenu.Factory<WolfsbaneDiffuserMenu> {
+
+        @Override
+        public WolfsbaneDiffuserMenu create(int windowId, Inventory inv, PlayerOwnedBlockEntity.LockDataHolder lockData) {
+            return new WolfsbaneDiffuserMenu(windowId, inv, lockData);
+        }
+    }
+}

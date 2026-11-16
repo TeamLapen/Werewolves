@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.common.core;
 
-import de.teamlapen.werewolves.common.inventory.container.StoneAltarContainer;
+import de.teamlapen.werewolves.common.world.inventory.container.StoneAltarContainer;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.flag.FeatureFlags;

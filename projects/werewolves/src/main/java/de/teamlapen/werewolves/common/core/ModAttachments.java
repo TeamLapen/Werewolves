@@ -18,7 +18,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 public class ModAttachments {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, REFERENCE.MODID);
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<LevelWolfsbane>> LEVEL_WOLFSBANE = ATTACHMENT_TYPES.register(WerewolvesAttachments.Keys.WOLFSBANE_HANDLER.getPath(), () -> AttachmentType.builder(LevelWolfsbane::new).build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<LevelWolfsbane>> LEVEL_WOLFSBANE = ATTACHMENT_TYPES.register(WerewolvesAttachments.Keys.WOLFSBANE_HANDLER.getPath(), () -> AttachmentType.builder(new LevelWolfsbane.Factory()).build());
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<LevelDamage>> LEVEL_DAMAGE = ATTACHMENT_TYPES.register(WerewolvesAttachments.Keys.DAMAGE_HANDLER.getPath(), () -> AttachmentType.builder(new LevelDamage.Factory()).build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<WerewolfPlayer>> WEREWOLF_PLAYER = ATTACHMENT_TYPES.register(WerewolvesAttachments.Keys.WEREWOLF_PLAYER.getPath(), () -> syncAttachment(new WerewolfPlayer.AttachmentOptions()).copyOnDeath().build());

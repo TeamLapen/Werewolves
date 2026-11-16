@@ -1,7 +1,9 @@
 package de.teamlapen.werewolves.common.world.effects.inst;
 
 import de.teamlapen.vampirism.api.VReference;
+import de.teamlapen.vampirism.api.VampirismEffects;
 import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
+import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.mixin.MobEffectInstanceAccessor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -21,7 +23,7 @@ public class WerewolfNightVisionEffectInstance extends MobEffectInstance {
 
     public WerewolfNightVisionEffectInstance(@Nullable MobEffectInstance otherEffect) {
         super(MobEffects.NIGHT_VISION, -1, 0, false, false, false, checkEffect(otherEffect));
-        ((EffectInstanceWithSource) this).setSource(VReference.PERMANENT_INVISIBLE_MOB_EFFECT);
+        factions$addProperty(WReference.PERMANENT_INVISIBLE_MOB_EFFECT);
     }
 
     public boolean update(@Nonnull MobEffectInstance other) {

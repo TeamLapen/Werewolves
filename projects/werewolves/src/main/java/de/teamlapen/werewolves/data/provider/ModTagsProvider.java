@@ -1,19 +1,24 @@
 package de.teamlapen.werewolves.data.provider;
 
 import de.teamlapen.faction.api.FactionRegistries;
+import de.teamlapen.faction.api.factions.skills.ISkillTree;
 import de.teamlapen.faction.api.factions.tasks.Task;
 import de.teamlapen.werewolves.common.core.*;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.skill.WerewolfSkill;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.*;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.*;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.VillagerTrade;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagCopyingItemTagProvider;
@@ -34,6 +39,8 @@ public class ModTagsProvider {
         gen.addProvider(true, new ModDamageTypeProvider(output, future));
         gen.addProvider(true, new ModTasksTagProvider(output, future));
         gen.addProvider(true, new ModEntityTagProvider(output, future));
+        gen.addProvider(true, new ModVillageTradesTagProvider(output, future));
+        gen.addProvider(true, new ModSkillTreeTagsProvider(output, future));
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
@@ -263,6 +270,60 @@ public class ModTagsProvider {
         protected void addTags(HolderLookup.Provider pProvider) {
             this.tag(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS).add(ModEntities.WEREWOLF_SURVIVALIST.get());
             this.tag(ModTags.Entities.WEREWOLF).add(ModEntities.ALPHA_WEREWOLF.get(), ModEntities.WEREWOLF_BEAST.get(), ModEntities.WEREWOLF_SURVIVALIST.get(), ModEntities.HUMAN_WEREWOLF.get(), ModEntities.WEREWOLF_MINION.get(), ModEntities.TASK_MASTER_WEREWOLF.get());
+        }
+    }
+
+    private static class ModSkillTreeTagsProvider extends KeyTagProvider<ISkillTree> {
+
+        public ModSkillTreeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
+            super(output, FactionRegistries.Keys.SKILL_TREE, provider, REFERENCE.MODID);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.Provider provider) {
+            tag(ModTags.SkillTreeTags.WEREWOLF).add(ModSkills.Trees.LEVEL, ModSkills.Trees.LORD);
+        }
+    }
+
+    private static class ModVillageTradesTagProvider extends KeyTagProvider<VillagerTrade> {
+
+        protected ModVillageTradesTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+            super(output, Registries.VILLAGER_TRADE, lookupProvider, REFERENCE.MODID);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.Provider provider) {
+            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_1)
+                    .add(ModTrades.WEREWOLF_EXPERT_1_LIVER_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_1_CRACKED_BONE_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_1_EMERALD_LIVER)
+                    .add(ModTrades.WEREWOLF_EXPERT_1_EMERALD_CRACKED_BONE)
+                    ;
+            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_2)
+                    .add(ModTrades.WEREWOLF_EXPERT_2_LIVER_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_2_CRACKED_BONE_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_2_EMERALD_LIVER)
+                    .add(ModTrades.WEREWOLF_EXPERT_2_EMERALD_WEREWOLF_TOOTH)
+                    .add(ModTrades.WEREWOLF_EXPERT_2_EMERALD_CRACKED_BONE)
+                    ;
+            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_3)
+                    .add(ModTrades.WEREWOLF_EXPERT_3_LIVER_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_3_CRACKED_BONE_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_3_EMERALD_LIVER)
+                    .add(ModTrades.WEREWOLF_EXPERT_3_EMERALD_CRACKED_BONE)
+                    ;
+            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_4)
+                    .add(ModTrades.WEREWOLF_EXPERT_4_LIVER_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_4_CRACKED_BONE_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_4_EMERALD_LIVER)
+                    .add(ModTrades.WEREWOLF_EXPERT_4_EMERALD_CRACKED_BONE)
+                    ;
+            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_5)
+                    .add(ModTrades.WEREWOLF_EXPERT_5_LIVER_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_5_CRACKED_BONE_EMERALD)
+                    .add(ModTrades.WEREWOLF_EXPERT_5_EMERALD_LIVER)
+                    .add(ModTrades.WEREWOLF_EXPERT_5_EMERALD_CRACKED_BONE)
+                    ;
         }
     }
 }

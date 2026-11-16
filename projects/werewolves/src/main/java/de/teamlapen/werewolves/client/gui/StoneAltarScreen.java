@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.client.gui;
 
 import de.teamlapen.werewolves.api.WIdentifier;
-import de.teamlapen.werewolves.common.inventory.container.StoneAltarContainer;
+import de.teamlapen.werewolves.common.world.inventory.container.StoneAltarContainer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;

@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.factions.IFaction;
+import de.teamlapen.faction.api.factions.skills.ISkillTree;
 import de.teamlapen.faction.api.factions.tasks.Task;
 import de.teamlapen.vampirism.api.util.VIdentifier;
 import de.teamlapen.werewolves.api.WIdentifier;
@@ -178,6 +179,8 @@ public class ModTags {
     public static class Factions {
 
         public static final TagKey<IFaction<?>> IS_WEREWOLF = tag("is_werewolf");
+        public static final TagKey<IFaction<?>> WEREWOLF_MINION_TARGETS = tag("target/werewolf_minion");
+
 
         private static TagKey<IFaction<?>> tag(Identifier resourceLocation) {
             return TagKey.create(FactionRegistries.Keys.FACTION, resourceLocation);
@@ -197,6 +200,15 @@ public class ModTags {
 
         private static TagKey<VillagerTrade> tag(String name) {
             return TagKey.create(Registries.VILLAGER_TRADE, WIdentifier.mod(name));
+        }
+
+    }
+
+    public static class SkillTreeTags {
+        public static final TagKey<ISkillTree> WEREWOLF = tag("faction/werewolf");
+
+        private static TagKey<ISkillTree> tag(String name) {
+            return TagKey.create(FactionRegistries.Keys.SKILL_TREE, WIdentifier.mod(name));
         }
 
     }

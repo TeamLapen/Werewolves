@@ -47,7 +47,7 @@ public class ModFactions {
                     .banner(WerewolfVillage.create())
                     .totem(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF, ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED)));
 
-    public static final DeferredHolder<IMinionEntry<?>, IMinionEntry<IWerewolfPlayer>> VAMPIRE_MINION = MINIONS.register(WerewolvesFactions.Keys.WEREWOLF.getPath(), () -> new MinionEntry<>(new MinionEntryProperties<IWerewolfPlayer>()
+    public static final DeferredHolder<IMinionEntry<?>, IMinionEntry<IWerewolfPlayer>> WEREWOLF_MINION = MINIONS.register(WerewolvesFactions.Keys.WEREWOLF.getPath(), () -> new MinionEntry<>(new MinionEntryProperties<IWerewolfPlayer>()
             .withProvider((player, entry) -> createMinionData(player, entry, ModSkills.MINION_STATS_INCREASE))
             .withEntityType(ModEntities.WEREWOLF_MINION)
             .withFaction(ModFactions.WEREWOLF)

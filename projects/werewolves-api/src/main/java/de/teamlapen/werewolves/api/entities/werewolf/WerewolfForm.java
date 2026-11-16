@@ -1,6 +1,8 @@
 package de.teamlapen.werewolves.api.entities.werewolf;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DynamicOps;
+import com.mojang.serialization.Keyable;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -11,10 +13,17 @@ import net.minecraft.world.entity.Pose;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class WerewolfForm {
     private static final Map<String, WerewolfForm> REGISTRY = new HashMap<>();
     public static final Codec<WerewolfForm> CODEC = Codec.STRING.xmap(WerewolfForm::getForm, WerewolfForm::getName);
+    public static final Keyable FORM_KEYS = new Keyable() {
+        @Override
+        public <T> Stream<T> keys(DynamicOps<T> ops) {
+            return REGISTRY.keySet().stream().map(ops::createString);
+        }
+    };
     public static final StreamCodec<ByteBuf, WerewolfForm> STREAM_CODEC = ByteBufCodecs.STRING_UTF8.map(REGISTRY::get, WerewolfForm::getName);
     public static final WerewolfForm NONE = new WerewolfForm("none", null, true, false, 0, 0F, true, 0);
     public static final WerewolfForm HUMAN = new WerewolfForm("human", null, true, true, 3, 0.05F, true, 0.16f);

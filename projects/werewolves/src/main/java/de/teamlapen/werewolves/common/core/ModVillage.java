@@ -45,41 +45,4 @@ public class ModVillage {
         return Arrays.stream(blocks).map(block -> block.getStateDefinition().any()).collect(ImmutableSet.toImmutableSet());
     }
 
-    private static Map<Integer, VillagerTrades.ItemListing[]> getWerewolfTrades() {
-        return ImmutableMap.of(
-                1, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.ItemsForEmeralds(ModItems.LIVER.get(), 15, 2, 5, 4),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.CRACKED_BONE.get(), 25, 1, 3, 6),
-
-                        new VillagerTrades.EmeraldForItems(ModItems.LIVER.get(), 1, 5, 4),
-                        new VillagerTrades.EmeraldForItems(ModItems.CRACKED_BONE.get(), 2, 3, 6)
-                }, 2, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.ItemsForEmeralds(ModItems.LIVER.get(), 14, 2, 5, 4),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.CRACKED_BONE.get(), 24, 1, 3, 6),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.WEREWOLF_TOOTH.get(), 64, 1, 15),
-
-                        new VillagerTrades.EmeraldForItems(ModItems.LIVER.get(), 2, 5, 4),
-                        new VillagerTrades.EmeraldForItems(ModItems.CRACKED_BONE.get(), 4, 3, 6)
-                }, 3, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.ItemsForEmeralds(ModItems.LIVER.get(), 13, 2, 5, 4),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.CRACKED_BONE.get(), 23, 1, 3, 6),
-
-                        new VillagerTrades.EmeraldForItems(ModItems.LIVER.get(), 2, 5, 4),
-                        new VillagerTrades.EmeraldForItems(ModItems.CRACKED_BONE.get(), 5, 3, 6)
-                }, 4, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.ItemsForEmeralds(ModItems.LIVER.get(), 12, 2, 5, 4),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.CRACKED_BONE.get(), 22, 1, 3, 6),
-
-                        new VillagerTrades.EmeraldForItems(ModItems.LIVER.get(), 3, 5, 4),
-                        new VillagerTrades.EmeraldForItems(ModItems.CRACKED_BONE.get(), 6, 3, 6)
-                }, 5, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.ItemsForEmeralds(ModItems.LIVER.get(), 10, 3, 5, 4),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.CRACKED_BONE.get(), 20, 2, 3, 6),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.WEREWOLF_TOOTH.get(), 35, 1, 15),
-
-                        new VillagerTrades.EmeraldForItems(ModItems.LIVER.get(), 3, 5, 4),
-                        new VillagerTrades.EmeraldForItems(ModItems.CRACKED_BONE.get(), 7, 3, 6)
-                }
-        );
-    }
 }
