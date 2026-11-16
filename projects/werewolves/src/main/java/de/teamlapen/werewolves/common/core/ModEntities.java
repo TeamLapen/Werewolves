@@ -59,7 +59,7 @@ public class ModEntities {
         ENTITY_TYPES.register(bus);
     }
 
-    static void registerSpawns(RegisterSpawnPlacementsEvent event) {
+    public static void registerSpawns(RegisterSpawnPlacementsEvent event) {
         event.register(WEREWOLF_BEAST.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WerewolfBaseEntity::spawnPredicateWerewolf, RegisterSpawnPlacementsEvent.Operation.OR);
         event.register(WEREWOLF_SURVIVALIST.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WerewolfBaseEntity::spawnPredicateWerewolf, RegisterSpawnPlacementsEvent.Operation.OR);
         event.register(HUMAN_WEREWOLF.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, HumanWerewolfEntity::spawnPredicateHumanWerewolf, RegisterSpawnPlacementsEvent.Operation.OR);

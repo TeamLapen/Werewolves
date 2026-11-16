@@ -10,7 +10,7 @@ public interface MobEffectInstanceAccessor {
 
     @SuppressWarnings("UnusedReturnValue")
     @Invoker("tickDownDuration")
-    int invokeTickDownDuration();
+    void invokeTickDownDuration();
 
     @Accessor("hiddenEffect")
     MobEffectInstance getHiddenEffect();

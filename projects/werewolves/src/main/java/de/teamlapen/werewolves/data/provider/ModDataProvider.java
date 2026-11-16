@@ -21,7 +21,7 @@ public class ModDataProvider {
 
     @SuppressWarnings("UnreachableCode")
     @SubscribeEvent
-    public static void gatherData(final GatherDataEvent event) {
+    public static void gatherData(final GatherDataEvent.Client event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();

@@ -7,7 +7,11 @@ import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.common.world.effects.SilverEffect;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,9 +19,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
-public abstract class MobMixin {
+public abstract class MobMixin extends LivingEntity {
 
-    @Shadow public abstract ItemStack getItemBySlot(EquipmentSlot pSlot);
+    @Deprecated
+    private MobMixin(EntityType<? extends LivingEntity> type, Level level) {
+        super(type, level);
+    }
 
     @Inject(method = "doHurtTarget(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/Entity;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z", shift = At.Shift.BEFORE))
     private void applySilverEffect(ServerLevel level, Entity pEntity, CallbackInfoReturnable<Boolean> cir) {

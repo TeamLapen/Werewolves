@@ -80,14 +80,12 @@ public class WerewolvesModClient {
     public void onAddLayers(EntityRenderersEvent.AddLayers event) {
         this.modPlayerRenderer = new ModPlayerRenderer(event.getContext());
         WerewolvesRenderStates.clearCaches();
-        if (ClientUtils.noLoadingExceptions()) {
             for (PlayerModelType skin : event.getSkins()) {
                 AvatarRenderer<AbstractClientPlayer> renderer = event.getPlayerRenderer(skin);
                 if (renderer != null) {
                     renderer.addLayer(new HumanWerewolfLayer<>(renderer, new WerewolfEarsModel<>(event.getEntityModels().bakeLayer(skin == PlayerModelType.SLIM ? ModModelRender.EARS_CLAWS_SLIM : ModModelRender.EARS_CLAWS))));
                 }
             }
-        }
     }
 
     public ClientEventHandler getClientEventHandler() {

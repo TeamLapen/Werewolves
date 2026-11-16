@@ -80,7 +80,7 @@ public class ModConfig extends Services {
         this.container.registerConfig(Type.COMMON, common.spec());
         this.container.registerConfig(Type.CLIENT, client.spec());
         this.container.registerConfig(Type.SERVER, server.spec());
-        this.container.registerConfig(Type.SERVER, balance.spec(), "vampirism-balance.toml");
+        this.container.registerConfig(Type.SERVER, balance.spec(), "werewolves-balance.toml");
     }
 
     public void onLoad(final ModConfigEvent.Loading configEvent) {

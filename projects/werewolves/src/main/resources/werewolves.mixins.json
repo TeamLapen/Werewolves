@@ -27,7 +27,6 @@
     "entity.PlayerEntityMixin"
   ],
   "client": [
-    "client.ClientModLoaderAccessor",
     "client.LocalPlayerMixin",
     "client.ModelPartAccessor",
     "client.ScreenMixin",

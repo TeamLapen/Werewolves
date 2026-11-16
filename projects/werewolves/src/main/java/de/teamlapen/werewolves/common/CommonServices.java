@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.common;
 import de.teamlapen.faction.Services;
 import de.teamlapen.vampirism.common.util.Permissions;
 import de.teamlapen.werewolves.api.IWerewolvesServices;
+import de.teamlapen.werewolves.common.core.ModEntities;
 import de.teamlapen.werewolves.common.core.ModRegistryManager;
 import de.teamlapen.werewolves.common.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.common.world.ModWorldEventHandler;
@@ -30,9 +31,11 @@ public class CommonServices extends Services implements IWerewolvesServices {
         bus.addListener(Permissions::registerNodes);
         this.registryManager.registerGameBus(bus);
         bus.register(new ModWorldEventHandler());
+        bus.register(this.entityEventHandler);
+        bus.register(this.playerEventHandler);
+        bus.register(this.generalEventHandler);
 //        bus.addListener(ModEntities::onRegisterEntityTypeAttributes);
 //        bus.addListener(ModEntities::onModifyEntityTypeAttributes);
-//        bus.addListener(ModEntities::registerSpawns);
     }
 
     @Override
@@ -40,8 +43,6 @@ public class CommonServices extends Services implements IWerewolvesServices {
         super.registerModBus(bus);
         this.registryManager.registerModBus(bus);
         bus.addListener(ModPacketDispatcher::registerHandler);
-        bus.register(this.entityEventHandler);
-        bus.register(this.playerEventHandler);
-        bus.register(this.generalEventHandler);
+        bus.addListener(ModEntities::registerSpawns);
     }
 }
