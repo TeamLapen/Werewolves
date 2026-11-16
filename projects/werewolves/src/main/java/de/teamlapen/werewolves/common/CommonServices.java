@@ -1,5 +1,9 @@
 package de.teamlapen.werewolves.common;
 
+import de.teamlapen.faction.api.event.AddFactionTagEvent;
+
+import de.teamlapen.werewolves.common.core.ModFactions;
+
 import de.teamlapen.faction.Services;
 import de.teamlapen.vampirism.common.util.Permissions;
 import de.teamlapen.werewolves.api.IWerewolvesServices;
@@ -41,6 +45,7 @@ public class CommonServices extends Services implements IWerewolvesServices {
         super.registerModBus(bus);
         this.registryManager.registerModBus(bus);
         bus.addListener(ModPacketDispatcher::registerHandler);
+        bus.addListener(AddFactionTagEvent.class, ModFactions::registerFactionTags);
         bus.addListener(ModEntities::registerSpawns);
         bus.addListener(ModEntities::onRegisterEntityTypeAttributes);
         bus.addListener(ModEntities::onModifyEntityTypeAttributes);

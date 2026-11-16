@@ -1,0 +1,48 @@
+{
+  "type": "factionapi:minion_collect",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:liver",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:porkchop",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:beef",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:rotten_flesh"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:mutton"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:cracked_bone",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "werewolves:werewolf_tooth"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "vampirism:human_heart"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "werewolves:minion_tasks/collect_werewolf"
+}

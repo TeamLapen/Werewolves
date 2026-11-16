@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.data.provider.generator;
 
+import net.minecraft.client.data.models.model.TexturedModel;
+
 import de.teamlapen.faction.data.provider.model.FactionsModelTemplates;
 import de.teamlapen.faction.data.provider.model.FactionsTextureSlots;
 import de.teamlapen.vampirism.data.provider.models.ModModelTemplates;
@@ -53,7 +55,7 @@ public class ModBlockModelGenerators extends BlockModelGenerators {
 
 
     protected void createDiffuser() {
-        Identifier defaultModel = mod("block/garlic_diffuser");
+        Identifier defaultModel = ModModelTemplates.GARLIC_DIFFUSER.create(ModBlocks.WOLFSBANE_DIFFUSER.get(), new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.mod("block/wolfsbane_diffuser_inside"))), this.modelOutput);
         this.blockStateOutput.accept(createSimpleBlock(ModBlocks.WOLFSBANE_DIFFUSER.get(), plainVariant(defaultModel)));
         createDefaultBlockItem(ModBlocks.WOLFSBANE_DIFFUSER.get(), defaultModel);
 
@@ -61,7 +63,7 @@ public class ModBlockModelGenerators extends BlockModelGenerators {
         this.blockStateOutput.accept(createSimpleBlock(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), plainVariant(strongModel)));
         createDefaultBlockItem(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), strongModel);
 
-        Identifier longModel = ModModelTemplates.GARLIC_DIFFUSER.create(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.mod("block/garlic_diffuser_core_long"))), this.modelOutput);
+        Identifier longModel = ModModelTemplates.GARLIC_DIFFUSER.create(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.loc("vampirism", "block/garlic_diffuser_core_long"))), this.modelOutput);
         this.blockStateOutput.accept(createSimpleBlock(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), plainVariant(longModel)));
         createDefaultBlockItem(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), longModel);
     }
@@ -81,6 +83,13 @@ public class ModBlockModelGenerators extends BlockModelGenerators {
         createPlantWithDefaultItem(ModBlocks.DAFFODIL.get(), ModBlocks.POTTED_DAFFODIL.get(), PlantType.NOT_TINTED);
 
         createCropBlock(ModBlocks.WOLF_BERRY_BUSH.get(), BlockStateProperties.AGE_3, 0,1,2,3);
+
+        createCrossBlockWithDefaultItem(ModBlocks.JACARANDA_SAPLING.get(), PlantType.NOT_TINTED);
+        createCrossBlockWithDefaultItem(ModBlocks.MAGIC_SAPLING.get(), PlantType.NOT_TINTED);
+        createTrivialBlock(ModBlocks.JACARANDA_LEAVES.get(), TexturedModel.LEAVES);
+        createDefaultBlockItem(ModBlocks.JACARANDA_LEAVES.get());
+        createTrivialBlock(ModBlocks.MAGIC_LEAVES.get(), TexturedModel.LEAVES);
+        createDefaultBlockItem(ModBlocks.MAGIC_LEAVES.get());
     }
 
     protected void createTrivialBlocks() {
@@ -117,6 +126,7 @@ public class ModBlockModelGenerators extends BlockModelGenerators {
             Condition facingCondition = condition().term(BlockStateProperties.HORIZONTAL_FACING, direction).term(StoneAltarFireBowlBlock.LIT, true).term(StoneAltarFireBowlBlock.SOUL_FIRE, true).build();
             stoneAltarFireBowl.with(facingCondition, soulFire.with(rotation));
         });
+        this.blockStateOutput.accept(stoneAltarFireBowl);
     }
 
 

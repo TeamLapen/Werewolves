@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "wooden_sign",
   "key": {
-    "#": {
-      "item": "werewolves:magic_planks"
-    },
-    "X": {
-      "item": "minecraft:stick"
-    }
+    "#": "werewolves:magic_planks",
+    "X": "minecraft:stick"
   },
   "pattern": [
     "###",

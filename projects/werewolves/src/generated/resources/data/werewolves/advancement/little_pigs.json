@@ -17,13 +17,10 @@
     },
     "faction": {
       "conditions": {
-        "type": "level",
-        "faction": {
-          "id": "werewolves:werewolf"
-        },
+        "faction": "werewolves:werewolf",
         "level": 1
       },
-      "trigger": "vampirism:faction"
+      "trigger": "factionapi:faction"
     }
   },
   "display": {
@@ -31,7 +28,6 @@
       "translate": "advancements.werewolves.little_pigs.desc"
     },
     "icon": {
-      "count": 1,
       "id": "minecraft:porkchop"
     },
     "title": {

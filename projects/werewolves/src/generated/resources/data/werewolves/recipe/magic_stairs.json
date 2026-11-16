@@ -3,9 +3,7 @@
   "category": "building",
   "group": "wooden_stairs",
   "key": {
-    "#": {
-      "item": "werewolves:magic_planks"
-    }
+    "#": "werewolves:magic_planks"
   },
   "pattern": [
     "#  ",

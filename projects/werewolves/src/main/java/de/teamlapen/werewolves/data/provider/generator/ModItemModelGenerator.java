@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.data.provider.generator;
 
+import de.teamlapen.faction.client.color.tint.RefinementTint;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModBlocks;
 import de.teamlapen.werewolves.common.core.ModItems;
@@ -48,7 +49,6 @@ public class ModItemModelGenerator extends ItemModelGenerators {
                 ModItems.SILVER_CHESTPLATE,
                 ModItems.SILVER_LEGGINGS,
                 ModItems.SILVER_BOOTS,
-                ModItems.WOLF_BERRIES,
                 ModItems.JACARANDA_BOAT,
                 ModItems.MAGIC_BOAT,
                 ModItems.JACARANDA_CHEST_BOAT,
@@ -86,14 +86,9 @@ public class ModItemModelGenerator extends ItemModelGenerators {
                 ModItems.SILVER_HOE
         ).map(Supplier::get).forEach(item -> this.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM));
 
-        Stream.<Supplier<? extends Block>>of(
-                ModBlocks.JACARANDA_SAPLING,
-                ModBlocks.MAGIC_SAPLING
-        ).map(Supplier::get).forEach(this::blockLayer);
-
-        this.generateLayeredItem(ModItems.DREAM_CATCHER.get(), new Material(modLoc("item/dream_catcher_layer0")), new Material(modLoc("item/dream_catcher_layer1")));
-        this.generateLayeredItem(ModItems.CHARM_BRACELET.get(), new Material(modLoc("item/charm_bracelet_layer0")), new Material(modLoc("item/charm_bracelet_layer1")));
-        this.generateLayeredItem(ModItems.BONE_NECKLACE.get(), new Material(modLoc("item/bone_necklace_layer0")), new Material(modLoc("item/bone_necklace_layer1")));
+        this.accessory(ModItems.DREAM_CATCHER.get(), "dream_catcher");
+        this.accessory(ModItems.CHARM_BRACELET.get(), "charm_bracelet");
+        this.accessory(ModItems.BONE_NECKLACE.get(), "bone_necklace");
 
         this.diffuserCore(ModItems.WOLFSBANE_DIFFUSER_CORE.get(), modLoc("block/wolfsbane_diffuser_inside"));
         this.diffuserCore(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get(), modLoc("block/wolfsbane_diffuser_improved_inside"));
@@ -112,6 +107,14 @@ public class ModItemModelGenerator extends ItemModelGenerators {
     protected void blockLayer(ItemLike block) {
         Item item = block.asItem();
         this.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(TextureMapping.getBlockTexture((Block) block)), this.modelOutput)));
+    }
+
+    /**
+     * Two layered refinement item, the second layer is tinted by the refinement rarity
+     */
+    protected void accessory(Item item, String texture) {
+        Identifier model = ModelTemplates.TWO_LAYERED_ITEM.create(item, TextureMapping.layered(new Material(modLoc("item/" + texture + "_layer0")), new Material(modLoc("item/" + texture + "_layer1"))), this.modelOutput);
+        this.itemModelOutput.accept(item, ItemModelUtils.tintedModel(model, BLANK_LAYER, new RefinementTint()));
     }
 
     protected void flatWithTexture(Item item, Identifier texture) {

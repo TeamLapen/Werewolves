@@ -1,39 +1,19 @@
 {
-  "multipart": [
-    {
-      "apply": {
-        "model": "werewolves:block/stone_altar"
-      },
-      "when": {
-        "facing": "north"
-      }
+  "variants": {
+    "facing=east": {
+      "model": "werewolves:block/stone_altar",
+      "y": 90
     },
-    {
-      "apply": {
-        "model": "werewolves:block/stone_altar",
-        "y": 90
-      },
-      "when": {
-        "facing": "east"
-      }
+    "facing=north": {
+      "model": "werewolves:block/stone_altar"
     },
-    {
-      "apply": {
-        "model": "werewolves:block/stone_altar",
-        "y": 180
-      },
-      "when": {
-        "facing": "south"
-      }
+    "facing=south": {
+      "model": "werewolves:block/stone_altar",
+      "y": 180
     },
-    {
-      "apply": {
-        "model": "werewolves:block/stone_altar",
-        "y": 270
-      },
-      "when": {
-        "facing": "west"
-      }
+    "facing=west": {
+      "model": "werewolves:block/stone_altar",
+      "y": 270
     }
-  ]
+  }
 }

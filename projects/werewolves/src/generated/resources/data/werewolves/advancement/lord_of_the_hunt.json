@@ -3,13 +3,10 @@
   "criteria": {
     "faction": {
       "conditions": {
-        "type": "lord",
-        "faction": {
-          "id": "werewolves:werewolf"
-        },
+        "faction": "werewolves:werewolf",
         "level": 5
       },
-      "trigger": "vampirism:faction"
+      "trigger": "factionapi:lord"
     }
   },
   "display": {
@@ -18,7 +15,6 @@
     },
     "frame": "challenge",
     "icon": {
-      "count": 1,
       "id": "werewolves:white_pelt_upgrade_smithing_template"
     },
     "title": {

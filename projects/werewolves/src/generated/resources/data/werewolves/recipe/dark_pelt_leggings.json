@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "P": {
-      "item": "werewolves:dark_pelt"
-    },
-    "X": {
-      "item": "werewolves:pelt_leggings"
-    }
+    "P": "werewolves:dark_pelt",
+    "X": "werewolves:pelt_leggings"
   },
   "pattern": [
     "PPP",
@@ -15,7 +11,6 @@
     "PPP"
   ],
   "result": {
-    "count": 1,
     "id": "werewolves:dark_pelt_leggings"
   }
 }

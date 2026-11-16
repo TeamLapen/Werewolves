@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "X": {
-      "tag": "c:ingots/silver"
-    }
+    "X": "#c:ingots/silver"
   },
   "pattern": [
     "XXX",
@@ -12,7 +10,6 @@
     "X X"
   ],
   "result": {
-    "count": 1,
     "id": "werewolves:silver_leggings"
   }
 }

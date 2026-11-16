@@ -9,13 +9,10 @@
     },
     "faction": {
       "conditions": {
-        "type": "level",
-        "faction": {
-          "id": "werewolves:werewolf"
-        },
+        "faction": "werewolves:werewolf",
         "level": 1
       },
-      "trigger": "vampirism:faction"
+      "trigger": "factionapi:faction"
     }
   },
   "display": {
@@ -24,7 +21,6 @@
     },
     "frame": "challenge",
     "icon": {
-      "count": 1,
       "id": "minecraft:netherite_block"
     },
     "title": {

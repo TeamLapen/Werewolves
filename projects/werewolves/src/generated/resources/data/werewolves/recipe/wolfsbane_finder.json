@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "tag": "c:dusts/redstone"
-    },
-    "X": {
-      "tag": "c:ingots/silver"
-    },
-    "Y": {
-      "item": "werewolves:wolfsbane"
-    },
-    "Z": {
-      "tag": "minecraft:planks"
-    }
+    "A": "#c:dusts/redstone",
+    "X": "#c:ingots/silver",
+    "Y": "werewolves:wolfsbane",
+    "Z": "#minecraft:planks"
   },
   "pattern": [
     "XXX",
@@ -21,7 +13,6 @@
     "ZAZ"
   ],
   "result": {
-    "count": 1,
     "id": "werewolves:wolfsbane_finder"
   }
 }

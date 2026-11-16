@@ -1,7 +1,7 @@
 {
   "variants": {
     "axis=x": {
-      "model": "werewolves:block/stripped_jacaranda_wood_horizontal",
+      "model": "werewolves:block/stripped_jacaranda_wood",
       "x": 90,
       "y": 90
     },
@@ -9,7 +9,7 @@
       "model": "werewolves:block/stripped_jacaranda_wood"
     },
     "axis=z": {
-      "model": "werewolves:block/stripped_jacaranda_wood_horizontal",
+      "model": "werewolves:block/stripped_jacaranda_wood",
       "x": 90
     }
   }

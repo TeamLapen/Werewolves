@@ -1,7 +1,8 @@
 {
   "type": "vampirism:alchemical_table",
+  "common_info": {},
   "ingredient": {
-    "type": "neoforge:components",
+    "neoforge:ingredient_type": "neoforge:components",
     "components": {
       "vampirism:oil_contents": {
         "oil": "vampirism:vampire_blood"
@@ -9,16 +10,13 @@
     },
     "items": "vampirism:oil_bottle"
   },
-  "input": {
-    "tag": "c:ingots/silver"
-  },
+  "input": "#c:ingots/silver",
   "result": {
     "components": {
       "vampirism:oil_contents": {
         "oil": "werewolves:silver_oil_1"
       }
     },
-    "count": 1,
     "id": "vampirism:oil_bottle"
   }
 }

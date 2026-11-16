@@ -3,9 +3,7 @@
   "category": "building",
   "group": "planks",
   "ingredients": [
-    {
-      "tag": "c:magic_log"
-    }
+    "#c:magic_log"
   ],
   "result": {
     "count": 4,

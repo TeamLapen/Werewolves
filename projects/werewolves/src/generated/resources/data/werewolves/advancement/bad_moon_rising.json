@@ -9,13 +9,10 @@
     },
     "faction": {
       "conditions": {
-        "type": "level",
-        "faction": {
-          "id": "werewolves:werewolf"
-        },
+        "faction": "werewolves:werewolf",
         "level": 1
       },
-      "trigger": "vampirism:faction"
+      "trigger": "factionapi:faction"
     }
   },
   "display": {
@@ -23,7 +20,6 @@
       "translate": "advancements.werewolves.bad_moon_rising.desc"
     },
     "icon": {
-      "count": 1,
       "id": "werewolves:werewolf_minion_charm"
     },
     "title": {

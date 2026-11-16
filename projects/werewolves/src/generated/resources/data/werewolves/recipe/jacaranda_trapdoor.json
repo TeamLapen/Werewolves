@@ -3,9 +3,7 @@
   "category": "redstone",
   "group": "wooden_trapdoor",
   "key": {
-    "#": {
-      "item": "werewolves:jacaranda_planks"
-    }
+    "#": "werewolves:jacaranda_planks"
   },
   "pattern": [
     "###",

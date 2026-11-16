@@ -3,13 +3,10 @@
   "criteria": {
     "faction": {
       "conditions": {
-        "type": "level",
-        "faction": {
-          "id": "werewolves:werewolf"
-        },
+        "faction": "werewolves:werewolf",
         "level": 14
       },
-      "trigger": "vampirism:faction"
+      "trigger": "factionapi:lord"
     }
   },
   "display": {
@@ -17,7 +14,6 @@
       "translate": "advancements.werewolves.unrivaled_predator.desc"
     },
     "icon": {
-      "count": 1,
       "id": "werewolves:cracked_bone"
     },
     "title": {

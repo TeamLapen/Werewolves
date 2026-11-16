@@ -9,10 +9,8 @@
             "entity": "this",
             "predicate": {
               "type_specific": {
-                "type": "vampirism:faction",
-                "faction": {
-                  "id": "werewolves:werewolf"
-                }
+                "type": "factionapi:faction",
+                "faction": "werewolves:werewolf"
               }
             }
           }
@@ -35,7 +33,6 @@
       "translate": "advancements.werewolves.silver_hand.desc"
     },
     "icon": {
-      "count": 1,
       "id": "werewolves:silver_sword"
     },
     "title": {

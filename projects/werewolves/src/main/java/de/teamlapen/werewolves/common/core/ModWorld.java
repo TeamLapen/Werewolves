@@ -22,5 +22,6 @@ public class ModWorld {
     static void register(IEventBus bus) {
         TRUNK_PLACER.register(bus);
         FOLIAGE_PLACER.register(bus);
+        de.teamlapen.werewolves.common.world.features.WerewolvesBiomeFeatures.register(bus);
     }
 }

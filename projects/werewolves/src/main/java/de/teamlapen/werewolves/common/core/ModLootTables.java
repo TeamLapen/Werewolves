@@ -37,7 +37,7 @@ public class ModLootTables {
     public static final ResourceKey<LootTable> SKELETON = registerInject(EntityType.SKELETON);
 
     // Minion tasks
-    public static final ResourceKey<LootTable> MINION_COLLECT_WEREWOLF = register(WIdentifier.common("minion_tasks/collect_werewolf"));
+    public static final ResourceKey<LootTable> MINION_COLLECT_WEREWOLF = register(WIdentifier.mod("minion_tasks/collect_werewolf"));
 
 
     static ResourceKey<LootTable> registerInject(EntityType<?> type) {

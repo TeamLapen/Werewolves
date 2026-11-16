@@ -3,9 +3,7 @@
   "category": "building",
   "group": "wooden_slab",
   "key": {
-    "#": {
-      "item": "werewolves:jacaranda_planks"
-    }
+    "#": "werewolves:jacaranda_planks"
   },
   "pattern": [
     "###"

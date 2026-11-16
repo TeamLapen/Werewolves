@@ -1,6 +1,9 @@
 package de.teamlapen.werewolves.data.provider;
 
+import net.minecraft.world.item.Items;
+
 import de.teamlapen.faction.common.core.FactionBlocks;
+import de.teamlapen.faction.common.core.FactionLootContextParamSets;
 import de.teamlapen.vampirism.data.loot.functions.RefinementSetFunction;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.world.blocks.WolfBerryBushBlock;
@@ -50,8 +53,33 @@ public class LootTablesProvider {
                         new LootTableProvider.SubProviderEntry(ModEntityLootTables::new, LootContextParamSets.ENTITY),
                         new LootTableProvider.SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK),
                         new LootTableProvider.SubProviderEntry(ChestLootTables::new, LootContextParamSets.CHEST),
-                        new LootTableProvider.SubProviderEntry(EntityInjectLootTables::new, LootContextParamSets.ENTITY)
+                        new LootTableProvider.SubProviderEntry(EntityInjectLootTables::new, LootContextParamSets.ENTITY),
+                        new LootTableProvider.SubProviderEntry(MinionTaskLootTables::new, FactionLootContextParamSets.MINION_COLLECT)
                 ), lookupProvider);
+    }
+
+    /**
+     * Loot of the werewolf minion collect resources task. Weights taken from the former hardcoded item list
+     */
+    private static class MinionTaskLootTables implements LootTableSubProvider {
+
+        @SuppressWarnings("unused")
+        public MinionTaskLootTables(HolderLookup.Provider registries) {
+        }
+
+        @Override
+        public void generate(@NotNull BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
+            output.accept(ModLootTables.MINION_COLLECT_WEREWOLF, LootTable.lootTable()
+                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(ModItems.LIVER.get()).setWeight(6))
+                            .add(LootItem.lootTableItem(Items.PORKCHOP).setWeight(2))
+                            .add(LootItem.lootTableItem(Items.BEEF).setWeight(2))
+                            .add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1))
+                            .add(LootItem.lootTableItem(Items.MUTTON).setWeight(1))
+                            .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(2))
+                            .add(LootItem.lootTableItem(ModItems.WEREWOLF_TOOTH.get()).setWeight(1))
+                            .add(LootItem.lootTableItem(ModItems.V.HUMAN_HEART.get()).setWeight(1))));
+        }
     }
 
     private static class ModBlockLootTables extends BlockLootSubProvider {
@@ -124,6 +152,8 @@ public class LootTablesProvider {
             this.dropSelf(ModBlocks.MAGIC_SIGN.get());
             this.dropSelf(ModBlocks.JACARANDA_WALL_SIGN.get());
             this.dropSelf(ModBlocks.MAGIC_WALL_SIGN.get());
+            this.dropSelf(ModBlocks.JACARANDA_HANGING_SIGN.get());
+            this.dropSelf(ModBlocks.MAGIC_HANGING_SIGN.get());
             this.dropSelf(ModBlocks.JACARANDA_PRESSURE_PLATE.get());
             this.dropSelf(ModBlocks.MAGIC_PRESSURE_PLATE.get());
             this.dropSelf(ModBlocks.JACARANDA_BUTTON.get());

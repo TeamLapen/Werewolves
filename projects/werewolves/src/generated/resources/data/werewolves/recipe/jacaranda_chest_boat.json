@@ -3,15 +3,10 @@
   "category": "misc",
   "group": "chest_boat",
   "ingredients": [
-    {
-      "item": "minecraft:chest"
-    },
-    {
-      "item": "werewolves:jacaranda_planks"
-    }
+    "minecraft:chest",
+    "werewolves:jacaranda_planks"
   ],
   "result": {
-    "count": 1,
     "id": "werewolves:jacaranda_chest_boat"
   }
 }

@@ -2,18 +2,10 @@
   "type": "vampirism:shaped_crafting_weapontable",
   "category": "misc",
   "key": {
-    "F": {
-      "tag": "c:feathers"
-    },
-    "S": {
-      "tag": "c:rods/wooden"
-    },
-    "X": {
-      "tag": "c:nuggets/silver"
-    },
-    "Y": {
-      "tag": "c:ingots/iron"
-    }
+    "F": "#c:feathers",
+    "S": "#c:rods/wooden",
+    "X": "#c:nuggets/silver",
+    "Y": "#c:ingots/iron"
   },
   "lava": 1,
   "pattern": [

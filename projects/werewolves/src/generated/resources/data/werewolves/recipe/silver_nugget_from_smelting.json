@@ -3,25 +3,15 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.1,
+  "group": "silver",
   "ingredient": [
-    {
-      "item": "werewolves:silver_axe"
-    },
-    {
-      "item": "werewolves:silver_hoe"
-    },
-    {
-      "item": "werewolves:silver_pickaxe"
-    },
-    {
-      "item": "werewolves:silver_shovel"
-    },
-    {
-      "item": "werewolves:silver_sword"
-    }
+    "werewolves:silver_axe",
+    "werewolves:silver_hoe",
+    "werewolves:silver_pickaxe",
+    "werewolves:silver_shovel",
+    "werewolves:silver_sword"
   ],
   "result": {
-    "count": 1,
     "id": "werewolves:silver_nugget"
   }
 }

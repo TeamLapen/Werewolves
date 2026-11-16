@@ -1,4 +1,6 @@
 {
-  "parent": "vampirism:block/totem_top",
-  "render_type": "minecraft:cutout"
+  "parent": "factionapi:block/totem_top",
+  "textures": {
+    "core": "werewolves:block/totem_top_core_werewolf"
+  }
 }

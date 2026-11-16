@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "minecraft:diamond"
-    },
-    "C": {
-      "item": "werewolves:werewolf_tooth"
-    },
-    "S": {
-      "item": "werewolves:white_pelt_upgrade_smithing_template"
-    }
+    "#": "minecraft:diamond",
+    "C": "werewolves:werewolf_tooth",
+    "S": "werewolves:white_pelt_upgrade_smithing_template"
   },
   "pattern": [
     "#S#",

@@ -1,0 +1,15 @@
+{
+  "display": {
+    "id": "werewolves:liver"
+  },
+  "faction": "werewolves:werewolf",
+  "name": {
+    "translate": "gui.vampirism.skills.level"
+  },
+  "unlock_predicate": {
+    "type_specific": {
+      "type": "factionapi:player_faction",
+      "faction": "werewolves:werewolf"
+    }
+  }
+}

@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "P": {
-      "tag": "minecraft:planks"
-    },
-    "S": {
-      "item": "minecraft:stone_bricks"
-    }
+    "P": "#minecraft:planks",
+    "S": "minecraft:stone_bricks"
   },
   "pattern": [
     "SPS",
@@ -15,7 +11,6 @@
     " S "
   ],
   "result": {
-    "count": 1,
     "id": "werewolves:stone_altar_fire_bowl"
   }
 }

@@ -1,8 +1,6 @@
 {
   "parent": "vampirism:block/garlic_diffuser",
-  "render_type": "minecraft:cutout",
   "textures": {
-    "garlic": "werewolves:block/wolfsbane_diffuser_inside",
-    "wood_garlic_symbol": "werewolves:block/wolfsbane_diffuser_top"
+    "core": "vampirism:block/garlic_diffuser_core_long"
   }
 }

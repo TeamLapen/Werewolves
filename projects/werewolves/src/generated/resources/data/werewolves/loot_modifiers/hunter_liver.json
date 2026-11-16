@@ -21,5 +21,6 @@
       ]
     }
   ],
+  "priority": 0,
   "table": "werewolves:hunter_liver"
 }

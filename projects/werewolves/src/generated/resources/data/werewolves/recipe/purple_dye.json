@@ -2,12 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "werewolves:wolfsbane"
-    }
+    "werewolves:wolfsbane"
   ],
   "result": {
-    "count": 1,
     "id": "minecraft:purple_dye"
   }
 }

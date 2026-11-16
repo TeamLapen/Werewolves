@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "werewolves:cracked_bone"
-    }
+    "werewolves:cracked_bone"
   ],
   "result": {
     "count": 2,

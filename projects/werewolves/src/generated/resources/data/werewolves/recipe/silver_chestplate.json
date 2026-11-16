@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "X": {
-      "tag": "c:ingots/silver"
-    }
+    "X": "#c:ingots/silver"
   },
   "pattern": [
     "X X",
@@ -12,7 +10,6 @@
     "XXX"
   ],
   "result": {
-    "count": 1,
     "id": "werewolves:silver_chestplate"
   }
 }

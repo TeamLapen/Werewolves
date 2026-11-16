@@ -3,9 +3,7 @@
   "category": "building",
   "group": "planks",
   "ingredients": [
-    {
-      "tag": "c:jacaranda_log"
-    }
+    "#c:jacaranda_log"
   ],
   "result": {
     "count": 4,

@@ -3,16 +3,13 @@
   "category": "misc",
   "group": "boat",
   "key": {
-    "#": {
-      "item": "werewolves:magic_planks"
-    }
+    "#": "werewolves:magic_planks"
   },
   "pattern": [
     "# #",
     "###"
   ],
   "result": {
-    "count": 1,
     "id": "werewolves:magic_boat"
   }
 }

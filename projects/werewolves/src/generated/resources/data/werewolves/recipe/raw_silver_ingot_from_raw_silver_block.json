@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "werewolves:raw_silver_block"
-    }
+    "werewolves:raw_silver_block"
   ],
   "result": {
     "count": 9,

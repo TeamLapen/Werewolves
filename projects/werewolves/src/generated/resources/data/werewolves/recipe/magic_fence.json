@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "wooden_fence",
   "key": {
-    "#": {
-      "item": "minecraft:stick"
-    },
-    "W": {
-      "item": "werewolves:magic_planks"
-    }
+    "#": "minecraft:stick",
+    "W": "werewolves:magic_planks"
   },
   "pattern": [
     "W#W",

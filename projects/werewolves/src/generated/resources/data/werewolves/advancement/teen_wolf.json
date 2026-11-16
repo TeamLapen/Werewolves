@@ -2,13 +2,10 @@
   "criteria": {
     "faction": {
       "conditions": {
-        "type": "level",
-        "faction": {
-          "id": "werewolves:werewolf"
-        },
+        "faction": "werewolves:werewolf",
         "level": 1
       },
-      "trigger": "vampirism:faction"
+      "trigger": "factionapi:faction"
     }
   },
   "display": {
@@ -18,7 +15,6 @@
       "translate": "advancements.werewolves.teen_wolf.desc"
     },
     "icon": {
-      "count": 1,
       "id": "werewolves:dark_pelt_helmet"
     },
     "title": {

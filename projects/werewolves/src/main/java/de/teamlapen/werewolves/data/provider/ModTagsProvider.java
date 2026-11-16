@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.data.provider;
 
+import de.teamlapen.vampirism.common.tags.ModBiomeTags;
+
 import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.factions.skills.ISkillTree;
 import de.teamlapen.faction.api.factions.tasks.Task;
@@ -184,12 +186,12 @@ public class ModTagsProvider {
             this.tag(ModTags.Biomes.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(ModTags.Biomes.HasSpawn.WEREWOLF).addTag(BiomeTags.IS_TAIGA);
-//            this.tag(ModTags.Biomes.NoSpawn.WEREWOLF).addTag(ModTags.IS_FACTION_BIOME); TODO
+            this.tag(ModTags.Biomes.NoSpawn.WEREWOLF).addTag(ModBiomeTags.HasFaction.IS_FACTION_BIOME);
             this.tag(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF).addTag(BiomeTags.IS_TAIGA);
-//            this.tag(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF).addTag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME);
+            this.tag(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF).addTag(ModBiomeTags.HasFaction.IS_FACTION_BIOME);
             this.tag(ModTags.Biomes.HasGen.SILVER_ORE).addTag(BiomeTags.IS_OVERWORLD);
             this.tag(ModTags.Biomes.HasGen.WOLFSBANE).addTag(BiomeTags.IS_FOREST);
-//            this.tag(de.teamlapen.vampirism.core.ModTags.Biomes.IS_FACTION_BIOME).addTag(ModTags.Biomes.IS_WEREWOLF_BIOME);
+            this.tag(ModBiomeTags.HasFaction.IS_FACTION_BIOME).addTag(ModTags.Biomes.IS_WEREWOLF_BIOME);
             this.tag(BiomeTags.IS_OVERWORLD).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(Tags.Biomes.IS_DENSE_VEGETATION_OVERWORLD).add(ModBiomes.WEREWOLF_FOREST);

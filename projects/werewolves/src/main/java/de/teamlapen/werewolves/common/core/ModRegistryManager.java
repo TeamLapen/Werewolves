@@ -34,6 +34,7 @@ public class ModRegistryManager extends Services {
         ModConsumer.register(bus);
         ModMenus.register(bus);
         ModDataComponents.register(bus);
+        ModFactions.register(bus);
     }
 
     @Override

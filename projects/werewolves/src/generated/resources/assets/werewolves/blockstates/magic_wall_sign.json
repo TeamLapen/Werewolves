@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "werewolves:block/magic_wall_sign"
+      "model": "werewolves:block/magic_sign"
     }
   }
 }

@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "vampirism:totem_top"
+          "name": "factionapi:totem_top"
         }
       ],
       "rolls": 1.0

@@ -89,6 +89,8 @@ public class ModItems {
 
     public static final DeferredItem<SignItem> JACARANDA_SIGN = ITEMS.registerItem("jacaranda_sign", (props) -> new SignItem(ModBlocks.JACARANDA_SIGN.get(), ModBlocks.JACARANDA_WALL_SIGN.get(), props.stacksTo(16)));
     public static final DeferredItem<SignItem> MAGIC_SIGN = ITEMS.registerItem("magic_sign", (props) -> new SignItem(ModBlocks.MAGIC_SIGN.get(), ModBlocks.MAGIC_WALL_SIGN.get(), props.stacksTo(16)));
+    public static final DeferredItem<HangingSignItem> JACARANDA_HANGING_SIGN = ITEMS.registerItem("jacaranda_hanging_sign", (props) -> new HangingSignItem(ModBlocks.JACARANDA_HANGING_SIGN.get(), ModBlocks.JACARANDA_WALL_HANGING_SIGN.get(), props.stacksTo(16)));
+    public static final DeferredItem<HangingSignItem> MAGIC_HANGING_SIGN = ITEMS.registerItem("magic_hanging_sign", (props) -> new HangingSignItem(ModBlocks.MAGIC_HANGING_SIGN.get(), ModBlocks.MAGIC_WALL_HANGING_SIGN.get(), props.stacksTo(16)));
     public static final DeferredItem<BoatItem> JACARANDA_BOAT = ITEMS.registerItem("jacaranda_boat", (props) -> new BoatItem(ModEntities.JACARANDA_BOAT.get(), props.stacksTo(1)));
     public static final DeferredItem<BoatItem> MAGIC_BOAT = ITEMS.registerItem("magic_boat", (props) -> new BoatItem(ModEntities.MAGIC_BOAT.get(), props.stacksTo(1)));
     public static final DeferredItem<BoatItem> JACARANDA_CHEST_BOAT = ITEMS.registerItem("jacaranda_chest_boat", (props) -> new BoatItem(ModEntities.JACARANDA_CHEST_BOAT.get(), props.stacksTo(1)));
