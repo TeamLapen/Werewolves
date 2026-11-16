@@ -1,0 +1,9 @@
+{
+  "parents": [
+    "werewolves:werewolf/lord_root"
+  ],
+  "skills": [
+    "factionapi:minion_recovery"
+  ],
+  "tree": "werewolves:werewolf/lord"
+}

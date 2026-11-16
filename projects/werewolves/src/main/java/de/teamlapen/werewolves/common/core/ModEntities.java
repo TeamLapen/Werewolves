@@ -81,7 +81,7 @@ public class ModEntities {
         return ENTITY_TYPES.registerEntityType(name, factory, category, b -> builder.apply(b.clientTrackingRange(80).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true)));
     }
 
-    static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {
+    public static void onRegisterEntityTypeAttributes(EntityAttributeCreationEvent event) {
         event.put(HUMAN_WEREWOLF.get(), HumanWerewolfEntity.getAttributeBuilder().build());
         event.put(WEREWOLF_BEAST.get(), BasicWerewolfEntity.getAttributeBuilder().build());
         event.put(WEREWOLF_SURVIVALIST.get(), BasicWerewolfEntity.getAttributeBuilder().build());
@@ -91,7 +91,7 @@ public class ModEntities {
         event.put(ALPHA_WEREWOLF.get(), WerewolfAlphaEntity.getAttributeBuilder().build());
     }
 
-    static void onModifyEntityTypeAttributes(EntityAttributeModificationEvent event) {
+    public static void onModifyEntityTypeAttributes(EntityAttributeModificationEvent event) {
         event.add(EntityType.PLAYER, ModAttributes.BITE_DAMAGE);
         event.add(EntityType.PLAYER, ModAttributes.TIME_REGAIN);
         event.add(EntityType.PLAYER, ModAttributes.FOOD_CONSUMPTION);

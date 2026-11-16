@@ -1,0 +1,10 @@
+{
+  "parents": [
+    "werewolves:werewolf/lord_root"
+  ],
+  "skills": [
+    "vampirism:lord_speed",
+    "vampirism:lord_attack_speed"
+  ],
+  "tree": "werewolves:werewolf/lord"
+}

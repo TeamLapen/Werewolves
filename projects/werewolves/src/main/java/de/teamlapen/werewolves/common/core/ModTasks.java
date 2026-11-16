@@ -5,6 +5,7 @@ import de.teamlapen.faction.api.factions.IFaction;
 import de.teamlapen.faction.api.factions.refinements.IRefinementSet;
 import de.teamlapen.faction.api.factions.tasks.Task;
 import de.teamlapen.faction.api.util.SafeCast;
+import de.teamlapen.faction.common.core.FactionItems;
 import de.teamlapen.faction.common.core.FactionStats;
 import de.teamlapen.faction.common.factions.tasks.TaskBuilder;
 import de.teamlapen.faction.common.factions.tasks.reward.LordLevelReward;
@@ -135,7 +136,7 @@ public class ModTasks {
                 .setReward(new RefinementItemReward(SafeCast.cast(factions.getOrThrow(ModTags.Factions.IS_WEREWOLF)), IRefinementSet.Rarity.RARE))
                 .build(context::register, RANDOM_RARE_REFINEMENT);
 
-        TaskBuilder.builder().setReward(new ItemStackTemplate(ModItems.V.OBLIVION_POTION.get()))
+        TaskBuilder.builder().setReward(new ItemStackTemplate(FactionItems.OBLIVION_POTION.get()))
                 .addRequirement(new ItemStackTemplate(Items.POTION, DataComponentPatch.builder().set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.POISON)).build()))
                 .addRequirement(new ItemStackTemplate(ModItems.LIVER.get()))
                 .addRequirement(new ItemStackTemplate(ModItems.V.HUMAN_HEART.get()))

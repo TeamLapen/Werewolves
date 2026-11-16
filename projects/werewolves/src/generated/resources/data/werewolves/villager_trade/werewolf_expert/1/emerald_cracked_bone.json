@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "id": "werewolves:cracked_bone"
+  },
+  "max_uses": 3.0,
+  "reputation_discount": 0.05,
+  "wants": {
+    "count": 25.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 6.0
+}

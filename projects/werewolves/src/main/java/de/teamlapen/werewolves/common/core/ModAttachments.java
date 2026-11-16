@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.common.core;
 
+import de.teamlapen.werewolves.common.world.attachments.WerewolfVillagerAttachment;
+
 import de.teamlapen.faction.api.world.entities.extensions.IEntity;
 import de.teamlapen.faction.common.util.AttachmentSynchronization;
 import de.teamlapen.sync.api.IAttachmentSync;
@@ -22,6 +24,7 @@ public class ModAttachments {
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<LevelDamage>> LEVEL_DAMAGE = ATTACHMENT_TYPES.register(WerewolvesAttachments.Keys.DAMAGE_HANDLER.getPath(), () -> AttachmentType.builder(new LevelDamage.Factory()).build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<WerewolfPlayer>> WEREWOLF_PLAYER = ATTACHMENT_TYPES.register(WerewolvesAttachments.Keys.WEREWOLF_PLAYER.getPath(), () -> syncAttachment(new WerewolfPlayer.AttachmentOptions()).copyOnDeath().build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<WerewolfVillagerAttachment>> WEREWOLF_VILLAGER = ATTACHMENT_TYPES.register(WerewolvesAttachments.Keys.WEREWOLF_VILLAGER.getPath(), () -> AttachmentType.builder(() -> new WerewolfVillagerAttachment()).serialize(WerewolfVillagerAttachment.CODEC, WerewolfVillagerAttachment::shouldSerialize).build());
 
     static void register(IEventBus bus) {
         ATTACHMENT_TYPES.register(bus);

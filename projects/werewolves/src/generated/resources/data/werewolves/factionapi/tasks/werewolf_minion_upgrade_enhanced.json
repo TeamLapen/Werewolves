@@ -1,0 +1,70 @@
+{
+  "requirements": [
+    {
+      "type": "factionapi:entity_type",
+      "amount": 8,
+      "description": {
+        "translate": "task_tag.vampirism.advanced_hunter"
+      },
+      "entityType": "vampirism:advanced_hunter",
+      "id": "vampirism:advanced_hunter"
+    },
+    {
+      "type": "factionapi:entity_type",
+      "amount": 10,
+      "description": {
+        "translate": "task_tag.vampirism.advanced_vampire"
+      },
+      "entityType": "vampirism:advanced_vampire",
+      "id": "vampirism:advanced_vampire"
+    },
+    {
+      "type": "factionapi:item",
+      "description": {
+        "translate": "item.minecraft.diamond_block"
+      },
+      "id": "minecraft:diamond_block",
+      "item": {
+        "count": 3,
+        "id": "minecraft:diamond_block"
+      }
+    },
+    {
+      "type": "factionapi:item",
+      "description": {
+        "translate": "item.werewolves.liver"
+      },
+      "id": "werewolves:liver",
+      "item": {
+        "count": 16,
+        "id": "werewolves:liver"
+      }
+    },
+    {
+      "type": "factionapi:item",
+      "description": {
+        "translate": "item.werewolves.werewolf_tooth"
+      },
+      "id": "werewolves:werewolf_tooth",
+      "item": {
+        "id": "werewolves:werewolf_tooth"
+      }
+    }
+  ],
+  "reward": {
+    "type": "factionapi:item",
+    "item": {
+      "id": "werewolves:werewolf_minion_upgrade_enhanced"
+    }
+  },
+  "title": {
+    "translate": "task.werewolves.werewolf_minion_upgrade_enhanced"
+  },
+  "unlocker": [
+    {
+      "type": "factionapi:lord_level",
+      "exact": false,
+      "reqLordLevel": 3
+    }
+  ]
+}

@@ -1,25 +1,18 @@
 {
-  "type": "vampirism:extended_add_spawns",
+  "type": "neoforge:add_spawns",
   "biomes": "#werewolves:has_spawn/werewolf",
-  "excludedBiomes": "#werewolves:no_spawn/werewolf",
   "spawners": [
     {
-      "category": "monster",
-      "super": {
-        "type": "werewolves:werewolf_beast",
-        "maxCount": 2,
-        "minCount": 1,
-        "weight": 80
-      }
+      "type": "werewolves:werewolf_beast",
+      "maxCount": 2,
+      "minCount": 1,
+      "weight": 80
     },
     {
-      "category": "monster",
-      "super": {
-        "type": "werewolves:werewolf_survivalist",
-        "maxCount": 2,
-        "minCount": 1,
-        "weight": 80
-      }
+      "type": "werewolves:werewolf_survivalist",
+      "maxCount": 2,
+      "minCount": 1,
+      "weight": 80
     }
   ]
 }

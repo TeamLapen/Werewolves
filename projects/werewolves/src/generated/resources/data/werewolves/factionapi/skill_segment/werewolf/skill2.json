@@ -1,0 +1,10 @@
+{
+  "parents": [
+    "werewolves:werewolf/skill1"
+  ],
+  "skills": [
+    "werewolves:night_vision",
+    "werewolves:sense"
+  ],
+  "tree": "vampirism:hunter/level"
+}

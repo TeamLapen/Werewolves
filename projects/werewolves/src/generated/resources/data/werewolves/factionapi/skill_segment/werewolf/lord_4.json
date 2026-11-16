@@ -1,0 +1,9 @@
+{
+  "parents": [
+    "werewolves:werewolf/lord_root"
+  ],
+  "skills": [
+    "werewolves:werewolf_minion_collect"
+  ],
+  "tree": "werewolves:werewolf/lord"
+}

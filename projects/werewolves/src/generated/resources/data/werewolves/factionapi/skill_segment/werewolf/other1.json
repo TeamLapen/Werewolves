@@ -1,0 +1,9 @@
+{
+  "parents": [
+    "werewolves:werewolf/skill2"
+  ],
+  "skills": [
+    "werewolves:free_will"
+  ],
+  "tree": "vampirism:hunter/level"
+}

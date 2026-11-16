@@ -1,0 +1,5 @@
+{
+  "type": "neoforge:remove_spawns",
+  "biomes": "#werewolves:no_spawn/human_werewolf",
+  "entity_types": "werewolves:human_werewolf"
+}

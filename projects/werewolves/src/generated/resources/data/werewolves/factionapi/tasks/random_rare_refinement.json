@@ -1,0 +1,22 @@
+{
+  "requirements": [
+    {
+      "type": "factionapi:stat",
+      "amount": 1,
+      "description": {
+        "translate": "stat.minecraft.raid_win"
+      },
+      "id": "minecraft:raid_win",
+      "stat": "minecraft:raid_win"
+    }
+  ],
+  "reward": {
+    "type": "factionapi:refinement",
+    "faction": "#werewolves:is_werewolf",
+    "rarity": "rare"
+  },
+  "title": {
+    "translate": "task.werewolves.random_rare_refinement"
+  },
+  "unlocker": []
+}

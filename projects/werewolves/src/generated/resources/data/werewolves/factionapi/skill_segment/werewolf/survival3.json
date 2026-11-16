@@ -1,0 +1,10 @@
+{
+  "parents": [
+    "werewolves:werewolf/survival2"
+  ],
+  "skills": [
+    "werewolves:wolf_pawn",
+    "werewolves:climber"
+  ],
+  "tree": "vampirism:hunter/level"
+}

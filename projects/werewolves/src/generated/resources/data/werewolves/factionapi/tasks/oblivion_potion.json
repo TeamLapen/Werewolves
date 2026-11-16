@@ -1,0 +1,49 @@
+{
+  "requirements": [
+    {
+      "type": "factionapi:item",
+      "description": {
+        "translate": "item.vampirism.human_heart"
+      },
+      "id": "vampirism:human_heart",
+      "item": {
+        "id": "vampirism:human_heart"
+      }
+    },
+    {
+      "type": "factionapi:item",
+      "description": {
+        "translate": "item.werewolves.liver"
+      },
+      "id": "werewolves:liver",
+      "item": {
+        "id": "werewolves:liver"
+      }
+    },
+    {
+      "type": "factionapi:item",
+      "description": {
+        "translate": "item.minecraft.potion"
+      },
+      "id": "minecraft:potion",
+      "item": {
+        "components": {
+          "minecraft:potion_contents": {
+            "potion": "minecraft:poison"
+          }
+        },
+        "id": "minecraft:potion"
+      }
+    }
+  ],
+  "reward": {
+    "type": "factionapi:item",
+    "item": {
+      "id": "factionapi:oblivion_potion"
+    }
+  },
+  "title": {
+    "translate": "task.werewolves.oblivion_potion"
+  },
+  "unlocker": []
+}

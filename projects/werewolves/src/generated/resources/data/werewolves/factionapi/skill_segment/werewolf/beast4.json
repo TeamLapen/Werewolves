@@ -1,0 +1,10 @@
+{
+  "parents": [
+    "werewolves:werewolf/beast4"
+  ],
+  "skills": [
+    "werewolves:stun_bite",
+    "werewolves:bleeding_bite"
+  ],
+  "tree": "vampirism:hunter/level"
+}

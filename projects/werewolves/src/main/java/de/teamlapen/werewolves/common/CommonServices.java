@@ -34,8 +34,6 @@ public class CommonServices extends Services implements IWerewolvesServices {
         bus.register(this.entityEventHandler);
         bus.register(this.playerEventHandler);
         bus.register(this.generalEventHandler);
-//        bus.addListener(ModEntities::onRegisterEntityTypeAttributes);
-//        bus.addListener(ModEntities::onModifyEntityTypeAttributes);
     }
 
     @Override
@@ -44,5 +42,7 @@ public class CommonServices extends Services implements IWerewolvesServices {
         this.registryManager.registerModBus(bus);
         bus.addListener(ModPacketDispatcher::registerHandler);
         bus.addListener(ModEntities::registerSpawns);
+        bus.addListener(ModEntities::onRegisterEntityTypeAttributes);
+        bus.addListener(ModEntities::onModifyEntityTypeAttributes);
     }
 }

@@ -19,5 +19,6 @@ public class WerewolvesAttachments {
         public static final Identifier WEREWOLF_PLAYER = WIdentifier.mod("werewolf_player");
         public static final Identifier WOLFSBANE_HANDLER = WIdentifier.mod("wolfbane_handler");
         public static final Identifier DAMAGE_HANDLER = WIdentifier.mod("damage_handler");
+        public static final Identifier WEREWOLF_VILLAGER = WIdentifier.mod("werewolf_villager");
     }
 }

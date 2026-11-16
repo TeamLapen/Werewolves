@@ -1,0 +1,10 @@
+{
+  "parents": [
+    "werewolves:werewolf/survival3"
+  ],
+  "skills": [
+    "werewolves:efficient_diet",
+    "werewolves:arrow_awareness"
+  ],
+  "tree": "vampirism:hunter/level"
+}

@@ -1,0 +1,9 @@
+{
+  "parents": [
+    "werewolves:werewolf/other5"
+  ],
+  "skills": [
+    "werewolves:enhanced_digger"
+  ],
+  "tree": "vampirism:hunter/level"
+}

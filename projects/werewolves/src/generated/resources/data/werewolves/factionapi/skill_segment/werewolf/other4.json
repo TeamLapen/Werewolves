@@ -1,0 +1,9 @@
+{
+  "parents": [
+    "werewolves:werewolf/other3"
+  ],
+  "skills": [
+    "werewolves:water_lover"
+  ],
+  "tree": "vampirism:hunter/level"
+}

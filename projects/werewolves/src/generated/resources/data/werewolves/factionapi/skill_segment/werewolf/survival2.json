@@ -1,0 +1,9 @@
+{
+  "parents": [
+    "werewolves:werewolf/survival1"
+  ],
+  "skills": [
+    "werewolves:survival_form"
+  ],
+  "tree": "vampirism:hunter/level"
+}

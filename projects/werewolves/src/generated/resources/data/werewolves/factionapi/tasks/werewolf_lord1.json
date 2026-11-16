@@ -1,0 +1,72 @@
+{
+  "requirements": [
+    {
+      "type": "factionapi:item",
+      "description": {
+        "translate": "item.minecraft.gold_ingot"
+      },
+      "id": "minecraft:gold_ingot",
+      "item": {
+        "count": 32,
+        "id": "minecraft:gold_ingot"
+      }
+    },
+    {
+      "type": "factionapi:entity_type",
+      "amount": 10,
+      "description": {
+        "translate": "task_tag.vampirism.hunter"
+      },
+      "entityType": "vampirism:hunter",
+      "id": "vampirism:hunter"
+    },
+    {
+      "type": "factionapi:entity_type",
+      "amount": 10,
+      "description": {
+        "translate": "task_tag.vampirism.vampire"
+      },
+      "entityType": "vampirism:vampire",
+      "id": "vampirism:vampire"
+    },
+    {
+      "type": "factionapi:item",
+      "description": {
+        "translate": "item.werewolves.werewolf_tooth"
+      },
+      "id": "werewolves:werewolf_tooth",
+      "item": {
+        "count": 2,
+        "id": "werewolves:werewolf_tooth"
+      }
+    },
+    {
+      "type": "factionapi:stat",
+      "amount": 3,
+      "description": {
+        "translate": "stat.factionapi.win_village_capture"
+      },
+      "id": "factionapi:win_village_capture",
+      "stat": "factionapi:win_village_capture"
+    }
+  ],
+  "reward": {
+    "type": "factionapi:lord_level",
+    "description": {
+      "translate": "task_reward.factionapi.lord_level",
+      "with": [
+        1
+      ]
+    },
+    "targetLevel": 1
+  },
+  "title": {
+    "translate": "task.werewolves.werewolf_lord1"
+  },
+  "unlocker": [
+    {
+      "type": "factionapi:level",
+      "reqLevel": 14
+    }
+  ]
+}
