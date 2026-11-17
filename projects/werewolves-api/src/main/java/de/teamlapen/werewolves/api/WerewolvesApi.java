@@ -1,7 +1,5 @@
 package de.teamlapen.werewolves.api;
 
-import de.teamlapen.vampirism.api.VampirismAttachments;
-import de.teamlapen.vampirism.api.world.IGarlicChunkHandler;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.world.IWolfsbaneChunkHandler;
 import net.minecraft.world.entity.player.Player;

@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.common.world.entities.player.werewolf;
 
 import de.teamlapen.faction.common.factions.minions.MinionData;
-
+import de.teamlapen.faction.common.util.ScoreboardUtil;
 import de.teamlapen.vampirism.api.world.EnumStrength;
 
 import net.minecraft.world.level.ChunkPos;
@@ -22,7 +22,6 @@ import de.teamlapen.faction.common.factions.minions.MinionWorldData;
 import de.teamlapen.faction.common.factions.skills.SkillHandler;
 import de.teamlapen.faction.common.util.AttachmentSynchronization;
 import de.teamlapen.faction.common.util.ModCodecs;
-import de.teamlapen.vampirism.common.util.ScoreboardUtil;
 import de.teamlapen.vampirism.common.world.entity.player.LevelAttributeModifier;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.WIdentifier;

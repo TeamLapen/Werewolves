@@ -24,14 +24,14 @@ dependencies {
         compileOnly(accessTransformers(interfaceInjectionData("de.teamlapen.faction:FactionApi:${project.werewolves_factions_version}")))
         runtimeOnly(accessTransformers(interfaceInjectionData("de.teamlapen.faction:FactionApi:${project.werewolves_factions_version}")))
 
-    if (include_jei.toBoolean()) {
-        compileOnly(accessTransformers(interfaceInjectionData("de.teamlapen.vampirism:Vampirism:${project.werewolves_vampirism_version}")))
+    if (include_vampirism.toBoolean()) {
+        vampirismCompileOnly(accessTransformers(interfaceInjectionData("de.teamlapen.vampirism:Vampirism:${project.werewolves_vampirism_version}")))
         runtimeOnly(accessTransformers(interfaceInjectionData("de.teamlapen.vampirism:Vampirism:${project.werewolves_vampirism_version}")))
     }
 
     if (include_jei.toBoolean()) {
-        compileOnly "mezz.jei:jei-${jei_mc_version}-common-api:${project.jei_version}"
-        compileOnly "mezz.jei:jei-${jei_mc_version}-neoforge-api:${project.jei_version}"
+        jeiCompileOnly "mezz.jei:jei-${jei_mc_version}-common-api:${project.jei_version}"
+        jeiCompileOnly "mezz.jei:jei-${jei_mc_version}-neoforge-api:${project.jei_version}"
         localRuntime "mezz.jei:jei-${jei_mc_version}-neoforge:${project.jei_version}"
     }
 
@@ -41,7 +41,7 @@ dependencies {
     }
 
     if (include_terrablender.toBoolean()) {
-        compileOnly "com.github.glitchfiend:TerraBlender-neoforge:${project.terrablender_version}"
+        terrablenderCompileOnly "com.github.glitchfiend:TerraBlender-neoforge:${project.terrablender_version}"
         localRuntime "com.github.glitchfiend:TerraBlender-neoforge:${project.terrablender_version}"
     }
 
