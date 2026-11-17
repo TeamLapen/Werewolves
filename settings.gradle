@@ -17,3 +17,17 @@ include(
 
 project(':werewolves-api').projectDir = file("projects/werewolves-api")
 project(':werewolves').projectDir = file("projects/werewolves")
+
+// Optional: develop against a local checkout of the FactionApi/Vampirism project instead of the published artifacts.
+// Enable by setting `vampirism_local_path=/path/to/Vampirism` in ~/.gradle/gradle.properties or via -Pvampirism_local_path=...
+def vampirismLocalPath = providers.gradleProperty('vampirism_local_path').orNull
+if (vampirismLocalPath) {
+    includeBuild(vampirismLocalPath) {
+        dependencySubstitution {
+            substitute module('de.teamlapen.faction:FactionApi-api') using project(':faction-api')
+            substitute module('de.teamlapen.faction:FactionApi') using project(':faction')
+            substitute module('de.teamlapen.vampirism:Vampirism-api') using project(':vampirism-api')
+            substitute module('de.teamlapen.vampirism:Vampirism') using project(':vampirism')
+        }
+    }
+}

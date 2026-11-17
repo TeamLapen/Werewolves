@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.api.world;
 
-import de.teamlapen.vampirism.api.world.EnumStrength;
+import de.teamlapen.library.api.world.EnumStrength;
 import net.minecraft.world.level.ChunkPos;
 
 import java.util.List;
