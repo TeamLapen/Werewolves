@@ -10,6 +10,7 @@ import de.maxanier.guideapi.api.util.BookHelper;
 import de.maxanier.guideapi.api.util.PageHelper;
 import de.teamlapen.faction.api.factions.IPlayableFaction;
 import de.teamlapen.faction.common.core.FactionKeys;
+import de.teamlapen.integration.Integration;
 import de.teamlapen.vampirism.common.integration.guide.EntryText;
 import de.teamlapen.vampirism.common.integration.guide.VampirismGuideBookCategoriesEvent;
 import de.teamlapen.vampirism.common.integration.guide.pages.PageTable;
@@ -30,6 +31,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.bus.api.SubscribeEvent;
 
 import java.util.*;
 
@@ -37,11 +39,13 @@ import static de.teamlapen.vampirism.common.integration.guide.GuideBook.translat
 import static de.teamlapen.vampirism.common.integration.guide.GuideBook.translateComponent;
 
 @SuppressWarnings("CollectionAddAllCanBeReplacedWithConstructor")
+@Integration(modIds = {"terrablender", "vampirism"})
 public class WerewolvesGuideBook {
 
     private static final WerewolfLordTitles LORD_TITLES = new WerewolfLordTitles();
     private final static String IMAGE_BASE = "vampirismguide:textures/images/";
 
+    @SubscribeEvent
     public static void onVampirismGuideBookCategoriesEvent(VampirismGuideBookCategoriesEvent event) {
         RegistryAccess access = Optional.ofNullable(Minecraft.getInstance().getConnection()).map(ClientPacketListener::registryAccess).map(RegistryAccess.class::cast).orElse(RegistryAccess.EMPTY);
         BookHelper helper = new BookHelper.Builder(REFERENCE.MODID).build(access);

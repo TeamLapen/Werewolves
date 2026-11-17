@@ -1,7 +1,10 @@
 package de.teamlapen.werewolves.common.integration.terrablender;
 
+import de.teamlapen.integration.Integration;
 import de.teamlapen.vampirism.common.config.ModConfig;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +16,7 @@ import org.apache.logging.log4j.Logger;
  * #registerBiomeProviderIfPresentUnsafe() is called during common setup.
  * The hack code in VampirismWorldGen is called during LoadComplete and can therefore check #arreBiomesAddedViaTerraBlender
  */
+@Integration(modIds = "terrablender")
 public class TerraBlenderCompat {
 
     private static final String MOD_ID = "terrablender";
@@ -20,7 +24,8 @@ public class TerraBlenderCompat {
     private static boolean isUsingTerraBlender = false;
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static void registerBiomeProviderIfPresentUnsafe() {
+    @SubscribeEvent
+    public static void registerBiomeProviderIfPresentUnsafe(FMLCommonSetupEvent event) {
         if (!ModConfig.common().addVampireForestToOverworld.get()) {
             return;
         }
