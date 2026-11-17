@@ -62,7 +62,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    public void onRenderNamePlate(RenderNameTagEvent event) {
+    public void onRenderNamePlate(RenderNameTagEvent.CanRender event) {
 //        if (event.getEntity() instanceof Player) { TODO
 //            if (Helper.isWerewolf((Player) event.getEntity())) {
 //                WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
@@ -77,7 +77,7 @@ public class ClientEventHandler {
     @SubscribeEvent
     public void onPlayerRender(RenderPlayerEvent.Pre<?> event) {
         WerewolfRenderState werewolfState = WerewolfPlayerRenderer.getState(event.getRenderState());
-        ModPlayerRenderer renderer = WerewolvesModClient.getInstance().getModPlayerRenderer();
+        ModPlayerRenderer renderer = WerewolvesModClient.services().playerRenderer();
         if (werewolfState != null && renderer != null) {
             if (renderer.submit(werewolfState, event.getPoseStack(), event.getSubmitNodeCollector())) {
                 event.setCanceled(true);
@@ -87,7 +87,7 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void onRenderArm(RenderArmEvent event) {
-        ModPlayerRenderer renderer = WerewolvesModClient.getInstance().getModPlayerRenderer();
+        ModPlayerRenderer renderer = WerewolvesModClient.services().playerRenderer();
         if (renderer != null && Helper.isWerewolf(event.getPlayer()) && renderer.renderArm(event.getPlayer(), event.getPoseStack(), event.getSubmitNodeCollector(), event.getPackedLight(), event.getArm())) {
             event.setCanceled(true);
         }

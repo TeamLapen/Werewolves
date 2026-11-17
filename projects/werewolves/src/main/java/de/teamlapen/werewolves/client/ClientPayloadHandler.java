@@ -14,7 +14,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 public class ClientPayloadHandler {
 
     public static void handleAttackTargetEventPacket(ClientboundAttackTargetEventPacket msg, IPayloadContext context) {
-        context.enqueueWork(() -> WerewolvesModClient.getInstance().getModHUDOverlay().attackTriggered(msg.entityId()));
+        context.enqueueWork(() -> WerewolvesModClient.services().hudOverlay().attackTriggered(msg.entityId()));
     }
 
     public static void handleAddWolfsbaneEmitterPacket(ClientboundAddWolfsbaneEmitterPacket msg, IPayloadContext context) {

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.UnknownNullability;
 @Mod(REFERENCE.MODID)
 public class WerewolvesMod {
 
-    public static final Proxy proxy = FMLEnvironment.getDist() == Dist.CLIENT ? WerewolvesModClient.getProxy() : new ServerProxy();
+    public static final Proxy proxy = FMLEnvironment.getDist() == Dist.CLIENT ? WerewolvesModClient.createProxy() : new ServerProxy();
     @UnknownNullability
     private static CommonServices SERVICES;
     @UnknownNullability

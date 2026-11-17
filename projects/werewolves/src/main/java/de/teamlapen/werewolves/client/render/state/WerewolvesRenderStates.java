@@ -70,8 +70,8 @@ public class WerewolvesRenderStates {
             if (!humanTextures.isEmpty()) {
                 state.setRenderData(HUMAN_FORM_TEXTURE, humanTextures.get(WerewolfPlayer.get(player).getSkinType(WerewolfForm.HUMAN) % humanTextures.size()));
             }
-        } else if (form.isTransformed() && !form.isHumanLike() && WerewolvesModClient.getInstance().getModPlayerRenderer() != null) {
-            state.setRenderData(WEREWOLF_PLAYER, WerewolvesModClient.getInstance().getModPlayerRenderer().extract(player, form, state.partialTick));
+        } else if (form.isTransformed() && !form.isHumanLike() && WerewolvesModClient.services().playerRenderer() != null) {
+            state.setRenderData(WEREWOLF_PLAYER, WerewolvesModClient.services().playerRenderer().extract(player, form, state.partialTick));
         }
     }
 

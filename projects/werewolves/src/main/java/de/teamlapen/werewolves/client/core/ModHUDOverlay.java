@@ -28,7 +28,6 @@ import java.util.List;
 
 public class ModHUDOverlay {
 
-    private final Minecraft mc = Minecraft.getInstance();
     private final Identifier ICONS = WIdentifier.mod("textures/gui/hud.png");
     protected static final Identifier WIDGETS_TEX_PATH = WIdentifier.mc("textures/gui/widgets.png");
 
@@ -39,9 +38,13 @@ public class ModHUDOverlay {
     private int attackTargetScreenPercentage = 0;
     private int waitTicks = 0;
 
+    private Minecraft mc() {
+        return Minecraft.getInstance();
+    }
+
     @SubscribeEvent
     public void onClientTick(ClientTickEvent.Pre event) {
-        if (mc.player == null || !mc.player.isAlive()) {
+        if (mc() == null || mc().player == null || !mc().player.isAlive()) {
             this.screenPercentage = 0;
             this.attackTargetScreenPercentage = 0;
             this.entities.clear();
@@ -49,7 +52,7 @@ public class ModHUDOverlay {
             return;
         }
 
-        FactionPlayerHandler.getCurrentFactionPlayer(mc.player).filter(WerewolfPlayer.class::isInstance).ifPresentOrElse(player -> this.handleScreenColorWerewolf(((WerewolfPlayer) player)), () -> {
+        FactionPlayerHandler.getCurrentFactionPlayer(mc().player).filter(WerewolfPlayer.class::isInstance).ifPresentOrElse(player -> this.handleScreenColorWerewolf(((WerewolfPlayer) player)), () -> {
             this.screenPercentage = 0;
             this.attackTargetScreenPercentage = 0;
             this.waitTicks = 0;
@@ -59,7 +62,7 @@ public class ModHUDOverlay {
 
     @SubscribeEvent
     public void onRenderGui(RenderGuiLayerEvent.Pre event) {
-        if (mc.player == null || !mc.player.isAlive() || event.getName() != VanillaGuiLayers.CROSSHAIR) {
+        if (mc().player == null || !mc().player.isAlive() || event.getName() != VanillaGuiLayers.CROSSHAIR) {
             return;
         }
         this.renderCrosshair(event);
@@ -150,11 +153,11 @@ public class ModHUDOverlay {
 
     private void renderCrosshair(RenderGuiLayerEvent.Pre event) {
         if (ModConfig.client().disableFangCrosshairRendering.get()) return;
-        if (Helper.isWerewolf(this.mc.player)) {
+        if (Helper.isWerewolf(this.mc().player)) {
             HitResult result = Minecraft.getInstance().hitResult;
             LivingEntity entity = result instanceof EntityHitResult entityResult ? entityResult.getEntity() instanceof LivingEntity living ? living : null : null;
-            if (entity != null && WerewolfPlayer.get(mc.player).canBite()) {
-                renderFangs(event.getGuiGraphics(), this.mc.getWindow().getGuiScaledWidth(), this.mc.getWindow().getGuiScaledHeight(), entity);
+            if (entity != null && WerewolfPlayer.get(mc().player).canBite()) {
+                renderFangs(event.getGuiGraphics(), this.mc().getWindow().getGuiScaledWidth(), this.mc().getWindow().getGuiScaledHeight(), entity);
                 event.setCanceled(true);
             }
         }

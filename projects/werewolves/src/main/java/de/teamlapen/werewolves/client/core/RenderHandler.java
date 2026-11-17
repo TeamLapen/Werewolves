@@ -35,10 +35,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.ExtractLevelRenderStateEvent;
-import net.neoforged.neoforge.client.event.RegisterRenderBuffersEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import org.jetbrains.annotations.NotNull;
@@ -58,8 +55,6 @@ public class RenderHandler implements ResourceManagerReloadListener {
     private static final int VISION_FADE_TICKS = 30;
     private static final ContextKey<Integer> SENSE_COLOR = new ContextKey<>(WIdentifier.mod("sense_color"));
 
-    @Nonnull
-    private final Minecraft mc;
     private final SubmitNodeStorage nodeCollector = new SubmitNodeStorage();
     private final OutlineBufferSource noOp = new NoOpOutlineBufferSource();
     @UnknownNullability
@@ -69,8 +64,12 @@ public class RenderHandler implements ResourceManagerReloadListener {
     private int ticks;
     private int lastTicks;
 
-    public RenderHandler(@Nonnull Minecraft mc) {
-        this.mc = mc;
+    private Minecraft mc() {
+        return Minecraft.getInstance();
+    }
+
+    public void registerReloadListeners(AddClientReloadListenersEvent event) {
+        event.addListener(WIdentifier.mod("render_handler"), this);
     }
 
     public void createBuffers(RegisterRenderBuffersEvent event) {
@@ -95,9 +94,9 @@ public class RenderHandler implements ResourceManagerReloadListener {
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent.Pre event) {
-        if (this.mc.level == null || this.mc.player == null || !this.mc.player.isAlive()) return;
+        if (this.mc() == null || this.mc().level == null || this.mc().player == null || !this.mc().player.isAlive()) return;
         this.lastTicks = this.ticks;
-        if (Helper.isWerewolf(this.mc.player) && WerewolfPlayer.get(this.mc.player).getActionHandler().isActionActive(ModActions.SENSE)) {
+        if (Helper.isWerewolf(this.mc().player) && WerewolfPlayer.get(this.mc().player).getActionHandler().isActionActive(ModActions.SENSE)) {
             if (this.ticks < VISION_FADE_TICKS) {
                 this.ticks++;
             }
@@ -126,13 +125,13 @@ public class RenderHandler implements ResourceManagerReloadListener {
     @SubscribeEvent
     public void onRenderWorldLast(RenderLevelStageEvent.AfterWeather event) {
         if (!shouldRenderVision() || this.visionBuffer == null) return;
-        PostChain blur = this.mc.getShaderManager().getPostChain(Identifier.withDefaultNamespace("blur"), LevelTargetBundle.MAIN_TARGETS);
+        PostChain blur = this.mc().getShaderManager().getPostChain(Identifier.withDefaultNamespace("blur"), LevelTargetBundle.MAIN_TARGETS);
         if (blur == null) return;
-        blur.process(this.mc.getMainRenderTarget(), this.mc.gameRenderer.resourcePool);
+        blur.process(this.mc().getMainRenderTarget(), this.mc().gameRenderer.resourcePool);
 
         PoseStack poseStack = new PoseStack();
-        ModelPartFeatureRenderer parts = this.mc.gameRenderer.getFeatureRenderDispatcher().vampirism$modelPartFeatureRenderer();
-        ModelFeatureRenderer models = this.mc.gameRenderer.getFeatureRenderDispatcher().vampirism$modelFeatureFeatureRenderer();
+        ModelPartFeatureRenderer parts = this.mc().gameRenderer.getFeatureRenderDispatcher().vampirism$modelPartFeatureRenderer();
+        ModelFeatureRenderer models = this.mc().gameRenderer.getFeatureRenderDispatcher().vampirism$modelFeatureFeatureRenderer();
         EntityRenderDispatcher dispatcher = event.getLevelRenderer().vampirism$entityRenderDispatcher();
         float progress = getVisionProgress();
 
@@ -167,12 +166,12 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     private float getVisionProgress() {
-        float partialTicks = this.mc.getDeltaTracker().getGameTimeDeltaPartialTick(false);
+        float partialTicks = this.mc().getDeltaTracker().getGameTimeDeltaPartialTick(false);
         return Mth.clamp((ticks + (ticks - lastTicks) * partialTicks) / (float) VISION_FADE_TICKS, 0, 1);
     }
 
     private boolean shouldRenderVision() {
-        return this.ticks > 0 && this.mc.player != null;
+        return this.ticks > 0 && this.mc().player != null;
     }
 
     @Override
