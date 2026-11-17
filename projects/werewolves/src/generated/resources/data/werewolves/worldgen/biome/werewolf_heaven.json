@@ -89,7 +89,13 @@
     "axolotls": [],
     "creature": [],
     "misc": [],
-    "monster": [
+    "monster": [],
+    "underground_water_creature": [],
+    "vampirism:hunter": [],
+    "vampirism:vampire": [],
+    "water_ambient": [],
+    "water_creature": [],
+    "werewolves:werewolf": [
       {
         "type": "werewolves:alpha_werewolf",
         "maxCount": 1,
@@ -108,13 +114,7 @@
         "minCount": 1,
         "weight": 70
       }
-    ],
-    "underground_water_creature": [],
-    "vampirism:hunter": [],
-    "vampirism:vampire": [],
-    "water_ambient": [],
-    "water_creature": [],
-    "werewolves:werewolf": []
+    ]
   },
   "temperature": 0.3
 }

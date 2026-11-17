@@ -438,7 +438,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         });
         this.registerProperty(WIdentifier.mod("bite_ticks")).simple(0, () -> this.specialAttributes.biteTicks, x -> this.specialAttributes.biteTicks = x);
         this.registerProperty(WIdentifier.mod("transformation_time")).simple(0, () -> this.specialAttributes.transformationTime, x -> this.specialAttributes.transformationTime = x);
-        this.registerProperty(WIdentifier.mod("last_form_action")).simple(ModCodecs.action().optionalFieldOf("action").codec()).provider(() -> Optional.ofNullable(lastFormAction))
+        this.registerProperty(WIdentifier.mod("last_form_action")).simple(ModCodecs.action().optionalFieldOf("action").codec()).defaultValue(Optional.empty()).provider(() -> Optional.ofNullable(lastFormAction))
                 .serverLoader(x -> this.lastFormAction = (Holder<WerewolfFormAction>) x.filter(WerewolfFormAction.class::isInstance).orElse(null))
                 .clientLoader(x -> {
             var old = this.lastFormAction;

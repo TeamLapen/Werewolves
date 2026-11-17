@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.common.world.features;
 
+import de.teamlapen.werewolves.api.WEnums;
 import net.neoforged.neoforge.common.world.BiomeSpecialEffectsBuilder;
 
 import net.minecraft.world.attribute.AmbientSounds;
@@ -38,9 +39,9 @@ public class WerewolfForestBiome {
 
     public static MobSpawnSettings.Builder createMobSpawnBuilder() {
         return new MobSpawnSettings.Builder()
-                .addSpawn(MobCategory.MONSTER, 10, new MobSpawnSettings.SpawnerData(ModEntities.ALPHA_WEREWOLF.get(), 1, 1))
-                .addSpawn(MobCategory.MONSTER, 70, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_BEAST.get(), 1, 2))
-                .addSpawn(MobCategory.MONSTER, 70, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_SURVIVALIST.get(), 1, 2));
+                .addSpawn(WEnums.WEREWOLF_CATEGORY.getValue(), 10, new MobSpawnSettings.SpawnerData(ModEntities.ALPHA_WEREWOLF.get(), 1, 1))
+                .addSpawn(WEnums.WEREWOLF_CATEGORY.getValue(), 70, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_BEAST.get(), 1, 2))
+                .addSpawn(WEnums.WEREWOLF_CATEGORY.getValue(), 70, new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_SURVIVALIST.get(), 1, 2));
     }
 
     public static BiomeSpecialEffects.Builder createEffectBuilder() {

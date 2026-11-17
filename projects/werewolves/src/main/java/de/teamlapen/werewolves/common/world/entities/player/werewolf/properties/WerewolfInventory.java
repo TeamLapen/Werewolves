@@ -75,12 +75,12 @@ public class WerewolfInventory extends PropertyParentSync {
 
     @Override
     protected void registerProperties() {
-        registerProperty(WIdentifier.mod("form")).simple(WerewolfForm.CODEC).provider(() -> form).commonLoader(x -> {
+        registerProperty(WIdentifier.mod("form")).simple(WerewolfForm.CODEC).defaultValue(WerewolfForm.NONE).provider(() -> form).commonLoader(x -> {
             var old = this.form;
             this.form = x;
             return Objects.equals(old, this.form);
         }).register();
-        registerProperty(WIdentifier.mod("inventory")).simple(INVENTORY_CODEC).provider(() -> inventories).commonLoader(this::updateInventories).register();
+        registerProperty(WIdentifier.mod("inventory")).simple(INVENTORY_CODEC).defaultValue(new HashMap<>()).provider(() -> inventories).commonLoader(this::updateInventories).register();
     }
 
     /**

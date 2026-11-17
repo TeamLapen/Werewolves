@@ -149,7 +149,7 @@ public class ModSkills {
                     .parents(SKILL1)
                     .register(context);
             level(BEAST2, ModSkills.BEAST_FORM)
-                    .parents(BEAST2)
+                    .parents(BEAST1)
                     .register(context);
             level(BEAST3_1, ModSkills.DAMAGE)
                     .parents(BEAST2)
@@ -158,7 +158,7 @@ public class ModSkills {
                     .parents(BEAST2)
                     .register(context);
             level(BEAST4, ModSkills.STUN_BITE, ModSkills.BLEEDING_BITE)
-                    .parents(BEAST4)
+                    .parents(BEAST3)
                     .register(context);
             level(BEAST5, ModSkills.HEALTH_AFTER_KILL)
                     .parents(BEAST4)

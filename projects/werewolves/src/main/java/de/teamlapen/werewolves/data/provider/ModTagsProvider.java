@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.data.provider;
 
+import de.teamlapen.faction.api.factions.IFaction;
 import de.teamlapen.vampirism.common.tags.ModBiomeTags;
 
 import de.teamlapen.faction.api.FactionRegistries;
@@ -43,6 +44,7 @@ public class ModTagsProvider {
         gen.addProvider(true, new ModEntityTagProvider(output, future));
         gen.addProvider(true, new ModVillageTradesTagProvider(output, future));
         gen.addProvider(true, new ModSkillTreeTagsProvider(output, future));
+        gen.addProvider(true, new ModFactionTagProvider(output, future));
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
@@ -326,6 +328,19 @@ public class ModTagsProvider {
                     .add(ModTrades.WEREWOLF_EXPERT_5_EMERALD_LIVER)
                     .add(ModTrades.WEREWOLF_EXPERT_5_EMERALD_CRACKED_BONE)
                     ;
+        }
+    }
+
+    private static class ModFactionTagProvider extends KeyTagProvider<IFaction<?>> {
+
+        public ModFactionTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+            super(output, FactionRegistries.Keys.FACTION, lookupProvider, REFERENCE.MODID);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.Provider pProvider) {
+            this.tag(ModTags.Factions.IS_WEREWOLF).add(ModFactions.WEREWOLF.getRawKey());
+            this.tag(ModTags.Factions.WEREWOLF_MINION_TARGETS);
         }
     }
 }

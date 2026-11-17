@@ -5,7 +5,6 @@ import de.teamlapen.faction.api.event.AddFactionTagEvent;
 import de.teamlapen.werewolves.common.core.ModFactions;
 
 import de.teamlapen.faction.Services;
-import de.teamlapen.vampirism.common.util.Permissions;
 import de.teamlapen.werewolves.api.IWerewolvesServices;
 import de.teamlapen.werewolves.common.core.ModEntities;
 import de.teamlapen.werewolves.common.core.ModRegistryManager;
@@ -13,6 +12,7 @@ import de.teamlapen.werewolves.common.network.ModPacketDispatcher;
 import de.teamlapen.werewolves.common.world.ModWorldEventHandler;
 import de.teamlapen.werewolves.common.world.entities.ModEntityEventHandler;
 import de.teamlapen.werewolves.common.world.entities.player.ModPlayerEventHandler;
+import de.teamlapen.werewolves.util.Permissions;
 import net.neoforged.bus.api.IEventBus;
 import org.jetbrains.annotations.ApiStatus;
 

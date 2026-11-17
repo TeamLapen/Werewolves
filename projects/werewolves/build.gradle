@@ -124,7 +124,7 @@ def generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_id                 : werewolves_mod_id,
             mod_name               : werewolves_mod_name,
             mod_license            : werewolves_mod_license,
-            mod_version            : werewolves_version,
+            mod_version            : werewolves_mod_version,
             mod_authors            : werewolves_authors,
             mod_description        : werewolves_description,
             mod_issue_tracker      : werewolves_issue_tracker,
