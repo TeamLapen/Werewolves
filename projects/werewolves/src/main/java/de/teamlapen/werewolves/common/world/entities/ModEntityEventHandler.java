@@ -1,5 +1,7 @@
 package de.teamlapen.werewolves.common.world.entities;
 
+import de.teamlapen.werewolves.common.tags.ModDamageTypeTags;
+import de.teamlapen.werewolves.common.tags.ModItemTags;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 import net.minecraft.world.entity.EquipmentSlot;
@@ -18,7 +20,6 @@ import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModDamageTypes;
 import de.teamlapen.werewolves.common.core.ModSkills;
-import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.common.world.effects.SilverEffect;
 import de.teamlapen.werewolves.common.world.effects.WerewolfWeakeningEffect;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
@@ -70,7 +71,7 @@ public class ModEntityEventHandler {
     @SubscribeEvent
     public void onEntityAttacked(AttackEntityEvent event) {
         if (event.getTarget() instanceof LivingEntity && Helper.isWerewolf(event.getTarget())) {
-            if (event.getEntity().getMainHandItem().is(ModTags.Items.SILVER_TOOL)) {
+            if (event.getEntity().getMainHandItem().is(ModItemTags.SILVER_TOOL)) {
                 ((LivingEntity) event.getTarget()).addEffect(SilverEffect.createSilverEffect(((LivingEntity) event.getTarget()), ModConfig.balance().UTIL.silverItemEffectDuration.get(), 1));
             }
         }
@@ -160,7 +161,7 @@ public class ModEntityEventHandler {
 
     @SubscribeEvent
     public void onWerewolfAttackIncoming(LivingIncomingDamageEvent event) {
-        if (event.getSource().is(ModTags.DamageTypes.WEREWOLF_ARMOR_REDUCTION) && event.getSource().getEntity() instanceof Player player) {
+        if (event.getSource().is(ModDamageTypeTags.WEREWOLF_ARMOR_REDUCTION) && event.getSource().getEntity() instanceof Player player) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             checkBite(event, player, werewolf);
         }

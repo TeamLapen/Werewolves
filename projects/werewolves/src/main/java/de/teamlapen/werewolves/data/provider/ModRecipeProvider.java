@@ -1,12 +1,12 @@
 package de.teamlapen.werewolves.data.provider;
 
+import de.teamlapen.werewolves.common.tags.ModItemTags;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.common.collect.ImmutableList;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModBlocks;
 import de.teamlapen.werewolves.common.core.ModItems;
-import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.data.ModBlockFamilies;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
@@ -57,7 +57,7 @@ public class ModRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes() {
         TagKey<Item> sticks = Tags.Items.RODS_WOODEN;
-        TagKey<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
+        TagKey<Item> silver_ingot = ModItemTags.SILVER_INGOT;
         TagKey<Item> planks = ItemTags.PLANKS;
 
         ItemLike wolfsbane = ModBlocks.WOLFSBANE.get();
@@ -105,8 +105,8 @@ public class ModRecipeProvider extends RecipeProvider {
         oreSmelting(SILVER_SMELTABLES, RecipeCategory.MISC, CookingBookCategory.MISC, ModItems.SILVER_INGOT.get(), 0.7f, 200, "silver_ingot");
         oreBlasting(SILVER_SMELTABLES, RecipeCategory.MISC, CookingBookCategory.MISC, ModItems.SILVER_INGOT.get(), 0.7f, 100, "silver_ingot");
         Ingredient silverTools = Ingredient.of(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get(), ModItems.SILVER_SWORD.get());
-        SimpleCookingRecipeBuilder.smelting(silverTools, RecipeCategory.MISC, CookingBookCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 200).group("silver").unlockedBy("has_silver_tool", has(ModTags.Items.SILVER_TOOL)).save(output, modId("silver_nugget_from_smelting").toString());
-        SimpleCookingRecipeBuilder.blasting(silverTools, RecipeCategory.MISC, CookingBookCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 100).group("silver").unlockedBy("has_silver_tool", has(ModTags.Items.SILVER_TOOL)).save(output, modId("silver_nugget_from_blasting").toString());
+        SimpleCookingRecipeBuilder.smelting(silverTools, RecipeCategory.MISC, CookingBookCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 200).group("silver").unlockedBy("has_silver_tool", has(ModItemTags.SILVER_TOOL)).save(output, modId("silver_nugget_from_smelting").toString());
+        SimpleCookingRecipeBuilder.blasting(silverTools, RecipeCategory.MISC, CookingBookCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 100).group("silver").unlockedBy("has_silver_tool", has(ModItemTags.SILVER_TOOL)).save(output, modId("silver_nugget_from_blasting").toString());
 
         shaped(RecipeCategory.COMBAT, ModItems.SILVER_HELMET.get()).define('X', silver_ingot).pattern("XXX").pattern("X X").unlockedBy("has_silver_ingot", has(silver_ingot)).save(output);
         shaped(RecipeCategory.COMBAT, ModItems.SILVER_CHESTPLATE.get()).define('X', silver_ingot).pattern("X X").pattern("XXX").pattern("XXX").unlockedBy("has_silver_ingot", has(silver_ingot)).save(output);
@@ -118,8 +118,8 @@ public class ModRecipeProvider extends RecipeProvider {
         generateRecipes(ModBlockFamilies.JACARANDA_PLANKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateRecipes(ModBlockFamilies.MAGIC_PLANKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
-        planksFromLog( ModBlocks.JACARANDA_PLANKS.get(), ModTags.Items.JACARANDA_LOG, 4);
-        planksFromLog( ModBlocks.MAGIC_PLANKS.get(), ModTags.Items.MAGIC_LOG, 4);
+        planksFromLog( ModBlocks.JACARANDA_PLANKS.get(), ModItemTags.JACARANDA_LOG, 4);
+        planksFromLog( ModBlocks.MAGIC_PLANKS.get(), ModItemTags.MAGIC_LOG, 4);
         woodFromLogs( ModBlocks.JACARANDA_WOOD.get(), ModBlocks.JACARANDA_LOG.get());
         woodFromLogs( ModBlocks.MAGIC_WOOD.get(), ModBlocks.MAGIC_LOG.get());
         woodFromLogs( ModBlocks.STRIPPED_JACARANDA_WOOD.get(), ModBlocks.STRIPPED_JACARANDA_LOG.get());

@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.common.world.features;
 
 import com.mojang.serialization.MapCodec;
-
+import de.teamlapen.werewolves.common.tags.ModBiomeTags;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 
 import net.minecraft.core.Direction;
@@ -13,20 +13,17 @@ import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.world.blocks.WolfBerryBushBlock;
 import de.teamlapen.werewolves.common.config.CommonConfig;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModBlocks;
 import de.teamlapen.werewolves.common.core.ModEntities;
-import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
@@ -34,7 +31,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.util.valueproviders.*;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.block.Blocks;
@@ -170,13 +166,13 @@ public class WerewolvesBiomeFeatures {
     public static void createBiomeModifier(BootstrapContext<BiomeModifier> context) {
         HolderGetter<Biome> biomeLookup = context.lookup(Registries.BIOME);
         HolderGetter<PlacedFeature> placedFeatureLookup = context.lookup(Registries.PLACED_FEATURE);
-        context.register(WEREWOLF_SPAWN, new BiomeModifiers.AddSpawnsBiomeModifier(biomeLookup.getOrThrow(ModTags.Biomes.HasSpawn.WEREWOLF), WeightedList.<MobSpawnSettings.SpawnerData>builder().add(new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_BEAST.get(), 1, 2), 80).add(new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_SURVIVALIST.get(), 1, 2), 80).build()));
-        context.register(HUMAN_WEREWOLF_SPAWN, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(biomeLookup.getOrThrow(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF), new Weighted<>(new MobSpawnSettings.SpawnerData(ModEntities.HUMAN_WEREWOLF.get(), 1, 1), 5)));
+        context.register(WEREWOLF_SPAWN, new BiomeModifiers.AddSpawnsBiomeModifier(biomeLookup.getOrThrow(ModBiomeTags.HasSpawn.WEREWOLF), WeightedList.<MobSpawnSettings.SpawnerData>builder().add(new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_BEAST.get(), 1, 2), 80).add(new MobSpawnSettings.SpawnerData(ModEntities.WEREWOLF_SURVIVALIST.get(), 1, 2), 80).build()));
+        context.register(HUMAN_WEREWOLF_SPAWN, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(biomeLookup.getOrThrow(ModBiomeTags.HasSpawn.HUMAN_WEREWOLF), new Weighted<>(new MobSpawnSettings.SpawnerData(ModEntities.HUMAN_WEREWOLF.get(), 1, 1), 5)));
         // the vampirism ExtendedAddSpawnsBiomeModifier no longer exists, the exclusion tags are now applied by removing the spawns again
-        context.register(WEREWOLF_SPAWN_EXCLUSION, new BiomeModifiers.RemoveSpawnsBiomeModifier(biomeLookup.getOrThrow(ModTags.Biomes.NoSpawn.WEREWOLF), HolderSet.direct(ModEntities.WEREWOLF_BEAST, ModEntities.WEREWOLF_SURVIVALIST)));
-        context.register(HUMAN_WEREWOLF_SPAWN_EXCLUSION, new BiomeModifiers.RemoveSpawnsBiomeModifier(biomeLookup.getOrThrow(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF), HolderSet.direct(ModEntities.HUMAN_WEREWOLF)));
-        context.register(SILVER_ORE_GEN, new BiomeModifiers.AddFeaturesBiomeModifier(biomeLookup.getOrThrow(ModTags.Biomes.HasGen.SILVER_ORE), HolderSet.direct(placedFeatureLookup.getOrThrow(WerewolvesBiomeFeatures.SILVER_ORE_PLACED)), GenerationStep.Decoration.UNDERGROUND_ORES));
-        context.register(WOLFSBANE_GEN, new BiomeModifiers.AddFeaturesBiomeModifier(biomeLookup.getOrThrow(ModTags.Biomes.HasGen.WOLFSBANE), HolderSet.direct(placedFeatureLookup.getOrThrow(WerewolvesBiomeFeatures.WOLFSBANE_PLACED)), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(WEREWOLF_SPAWN_EXCLUSION, new BiomeModifiers.RemoveSpawnsBiomeModifier(biomeLookup.getOrThrow(ModBiomeTags.NoSpawn.WEREWOLF), HolderSet.direct(ModEntities.WEREWOLF_BEAST, ModEntities.WEREWOLF_SURVIVALIST)));
+        context.register(HUMAN_WEREWOLF_SPAWN_EXCLUSION, new BiomeModifiers.RemoveSpawnsBiomeModifier(biomeLookup.getOrThrow(ModBiomeTags.NoSpawn.HUMAN_WEREWOLF), HolderSet.direct(ModEntities.HUMAN_WEREWOLF)));
+        context.register(SILVER_ORE_GEN, new BiomeModifiers.AddFeaturesBiomeModifier(biomeLookup.getOrThrow(ModBiomeTags.HasGen.SILVER_ORE), HolderSet.direct(placedFeatureLookup.getOrThrow(WerewolvesBiomeFeatures.SILVER_ORE_PLACED)), GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(WOLFSBANE_GEN, new BiomeModifiers.AddFeaturesBiomeModifier(biomeLookup.getOrThrow(ModBiomeTags.HasGen.WOLFSBANE), HolderSet.direct(placedFeatureLookup.getOrThrow(WerewolvesBiomeFeatures.WOLFSBANE_PLACED)), GenerationStep.Decoration.VEGETAL_DECORATION));
     }
 
     private static List<PlacementModifier> orePlacement(PlacementModifier p_195347_, PlacementModifier p_195348_) {

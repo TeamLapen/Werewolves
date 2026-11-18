@@ -6,7 +6,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfDataholder;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModBiomes;
-import de.teamlapen.werewolves.common.core.ModTags;
+import de.teamlapen.werewolves.common.tags.ModBiomeTags;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.actions.WerewolfFormAction;
 import net.minecraft.core.BlockPos;
@@ -39,7 +39,7 @@ public class FormHelper {
 
     public static boolean isInWerewolfBiome(LevelAccessor world, BlockPos pos) {
         Holder<Biome> biome = world.getBiome(pos);
-        return biome.is(ModTags.Biomes.IS_WEREWOLF_BIOME) || world.getBiome(pos).unwrapKey().map(ResourceKey::identifier).map(noWerewolfFormTickingBiomes::contains).orElse(false);
+        return biome.is(ModBiomeTags.IS_WEREWOLF_BIOME) || world.getBiome(pos).unwrapKey().map(ResourceKey::identifier).map(noWerewolfFormTickingBiomes::contains).orElse(false);
     }
 
     public static WerewolfForm getForm(LivingEntity entity) {

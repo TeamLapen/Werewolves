@@ -5,6 +5,9 @@ import de.teamlapen.faction.common.components.FactionRestriction;
 import de.teamlapen.faction.common.world.items.RefinementItem;
 import de.teamlapen.library.api.world.items.IItemWithTier;
 import de.teamlapen.faction.common.world.items.consume.FactionFoodList;
+import de.teamlapen.werewolves.common.tags.ModBlockTags;
+import de.teamlapen.werewolves.common.tags.ModFactionsTags;
+import de.teamlapen.werewolves.common.tags.ModItemTags;
 import net.minecraft.world.item.component.Consumables;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.world.items.*;
@@ -29,7 +32,7 @@ import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class ModItems {
-    public static final ToolMaterial SILVER = new ToolMaterial(ModTags.Blocks.INCORRECT_FOR_SILVER_TOOL, 250,6.0f,2f,14, ModTags.Items.SILVER_REPAIRABLE);
+    public static final ToolMaterial SILVER = new ToolMaterial(ModBlockTags.INCORRECT_FOR_SILVER_TOOL, 250,6.0f,2f,14, ModItemTags.SILVER_REPAIRABLE);
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(REFERENCE.MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, REFERENCE.MODID);
@@ -68,9 +71,9 @@ public class ModItems {
     public static final DeferredItem<SpawnEggItem> HUMAN_WEREWOLF_SPAWN_EGG = ITEMS.registerItem("human_werewolf_spawn_egg",SpawnEggItem::new,(x) -> x.spawnEgg(ModEntities.HUMAN_WEREWOLF.get()));
     public static final DeferredItem<SpawnEggItem> ALPHA_WEREWOLF_SPAWN_EGG = ITEMS.registerItem("alpha_werewolf_spawn_egg", SpawnEggItem::new,(x) -> x.spawnEgg(ModEntities.ALPHA_WEREWOLF.get()));
 
-    public static final DeferredItem<RefinementItem> BONE_NECKLACE = ITEMS.registerItem("bone_necklace", (props) -> new RefinementItem(props, IRefinementItem.AccessorySlotType.AMULET), p -> FactionRestriction.builder(ModTags.Factions.IS_WEREWOLF).apply(p));
-    public static final DeferredItem<RefinementItem> CHARM_BRACELET = ITEMS.registerItem("charm_bracelet", (props) -> new RefinementItem(props, IRefinementItem.AccessorySlotType.RING), p -> FactionRestriction.builder(ModTags.Factions.IS_WEREWOLF).apply(p));
-    public static final DeferredItem<RefinementItem> DREAM_CATCHER = ITEMS.registerItem("dream_catcher", (props) -> new RefinementItem(props, IRefinementItem.AccessorySlotType.OBI_BELT), p -> FactionRestriction.builder(ModTags.Factions.IS_WEREWOLF).apply(p));
+    public static final DeferredItem<RefinementItem> BONE_NECKLACE = ITEMS.registerItem("bone_necklace", (props) -> new RefinementItem(props, IRefinementItem.AccessorySlotType.AMULET), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
+    public static final DeferredItem<RefinementItem> CHARM_BRACELET = ITEMS.registerItem("charm_bracelet", (props) -> new RefinementItem(props, IRefinementItem.AccessorySlotType.RING), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
+    public static final DeferredItem<RefinementItem> DREAM_CATCHER = ITEMS.registerItem("dream_catcher", (props) -> new RefinementItem(props, IRefinementItem.AccessorySlotType.OBI_BELT), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
 
     public static final DeferredItem<SilverArmorItem> SILVER_HELMET = ITEMS.registerItem("silver_helmet", (props) -> new SilverArmorItem(ArmorType.HELMET, props.durability(ArmorType.CHESTPLATE.getDurability(15))));
     public static final DeferredItem<SilverArmorItem> SILVER_CHESTPLATE = ITEMS.registerItem("silver_chestplate", (props) -> new SilverArmorItem(ArmorType.CHESTPLATE, props.durability(ArmorType.CHESTPLATE.getDurability(15))));

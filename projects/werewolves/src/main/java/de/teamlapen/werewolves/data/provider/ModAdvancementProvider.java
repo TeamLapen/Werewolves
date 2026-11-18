@@ -2,11 +2,10 @@ package de.teamlapen.werewolves.data.provider;
 
 import de.teamlapen.faction.common.advancements.criterion.FactionCriterionTrigger;
 import de.teamlapen.faction.common.advancements.criterion.FactionSubPredicate;
-import de.teamlapen.faction.common.advancements.criterion.LordCriterionTrigger;
 import de.teamlapen.werewolves.common.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.*;
-import de.teamlapen.werewolves.util.REFERENCE;
+import de.teamlapen.werewolves.common.tags.ModItemTags;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.criterion.*;
 import net.minecraft.core.HolderLookup;
@@ -22,7 +21,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -168,7 +166,7 @@ public class ModAdvancementProvider extends AdvancementProvider {
             var silver_hand = Advancement.Builder.advancement()
                     .parent(natural_succession)
                     .display(ModItems.SILVER_SWORD.get(), Component.translatable("advancements.werewolves.silver_hand"), Component.translatable("advancements.werewolves.silver_hand.desc"), null, AdvancementType.TASK, true, true, false)
-                    .addCriterion("killed", KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().subPredicate(FactionSubPredicate.faction(ModFactions.WEREWOLF)), new DamageSourcePredicate.Builder().direct(new EntityPredicate.Builder().equipment(new EntityEquipmentPredicate.Builder().mainhand(ItemPredicate.Builder.item().of(items, de.teamlapen.werewolves.common.core.ModTags.Items.SILVER_ITEM))))))
+                    .addCriterion("killed", KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().subPredicate(FactionSubPredicate.faction(ModFactions.WEREWOLF)), new DamageSourcePredicate.Builder().direct(new EntityPredicate.Builder().equipment(new EntityEquipmentPredicate.Builder().mainhand(ItemPredicate.Builder.item().of(items, ModItemTags.SILVER_ITEM))))))
                     .save(saver, WIdentifier.mod("silver_hand"));
 
         }

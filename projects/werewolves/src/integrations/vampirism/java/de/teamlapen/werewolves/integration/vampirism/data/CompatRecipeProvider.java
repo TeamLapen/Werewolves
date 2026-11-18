@@ -3,12 +3,10 @@ package de.teamlapen.werewolves.integration.vampirism.data;
 import de.teamlapen.vampirism.api.world.items.oil.IOil;
 import de.teamlapen.vampirism.common.world.entity.player.hunter.skills.HunterSkills;
 import de.teamlapen.vampirism.data.builder.AlchemyTableRecipeBuilder;
-import de.teamlapen.vampirism.data.provider.ModRecipeProvider;
 import de.teamlapen.vampirism.data.provider.base.VampirismRecipeProvider;
 import de.teamlapen.werewolves.api.WIdentifier;
-import de.teamlapen.werewolves.common.core.ModBlocks;
 import de.teamlapen.werewolves.common.core.ModItems;
-import de.teamlapen.werewolves.common.core.ModTags;
+import de.teamlapen.werewolves.common.tags.ModItemTags;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatBlocks;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatItems;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatOils;
@@ -24,9 +22,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.concurrent.CompletableFuture;
@@ -49,11 +45,11 @@ public class CompatRecipeProvider extends VampirismRecipeProvider {
 
         alchemyTable(CompatOils.SILVER_OIL_1)
                 .bloodOilIngredient()
-                .input(Ingredient.of(this.itemLookup.getOrThrow(ModTags.Items.SILVER_INGOT))).unlockedBy("has_silver_ingot", has(ModTags.Items.SILVER_INGOT))
+                .input(Ingredient.of(this.itemLookup.getOrThrow(ModItemTags.SILVER_INGOT))).unlockedBy("has_silver_ingot", has(ModItemTags.SILVER_INGOT))
                 .save(output, modId("silver_oil_1").toString());
         alchemyTable(CompatOils.SILVER_OIL_2)
                 .oilIngredient(CompatOils.SILVER_OIL_1).unlockedBy("has_silver_oil_1", has(de.teamlapen.vampirism.common.core.ModItems.OIL_BOTTLE.get()))
-                .input(Ingredient.of(this.itemLookup.getOrThrow(ModTags.Items.SILVER_INGOT))).unlockedBy("has_silver_ingot", has(ModTags.Items.SILVER_INGOT))
+                .input(Ingredient.of(this.itemLookup.getOrThrow(ModItemTags.SILVER_INGOT))).unlockedBy("has_silver_ingot", has(ModItemTags.SILVER_INGOT))
                 .save(output, modId("silver_oil_2").toString());
 
         cauldronRecipe(CompatItems.WOLFSBANE_DIFFUSER_CORE).withIngredient(ItemTags.WOOL).withFluid(ModItems.WOLFSBANE).withSkills(HunterSkills.REFINED_GARLIC).save(output);

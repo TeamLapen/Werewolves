@@ -2,32 +2,27 @@ package de.teamlapen.werewolves.common.world.entities.minion;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import de.teamlapen.faction.api.FactionDataComponents;
 import de.teamlapen.faction.api.factions.IFaction;
 import de.teamlapen.faction.api.factions.IFactionEntity;
 import de.teamlapen.faction.api.factions.IFactionPredicate;
 import de.teamlapen.faction.api.world.entities.minion.MinionAppearance;
-import de.teamlapen.faction.common.components.FactionRestriction;
 import de.teamlapen.faction.common.factions.minions.MinionData;
 import de.teamlapen.faction.common.factions.minions.MinionEntity;
 import de.teamlapen.werewolves.WerewolvesMod;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.common.core.ModDataComponents;
 import de.teamlapen.werewolves.common.core.ModFactions;
-import de.teamlapen.werewolves.common.core.ModTags;
+import de.teamlapen.werewolves.common.tags.ModFactionsTags;
 import de.teamlapen.werewolves.common.server.command.arguments.WerewolfFormArgument;
 import de.teamlapen.werewolves.common.world.entities.werewolf.BasicWerewolfEntity;
 import de.teamlapen.werewolves.common.world.items.WerewolfMinionUpgradeItem;
 import de.teamlapen.werewolves.util.Helper;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.monster.Creeper;
@@ -38,8 +33,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Predicate;
 
 public class WerewolfMinionEntity extends MinionEntity implements IWerewolf {
 
@@ -52,7 +45,7 @@ public class WerewolfMinionEntity extends MinionEntity implements IWerewolf {
     }
 
     public WerewolfMinionEntity(EntityType<? extends MinionEntity> type, Level world) {
-        super(type, world, IFactionPredicate.defaultTargets(ModFactions.WEREWOLF).targetFaction(ModTags.Factions.WEREWOLF_MINION_TARGETS).build().or(e -> !(e instanceof IFactionEntity) && (e instanceof Enemy) && !(e instanceof Creeper)));
+        super(type, world, IFactionPredicate.defaultTargets(ModFactions.WEREWOLF).targetFaction(ModFactionsTags.WEREWOLF_MINION_TARGETS).build().or(e -> !(e instanceof IFactionEntity) && (e instanceof Enemy) && !(e instanceof Creeper)));
     }
 
     @Override

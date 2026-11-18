@@ -5,7 +5,7 @@ import de.teamlapen.library.api.world.items.IItemWithTier;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.items.IWerewolfArmor;
-import de.teamlapen.werewolves.common.core.ModTags;
+import de.teamlapen.werewolves.common.tags.ModFactionsTags;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -27,7 +27,7 @@ public class WolfPeltArmorItem extends Item implements IWerewolfArmor, IItemWith
             case NORMAL -> 15;
             case ENHANCED -> 25;
             case ULTIMATE -> 35;
-        })).factions$restrictFaction(ModTags.Factions.IS_WEREWOLF));
+        })).factions$restrictFaction(ModFactionsTags.IS_WEREWOLF));
         this.tier = tier;
     }
 

@@ -6,15 +6,13 @@ import de.teamlapen.faction.api.factions.skills.ISkillTree;
 import de.teamlapen.faction.api.factions.tasks.Task;
 import de.teamlapen.faction.common.tags.FactionPoiTypeTags;
 import de.teamlapen.werewolves.common.core.*;
-import de.teamlapen.werewolves.common.world.entities.player.werewolf.skill.WerewolfSkill;
+import de.teamlapen.werewolves.common.tags.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.*;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.*;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -54,7 +52,7 @@ public class ModTagsProvider {
         @SuppressWarnings("unchecked")
         @Override
         protected void addTags(HolderLookup.Provider holderLookup) {
-            this.tag(ModTags.Blocks.SILVER_ORE).add(ModBlocks.SILVER_ORE.get(), ModBlocks.DEEPSLATE_SILVER_ORE.get());
+            this.tag(ModBlockTags.SILVER_ORE).add(ModBlocks.SILVER_ORE.get(), ModBlocks.DEEPSLATE_SILVER_ORE.get());
             this.tag(BlockTags.LOGS).add(ModBlocks.JACARANDA_LOG.get(), ModBlocks.MAGIC_LOG.get());
             this.tag(BlockTags.SAPLINGS).add(ModBlocks.JACARANDA_SAPLING.get(), ModBlocks.MAGIC_SAPLING.get());
             this.tag(BlockTags.LEAVES).add(ModBlocks.JACARANDA_LEAVES.get(), ModBlocks.MAGIC_LEAVES.get());
@@ -64,10 +62,10 @@ public class ModTagsProvider {
             this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.JACARANDA_LOG.get(), ModBlocks.MAGIC_LOG.get(), ModBlocks.MAGIC_PLANKS.get());
             this.tag(BlockTags.NEEDS_STONE_TOOL).add(ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModBlocks.SILVER_ORE.get(), ModBlocks.SILVER_BLOCK.get(), ModBlocks.RAW_SILVER_BLOCK.get());
             this.tag(Tags.Blocks.ORE_RATES_SINGULAR).add(ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModBlocks.SILVER_ORE.get());
-            this.tag(ModTags.Blocks.STORAGE_BLOCKS_SILVER).add(ModBlocks.SILVER_BLOCK.get());
-            this.tag(ModTags.Blocks.STORAGE_BLOCKS_RAW_SILVER).add(ModBlocks.RAW_SILVER_BLOCK.get());
-            this.tag(ModTags.Blocks.MAGIC_LOG).add(ModBlocks.MAGIC_LOG.get(), ModBlocks.STRIPPED_MAGIC_LOG.get(), ModBlocks.MAGIC_WOOD.get(), ModBlocks.STRIPPED_MAGIC_WOOD.get());
-            this.tag(ModTags.Blocks.JACARANDA_LOG).add(ModBlocks.JACARANDA_LOG.get(), ModBlocks.STRIPPED_JACARANDA_LOG.get(), ModBlocks.JACARANDA_WOOD.get(), ModBlocks.STRIPPED_JACARANDA_WOOD.get());
+            this.tag(ModBlockTags.STORAGE_BLOCKS_SILVER).add(ModBlocks.SILVER_BLOCK.get());
+            this.tag(ModBlockTags.STORAGE_BLOCKS_RAW_SILVER).add(ModBlocks.RAW_SILVER_BLOCK.get());
+            this.tag(ModBlockTags.MAGIC_LOG).add(ModBlocks.MAGIC_LOG.get(), ModBlocks.STRIPPED_MAGIC_LOG.get(), ModBlocks.MAGIC_WOOD.get(), ModBlocks.STRIPPED_MAGIC_WOOD.get());
+            this.tag(ModBlockTags.JACARANDA_LOG).add(ModBlocks.JACARANDA_LOG.get(), ModBlocks.STRIPPED_JACARANDA_LOG.get(), ModBlocks.JACARANDA_WOOD.get(), ModBlocks.STRIPPED_JACARANDA_WOOD.get());
             this.tag(BlockTags.FLOWER_POTS).add(ModBlocks.POTTED_WOLFSBANE.get(), ModBlocks.POTTED_DAFFODIL.get());
 
             tag(BlockTags.LEAVES).add(ModBlocks.JACARANDA_LEAVES.get(), ModBlocks.MAGIC_LEAVES.get());
@@ -79,8 +77,8 @@ public class ModTagsProvider {
             tag(BlockTags.WOODEN_STAIRS).add(ModBlocks.JACARANDA_STAIRS.get(), ModBlocks.MAGIC_STAIRS.get());
             tag(BlockTags.WOODEN_SLABS).add(ModBlocks.JACARANDA_SLAB.get(), ModBlocks.MAGIC_SLAB.get());
             tag(BlockTags.WOODEN_FENCES).add(ModBlocks.JACARANDA_FENCE.get(), ModBlocks.MAGIC_FENCE.get());
-            tag(BlockTags.LOGS_THAT_BURN).addTags(ModTags.Blocks.MAGIC_LOG, ModTags.Blocks.JACARANDA_LOG);
-            tag(BlockTags.LOGS).addTags(ModTags.Blocks.MAGIC_LOG, ModTags.Blocks.JACARANDA_LOG);
+            tag(BlockTags.LOGS_THAT_BURN).addTags(ModBlockTags.MAGIC_LOG, ModBlockTags.JACARANDA_LOG);
+            tag(BlockTags.LOGS).addTags(ModBlockTags.MAGIC_LOG, ModBlockTags.JACARANDA_LOG);
             tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ModBlocks.JACARANDA_PRESSURE_PLATE.get(), ModBlocks.MAGIC_PRESSURE_PLATE.get());
             tag(BlockTags.WOODEN_DOORS).add(ModBlocks.JACARANDA_DOOR.get(), ModBlocks.MAGIC_DOOR.get());
             tag(BlockTags.WOODEN_TRAPDOORS).add(ModBlocks.JACARANDA_TRAPDOOR.get(), ModBlocks.MAGIC_TRAPDOOR.get());
@@ -97,7 +95,7 @@ public class ModTagsProvider {
             this.tag(BlockTags.NEEDS_IRON_TOOL)
             ;
 
-            this.tag(ModTags.Blocks.INCORRECT_FOR_SILVER_TOOL).addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+            this.tag(ModBlockTags.INCORRECT_FOR_SILVER_TOOL).addTag(BlockTags.NEEDS_DIAMOND_TOOL);
         }
     }
 
@@ -108,11 +106,11 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider holderProvider) {
-            this.copy(ModTags.Blocks.SILVER_ORE, ModTags.Items.SILVER_ORE);
-            this.copy(ModTags.Blocks.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER);
-            this.copy(ModTags.Blocks.STORAGE_BLOCKS_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER);
-            this.copy(ModTags.Blocks.MAGIC_LOG, ModTags.Items.MAGIC_LOG);
-            this.copy(ModTags.Blocks.JACARANDA_LOG, ModTags.Items.JACARANDA_LOG);
+            this.copy(ModBlockTags.SILVER_ORE, ModItemTags.SILVER_ORE);
+            this.copy(ModBlockTags.STORAGE_BLOCKS_RAW_SILVER, ModItemTags.STORAGE_BLOCKS_RAW_SILVER);
+            this.copy(ModBlockTags.STORAGE_BLOCKS_SILVER, ModItemTags.STORAGE_BLOCKS_SILVER);
+            this.copy(ModBlockTags.MAGIC_LOG, ModItemTags.MAGIC_LOG);
+            this.copy(ModBlockTags.JACARANDA_LOG, ModItemTags.JACARANDA_LOG);
             this.copy(Tags.Blocks.ORE_RATES_SINGULAR, Tags.Items.ORE_RATES_SINGULAR);
             this.copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
             this.copy(BlockTags.LOGS, ItemTags.LOGS);
@@ -127,14 +125,14 @@ public class ModTagsProvider {
             this.copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
             this.copy(BlockTags.LEAVES, ItemTags.LEAVES);
 
-            this.tag(ModTags.Items.SILVER_INGOT).add(ModItems.SILVER_INGOT.get());
-            this.tag(ModTags.Items.SILVER_NUGGET).add(ModItems.SILVER_NUGGET.get());
-            this.tag(ModTags.Items.RAW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.LIVER.get(), Items.SALMON, Items.TROPICAL_FISH, Items.COD);
-            this.tag(ModTags.Items.COOKED_MEAT).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
-            this.tag(ModTags.Items.RAW_FISH).add(Items.COD, Items.SALMON, Items.PUFFERFISH, Items.TROPICAL_FISH);
-            this.tag(ModTags.Items.COOKED_FISH).add(Items.COOKED_COD, Items.COOKED_SALMON);
-            this.tag(ModTags.Items.SILVER_TOOL).add(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_SWORD.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get());
-            this.tag(ModTags.Items.RAW_MATERIALS_SILVER).add(ModItems.RAW_SILVER.get());
+            this.tag(ModItemTags.SILVER_INGOT).add(ModItems.SILVER_INGOT.get());
+            this.tag(ModItemTags.SILVER_NUGGET).add(ModItems.SILVER_NUGGET.get());
+            this.tag(ModItemTags.RAW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.LIVER.get(), Items.SALMON, Items.TROPICAL_FISH, Items.COD);
+            this.tag(ModItemTags.COOKED_MEAT).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
+            this.tag(ModItemTags.RAW_FISH).add(Items.COD, Items.SALMON, Items.PUFFERFISH, Items.TROPICAL_FISH);
+            this.tag(ModItemTags.COOKED_FISH).add(Items.COOKED_COD, Items.COOKED_SALMON);
+            this.tag(ModItemTags.SILVER_TOOL).add(ModItems.SILVER_AXE.get(), ModItems.SILVER_HOE.get(), ModItems.SILVER_SWORD.get(), ModItems.SILVER_PICKAXE.get(), ModItems.SILVER_SHOVEL.get());
+            this.tag(ModItemTags.RAW_MATERIALS_SILVER).add(ModItems.RAW_SILVER.get());
             this.tag(ItemTags.SMALL_FLOWERS).add(ModBlocks.WOLFSBANE.get().asItem(), ModBlocks.DAFFODIL.get().asItem());
             tag(ItemTags.BOATS).add(ModItems.JACARANDA_BOAT.get(), ModItems.MAGIC_BOAT.get());
             tag(ItemTags.CHEST_BOATS).add(ModItems.JACARANDA_CHEST_BOAT.get(), ModItems.MAGIC_CHEST_BOAT.get());
@@ -146,15 +144,15 @@ public class ModTagsProvider {
 //            this.tags(ModTags.Items.RAW_FISH, "forge:raw_fishes");
 //            this.tags(ModTags.Items.COOKED_MEAT, "forge:cooked_bacon", "forge:cooked_beef", "forge:cooked_chicken", "forge:cooked_mutton", "forge:cooked_pork");
 //            this.tags(ModTags.Items.COOKED_FISH, "forge:cooked_fishes");
-            this.tag(ModTags.Items.WOLF_PELT_ARMOR_NORMAL).add(ModItems.PELT_HELMET.get(), ModItems.PELT_CHESTPLATE.get(), ModItems.PELT_LEGGINGS.get(), ModItems.PELT_BOOTS.get());
-            this.tag(ModTags.Items.WOLF_PELT_ARMOR_ENHANCED).add(ModItems.DARK_PELT_HELMET.get(), ModItems.DARK_PELT_CHESTPLATE.get(), ModItems.DARK_PELT_LEGGINGS.get(), ModItems.DARK_PELT_BOOTS.get());
-            this.tag(ModTags.Items.WOLF_PELT_ARMOR_ULTIMATE).add(ModItems.WHITE_PELT_HELMET.get(), ModItems.WHITE_PELT_CHESTPLATE.get(), ModItems.WHITE_PELT_LEGGINGS.get(), ModItems.WHITE_PELT_BOOTS.get());
-            this.tag(ModTags.Items.WOLF_PELT_ARMOR).addTags(ModTags.Items.WOLF_PELT_ARMOR_NORMAL, ModTags.Items.WOLF_PELT_ARMOR_ENHANCED, ModTags.Items.WOLF_PELT_ARMOR_ULTIMATE);
-            this.tag(ModTags.Items.SILVER_ARMOR).add(ModItems.SILVER_CHESTPLATE.get(), ModItems.SILVER_HELMET.get(), ModItems.SILVER_LEGGINGS.get(), ModItems.SILVER_BOOTS.get());
-            this.tag(ModTags.Items.SILVER_ITEM).addTags(ModTags.Items.SILVER_INGOT, ModTags.Items.SILVER_TOOL, ModTags.Items.SILVER_NUGGET, ModTags.Items.RAW_MATERIALS_SILVER, ModTags.Items.STORAGE_BLOCKS_RAW_SILVER, ModTags.Items.STORAGE_BLOCKS_SILVER, ModTags.Items.SILVER_ARMOR);
-            this.tag(ModTags.Items.RAW_FOOD).addTags(ModTags.Items.RAW_MEAT, ModTags.Items.RAW_FISH);
-            this.tag(ModTags.Items.COOKED_FOOD).addTags(ModTags.Items.COOKED_MEAT, ModTags.Items.COOKED_FISH);
-            this.tag(ModTags.Items.WEREWOLF_FOOD).addTags(ModTags.Items.RAW_FOOD, ModTags.Items.COOKED_FISH).addTag(ItemTags.MEAT).add(ModItems.WOLF_BERRIES.get(), Items.SWEET_BERRIES, Items.GLOW_BERRIES);
+            this.tag(ModItemTags.WOLF_PELT_ARMOR_NORMAL).add(ModItems.PELT_HELMET.get(), ModItems.PELT_CHESTPLATE.get(), ModItems.PELT_LEGGINGS.get(), ModItems.PELT_BOOTS.get());
+            this.tag(ModItemTags.WOLF_PELT_ARMOR_ENHANCED).add(ModItems.DARK_PELT_HELMET.get(), ModItems.DARK_PELT_CHESTPLATE.get(), ModItems.DARK_PELT_LEGGINGS.get(), ModItems.DARK_PELT_BOOTS.get());
+            this.tag(ModItemTags.WOLF_PELT_ARMOR_ULTIMATE).add(ModItems.WHITE_PELT_HELMET.get(), ModItems.WHITE_PELT_CHESTPLATE.get(), ModItems.WHITE_PELT_LEGGINGS.get(), ModItems.WHITE_PELT_BOOTS.get());
+            this.tag(ModItemTags.WOLF_PELT_ARMOR).addTags(ModItemTags.WOLF_PELT_ARMOR_NORMAL, ModItemTags.WOLF_PELT_ARMOR_ENHANCED, ModItemTags.WOLF_PELT_ARMOR_ULTIMATE);
+            this.tag(ModItemTags.SILVER_ARMOR).add(ModItems.SILVER_CHESTPLATE.get(), ModItems.SILVER_HELMET.get(), ModItems.SILVER_LEGGINGS.get(), ModItems.SILVER_BOOTS.get());
+            this.tag(ModItemTags.SILVER_ITEM).addTags(ModItemTags.SILVER_INGOT, ModItemTags.SILVER_TOOL, ModItemTags.SILVER_NUGGET, ModItemTags.RAW_MATERIALS_SILVER, ModItemTags.STORAGE_BLOCKS_RAW_SILVER, ModItemTags.STORAGE_BLOCKS_SILVER, ModItemTags.SILVER_ARMOR);
+            this.tag(ModItemTags.RAW_FOOD).addTags(ModItemTags.RAW_MEAT, ModItemTags.RAW_FISH);
+            this.tag(ModItemTags.COOKED_FOOD).addTags(ModItemTags.COOKED_MEAT, ModItemTags.COOKED_FISH);
+            this.tag(ModItemTags.WEREWOLF_FOOD).addTags(ModItemTags.RAW_FOOD, ModItemTags.COOKED_FISH).addTag(ItemTags.MEAT).add(ModItems.WOLF_BERRIES.get(), Items.SWEET_BERRIES, Items.GLOW_BERRIES);
             this.tag(ItemTags.SWORDS).add(ModItems.SILVER_SWORD.get());
             this.tag(ItemTags.AXES).add(ModItems.SILVER_AXE.get());
             this.tag(ItemTags.PICKAXES).add(ModItems.SILVER_PICKAXE.get());
@@ -176,15 +174,15 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider holderProvider) {
-            this.tag(ModTags.Biomes.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_FOREST);
+            this.tag(ModBiomeTags.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_FOREST);
-            this.tag(ModTags.Biomes.HasSpawn.WEREWOLF).addTag(BiomeTags.IS_TAIGA);
-            this.tag(ModTags.Biomes.NoSpawn.WEREWOLF).addTag(ModTags.Biomes.IS_FACTION_BIOME);
-            this.tag(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF).addTag(BiomeTags.IS_TAIGA);
-            this.tag(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF).addTag(ModTags.Biomes.IS_FACTION_BIOME);
-            this.tag(ModTags.Biomes.HasGen.SILVER_ORE).addTag(BiomeTags.IS_OVERWORLD);
-            this.tag(ModTags.Biomes.HasGen.WOLFSBANE).addTag(BiomeTags.IS_FOREST);
-            this.tag(ModTags.Biomes.IS_FACTION_BIOME).addTag(ModTags.Biomes.IS_WEREWOLF_BIOME);
+            this.tag(ModBiomeTags.HasSpawn.WEREWOLF).addTag(BiomeTags.IS_TAIGA);
+            this.tag(ModBiomeTags.NoSpawn.WEREWOLF).addTag(ModBiomeTags.IS_FACTION_BIOME);
+            this.tag(ModBiomeTags.HasSpawn.HUMAN_WEREWOLF).addTag(BiomeTags.IS_TAIGA);
+            this.tag(ModBiomeTags.NoSpawn.HUMAN_WEREWOLF).addTag(ModBiomeTags.IS_FACTION_BIOME);
+            this.tag(ModBiomeTags.HasGen.SILVER_ORE).addTag(BiomeTags.IS_OVERWORLD);
+            this.tag(ModBiomeTags.HasGen.WOLFSBANE).addTag(BiomeTags.IS_FOREST);
+            this.tag(ModBiomeTags.IS_FACTION_BIOME).addTag(ModBiomeTags.IS_WEREWOLF_BIOME);
             this.tag(BiomeTags.IS_OVERWORLD).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(Tags.Biomes.IS_DENSE_VEGETATION_OVERWORLD).add(ModBiomes.WEREWOLF_FOREST);
@@ -205,8 +203,8 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider holderProvider) {
-            this.tag(ModTags.PoiTypes.IS_WEREWOLF).add(ModVillage.WEREWOLF_FACTION.getKey());
-            this.tag(FactionPoiTypeTags.HAS_FACTION).addTags(ModTags.PoiTypes.IS_WEREWOLF);
+            this.tag(ModPoiTypeTags.IS_WEREWOLF).add(ModVillage.WEREWOLF_FACTION.getKey());
+            this.tag(FactionPoiTypeTags.HAS_FACTION).addTags(ModPoiTypeTags.IS_WEREWOLF);
             tag(PoiTypeTags.ACQUIRABLE_JOB_SITE).add(ModVillage.WEREWOLF_FACTION.getKey());
             tag(PoiTypeTags.VILLAGE).add(ModVillage.WEREWOLF_FACTION.getKey());
         }
@@ -219,7 +217,7 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider holderProvider) {
-            this.tag(ModTags.Professions.IS_WEREWOLF).add(ModVillage.WEREWOLF_EXPERT.getKey());
+            this.tag(ModProfessionTags.IS_WEREWOLF).add(ModVillage.WEREWOLF_EXPERT.getKey());
 //            this.tag(de.teamlapen.vampirism.core.ModTags.Professions.HAS_FACTION).addTag(ModTags.Professions.IS_WEREWOLF); TODO
         }
     }
@@ -232,11 +230,11 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider pProvider) {
-            this.tag(ModTags.DamageTypes.WEREWOLF_FUR_IMMUNE).add(DamageTypes.SWEET_BERRY_BUSH, DamageTypes.CACTUS, DamageTypes.HOT_FLOOR);
+            this.tag(ModDamageTypeTags.WEREWOLF_FUR_IMMUNE).add(DamageTypes.SWEET_BERRY_BUSH, DamageTypes.CACTUS, DamageTypes.HOT_FLOOR);
             this.tag(DamageTypeTags.WITCH_RESISTANT_TO).add(ModDamageTypes.BLOOD_LOSS);
             this.tag(DamageTypeTags.BYPASSES_ARMOR).add(ModDamageTypes.BLOOD_LOSS);
-            this.tag(ModTags.DamageTypes.WEREWOLF_ARMOR_REDUCTION).addTag(DamageTypeTags.IS_PLAYER_ATTACK).add(ModDamageTypes.BITE);
-            this.tag(ModTags.DamageTypes.BITE).add(ModDamageTypes.BITE);
+            this.tag(ModDamageTypeTags.WEREWOLF_ARMOR_REDUCTION).addTag(DamageTypeTags.IS_PLAYER_ATTACK).add(ModDamageTypes.BITE);
+            this.tag(ModDamageTypeTags.BITE).add(ModDamageTypes.BITE);
         }
     }
 
@@ -248,9 +246,9 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider pProvider) {
-            this.tag(ModTags.Tasks.AWARDS_LORD_LEVEL).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5);
-            this.tag(ModTags.Tasks.HAS_FACTION).addTags(ModTags.Tasks.IS_WEREWOLF);
-            this.tag(ModTags.Tasks.IS_WEREWOLF).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5, ModTasks.WEREWOLF_MINION_BINDING, ModTasks.WEREWOLF_MINION_UPGRADE_SIMPLE, ModTasks.WEREWOLF_MINION_UPGRADE_ENHANCED, ModTasks.WEREWOLF_MINION_UPGRADE_SPECIAL, ModTasks.RANDOM_REFINEMENT_1, ModTasks.RANDOM_REFINEMENT_2, ModTasks.RANDOM_REFINEMENT_3, ModTasks.RANDOM_RARE_REFINEMENT);
+            this.tag(ModTaskTags.AWARDS_LORD_LEVEL).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5);
+            this.tag(ModTaskTags.HAS_FACTION).addTags(ModTaskTags.IS_WEREWOLF);
+            this.tag(ModTaskTags.IS_WEREWOLF).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5, ModTasks.WEREWOLF_MINION_BINDING, ModTasks.WEREWOLF_MINION_UPGRADE_SIMPLE, ModTasks.WEREWOLF_MINION_UPGRADE_ENHANCED, ModTasks.WEREWOLF_MINION_UPGRADE_SPECIAL, ModTasks.RANDOM_REFINEMENT_1, ModTasks.RANDOM_REFINEMENT_2, ModTasks.RANDOM_REFINEMENT_3, ModTasks.RANDOM_RARE_REFINEMENT);
         }
     }
 
@@ -264,7 +262,7 @@ public class ModTagsProvider {
         @Override
         protected void addTags(HolderLookup.Provider pProvider) {
             this.tag(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS).add(ModEntities.WEREWOLF_SURVIVALIST.get());
-            this.tag(ModTags.Entities.WEREWOLF).add(ModEntities.ALPHA_WEREWOLF.get(), ModEntities.WEREWOLF_BEAST.get(), ModEntities.WEREWOLF_SURVIVALIST.get(), ModEntities.HUMAN_WEREWOLF.get(), ModEntities.WEREWOLF_MINION.get(), ModEntities.TASK_MASTER_WEREWOLF.get());
+            this.tag(ModEntityTypeTags.WEREWOLF).add(ModEntities.ALPHA_WEREWOLF.get(), ModEntities.WEREWOLF_BEAST.get(), ModEntities.WEREWOLF_SURVIVALIST.get(), ModEntities.HUMAN_WEREWOLF.get(), ModEntities.WEREWOLF_MINION.get(), ModEntities.TASK_MASTER_WEREWOLF.get());
         }
     }
 
@@ -276,7 +274,7 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
-            tag(ModTags.SkillTreeTags.WEREWOLF).add(ModSkills.Trees.LEVEL, ModSkills.Trees.LORD);
+            tag(ModSkillTreeTags.WEREWOLF).add(ModSkills.Trees.LEVEL, ModSkills.Trees.LORD);
         }
     }
 
@@ -288,32 +286,32 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
-            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_1)
+            this.tag(ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_1)
                     .add(ModTrades.WEREWOLF_EXPERT_1_LIVER_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_1_CRACKED_BONE_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_1_EMERALD_LIVER)
                     .add(ModTrades.WEREWOLF_EXPERT_1_EMERALD_CRACKED_BONE)
                     ;
-            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_2)
+            this.tag(ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_2)
                     .add(ModTrades.WEREWOLF_EXPERT_2_LIVER_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_2_CRACKED_BONE_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_2_EMERALD_LIVER)
                     .add(ModTrades.WEREWOLF_EXPERT_2_EMERALD_WEREWOLF_TOOTH)
                     .add(ModTrades.WEREWOLF_EXPERT_2_EMERALD_CRACKED_BONE)
                     ;
-            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_3)
+            this.tag(ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_3)
                     .add(ModTrades.WEREWOLF_EXPERT_3_LIVER_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_3_CRACKED_BONE_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_3_EMERALD_LIVER)
                     .add(ModTrades.WEREWOLF_EXPERT_3_EMERALD_CRACKED_BONE)
                     ;
-            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_4)
+            this.tag(ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_4)
                     .add(ModTrades.WEREWOLF_EXPERT_4_LIVER_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_4_CRACKED_BONE_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_4_EMERALD_LIVER)
                     .add(ModTrades.WEREWOLF_EXPERT_4_EMERALD_CRACKED_BONE)
                     ;
-            this.tag(ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_5)
+            this.tag(ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_5)
                     .add(ModTrades.WEREWOLF_EXPERT_5_LIVER_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_5_CRACKED_BONE_EMERALD)
                     .add(ModTrades.WEREWOLF_EXPERT_5_EMERALD_LIVER)
@@ -330,8 +328,8 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider pProvider) {
-            this.tag(ModTags.Factions.IS_WEREWOLF).add(ModFactions.WEREWOLF.getRawKey());
-            this.tag(ModTags.Factions.WEREWOLF_MINION_TARGETS);
+            this.tag(ModFactionsTags.IS_WEREWOLF).add(ModFactions.WEREWOLF.getRawKey());
+            this.tag(ModFactionsTags.WEREWOLF_MINION_TARGETS);
         }
     }
 }

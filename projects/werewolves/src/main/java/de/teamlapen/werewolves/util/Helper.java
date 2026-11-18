@@ -8,7 +8,7 @@ import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModFactions;
 import de.teamlapen.werewolves.common.core.ModSkills;
-import de.teamlapen.werewolves.common.core.ModTags;
+import de.teamlapen.werewolves.common.tags.ModItemTags;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.faction.common.core.FactionDataComponents;
 import net.minecraft.core.BlockPos;
@@ -26,7 +26,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -89,7 +88,7 @@ public class Helper {
     }
 
     public static boolean isMeat(@Nullable LivingEntity entity, ItemStack stack) {
-        return (stack.has(DataComponents.FOOD) || stack.has(FactionDataComponents.FACTION_FOOD)) && (stack.is(ModTags.Items.WEREWOLF_FOOD) || ModConfig.server().isCustomMeatItems(stack.getItem()));
+        return (stack.has(DataComponents.FOOD) || stack.has(FactionDataComponents.FACTION_FOOD)) && (stack.is(ModItemTags.WEREWOLF_FOOD) || ModConfig.server().isCustomMeatItems(stack.getItem()));
     }
 
     @Deprecated
@@ -98,7 +97,7 @@ public class Helper {
     }
 
     public static boolean isRawMeat( @Nullable LivingEntity entity, ItemStack stack) {
-        return isMeat(entity, stack) && (stack.is(ModTags.Items.RAW_FOOD) || ModConfig.server().isCustomRawMeatItems(stack.getItem()));
+        return isMeat(entity, stack) && (stack.is(ModItemTags.RAW_FOOD) || ModConfig.server().isCustomRawMeatItems(stack.getItem()));
     }
 
     @Deprecated
@@ -111,7 +110,7 @@ public class Helper {
      * Otherwise use {@link #isRawMeat(net.minecraft.world.entity.LivingEntity, net.minecraft.world.item.ItemStack)}
      */
     public static boolean isRawMeatSkipMeat(ItemStack stack) {
-        return stack.is(ModTags.Items.RAW_FOOD);
+        return stack.is(ModItemTags.RAW_FOOD);
     }
 
     public static boolean canEat(LivingEntity entity, ItemStack stack) {
@@ -141,7 +140,7 @@ public class Helper {
     }
 
     public static boolean isSilverItem(ItemStack stack) {
-        return stack.getItem() instanceof ISilverItem || stack.is(ModTags.Items.SILVER_ITEM);
+        return stack.getItem() instanceof ISilverItem || stack.is(ModItemTags.SILVER_ITEM);
     }
 
     public static boolean isNoLiving(LivingEntity entity) {

@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.integration.vampirism.common.world.items;
 
 import de.teamlapen.vampirism.api.world.items.oil.IWeaponOil;
 import de.teamlapen.vampirism.common.world.items.oil.WeaponOil;
-import de.teamlapen.werewolves.common.core.ModTags;
+import de.teamlapen.werewolves.common.tags.ModItemTags;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatOils;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.ChatFormatting;
@@ -28,7 +28,7 @@ public class SilverOil extends WeaponOil {
 
     @Override
     public boolean canBeApplied(ItemInstance stack) {
-        return super.canBeApplied(stack) && !(stack.is(ModTags.Items.SILVER_TOOL));
+        return super.canBeApplied(stack) && !(stack.is(ModItemTags.SILVER_TOOL));
     }
 
     public float getDamageModifier() {

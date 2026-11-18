@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.common.world.entities.player;
 
+import de.teamlapen.werewolves.common.tags.ModDamageTypeTags;
 import net.minecraft.world.item.equipment.Equippable;
 
 import net.minecraft.core.component.DataComponents;
@@ -15,7 +16,6 @@ import de.teamlapen.werewolves.common.util.ArmorUtil;
 import de.teamlapen.werewolves.common.world.effects.SilverEffect;
 import de.teamlapen.werewolves.common.world.effects.inst.UnWerewolfEffectInstance;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.common.world.entities.werewolf.WerewolfBaseEntity;
 import de.teamlapen.werewolves.misc.mixin.LivingEntityAccessor;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.network.chat.Component;
@@ -194,7 +194,7 @@ public class ModPlayerEventHandler {
         if (event.getEntity() instanceof Player player && Helper.isWerewolf(player)) {
             WerewolfPlayer werewolf = WerewolfPlayer.get(player);
             ISkillHandler<IWerewolfPlayer> skillHandler = werewolf.getSkillHandler();
-            if (event.getSource().is(ModTags.DamageTypes.WEREWOLF_FUR_IMMUNE) && werewolf.getForm().isTransformed() && skillHandler.isSkillEnabled(ModSkills.WOLF_PAWN)) {
+            if (event.getSource().is(ModDamageTypeTags.WEREWOLF_FUR_IMMUNE) && werewolf.getForm().isTransformed() && skillHandler.isSkillEnabled(ModSkills.WOLF_PAWN)) {
                 event.setCanceled(true);
             }
 

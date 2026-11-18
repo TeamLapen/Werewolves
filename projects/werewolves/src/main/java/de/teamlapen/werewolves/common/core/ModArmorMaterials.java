@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.werewolves.api.WIdentifier;
+import de.teamlapen.werewolves.common.tags.ModItemTags;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
@@ -28,10 +29,10 @@ public class ModArmorMaterials {
             return ResourceKey.create(EquipmentAssets.ROOT_ID, WIdentifier.mod(id));
         }
     }
-    public static final ArmorMaterial SILVER = register(20, createReduction(2,6,5,2), 9, SoundEvents.ARMOR_EQUIP_IRON, 0.0f, 0.0f, ModTags.Items.SILVER_INGOT, Asset.SILVER);
-    public static final ArmorMaterial PELT = register(18, createReduction(1,1,1,1), 9, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0f, 0.0f, ModTags.Items.WOLF_PELT, Asset.PELT_NORMAL);
-    public static final ArmorMaterial DARK_PELT = register(33, createReduction(1,2,2,1), 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0f, 0.0f, ModTags.Items.WOLF_DARK_PELT, Asset.PELT_ENHANCED);
-    public static final ArmorMaterial WHITE_PELT = register(40, createReduction(2,3,3,2), 20, SoundEvents.ARMOR_EQUIP_LEATHER, 2.0f, 0.0f, ModTags.Items.WOLF_WHITE_PELT,Asset.PELT_ULTIMATE);
+    public static final ArmorMaterial SILVER = register(20, createReduction(2,6,5,2), 9, SoundEvents.ARMOR_EQUIP_IRON, 0.0f, 0.0f, ModItemTags.SILVER_INGOT, Asset.SILVER);
+    public static final ArmorMaterial PELT = register(18, createReduction(1,1,1,1), 9, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0f, 0.0f, ModItemTags.WOLF_PELT, Asset.PELT_NORMAL);
+    public static final ArmorMaterial DARK_PELT = register(33, createReduction(1,2,2,1), 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0f, 0.0f, ModItemTags.WOLF_DARK_PELT, Asset.PELT_ENHANCED);
+    public static final ArmorMaterial WHITE_PELT = register(40, createReduction(2,3,3,2), 20, SoundEvents.ARMOR_EQUIP_LEATHER, 2.0f, 0.0f, ModItemTags.WOLF_WHITE_PELT,Asset.PELT_ULTIMATE);
 
     private static EnumMap<ArmorType, Integer> createReduction(int helmet, int chestplate, int leggings, int boots) {
         return Util.make(new EnumMap<>(ArmorType.class), (map) -> {

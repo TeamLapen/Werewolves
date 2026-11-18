@@ -1,12 +1,11 @@
 package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.werewolves.api.WIdentifier;
+import de.teamlapen.werewolves.common.tags.ModVillagerTradeTags;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.TradeCost;
@@ -58,11 +57,11 @@ public class ModTrades {
     }
 
     static void bootstrapTradeSets(BootstrapContext<TradeSet> context) {
-        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_1, ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_1);
-        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_2, ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_2);
-        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_3, ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_3);
-        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_4, ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_4);
-        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_5, ModTags.VillagerTradeTags.WEREWOLF_EXPERT_LEVEL_5);
+        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_1, ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_1);
+        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_2, ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_2);
+        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_3, ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_3);
+        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_4, ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_4);
+        TradeSets.register(context, WEREWOLF_EXPERT_LEVEL_5, ModVillagerTradeTags.WEREWOLF_EXPERT_LEVEL_5);
     }
 
     static void bootstrapTrades(BootstrapContext<VillagerTrade> context) {

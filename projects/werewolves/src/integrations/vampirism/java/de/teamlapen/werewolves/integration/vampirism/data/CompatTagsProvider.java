@@ -1,8 +1,7 @@
 package de.teamlapen.werewolves.integration.vampirism.data;
 
 import de.teamlapen.vampirism.common.core.ModItems;
-import de.teamlapen.werewolves.common.core.ModBlocks;
-import de.teamlapen.werewolves.common.core.ModTags;
+import de.teamlapen.werewolves.common.tags.ModItemTags;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatBlocks;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
@@ -50,7 +49,7 @@ public class CompatTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider registries) {
-            this.tag(ModTags.Items.RAW_MEAT)
+            this.tag(ModItemTags.RAW_MEAT)
                     .add(ModItems.HUMAN_HEART.get())
                     .add(ModItems.WEAK_HUMAN_HEART.get());
         }
