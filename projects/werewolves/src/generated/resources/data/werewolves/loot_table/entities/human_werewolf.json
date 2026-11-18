@@ -71,12 +71,7 @@
           "unenchanted_chance": 0.1
         }
       ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "vampirism:vampire_book"
-        }
-      ],
+      "entries": [],
       "name": "hunter",
       "rolls": 1.0
     }

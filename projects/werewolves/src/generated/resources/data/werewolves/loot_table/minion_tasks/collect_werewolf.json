@@ -35,10 +35,6 @@
         {
           "type": "minecraft:item",
           "name": "werewolves:werewolf_tooth"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "vampirism:human_heart"
         }
       ],
       "rolls": 1.0

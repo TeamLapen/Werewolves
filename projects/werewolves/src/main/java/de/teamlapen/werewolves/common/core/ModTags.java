@@ -168,7 +168,7 @@ public class ModTags {
         public static final TagKey<EntityType<?>> VAMPIRE = vampirism("vampire");
         public static final TagKey<EntityType<?>> HUNTER = vampirism("hunter");
         public static final TagKey<EntityType<?>> ADVANCED_HUNTER = vampirism("advanced_hunter");
-        public static final TagKey<EntityType<?>> ADVANCED_VAMPIRE = vampirism("advanced_hunter");
+        public static final TagKey<EntityType<?>> ADVANCED_VAMPIRE = vampirism("advanced_vampire");
 
         private static TagKey<EntityType<?>> tag(Identifier resourceLocation) {
             return TagKey.create(Registries.ENTITY_TYPE, resourceLocation);

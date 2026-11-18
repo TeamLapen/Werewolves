@@ -6,5 +6,5 @@
     "werewolves:not_meat",
     "werewolves:health_reg"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

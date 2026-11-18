@@ -5,5 +5,5 @@
   "skills": [
     "werewolves:leap"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

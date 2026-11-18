@@ -6,5 +6,5 @@
     "werewolves:efficient_diet",
     "werewolves:arrow_awareness"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

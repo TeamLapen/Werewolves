@@ -6,5 +6,5 @@
     "werewolves:wolf_pawn",
     "werewolves:climber"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

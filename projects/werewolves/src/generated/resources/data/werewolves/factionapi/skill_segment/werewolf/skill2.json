@@ -6,5 +6,5 @@
     "werewolves:night_vision",
     "werewolves:sense"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

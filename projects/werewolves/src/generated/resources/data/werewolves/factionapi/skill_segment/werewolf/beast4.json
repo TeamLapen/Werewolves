@@ -6,5 +6,5 @@
     "werewolves:stun_bite",
     "werewolves:bleeding_bite"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

@@ -1,6 +1,0 @@
-{
-  "parent": "vampirism:block/garlic_diffuser",
-  "textures": {
-    "core": "werewolves:block/wolfsbane_diffuser_inside"
-  }
-}

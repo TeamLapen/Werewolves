@@ -5,5 +5,5 @@
   "skills": [
     "werewolves:wear_armor"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

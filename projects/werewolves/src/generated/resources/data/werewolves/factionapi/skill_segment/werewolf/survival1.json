@@ -6,5 +6,5 @@
     "werewolves:jump",
     "werewolves:speed"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

@@ -7,7 +7,7 @@ import de.teamlapen.werewolves.api.datamaps.IWolfsbaneDiffuserFuel;
 import de.teamlapen.werewolves.common.core.ModDataMaps;
 import de.teamlapen.werewolves.common.core.ModFactions;
 import de.teamlapen.werewolves.common.world.attachments.LevelWolfsbane;
-import de.teamlapen.werewolves.common.core.ModBlockEntities;
+import de.teamlapen.werewolves.integration.vampirism.common.core.CompatBlockEntities;
 import de.teamlapen.werewolves.integration.vampirism.common.world.inventory.WolfsbaneDiffuserMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -33,7 +33,7 @@ public class WolfsbaneDiffuserBlockEntity extends DiffuserBlockEntity {
     }
 
     public WolfsbaneDiffuserBlockEntity(BlockPos pPos, BlockState pBlockState, EnumStrength type, int radius) {
-        super(ModBlockEntities.WOLFSBANE_DIFFUSER.get(), pPos, pBlockState);
+        super(CompatBlockEntities.WOLFSBANE_DIFFUSER.get(), pPos, pBlockState);
         this.type = type;
         this.radius = radius;
     }

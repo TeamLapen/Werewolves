@@ -9,7 +9,7 @@
           "functions": [
             {
               "faction": "werewolves:werewolf",
-              "function": "vampirism:add_refinement_set"
+              "function": "factionapi:add_refinement_set"
             }
           ],
           "name": "werewolves:bone_necklace"
@@ -19,7 +19,7 @@
           "functions": [
             {
               "faction": "werewolves:werewolf",
-              "function": "vampirism:add_refinement_set"
+              "function": "factionapi:add_refinement_set"
             }
           ],
           "name": "werewolves:charm_bracelet"
@@ -29,7 +29,7 @@
           "functions": [
             {
               "faction": "werewolves:werewolf",
-              "function": "vampirism:add_refinement_set"
+              "function": "factionapi:add_refinement_set"
             }
           ],
           "name": "werewolves:dream_catcher"

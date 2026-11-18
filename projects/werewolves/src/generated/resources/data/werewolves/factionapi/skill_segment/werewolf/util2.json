@@ -6,5 +6,5 @@
     "werewolves:wolf_pack",
     "werewolves:digger"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

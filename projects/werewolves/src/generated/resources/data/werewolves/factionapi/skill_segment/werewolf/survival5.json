@@ -5,5 +5,5 @@
   "skills": [
     "werewolves:movement_tactics"
   ],
-  "tree": "vampirism:hunter/level"
+  "tree": "werewolves:werewolf/level"
 }

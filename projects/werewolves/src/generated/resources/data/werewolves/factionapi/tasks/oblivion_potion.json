@@ -3,16 +3,6 @@
     {
       "type": "factionapi:item",
       "description": {
-        "translate": "item.vampirism.human_heart"
-      },
-      "id": "vampirism:human_heart",
-      "item": {
-        "id": "vampirism:human_heart"
-      }
-    },
-    {
-      "type": "factionapi:item",
-      "description": {
         "translate": "item.werewolves.liver"
       },
       "id": "werewolves:liver",
