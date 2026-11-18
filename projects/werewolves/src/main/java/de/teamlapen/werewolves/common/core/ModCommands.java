@@ -10,6 +10,7 @@ import de.teamlapen.werewolves.common.server.command.WerewolfTransformCommand;
 import de.teamlapen.werewolves.common.server.command.arguments.WerewolfFormArgument;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.core.registries.Registries;
@@ -35,7 +36,6 @@ public class ModCommands {
         var dispatcher = eventCommand.getDispatcher();
 
         List<String> main = Lists.newArrayList("werewolves");
-        List<String> test = Lists.newArrayList("vampirism-test");
 
         for (String s : main) {
             dispatcher.register(
@@ -43,12 +43,9 @@ public class ModCommands {
                             .then(WerewolfEyeCommand.register())
                             .then(WerewolfSkinCommand.register())
                             .then(WerewolfGlowingEyeCommand.register())
+                            .then(Commands.literal("test")
+                                    .then(WerewolfTransformCommand.register()))
             );
-        }
-
-        for (String s : test) {
-            dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal(s)
-                    .then(WerewolfTransformCommand.register()));
         }
     }
 
