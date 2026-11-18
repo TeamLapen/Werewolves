@@ -3,18 +3,16 @@ package de.teamlapen.werewolves.common.world.entities.player.werewolf.actions;
 import de.teamlapen.faction.api.factions.actions.IActionResult;
 
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
-import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
-public class FearAction extends DefaultWerewolfAction implements IActionCooldownMenu {
+public class FearAction extends DefaultWerewolfAction {
     @Override
     public boolean isEnabled() {
         return ModConfig.balance().SKILLS.fear_action_enabled.get();

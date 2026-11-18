@@ -4,13 +4,12 @@ import de.teamlapen.faction.api.factions.actions.IActionResult;
 
 import de.teamlapen.faction.api.factions.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
-import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModRefinements;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.world.entity.player.Player;
 
-public class LeapAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
+public class LeapAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
 
     @Override
     public boolean isEnabled() {

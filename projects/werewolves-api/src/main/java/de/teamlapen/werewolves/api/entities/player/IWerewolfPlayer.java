@@ -15,9 +15,4 @@ public interface IWerewolfPlayer extends IWerewolf, IFactionPlayer<IWerewolfPlay
     }
 
     boolean canWearArmor(ItemStack stack);
-
-    /**
-     * updates attributes of all minions
-     */
-    void updateMinionAttributes(boolean increasedStats);
 }

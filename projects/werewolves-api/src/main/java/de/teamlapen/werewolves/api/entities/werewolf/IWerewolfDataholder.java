@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 
 public interface IWerewolfDataholder {
 
-    @Nonnull
     WerewolfForm getForm();
 
     default int getSkinType() {

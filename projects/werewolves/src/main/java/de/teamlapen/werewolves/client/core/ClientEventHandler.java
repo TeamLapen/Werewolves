@@ -50,13 +50,13 @@ public class ClientEventHandler {
         if (event.getScreen() instanceof FactionMenuScreen) {
             if (Helper.isWerewolf(Minecraft.getInstance().player)) {
                 WidgetSprites icon = new WidgetSprites(WIdentifier.loc("vampirism","widget/appearance"), WIdentifier.loc("vampirism","widget/appearance_highlighted"));
-                var button = ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ImageButton(((FactionMenuScreen) event.getScreen()).getLeftPos() + 47, ((FactionMenuScreen) event.getScreen()).getTopPos() + 90, 20, 20, icon, (context) -> Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(ILastScreenProvider.current())), Component.empty()));
+                var button = ((ScreenAccessor) event.getScreen()).werewolves$addRenderableWidget(new ImageButton(((FactionMenuScreen) event.getScreen()).getLeftPos() + 47, ((FactionMenuScreen) event.getScreen()).getTopPos() + 90, 20, 20, icon, (context) -> Minecraft.getInstance().setScreen(new WerewolfPlayerAppearanceScreen(ILastScreenProvider.current())), Component.empty()));
                 button.setTooltip(Tooltip.create(Component.translatable("gui.vampirism.vampirism_menu.appearance_menu")));
 
                 WerewolfPlayer werewolf = WerewolfPlayer.get(Minecraft.getInstance().player);
                 if (werewolf.getMaxLevel() == werewolf.getLevel()) return;
                 AbstractContainerScreen<?> screen = ((AbstractContainerScreen<?>) event.getScreen());
-                ((ScreenAccessor) event.getScreen()).invokeAddRenderableWidget_werewolves(new ExpBar(screen.getLeftPos() - 14, screen.getTopPos()));
+                ((ScreenAccessor) event.getScreen()).werewolves$addRenderableWidget(new ExpBar(screen.getLeftPos() - 14, screen.getTopPos()));
             }
         }
     }

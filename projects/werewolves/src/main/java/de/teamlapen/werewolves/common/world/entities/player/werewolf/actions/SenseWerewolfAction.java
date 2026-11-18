@@ -4,11 +4,9 @@ import de.teamlapen.faction.api.factions.actions.IActionResult;
 
 import de.teamlapen.faction.api.factions.actions.ILastingAction;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
-import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.common.config.ModConfig;
-import net.minecraft.world.entity.player.Player;
 
-public class SenseWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer>, IActionCooldownMenu {
+public class SenseWerewolfAction extends DefaultWerewolfAction implements ILastingAction<IWerewolfPlayer> {
 
     @Override
     public boolean isEnabled() {

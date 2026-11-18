@@ -10,8 +10,6 @@ import net.neoforged.neoforge.common.damagesource.IDeathMessageProvider;
 
 public class WEnums {
     public static final EnumProxy<MobCategory> WEREWOLF_CATEGORY = new EnumProxy<>(MobCategory.class, "werewolves:werewolf", 8, false, false, 128);
-//    public static final EnumProxy<Boat.Type> JACARANDA_BOAT_TYPE = new EnumProxy<>(Boat.Type.class, ModRegistryItems.JACARANDA_PLANKS, WReference.MODID + ":jacaranda", ModRegistryItems.JACARANDA_BOAT, ModRegistryItems.JACARANDA_CHEST_BOAT, (Supplier<Item>)() -> Items.STICK, false);
-//    public static final EnumProxy<Boat.Type> MAGIC_BOAT_TYPE = new EnumProxy<>(Boat.Type.class, ModRegistryItems.MAGIC_PLANKS, WReference.MODID + ":magic", ModRegistryItems.MAGIC_BOAT, ModRegistryItems.MAGIC_CHEST_BOAT, (Supplier<Item>)() -> Items.STICK, false);
     public static final EnumProxy<DeathMessageType> WEREWOLF_BITE = new EnumProxy<>(DeathMessageType.class, WReference.MODID + ":bite", WEnums.biteProvider());
 
 

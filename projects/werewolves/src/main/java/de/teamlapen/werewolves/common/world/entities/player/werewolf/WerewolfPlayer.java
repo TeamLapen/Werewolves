@@ -519,13 +519,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.inventory.dropEquipment();
     }
 
-    @Override
-    public void updateMinionAttributes(boolean increasedStats) {
-        MinionWorldData.getData(this.player.level()).flatMap(a -> FactionPlayerHandler.get(this.player).getPlayerLord().map(a::getOrCreateController)).ifPresent(controller -> controller.contactMinions((minion) -> {
-            (minion.getMinionData()).ifPresent(b -> ((MinionData) b).setIncreasedStats(increasedStats));
-        }));
-    }
-
     public static class AttachmentOptions extends AttachmentSynchronization.PlayerOptions<WerewolfPlayer> {
         @Override
         protected WerewolfPlayer create(Player player) {

@@ -4,13 +4,10 @@ import de.teamlapen.faction.api.factions.actions.IActionResult;
 import de.teamlapen.faction.common.util.SpawnUtil;
 import de.teamlapen.werewolves.common.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
-import de.teamlapen.werewolves.api.entities.player.action.IActionCooldownMenu;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.entities.AggressiveWolfEntity;
-import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.WUtils;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,7 +22,7 @@ import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 
-public class HowlingAction extends DefaultWerewolfAction implements IActionCooldownMenu {
+public class HowlingAction extends DefaultWerewolfAction {
 
     @Override
     public boolean isEnabled() {
