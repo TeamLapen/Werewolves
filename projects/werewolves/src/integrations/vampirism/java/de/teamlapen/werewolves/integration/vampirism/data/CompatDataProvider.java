@@ -6,19 +6,20 @@ import de.teamlapen.vampirism.data.provider.ModRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = REFERENCE.MODID)
 public class CompatDataProvider {
 
-    @SubscribeEvent
+    /**
+     * Registered in {@link de.teamlapen.werewolves.integration.vampirism.common.CompatServices}.
+     * Only runs in the {@code dataVampirism} run, which writes into src/integrations/vampirism/generated/resources.
+     */
     public static void onGatherData(GatherDataEvent.Client event) {
+        if (!"vampirism".equals(System.getProperty("werewolves.datagen.integration"))) return;
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
 

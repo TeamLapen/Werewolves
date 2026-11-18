@@ -14,6 +14,7 @@ import de.teamlapen.werewolves.integration.vampirism.common.core.CompatItems;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatOils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -44,7 +45,7 @@ public class CompatRecipeProvider extends VampirismRecipeProvider {
         TagKey<Item> obsidian = Tags.Items.OBSIDIANS;
 
         upToThreeQuarrelRecipe(CompatItems.QUARREL_SILVER, CompatOils.SILVER_OIL_1);
-        upToThreeQuarrelRecipe(CompatItems.QUARREL_SILVER, CompatOils.SILVER_OIL_2);
+        upToThreeQuarrelRecipe(CompatItems.QUARREL_SILVER, CompatOils.SILVER_OIL_2, BuiltInRegistries.ITEM.getKey(CompatItems.QUARREL_SILVER.get()) + "_2");
 
         alchemyTable(CompatOils.SILVER_OIL_1)
                 .bloodOilIngredient()

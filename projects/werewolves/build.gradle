@@ -28,6 +28,7 @@ for (var integration : integrations) {
     if (integration.included) {
         sourceSets.create(integration.name) {
             java.srcDir "src/integrations/${integration.name}/java"
+            resources.srcDir "src/integrations/${integration.name}/generated/resources"
 
             compileClasspath += sourceSets.main.output + configurations.compileClasspath
             runtimeClasspath += output + compileClasspath + sourceSets.main.output
@@ -98,6 +99,22 @@ neoForge {
             clientData()
 
             programArguments.addAll '--mod', project.werewolves_mod_id, '--all', '--output', project.file('src/generated/resources/').getAbsolutePath(), '--existing', project.file('src/main/resources/').getAbsolutePath()
+        }
+
+        // One data run per integration, writing into src/integrations/<name>/generated/resources.
+        // The system property tells the data providers which set of providers to run.
+        integrations.each { integration ->
+            if (integration.included) {
+                register("data${integration.name.capitalize()}") {
+                    clientData()
+
+                    systemProperty 'werewolves.datagen.integration', integration.name
+                    programArguments.addAll '--mod', project.werewolves_mod_id, '--all',
+                            '--output', project.file("src/integrations/${integration.name}/generated/resources/").getAbsolutePath(),
+                            '--existing', project.file('src/main/resources/').getAbsolutePath(),
+                            '--existing', project.file('src/generated/resources/').getAbsolutePath()
+                }
+            }
         }
     }
 

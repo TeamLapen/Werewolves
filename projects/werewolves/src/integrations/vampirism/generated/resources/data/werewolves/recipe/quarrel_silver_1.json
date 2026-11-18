@@ -1,0 +1,19 @@
+{
+  "type": "vampirism:shapeless_crafting_weapontable",
+  "category": "equipment",
+  "ingredients": [
+    "vampirism:quarrel_normal",
+    {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "vampirism:oil_contents": {
+          "oil": "werewolves:silver_oil_1"
+        }
+      },
+      "items": "vampirism:oil_bottle"
+    }
+  ],
+  "result": {
+    "id": "werewolves:quarrel_silver"
+  }
+}

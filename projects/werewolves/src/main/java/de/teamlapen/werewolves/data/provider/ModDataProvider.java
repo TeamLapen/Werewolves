@@ -22,6 +22,8 @@ public class ModDataProvider {
     @SuppressWarnings("UnreachableCode")
     @SubscribeEvent
     public static void gatherData(final GatherDataEvent.Client event) {
+        // integration data runs (e.g. runDataVampirism) only generate their own data
+        if (System.getProperty("werewolves.datagen.integration") != null) return;
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();

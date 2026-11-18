@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.integration.vampirism.common;
 
 import de.teamlapen.faction.Services;
 import de.teamlapen.werewolves.integration.vampirism.common.core.*;
+import de.teamlapen.werewolves.integration.vampirism.data.CompatDataProvider;
 import net.neoforged.bus.api.IEventBus;
 
 public class CompatServices extends Services {
@@ -14,5 +15,6 @@ public class CompatServices extends Services {
         CompatBlocks.register(bus);
         CompatBlockEntities.register(bus);
         bus.addListener(CompatEventHandler::appendCreativeTab);
+        bus.addListener(CompatDataProvider::onGatherData);
     }
 }

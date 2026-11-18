@@ -1,0 +1,12 @@
+{
+  "type": "vampirism:alchemical_cauldron",
+  "fluid": "werewolves:wolfsbane",
+  "info": {},
+  "ingredient": "#minecraft:wool",
+  "result": {
+    "id": "werewolves:wolfsbane_diffuser_core"
+  },
+  "skill": [
+    "vampirism:refined_garlic"
+  ]
+}
