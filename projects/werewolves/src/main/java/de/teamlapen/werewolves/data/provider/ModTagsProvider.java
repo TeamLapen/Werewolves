@@ -4,6 +4,7 @@ import de.teamlapen.faction.api.factions.IFaction;
 import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.factions.skills.ISkillTree;
 import de.teamlapen.faction.api.factions.tasks.Task;
+import de.teamlapen.faction.api.tags.FactionSkillTreeTags;
 import de.teamlapen.faction.common.tags.FactionPoiTypeTags;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.tags.*;
@@ -274,6 +275,9 @@ public class ModTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
+            tag(FactionSkillTreeTags.DEFAULT).add(ModSkills.Trees.LEVEL, ModSkills.Trees.LORD);
+            tag(FactionSkillTreeTags.LEVEL).add(ModSkills.Trees.LEVEL);
+            tag(FactionSkillTreeTags.LORD).add(ModSkills.Trees.LORD);
             tag(ModSkillTreeTags.WEREWOLF).add(ModSkills.Trees.LEVEL, ModSkills.Trees.LORD);
         }
     }
