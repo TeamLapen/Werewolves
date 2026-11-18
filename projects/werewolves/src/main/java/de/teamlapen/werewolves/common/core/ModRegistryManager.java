@@ -49,11 +49,6 @@ public class ModRegistryManager extends Services {
     }
 
     @SubscribeEvent
-    public void onRegisterDataMapTypes(RegisterDataMapTypesEvent event) {
-        ModDataMaps.registerDataMaps(event);
-    }
-
-    @SubscribeEvent
     public void setup(FMLCommonSetupEvent event) {
         event.enqueueWork(ModBlocks::registerFlammables);
     }

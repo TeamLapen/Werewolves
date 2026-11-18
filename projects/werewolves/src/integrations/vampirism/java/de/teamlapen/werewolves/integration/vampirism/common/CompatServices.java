@@ -16,5 +16,6 @@ public class CompatServices extends Services {
         CompatBlockEntities.register(bus);
         bus.addListener(CompatEventHandler::appendCreativeTab);
         bus.addListener(CompatDataProvider::onGatherData);
+        bus.addListener(CompatDataMaps::registerDataMaps);
     }
 }

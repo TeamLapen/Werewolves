@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.integration.vampirism.common.world.inventory;
 
 import de.teamlapen.library.common.world.blockentity.PlayerOwnedBlockEntity;
 import de.teamlapen.vampirism.common.world.inventory.DiffuserMenu;
-import de.teamlapen.werewolves.common.core.ModDataMaps;
+import de.teamlapen.werewolves.integration.vampirism.common.core.CompatDataMaps;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatMenus;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,7 +21,7 @@ public class WolfsbaneDiffuserMenu extends DiffuserMenu {
 
     @Override
     public boolean isFuel(ItemStack pStack) {
-        return pStack.typeHolder().getData(ModDataMaps.WOLFSBANE_DIFFUSER_FUEL_MAP) != null;
+        return pStack.typeHolder().getData(CompatDataMaps.WOLFSBANE_DIFFUSER_FUEL_MAP) != null;
     }
 
     public static class Factory extends DiffuserMenu.Factory<WolfsbaneDiffuserMenu> {

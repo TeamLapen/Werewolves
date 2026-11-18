@@ -3,11 +3,11 @@ package de.teamlapen.werewolves.integration.vampirism.common.world.blockentities
 import de.teamlapen.library.api.world.EnumStrength;
 import de.teamlapen.vampirism.common.world.blockentity.diffuser.DiffuserBlockEntity;
 import de.teamlapen.vampirism.common.world.inventory.DiffuserMenu;
-import de.teamlapen.werewolves.api.datamaps.IWolfsbaneDiffuserFuel;
-import de.teamlapen.werewolves.common.core.ModDataMaps;
 import de.teamlapen.werewolves.common.core.ModFactions;
 import de.teamlapen.werewolves.common.world.attachments.LevelWolfsbane;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatBlockEntities;
+import de.teamlapen.werewolves.integration.vampirism.common.core.CompatDataMaps;
+import de.teamlapen.werewolves.integration.vampirism.common.datamaps.WolfsbaneDiffuserFuel;
 import de.teamlapen.werewolves.integration.vampirism.common.world.inventory.WolfsbaneDiffuserMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -71,7 +71,7 @@ public class WolfsbaneDiffuserBlockEntity extends DiffuserBlockEntity {
 
     @Override
     protected int getBurnDuration(ItemStack itemStack) {
-        IWolfsbaneDiffuserFuel data = itemStack.typeHolder().getData(ModDataMaps.WOLFSBANE_DIFFUSER_FUEL_MAP);
+        WolfsbaneDiffuserFuel data = itemStack.typeHolder().getData(CompatDataMaps.WOLFSBANE_DIFFUSER_FUEL_MAP);
         return data != null ? data.burnDuration() : 0;
     }
 

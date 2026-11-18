@@ -1,7 +1,5 @@
 package de.teamlapen.werewolves.integration.vampirism.data;
 
-import de.teamlapen.werewolves.data.provider.generator.ModBlockModelGenerators;
-import de.teamlapen.werewolves.data.provider.generator.ModItemModelGenerator;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatBlocks;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatItems;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -15,9 +13,9 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.stream.Stream;
 
-public class ModModelProvider extends ModelProvider {
+public class CompatModelProvider extends ModelProvider {
 
-    public ModModelProvider(PackOutput output) {
+    public CompatModelProvider(PackOutput output) {
         super(output, REFERENCE.MODID);
     }
 

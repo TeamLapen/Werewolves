@@ -37,7 +37,6 @@ public class ModDataProvider {
         generator.addProvider(true, LootTablesProvider.getProvider(packOutput, lookupProvider));
         generator.addProvider(true, new ModGlobalLootModifierProvider(packOutput, lookupProvider));
         generator.addProvider(true, new ModAdvancementProvider(packOutput, lookupProvider));
-        generator.addProvider(true, new ModDataMapProvider(packOutput, lookupProvider));
         generator.addProvider(true, new ModModelProvider(packOutput));
     }
 
