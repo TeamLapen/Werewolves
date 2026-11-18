@@ -13,5 +13,6 @@ public class CompatServices extends Services {
         CompatMenus.register(bus);
         CompatBlocks.register(bus);
         CompatBlockEntities.register(bus);
+        bus.addListener(CompatEventHandler::appendCreativeTab);
     }
 }

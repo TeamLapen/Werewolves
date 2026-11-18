@@ -8,8 +8,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 public class CompatEventHandler {
 
-    @SubscribeEvent
-    public void s(BuildCreativeModeTabContentsEvent  event) {
+    public static void appendCreativeTab(BuildCreativeModeTabContentsEvent  event) {
         if (ModItems.CREATIVE_TAB.is(event.getTabKey())) {
             event.insertAfter(ModItems.STONE_ALTAR_FIRE_BOWL.toStack(), CompatItems.WOLFSBANE_DIFFUSER.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(CompatItems.WOLFSBANE_DIFFUSER.toStack(), CompatItems.WOLFSBANE_DIFFUSER_LONG.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
