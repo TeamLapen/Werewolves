@@ -2,12 +2,10 @@ package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.faction.api.world.items.IRefinementItem;
 import de.teamlapen.faction.common.components.FactionRestriction;
-import de.teamlapen.vampirism.api.world.items.IItemWithTier;
-import de.teamlapen.vampirism.common.world.items.RefinementItem;
-import de.teamlapen.vampirism.common.world.items.consume.ModFoods;
+import de.teamlapen.faction.common.world.items.RefinementItem;
+import de.teamlapen.library.api.world.items.IItemWithTier;
 import de.teamlapen.faction.common.world.items.consume.FactionFoodList;
 import net.minecraft.world.item.component.Consumables;
-import de.teamlapen.vampirism.common.world.items.crossbow.QuarrelItem;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.world.items.*;
 import de.teamlapen.werewolves.common.misc.WerewolvesCreativeTab;
@@ -17,22 +15,17 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class ModItems {
@@ -50,9 +43,8 @@ public class ModItems {
     public static final DeferredItem<AxeItem> SILVER_AXE = ITEMS.registerItem("silver_axe", (props) -> new AxeItem(SILVER, 6.0f, -3.1f, props));
     public static final DeferredItem<Item> SILVER_PICKAXE = ITEMS.registerItem("silver_pickaxe", (props) -> new Item(props.pickaxe(SILVER, 1, -2.8f)));
     public static final DeferredItem<SilverSwordItem> SILVER_SWORD = ITEMS.registerItem("silver_sword", (props) -> new SilverSwordItem(props, SILVER, 3, -2.4f));
-    public static final DeferredItem<QuarrelItem> CROSSBOW_ARROW_SILVER_BOLT = ITEMS.registerItem("crossbow_arrow_silver_bolt", (props) -> new QuarrelItem(new SilverBehavior(), props));
     private static final FoodProperties LIVER_FOOD = new FoodProperties.Builder().nutrition(6).saturationModifier(0.4f).build();
-    public static final DeferredItem<Item> LIVER = ITEMS.registerItem("liver", props -> new Item(props.factions$factionFood(new FactionFoodList(LIVER_FOOD, ModFoods.vampireFood(LIVER_FOOD)), Consumables.defaultFood().build())));
+    public static final DeferredItem<Item> LIVER = ITEMS.registerItem("liver", props -> new Item(props.factions$factionFood(new FactionFoodList(LIVER_FOOD, List.of()), Consumables.defaultFood().build())));
     public static final DeferredItem<Item> CRACKED_BONE = ITEMS.registerItem("cracked_bone", Item::new);
     public static final DeferredItem<UnWerewolfInjectionItem> INJECTION_UN_WEREWOLF = ITEMS.registerItem("injection_un_werewolf", UnWerewolfInjectionItem::new);
     public static final DeferredItem<WerewolfToothItem> WEREWOLF_TOOTH = ITEMS.registerItem("werewolf_tooth", WerewolfToothItem::new);
@@ -96,8 +88,6 @@ public class ModItems {
     public static final DeferredItem<BoatItem> JACARANDA_CHEST_BOAT = ITEMS.registerItem("jacaranda_chest_boat", (props) -> new BoatItem(ModEntities.JACARANDA_CHEST_BOAT.get(), props.stacksTo(1)));
     public static final DeferredItem<BoatItem> MAGIC_CHEST_BOAT = ITEMS.registerItem("magic_chest_boat", (props) -> new BoatItem(ModEntities.MAGIC_CHEST_BOAT.get(), props.stacksTo(1)));
 
-    public static final DeferredItem<Item> WOLFSBANE_DIFFUSER_CORE = ITEMS.registerItem("wolfsbane_diffuser_core", Item::new);
-    public static final DeferredItem<Item> WOLFSBANE_DIFFUSER_CORE_IMPROVED = ITEMS.registerItem("wolfsbane_diffuser_core_improved", Item::new);
     public static final DeferredItem<Item> PELT = ITEMS.registerItem("pelt", Item::new);
     public static final DeferredItem<Item> DARK_PELT = ITEMS.registerItem("dark_pelt", Item::new);
     public static final DeferredItem<Item> WHITE_PELT = ITEMS.registerItem("white_pelt", Item::new);
@@ -154,32 +144,29 @@ public class ModItems {
     public static final DeferredItem<BlockItem> MAGIC_FENCE_GATE = ITEMS.registerSimpleBlockItem(ModBlocks.MAGIC_FENCE_GATE);
     public static final DeferredItem<BlockItem> JACARANDA_FENCE = ITEMS.registerSimpleBlockItem(ModBlocks.JACARANDA_FENCE);
     public static final DeferredItem<BlockItem> MAGIC_FENCE = ITEMS.registerSimpleBlockItem(ModBlocks.MAGIC_FENCE);
-    public static final DeferredItem<BlockItem> WOLFSBANE_DIFFUSER = ITEMS.registerSimpleBlockItem(ModBlocks.WOLFSBANE_DIFFUSER);
-    public static final DeferredItem<BlockItem> WOLFSBANE_DIFFUSER_LONG = ITEMS.registerSimpleBlockItem(ModBlocks.WOLFSBANE_DIFFUSER_LONG);
-    public static final DeferredItem<BlockItem> WOLFSBANE_DIFFUSER_IMPROVED = ITEMS.registerSimpleBlockItem(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED);
 
 
-    public static class V {
-        public static final DeferredHolder<Item, Item> HUMAN_HEART = item("human_heart");
-        public static final DeferredHolder<Item, Item> INJECTION_EMPTY = item("injection_empty");
-        public static final DeferredHolder<Item, Item> WEAK_HUMAN_HEART = item("weak_human_heart");
-        public static final DeferredHolder<Item, Item> OBLIVION_POTION = item("oblivion_potion");
-        public static final DeferredHolder<Item, Item> VAMPIRE_BOOK = item("vampire_book");
-        public static final DeferredHolder<Item, Item> CROSSBOW_ARROW_NORMAL = item("crossbow_arrow_normal");
-        public static final DeferredHolder<Item, Item> GARLIC_DIFFUSER_CORE = item("garlic_diffuser_core");
-
-        private static DeferredHolder<Item, Item> item(String name) {
-            return DeferredHolder.create(ResourceKey.create(Registries.ITEM, WIdentifier.loc("vampirism",name)));
-        }
-
-        private static void init() {
-
-        }
-    }
-
-    static {
-        V.init();
-    }
+//    public static class V {
+//        public static final DeferredHolder<Item, Item> HUMAN_HEART = item("human_heart");
+//        public static final DeferredHolder<Item, Item> INJECTION_EMPTY = item("injection_empty");
+//        public static final DeferredHolder<Item, Item> WEAK_HUMAN_HEART = item("weak_human_heart");
+//        public static final DeferredHolder<Item, Item> OBLIVION_POTION = item("oblivion_potion");
+//        public static final DeferredHolder<Item, Item> VAMPIRE_BOOK = item("vampire_book");
+//        public static final DeferredHolder<Item, Item> CROSSBOW_ARROW_NORMAL = item("crossbow_arrow_normal");
+//        public static final DeferredHolder<Item, Item> GARLIC_DIFFUSER_CORE = item("garlic_diffuser_core");
+//
+//        private static DeferredHolder<Item, Item> item(String name) {
+//            return DeferredHolder.create(ResourceKey.create(Registries.ITEM, WIdentifier.loc("vampirism",name)));
+//        }
+//
+//        private static void init() {
+//
+//        }
+//    }
+//
+//    static {
+//        V.init();
+//    }
 
     static void register(IEventBus bus) {
         ITEMS.register(bus);

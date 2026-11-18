@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.common.world.features;
 
 import com.mojang.datafixers.util.Pair;
-import de.teamlapen.vampirism.misc.mixin.accessor.MultiNoiseBiomeSourceParameterListPresetAccessor;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModBiomes;
+import de.teamlapen.werewolves.misc.mixin.MultiNoiseBiomeSourceParameterListPresetAccessor;
 import net.neoforged.fml.ModList;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;

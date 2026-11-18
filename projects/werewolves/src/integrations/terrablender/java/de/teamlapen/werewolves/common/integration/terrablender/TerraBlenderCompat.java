@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.common.integration.terrablender;
 
 import de.teamlapen.integration.Integration;
-import de.teamlapen.vampirism.common.config.ModConfig;
+import de.teamlapen.werewolves.common.config.ModConfig;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Copied and modified from {@link de.teamlapen.vampirism.modcompat.terrablender.TerraBlenderCompat}
  * <p>
  * When TerraBlender is installed we use it to add our biomes to the overworld, instead of hacking it into the overworld preset. This is more compatible with other mods.
  * <p>
@@ -26,7 +25,7 @@ public class TerraBlenderCompat {
 
     @SubscribeEvent
     public static void registerBiomeProviderIfPresentUnsafe(FMLCommonSetupEvent event) {
-        if (!ModConfig.common().addVampireForestToOverworld.get()) {
+        if (ModConfig.common().disableWerewolfForest.get()) {
             return;
         }
         if (ModList.get().isLoaded(MOD_ID)) {

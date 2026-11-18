@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.common.core;
 
-import de.teamlapen.vampirism.common.world.entity.hunter.BasicHunterEntity;
 import de.teamlapen.werewolves.api.WEnums;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.world.entities.AggressiveWolfEntity;
@@ -41,19 +40,6 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<Boat>> MAGIC_BOAT = registerEntityType("magic_boat", EntityType.boatFactory(ModItems.MAGIC_BOAT::get), MobCategory.MISC, x -> x.sized(1.375f,0.5625f).noLootTable().eyeHeight(0.5625f).clientTrackingRange(10).noSummon());
     public static final DeferredHolder<EntityType<?>, EntityType<ChestBoat>> JACARANDA_CHEST_BOAT = registerEntityType("jacarana_chest_boat", EntityType.chestBoatFactory(ModItems.JACARANDA_CHEST_BOAT::get), MobCategory.MISC, x -> x.sized(1.375f,0.5625f).noLootTable().eyeHeight(0.5625f).clientTrackingRange(10).noSummon());
     public static final DeferredHolder<EntityType<?>, EntityType<ChestBoat>> MAGIC_CHEST_BOAT = registerEntityType("magic_chest_boat", EntityType.chestBoatFactory(ModItems.MAGIC_CHEST_BOAT::get), MobCategory.MISC, x -> x.sized(1.375f,0.5625f).noLootTable().eyeHeight(0.5625f).clientTrackingRange(10).noSummon());
-
-    public static class V {
-        public static final DeferredHolder<EntityType<?>, EntityType<BasicHunterEntity>> HUNTER = DeferredHolder.create(ResourceKey.create(Registries.ENTITY_TYPE, WIdentifier.loc("vampirism", "hunter")));
-        public static final DeferredHolder<EntityType<?>, EntityType<BasicHunterEntity.IMob>> HUNTER_IMOB = DeferredHolder.create(ResourceKey.create(Registries.ENTITY_TYPE, WIdentifier.loc("vampirism", "hunter_imob")));
-
-        private static void init() {
-
-        }
-    }
-
-    static {
-        V.init();
-    }
 
     static void register(IEventBus bus) {
         ENTITY_TYPES.register(bus);

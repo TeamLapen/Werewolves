@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.client.render;
 
-import de.teamlapen.vampirism.client.models.entities.ClothedModel;
-import de.teamlapen.vampirism.client.renderer.entities.DualBipedRenderer;
-import de.teamlapen.vampirism.client.renderer.entities.state.AvatarLikeRenderState;
+import de.teamlapen.library.client.models.entities.ClothedModel;
+import de.teamlapen.library.client.renderer.DualBipedRenderer;
+import de.teamlapen.library.client.renderer.entities.state.AvatarLikeRenderState;
 import de.teamlapen.werewolves.common.world.entities.werewolf.HumanWerewolfEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;

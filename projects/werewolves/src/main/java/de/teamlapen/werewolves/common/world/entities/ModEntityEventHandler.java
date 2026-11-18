@@ -10,9 +10,7 @@ import de.teamlapen.werewolves.common.core.ModFactions;
 
 import de.teamlapen.faction.api.factions.IFaction;
 
-import de.teamlapen.vampirism.common.util.UtilLib;
 import de.teamlapen.faction.common.util.TotemHelper;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.werewolf.IVillagerTransformable;
 import de.teamlapen.werewolves.api.entities.werewolf.TransformType;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
@@ -24,9 +22,9 @@ import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.common.world.effects.SilverEffect;
 import de.teamlapen.werewolves.common.world.effects.WerewolfWeakeningEffect;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.mixin.GoalSelectorAccessor;
-import de.teamlapen.werewolves.mixin.NearestAttackabletargetGoalAccessor;
-import de.teamlapen.werewolves.mixin.TargetingConditionsAccessor;
+import de.teamlapen.werewolves.misc.mixin.GoalSelectorAccessor;
+import de.teamlapen.werewolves.misc.mixin.NearestAttackabletargetGoalAccessor;
+import de.teamlapen.werewolves.misc.mixin.TargetingConditionsAccessor;
 import de.teamlapen.werewolves.common.network.ClientboundAttackTargetEventPacket;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
@@ -61,7 +59,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
-import java.util.stream.StreamSupport;
 
 public class ModEntityEventHandler {
 
@@ -119,9 +116,6 @@ public class ModEntityEventHandler {
         }
     }
 
-    /**
-     * copy from {@link de.teamlapen.vampirism.entity.ModEntityEventHandler#makeVampireFriendly(String, Mob, Class, Class, int, BiFunction, Predicate)}
-     */
     @SuppressWarnings("unchecked")
     public static <T extends Mob, S extends LivingEntity, Q extends NearestAttackableTargetGoal<S>> void makeWerewolfFriendly(String name, T entity, Class<Q> targetClass, Class<S> targetEntityClass, int attackPriority, BiFunction<T, TargetingConditions.Selector, Q> replacement, Predicate<EntityType<? extends T>> typeCheck) {
         try {
@@ -189,7 +183,7 @@ public class ModEntityEventHandler {
                     damageReduction *= ModConfig.balance().SKILLS.thick_fur_multiplier.get().floatValue();
                 }
             }
-            if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {
+            if (event.getSource().getEntity() != null /*&& FactionApiHelper.isVampire(event.getSource().getEntity())*/) { // TODO
                 damageReduction *= 0.3f;
             }
             event.setNewDamage(damage * (1 - damageReduction));

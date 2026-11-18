@@ -3,13 +3,9 @@ package de.teamlapen.werewolves.common.world.entities.player;
 import net.minecraft.world.item.equipment.Equippable;
 
 import net.minecraft.core.component.DataComponents;
-
-import de.teamlapen.faction.api.factions.IPlayableFaction;
 import de.teamlapen.faction.api.factions.skills.ISkillHandler;
 import de.teamlapen.faction.common.factions.FactionPlayerHandler;
-import de.teamlapen.faction.common.factions.actions.ActionHandler;
 import de.teamlapen.werewolves.common.advancements.criterion.WerewolfActionCriterionTrigger;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.items.ISilverItem;
@@ -20,7 +16,7 @@ import de.teamlapen.werewolves.common.world.effects.SilverEffect;
 import de.teamlapen.werewolves.common.world.effects.inst.UnWerewolfEffectInstance;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.common.world.entities.werewolf.WerewolfBaseEntity;
-import de.teamlapen.werewolves.mixin.LivingEntityAccessor;
+import de.teamlapen.werewolves.misc.mixin.LivingEntityAccessor;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -42,8 +38,6 @@ import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.*;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-
-import java.util.stream.StreamSupport;
 
 public class ModPlayerEventHandler {
 
@@ -136,12 +130,12 @@ public class ModPlayerEventHandler {
 
     @SubscribeEvent
     public void onItemUseEntity(PlayerInteractEvent.EntityInteract event) {
-        if (event.getEntity().getItemInHand(event.getHand()).getItem() == ModItems.V.INJECTION_EMPTY.get()) {
-            if (event.getTarget() instanceof WerewolfBaseEntity) {
-                event.getEntity().getItemInHand(event.getHand()).shrink(1);
-                event.getEntity().addItem(ModItems.INJECTION_UN_WEREWOLF.get().getDefaultInstance());
-            }
-        }
+//        if (event.getEntity().getItemInHand(event.getHand()).getItem() == ModItems.V.INJECTION_EMPTY.get()) { TODO
+//            if (event.getTarget() instanceof WerewolfBaseEntity) {
+//                event.getEntity().getItemInHand(event.getHand()).shrink(1);
+//                event.getEntity().addItem(ModItems.INJECTION_UN_WEREWOLF.get().getDefaultInstance());
+//            }
+//        }
     }
 
     @SubscribeEvent

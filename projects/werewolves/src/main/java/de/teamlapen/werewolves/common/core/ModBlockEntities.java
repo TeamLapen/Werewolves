@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.werewolves.common.world.blocks.entity.StoneAltarBlockEntity;
-import de.teamlapen.werewolves.common.world.blocks.entity.WolfsbaneDiffuserBlockEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -17,7 +16,6 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, REFERENCE.MODID);
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StoneAltarBlockEntity>> STONE_ALTAR = BLOCK_ENTITY_TYPES.register("stone_altar", () -> create(StoneAltarBlockEntity::new, ModBlocks.STONE_ALTAR.get()));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WolfsbaneDiffuserBlockEntity>> WOLFSBANE_DIFFUSER = BLOCK_ENTITY_TYPES.register("wolfsbane_diffuser", () -> create(WolfsbaneDiffuserBlockEntity::new, ModBlocks.WOLFSBANE_DIFFUSER.get(), ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get()));
 
     static void register(IEventBus bus) {
         BLOCK_ENTITY_TYPES.register(bus);

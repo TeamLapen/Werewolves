@@ -1,11 +1,10 @@
 package de.teamlapen.werewolves.data;
 
 import de.teamlapen.werewolves.common.core.ModBlocks;
-import de.teamlapen.werewolves.mixin.BlockFamiliesAccessor;
+import de.teamlapen.werewolves.misc.mixin.BlockFamiliesAccessor;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ModBlockFamilies {

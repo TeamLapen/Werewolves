@@ -3,19 +3,12 @@ package de.teamlapen.werewolves.data.provider;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.common.collect.ImmutableList;
-import de.teamlapen.vampirism.api.world.items.oil.IOil;
-import de.teamlapen.vampirism.common.world.entity.player.hunter.skills.HunterSkills;
-import de.teamlapen.vampirism.data.builder.AlchemicalCauldronRecipeBuilder;
-import de.teamlapen.vampirism.data.builder.AlchemyTableRecipeBuilder;
-import de.teamlapen.vampirism.data.builder.ShapedWeaponTableRecipeBuilder;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModBlocks;
 import de.teamlapen.werewolves.common.core.ModItems;
-import de.teamlapen.werewolves.common.core.ModOils;
 import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.data.ModBlockFamilies;
 import de.teamlapen.werewolves.util.REFERENCE;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -27,7 +20,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
@@ -66,18 +58,8 @@ public class ModRecipeProvider extends RecipeProvider {
     protected void buildRecipes() {
         TagKey<Item> sticks = Tags.Items.RODS_WOODEN;
         TagKey<Item> silver_ingot = ModTags.Items.SILVER_INGOT;
-        TagKey<Item> silver_nugget = ModTags.Items.SILVER_NUGGET;
-        TagKey<Item> raw_silver = ModTags.Items.RAW_MATERIALS_SILVER;
-        TagKey<Item> iron_ingot = Tags.Items.INGOTS_IRON;
-        TagKey<Item> feathers = Tags.Items.FEATHERS;
-        ItemLike crossbow_arrow = ModItems.V.CROSSBOW_ARROW_NORMAL.get();
         TagKey<Item> planks = ItemTags.PLANKS;
-        TagKey<Item> diamond = Tags.Items.GEMS_DIAMOND;
-        TagKey<Item> obsidian = Tags.Items.OBSIDIANS;
-        ItemLike wolfsbane_diffuser_core = ModItems.WOLFSBANE_DIFFUSER_CORE.get();
-        ItemLike wolfsbane_diffuser_core_improved = ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get();
-        ItemLike wolfsbane_diffuser = ModBlocks.WOLFSBANE_DIFFUSER.get();
-        TagKey<Item> wool = ItemTags.WOOL;
+
         ItemLike wolfsbane = ModBlocks.WOLFSBANE.get();
         ItemLike pelt = ModItems.PELT.get();
         ItemLike dark_pelt = ModItems.DARK_PELT.get();
@@ -126,24 +108,6 @@ public class ModRecipeProvider extends RecipeProvider {
         SimpleCookingRecipeBuilder.smelting(silverTools, RecipeCategory.MISC, CookingBookCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 200).group("silver").unlockedBy("has_silver_tool", has(ModTags.Items.SILVER_TOOL)).save(output, modId("silver_nugget_from_smelting").toString());
         SimpleCookingRecipeBuilder.blasting(silverTools, RecipeCategory.MISC, CookingBookCategory.MISC, ModItems.SILVER_NUGGET.get(), 0.1f, 100).group("silver").unlockedBy("has_silver_tool", has(ModTags.Items.SILVER_TOOL)).save(output, modId("silver_nugget_from_blasting").toString());
 
-        ShapedWeaponTableRecipeBuilder.shapedWeaponTable(this.itemLookup, RecipeCategory.MISC, ModItems.CROSSBOW_ARROW_SILVER_BOLT.get(), 3).pattern(" X ").pattern("XYX").pattern(" S ").pattern(" F ")
-                .lava(1)
-                .define('S', sticks).unlockedBy("hasSticks", has(sticks))
-                .define('X', silver_nugget).unlockedBy("has_silver_nugget", has(silver_nugget))
-                .define('F', feathers).unlockedBy("has_feathers", has(feathers))
-                .define('Y', iron_ingot).unlockedBy("has_iron", has(iron_ingot))
-                .unlockedBy("has_crossbow_arrow", has(crossbow_arrow))
-                .save(output);
-
-        alchemyTable(ModOils.SILVER_OIL_1)
-                .bloodOilIngredient()
-                .input(Ingredient.of(this.itemLookup.getOrThrow(ModTags.Items.SILVER_INGOT))).unlockedBy("has_silver_ingot", has(ModTags.Items.SILVER_INGOT))
-                .save(output, modId("silver_oil_1").toString());
-        alchemyTable(ModOils.SILVER_OIL_2)
-                .oilIngredient(ModOils.SILVER_OIL_1).unlockedBy("has_silver_oil_1", has(de.teamlapen.vampirism.common.core.ModItems.OIL_BOTTLE.get()))
-                .input(Ingredient.of(this.itemLookup.getOrThrow(ModTags.Items.SILVER_INGOT))).unlockedBy("has_silver_ingot", has(ModTags.Items.SILVER_INGOT))
-                .save(output, modId("silver_oil_2").toString());
-
         shaped(RecipeCategory.COMBAT, ModItems.SILVER_HELMET.get()).define('X', silver_ingot).pattern("XXX").pattern("X X").unlockedBy("has_silver_ingot", has(silver_ingot)).save(output);
         shaped(RecipeCategory.COMBAT, ModItems.SILVER_CHESTPLATE.get()).define('X', silver_ingot).pattern("X X").pattern("XXX").pattern("XXX").unlockedBy("has_silver_ingot", has(silver_ingot)).save(output);
         shaped(RecipeCategory.COMBAT, ModItems.SILVER_LEGGINGS.get()).define('X', silver_ingot).pattern("XXX").pattern("X X").pattern("X X").unlockedBy("has_silver_ingot", has(silver_ingot)).save(output);
@@ -165,10 +129,6 @@ public class ModRecipeProvider extends RecipeProvider {
         chestBoat( ModItems.JACARANDA_CHEST_BOAT.get(), ModBlocks.JACARANDA_PLANKS.get());
         chestBoat( ModItems.MAGIC_CHEST_BOAT.get(), ModBlocks.MAGIC_PLANKS.get());
 
-        shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER_LONG.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core).unlockedBy("has_diamond", has(diamond)).save(output, modId("wolfsbane_diffuser_normal").toString());
-        shaped(RecipeCategory.DECORATIONS, ModBlocks.WOLFSBANE_DIFFUSER.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', planks).define('Y', diamond).define('O', obsidian).define('Z', wolfsbane_diffuser_core_improved).unlockedBy("has_garlic_diffuser", has(wolfsbane_diffuser)).unlockedBy("has_diamond", has(diamond)).save(output, modId("wolfsbane_diffuser_improved").toString());
-        AlchemicalCauldronRecipeBuilder.cauldronRecipe(this.itemLookup, new ItemStackTemplate(ModItems.WOLFSBANE_DIFFUSER_CORE.get())).withIngredient(wool).withFluid(wolfsbane).withSkills(HunterSkills.REFINED_GARLIC).save(output);
-        AlchemicalCauldronRecipeBuilder.cauldronRecipe(this.itemLookup, new ItemStackTemplate(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get())).withIngredient(wolfsbane_diffuser_core).withFluid(wolfsbane).withSkills(HunterSkills.REFINED_GARLIC).experience(2.0f).save(output);
         shaped(RecipeCategory.COMBAT, ModItems.PELT_HELMET.get()).define('P', pelt).pattern("PPP").pattern("P P").unlockedBy("has_pelt", has(pelt)).save(output);
         shaped(RecipeCategory.COMBAT, ModItems.PELT_CHESTPLATE.get()).define('P', pelt).pattern("P P").pattern("PPP").pattern("PPP").unlockedBy("has_pelt", has(pelt)).save(output);
         shaped(RecipeCategory.COMBAT, ModItems.PELT_LEGGINGS.get()).define('P', pelt).pattern("PPP").pattern("P P").pattern("P P").unlockedBy("has_pelt", has(pelt)).save(output);
@@ -190,9 +150,6 @@ public class ModRecipeProvider extends RecipeProvider {
         return BuiltInRegistries.ITEM.getKey(pItemLike.asItem()).toString();
     }
 
-    protected AlchemyTableRecipeBuilder alchemyTable(Holder<IOil> oilStack) {
-        return AlchemyTableRecipeBuilder.builder(this.itemLookup, oilStack);
-    }
 
     public static class Runner extends RecipeProvider.Runner {
 

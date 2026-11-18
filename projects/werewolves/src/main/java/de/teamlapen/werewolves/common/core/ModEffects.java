@@ -19,22 +19,9 @@ public class ModEffects {
     public static final DeferredHolder<MobEffect, HowlingEffect> HOWLING = EFFECTS.register("howling", HowlingEffect::new);
     public static final DeferredHolder<MobEffect, WerewolfWeakeningEffect> SILVER = EFFECTS.register("silver", SilverEffect::new);
     public static final DeferredHolder<MobEffect, WerewolfWeakeningEffect> WOLFSBANE = EFFECTS.register("wolfsbane", WolfsbaneEffect::new);
-    public static final DeferredHolder<MobEffect, BleedingEffect> BLEEDING = EFFECTS.register("bleeding", BleedingEffect::new);
     public static final DeferredHolder<MobEffect, UnWerewolfEffect> UN_WEREWOLF = EFFECTS.register("un_werewolf", UnWerewolfEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> BAD_OMEN_WEREWOLF = EFFECTS.register("bad_omen_werewolf", () -> new FactionBadOmenMobEffect(ModFactions.WEREWOLF));
     public static final DeferredHolder<MobEffect, MobEffect> STUN = EFFECTS.register("stun", StunEffect::new);
-
-    public static class V {
-        public static final DeferredHolder<MobEffect, MobEffect> POISON = DeferredHolder.create(ResourceKey.create(Registries.MOB_EFFECT, WIdentifier.loc("vampirism", "poison")));
-
-        private static void init() {
-
-        }
-    }
-
-    static {
-        V.init();
-    }
 
     static void register(IEventBus bus) {
         EFFECTS.register(bus);

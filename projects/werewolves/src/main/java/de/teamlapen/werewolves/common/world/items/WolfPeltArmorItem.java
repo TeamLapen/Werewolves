@@ -1,15 +1,13 @@
 package de.teamlapen.werewolves.common.world.items;
 
 import de.teamlapen.faction.common.components.FactionRestriction;
-import de.teamlapen.vampirism.api.world.items.IItemWithTier;
-import de.teamlapen.werewolves.api.WIdentifier;
+import de.teamlapen.library.api.world.items.IItemWithTier;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.api.items.IWerewolfArmor;
 import de.teamlapen.werewolves.common.core.ModTags;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -17,9 +15,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class WolfPeltArmorItem extends Item implements IWerewolfArmor, IItemWithTier {
@@ -48,7 +44,7 @@ public class WolfPeltArmorItem extends Item implements IWerewolfArmor, IItemWith
     }
 
     @Override
-    public Tier getVampirismTier() {
+    public Tier getTier() {
         return this.tier;
     }
 

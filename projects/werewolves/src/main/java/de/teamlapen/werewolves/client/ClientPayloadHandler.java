@@ -1,9 +1,5 @@
 package de.teamlapen.werewolves.client;
 
-import de.teamlapen.vampirism.common.network.packets.client.ClientboundAddGarlicEmitterPacket;
-import de.teamlapen.vampirism.common.network.packets.client.ClientboundRemoveGarlicEmitterPacket;
-import de.teamlapen.vampirism.common.network.packets.client.ClientboundUpdateGarlicEmitterPacket;
-import de.teamlapen.vampirism.common.world.attachments.LevelGarlic;
 import de.teamlapen.werewolves.common.network.ClientboundAttackTargetEventPacket;
 import de.teamlapen.werewolves.common.network.client.ClientboundAddWolfsbaneEmitterPacket;
 import de.teamlapen.werewolves.common.network.client.ClientboundRemoveWolfsbaneEmitterPacket;

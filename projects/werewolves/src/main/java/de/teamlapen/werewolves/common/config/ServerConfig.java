@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.common.config;
 
-import de.teamlapen.vampirism.common.util.RegUtil;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -33,10 +33,10 @@ public class ServerConfig {
     }
 
     public boolean isCustomMeatItems(Item item) {
-        return this.customMeatItems.get().contains(RegUtil.id(item).toString());
+        return this.customMeatItems.get().contains(BuiltInRegistries.ITEM.getKey(item).toString());
     }
 
     public boolean isCustomRawMeatItems(Item item) {
-        return this.customRawMeatItems.get().contains(RegUtil.id(item).toString());
+        return this.customRawMeatItems.get().contains(BuiltInRegistries.ITEM.getKey(item).toString());
     }
 }

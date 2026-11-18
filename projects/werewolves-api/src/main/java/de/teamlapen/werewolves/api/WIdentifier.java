@@ -11,6 +11,9 @@ public class WIdentifier {
     public static Identifier mod(String path) {
         return Identifier.fromNamespaceAndPath(WReference.MODID, path);
     }
+    public static String modString(String path) {
+        return WReference.MODID + ":" + path;
+    }
 
     public static Identifier common(String path) {
         return Identifier.fromNamespaceAndPath("c", path);

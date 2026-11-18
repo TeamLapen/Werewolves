@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.common.network;
 
-import de.teamlapen.vampirism.common.util.serialization.StreamCodecExtension;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.util.CodecExtensions;

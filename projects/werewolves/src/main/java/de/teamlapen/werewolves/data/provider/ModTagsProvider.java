@@ -1,11 +1,10 @@
 package de.teamlapen.werewolves.data.provider;
 
 import de.teamlapen.faction.api.factions.IFaction;
-import de.teamlapen.vampirism.common.tags.ModBiomeTags;
-
 import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.factions.skills.ISkillTree;
 import de.teamlapen.faction.api.factions.tasks.Task;
+import de.teamlapen.faction.common.tags.FactionPoiTypeTags;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.skill.WerewolfSkill;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -88,11 +87,7 @@ public class ModTagsProvider {
 
             this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
             ;
-            this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                    .add(ModBlocks.WOLFSBANE_DIFFUSER.get())
-                    .add(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get())
-                    .add(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get())
-            ;
+
             this.tag(BlockTags.MINEABLE_WITH_AXE)
             ;
             this.tag(BlockTags.MINEABLE_WITH_HOE)
@@ -101,11 +96,7 @@ public class ModTagsProvider {
             ;
             this.tag(BlockTags.NEEDS_IRON_TOOL)
             ;
-            this.tag(BlockTags.NEEDS_DIAMOND_TOOL)
-                    .add(ModBlocks.WOLFSBANE_DIFFUSER.get())
-                    .add(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get())
-                    .add(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get())
-            ;
+
             this.tag(ModTags.Blocks.INCORRECT_FOR_SILVER_TOOL).addTag(BlockTags.NEEDS_DIAMOND_TOOL);
         }
     }
@@ -138,7 +129,7 @@ public class ModTagsProvider {
 
             this.tag(ModTags.Items.SILVER_INGOT).add(ModItems.SILVER_INGOT.get());
             this.tag(ModTags.Items.SILVER_NUGGET).add(ModItems.SILVER_NUGGET.get());
-            this.tag(ModTags.Items.RAW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.LIVER.get(), ModItems.V.HUMAN_HEART.get(), ModItems.V.WEAK_HUMAN_HEART.get(), Items.SALMON, Items.TROPICAL_FISH, Items.COD);
+            this.tag(ModTags.Items.RAW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT, ModItems.LIVER.get(), Items.SALMON, Items.TROPICAL_FISH, Items.COD);
             this.tag(ModTags.Items.COOKED_MEAT).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP, Items.COOKED_COD, Items.COOKED_SALMON);
             this.tag(ModTags.Items.RAW_FISH).add(Items.COD, Items.SALMON, Items.PUFFERFISH, Items.TROPICAL_FISH);
             this.tag(ModTags.Items.COOKED_FISH).add(Items.COOKED_COD, Items.COOKED_SALMON);
@@ -188,12 +179,12 @@ public class ModTagsProvider {
             this.tag(ModTags.Biomes.IS_WEREWOLF_BIOME).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(ModTags.Biomes.HasSpawn.WEREWOLF).addTag(BiomeTags.IS_TAIGA);
-            this.tag(ModTags.Biomes.NoSpawn.WEREWOLF).addTag(ModBiomeTags.HasFaction.IS_FACTION_BIOME);
+            this.tag(ModTags.Biomes.NoSpawn.WEREWOLF).addTag(ModTags.Biomes.IS_FACTION_BIOME);
             this.tag(ModTags.Biomes.HasSpawn.HUMAN_WEREWOLF).addTag(BiomeTags.IS_TAIGA);
-            this.tag(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF).addTag(ModBiomeTags.HasFaction.IS_FACTION_BIOME);
+            this.tag(ModTags.Biomes.NoSpawn.HUMAN_WEREWOLF).addTag(ModTags.Biomes.IS_FACTION_BIOME);
             this.tag(ModTags.Biomes.HasGen.SILVER_ORE).addTag(BiomeTags.IS_OVERWORLD);
             this.tag(ModTags.Biomes.HasGen.WOLFSBANE).addTag(BiomeTags.IS_FOREST);
-            this.tag(ModBiomeTags.HasFaction.IS_FACTION_BIOME).addTag(ModTags.Biomes.IS_WEREWOLF_BIOME);
+            this.tag(ModTags.Biomes.IS_FACTION_BIOME).addTag(ModTags.Biomes.IS_WEREWOLF_BIOME);
             this.tag(BiomeTags.IS_OVERWORLD).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(BiomeTags.IS_FOREST).add(ModBiomes.WEREWOLF_FOREST);
             this.tag(Tags.Biomes.IS_DENSE_VEGETATION_OVERWORLD).add(ModBiomes.WEREWOLF_FOREST);
@@ -215,7 +206,7 @@ public class ModTagsProvider {
         @Override
         protected void addTags(HolderLookup.Provider holderProvider) {
             this.tag(ModTags.PoiTypes.IS_WEREWOLF).add(ModVillage.WEREWOLF_FACTION.getKey());
-            this.tag(ModTags.PoiTypes.HAS_FACTION).addTags(ModTags.PoiTypes.IS_WEREWOLF);
+            this.tag(FactionPoiTypeTags.HAS_FACTION).addTags(ModTags.PoiTypes.IS_WEREWOLF);
             tag(PoiTypeTags.ACQUIRABLE_JOB_SITE).add(ModVillage.WEREWOLF_FACTION.getKey());
             tag(PoiTypeTags.VILLAGE).add(ModVillage.WEREWOLF_FACTION.getKey());
         }

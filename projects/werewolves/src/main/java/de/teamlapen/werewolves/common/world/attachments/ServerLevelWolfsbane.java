@@ -1,10 +1,7 @@
 package de.teamlapen.werewolves.common.world.attachments;
 
-import de.teamlapen.vampirism.common.network.packets.client.ClientboundAddGarlicEmitterPacket;
-import de.teamlapen.vampirism.common.network.packets.client.ClientboundRemoveGarlicEmitterPacket;
-import de.teamlapen.vampirism.common.network.packets.client.ClientboundUpdateGarlicEmitterPacket;
-import de.teamlapen.vampirism.common.world.attachments.LevelGarlic;
 import de.teamlapen.werewolves.common.network.client.ClientboundAddWolfsbaneEmitterPacket;
+import de.teamlapen.werewolves.common.network.client.ClientboundRemoveWolfsbaneEmitterPacket;
 import de.teamlapen.werewolves.common.network.client.ClientboundUpdateWolfsbaneEmitterPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,7 +26,7 @@ public class ServerLevelWolfsbane extends LevelWolfsbane{
 
     @Override
     protected void notifyRemove(int emitter) {
-        ClientboundRemoveGarlicEmitterPacket packet = new ClientboundRemoveGarlicEmitterPacket(emitter);
+        ClientboundRemoveWolfsbaneEmitterPacket packet = new ClientboundRemoveWolfsbaneEmitterPacket(emitter);
         for (ServerPlayer player : this.serverLevel.getLevel().players()) {
             player.connection.send(packet);
         }

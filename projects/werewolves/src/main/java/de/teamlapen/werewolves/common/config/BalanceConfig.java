@@ -162,6 +162,7 @@ public class BalanceConfig {
         public final ModConfigSpec.IntValue sense_radius;
         public final ModConfigSpec.IntValue sense_duration;
         public final ModConfigSpec.IntValue sense_cooldown;
+        public final ModConfigSpec.IntValue sense_distance_sq;
 
         //stun bite skill
         public final ModConfigSpec.IntValue stun_bite_duration;
@@ -293,6 +294,9 @@ public class BalanceConfig {
             this.sense_radius = builder.defineInRange("sense_radius", 25, 1, 400);
             this.sense_duration = builder.comment("In seconds").defineInRange("sense_duration", 30, 1, Integer.MAX_VALUE);
             this.sense_cooldown = builder.comment("In seconds").defineInRange("sense_cooldown", 90, 1, Integer.MAX_VALUE);
+            this.sense_distance_sq = builder
+                    .comment("Squared distance within which entities are highlighted by the blood vision skill.")
+                    .defineInRange("sesne_distance_sq", 1600, 5, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("stun_bite");

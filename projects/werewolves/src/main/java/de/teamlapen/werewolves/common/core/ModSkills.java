@@ -12,26 +12,18 @@ import de.teamlapen.faction.common.core.FactionConsumer;
 import de.teamlapen.faction.common.core.FactionSkills;
 import de.teamlapen.faction.common.factions.skills.SkillSegment;
 import de.teamlapen.faction.common.factions.skills.SkillTree;
-import de.teamlapen.vampirism.common.world.entity.player.hunter.skills.HunterSkills;
-import de.teamlapen.vampirism.common.world.entity.player.lord.skills.LordSkills;
-import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.common.config.ModConfig;
-import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
-import de.teamlapen.werewolves.common.world.entities.player.werewolf.actions.SurvivalWerewolfFormAction;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.skill.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderGetter;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.neoforged.bus.api.IEventBus;
 import org.jetbrains.annotations.ApiStatus;
@@ -219,7 +211,7 @@ public class ModSkills {
             lord(LORD_2, ModSkills.MINION_STATS_INCREASE)
                     .parents(LORD_ROOT)
                     .register(context);
-            lord(LORD_3, LordSkills.LORD_SPEED, LordSkills.LORD_ATTACK_SPEED)
+            lord(LORD_3, FactionSkills.LORD_SPEED, FactionSkills.LORD_ATTACK_SPEED)
                     .parents(LORD_ROOT)
                     .register(context);
             lord(LORD_4, ModSkills.MINION_COLLECT)
@@ -232,7 +224,7 @@ public class ModSkills {
 
         @SafeVarargs
         public static SkillSegment.Builder level(ResourceKey<ISkillSegment> key, Holder<? extends ISkill<?>>... skills) {
-            return SkillSegment.Builder.of(HunterSkills.Trees.LEVEL, key, skills);
+            return SkillSegment.Builder.of(ModSkills.Trees.LEVEL, key, skills);
         }
 
         @SafeVarargs

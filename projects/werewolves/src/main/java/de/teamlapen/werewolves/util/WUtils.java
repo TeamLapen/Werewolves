@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.util;
 
-import de.teamlapen.werewolves.mixin.ObjectiveCriteriaAccessor;
+import de.teamlapen.werewolves.misc.mixin.ObjectiveCriteriaAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;

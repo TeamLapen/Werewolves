@@ -2,10 +2,9 @@ package de.teamlapen.werewolves.common.world.entities.werewolf;
 
 import de.teamlapen.faction.api.factions.IFactionPredicate;
 import de.teamlapen.faction.common.world.entities.ForceLookEntityGoal;
+import de.teamlapen.faction.common.world.entities.IDefaultTaskMasterEntity;
 import de.teamlapen.faction.common.world.entities.goals.LookAtClosestVisibleGoal;
 import de.teamlapen.faction.common.world.inventory.TaskBoardMenu;
-import de.teamlapen.vampirism.common.world.entity.IDefaultTaskMasterEntity;
-import de.teamlapen.vampirism.common.world.entity.hunter.HunterBaseEntity;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.core.BlockPos;
@@ -77,7 +76,6 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
         this.goalSelector.addGoal(8, new MoveThroughVillageGoal(this, 0.6D, true, 600, () -> false));
         this.goalSelector.addGoal(9, new RandomStrollGoal(this, 0.7D));
         this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, Player.class, 20.0F, 0.6F));
-        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, HunterBaseEntity.class, 17.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
     }

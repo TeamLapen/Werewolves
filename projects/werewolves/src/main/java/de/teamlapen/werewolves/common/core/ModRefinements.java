@@ -2,8 +2,7 @@ package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.factions.refinements.IRefinement;
-import de.teamlapen.vampirism.api.VampirismRegistries;
-import de.teamlapen.vampirism.common.world.entity.player.refinements.Refinement;
+import de.teamlapen.faction.common.world.refinements.Refinement;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.resources.ResourceKey;

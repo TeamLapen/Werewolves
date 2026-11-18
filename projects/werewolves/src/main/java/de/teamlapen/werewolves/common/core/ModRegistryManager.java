@@ -3,6 +3,7 @@ package de.teamlapen.werewolves.common.core;
 import de.teamlapen.faction.Services;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -25,7 +26,6 @@ public class ModRegistryManager extends Services {
         ModCommands.register(bus);
         ModActions.register(bus);
         ModSkills.register(bus);
-        ModOils.register(bus);
         ModMinionTasks.register(bus);
         ModWorld.register(bus);
         ModAttachments.register(bus);
@@ -51,5 +51,10 @@ public class ModRegistryManager extends Services {
     @SubscribeEvent
     public void onRegisterDataMapTypes(RegisterDataMapTypesEvent event) {
         ModDataMaps.registerDataMaps(event);
+    }
+
+    @SubscribeEvent
+    public void setup(FMLCommonSetupEvent event) {
+        event.enqueueWork(ModBlocks::registerFlammables);
     }
 }

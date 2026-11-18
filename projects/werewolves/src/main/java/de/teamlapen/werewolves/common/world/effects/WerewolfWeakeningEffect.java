@@ -1,8 +1,8 @@
 package de.teamlapen.werewolves.common.world.effects;
 
+import de.teamlapen.faction.common.world.entities.player.LevelAttributeModifier;
+import de.teamlapen.library.api.difficulty.IAdjustableLevel;
 import net.minecraft.server.level.ServerLevel;
-import de.teamlapen.vampirism.api.difficulty.IAdjustableLevel;
-import de.teamlapen.vampirism.common.world.entity.player.LevelAttributeModifier;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolf;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;

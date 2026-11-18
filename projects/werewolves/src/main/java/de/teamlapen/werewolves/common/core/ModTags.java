@@ -4,7 +4,7 @@ import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.factions.IFaction;
 import de.teamlapen.faction.api.factions.skills.ISkillTree;
 import de.teamlapen.faction.api.factions.tasks.Task;
-import de.teamlapen.vampirism.api.util.VIdentifier;
+import de.teamlapen.faction.api.util.FIdentifier;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.registries.Registries;
@@ -90,6 +90,7 @@ public class ModTags {
 
     public static class Biomes {
         public static final TagKey<Biome> IS_WEREWOLF_BIOME = tag("has_faction/werewolf");
+        public static final TagKey<Biome> IS_FACTION_BIOME = faction("has_faction");
 
         public static class HasGen {
             public static final TagKey<Biome> SILVER_ORE = tag("has_gen/silver_ore");
@@ -109,18 +110,16 @@ public class ModTags {
         private static TagKey<Biome> tag(String name) {
             return TagKey.create(Registries.BIOME, WIdentifier.mod( name));
         }
+        private static TagKey<Biome> faction(String name) {
+            return TagKey.create(Registries.BIOME, FIdentifier.mod( name));
+        }
     }
 
     public static class PoiTypes {
         public static final TagKey<PoiType> IS_WEREWOLF = tag("is_werewolf");
-        public static final TagKey<PoiType> HAS_FACTION = vampirism("has_faction");
 
         private static TagKey<PoiType> tag(String name) {
             return tag(REFERENCE.MODID, name);
-        }
-
-        private static TagKey<PoiType> vampirism(String name) {
-            return tag(de.teamlapen.vampirism.REFERENCE.MODID, name);
         }
 
         private static TagKey<PoiType> tag(String modid, String name) {
@@ -166,6 +165,10 @@ public class ModTags {
 
     public static class Entities {
         public static final TagKey<EntityType<?>> WEREWOLF = tag("werewolf");
+        public static final TagKey<EntityType<?>> VAMPIRE = vampirism("vampire");
+        public static final TagKey<EntityType<?>> HUNTER = vampirism("hunter");
+        public static final TagKey<EntityType<?>> ADVANCED_HUNTER = vampirism("advanced_hunter");
+        public static final TagKey<EntityType<?>> ADVANCED_VAMPIRE = vampirism("advanced_hunter");
 
         private static TagKey<EntityType<?>> tag(Identifier resourceLocation) {
             return TagKey.create(Registries.ENTITY_TYPE, resourceLocation);
@@ -173,6 +176,9 @@ public class ModTags {
 
         private static TagKey<EntityType<?>> tag(String name) {
             return tag(WIdentifier.mod(name));
+        }
+        private static TagKey<EntityType<?>> vampirism(String name) {
+            return tag(WIdentifier.loc("vampirism", name));
         }
     }
 

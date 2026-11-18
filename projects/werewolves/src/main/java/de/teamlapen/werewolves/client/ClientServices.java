@@ -39,6 +39,7 @@ public class ClientServices extends Services {
         bus.addListener(this.renderHandler::createBuffers);
         bus.addListener(de.teamlapen.werewolves.client.extensions.EffectExtensions::registerClientExtensions);
         bus.register(de.teamlapen.werewolves.client.extensions.ItemExtensions.class);
+        bus.addListener(ModRenderPipelines::registerRenderPipelines);
     }
 
     public ModHUDOverlay hudOverlay() {

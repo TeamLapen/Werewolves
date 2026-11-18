@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import de.teamlapen.vampirism.client.core.ModRenderPipelines;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
 

@@ -3,7 +3,7 @@ package de.teamlapen.werewolves.common.world.attachments;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import de.teamlapen.vampirism.api.world.EnumStrength;
+import de.teamlapen.library.api.world.EnumStrength;
 import de.teamlapen.werewolves.api.world.IWolfsbaneChunkHandler;
 import de.teamlapen.werewolves.common.core.ModAttachments;
 import net.minecraft.commands.CommandSourceStack;
@@ -29,7 +29,7 @@ public class LevelWolfsbane implements IWolfsbaneChunkHandler {
         return level.getData(ModAttachments.LEVEL_WOLFSBANE);
     }
 
-    private final HashMap<ChunkPos, de.teamlapen.vampirism.api.world.EnumStrength> strengthHashMap = Maps.newHashMap();
+    private final HashMap<ChunkPos, EnumStrength> strengthHashMap = Maps.newHashMap();
     protected final HashMap<Integer, LevelWolfsbane.Emitter> emitterHashMap = Maps.newHashMap();
 
     @Override
@@ -75,7 +75,7 @@ public class LevelWolfsbane implements IWolfsbaneChunkHandler {
         strengthHashMap.clear();
         for (LevelWolfsbane.Emitter e : emitterHashMap.values()) {
             for (ChunkPos pos : e.pos) {
-                de.teamlapen.vampirism.api.world.EnumStrength old = strengthHashMap.get(pos);
+                EnumStrength old = strengthHashMap.get(pos);
                 if (old == null || e.strength.isStrongerThan(old)) {
                     strengthHashMap.put(pos, e.strength);
                 }
@@ -95,7 +95,7 @@ public class LevelWolfsbane implements IWolfsbaneChunkHandler {
         for (LevelWolfsbane.Emitter e : emitterHashMap.values()) {
             sender.sendSuccess(() -> Component.literal("E: " + e.toString()), true);
         }
-        for (Map.Entry<ChunkPos, de.teamlapen.vampirism.api.world.EnumStrength> e : strengthHashMap.entrySet()) {
+        for (Map.Entry<ChunkPos, EnumStrength> e : strengthHashMap.entrySet()) {
             sender.sendSuccess(() -> Component.literal("S: " + e.toString()), true);
         }
     }
@@ -107,15 +107,15 @@ public class LevelWolfsbane implements IWolfsbaneChunkHandler {
         notifyClear();
     }
 
-    public record Emitter(de.teamlapen.vampirism.api.world.EnumStrength strength, List<ChunkPos> pos) {
+    public record Emitter(EnumStrength strength, List<ChunkPos> pos) {
         public static Codec<LevelWolfsbane.Emitter> CODEC = RecordCodecBuilder.create(inst ->
                 inst.group(
-                        de.teamlapen.vampirism.api.world.EnumStrength.CODEC.fieldOf("strength").forGetter(s -> s.strength),
+                        EnumStrength.CODEC.fieldOf("strength").forGetter(s -> s.strength),
                         ChunkPos.CODEC.listOf().fieldOf("pos").forGetter(x -> x.pos)
                 ).apply(inst, LevelWolfsbane.Emitter::new)
         );
         public static final StreamCodec<RegistryFriendlyByteBuf, LevelWolfsbane.Emitter> STREAM_CODEC = StreamCodec.composite(
-                NeoForgeStreamCodecs.enumCodec(de.teamlapen.vampirism.api.world.EnumStrength.class), LevelWolfsbane.Emitter::strength,
+                NeoForgeStreamCodecs.enumCodec(EnumStrength.class), LevelWolfsbane.Emitter::strength,
                 NeoForgeStreamCodecs.CHUNK_POS.apply(ByteBufCodecs.list()), LevelWolfsbane.Emitter::pos,
                 LevelWolfsbane.Emitter::new
         );

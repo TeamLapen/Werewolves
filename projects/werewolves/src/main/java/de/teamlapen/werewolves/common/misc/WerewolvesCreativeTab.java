@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.common.misc;
 
-import de.teamlapen.vampirism.common.core.ModCreativeTabs;
-import de.teamlapen.vampirism.common.world.items.BaseDisplayItemGenerator;
+import de.teamlapen.library.common.world.items.BaseDisplayItemGenerator;
 import de.teamlapen.werewolves.common.core.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -13,7 +12,6 @@ public class WerewolvesCreativeTab {
 
     public static CreativeModeTab.Builder builder() {
         return CreativeModeTab.builder()
-                .withTabsBefore(ModCreativeTabs.VAMPIRISM_TAB.getKey())
                 .title(Component.translatable("itemGroup.werewolves"))
                 .icon(() -> ModItems.LIVER.get().getDefaultInstance())
                 .displayItems(new WerewolvesDisplayItemGenerator());
@@ -33,9 +31,6 @@ public class WerewolvesCreativeTab {
             add(DAFFODIL);
             add(STONE_ALTAR);
             add(STONE_ALTAR_FIRE_BOWL);
-            add(WOLFSBANE_DIFFUSER);
-            add(WOLFSBANE_DIFFUSER_LONG);
-            add(WOLFSBANE_DIFFUSER_IMPROVED);
         }
 
         private void addBuildingBlocks() {
@@ -89,7 +84,6 @@ public class WerewolvesCreativeTab {
             add(SILVER_AXE);
             add(SILVER_SHOVEL);
             add(SILVER_HOE);
-            add(CROSSBOW_ARROW_SILVER_BOLT);
             add(SILVER_INGOT);
             add(RAW_SILVER);
             add(SILVER_NUGGET);
@@ -121,8 +115,6 @@ public class WerewolvesCreativeTab {
             add(WEREWOLF_MINION_UPGRADE_ENHANCED);
             add(WEREWOLF_MINION_UPGRADE_SPECIAL);
             add(INJECTION_UN_WEREWOLF);
-            add(WOLFSBANE_DIFFUSER_CORE);
-            add(WOLFSBANE_DIFFUSER_CORE_IMPROVED);
             add(WOLFSBANE_FINDER);
         }
     }

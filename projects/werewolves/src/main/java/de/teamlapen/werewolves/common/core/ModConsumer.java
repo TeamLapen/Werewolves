@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.world.entities.player.FactionPlayerConsumer;
-import de.teamlapen.vampirism.common.world.entity.player.vampire.VampirePlayer;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.actions.SurvivalWerewolfFormAction;
 import de.teamlapen.werewolves.util.REFERENCE;

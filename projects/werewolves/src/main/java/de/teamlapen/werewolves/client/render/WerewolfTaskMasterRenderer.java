@@ -1,9 +1,9 @@
 package de.teamlapen.werewolves.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import de.teamlapen.vampirism.client.core.ModEntitiesRender;
-import de.teamlapen.vampirism.client.renderer.entities.layers.TaskMasterTypeLayer;
-import de.teamlapen.vampirism.client.renderer.entities.state.TaskMasterRenderState;
+import de.teamlapen.faction.client.core.FactionEntitiesRenderer;
+import de.teamlapen.faction.client.renderer.entities.layers.TaskMasterTypeLayer;
+import de.teamlapen.faction.client.renderer.entities.state.TaskMasterRenderState;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.world.entities.werewolf.WerewolfTaskMasterEntity;
 import net.minecraft.client.model.npc.VillagerModel;
@@ -20,7 +20,7 @@ public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEn
     private final static Identifier overlay = WIdentifier.mod("textures/entity/werewolf_task_master_overlay.png");
 
     public WerewolfTaskMasterRenderer(EntityRendererProvider.Context context) {
-        super(context, new VillagerModel(context.bakeLayer(ModEntitiesRender.TASK_MASTER)), 0.5f);
+        super(context, new VillagerModel(context.bakeLayer(FactionEntitiesRenderer.TASK_MASTER)), 0.5f);
         this.addLayer(new TaskMasterTypeLayer<>(this, overlay));
     }
 

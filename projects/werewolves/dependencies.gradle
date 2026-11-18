@@ -25,8 +25,8 @@ dependencies {
         runtimeOnly(accessTransformers(interfaceInjectionData("de.teamlapen.faction:FactionApi:${project.werewolves_factions_version}")))
 
     if (include_vampirism.toBoolean()) {
-        vampirismCompileOnly(accessTransformers(interfaceInjectionData("de.teamlapen.vampirism:Vampirism:${project.werewolves_vampirism_version}")))
-        runtimeOnly(accessTransformers(interfaceInjectionData("de.teamlapen.vampirism:Vampirism:${project.werewolves_vampirism_version}")))
+        vampirismCompileOnly("de.teamlapen.vampirism:Vampirism:${project.werewolves_vampirism_version}")
+        runtimeOnly("de.teamlapen.vampirism:Vampirism:${project.werewolves_vampirism_version}")
     }
 
     if (include_jei.toBoolean()) {

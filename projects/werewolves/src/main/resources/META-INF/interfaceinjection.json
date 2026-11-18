@@ -1,0 +1,8 @@
+{
+  "net/minecraft/client/renderer/feature/FeatureRenderDispatcher": [
+    "de/teamlapen/werewolves/misc/injection/client/IFeatureRenderDispatcherWerewolvesMock"
+  ],
+  "net/minecraft/client/renderer/LevelRenderer": [
+    "de/teamlapen/werewolves/misc/injection/client/ILevelRendererWerewolvesMock"
+  ]
+}

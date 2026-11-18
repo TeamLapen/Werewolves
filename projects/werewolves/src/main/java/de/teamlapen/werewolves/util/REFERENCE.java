@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.util;
 
 import de.teamlapen.werewolves.api.WIdentifier;
-import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.resources.Identifier;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;

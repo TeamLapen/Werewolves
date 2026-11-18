@@ -3,9 +3,9 @@ package de.teamlapen.werewolves.client.core;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.faction.api.factions.IFactionEntity;
-import de.teamlapen.vampirism.client.core.ModRenderPipelines;
-import de.teamlapen.vampirism.client.renderer.bloodvision.NoOpOutlineBufferSource;
+import de.teamlapen.library.client.renderer.NoOpOutlineBufferSource;
 import de.teamlapen.werewolves.api.WIdentifier;
+import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModActions;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
@@ -31,7 +31,6 @@ import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.util.context.ContextKey;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -41,7 +40,6 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.SequencedMap;
 
@@ -113,7 +111,7 @@ public class RenderHandler implements ResourceManagerReloadListener {
             this.cachedRenderStates = List.of();
             return;
         }
-        double maxDistance = de.teamlapen.vampirism.common.config.ModConfig.balance().vsBloodVisionDistanceSq.get();
+        double maxDistance = ModConfig.balance().SKILLS.sense_distance_sq.get();
         this.cachedRenderStates = event.getRenderState().entityRenderStates.stream()
                 .filter(LivingEntityRenderState.class::isInstance)
                 .map(LivingEntityRenderState.class::cast)
@@ -130,9 +128,9 @@ public class RenderHandler implements ResourceManagerReloadListener {
         blur.process(this.mc().getMainRenderTarget(), this.mc().gameRenderer.resourcePool);
 
         PoseStack poseStack = new PoseStack();
-        ModelPartFeatureRenderer parts = this.mc().gameRenderer.getFeatureRenderDispatcher().vampirism$modelPartFeatureRenderer();
-        ModelFeatureRenderer models = this.mc().gameRenderer.getFeatureRenderDispatcher().vampirism$modelFeatureFeatureRenderer();
-        EntityRenderDispatcher dispatcher = event.getLevelRenderer().vampirism$entityRenderDispatcher();
+        ModelPartFeatureRenderer parts = this.mc().gameRenderer.getFeatureRenderDispatcher().werewolves$modelPartFeatureRenderer();
+        ModelFeatureRenderer models = this.mc().gameRenderer.getFeatureRenderDispatcher().werewolves$modelFeatureRenderer();
+        EntityRenderDispatcher dispatcher = event.getLevelRenderer().werewolves$entityRenderDispatcher();
         float progress = getVisionProgress();
 
         for (LivingEntityRenderState state : this.cachedRenderStates) {

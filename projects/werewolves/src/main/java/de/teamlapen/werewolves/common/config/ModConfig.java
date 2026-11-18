@@ -3,7 +3,6 @@ package de.teamlapen.werewolves.common.config;
 import de.teamlapen.faction.Services;
 import de.teamlapen.faction.client.config.values.ColorConfigValue;
 import de.teamlapen.faction.common.util.ConfigValueCodec;
-import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.werewolves.WerewolvesMod;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.util.FormHelper;

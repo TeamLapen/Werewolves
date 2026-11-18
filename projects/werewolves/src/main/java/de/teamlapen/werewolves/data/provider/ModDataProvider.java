@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.data.provider;
 
-import de.teamlapen.vampirism.data.ModBlockFamilies;
 import de.teamlapen.werewolves.common.core.ModRegistries;
+import de.teamlapen.werewolves.data.ModBlockFamilies;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;

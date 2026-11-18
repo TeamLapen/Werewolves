@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.common.world.features;
 
-import de.teamlapen.vampirism.common.world.features.VampirismFeatures;
 import net.minecraft.world.level.block.grower.TreeGrower;
 
 import java.util.Optional;

@@ -5,14 +5,9 @@ import de.teamlapen.faction.api.factions.level.FactionUpdate;
 import de.teamlapen.faction.common.factions.FactionPlayerHandler;
 import de.teamlapen.faction.common.world.blockentity.InventoryBlockEntity;
 import de.teamlapen.faction.common.world.inventory.InventoryHelper;
-import de.teamlapen.vampirism.VampirismMod;
-import de.teamlapen.vampirism.common.core.ModParticles;
-import de.teamlapen.werewolves.common.core.ModFactions;
+import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.world.blocks.StoneAltarBlock;
 import de.teamlapen.werewolves.common.world.blocks.StoneAltarFireBowlBlock;
-import de.teamlapen.werewolves.common.core.ModBlocks;
-import de.teamlapen.werewolves.common.core.ModItems;
-import de.teamlapen.werewolves.common.core.ModBlockEntities;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfLevelConf;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.common.world.inventory.container.StoneAltarContainer;
@@ -23,6 +18,7 @@ import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -84,10 +80,12 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
                         blockEntity.setChanged();
                         level.setBlockAndUpdate(pos, state.setValue(StoneAltarBlock.LIT, false));
                     } else if (blockEntity.ticks % 10 == 0) {
-                        ModParticles.spawnParticlesServer(level, ParticleTypes.MYCELIUM, pos.getX() + Math.random(), pos.getY() + 1, pos.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
-                        if (blockEntity.fire_bowls != null) {
-                            for (BlockPos fire_bowl : blockEntity.fire_bowls) {
-                                ModParticles.spawnParticlesServer(level, ParticleTypes.MYCELIUM, fire_bowl.getX() + Math.random(), fire_bowl.getY() + 1, fire_bowl.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
+                        if (level instanceof ServerLevel serverLevel) {
+                            serverLevel.sendParticles(ParticleTypes.MYCELIUM, pos.getX() + Math.random(), pos.getY() + 1, pos.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
+                            if (blockEntity.fire_bowls != null) {
+                                for (BlockPos fire_bowl : blockEntity.fire_bowls) {
+                                    serverLevel.sendParticles(ParticleTypes.MYCELIUM, fire_bowl.getX() + Math.random(), fire_bowl.getY() + 1, fire_bowl.getZ() + Math.random(), 30, 0.6, 0.6, 0.6, 0);
+                                }
                             }
                         }
                     }
@@ -199,7 +197,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
             return Result.NIGHT_ONLY;
         } else if (!checkItemRequirements(player)) {
             return Result.INV_MISSING;
-        } else if (!WerewolfPlayer.get(player).getLevelHandler().canLevelUp() && !VampirismMod.inDev) {
+        } else if (!WerewolfPlayer.get(player).getLevelHandler().canLevelUp()) {
             return Result.TO_LESS_BLOOD;
         }
         return Result.OK;

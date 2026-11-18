@@ -26,8 +26,6 @@ import java.util.stream.Stream;
  */
 public class ModItemModelGenerator extends ItemModelGenerators {
 
-    private static final ModelTemplate DIFFUSER_CORE = new ModelTemplate(Optional.of(vLoc("item/garlic_diffuser_core")), Optional.empty(), TextureSlot.TEXTURE);
-
     public ModItemModelGenerator(ItemModelGenerators generator) {
         super(generator.itemModelOutput, generator.modelOutput);
     }
@@ -90,10 +88,8 @@ public class ModItemModelGenerator extends ItemModelGenerators {
         this.accessory(ModItems.CHARM_BRACELET.get(), "charm_bracelet");
         this.accessory(ModItems.BONE_NECKLACE.get(), "bone_necklace");
 
-        this.diffuserCore(ModItems.WOLFSBANE_DIFFUSER_CORE.get(), modLoc("block/wolfsbane_diffuser_inside"));
-        this.diffuserCore(ModItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.get(), modLoc("block/wolfsbane_diffuser_improved_inside"));
 
-        this.flatWithTexture(ModItems.CROSSBOW_ARROW_SILVER_BOLT.get(), vLoc("item/quarrel"));
+
     }
 
     protected static Identifier vLoc(String string) {
@@ -119,9 +115,5 @@ public class ModItemModelGenerator extends ItemModelGenerators {
 
     protected void flatWithTexture(Item item, Identifier texture) {
         this.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(new Material(texture)), this.modelOutput)));
-    }
-
-    protected void diffuserCore(Item item, Identifier texture) {
-        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(DIFFUSER_CORE.create(ModelLocationUtils.getModelLocation(item), new TextureMapping().put(TextureSlot.TEXTURE, new Material(texture)), this.modelOutput)));
     }
 }

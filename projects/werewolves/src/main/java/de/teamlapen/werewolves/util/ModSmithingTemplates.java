@@ -9,7 +9,8 @@ import net.minecraft.world.item.SmithingTemplateItem;
 
 import java.util.List;
 
-import static de.teamlapen.werewolves.mixin.SmithingTemplateItemAccessor.*;
+import static de.teamlapen.werewolves.misc.mixin.SmithingTemplateItemAccessor.getDescriptionFormat;
+import static de.teamlapen.werewolves.misc.mixin.SmithingTemplateItemAccessor.getTitleFormat;
 
 public class ModSmithingTemplates {
     private static final Component WHITE_PELT_UPGRADE_APPLIES_TO = Component.translatable(Util.makeDescriptionId("item", WIdentifier.mod("smithing_template.white_pelt_upgrade.applies_to"))).withStyle(getDescriptionFormat());

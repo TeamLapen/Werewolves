@@ -48,10 +48,10 @@ neoForge {
 
 //    validateAccessTransformers = true
 
-//    interfaceInjectionData {
-//        from project.file("src/main/resources/META-INF/interfaceinjection.json")
-//        publish project.file("src/main/resources/META-INF/interfaceinjection.json")
-//    }
+    interfaceInjectionData {
+        from project.file("src/main/resources/META-INF/interfaceinjection.json")
+        publish project.file("src/main/resources/META-INF/interfaceinjection.json")
+    }
 
     accessTransformers {
         from project.file("src/main/resources/META-INF/accesstransformer.cfg")

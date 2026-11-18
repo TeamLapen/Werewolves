@@ -1,8 +1,10 @@
 package de.teamlapen.werewolves.common.world.entities.werewolf;
 
-import de.teamlapen.vampirism.common.config.BalanceMobProps;
+import de.teamlapen.library.api.difficulty.Difficulty;
+import de.teamlapen.library.api.difficulty.IAdjustableLevel;
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfAlpha;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
+import de.teamlapen.werewolves.common.config.EntityProperties;
 import de.teamlapen.werewolves.common.core.ModBiomes;
 import de.teamlapen.werewolves.common.core.ModSounds;
 import net.minecraft.core.BlockPos;
@@ -11,8 +13,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import de.teamlapen.faction.api.factions.IFactionPredicate;
 import de.teamlapen.faction.common.factions.FactionPlayerHandler;
 import de.teamlapen.faction.common.world.entities.goals.LookAtClosestVisibleGoal;
-import de.teamlapen.vampirism.api.difficulty.Difficulty;
-import de.teamlapen.vampirism.api.difficulty.IAdjustableLevel;
 import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -32,9 +32,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolfAlpha, IAdjustableLevel {
@@ -48,9 +46,9 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     public static AttributeSupplier.Builder getAttributeBuilder() {
         return WerewolfBaseEntity.getAttributeBuilder() //TODO values
-                .add(Attributes.MAX_HEALTH, BalanceMobProps.mobProps.VAMPIRE_BARON_MAX_HEALTH)
-                .add(Attributes.ATTACK_DAMAGE, BalanceMobProps.mobProps.VAMPIRE_BARON_ATTACK_DAMAGE)
-                .add(Attributes.MOVEMENT_SPEED, BalanceMobProps.mobProps.VAMPIRE_BARON_MOVEMENT_SPEED)
+                .add(Attributes.MAX_HEALTH, EntityProperties.VAMPIRE_BARON_MAX_HEALTH)
+                .add(Attributes.ATTACK_DAMAGE, EntityProperties.VAMPIRE_BARON_ATTACK_DAMAGE)
+                .add(Attributes.MOVEMENT_SPEED, EntityProperties.VAMPIRE_BARON_MOVEMENT_SPEED)
                 .add(Attributes.FOLLOW_RANGE, 5);
     }
 
@@ -107,7 +105,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     @Override
     public int getMaxFollowerCount() {
-        return (int) ((BalanceMobProps.mobProps.ADVANCED_VAMPIRE_MAX_FOLLOWER) * ((this.getEntityLevel() + 1) / (float) (this.getMaxEntityLevel() + 1)));
+        return (int) ((EntityProperties.ADVANCED_VAMPIRE_MAX_FOLLOWER) * ((this.getEntityLevel() + 1) / (float) (this.getMaxEntityLevel() + 1)));
     }
 
     @Override
@@ -125,12 +123,12 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    protected boolean canRide(@NotNull Entity pVehicle) {
+    protected boolean canRide(Entity pVehicle) {
         return false;
     }
 
     @Override
-    public boolean killedEntity(@NotNull ServerLevel level, @NotNull LivingEntity entity, @NotNull DamageSource source) {
+    public boolean killedEntity(ServerLevel level, LivingEntity entity, DamageSource source) {
         super.killedEntity(level, entity, source);
         if (entity instanceof WerewolfAlphaEntity) {
             this.setHealth(this.getMaxHealth());
@@ -139,7 +137,7 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
     }
 
     @Override
-    protected void readAdditionalSaveData(@Nonnull ValueInput nbt) {
+    protected void readAdditionalSaveData(ValueInput nbt) {
         super.readAdditionalSaveData(nbt);
         nbt.getInt("level").ifPresent(this::setEntityLevel);
     }
@@ -209,7 +207,6 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
         return false;
     }
 
-    @Nonnull
     @Override
     public WerewolfForm getForm() {
         return WerewolfForm.BEAST4L;
@@ -240,8 +237,8 @@ public class WerewolfAlphaEntity extends WerewolfBaseEntity implements IWerewolf
 
     protected void updateEntityAttributes() { //TODO different values
         this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(20D);
-        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_BARON_MOVEMENT_SPEED * Math.pow((BalanceMobProps.mobProps.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL - 1) / 5 + 1, (getEntityLevel())));
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_BARON_MAX_HEALTH * Math.pow(BalanceMobProps.mobProps.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL, getEntityLevel()));
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(BalanceMobProps.mobProps.VAMPIRE_BARON_ATTACK_DAMAGE * Math.pow(BalanceMobProps.mobProps.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL, getEntityLevel()));
+        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(EntityProperties.VAMPIRE_BARON_MOVEMENT_SPEED * Math.pow((EntityProperties.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL - 1) / 5 + 1, (getEntityLevel())));
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(EntityProperties.VAMPIRE_BARON_MAX_HEALTH * Math.pow(EntityProperties.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL, getEntityLevel()));
+        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(EntityProperties.VAMPIRE_BARON_ATTACK_DAMAGE * Math.pow(EntityProperties.VAMPIRE_BARON_IMPROVEMENT_PER_LEVEL, getEntityLevel()));
     }
 }

@@ -2,8 +2,8 @@ package de.teamlapen.werewolves.common.world.entities.player.werewolf;
 
 import de.teamlapen.faction.common.factions.minions.MinionData;
 import de.teamlapen.faction.common.util.ScoreboardUtil;
-import de.teamlapen.vampirism.api.world.EnumStrength;
-
+import de.teamlapen.faction.common.world.entities.player.LevelAttributeModifier;
+import de.teamlapen.library.api.world.EnumStrength;
 import net.minecraft.world.level.ChunkPos;
 
 import de.teamlapen.faction.api.factions.IDisguise;
@@ -11,7 +11,6 @@ import de.teamlapen.faction.api.factions.actions.IAction;
 import de.teamlapen.faction.api.factions.actions.IActionHandler;
 import de.teamlapen.faction.api.factions.level.FactionUpdate;
 import de.teamlapen.faction.api.factions.lord.ILordPlayer;
-import de.teamlapen.faction.api.factions.refinements.IRefinementAccess;
 import de.teamlapen.faction.api.factions.refinements.IRefinementHandler;
 import de.teamlapen.faction.api.factions.skills.ISkillHandler;
 import de.teamlapen.faction.common.config.FactionConfig;
@@ -22,7 +21,6 @@ import de.teamlapen.faction.common.factions.minions.MinionWorldData;
 import de.teamlapen.faction.common.factions.skills.SkillHandler;
 import de.teamlapen.faction.common.util.AttachmentSynchronization;
 import de.teamlapen.faction.common.util.ModCodecs;
-import de.teamlapen.vampirism.common.world.entity.player.LevelAttributeModifier;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
@@ -31,23 +29,19 @@ import de.teamlapen.werewolves.api.items.IWerewolfArmor;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.effects.LupusSanguinemEffect;
-import de.teamlapen.werewolves.common.world.effects.WolfsbaneEffect;
 import de.teamlapen.werewolves.common.world.effects.inst.WerewolfNightVisionEffectInstance;
-import de.teamlapen.werewolves.common.world.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.properties.*;
-import de.teamlapen.werewolves.mixin.FoodStatsAccessor;
-import de.teamlapen.werewolves.mixin.entity.PlayerAccessor;
+import de.teamlapen.werewolves.misc.mixin.FoodStatsAccessor;
+import de.teamlapen.werewolves.misc.mixin.entity.PlayerAccessor;
 import de.teamlapen.werewolves.util.*;
 import de.teamlapen.werewolves.common.world.attachments.LevelWolfsbane;
 import de.teamlapen.werewolves.common.world.attachments.ModDamageSources;
 import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -197,9 +191,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     }
                 }
 
-                if (this.player.tickCount % de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level(), true)) {
-                    this.player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(this.player, de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS + 10, this.wolfsbaneCache));
-                }
+//                if (this.player.tickCount % de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level(), true)) {
+//                    this.player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(this.player, de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS + 10, this.wolfsbaneCache));
+//                } TODO
             } else {
 
                 this.actionHandler.updateActions();
@@ -323,9 +317,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     }
                     entity.addEffect(new MobEffectInstance(ModEffects.STUN, duration));
                 }
-                if (this.skillHandler.isSkillEnabled(ModSkills.BLEEDING_BITE)) {
-                    entity.addEffect(new MobEffectInstance(ModEffects.BLEEDING, ModConfig.balance().SKILLS.bleeding_bite_duration.get(), refinements.isRefinementEquipped(ModRefinements.BLEEDING_BITE) ? 3 : 0));
-                }
+//                if (this.skillHandler.isSkillEnabled(ModSkills.BLEEDING_BITE)) { TODO
+//                    entity.addEffect(new MobEffectInstance(ModEffects.BLEEDING, ModConfig.balance().SKILLS.bleeding_bite_duration.get(), refinements.isRefinementEquipped(ModRefinements.BLEEDING_BITE) ? 3 : 0));
+//                }
             }
             if (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.asEntity(), Permissions.INFECT_PLAYER)) {
                 LupusSanguinemEffect.infectRandomByPlayer(entity);

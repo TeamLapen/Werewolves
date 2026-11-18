@@ -4,8 +4,6 @@ import net.minecraft.client.data.models.model.TexturedModel;
 
 import de.teamlapen.faction.data.provider.model.FactionsModelTemplates;
 import de.teamlapen.faction.data.provider.model.FactionsTextureSlots;
-import de.teamlapen.vampirism.data.provider.models.ModModelTemplates;
-import de.teamlapen.vampirism.data.provider.models.ModTextureSlots;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModBlocks;
 import de.teamlapen.werewolves.common.world.blocks.StoneAltarFireBowlBlock;
@@ -45,7 +43,6 @@ public class ModBlockModelGenerators extends BlockModelGenerators {
     public void run() {
         createFamilies(ModBlockFamilies.ALL.values());
 
-        createDiffuser();
         createWood();
         createPlants();
         createTotem();
@@ -53,20 +50,6 @@ public class ModBlockModelGenerators extends BlockModelGenerators {
         createStoneAltar();
     }
 
-
-    protected void createDiffuser() {
-        Identifier defaultModel = ModModelTemplates.GARLIC_DIFFUSER.create(ModBlocks.WOLFSBANE_DIFFUSER.get(), new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.mod("block/wolfsbane_diffuser_inside"))), this.modelOutput);
-        this.blockStateOutput.accept(createSimpleBlock(ModBlocks.WOLFSBANE_DIFFUSER.get(), plainVariant(defaultModel)));
-        createDefaultBlockItem(ModBlocks.WOLFSBANE_DIFFUSER.get(), defaultModel);
-
-        Identifier strongModel = ModModelTemplates.GARLIC_DIFFUSER.create(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.mod("block/wolfsbane_diffuser_improved_inside"))), this.modelOutput);
-        this.blockStateOutput.accept(createSimpleBlock(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), plainVariant(strongModel)));
-        createDefaultBlockItem(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), strongModel);
-
-        Identifier longModel = ModModelTemplates.GARLIC_DIFFUSER.create(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.loc("vampirism", "block/garlic_diffuser_core_long"))), this.modelOutput);
-        this.blockStateOutput.accept(createSimpleBlock(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), plainVariant(longModel)));
-        createDefaultBlockItem(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get(), longModel);
-    }
 
     protected void createWood() {
         this.woodProvider(ModBlocks.JACARANDA_LOG.get()).logWithHorizontal(ModBlocks.JACARANDA_LOG.get()).wood(ModBlocks.JACARANDA_WOOD.get());

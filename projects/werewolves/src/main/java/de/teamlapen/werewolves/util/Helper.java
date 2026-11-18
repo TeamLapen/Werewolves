@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class Helper extends de.teamlapen.vampirism.common.util.Helper {
+public class Helper {
 
     public static boolean isWerewolf(Entity entity) {
         return (entity instanceof Player player && isWerewolf(player)) || IFaction.is(FactionsApi.services().factionHelper().getFaction(entity), ModFactions.WEREWOLF);
@@ -145,7 +145,12 @@ public class Helper extends de.teamlapen.vampirism.common.util.Helper {
     }
 
     public static boolean isNoLiving(LivingEntity entity) {
-        return entity.isInvertedHealAndHarm() || isVampire(entity);
+        return entity.isInvertedHealAndHarm();
     }
 
+
+    public static boolean isDay(Level level, BlockPos pos) {
+        float angle = level.environmentAttributes().getValue(EnvironmentAttributes.SUN_ANGLE, pos) / 360;
+        return angle > 0.78 || angle < 0.24;
+    }
 }

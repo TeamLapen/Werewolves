@@ -1,13 +1,13 @@
 package de.teamlapen.werewolves.data.provider;
 
+import de.teamlapen.faction.data.loot.functions.RefinementSetFunction;
 import net.minecraft.world.item.Items;
 
 import de.teamlapen.faction.common.core.FactionBlocks;
 import de.teamlapen.faction.common.core.FactionLootContextParamSets;
-import de.teamlapen.vampirism.data.loot.functions.RefinementSetFunction;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.world.blocks.WolfBerryBushBlock;
-import de.teamlapen.werewolves.mixin.VanillaBlockLootAccessor;
+import de.teamlapen.werewolves.misc.mixin.VanillaBlockLootAccessor;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -77,8 +77,7 @@ public class LootTablesProvider {
                             .add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1))
                             .add(LootItem.lootTableItem(Items.MUTTON).setWeight(1))
                             .add(LootItem.lootTableItem(ModItems.CRACKED_BONE.get()).setWeight(2))
-                            .add(LootItem.lootTableItem(ModItems.WEREWOLF_TOOTH.get()).setWeight(1))
-                            .add(LootItem.lootTableItem(ModItems.V.HUMAN_HEART.get()).setWeight(1))));
+                            .add(LootItem.lootTableItem(ModItems.WEREWOLF_TOOTH.get()).setWeight(1))));
         }
     }
 
@@ -176,9 +175,6 @@ public class LootTablesProvider {
             this.add(ModBlocks.MAGIC_LEAVES.get(), (block) -> createLeavesDrops(block, ModBlocks.MAGIC_SAPLING.get(), DEFAULT_SAPLING_DROP_RATES));
             this.dropSelf(ModBlocks.JACARANDA_SAPLING.get());
             this.dropSelf(ModBlocks.MAGIC_SAPLING.get());
-            this.dropSelf(ModBlocks.WOLFSBANE_DIFFUSER.get());
-            this.dropSelf(ModBlocks.WOLFSBANE_DIFFUSER_LONG.get());
-            this.dropSelf(ModBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get());
         }
 
         @Nonnull
@@ -245,8 +241,7 @@ public class LootTablesProvider {
                             .name("hunter")
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.1f, 0.015f))
-                            .setRolls(ConstantValue.exactly(1))
-                            .add(LootItem.lootTableItem(ModItems.V.VAMPIRE_BOOK.get()).setWeight(1)))
+                            .setRolls(ConstantValue.exactly(1)))
             );
             this.add(ModEntities.WOLF.get(), LootTable.lootTable());
             this.add(ModEntities.ALPHA_WEREWOLF.get(), LootTable.lootTable()
