@@ -38,7 +38,9 @@ public class ModItems {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, REFERENCE.MODID);
 
     public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, WIdentifier.mod("default"));
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register(CREATIVE_TAB_KEY.identifier().getPath(), () -> WerewolvesCreativeTab.builder().withTabsBefore(WIdentifier.loc(REFERENCE.VMODID, REFERENCE.VMODID + "_hunter")).build());
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register(CREATIVE_TAB_KEY.identifier().getPath(), () -> WerewolvesCreativeTab.builder()
+            .withTabsBefore(WIdentifier.loc(REFERENCE.VMODID, REFERENCE.VMODID), WIdentifier.loc(REFERENCE.VMODID, REFERENCE.VMODID + "_hunter"), WIdentifier.loc(REFERENCE.VMODID, REFERENCE.VMODID + "_vampire"))
+            .build());
 
     public static final DeferredItem<Item> SILVER_INGOT = ITEMS.registerItem("silver_ingot", Item::new);
     public static final DeferredItem<HoeItem> SILVER_HOE = ITEMS.registerItem("silver_hoe", (props) -> new HoeItem(SILVER, -1, -1.0f, props));
