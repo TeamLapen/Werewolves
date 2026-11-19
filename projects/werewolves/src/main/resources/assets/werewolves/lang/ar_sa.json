@@ -1,0 +1,12 @@
+{
+  "text.werewolves.werewolf": "المستذئب",
+  "text.vampirism.werewolves": "المستذئبون",
+  "itemGroup.werewolves": "المستذئبون",
+  "keys.werewolves.category": "المستذئبون",
+  "keys.werewolves.bite": "عض",
+  "entity.werewolves.werewolf_beast": "المستذئب",
+  "entity.werewolves.werewolf_survivalist": "المستذئب",
+  "guide.werewolves.entity.werewolf.title": "المستذئب",
+  "subtitles.werewolves.entity.werewolf.bite": "عض",
+  "advancements.werewolves": "المستذئبون"
+}
