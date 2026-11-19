@@ -1,0 +1,17 @@
+{
+  "text.werewolves.werewolf": "Loup-garou",
+  "text.vampirism.werewolves": "Loups-garous",
+  "itemGroup.werewolves": "Loups-garous",
+  "keys.werewolves.category": "Loups-garous",
+  "keys.werewolves.leap": "Bondir",
+  "keys.werewolves.bite": "Mordre",
+  "text.werewolves.slayed_creatures": "Créatures",
+  "text.werewolves.nomount.transformed": "Impossible de monter en étant transformé",
+  "text.werewolves.taste_not_right": "Ça n'a pas un goût normal",
+  "entity.werewolves.werewolf_beast": "Loup-garou",
+  "entity.werewolves.werewolf_survivalist": "Loup-garou",
+  "action.werewolves.leap": "Bondir",
+  "guide.werewolves.entity.werewolf.title": "Loup-garou",
+  "subtitles.werewolves.entity.werewolf.bite": "Mordre",
+  "advancements.werewolves": "Loups-garous"
+}
