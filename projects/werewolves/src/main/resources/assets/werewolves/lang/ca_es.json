@@ -1,0 +1,22 @@
+{
+  "text.werewolves.werewolf": "Home llop",
+  "text.vampirism.werewolves": "Homes llop",
+  "itemGroup.werewolves": "Homes llop",
+  "keys.werewolves.category": "Homes llop",
+  "keys.werewolves.leap": "Abalançar-se",
+  "keys.werewolves.bite": "Mossegada",
+  "text.werewolves.slayed_creatures": "Criatura",
+  "text.werewolves.nomount.transformed": "No pots muntar mentre estes transformat",
+  "text.werewolves.taste_not_right": "Això no sap bé",
+  "text.werewolves.mca_integration.first": "MCA Reborn es parcialment incompatible amb Werewolves.",
+  "text.werewolves.mca_integration.seconds": "Per arreglar aixo fes un ull aqui.",
+  "biome.werewolves.werewolf_heaven": "Arbreda d'homes llop",
+  "biome.werewolves.werewolf_forest": "Arbreda d'homes llop",
+  "block.werewolves.silver_ore": "Mena de plata",
+  "entity.werewolves.werewolf_beast": "Home llop",
+  "entity.werewolves.werewolf_survivalist": "Home llop",
+  "action.werewolves.leap": "Abalançar-se",
+  "guide.werewolves.entity.werewolf.title": "Home llop",
+  "subtitles.werewolves.entity.werewolf.bite": "Mossegada",
+  "advancements.werewolves": "Homes llop"
+}
