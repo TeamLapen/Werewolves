@@ -1,10 +1,13 @@
 package de.teamlapen.werewolves.integration.vampirism.common.world.blockentities;
 
 import de.teamlapen.library.api.world.EnumStrength;
+import de.teamlapen.vampirism.api.VampirismFactions;
 import de.teamlapen.vampirism.common.world.blockentity.diffuser.DiffuserBlockEntity;
 import de.teamlapen.vampirism.common.world.inventory.DiffuserMenu;
 import de.teamlapen.werewolves.common.core.ModFactions;
 import de.teamlapen.werewolves.common.world.attachments.LevelWolfsbane;
+import de.teamlapen.werewolves.common.world.effects.WolfsbaneEffect;
+import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatBlockEntities;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatDataMaps;
 import de.teamlapen.werewolves.integration.vampirism.common.datamaps.WolfsbaneDiffuserFuel;
@@ -77,12 +80,15 @@ public class WolfsbaneDiffuserBlockEntity extends DiffuserBlockEntity {
 
     @Override
     public boolean canOpen(Player pPlayer) {
-        return tryAccess(pPlayer, ModFactions.WEREWOLF, getName()) && super.canOpen(pPlayer);
+        return tryAccess(pPlayer, VampirismFactions.HUNTER, getName()) && super.canOpen(pPlayer);
     }
 
 
+    @Override
     public void onTouched(Player player) {
-        //TODO add wolfsbane effect
+        if (Helper.isWerewolf(player)) {
+            player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(player, 20 * 20, this.type.getStrength() - 1));
+        }
     }
 
     @Override

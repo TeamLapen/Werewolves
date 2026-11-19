@@ -35,7 +35,10 @@ public class CompatLootTablesProvider {
         protected void generate() {
             this.dropSelf(CompatBlocks.WOLFSBANE_DIFFUSER.get());
             this.dropSelf(CompatBlocks.WOLFSBANE_DIFFUSER_LONG.get());
-            this.dropSelf(CompatBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get());
+            this.dropSelf(CompatBlocks.WOLFSBANE_DIFFUSER_STRONG.get());
+            this.dropSelf(CompatBlocks.WOLFSBANE_DIFFUSER_CORE.get());
+            this.dropSelf(CompatBlocks.WOLFSBANE_DIFFUSER_CORE_STRONG.get());
+            this.dropSelf(CompatBlocks.WOLFSBANE_DIFFUSER_CORE_LONG.get());
         }
 
         protected Iterable<Block> getKnownBlocks() {

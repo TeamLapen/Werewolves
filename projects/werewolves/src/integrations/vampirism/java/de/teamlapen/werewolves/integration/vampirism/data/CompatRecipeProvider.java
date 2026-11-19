@@ -23,6 +23,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.concurrent.CompletableFuture;
@@ -52,10 +53,16 @@ public class CompatRecipeProvider extends VampirismRecipeProvider {
                 .input(Ingredient.of(this.itemLookup.getOrThrow(ModItemTags.SILVER_INGOT))).unlockedBy("has_silver_ingot", has(ModItemTags.SILVER_INGOT))
                 .save(output, modId("silver_oil_2").toString());
 
-        cauldronRecipe(CompatItems.WOLFSBANE_DIFFUSER_CORE).withIngredient(ItemTags.WOOL).withFluid(ModItems.WOLFSBANE).withSkills(HunterSkills.REFINED_GARLIC).save(output);
-        cauldronRecipe(CompatItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED).withIngredient(CompatItems.WOLFSBANE_DIFFUSER_CORE).withFluid(ModItems.WOLFSBANE).withSkills(HunterSkills.REFINED_GARLIC).experience(2.0f).save(output);
-        shaped(RecipeCategory.DECORATIONS, CompatBlocks.WOLFSBANE_DIFFUSER_LONG.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', ItemTags.PLANKS).define('Y', diamond).define('O', obsidian).define('Z', CompatItems.WOLFSBANE_DIFFUSER_CORE).unlockedBy("has_diamond", has(diamond)).save(output, modId("wolfsbane_diffuser_normal").toString());
-        shaped(RecipeCategory.DECORATIONS, CompatBlocks.WOLFSBANE_DIFFUSER.get()).pattern("XYX").pattern("YZY").pattern("OOO").define('X', ItemTags.PLANKS).define('Y', diamond).define('O', obsidian).define('Z', CompatItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED).unlockedBy("has_garlic_diffuser", has(CompatItems.WOLFSBANE_DIFFUSER)).unlockedBy("has_diamond", has(diamond)).save(output, modId("wolfsbane_diffuser_improved").toString());
+        cauldronRecipe(CompatItems.WOLFSBANE_DIFFUSER_CORE).withIngredient(ItemTags.WOOL).withFluid(ModItems.WOLFSBANE).withSkills(HunterSkills.VAMPIRE_REPELLING).save(output);
+        cauldronRecipe(CompatItems.WOLFSBANE_DIFFUSER_CORE_STRONG).withIngredient(CompatItems.WOLFSBANE_DIFFUSER_CORE).withFluid(de.teamlapen.vampirism.common.core.ModItems.HOLY_WATER_BOTTLE_ULTIMATE).withSkills(HunterSkills.AUGMENTED_DIFFUSERS).experience(2.0f).save(output);
+        cauldronRecipe(CompatItems.WOLFSBANE_DIFFUSER_CORE_LONG).withIngredient(CompatItems.WOLFSBANE_DIFFUSER_CORE).withFluid(ModItems.WOLFSBANE).withSkills(HunterSkills.AUGMENTED_DIFFUSERS).experience(2.0f).save(output);
+        diffuser(CompatBlocks.WOLFSBANE_DIFFUSER.get(), CompatItems.WOLFSBANE_DIFFUSER_CORE.get(), diamond, obsidian);
+        diffuser(CompatBlocks.WOLFSBANE_DIFFUSER_STRONG.get(), CompatItems.WOLFSBANE_DIFFUSER_CORE_STRONG.get(), diamond, obsidian);
+        diffuser(CompatBlocks.WOLFSBANE_DIFFUSER_LONG.get(), CompatItems.WOLFSBANE_DIFFUSER_CORE_LONG.get(), diamond, obsidian);
+    }
+
+    protected void diffuser(ItemLike result, ItemLike core, TagKey<Item> diamond, TagKey<Item> obsidian) {
+        shaped(RecipeCategory.DECORATIONS, result).pattern("XYX").pattern("YZY").pattern("OOO").define('X', ItemTags.PLANKS).define('Y', diamond).define('O', obsidian).define('Z', core).unlockedBy("has_core", has(core)).save(output);
     }
 
     protected AlchemyTableRecipeBuilder alchemyTable(Holder<IOil> oilStack) {

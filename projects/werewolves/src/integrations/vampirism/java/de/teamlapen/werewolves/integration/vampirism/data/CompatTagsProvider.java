@@ -30,12 +30,12 @@ public class CompatTagsProvider {
             this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                     .add(CompatBlocks.WOLFSBANE_DIFFUSER.get())
                     .add(CompatBlocks.WOLFSBANE_DIFFUSER_LONG.get())
-                    .add(CompatBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get())
+                    .add(CompatBlocks.WOLFSBANE_DIFFUSER_STRONG.get())
             ;
             this.tag(BlockTags.NEEDS_DIAMOND_TOOL)
                     .add(CompatBlocks.WOLFSBANE_DIFFUSER.get())
                     .add(CompatBlocks.WOLFSBANE_DIFFUSER_LONG.get())
-                    .add(CompatBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get())
+                    .add(CompatBlocks.WOLFSBANE_DIFFUSER_STRONG.get())
             ;
 
         }

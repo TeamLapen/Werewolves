@@ -12,10 +12,11 @@ public class CompatEventHandler {
         if (ModItems.CREATIVE_TAB.is(event.getTabKey())) {
             event.insertAfter(ModItems.STONE_ALTAR_FIRE_BOWL.toStack(), CompatItems.WOLFSBANE_DIFFUSER.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(CompatItems.WOLFSBANE_DIFFUSER.toStack(), CompatItems.WOLFSBANE_DIFFUSER_LONG.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.insertAfter(CompatItems.WOLFSBANE_DIFFUSER_LONG.toStack(), CompatItems.WOLFSBANE_DIFFUSER_IMPROVED.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(CompatItems.WOLFSBANE_DIFFUSER_LONG.toStack(), CompatItems.WOLFSBANE_DIFFUSER_STRONG.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.SILVER_HOE.toStack(), CompatItems.QUARREL_SILVER.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(ModItems.INJECTION_UN_WEREWOLF.toStack(), CompatItems.WOLFSBANE_DIFFUSER_CORE.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.insertAfter(CompatItems.WOLFSBANE_DIFFUSER_CORE.toStack(), CompatItems.WOLFSBANE_DIFFUSER_CORE_IMPROVED.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(CompatItems.WOLFSBANE_DIFFUSER_CORE.toStack(), CompatItems.WOLFSBANE_DIFFUSER_CORE_STRONG.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(CompatItems.WOLFSBANE_DIFFUSER_CORE_STRONG.toStack(), CompatItems.WOLFSBANE_DIFFUSER_CORE_LONG.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }
 }

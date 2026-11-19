@@ -419,16 +419,16 @@ public class BalanceConfig {
 
     public static class Blocks {
         public final ModConfigSpec.IntValue wolfsbaneDiffuserNormalDist;
+        public final ModConfigSpec.IntValue wolfsbaneDiffuserStrongDist;
         public final ModConfigSpec.IntValue wolfsbaneDiffuserLongDist;
-        public final ModConfigSpec.IntValue wolfsbaneDiffuserImprovedDist;
         public final ModConfigSpec.IntValue wolfsbaneDiffuserNormalDuration;
         public final ModConfigSpec.IntValue wolfsbaneDiffuserLongDuration;
         public final ModConfigSpec.IntValue wolfsbaneDiffuserImprovedDuration;
 
         public Blocks(ModConfigSpec.Builder builder) {
-            this.wolfsbaneDiffuserNormalDist = builder.comment("The chunk radius a normal diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserNormalDist", 1, 0, 5);
-            this.wolfsbaneDiffuserLongDist = builder.comment("The chunk radius a long diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserLongDist", 0, 0, 5);
-            this.wolfsbaneDiffuserImprovedDist = builder.comment("The chunk radius a improved diffusor affects. 0 results in a one chunk area.").defineInRange("wolfsbaneDiffuserImprovedDist", 2, 0, 5);
+            this.wolfsbaneDiffuserNormalDist = builder.comment("The chunk radius a normal diffuser affects. 0 results in a one chunk area. Only affects newly placed blocks.").defineInRange("wolfsbaneDiffuserNormalDist", 0, 0, 5);
+            this.wolfsbaneDiffuserStrongDist = builder.comment("The chunk radius a strong diffuser affects. 0 results in a one chunk area. Only affects newly placed blocks.").defineInRange("wolfsbaneDiffuserStrongDist", 1, 0, 5);
+            this.wolfsbaneDiffuserLongDist = builder.comment("The chunk radius a long diffuser affects. 0 results in a one chunk area. Only affects newly placed blocks.").defineInRange("wolfsbaneDiffuserLongDist", 2, 0, 5);
 
             this.wolfsbaneDiffuserNormalDuration = builder.comment("The duration in seconds a normal diffusor is active per charge").defineInRange("wolfsbaneDiffuserNormalDuration", 600, 1, Integer.MAX_VALUE);
             this.wolfsbaneDiffuserLongDuration = builder.comment("The duration in seconds a long diffusor is active per charge").defineInRange("wolfsbaneDiffuserLongDuration", 1200, 1, Integer.MAX_VALUE);

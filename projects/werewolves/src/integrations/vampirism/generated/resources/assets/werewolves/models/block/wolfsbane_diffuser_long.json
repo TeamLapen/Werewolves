@@ -1,6 +1,6 @@
 {
-  "parent": "factionapi:block/diffuser",
+  "parent": "vampirism:block/diffuser",
   "textures": {
-    "core": "vampirism:block/garlic_diffuser_core_long"
+    "core": "werewolves:block/wolfsbane_diffuser_core_long"
   }
 }

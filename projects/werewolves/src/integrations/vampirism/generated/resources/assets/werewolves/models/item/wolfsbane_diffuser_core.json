@@ -1,6 +1,6 @@
 {
-  "parent": "factionapi:block/diffuser_core",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "core": "werewolves:block/wolfsbane_diffuser_inside"
+    "layer0": "werewolves:item/wolfsbane_diffuser_core"
   }
 }

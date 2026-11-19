@@ -5,9 +5,9 @@
   "info": {},
   "ingredient": "werewolves:wolfsbane_diffuser_core",
   "result": {
-    "id": "werewolves:wolfsbane_diffuser_core_improved"
+    "id": "werewolves:wolfsbane_diffuser_core_long"
   },
   "skill": [
-    "vampirism:refined_garlic"
+    "vampirism:augmented_diffusers"
   ]
 }

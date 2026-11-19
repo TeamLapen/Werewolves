@@ -1,0 +1,6 @@
+{
+  "parent": "vampirism:block/diffuser_core",
+  "textures": {
+    "core": "werewolves:block/wolfsbane_diffuser_core_long"
+  }
+}

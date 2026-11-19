@@ -32,17 +32,26 @@ public class CompatBlockModelGenerator extends BlockModelGenerators {
     }
 
     protected void createDiffuser() {
-        Identifier defaultModel = ModModelTemplates.DIFFUSER.create(CompatBlocks.WOLFSBANE_DIFFUSER.get(), new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.mod("block/wolfsbane_diffuser_inside"))), this.modelOutput);
-        this.blockStateOutput.accept(createSimpleBlock(CompatBlocks.WOLFSBANE_DIFFUSER.get(), plainVariant(defaultModel)));
-        createDefaultBlockItem(CompatBlocks.WOLFSBANE_DIFFUSER.get(), defaultModel);
+        createDiffuser(CompatBlocks.WOLFSBANE_DIFFUSER.get(), "block/wolfsbane_diffuser_core");
+        createDiffuser(CompatBlocks.WOLFSBANE_DIFFUSER_STRONG.get(), "block/wolfsbane_diffuser_core_strong");
+        createDiffuser(CompatBlocks.WOLFSBANE_DIFFUSER_LONG.get(), "block/wolfsbane_diffuser_core_long");
 
-        Identifier strongModel = ModModelTemplates.DIFFUSER.create(CompatBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.mod("block/wolfsbane_diffuser_improved_inside"))), this.modelOutput);
-        this.blockStateOutput.accept(createSimpleBlock(CompatBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), plainVariant(strongModel)));
-        createDefaultBlockItem(CompatBlocks.WOLFSBANE_DIFFUSER_IMPROVED.get(), strongModel);
+        createDiffuserCore(CompatBlocks.WOLFSBANE_DIFFUSER_CORE.get(), "wolfsbane_diffuser_core");
+        createDiffuserCore(CompatBlocks.WOLFSBANE_DIFFUSER_CORE_STRONG.get(), "wolfsbane_diffuser_core_strong");
+        createDiffuserCore(CompatBlocks.WOLFSBANE_DIFFUSER_CORE_LONG.get(), "wolfsbane_diffuser_core_long");
+    }
 
-        Identifier longModel = ModModelTemplates.DIFFUSER.create(CompatBlocks.WOLFSBANE_DIFFUSER_LONG.get(), new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.loc("vampirism", "block/garlic_diffuser_core_long"))), this.modelOutput);
-        this.blockStateOutput.accept(createSimpleBlock(CompatBlocks.WOLFSBANE_DIFFUSER_LONG.get(), plainVariant(longModel)));
-        createDefaultBlockItem(CompatBlocks.WOLFSBANE_DIFFUSER_LONG.get(), longModel);
+    protected void createDiffuser(Block block, String coreTexture) {
+        Identifier model = ModModelTemplates.DIFFUSER.create(block, new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.mod(coreTexture))), this.modelOutput);
+        this.blockStateOutput.accept(createSimpleBlock(block, plainVariant(model)));
+        createDefaultBlockItem(block, model);
+    }
+
+    protected void createDiffuserCore(Block block, String texture) {
+        Identifier model = ModModelTemplates.DIFFUSER_CORE.create(block, new TextureMapping().put(ModTextureSlots.CORE, new Material(WIdentifier.mod("block/" + texture))), this.modelOutput);
+        this.blockStateOutput.accept(createSimpleBlock(block, plainVariant(model)));
+        registerSimpleItemModel(block, WIdentifier.mod("item/" + texture));
+        createFlatItemModel(block.asItem());
     }
 
 

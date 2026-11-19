@@ -1,6 +1,0 @@
-{
-  "parent": "factionapi:block/diffuser",
-  "textures": {
-    "core": "werewolves:block/wolfsbane_diffuser_improved_inside"
-  }
-}

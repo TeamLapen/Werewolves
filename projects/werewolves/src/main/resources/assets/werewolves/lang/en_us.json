@@ -102,15 +102,18 @@
   "block.werewolves.totem_top_werewolves_werewolf_crafted": "Village Totem Top",
   "block.werewolves.wolf_berry_bush": "Wolf Berry Bush",
   "block.werewolves.wolfsbane": "Wolfsbane",
-  "block.werewolves.wolfsbane_diffuser": "Wolfsbane Diffuser",
-  "block.werewolves.wolfsbane_diffuser.improved": "Improved",
-  "block.werewolves.wolfsbane_diffuser.long": "Long",
-  "block.werewolves.wolfsbane_diffuser.tooltip": "Diffuses wolfsbane particles.",
+  "block.werewolves.wolfsbane_diffuser_core": "Wolfsbane Diffuser Core",
+  "block.werewolves.wolfsbane_diffuser_core_long": "Long Wolfsbane Diffuser Core",
+  "block.werewolves.wolfsbane_diffuser_core_strong": "Strong Wolfsbane Diffuser Core",
+  "block.werewolves.wolfsbane_diffuser_long": "Long Wolfsbane Diffuser",
+  "block.werewolves.wolfsbane_diffuser_normal": "Wolfsbane Diffuser",
+  "block.werewolves.wolfsbane_diffuser_strong": "Strong Wolfsbane Diffuser",
 
   "command.werewolves.argument.form.not_supported": "%s is not allowed here",
   "command.werewolves.argument.form.notfound": "%s not found",
 
   "container.werewolves.stone_altar": "Stone Altar",
+  "container.werewolves.wolfsbane_diffuser": "Wolfsbane Diffuser",
 
   "death.attack.werewolves.bite": "%1$s was devoured by %2$s",
   "death.attack.werewolves.bite.item": "%1$s was devoured by %2$s",
@@ -133,6 +136,8 @@
   "entity.werewolves.task_master_werewolf": "Werewolf Representative",
   "entity.werewolves.werewolf_beast": "Werewolf",
   "entity.werewolves.werewolf_survivalist": "Werewolf",
+
+  "faction.werewolves.werewolf": "Werewolf",
 
   "form.werewolves.beast": "Beast",
   "form.werewolves.human": "Lycanthrope",
@@ -240,8 +245,6 @@
   "item.werewolves.white_pelt_leggings": "White Pelt Leggings",
   "item.werewolves.white_pelt_upgrade_smithing_template": "Smithing Template",
   "item.werewolves.wolf_berries": "Wolf Berries",
-  "item.werewolves.wolfsbane_diffuser_core": "Wolfsbane Diffuser Core",
-  "item.werewolves.wolfsbane_diffuser_core_improved": "Wolfsbane Diffuser Core Improved",
   "item.werewolves.wolfsbane_finder": "Wolfsbane Finder",
   "item.werewolves.quarrel_silver": "Silver Quarrel",
   "item.werewolves.jacaranda_sign": "Jacaranda Sign",
@@ -447,6 +450,11 @@
   "text.werewolves.werewolf": "Werewolf",
   "text.werewolves.werewolf_minion.equipment_upgrade": "Thank you for the strong talisman. Please choose in which area I should use the new energy.",
   "text.werewolves.werewolf_minion.equipment_wrong": "This talisman is not strong enough.",
+
+  "tooltip.werewolves.wolfsbane_diffuser_core": "A tightly rolled bundle of woolen fabric soaked in a wolfsbane-based solution. Emits an aura harmful to werewolves within a three-block radius. However, when properly heated inside a wolfsbane diffuser, its true potential is unlocked, extending the effective range significantly.",
+  "tooltip.werewolves.wolfsbane_diffuser_long": "A hunter gear that diffuses wolfsbane in a %s by %s chunk area when placed, thereby weakening werewolves unlucky enough to be nearby. The effect is not too strong, but the substantial radius is worth it.",
+  "tooltip.werewolves.wolfsbane_diffuser_normal": "A hunter gear that diffuses wolfsbane in a %s by %s chunk area when placed, thereby weakening werewolves unlucky enough to be nearby. The radius is quite small. So is the strength of the effect.",
+  "tooltip.werewolves.wolfsbane_diffuser_strong": "A hunter gear that diffuses wolfsbane in a %s by %s chunk area when placed, thereby weakening werewolves unlucky enough to be nearby. The radius is fairly average, but it's compensated by the stronger effect.",
 
   "upgrade.werewolves.white_pelt_upgrade": "White Pelt Upgrade"
 }

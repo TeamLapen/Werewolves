@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_core": {
+      "conditions": {
+        "items": [
+          {
+            "items": "werewolves:wolfsbane_diffuser_core_long"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "werewolves:wolfsbane_diffuser_long"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_core"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "werewolves:wolfsbane_diffuser_long"
+    ]
+  }
+}
