@@ -18,7 +18,6 @@ public class WerewolfInventory extends PropertyParentSync {
 
     private final WerewolfPlayer werewolf;
     private final Map<WerewolfForm, List<ItemStack>> inventories;
-    private WerewolfForm form = WerewolfForm.NONE;
 
     private static final Codec<Map<WerewolfForm, List<ItemStack>>> INVENTORY_CODEC = Codec.simpleMap(WerewolfForm.CODEC, Codec.list(ItemStack.OPTIONAL_CODEC), WerewolfForm.FORM_KEYS).codec();
 
@@ -30,10 +29,10 @@ public class WerewolfInventory extends PropertyParentSync {
         this.inventories = inventories;
     }
 
-    public void swapArmorItems(WerewolfForm to) {
+    public void swapArmorItems(WerewolfForm from, WerewolfForm to) {
         var armor = werewolf.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR) && to != WerewolfForm.NONE && to.isHumanLike();
         List<ItemStack> previousArmor = new ArmorView(werewolf.asEntity());
-        this.inventories.put(this.form, new ArrayList<>(previousArmor));
+        this.inventories.put(from, new ArrayList<>(previousArmor));
         previousArmor.clear();
         List<ItemStack> itemStacks = this.inventories.get(to);
         if (armor && itemStacks.stream().allMatch(ItemStack::isEmpty)) {
@@ -43,7 +42,6 @@ public class WerewolfInventory extends PropertyParentSync {
             previousArmor.set(i, itemStacks.get(i));
         }
         this.inventories.put(to, previousArmor);
-        this.form = to;
     }
 
     public void dropEquipment() {
@@ -75,11 +73,6 @@ public class WerewolfInventory extends PropertyParentSync {
 
     @Override
     protected void registerProperties() {
-        registerProperty(WIdentifier.mod("form")).simple(WerewolfForm.CODEC).defaultValue(WerewolfForm.NONE).provider(() -> form).commonLoader(x -> {
-            var old = this.form;
-            this.form = x;
-            return Objects.equals(old, this.form);
-        }).register();
         registerProperty(WIdentifier.mod("inventory")).simple(INVENTORY_CODEC).defaultValue(new HashMap<>()).provider(() -> inventories).commonLoader(this::updateInventories).register();
     }
 

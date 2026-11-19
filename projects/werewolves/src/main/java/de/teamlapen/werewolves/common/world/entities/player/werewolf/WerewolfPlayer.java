@@ -111,13 +111,14 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     public void switchForm(WerewolfForm form) {
         if (this.form == form) return;
+        var previousForm = this.form;
         this.form = form;
         this.player.refreshDimensions();
         if (!this.form.isHumanLike()) {
             ((PlayerAccessor) this.player).invoke_removeEntitiesOnShoulder();
         }
         if (!this.player.level().isClientSide()) {
-            this.inventory.swapArmorItems(form);
+            this.inventory.swapArmorItems(previousForm, form);
         }
         checkToolDamage(this.player.getMainHandItem(), this.player.getMainHandItem(), true);
     }
@@ -427,16 +428,16 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.registerProperty(WIdentifier.mod("form")).simple(WerewolfForm.CODEC).provider(() -> this.form).commonLoader(newForm -> {
             var prev = this.form;
             this.form = newForm;
-            return Objects.equals(prev, this.form);
+            return !Objects.equals(prev, this.form);
         });
         this.registerProperty(WIdentifier.mod("bite_ticks")).simple(0, () -> this.specialAttributes.biteTicks, x -> this.specialAttributes.biteTicks = x);
         this.registerProperty(WIdentifier.mod("transformation_time")).simple(0, () -> this.specialAttributes.transformationTime, x -> this.specialAttributes.transformationTime = x);
         this.registerProperty(WIdentifier.mod("last_form_action")).simple(ModCodecs.action().optionalFieldOf("action").codec()).defaultValue(Optional.empty()).provider(() -> Optional.ofNullable(lastFormAction))
-                .serverLoader(x -> this.lastFormAction = (Holder<WerewolfFormAction>) x.filter(WerewolfFormAction.class::isInstance).orElse(null))
+                .serverLoader(x -> this.lastFormAction = (Holder<WerewolfFormAction>) x.filter(y -> y.value() instanceof WerewolfFormAction).orElse(null))
                 .clientLoader(x -> {
             var old = this.lastFormAction;
             lastFormAction = (Holder<WerewolfFormAction>) x.orElse(null);
-            return Objects.equals(old, lastFormAction);
+            return !Objects.equals(old, lastFormAction);
         }).register();
     }
 
