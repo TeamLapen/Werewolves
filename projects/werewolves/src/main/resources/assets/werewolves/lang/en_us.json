@@ -250,7 +250,7 @@
   "item.werewolves.jacaranda_sign": "Jacaranda Sign",
   "item.werewolves.magic_sign": "Magic Sign",
 
-  "itemGroup.werewolves": "Werewolves",
+  "itemGroup.werewolves": "Werewolves: Werewolf",
 
   "keys.werewolves.bite": "Bite",
   "keys.werewolves.category": "Werewolves",
@@ -455,6 +455,7 @@
   "tooltip.werewolves.wolfsbane_diffuser_long": "A hunter gear that diffuses wolfsbane in a %s by %s chunk area when placed, thereby weakening werewolves unlucky enough to be nearby. The effect is not too strong, but the substantial radius is worth it.",
   "tooltip.werewolves.wolfsbane_diffuser_normal": "A hunter gear that diffuses wolfsbane in a %s by %s chunk area when placed, thereby weakening werewolves unlucky enough to be nearby. The radius is quite small. So is the strength of the effect.",
   "tooltip.werewolves.wolfsbane_diffuser_strong": "A hunter gear that diffuses wolfsbane in a %s by %s chunk area when placed, thereby weakening werewolves unlucky enough to be nearby. The radius is fairly average, but it's compensated by the stronger effect.",
+  "tooltip.werewolves.quarrel_silver": "Applies silver effect",
 
   "upgrade.werewolves.white_pelt_upgrade": "White Pelt Upgrade"
 }
