@@ -1,0 +1,17 @@
+{
+  "text.werewolves.werewolf": "Hombre-lobo",
+  "text.vampirism.werewolves": "Hombres-lobo",
+  "itemGroup.werewolves": "Hombres-lobo",
+  "keys.werewolves.category": "Hombres-lobo",
+  "keys.werewolves.leap": "Abalanzarse",
+  "keys.werewolves.bite": "Mordisco",
+  "text.werewolves.slayed_creatures": "Criaturas",
+  "text.werewolves.nomount.transformed": "No puedes montar estando trasformado",
+  "text.werewolves.taste_not_right": "Esto no esta bueno",
+  "entity.werewolves.werewolf_beast": "Hombre-lobo",
+  "entity.werewolves.werewolf_survivalist": "Hombre-lobo",
+  "action.werewolves.leap": "Abalanzarse",
+  "guide.werewolves.entity.werewolf.title": "Hombre-lobo",
+  "subtitles.werewolves.entity.werewolf.bite": "Mordisco",
+  "advancements.werewolves": "Hombres-lobo"
+}
