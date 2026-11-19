@@ -8,7 +8,7 @@ import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPla
 public class DiggerSkill extends WerewolfSkill {
 
     public DiggerSkill(SkillProperties<IWerewolfPlayer> properties) {
-        super(properties.withDescription(ModSkills.appliesTo(ModSkills.BEAST_FORM, ModSkills.SURVIVAL_FORM, ModSkills.HUMAN_FORM)));
+        super(properties);
     }
 
     @Override
