@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import de.teamlapen.faction.api.factions.level.FactionUpdate;
 import de.teamlapen.faction.common.factions.FactionPlayerHandler;
 import de.teamlapen.faction.common.world.blockentity.InventoryBlockEntity;
+import de.teamlapen.faction.common.world.inventory.InventoryContainerMenu;
 import de.teamlapen.faction.common.world.inventory.InventoryHelper;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.world.blocks.StoneAltarBlock;
@@ -25,7 +26,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -52,7 +52,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
     private List<BlockPos> fire_bowls;
 
     public StoneAltarBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.STONE_ALTAR.get(), pos, state, 2, StoneAltarContainer.SELECTOR_INFOS);
+        super(ModBlockEntities.STONE_ALTAR.get(), pos, state, 2, StoneAltarContainer.SLOT_PREDICATES.stream().map(predicate -> new InventoryContainerMenu.SelectorInfo(predicate, 0, 0, false, 64, null)).toArray(InventoryContainerMenu.SelectorInfo[]::new));
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, StoneAltarBlockEntity blockEntity) {
@@ -254,7 +254,7 @@ public class StoneAltarBlockEntity extends InventoryBlockEntity {
 
     @Override
     protected AbstractContainerMenu createMenu(int id, Inventory playerInventory) {
-        return new StoneAltarContainer(id, playerInventory, this, this.level == null ? ContainerLevelAccess.NULL : ContainerLevelAccess.create(this.level, this.worldPosition));
+        return new StoneAltarContainer(id, playerInventory, this);
     }
 
     @Override

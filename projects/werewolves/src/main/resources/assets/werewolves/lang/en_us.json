@@ -138,6 +138,7 @@
   "entity.werewolves.werewolf_survivalist": "Werewolf",
 
   "faction.werewolves.werewolf": "Werewolf",
+  "faction.werewolves.werewolf.singular": "Werewolf",
 
   "form.werewolves.beast": "Beast",
   "form.werewolves.human": "Lycanthrope",
@@ -146,6 +147,8 @@
 
   "gui.vampirism.taskmaster.text.werewolves_werewolf": "Be not afraid\n, your secret is safe with me and if you intend to help us with a few things we can protect this village from unwanted disturbance and you will be rewarded upon completion. Please browse the available tasks and accept any you like.",
   "gui.werewolves.minion_appearance.glowing_eyes": "Glowing Eyes",
+  "gui.werewolves.stone_altar.ritual_missing_cracked_bone": "%s Cracked Bone(s) missing",
+  "gui.werewolves.stone_altar.ritual_missing_liver": "%s Liver(s) missing",
 
   "guide.werewolves.blocks.stone_altar.text": "Multiblock structure. Used to level up as Werewolf",
   "guide.werewolves.blocks.stone_altar_fire_bowl.text": "Multiblock structure. Used to level up as Werewolf",

@@ -47,9 +47,9 @@ public class WerewolfFormDurationOverlay extends TextureOverlay {
         int j = 182;
         int k = (int) ((1 - perc) * 183.0F);
         int l = scaledHeight - 32 + 3;
-        graphics.blitSprite(RenderPipelines.GUI, EXPERIENCE_BAR_BACKGROUND_SPRITE, x, l, j, 5, color);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, EXPERIENCE_BAR_BACKGROUND_SPRITE, x, l, j, 5, color);
         if (k > 0) {
-            graphics.blitSprite(RenderPipelines.GUI, EXPERIENCE_BAR_PROGRESS_SPRITE, j, 5, k, 0, x + k, l, j - k, 5, color);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, EXPERIENCE_BAR_PROGRESS_SPRITE, j, 5, k, 0, x + k, l, j - k, 5, color);
         }
     }
 }
