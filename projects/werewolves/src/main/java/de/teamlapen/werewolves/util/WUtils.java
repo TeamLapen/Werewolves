@@ -8,7 +8,6 @@ import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import java.util.function.Predicate;
 
 public class WUtils {
-    public static final BooleanProperty SOUL_FIRE = BooleanProperty.create("soulfire");
     public static final ObjectiveCriteria WEREWOLF_LEVEL_CRITERIA = ObjectiveCriteriaAccessor.registerCustom("werewolves:werewolf");
     public static final Predicate<Entity> IS_WEREWOLF = Helper::isWerewolf;
 

@@ -5,7 +5,6 @@ import net.minecraft.world.item.ItemStackTemplate;
 import com.mojang.serialization.MapCodec;
 import de.teamlapen.werewolves.common.world.blocks.entity.StoneAltarBlockEntity;
 import de.teamlapen.werewolves.common.core.ModBlockEntities;
-import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,10 +13,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -43,13 +40,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
-import java.util.Random;
 
 import static net.minecraft.world.level.block.CampfireBlock.makeParticles;
 
@@ -57,17 +51,14 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     protected static final VoxelShape SHAPE = makeShape();
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final BooleanProperty SOUL_FIRE = WUtils.SOUL_FIRE;
+    public static final EnumProperty<FireType> FIRE_TYPE = FireType.PROPERTY;
     public static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final String REG_NAME = "stone_altar";
     protected static final MapCodec<StoneAltarBlock> CODEC = simpleCodec(StoneAltarBlock::new);
 
-    public StoneAltarBlock() {
-        this(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT) ? 14 : 0));
-    }
     public StoneAltarBlock(BlockBehaviour.Properties properties) {
-        super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false).setValue(HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.SIGNAL_FIRE, false));
+        super(properties.mapColor(MapColor.STONE).noOcclusion().lightLevel(x -> StoneAltarFireBowlBlock.lightLevel(x) / 2));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(FIRE_TYPE, FireType.DEFAULT).setValue(HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.SIGNAL_FIRE, false));
     }
 
     protected static VoxelShape makeShape() {
@@ -78,25 +69,24 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
 
-    @Nonnull
     @Override
-    public RenderShape getRenderShape(@Nonnull BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
 
 
 
     @Override
-    public boolean isBurning(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
+    public boolean isBurning(BlockState state, BlockGetter world, BlockPos pos) {
         return state.getValue(LIT);
     }
 
     @Override
-    public boolean placeLiquid(@Nonnull LevelAccessor world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull FluidState fluid) {
+    public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState state, FluidState fluid) {
         if (SimpleWaterloggedBlock.super.placeLiquid(world, pos, state, fluid)) {
             if (state.getValue(LIT)) {
                 world.setBlock(pos, state.setValue(LIT, false), 3);
@@ -114,22 +104,20 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     }
 
     @Override
-    public void onPlace(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state2, boolean p_220082_5_) {
+    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState state2, boolean p_220082_5_) {
         super.onPlace(state, world, pos, state2, p_220082_5_);
         if (state.getValue(LIT) && state2.getBlock() == this && !state2.getValue(LIT)) {
             ((StoneAltarBlockEntity) world.getBlockEntity(pos)).startRitual(state);
         }
     }
 
-    @Nonnull
     @Override
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    @Nonnull
     @Override
-    public InteractionResult useWithoutItem(@Nonnull BlockState state, Level worldIn, @Nonnull BlockPos pos, Player player, @Nonnull BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(InteractionHand.MAIN_HAND);
         StoneAltarBlockEntity te = ((StoneAltarBlockEntity) worldIn.getBlockEntity(pos));
         if (!worldIn.isClientSide() && te != null) {
@@ -182,8 +170,9 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
                             return InteractionResult.CONSUME;
                         }
                         te.setPlayer(player);
-                        if (heldItem.getItem() == Items.TORCH || heldItem.getItem() == Items.SOUL_TORCH) {
-                            worldIn.setBlock(pos, state.setValue(LIT, true).setValue(SOUL_FIRE, heldItem.getItem() == Items.SOUL_TORCH), 5);
+                        FireType type = FireType.getType(heldItem.getItem());
+                        if (type != null) {
+                            worldIn.setBlock(pos, state.setValue(LIT, true).setValue(FIRE_TYPE, type), 5);
                             return InteractionResult.CONSUME;
                         }
                         if (heldItem.isEmpty()) {
@@ -200,15 +189,14 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         return InteractionResult.SUCCESS;
     }
 
-    @Nonnull
     @Override
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return ModBlockEntities.STONE_ALTAR.get().create(pos, state);
     }
 
@@ -216,7 +204,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(LIT).add(WATERLOGGED).add(SOUL_FIRE).add(HORIZONTAL_FACING).add(BlockStateProperties.SIGNAL_FIRE);
+        builder.add(LIT).add(WATERLOGGED).add(FIRE_TYPE).add(HORIZONTAL_FACING).add(BlockStateProperties.SIGNAL_FIRE);
     }
 
     @Nullable
@@ -225,22 +213,25 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
         return this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection());
     }
 
-    @Nonnull
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(HORIZONTAL_FACING)));
     }
 
     @Override
-    public @NotNull BlockState rotate(BlockState state, @NotNull LevelAccessor world, @NotNull BlockPos pos, Rotation rotation) {
+    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
         return state.setValue(HORIZONTAL_FACING, rotation.rotate(state.getValue(HORIZONTAL_FACING)));
     }
 
     @Override
-    public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         if (stateIn.getValue(LIT)) {
             Vector3f offset = getTorchOffset(stateIn);
-            worldIn.addParticle(stateIn.getValue(SOUL_FIRE) ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME, pos.getX() + offset.x(), pos.getY() + offset.y(), pos.getZ() + offset.z(), 0.0D, 0.0D, 0.0D);
+            worldIn.addParticle(switch (stateIn.getValue(FIRE_TYPE)) {
+                case DEFAULT -> ParticleTypes.FLAME;
+                case SOUL -> ParticleTypes.SOUL_FIRE_FLAME;
+                case COPPER -> ParticleTypes.COPPER_FIRE_FLAME;
+            }, pos.getX() + offset.x(), pos.getY() + offset.y(), pos.getZ() + offset.z(), 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -257,7 +248,7 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@Nonnull Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return createTickerHelper(type, ModBlockEntities.STONE_ALTAR.get(), StoneAltarBlockEntity::tick);
     }
 }

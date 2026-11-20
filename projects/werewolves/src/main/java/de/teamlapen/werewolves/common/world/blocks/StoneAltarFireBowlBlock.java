@@ -1,7 +1,6 @@
 package de.teamlapen.werewolves.common.world.blocks;
 
 import com.mojang.serialization.MapCodec;
-import de.teamlapen.werewolves.util.WUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -23,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
@@ -30,28 +30,32 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static net.minecraft.world.level.block.CampfireBlock.makeParticles;
 
 public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
-    public static final String REG_NAME = "stone_altar_fire_bowl";
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final BooleanProperty SOUL_FIRE = WUtils.SOUL_FIRE;
+    public static final EnumProperty<FireType> FIRE_TYPE = FireType.PROPERTY;
     protected static final VoxelShape SHAPE = makeShape();
     protected static final MapCodec<StoneAltarFireBowlBlock> CODEC = simpleCodec(StoneAltarFireBowlBlock::new);
 
-    public StoneAltarFireBowlBlock() {
-        this(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().lightLevel((state) -> state.getValue(LIT) ? 14 : 0));
+    public StoneAltarFireBowlBlock(BlockBehaviour.Properties properties) {
+        super(properties.mapColor(MapColor.STONE).noOcclusion().lightLevel(StoneAltarFireBowlBlock::lightLevel));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(FIRE_TYPE, FireType.DEFAULT).setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.SIGNAL_FIRE, false));
     }
 
-    public StoneAltarFireBowlBlock(BlockBehaviour.Properties properties) {
-        super(properties);
-        this.registerDefaultState(this.getStateDefinition().any().setValue(LIT, false).setValue(WATERLOGGED, false).setValue(SOUL_FIRE, false).setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.SIGNAL_FIRE, false));
+    public static int lightLevel(BlockState state) {
+        if (state.getValue(LIT)) {
+            return switch (state.getValue(FIRE_TYPE)) {
+                case DEFAULT -> 15;
+                case COPPER -> 14;
+                case SOUL -> 10;
+            };
+        }
+        return 0;
     }
 
     protected static VoxelShape makeShape() {
@@ -62,9 +66,8 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
         return Shapes.or(a, b, c);
     }
 
-    @Nonnull
     @Override
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
@@ -72,9 +75,10 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
     protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (!pState.getValue(LIT)) {
             ItemStack stack = pPlayer.getItemInHand(pHand);
-            if (stack.getItem() == Items.TORCH || stack.getItem() == Items.SOUL_TORCH) {
+            FireType type = FireType.getType(stack.getItem());
+            if (type != null) {
                 if (!pState.getValue(WATERLOGGED)) {
-                    pLevel.setBlockAndUpdate(pPos, pState.setValue(LIT, true).setValue(SOUL_FIRE, stack.getItem() == Items.SOUL_TORCH));
+                    pLevel.setBlockAndUpdate(pPos, pState.setValue(LIT, true).setValue(FIRE_TYPE, type));
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -84,22 +88,21 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(LIT).add(WATERLOGGED).add(SOUL_FIRE).add(FACING).add(BlockStateProperties.SIGNAL_FIRE);
+        builder.add(LIT).add(WATERLOGGED).add(FIRE_TYPE).add(FACING).add(BlockStateProperties.SIGNAL_FIRE);
     }
 
-    @Nonnull
     @Override
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public boolean isBurning(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
+    public boolean isBurning(BlockState state, BlockGetter world, BlockPos pos) {
         return super.isBurning(state, world, pos);
     }
 
     @Override
-    public boolean placeLiquid(@Nonnull LevelAccessor world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull FluidState fluid) {
+    public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState state, FluidState fluid) {
         if (SimpleWaterloggedBlock.super.placeLiquid(world, pos, state, fluid)) {
             if (state.getValue(LIT)) {
                 world.setBlock(pos, state.setValue(LIT, false), 3);
@@ -115,7 +118,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
     }
 
     @Override
-    public void animateTick(BlockState stateIn, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         if (stateIn.getValue(LIT)) {
             double d0 = (double) pos.getX() + rand.nextDouble();
             double d1 = (double) pos.getY() + rand.nextDouble() + 0.7D;
@@ -132,7 +135,7 @@ public class StoneAltarFireBowlBlock extends HorizontalDirectionalBlock implemen
     }
 
     @Override
-    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "werewolves:block/stone_altar_fire_bowl_fire",
+  "textures": {
+    "0": "werewolves:block/copper_campfire_fire",
+    "1": "werewolves:block/copper_campfire_log_lit",
+    "particle": "werewolves:block/copper_campfire_fire"
+  }
+}

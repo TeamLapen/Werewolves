@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.data.provider.generator;
 
+import de.teamlapen.werewolves.common.world.blocks.FireType;
 import net.minecraft.client.data.models.model.TexturedModel;
 
 import de.teamlapen.faction.data.provider.model.FactionsModelTemplates;
@@ -97,17 +98,22 @@ public class ModBlockModelGenerators extends BlockModelGenerators {
         MultiVariant body = plainVariant(ModelLocationUtils.getModelLocation(ModBlocks.STONE_ALTAR_FIRE_BOWL.get()));
         MultiVariant fire = plainVariant(ModelLocationUtils.getModelLocation(ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), "_fire"));
         MultiVariant soulFire = plainVariant(ModelLocationUtils.getModelLocation(ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), "_fire_soul"));
+        MultiVariant copperFire = plainVariant(ModelLocationUtils.getModelLocation(ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), "_fire_copper"));
         forEachHorizontalDirection((direction, rotation) -> {
             Condition facingCondition = condition().term(BlockStateProperties.HORIZONTAL_FACING, direction).build();
             stoneAltarFireBowl.with(facingCondition, body.with(rotation));
         });
         forEachHorizontalDirection((direction, rotation) -> {
-            Condition facingCondition = condition().term(BlockStateProperties.HORIZONTAL_FACING, direction).term(StoneAltarFireBowlBlock.LIT, true).term(StoneAltarFireBowlBlock.SOUL_FIRE, false).build();
+            Condition facingCondition = condition().term(BlockStateProperties.HORIZONTAL_FACING, direction).term(StoneAltarFireBowlBlock.LIT, true).term(StoneAltarFireBowlBlock.FIRE_TYPE, FireType.DEFAULT).build();
             stoneAltarFireBowl.with(facingCondition, fire.with(rotation));
         });
         forEachHorizontalDirection((direction, rotation) -> {
-            Condition facingCondition = condition().term(BlockStateProperties.HORIZONTAL_FACING, direction).term(StoneAltarFireBowlBlock.LIT, true).term(StoneAltarFireBowlBlock.SOUL_FIRE, true).build();
+            Condition facingCondition = condition().term(BlockStateProperties.HORIZONTAL_FACING, direction).term(StoneAltarFireBowlBlock.LIT, true).term(StoneAltarFireBowlBlock.FIRE_TYPE, FireType.SOUL).build();
             stoneAltarFireBowl.with(facingCondition, soulFire.with(rotation));
+        });
+        forEachHorizontalDirection((direction, rotation) -> {
+            Condition facingCondition = condition().term(BlockStateProperties.HORIZONTAL_FACING, direction).term(StoneAltarFireBowlBlock.LIT, true).term(StoneAltarFireBowlBlock.FIRE_TYPE, FireType.COPPER).build();
+            stoneAltarFireBowl.with(facingCondition, copperFire.with(rotation));
         });
         this.blockStateOutput.accept(stoneAltarFireBowl);
     }
