@@ -13,7 +13,6 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class AggressiveWolfEntity extends Wolf {
@@ -32,7 +31,7 @@ public class AggressiveWolfEntity extends Wolf {
     }
 
     @Override
-    public boolean canMate(@Nonnull Animal entity) {
+    public boolean canMate(Animal entity) {
         return false;
     }
 
@@ -40,7 +39,6 @@ public class AggressiveWolfEntity extends Wolf {
     public void setOrderedToSit(boolean p_233687_1_) {
     }
 
-    @Nonnull
     @Override
     protected Component getTypeName() {
         return EntityType.WOLF.getDescription();
@@ -58,13 +56,13 @@ public class AggressiveWolfEntity extends Wolf {
     }
 
     @Override
-    protected void addAdditionalSaveData(@Nonnull ValueOutput compound) {
+    protected void addAdditionalSaveData(ValueOutput compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("restrictLiveSpan", this.restrictLiveSpan);
     }
 
     @Override
-    protected void readAdditionalSaveData(@Nonnull ValueInput compound) {
+    protected void readAdditionalSaveData(ValueInput compound) {
         super.readAdditionalSaveData(compound);
         this.restrictLiveSpan = compound.getBooleanOr("restrictLiveSpan", false);
     }
@@ -80,7 +78,7 @@ public class AggressiveWolfEntity extends Wolf {
     }
 
     @Override
-    public void die(@Nonnull DamageSource cause) {
+    public void die(DamageSource cause) {
         this.dead = true;
         super.die(cause);
     }
