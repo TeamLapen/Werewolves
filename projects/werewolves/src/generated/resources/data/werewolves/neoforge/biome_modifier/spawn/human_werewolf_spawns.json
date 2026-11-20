@@ -1,6 +1,20 @@
 {
   "type": "neoforge:add_spawns",
-  "biomes": "#werewolves:has_spawn/human_werewolf",
+  "biomes": {
+    "type": "neoforge:and",
+    "values": [
+      {
+        "type": "neoforge:or",
+        "values": [
+          "#werewolves:has_spawn/human_werewolf"
+        ]
+      },
+      {
+        "type": "neoforge:not",
+        "value": "#werewolves:no_spawn/human_werewolf"
+      }
+    ]
+  },
   "spawners": {
     "type": "werewolves:human_werewolf",
     "maxCount": 1,

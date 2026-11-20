@@ -1,8 +1,0 @@
-{
-  "type": "neoforge:remove_spawns",
-  "biomes": "#werewolves:no_spawn/werewolf",
-  "entity_types": [
-    "werewolves:werewolf_beast",
-    "werewolves:werewolf_survivalist"
-  ]
-}

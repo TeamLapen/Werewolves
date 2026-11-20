@@ -96,7 +96,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     protected boolean attack;
 
     public BasicWerewolfEntity(EntityType<? extends BasicWerewolfEntity> type, Level world) {
-        super(type, world, true);
+        super(type, world);
         this.xpReward = 3;
     }
 

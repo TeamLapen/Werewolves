@@ -5,21 +5,16 @@ import de.teamlapen.werewolves.util.FormHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class WerewolfBaseEntity extends PathfinderMob implements IWerewolfMob {
 
-    private final boolean countAsMonsterForSpawn;
-
-    public WerewolfBaseEntity(EntityType<? extends PathfinderMob> type, Level world, boolean countAsMonsterForSpawn) {
+    public WerewolfBaseEntity(EntityType<? extends PathfinderMob> type, Level world) {
         super(type, world);
-        this.countAsMonsterForSpawn = countAsMonsterForSpawn;
     }
 
     public static boolean spawnPredicateWerewolf(EntityType<? extends WerewolfBaseEntity> entityType, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos blockPos, RandomSource random) {
@@ -31,11 +26,6 @@ public abstract class WerewolfBaseEntity extends PathfinderMob implements IWerew
 
     public void bite(LivingEntity entity) {
         //TODO take a look at ExtendedCreature#onBite
-    }
-
-    @Override
-    public MobCategory getClassification(boolean forSpawnCount) {
-        return forSpawnCount && this.countAsMonsterForSpawn ? MobCategory.MONSTER : super.getClassification(forSpawnCount);
     }
 
     @Override

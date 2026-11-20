@@ -1,6 +1,20 @@
 {
   "type": "neoforge:add_spawns",
-  "biomes": "#werewolves:has_spawn/werewolf",
+  "biomes": {
+    "type": "neoforge:and",
+    "values": [
+      {
+        "type": "neoforge:or",
+        "values": [
+          "#werewolves:has_spawn/werewolf"
+        ]
+      },
+      {
+        "type": "neoforge:not",
+        "value": "#werewolves:no_spawn/werewolf"
+      }
+    ]
+  },
   "spawners": [
     {
       "type": "werewolves:werewolf_beast",

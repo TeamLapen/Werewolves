@@ -48,7 +48,7 @@ public class WerewolfTaskMasterEntity extends WerewolfBaseEntity implements IDef
     private AABB home;
 
     public WerewolfTaskMasterEntity(EntityType<? extends WerewolfTaskMasterEntity> type, Level world) {
-        super(type, world, false);
+        super(type, world);
     }
 
     public static AttributeSupplier.Builder getAttributeBuilder() {
