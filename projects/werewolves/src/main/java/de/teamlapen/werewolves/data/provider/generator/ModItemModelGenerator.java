@@ -69,7 +69,6 @@ public class ModItemModelGenerator extends ItemModelGenerators {
                 ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE,
                 ModItems.WOLFSBANE_FINDER,
                 ModItems.RAW_SILVER,
-                // since 1.21.5 spawn eggs use their own flat texture instead of a tinted template
                 ModItems.WEREWOLF_BEAST_SPAWN_EGG,
                 ModItems.WEREWOLF_SURVIVALIST_SPAWN_EGG,
                 ModItems.HUMAN_WEREWOLF_SPAWN_EGG,

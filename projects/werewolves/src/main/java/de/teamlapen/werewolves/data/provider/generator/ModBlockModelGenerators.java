@@ -91,11 +91,14 @@ public class ModBlockModelGenerators extends BlockModelGenerators {
     }
 
     protected void createStoneAltar() {
-        this.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.STONE_ALTAR.get(), plainVariant(WIdentifier.mod("block/stone_altar"))).with(ROTATION_HORIZONTAL_FACING));
+        Identifier stoneAltarModel = mod("block/stone_altar");
+        this.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.STONE_ALTAR.get(), plainVariant(stoneAltarModel)).with(ROTATION_HORIZONTAL_FACING));
+        createDefaultBlockItem(ModBlocks.STONE_ALTAR.get(), stoneAltarModel);
 
         MultiPartGenerator stoneAltarFireBowl = MultiPartGenerator.multiPart(ModBlocks.STONE_ALTAR_FIRE_BOWL.get());
 
-        MultiVariant body = plainVariant(ModelLocationUtils.getModelLocation(ModBlocks.STONE_ALTAR_FIRE_BOWL.get()));
+        Identifier fireBowlModel = ModelLocationUtils.getModelLocation(ModBlocks.STONE_ALTAR_FIRE_BOWL.get());
+        MultiVariant body = plainVariant(fireBowlModel);
         MultiVariant fire = plainVariant(ModelLocationUtils.getModelLocation(ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), "_fire"));
         MultiVariant soulFire = plainVariant(ModelLocationUtils.getModelLocation(ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), "_fire_soul"));
         MultiVariant copperFire = plainVariant(ModelLocationUtils.getModelLocation(ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), "_fire_copper"));
@@ -116,6 +119,7 @@ public class ModBlockModelGenerators extends BlockModelGenerators {
             stoneAltarFireBowl.with(facingCondition, copperFire.with(rotation));
         });
         this.blockStateOutput.accept(stoneAltarFireBowl);
+        createDefaultBlockItem(ModBlocks.STONE_ALTAR_FIRE_BOWL.get(), fireBowlModel);
     }
 
 

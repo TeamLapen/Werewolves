@@ -53,7 +53,6 @@ public class StoneAltarBlock extends BaseEntityBlock implements SimpleWaterlogge
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<FireType> FIRE_TYPE = FireType.PROPERTY;
     public static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final String REG_NAME = "stone_altar";
     protected static final MapCodec<StoneAltarBlock> CODEC = simpleCodec(StoneAltarBlock::new);
 
     public StoneAltarBlock(BlockBehaviour.Properties properties) {
