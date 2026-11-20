@@ -41,6 +41,7 @@ public class ClientServices extends Services {
         bus.register(de.teamlapen.werewolves.client.extensions.ItemExtensions.class);
         bus.addListener(ModRenderPipelines::registerRenderPipelines);
         bus.addListener(ModScreens::registerAppearanceScreens);
+        bus.addListener(ModParticleProviders::registerParticleProviders);
     }
 
     public ModHUDOverlay hudOverlay() {
