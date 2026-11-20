@@ -54,7 +54,9 @@ public class WerewolvesCreativeTab {
             add(JACARANDA_TRAPDOOR);
             add(JACARANDA_PRESSURE_PLATE);
             add(JACARANDA_BUTTON);
-            add(ModItems.JACARANDA_SIGN);
+            add(JACARANDA_SIGN);
+            add(JACARANDA_BOAT);
+            add(JACARANDA_CHEST_BOAT);
 
             add(MAGIC_LEAVES);
             add(MAGIC_SAPLING);
@@ -72,6 +74,8 @@ public class WerewolvesCreativeTab {
             add(MAGIC_PRESSURE_PLATE);
             add(MAGIC_BUTTON);
             add(MAGIC_SIGN);
+            add(MAGIC_BOAT);
+            add(MAGIC_CHEST_BOAT);
         }
 
         private void addItems() {
