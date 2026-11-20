@@ -1,12 +1,13 @@
 {
-  "text.werewolves.werewolf": "المستذئب",
-  "text.vampirism.werewolves": "المستذئبون",
-  "itemGroup.werewolves": "المستذئبون",
-  "keys.werewolves.category": "المستذئبون",
-  "keys.werewolves.bite": "عض",
+  "action.werewolves.rage": "غضب",
+  "advancements.werewolves": "المستذئبون",
   "entity.werewolves.werewolf_beast": "المستذئب",
   "entity.werewolves.werewolf_survivalist": "المستذئب",
+  "faction.werewolves.werewolf": "المستذئب",
+  "faction.werewolves.werewolf.singular": "المستذئب",
   "guide.werewolves.entity.werewolf.title": "المستذئب",
+  "keys.werewolves.bite": "عض",
+  "keys.werewolves.category": "المستذئبون",
   "subtitles.werewolves.entity.werewolf.bite": "عض",
-  "advancements.werewolves": "المستذئبون"
+  "text.werewolves.werewolf": "المستذئب"
 }
