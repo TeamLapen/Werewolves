@@ -94,7 +94,7 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
             ((Mob) werewolf).setLastHurtByMob(this.getTarget());
         }
         if (this.level().getGameTime() % 400 == 10) {
-            if (Helper.isFullMoon(this.level())) {
+            if (Helper.isFullMoon(this.level(), blockPosition())) {
                 this.transformToWerewolf(TransformType.FULL_MOON);
             }
             this.rage -= 2;

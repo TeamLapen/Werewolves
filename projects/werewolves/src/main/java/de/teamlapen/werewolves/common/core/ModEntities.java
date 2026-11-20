@@ -1,5 +1,6 @@
 package de.teamlapen.werewolves.common.core;
 
+import de.teamlapen.faction.common.event.PlayerEventHandlerEvent;
 import de.teamlapen.werewolves.api.WEnums;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.world.entities.AggressiveWolfEntity;
@@ -82,6 +83,10 @@ public class ModEntities {
         event.add(EntityType.PLAYER, ModAttributes.TIME_REGAIN);
         event.add(EntityType.PLAYER, ModAttributes.FOOD_CONSUMPTION);
         event.add(EntityType.PLAYER, ModAttributes.FOOD_GAIN);
+    }
+
+    public static void registerPlayerEventHandler(PlayerEventHandlerEvent event) {
+        event.addAttachmentListener(ModAttachments.WEREWOLF_PLAYER);
     }
 
     public static Set<EntityType<?>> getAllEntities() {

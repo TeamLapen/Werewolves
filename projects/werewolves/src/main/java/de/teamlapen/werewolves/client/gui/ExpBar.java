@@ -2,7 +2,7 @@ package de.teamlapen.werewolves.client.gui;
 
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModFactions;
-import de.teamlapen.werewolves.common.world.entities.player.werewolf.properties.LevelHandler;
+import de.teamlapen.werewolves.common.world.entities.player.werewolf.properties.LevelProgressHandler;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -14,15 +14,12 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ExpBar extends AbstractWidget {
     private static final Identifier ICON = WIdentifier.mod("textures/gui/exp_bar.png");
 
     public ExpBar(int xIn, int yIn) {
         super(xIn, yIn, 15, 123, Component.translatable("text.werewolves.skill_screen.level_progression", (int) Math.ceil(WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler().getLevelPerc() * 100)));
-        LevelHandler handler = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler();
+        LevelProgressHandler handler = WerewolfPlayer.get(Minecraft.getInstance().player).getLevelHandler();
 
         this.setTooltip(Tooltip.create(Component.translatable("text.werewolves.skill_screen.level_progression_label").append(Component.translatable("text.werewolves.skill_screen.prey_snatched", handler.getLevelProgress(), handler.getNeededProgress()))));
     }

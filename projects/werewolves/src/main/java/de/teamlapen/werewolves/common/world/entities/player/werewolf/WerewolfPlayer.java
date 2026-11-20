@@ -1,6 +1,5 @@
 package de.teamlapen.werewolves.common.world.entities.player.werewolf;
 
-import de.teamlapen.faction.common.factions.minions.MinionData;
 import de.teamlapen.faction.common.util.ScoreboardUtil;
 import de.teamlapen.faction.common.world.entities.player.LevelAttributeModifier;
 import de.teamlapen.library.api.world.EnumStrength;
@@ -15,9 +14,7 @@ import de.teamlapen.faction.api.factions.refinements.IRefinementHandler;
 import de.teamlapen.faction.api.factions.skills.ISkillHandler;
 import de.teamlapen.faction.common.config.FactionConfig;
 import de.teamlapen.faction.common.factions.FactionBasePlayer;
-import de.teamlapen.faction.common.factions.FactionPlayerHandler;
 import de.teamlapen.faction.common.factions.actions.ActionHandler;
-import de.teamlapen.faction.common.factions.minions.MinionWorldData;
 import de.teamlapen.faction.common.factions.skills.SkillHandler;
 import de.teamlapen.faction.common.util.AttachmentSynchronization;
 import de.teamlapen.faction.common.util.ModCodecs;
@@ -81,7 +78,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     private final ActionHandler<IWerewolfPlayer> actionHandler = new ActionHandler<>(this);
     private final SkillHandler<IWerewolfPlayer> skillHandler = new SkillHandler<>(this);
-    private final LevelHandler levelHandler = new LevelHandler(this);
+    private final LevelProgressHandler levelProgressHandler = new LevelProgressHandler(this);
     private final Customization customization = new Customization(this);
     private final WerewolfInventory inventory = new WerewolfInventory(this);
     private final WerewolfDisguise disguise = new WerewolfDisguise(this);
@@ -161,7 +158,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                         this.specialAttributes.transformationTime = Mth.clamp(this.specialAttributes.transformationTime - player.getAttribute(ModAttributes.TIME_REGAIN).getValue(), 0, 1);
                     }
                     if (this.player.level().getGameTime() % 20 == 0) {
-                        if (Helper.isFullMoon(this.asEntity().level())) {
+                        if (Helper.isFullMoon(this.asEntity().level(), this.asEntity().blockPosition())) {
                             if (!FormHelper.isFormActionActive(this) && !this.skillHandler.isSkillEnabled(ModSkills.FREE_WILL)) {
                                 Optional<? extends Holder<? extends IAction<IWerewolfPlayer>>> action = lastFormAction != null ? Optional.of(lastFormAction) : WerewolfFormAction.getAllAction().stream().filter(this.actionHandler::isActionUnlocked).findAny();
                                 action.ifPresent(a -> this.actionHandler.toggleAction(a, new ActionHandler.ActivationContext()));
@@ -261,17 +258,17 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.actionHandler.deactivateAllActions();
     }
 
-    public LevelHandler getLevelHandler() {
-        return levelHandler;
+    public LevelProgressHandler getLevelHandler() {
+        return levelProgressHandler;
     }
 
     @Override
     public void onEntityKilled(LivingEntity victim, DamageSource src) {
-        if (IRefinementHandler.get(player).orElseThrow().isRefinementEquipped(ModRefinements.RAGE_FURY)) {
+        if (getRefinementHandler().isRefinementEquipped(ModRefinements.RAGE_FURY)) {
             this.player.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 40, 1));
             this.actionHandler.extendActionTimer(ModActions.RAGE, ModConfig.balance().REFINEMENTS.rage_fury_timer_extend.get());
         }
-        this.levelHandler.increaseProgress((int) (victim.getMaxHealth() * 0.2));
+        this.levelProgressHandler.increaseProgress((int) (victim.getMaxHealth() * 0.2));
     }
 
     @Override
@@ -423,7 +420,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         this.registerProperty(WIdentifier.mod("action_handler")).subProperty(() -> this.actionHandler).register();
         this.registerProperty(WIdentifier.mod("skill_handler")).subProperty(() -> this.skillHandler).register();
         this.registerProperty(WIdentifier.mod("customization")).subProperty(() -> this.customization).register();
-        this.registerProperty(WIdentifier.mod("level_handler")).subProperty(() -> this.levelHandler).register();
+        this.registerProperty(WIdentifier.mod("level_handler")).subProperty(() -> this.levelProgressHandler).register();
         this.registerProperty(WIdentifier.mod("inventory")).subProperty(() -> this.inventory).register();
         this.registerProperty(WIdentifier.mod("form")).simple(WerewolfForm.CODEC).provider(() -> this.form).commonLoader(newForm -> {
             var prev = this.form;

@@ -169,7 +169,7 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                     }
                     break;
                 case FULL_MOON:
-                    if (!Helper.isFullMoon(this.level())) {
+                    if (!Helper.isFullMoon(this.level(), blockPosition())) {
                         this.transformBack();
                     }
                     break;

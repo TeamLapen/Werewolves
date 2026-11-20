@@ -58,8 +58,8 @@ public class Helper {
         return world.isDarkOutside();
     }
 
-    public static boolean isFullMoon(Level world) {
-        return world.isDarkOutside() && world.environmentAttributes().getDimensionValue(EnvironmentAttributes.MOON_PHASE) == MoonPhase.FULL_MOON;
+    public static boolean isFullMoon(Level world, BlockPos pos) {
+        return world.isDarkOutside() && world.environmentAttributes().getValue(EnvironmentAttributes.MOON_PHASE, pos) == MoonPhase.FULL_MOON;
     }
 
     public static Map<Item, Integer> getMissingItems(Container inventory, Item[] items, int[] amount) {

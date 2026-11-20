@@ -6,11 +6,11 @@ import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfLev
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import net.minecraft.util.Mth;
 
-public class LevelHandler extends PropertyParentSync {
+public class LevelProgressHandler extends PropertyParentSync {
     private final WerewolfPlayer player;
     private int levelProgress;
 
-    public LevelHandler(WerewolfPlayer player) {
+    public LevelProgressHandler(WerewolfPlayer player) {
         super(player);
         this.player = player;
     }

@@ -121,7 +121,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         player.setHealth(player.getMaxHealth() * healthPerc);
         player.refreshDisplayName();
 
-        if (player instanceof ServerPlayer serverPlayer && getForm() != WerewolfForm.NONE && getForm() != WerewolfForm.HUMAN && Helper.isFullMoon(serverPlayer.level())) {
+        if (player instanceof ServerPlayer serverPlayer && getForm() != WerewolfForm.NONE && getForm() != WerewolfForm.HUMAN && Helper.isFullMoon(serverPlayer.level(), serverPlayer.blockPosition())) {
             ModAdvancements.TRIGGER_VAMPIRE_ACTION.get().trigger(serverPlayer, WerewolfActionCriterionTrigger.Action.TRANSFORM_FULL_MOON);
         }
         return IActionResult.SUCCESS;
@@ -222,7 +222,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
         if (player.isPassenger() && !this.form.isHumanLike()) return IActionResult.RESTRICTED;
         boolean active = werewolf.getActionHandler().isActionActive(this.<ILastingAction<IWerewolfPlayer>>holder());
         if (active) {
-            if (Helper.isFullMoon(player.level())) {
+            if (Helper.isFullMoon(player.level(), player.blockPosition())) {
                 return (werewolf.getSkillHandler().isSkillEnabled(ModSkills.FREE_WILL)) ? IActionResult.SUCCESS : IActionResult.RESTRICTED;
             } else {
                 return IActionResult.SUCCESS;
