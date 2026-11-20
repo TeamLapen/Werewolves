@@ -1,8 +1,10 @@
 {
-  "text.werewolves.werewolf": "Λυκάνθρωπος",
-  "keys.werewolves.leap": "Άλμα",
+  "action.werewolves.leap": "Άλμα",
   "entity.werewolves.werewolf_beast": "Λυκάνθρωπος",
   "entity.werewolves.werewolf_survivalist": "Λυκάνθρωπος",
-  "action.werewolves.leap": "Άλμα",
-  "guide.werewolves.entity.werewolf.title": "Λυκάνθρωπος"
+  "faction.werewolves.werewolf": "Λυκάνθρωπος",
+  "faction.werewolves.werewolf.singular": "Λυκάνθρωπος",
+  "guide.werewolves.entity.werewolf.title": "Λυκάνθρωπος",
+  "keys.werewolves.leap": "Άλμα",
+  "text.werewolves.werewolf": "Λυκάνθρωπος"
 }
