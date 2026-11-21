@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.common.tags;
 
 import de.teamlapen.werewolves.api.WIdentifier;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
@@ -22,6 +23,6 @@ public class ModEntityTypeTags {
     }
 
     private static TagKey<EntityType<?>> vampirism(String name) {
-        return tag(WIdentifier.loc("vampirism", name));
+        return tag(WIdentifier.loc(REFERENCE.VMODID, name));
     }
 }

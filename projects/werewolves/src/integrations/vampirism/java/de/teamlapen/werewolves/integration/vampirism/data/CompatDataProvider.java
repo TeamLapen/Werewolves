@@ -18,7 +18,7 @@ public class CompatDataProvider {
      * Only runs in the {@code dataVampirism} run, which writes into src/integrations/vampirism/generated/resources.
      */
     public static void onGatherData(GatherDataEvent.Client event) {
-        if (!"vampirism".equals(System.getProperty("werewolves.datagen.integration"))) return;
+        if (!de.teamlapen.werewolves.util.REFERENCE.VMODID.equals(System.getProperty("werewolves.datagen.integration"))) return;
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
 

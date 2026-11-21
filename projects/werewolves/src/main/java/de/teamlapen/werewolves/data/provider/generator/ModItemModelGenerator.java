@@ -91,28 +91,12 @@ public class ModItemModelGenerator extends ItemModelGenerators {
 
     }
 
-    protected static Identifier vLoc(String string) {
-        return WIdentifier.loc("vampirism", string);
-    }
-
     protected static Identifier modLoc(String string) {
         return WIdentifier.mod(string);
     }
 
-    protected void blockLayer(ItemLike block) {
-        Item item = block.asItem();
-        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(TextureMapping.getBlockTexture((Block) block)), this.modelOutput)));
-    }
-
-    /**
-     * Two layered refinement item, the second layer is tinted by the refinement rarity
-     */
     protected void accessory(Item item, String texture) {
         Identifier model = ModelTemplates.TWO_LAYERED_ITEM.create(item, TextureMapping.layered(new Material(modLoc("item/" + texture + "_layer0")), new Material(modLoc("item/" + texture + "_layer1"))), this.modelOutput);
         this.itemModelOutput.accept(item, ItemModelUtils.tintedModel(model, BLANK_LAYER, new RefinementTint()));
-    }
-
-    protected void flatWithTexture(Item item, Identifier texture) {
-        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(new Material(texture)), this.modelOutput)));
     }
 }

@@ -150,29 +150,6 @@ public class ModItems {
     public static final DeferredItem<BlockItem> JACARANDA_FENCE = ITEMS.registerSimpleBlockItem(ModBlocks.JACARANDA_FENCE);
     public static final DeferredItem<BlockItem> MAGIC_FENCE = ITEMS.registerSimpleBlockItem(ModBlocks.MAGIC_FENCE);
 
-
-//    public static class V {
-//        public static final DeferredHolder<Item, Item> HUMAN_HEART = item("human_heart");
-//        public static final DeferredHolder<Item, Item> INJECTION_EMPTY = item("injection_empty");
-//        public static final DeferredHolder<Item, Item> WEAK_HUMAN_HEART = item("weak_human_heart");
-//        public static final DeferredHolder<Item, Item> OBLIVION_POTION = item("oblivion_potion");
-//        public static final DeferredHolder<Item, Item> VAMPIRE_BOOK = item("vampire_book");
-//        public static final DeferredHolder<Item, Item> CROSSBOW_ARROW_NORMAL = item("crossbow_arrow_normal");
-//        public static final DeferredHolder<Item, Item> GARLIC_DIFFUSER_CORE = item("garlic_diffuser_core");
-//
-//        private static DeferredHolder<Item, Item> item(String name) {
-//            return DeferredHolder.create(ResourceKey.create(Registries.ITEM, WIdentifier.loc("vampirism",name)));
-//        }
-//
-//        private static void init() {
-//
-//        }
-//    }
-//
-//    static {
-//        V.init();
-//    }
-
     static void register(IEventBus bus) {
         ITEMS.register(bus);
         CREATIVE_TABS.register(bus);
