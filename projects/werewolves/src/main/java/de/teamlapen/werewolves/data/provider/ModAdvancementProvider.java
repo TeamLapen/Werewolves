@@ -2,10 +2,13 @@ package de.teamlapen.werewolves.data.provider;
 
 import de.teamlapen.faction.common.advancements.criterion.FactionCriterionTrigger;
 import de.teamlapen.faction.common.advancements.criterion.FactionSubPredicate;
+import de.teamlapen.faction.common.advancements.criterion.LordCriterionTrigger;
 import de.teamlapen.werewolves.common.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.*;
+import de.teamlapen.werewolves.common.tags.ModDamageTypeTags;
 import de.teamlapen.werewolves.common.tags.ModItemTags;
+import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.criterion.*;
 import net.minecraft.core.HolderLookup;
@@ -79,66 +82,53 @@ public class ModAdvancementProvider extends AdvancementProvider {
                     .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
                     .save(saver, WIdentifier.mod("little_pigs"));
 
-//            var little_red_riding_hood = Advancement.Builder.advancement()
-//                    .parent(little_pigs) TODO
-//                    .display(de.teamlapen.vampirism.common.core.ModItems.HUNTER_AXE_NORMAL.get(), Component.translatable("advancements.werewolves.little_red_riding_hood"), Component.translatable("advancements.werewolves.little_red_riding_hood.desc"), null, AdvancementType.CHALLENGE, true, true, false)
-//                    .addCriterion("action", KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder().entityType(EntityTypePredicate.of(entityTypes, ModEntityTags.HUNTER))))
-//                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
-//                    .save(saver, WIdentifier.mod("little_red_riding_hood"));
+            // little_red_riding_hood (parent little_pigs) and bite_the_evil_in_the_bud (parent standing_here_i_realize) need Vampirism and belong to the Vampirism integration
 
-//            var unrivaled_predator = Advancement.Builder.advancement()
-//                    .parent(little_red_riding_hood)
-//                    .display(ModItems.CRACKED_BONE.get(), Component.translatable("advancements.werewolves.unrivaled_predator"), Component.translatable("advancements.werewolves.unrivaled_predator.desc"), null, AdvancementType.TASK, true, true, false)
-//                    .addCriterion("faction", LordCriterionTrigger.TriggerInstance.lord(ModFactions.WEREWOLF, REFERENCE.HIGHEST_WEREWOLF_LEVEL))
-//                    .save(saver, WIdentifier.mod("unrivaled_predator"));
+            var unrivaled_predator = Advancement.Builder.advancement()
+                    .parent(little_pigs)
+                    .display(ModItems.CRACKED_BONE.get(), Component.translatable("advancements.werewolves.unrivaled_predator"), Component.translatable("advancements.werewolves.unrivaled_predator.desc"), null, AdvancementType.TASK, true, true, false)
+                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, REFERENCE.HIGHEST_WEREWOLF_LEVEL))
+                    .save(saver, WIdentifier.mod("unrivaled_predator"));
 
-//            var lord_of_the_hunt = Advancement.Builder.advancement()
-//                    .parent(unrivaled_predator)
-//                    .display(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get(), Component.translatable("advancements.werewolves.lord_of_the_hunt"), Component.translatable("advancements.werewolves.lord_of_the_hunt.desc"), null, AdvancementType.CHALLENGE, true, true, false)
-//                    .addCriterion("faction", LordCriterionTrigger.TriggerInstance.lord(ModFactions.WEREWOLF, REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL))
-//                    .save(saver, WIdentifier.mod("lord_of_the_hunt"));
+            var lord_of_the_hunt = Advancement.Builder.advancement()
+                    .parent(unrivaled_predator)
+                    .display(ModItems.WHITE_PELT_UPGRADE_SMITHING_TEMPLATE.get(), Component.translatable("advancements.werewolves.lord_of_the_hunt"), Component.translatable("advancements.werewolves.lord_of_the_hunt.desc"), null, AdvancementType.CHALLENGE, true, true, false)
+                    .addCriterion("faction", LordCriterionTrigger.TriggerInstance.lord(ModFactions.WEREWOLF, REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL))
+                    .save(saver, WIdentifier.mod("lord_of_the_hunt"));
 
+            var beast_of_gevauden = Advancement.Builder.advancement()
+                    .parent(little_pigs)
+                    .display(ModItems.PELT_HELMET.get(), Component.translatable("advancements.werewolves.beast_of_gevauden"), Component.translatable("advancements.werewolves.beast_of_gevauden.desc"), null, AdvancementType.CHALLENGE, true, true, false)
+                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
+                    .addCriterion("village", WerewolfActionCriterionTrigger.TriggerInstance.of(WerewolfActionCriterionTrigger.Action.VILLAGE_CONQUERED))
+                    .save(saver, WIdentifier.mod("beast_of_gevauden"));
 
-//            var beast_of_gevauden = Advancement.Builder.advancement()
-//                    .parent(little_red_riding_hood)
-//                    .display(ModItems.PELT_HELMET.get(), Component.translatable("advancements.werewolves.beast_of_gevauden"), Component.translatable("advancements.werewolves.beast_of_gevauden.desc"), null, AdvancementType.CHALLENGE, true, true, false)
-//                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
-//                    .addCriterion("village", WerewolfActionCriterionTrigger.TriggerInstance.of(WerewolfActionCriterionTrigger.Action.VILLAGE_CONQUERED))
-//                    .save(saver, WIdentifier.mod("beast_of_gevauden"));
+            var insatiable_beast = addAllMeats(items, Advancement.Builder.advancement()
+                    .parent(beast_of_gevauden)
+                    .display(ModItems.LIVER.get(), Component.translatable("advancements.werewolves.insatiable_beast"), Component.translatable("advancements.werewolves.insatiable_beast.desc"), null, AdvancementType.CHALLENGE, true, true, false)
+                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1)))
+                    .save(saver, WIdentifier.mod("insatiable_beast"));
 
-//            var insatiable_beast = addAllMeats(items, Advancement.Builder.advancement()
-//                    .parent(beast_of_gevauden)
-//                    .display(ModItems.LIVER.get(), Component.translatable("advancements.werewolves.insatiable_beast"), Component.translatable("advancements.werewolves.insatiable_beast.desc"), null, AdvancementType.CHALLENGE, true, true, false)
-//                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1)))
-//                    .save(saver, WIdentifier.mod("insatiable_beast"));
+            var standing_here_i_realize = Advancement.Builder.advancement()
+                    .parent(insatiable_beast)
+                    .display(Items.NETHERITE_BLOCK, Component.translatable("advancements.werewolves.standing_here_i_realize"), Component.translatable("advancements.werewolves.standing_here_i_realize.desc"), null, AdvancementType.CHALLENGE, true, true, false)
+                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
+                    .addCriterion("armor", WerewolfActionCriterionTrigger.TriggerInstance.of(WerewolfActionCriterionTrigger.Action.ARMOR_PARTIAL))
+                    .save(saver, WIdentifier.mod("standing_here_i_realize"));
 
-//            var standing_here_i_realize = Advancement.Builder.advancement()
-//                    .parent(insatiable_beast)
-//                    .display(Items.NETHERITE_BLOCK, Component.translatable("advancements.werewolves.standing_here_i_realize"), Component.translatable("advancements.werewolves.standing_here_i_realize.desc"), null, AdvancementType.CHALLENGE, true, true, false)
-//                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
-//                    .addCriterion("armor", WerewolfActionCriterionTrigger.TriggerInstance.of(WerewolfActionCriterionTrigger.Action.ARMOR_PARTIAL))
-//                    .save(saver, WIdentifier.mod("standing_here_i_realize"));
+            var thick_fur_coat = Advancement.Builder.advancement()
+                    .parent(standing_here_i_realize)
+                    .display(ModItems.WHITE_PELT_CHESTPLATE.get(), Component.translatable("advancements.werewolves.thick_fur_coat"), Component.translatable("advancements.werewolves.thick_fur_coat.desc"), null, AdvancementType.CHALLENGE, true, true, false)
+                    .addCriterion("pelt_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.WHITE_PELT_HELMET, ModItems.WHITE_PELT_CHESTPLATE, ModItems.WHITE_PELT_LEGGINGS, ModItems.WHITE_PELT_BOOTS))
+                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
+                    .save(saver, WIdentifier.mod("thick_fur_coat"));
 
-//            var bite_the_evil_in_the_bud = Advancement.Builder.advancement()
-//                    .parent(standing_here_i_realize)
-//                    .display(de.teamlapen.vampirism.common.core.ModItems.MOTHER_CORE.get(), Component.translatable("advancements.werewolves.bite_the_evil_in_the_bud"), Component.translatable("advancements.werewolves.bite_the_evil_in_the_bud.desc"), null, AdvancementType.CHALLENGE, true, true, false)
-//                    .addCriterion("killed", de.teamlapen.vampirism.common.core.ModAdvancements.TRIGGER_MOTHER_WIN.get().createCriterion(new PlayerTrigger.TriggerInstance(Optional.empty())))
-//                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
-//                    .save(saver, WIdentifier.mod("bite_the_evil_in_the_bud"));
-
-//            var thick_fur_coat = Advancement.Builder.advancement()
-//                    .parent(bite_the_evil_in_the_bud)
-//                    .display(ModItems.WHITE_PELT_CHESTPLATE.get(), Component.translatable("advancements.werewolves.thick_fur_coat"), Component.translatable("advancements.werewolves.thick_fur_coat.desc"), null, AdvancementType.CHALLENGE, true, true, false)
-//                    .addCriterion("pelt_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.WHITE_PELT_HELMET, ModItems.WHITE_PELT_CHESTPLATE, ModItems.WHITE_PELT_LEGGINGS, ModItems.WHITE_PELT_BOOTS))
-//                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
-//                    .save(saver, WIdentifier.mod("thick_fur_coat"));
-
-//            var another_one_bites_the_dust = Advancement.Builder.advancement()
-//                    .parent(thick_fur_coat)
-//                    .display(ModItems.WEREWOLF_TOOTH.get(), Component.translatable("advancements.werewolves.another_one_bites_the_dust"), Component.translatable("advancements.werewolves.another_one_bites_the_dust.desc"), null, AdvancementType.TASK, true, true, false)
-//                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
-//                    .addCriterion("devour", KilledTrigger.TriggerInstance.playerKilledEntity(Optional.empty(), new DamageSourcePredicate.Builder().tag(TagPredicate.is(de.teamlapen.werewolves.common.core.ModTags.DamageTypes.BITE))))
-//                    .save(saver, WIdentifier.mod("another_one_bites_the_dust"));
+            Advancement.Builder.advancement()
+                    .parent(thick_fur_coat)
+                    .display(ModItems.WEREWOLF_TOOTH.get(), Component.translatable("advancements.werewolves.another_one_bites_the_dust"), Component.translatable("advancements.werewolves.another_one_bites_the_dust.desc"), null, AdvancementType.TASK, true, true, false)
+                    .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
+                    .addCriterion("devour", KilledTrigger.TriggerInstance.playerKilledEntity(new EntityPredicate.Builder(), new DamageSourcePredicate.Builder().tag(TagPredicate.is(ModDamageTypeTags.BITE))))
+                    .save(saver, WIdentifier.mod("another_one_bites_the_dust"));
 
             var hairy_situation = Advancement.Builder.advancement()
                     .parent(teen_wolf)

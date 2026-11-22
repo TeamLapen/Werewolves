@@ -1,0 +1,29 @@
+{
+  "parent": "werewolves:little_pigs",
+  "criteria": {
+    "faction": {
+      "conditions": {
+        "faction": "werewolves:werewolf",
+        "level": 14
+      },
+      "trigger": "factionapi:faction"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.unrivaled_predator.desc"
+    },
+    "icon": {
+      "id": "werewolves:cracked_bone"
+    },
+    "title": {
+      "translate": "advancements.werewolves.unrivaled_predator"
+    }
+  },
+  "requirements": [
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
