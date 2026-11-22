@@ -316,9 +316,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     }
                     entity.addEffect(new MobEffectInstance(ModEffects.STUN, duration));
                 }
-//                if (this.skillHandler.isSkillEnabled(ModSkills.BLEEDING_BITE)) { TODO
-//                    entity.addEffect(new MobEffectInstance(ModEffects.BLEEDING, ModConfig.balance().SKILLS.bleeding_bite_duration.get(), refinements.isRefinementEquipped(ModRefinements.BLEEDING_BITE) ? 3 : 0));
-//                }
+                if (this.skillHandler.isSkillEnabled(ModSkills.BLEEDING_BITE)) {
+                    entity.addEffect(new MobEffectInstance(ModEffects.bleeding(), ModConfig.balance().SKILLS.bleeding_bite_duration.get(), refinements.isRefinementEquipped(ModRefinements.BLEEDING_BITE) ? 3 : 0));
+                }
             }
             if (!(entity instanceof ServerPlayer) || PermissionAPI.getPermission((ServerPlayer) this.asEntity(), Permissions.INFECT_PLAYER)) {
                 LupusSanguinemEffect.infectRandomByPlayer(entity);
