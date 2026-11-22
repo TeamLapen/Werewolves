@@ -74,8 +74,8 @@ public class ModTasks {
                 .build(context::register, WEREWOLF_MINION_UPGRADE_ENHANCED);
         TaskBuilder.builder().setReward(new ItemStackTemplate(ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL.get()))
                 .unlockedBy(new LordLvlUnlocker(5))
-                .addRequirement(EntityType.EVOKER, 10)
-                .addRequirement(EntityType.WITCH, 12)
+                .addRequirement(EntityType.EVOKER, 2)
+                .addRequirement(EntityType.WITCH, 5)
                 .addRequirement(new ItemStackTemplate(ModItems.LIVER.get(), 32))
                 .addRequirement(new ItemStackTemplate(ModItems.WEREWOLF_TOOTH.get(), 5))
                 .addRequirement(new ItemStackTemplate(Items.DIAMOND_BLOCK, 8))

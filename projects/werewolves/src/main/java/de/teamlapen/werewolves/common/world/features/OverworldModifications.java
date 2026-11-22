@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Pair;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModBiomes;
 import de.teamlapen.werewolves.misc.mixin.MultiNoiseBiomeSourceParameterListPresetAccessor;
-import net.neoforged.fml.ModList;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
@@ -22,10 +21,19 @@ import java.util.function.Function;
 
 public class OverworldModifications {
     private static final Logger LOGGER = LogManager.getLogger();
+    private static boolean biomesAddedViaTerraBlender = false;
+
+    /**
+     * Called by the TerraBlender integration during common setup if it adds the werewolf biome to the overworld.
+     * {@link #addBiomesToOverworldUnsafe()} runs afterwards on load complete and then leaves the overworld preset alone.
+     */
+    public static void useTerraBlender() {
+        biomesAddedViaTerraBlender = true;
+    }
 
     @SuppressWarnings({"UnreachableCode", "DataFlowIssue"})
     public static void addBiomesToOverworldUnsafe() {
-        if (ModList.get().isLoaded("terrablender")) { //If we are already adding the biome to the overworld using TerraBlender, we shouldn't hack it into the overworld preset
+        if (biomesAddedViaTerraBlender) { //If we are already adding the biome to the overworld using TerraBlender, we shouldn't hack it into the overworld preset
             LOGGER.info("Werewolves Biomes are added via TerraBlender. Not adding them to overworld preset.");
             return;
         }
@@ -34,7 +42,7 @@ public class OverworldModifications {
         }
 
         /*
-         * Hack the vampire forest into the Overworld biome list preset, replacing some taiga biome areas.
+         * Hack the werewolf forest into the Overworld biome list preset, replacing some forest biome areas.
          *
          * Create a wrapper function for the parameterSource function, which calls the original one and then modifies the result
          */

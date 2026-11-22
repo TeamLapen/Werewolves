@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Copied and modifier from {@link de.teamlapen.vampirism.modcompat.terrablender.TerraBlenderRegistration}
+ * Based on Vampirism's TerraBlenderIntegration
  * <p>
  * Simple provider to add our biome to the overworld
  */

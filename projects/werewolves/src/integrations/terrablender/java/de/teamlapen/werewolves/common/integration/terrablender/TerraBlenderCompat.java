@@ -2,25 +2,21 @@ package de.teamlapen.werewolves.common.integration.terrablender;
 
 import de.teamlapen.integration.Integration;
 import de.teamlapen.werewolves.common.config.ModConfig;
+import de.teamlapen.werewolves.common.world.features.OverworldModifications;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * <p>
  * When TerraBlender is installed we use it to add our biomes to the overworld, instead of hacking it into the overworld preset. This is more compatible with other mods.
- * <p>
+ * <br>
  * #registerBiomeProviderIfPresentUnsafe() is called during common setup.
- * The hack code in VampirismWorldGen is called during LoadComplete and can therefore check #arreBiomesAddedViaTerraBlender
+ * The hack code in {@link OverworldModifications} is called during load complete and is skipped if the biome was added via TerraBlender.
  */
 @Integration(modIds = "terrablender")
 public class TerraBlenderCompat {
 
-    private static final String MOD_ID = "terrablender";
-
-    private static boolean isUsingTerraBlender = false;
     private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent
@@ -28,14 +24,8 @@ public class TerraBlenderCompat {
         if (ModConfig.common().disableWerewolfForest.get()) {
             return;
         }
-        if (ModList.get().isLoaded(MOD_ID)) {
-            TerraBlenderRegistration.registerRegions();
-            LOGGER.info("TerraBlender is installed. Using it to add vampire Forest to overworld.");
-            isUsingTerraBlender = true;
-        }
-    }
-
-    public static boolean areBiomesAddedViaTerraBlender() {
-        return isUsingTerraBlender;
+        TerraBlenderRegistration.registerRegions();
+        LOGGER.info("TerraBlender is installed. Using it to add werewolf forest to overworld.");
+        OverworldModifications.useTerraBlender();
     }
 }

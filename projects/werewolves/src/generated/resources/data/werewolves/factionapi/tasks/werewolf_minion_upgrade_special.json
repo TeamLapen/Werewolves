@@ -10,7 +10,7 @@
     },
     {
       "type": "factionapi:entity",
-      "amount": 10,
+      "amount": 2,
       "description": {
         "translate": "entity.minecraft.evoker"
       },
@@ -35,7 +35,7 @@
     },
     {
       "type": "factionapi:entity",
-      "amount": 12,
+      "amount": 5,
       "description": {
         "translate": "entity.minecraft.witch"
       },

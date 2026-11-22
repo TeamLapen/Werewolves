@@ -2,6 +2,7 @@ package de.teamlapen.werewolves.common;
 
 import de.teamlapen.faction.api.event.AddFactionTagEvent;
 
+import de.teamlapen.werewolves.common.world.features.OverworldModifications;
 import de.teamlapen.werewolves.common.core.ModFactions;
 
 import de.teamlapen.faction.Services;
@@ -14,6 +15,7 @@ import de.teamlapen.werewolves.common.world.entities.ModEntityEventHandler;
 import de.teamlapen.werewolves.common.world.entities.player.ModPlayerEventHandler;
 import de.teamlapen.werewolves.util.Permissions;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 public class CommonServices extends Services implements IWerewolvesServices {
@@ -44,6 +46,7 @@ public class CommonServices extends Services implements IWerewolvesServices {
     protected void registerModBus(IEventBus bus) {
         super.registerModBus(bus);
         this.registryManager.registerModBus(bus);
+        bus.addListener(FMLLoadCompleteEvent.class, e -> e.enqueueWork(OverworldModifications::addBiomesToOverworldUnsafe));
         bus.addListener(ModPacketDispatcher::registerHandler);
         bus.addListener(AddFactionTagEvent.class, ModFactions::registerFactionTags);
         bus.addListener(ModEntities::registerSpawns);
