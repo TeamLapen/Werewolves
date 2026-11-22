@@ -3,13 +3,10 @@ package de.teamlapen.werewolves.common.core;
 import de.teamlapen.faction.common.world.blocks.TotemTopBlock;
 import de.teamlapen.library.api.world.EnumStrength;
 import de.teamlapen.library.common.core.LibraryBlockRegisterHelper;
-import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.blocks.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import de.teamlapen.werewolves.common.world.features.WTreeGrower;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.*;
@@ -103,18 +100,6 @@ public class ModBlocks {
     public static final DeferredBlock<WallHangingSignBlock> MAGIC_WALL_HANGING_SIGN = BLOCKS.registerBlock("magic_wall_hanging_sign", props -> new WallHangingSignBlock(WoodTypes.MAGIC, props), () -> BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_HANGING_SIGN).mapColor(MAGIC_PLANKS.get().defaultMapColor()).overrideLootTable(MAGIC_HANGING_SIGN.get().getLootTable()));
 
 
-
-    public static class V {
-        public static final DeferredHolder<Block, Block> MED_CHAIR = DeferredBlock.create(ResourceKey.create(Registries.BLOCK, WIdentifier.loc("vampirism", "med_chair")));
-
-        private static void init() {
-
-        }
-    }
-
-    static {
-        V.init();
-    }
 
     static void register(IEventBus bus) {
         BLOCKS.register(bus);

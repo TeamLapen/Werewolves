@@ -51,7 +51,6 @@ public class ModItems {
     private static final FoodProperties LIVER_FOOD = new FoodProperties.Builder().nutrition(6).saturationModifier(0.4f).build();
     public static final DeferredItem<Item> LIVER = ITEMS.registerItem("liver", props -> new Item(props.factions$factionFood(new FactionFoodList(LIVER_FOOD, List.of()), Consumables.defaultFood().build())));
     public static final DeferredItem<Item> CRACKED_BONE = ITEMS.registerItem("cracked_bone", Item::new);
-    public static final DeferredItem<UnWerewolfInjectionItem> INJECTION_UN_WEREWOLF = ITEMS.registerItem("injection_un_werewolf", UnWerewolfInjectionItem::new);
     public static final DeferredItem<WerewolfToothItem> WEREWOLF_TOOTH = ITEMS.registerItem("werewolf_tooth", WerewolfToothItem::new);
     public static final DeferredItem<Item> SILVER_NUGGET = ITEMS.registerItem("silver_nugget", Item::new);
     public static final DeferredItem<Item> RAW_SILVER = ITEMS.registerItem("raw_silver", Item::new);

@@ -5,7 +5,6 @@ import net.minecraft.world.item.equipment.Equippable;
 
 import net.minecraft.core.component.DataComponents;
 import de.teamlapen.faction.api.factions.skills.ISkillHandler;
-import de.teamlapen.faction.common.factions.FactionPlayerHandler;
 import de.teamlapen.werewolves.common.advancements.criterion.WerewolfActionCriterionTrigger;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
@@ -14,7 +13,6 @@ import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.util.ArmorUtil;
 import de.teamlapen.werewolves.common.world.effects.SilverEffect;
-import de.teamlapen.werewolves.common.world.effects.inst.UnWerewolfEffectInstance;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.misc.mixin.LivingEntityAccessor;
 import de.teamlapen.werewolves.util.Helper;
@@ -29,7 +27,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -125,44 +122,6 @@ public class ModPlayerEventHandler {
         if (!event.getEntity().level().isClientSide() && event.getEntity().getEffect(ModEffects.LUPUS_SANGUINEM) != null) {
             event.getEntity().getEffect(ModEffects.LUPUS_SANGUINEM).getEffect().value().applyEffectTick((ServerLevel) event.getEntity().level(), event.getEntity(), 0);
             event.getEntity().removeEffect(ModEffects.LUPUS_SANGUINEM);
-        }
-    }
-
-    @SubscribeEvent
-    public void onItemUseEntity(PlayerInteractEvent.EntityInteract event) {
-//        if (event.getEntity().getItemInHand(event.getHand()).getItem() == ModItems.V.INJECTION_EMPTY.get()) { TODO
-//            if (event.getTarget() instanceof WerewolfBaseEntity) {
-//                event.getEntity().getItemInHand(event.getHand()).shrink(1);
-//                event.getEntity().addItem(ModItems.INJECTION_UN_WEREWOLF.get().getDefaultInstance());
-//            }
-//        }
-    }
-
-    @SubscribeEvent
-    public void onItemUseBlock(PlayerInteractEvent.RightClickBlock event) {
-        Player player = event.getEntity();
-        if (player.getItemInHand(event.getHand()).getItem() == ModItems.INJECTION_UN_WEREWOLF.get()) {
-            if (event.getLevel().getBlockState(event.getPos()).getBlock() == ModBlocks.V.MED_CHAIR.get()) {
-                ItemStack stack = player.getItemInHand(event.getHand());
-                if (player.isAlive()) {
-                    var faction = FactionPlayerHandler.get(event.getEntity());
-                    if (faction.isInFaction(ModFactions.WEREWOLF)) {
-                        if (player.getEffect(ModEffects.UN_WEREWOLF) == null) {
-                            player.addEffect(new UnWerewolfEffectInstance(2000));
-                            stack.shrink(1);
-                            if (stack.isEmpty()) {
-                                player.getInventory().removeItem(stack);
-                            }
-                        } else {
-                            player.sendOverlayMessage(Component.translatable("text.werewolves.injection.in_use"));
-                        }
-                    } else {
-                        player.sendOverlayMessage(Component.translatable("text.werewolves.injection.not_use"));
-                    }
-                }
-            }
-            event.setCancellationResult(InteractionResult.SUCCESS);
-            event.setCanceled(true);
         }
     }
 

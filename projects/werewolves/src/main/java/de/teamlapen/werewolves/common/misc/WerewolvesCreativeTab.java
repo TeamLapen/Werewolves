@@ -118,7 +118,6 @@ public class WerewolvesCreativeTab {
             add(WEREWOLF_MINION_UPGRADE_SIMPLE);
             add(WEREWOLF_MINION_UPGRADE_ENHANCED);
             add(WEREWOLF_MINION_UPGRADE_SPECIAL);
-            add(INJECTION_UN_WEREWOLF);
             add(WOLFSBANE_FINDER);
         }
     }

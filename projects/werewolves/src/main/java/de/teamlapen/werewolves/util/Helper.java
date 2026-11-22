@@ -11,7 +11,10 @@ import de.teamlapen.werewolves.common.core.ModSkills;
 import de.teamlapen.werewolves.common.tags.ModItemTags;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.faction.common.core.FactionDataComponents;
+import de.teamlapen.werewolves.api.WIdentifier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.level.MoonPhase;
@@ -32,12 +35,22 @@ import java.util.Optional;
 
 public class Helper {
 
+    private static final Identifier VAMPIRE_FACTION = WIdentifier.loc(REFERENCE.VMODID, "vampire");
+
     public static boolean isWerewolf(Entity entity) {
         return (entity instanceof Player player && isWerewolf(player)) || IFaction.is(FactionsApi.services().factionHelper().getFaction(entity), ModFactions.WEREWOLF);
     }
 
     public static boolean isWerewolf(Player entity) {
         return FactionsApi.factionPlayerHandler(entity).isInFaction(ModFactions.WEREWOLF);
+    }
+
+    /**
+     * Checks for Vampirism's vampire faction by id, so it works without Vampirism being present
+     */
+    public static boolean isVampire(Entity entity) {
+        Holder<? extends IFaction<?>> faction = FactionsApi.services().factionHelper().getFaction(entity);
+        return faction.is(VAMPIRE_FACTION);
     }
 
     public static boolean hasFaction(Entity entity) {

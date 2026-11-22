@@ -184,7 +184,7 @@ public class ModEntityEventHandler {
                     damageReduction *= ModConfig.balance().SKILLS.thick_fur_multiplier.get().floatValue();
                 }
             }
-            if (event.getSource().getEntity() != null /*&& FactionApiHelper.isVampire(event.getSource().getEntity())*/) { // TODO
+            if (event.getSource().getEntity() != null && Helper.isVampire(event.getSource().getEntity())) {
                 damageReduction *= 0.3f;
             }
             event.setNewDamage(damage * (1 - damageReduction));

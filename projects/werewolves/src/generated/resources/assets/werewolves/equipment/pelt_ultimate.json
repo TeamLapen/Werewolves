@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "werewolves:pelt_ultimate"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "werewolves:pelt_ultimate"
+      }
+    ]
+  }
+}

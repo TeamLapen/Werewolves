@@ -31,11 +31,6 @@ public class WolfPeltArmorItem extends Item implements IWerewolfArmor, IItemWith
         this.tier = tier;
     }
 
-//    @Override
-//    public @Nullable Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-//        return slot == EquipmentSlot.HEAD ? WIdentifier.mod("textures/models/armor/" + RegUtil.id(this).getPath() + ".png") : super.getArmorTexture(stack, entity, slot, layer, innerModel);
-//    }
-
 
     @Override
     public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {

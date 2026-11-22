@@ -36,7 +36,6 @@ public class ModItemModelGenerator extends ItemModelGenerators {
                 ModItems.SILVER_INGOT,
                 ModItems.LIVER,
                 ModItems.CRACKED_BONE,
-                ModItems.INJECTION_UN_WEREWOLF,
                 ModItems.WEREWOLF_TOOTH,
                 ModItems.WEREWOLF_MINION_CHARM,
                 ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE,

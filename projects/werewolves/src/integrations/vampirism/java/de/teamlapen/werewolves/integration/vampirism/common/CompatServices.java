@@ -18,4 +18,9 @@ public class CompatServices extends Services {
         bus.addListener(CompatDataProvider::onGatherData);
         bus.addListener(CompatDataMaps::registerDataMaps);
     }
+
+    @Override
+    protected void registerGameBus(IEventBus bus) {
+        bus.addListener(CompatEventHandler::onEntityInteract);
+    }
 }
