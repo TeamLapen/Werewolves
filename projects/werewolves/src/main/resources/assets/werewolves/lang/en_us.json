@@ -276,6 +276,8 @@
   "oil.werewolves.silver_oil_2": "Silver Oil",
   "oil.werewolves.silver_oil_2.desc": "Silver II",
 
+  "pack.werewolves.vampirism": "Werewolves: Vampirism Integration",
+
   "refinement.werewolves.bleeding_bite.desc": "Bleeding Bite creates a bigger wound",
   "refinement.werewolves.greater_doge_chance.desc": "Increases the chance to doge for the Movement Tactics skill",
   "refinement.werewolves.health_after_kill.desc": "Regenerate more health after a kill",

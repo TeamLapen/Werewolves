@@ -19,6 +19,7 @@ public class CompatServices extends Services {
         bus.addListener(CompatEventHandler::appendCreativeTab);
         bus.addListener(CompatDataProvider::onGatherData);
         bus.addListener(CompatDataMaps::registerDataMaps);
+        bus.addListener(CompatPacks::addPackFinders);
         bus.addListener(FMLCommonSetupEvent.class, event -> WerewolfVillagerAttachment.addPreventWerewolfCheck(CompatEventHandler::isVampireVillager));
     }
 

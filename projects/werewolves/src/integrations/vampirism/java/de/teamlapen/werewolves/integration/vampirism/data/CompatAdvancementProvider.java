@@ -1,13 +1,11 @@
 package de.teamlapen.werewolves.integration.vampirism.data;
 
-import com.mojang.serialization.Codec;
 import de.teamlapen.faction.common.advancements.criterion.FactionCriterionTrigger;
 import de.teamlapen.vampirism.common.core.ModAdvancements;
 import de.teamlapen.vampirism.common.core.ModItems;
 import de.teamlapen.vampirism.common.tags.ModEntityTags;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModFactions;
-import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
@@ -17,17 +15,11 @@ import net.minecraft.advancements.criterion.KilledTrigger;
 import net.minecraft.advancements.criterion.PlayerTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.common.conditions.ConditionalOps;
-import net.neoforged.neoforge.common.conditions.ICondition;
-import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
-import net.neoforged.neoforge.common.conditions.WithConditions;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -35,35 +27,11 @@ import java.util.function.Consumer;
 
 /**
  * Werewolves advancements that need Vampirism. They are attached to the advancement tree of the main mod.
- * <p>
- * The integration data is part of the same jar, so every advancement is written with a {@code vampirism} mod loaded condition.
- * Vanilla's {@link net.minecraft.data.advancements.AdvancementProvider} can't write conditions.
  */
-public class CompatAdvancementProvider implements DataProvider {
-
-    private static final Codec<Optional<WithConditions<Advancement>>> CODEC = ConditionalOps.createConditionalCodecWithConditions(Advancement.CODEC);
-    private static final List<ICondition> CONDITIONS = List.of(new ModLoadedCondition(REFERENCE.VMODID));
-
-    private final PackOutput.PathProvider pathProvider;
-    private final CompletableFuture<HolderLookup.Provider> registries;
+public class CompatAdvancementProvider extends AdvancementProvider {
 
     public CompatAdvancementProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        this.pathProvider = output.createRegistryElementsPathProvider(Registries.ADVANCEMENT);
-        this.registries = registries;
-    }
-
-    @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
-        return this.registries.thenCompose(lookup -> {
-            List<CompletableFuture<?>> tasks = new ArrayList<>();
-            new Generator().generate(lookup, holder -> tasks.add(DataProvider.saveStable(cache, lookup, CODEC, Optional.of(new WithConditions<>(CONDITIONS, holder.value())), this.pathProvider.json(holder.id()))));
-            return CompletableFuture.allOf(tasks.toArray(CompletableFuture[]::new));
-        });
-    }
-
-    @Override
-    public String getName() {
-        return "Vampirism compat advancements";
+        super(output, registries, List.of(new Generator()));
     }
 
     private static class Generator implements AdvancementSubProvider {

@@ -11,15 +11,11 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
-import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.AddTableLootModifier;
 
 import java.util.concurrent.CompletableFuture;
 
-/**
- * The integration data is part of the same jar, so every modifier needs a {@code vampirism} mod loaded condition
- */
 public class CompatGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
     public CompatGlobalLootModifierProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
@@ -31,6 +27,6 @@ public class CompatGlobalLootModifierProvider extends GlobalLootModifierProvider
         var entityTypes = this.registries.lookupOrThrow(Registries.ENTITY_TYPE);
         add("hunter_liver", new AddTableLootModifier(new LootItemCondition[]{
                 LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().entityType(EntityTypePredicate.of(entityTypes, ModEntityTags.HUNTER))).build()
-        }, 0, ModLootTables.HUNTER_LIVER), new ModLoadedCondition(REFERENCE.VMODID));
+        }, 0, ModLootTables.HUNTER_LIVER));
     }
 }

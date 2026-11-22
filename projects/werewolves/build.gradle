@@ -28,6 +28,8 @@ for (var integration : integrations) {
     if (integration.included) {
         sourceSets.create(integration.name) {
             java.srcDir "src/integrations/${integration.name}/java"
+            // Integration resources are shipped as a built-in pack in packs/<name>, which the integration registers when its mod is loaded
+            resources.srcDir "src/integrations/${integration.name}/resources"
             resources.srcDir "src/integrations/${integration.name}/generated/resources"
 
             compileClasspath += sourceSets.main.output + configurations.compileClasspath
@@ -101,7 +103,7 @@ neoForge {
             programArguments.addAll '--mod', project.werewolves_mod_id, '--all', '--output', project.file('src/generated/resources/').getAbsolutePath(), '--existing', project.file('src/main/resources/').getAbsolutePath()
         }
 
-        // One data run per integration, writing into src/integrations/<name>/generated/resources.
+        // One data run per integration, writing into the built-in pack src/integrations/<name>/generated/resources/packs/<name>.
         // The system property tells the data providers which set of providers to run.
         integrations.each { integration ->
             if (integration.included) {
@@ -110,7 +112,7 @@ neoForge {
 
                     systemProperty 'werewolves.datagen.integration', integration.name
                     programArguments.addAll '--mod', project.werewolves_mod_id, '--all',
-                            '--output', project.file("src/integrations/${integration.name}/generated/resources/").getAbsolutePath(),
+                            '--output', project.file("src/integrations/${integration.name}/generated/resources/packs/${integration.name}/").getAbsolutePath(),
                             '--existing', project.file('src/main/resources/').getAbsolutePath(),
                             '--existing', project.file('src/generated/resources/').getAbsolutePath()
                 }
@@ -193,6 +195,8 @@ tasks.jar {
     }
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // datagen caches
+    exclude '**/.cache/**'
 }
 
 tasks.named("sourcesJar", Jar) {
