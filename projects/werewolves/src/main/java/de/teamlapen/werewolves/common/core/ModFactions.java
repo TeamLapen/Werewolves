@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.faction.api.FactionRegistries;
+import de.teamlapen.faction.api.FactionTagKeys;
 import de.teamlapen.faction.api.event.AddFactionTagEvent;
 import de.teamlapen.faction.api.factions.IPlayableFaction;
 import de.teamlapen.faction.api.factions.skills.ISkill;
@@ -20,11 +21,13 @@ import de.teamlapen.faction.common.world.entities.minion.MinionStats;
 import de.teamlapen.werewolves.api.WReference;
 import de.teamlapen.werewolves.api.WerewolvesFactions;
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
+import de.teamlapen.werewolves.common.tags.*;
 import de.teamlapen.werewolves.common.util.WerewolfVillage;
 import de.teamlapen.werewolves.util.WerewolfLordTitles;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -42,7 +45,7 @@ public class ModFactions {
                     .lord(REFERENCE.HIGHEST_WEREWOLF_LORD_LEVEL, new WerewolfLordTitles())
                     .refinements(new RefinementItems(ModItems.BONE_NECKLACE, ModItems.CHARM_BRACELET, ModItems.DREAM_CATCHER))
                     .badOmen(ModEffects.BAD_OMEN_WEREWOLF)
-//                    .villageGuards(ModEntityTags.VAMPIRE_VILLAGE_GUARDS)
+                    .villageGuards(ModEntityTypeTags.WEREWOLF_VILLAGE_GUARDS)
                     .taskMaster(ModEntities.TASK_MASTER_WEREWOLF)
                     .banner(WerewolfVillage.create())
                     .totem(ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF, ModBlocks.TOTEM_TOP_WEREWOLVES_WEREWOLF_CRAFTED)));
@@ -69,16 +72,15 @@ public class ModFactions {
     @ApiStatus.Internal
     public static void registerFactionTags(AddFactionTagEvent event) {
         event.faction(WEREWOLF)
-//                .add(Registries.BIOME, ModBiom.HasFaction.IS_HUNTER_BIOME)
-//                .add(Registries.POINT_OF_INTEREST_TYPE, ModPoiTypeTags.IS_HUNTER)
-//                .add(Registries.VILLAGER_PROFESSION, ModProfessionTags.IS_HUNTER)
-//                .add(Registries.ENTITY_TYPE, ModEntityTags.HUNTER)
-//                .defaultTargets(ModEntityTags.HUNTER_DEFAULT_TARGETS)
-//                .add(FactionRegistries.Keys.TASK, ModTaskTags.IS_HUNTER)
-//                .add(FactionRegistries.Keys.FACTION, VampirismTags.Factions.IS_HUNTER)
-//                .add(Registries.DATA_COMPONENT_TYPE, ModDataComponentTags.HUNTER_FOOD)
-//                .add(VampirismRegistries.Keys.VAMPIRE_BOOK, ModVampireBookTags.IS_HUNTER)
-//                .addCustom(FactionTagKeys.ACTION_DISABLES, ModEffectTags.DISABLES_ACTIONS_HUNTER)
+                .add(Registries.BIOME, ModBiomeTags.IS_WEREWOLF_BIOME)
+                .add(Registries.POINT_OF_INTEREST_TYPE, ModPoiTypeTags.IS_WEREWOLF)
+                .add(Registries.VILLAGER_PROFESSION, ModProfessionTags.IS_WEREWOLF)
+                .add(Registries.ENTITY_TYPE, ModEntityTypeTags.WEREWOLF)
+                .defaultTargets(ModEntityTypeTags.WEREWOLF_DEFAULT_TARGETS)
+                .add(FactionRegistries.Keys.TASK, ModTaskTags.IS_WEREWOLF)
+                .add(FactionRegistries.Keys.FACTION, ModFactionsTags.IS_WEREWOLF)
+                .add(Registries.DATA_COMPONENT_TYPE, ModDataComponentTags.WEREWOLF_FOOD)
+                .addCustom(FactionTagKeys.ACTION_DISABLES, ModEffectTags.DISABLES_ACTIONS_WEREWOLF)
         ;
     }
 }

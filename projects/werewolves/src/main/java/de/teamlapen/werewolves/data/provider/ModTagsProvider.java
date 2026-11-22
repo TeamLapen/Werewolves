@@ -5,18 +5,23 @@ import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.factions.skills.ISkillTree;
 import de.teamlapen.faction.api.factions.tasks.Task;
 import de.teamlapen.faction.api.tags.FactionSkillTreeTags;
+import de.teamlapen.faction.common.tags.FactionEffectTags;
 import de.teamlapen.faction.common.tags.FactionPoiTypeTags;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.tags.*;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.*;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.*;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.VillagerTrade;
@@ -25,6 +30,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagCopyingItemTagProvider;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.objectweb.asm.tree.ModuleExportNode;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -43,6 +49,8 @@ public class ModTagsProvider {
         gen.addProvider(true, new ModVillageTradesTagProvider(output, future));
         gen.addProvider(true, new ModSkillTreeTagsProvider(output, future));
         gen.addProvider(true, new ModFactionTagProvider(output, future));
+        gen.addProvider(true, new ModEffectTagsProvider(output, future));
+        gen.addProvider(true, new ModDataComponentTagsProvider(output, future));
     }
 
     private static class ModBlockTagsProvider extends BlockTagsProvider {
@@ -264,6 +272,10 @@ public class ModTagsProvider {
         protected void addTags(HolderLookup.Provider pProvider) {
             this.tag(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS).add(ModEntities.WEREWOLF_SURVIVALIST.get());
             this.tag(ModEntityTypeTags.WEREWOLF).add(ModEntities.ALPHA_WEREWOLF.get(), ModEntities.WEREWOLF_BEAST.get(), ModEntities.WEREWOLF_SURVIVALIST.get(), ModEntities.HUMAN_WEREWOLF.get(), ModEntities.WEREWOLF_MINION.get(), ModEntities.TASK_MASTER_WEREWOLF.get());
+            this.tag(ModEntityTypeTags.WEREWOLF_DEFAULT_TARGETS)
+                    .addTag(EntityTypeTags.SKELETONS);
+            this.tag(ModEntityTypeTags.WEREWOLF_VILLAGE_GUARDS)
+                    .add(ModEntities.WEREWOLF_SURVIVALIST.get(), ModEntities.WEREWOLF_BEAST.get());
         }
     }
 
@@ -334,6 +346,31 @@ public class ModTagsProvider {
         protected void addTags(HolderLookup.Provider pProvider) {
             this.tag(ModFactionsTags.IS_WEREWOLF).add(ModFactions.WEREWOLF.getRawKey());
             this.tag(ModFactionsTags.WEREWOLF_MINION_TARGETS);
+        }
+    }
+
+    private static class ModEffectTagsProvider extends KeyTagProvider<MobEffect> {
+
+        protected ModEffectTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+            super(output, Registries.MOB_EFFECT, lookupProvider, REFERENCE.MODID);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.Provider registries) {
+            tag(ModEffectTags.DISABLES_ACTIONS_WEREWOLF).addTag(FactionEffectTags.DISABLES_ACTIONS);
+        }
+    }
+
+    private static class ModDataComponentTagsProvider extends KeyTagProvider<DataComponentType<?>> {
+
+        protected ModDataComponentTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+            super(output, Registries.DATA_COMPONENT_TYPE, lookupProvider, REFERENCE.MODID);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.Provider registries) {
+            this.tag(ModDataComponentTags.FACTION_FOOD).addTag(ModDataComponentTags.WEREWOLF_FOOD);
+            this.tag(ModDataComponentTags.WEREWOLF_FOOD);
         }
     }
 }

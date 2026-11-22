@@ -11,6 +11,10 @@ public class WIdentifier {
     public static Identifier mod(String path) {
         return Identifier.fromNamespaceAndPath(WReference.MODID, path);
     }
+
+    public static Identifier vampirism(String path) {
+        return Identifier.fromNamespaceAndPath(WReference.VMODID, path);
+    }
     public static String modString(String path) {
         return WReference.MODID + ":" + path;
     }

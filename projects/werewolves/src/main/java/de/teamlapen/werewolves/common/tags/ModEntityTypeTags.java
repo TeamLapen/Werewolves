@@ -9,6 +9,8 @@ import net.minecraft.world.entity.EntityType;
 
 public class ModEntityTypeTags {
     public static final TagKey<EntityType<?>> WEREWOLF = tag("werewolf");
+    public static final TagKey<EntityType<?>> WEREWOLF_DEFAULT_TARGETS = tag("target/default/werewolf");
+    public static final TagKey<EntityType<?>> WEREWOLF_VILLAGE_GUARDS = tag("village/guards/werewolf");
     public static final TagKey<EntityType<?>> VAMPIRE = vampirism("vampire");
     public static final TagKey<EntityType<?>> HUNTER = vampirism("hunter");
     public static final TagKey<EntityType<?>> ADVANCED_HUNTER = vampirism("advanced_hunter");
