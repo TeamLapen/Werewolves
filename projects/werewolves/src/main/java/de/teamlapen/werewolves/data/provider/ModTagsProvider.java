@@ -20,12 +20,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.*;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.*;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.VillagerTrade;
 import net.minecraft.world.level.block.Block;
@@ -113,6 +115,12 @@ public class ModTagsProvider {
     }
 
     private static class ModItemTagsProvider extends BlockTagCopyingItemTagProvider {
+
+        private static void optional(TagAppender<?, Item> appender, String... ids) {
+            for (String id : ids) {
+                appender.add(TagEntry.optionalElement(Identifier.parse(id)));
+            }
+        }
         public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blocks) {
             super(output, lookupProvider, blocks, REFERENCE.MODID);
         }
@@ -149,14 +157,48 @@ public class ModTagsProvider {
             this.tag(ItemTags.SMALL_FLOWERS).add(ModBlocks.WOLFSBANE.get().asItem(), ModBlocks.DAFFODIL.get().asItem());
             tag(ItemTags.BOATS).add(ModItems.JACARANDA_BOAT.get(), ModItems.MAGIC_BOAT.get());
             tag(ItemTags.CHEST_BOATS).add(ModItems.JACARANDA_CHEST_BOAT.get(), ModItems.MAGIC_CHEST_BOAT.get());
-//            this.tag(ModTags.Items.RAW_MEAT,"occultism:datura", "ars_nouveau:mana_berry", "artifacts:everlasting_beef",  "blue_skies:venison", "blue_skies:carabeef", "blue_skies:monitor_tail", "twilightforest:raw_meef", "twilightforest:raw_venison", "twilightforest:experiment_115", "undergarden:raw_dweller_meat", "undergarden:raw_gwibling", "undergarden:raw_gloomper_leg", "quark:crab_leg", "quark:frog_leg", "farmersdelight:mutton_chops", "farmersdelight:bacon", "farmersdelight:chicken_cuts", "farmersdelight:ham", "farmersdelight:minced_beef",  "forbidden_arcanus:bat_wing", "autumnity:turkey", "autumnity:turkey_piece", "potionsmaster:bezoar", "potionsmaster:gallbladder", "neapolitan:mint_chops", "biomemakeover:raw_toad", "aquaculture:frog_legs_raw", "croptopia:anchovy",  "croptopia:bacon",  "croptopia:frog_legs", "croptopia:sausage", "alexsmobs:raw_catfish", "alexsmobs:moose_ribs",  "alexsmobs:kangaroo_meat", "alexsdelight:raw_bison", "alexsdelight:raw_bunfungus", "alexsdelight:raw_bunfungus_drumstick", "alexsdelight:kangaroo_shank", "alexsdelight:loose_moose_rib", "alexsdelight:bison_mince",  "betteranimalsplus:turkey_leg_raw", "betteranimalsplus:pheasant_raw", "betteranimalsplus:venison_raw",  "delightful:venison_chops", "delightful:raw_goat", "nethersdelight:raw_stuffed_hoglin", "nethersdelight:ground_strider", "nethersdelight:strider_slice", "nethersdelight:hoglin_loin", "shepherdsdelight:raw_charque", "shepherdsdelight:raw_charque_strips", "shepherdsdelight:raw_equin", "shepherdsdelight:raw_equin_chunk", "shepherdsdelight:raw_meatloaf", "shepherdsdelight:ghast_tendril", "shepherdsdelight:ghast_fillet", "shepherdsdelight:cured_pufferfish", "shepherdsdelight:cure_pufferfish_cut", "shepherdsdelight:sausage", "shepherdsdelight:strider_meat_roll", "twilightdelight:raw_meef_slice", "twilightdelight:raw_venison_rib", "twilightdelight:experiment_113", "twilightdelight:experiment_110", "twilightdelight:hydra_piece");
-//            this.tag(ModTags.Items.COOKED_MEAT,"artifacts:eternal_steak", "upgrade_aquatic:cooked_perch", "upgrade_aquatic:cooked_pike", "turtlemancy:rabbit_stew", "twilightforest:cooked_meef", "twilightforest:cooked_venison", "twilightforest:meef_stroganoff", "twilightforest:hydra_chop",  "quark:cooked_frog_leg", "turtlemancy:cooked_oyster", "forbidden_arcanus:bat_soup",  "farmersdelight:cooked_mutton_chops",  "farmersdelight:cooked_bacon", "farmersdelight:cooked_chicken_cuts", "farmersdelight:smoked_ham", "farmersdelight:barbeque_stick", "farmersdelight:roast_chicken", "farmersdelight:honey_glazed_ham", "farmersdelight:shepherds_pie", "undergarden:dweller_steak", "undergarden:cooked_gwibling", "undergarden:gloomper_leg",  "blue_skies:cooked_venison", "blue_skies:cooked_carabeef", "blue_skies:cooked_monitor_tail", "farmersdelight:dog_food", "farmersdelight:beef_patty", "farmersdelight:fried_egg", "autumnity:cooked_turkey", "autumnity:cooked_turkey_piece", "neapolitan:cooked_mint_chops", "biomemakeover:cooked_toad",  "alexsmobs:cooked_moose_ribs",  "alexsmobs:cooked_kangaroo_meat", "alexsdelight:cooked_kangaroo_shank", "alexsdelight:cooked_loose_moose_rib", "alexsdelight:bison_patty", "alexsdelight:cooked_bison", "alexsdelight:cooked_bunfungus", "alexsdelight:cooked_bunfungus_drumstick",  "alexsdelight:cooked_centipede_leg", "aquaculture:frog_legs_cooked", "croptopia:cooked_anchovy",  "croptopia:cooked_bacon",  "croptopia:sunny_side_eggs", "croptopia:fried_frog_legs", "delightful:cooked_venison_chops", "delightful:cooked_goat",  "betteranimalsplus:turkey_leg_cooked", "betteranimalsplus:pheasant_cooked", "betteranimalsplus:venison_cooked", "betteranimalsplus:turkey_cooked", "betteranimalsplus:fried_egg", "nethersdelight:hoglin_ear", "nethersdelight:grilled_strider", "shepherdsdelight:roast_charque", "shepherdsdelight:roast_charque_strips", "shepherdsdelight:equin_steak", "shepherdsdelight:equin_steak_chunk", "shepherdsdelight:cooked_meatloaf", "shepherdsdelight:cooked_fugu", "shepherdsdelight:cooked_fugu_cut", "shepherdsdelight:smoked_sausage", "twilightdelight:cooked_meef_slice", "twilightdelight:cooked_venison_rib");
-//            this.tag(ModTags.Items.RAW_FISH, "upgrade_aquatic:perch", "upgrade_aquatic:pike", "upgrade_aquatic:lionfish", "abnormals_delight:perch_slice", "abnormals_delight:pike_slice", "blue_skies:grittle_flatfish", "blue_skies:municipal_monkfish", "blue_skies:charscale_moki", "blue_skies:horizofin_tunid", "farmersdelight:salmon_slice", "farmersdelight:cod_slice","forbidden_arcanus:tentacle", "aquaculture:fish_fillet_raw","croptopia:shrimp", "croptopia:calamari", "croptopia:glowing_calamari", "croptopia:tuna","croptopia:crab", "croptopia:clam", "croptopia:oyster","alexsmobs:blobfish", "alexsmobs:lobster_tail", "alexsmobs:flying_fish","alexsdelight:raw_catfish_slice", "betteranimalsplus:calamari_raw", "betteranimalsplus:eel_meat_raw", "betteranimalsplus:crab_meat_raw","culturaldelights:squid", "culturaldelights:glow_squid", "culturaldelights:raw_calamari");
-//            this.tag(ModTags.Items.COOKED_FISH, "upgrade_aquatic:cooked_lionfish", "abnormals_delight:cooked_perch_slice", "abnormals_delight:cooked_pike_slice", "quark:cooked_crab_leg","forbidden_arcanus:cooked_tentacle","farmersdelight:cooked_salmon_slice", "farmersdelight:cooked_cod_slice","blue_skies:cooked_grittle_flatfish", "blue_skies:cooked_municipal_monkfish", "blue_skies:cooked_charscale_moki", "blue_skies:cooked_horizofin_tunid","biomemakeover:cooked_glowfish", "alexsmobs:cooked_catfish","alexsmobs:cooked_lobster_tail","alexsdelight:cooked_catfish_slice","aquaculture:fish_fillet_cooked", "croptopia:cooked_shrimp", "croptopia:cooked_calamari", "croptopia:cooked_tuna","croptopia:steamed_crab", "croptopia:crab_legs", "croptopia:steamed_clams", "croptopia:grilled_oysters","culturaldelights:cooked_squid", "culturaldelights:cooked_calamari","delightful:crab_rangoon", "ecologics:crab_meat", "betteranimalsplus:calamari_cooked", "betteranimalsplus:eel_meat_cooked", "betteranimalsplus:crab_meat_cooked");
-//            this.tags(ModTags.Items.RAW_MEAT, "forge:raw_bacon", "forge:raw_beef", "forge:raw_chicken", "forge:raw_mutton", "forge:raw_pork");
-//            this.tags(ModTags.Items.RAW_FISH, "forge:raw_fishes");
-//            this.tags(ModTags.Items.COOKED_MEAT, "forge:cooked_bacon", "forge:cooked_beef", "forge:cooked_chicken", "forge:cooked_mutton", "forge:cooked_pork");
-//            this.tags(ModTags.Items.COOKED_FISH, "forge:cooked_fishes");
+            // common food tags, they contain the foods of most other mods
+            this.tag(ModItemTags.RAW_MEAT).addTag(Tags.Items.FOODS_RAW_MEAT);
+            this.tag(ModItemTags.COOKED_MEAT).addTag(Tags.Items.FOODS_COOKED_MEAT);
+            this.tag(ModItemTags.RAW_FISH).addTag(Tags.Items.FOODS_RAW_FISH);
+            this.tag(ModItemTags.COOKED_FISH).addTag(Tags.Items.FOODS_COOKED_FISH);
+            // foods of other mods that are not in the common tags. Optional, so they are skipped if the mod is not installed
+            optional(this.tag(ModItemTags.RAW_MEAT)
+                    , "occultism:datura", "ars_nouveau:mana_berry", "artifacts:everlasting_beef", "blue_skies:venison", "blue_skies:carabeef", "blue_skies:monitor_tail"
+                    , "twilightforest:raw_meef", "twilightforest:raw_venison", "twilightforest:experiment_115", "undergarden:raw_dweller_meat", "undergarden:raw_gwibling", "undergarden:raw_gloomper_leg"
+                    , "quark:crab_leg", "quark:frog_leg", "farmersdelight:mutton_chops", "farmersdelight:bacon", "farmersdelight:chicken_cuts", "farmersdelight:ham"
+                    , "farmersdelight:minced_beef", "forbidden_arcanus:bat_wing", "autumnity:turkey", "autumnity:turkey_piece", "potionsmaster:bezoar", "potionsmaster:gallbladder"
+                    , "neapolitan:mint_chops", "biomemakeover:raw_toad", "aquaculture:frog_legs_raw", "croptopia:anchovy", "croptopia:bacon", "croptopia:frog_legs"
+                    , "croptopia:sausage", "alexsmobs:raw_catfish", "alexsmobs:moose_ribs", "alexsmobs:kangaroo_meat", "alexsdelight:raw_bison", "alexsdelight:raw_bunfungus"
+                    , "alexsdelight:raw_bunfungus_drumstick", "alexsdelight:kangaroo_shank", "alexsdelight:loose_moose_rib", "alexsdelight:bison_mince", "betteranimalsplus:turkey_leg_raw", "betteranimalsplus:pheasant_raw"
+                    , "betteranimalsplus:venison_raw", "delightful:venison_chops", "delightful:raw_goat", "nethersdelight:raw_stuffed_hoglin", "nethersdelight:ground_strider", "nethersdelight:strider_slice"
+                    , "nethersdelight:hoglin_loin", "shepherdsdelight:raw_charque", "shepherdsdelight:raw_charque_strips", "shepherdsdelight:raw_equin", "shepherdsdelight:raw_equin_chunk", "shepherdsdelight:raw_meatloaf"
+                    , "shepherdsdelight:ghast_tendril", "shepherdsdelight:ghast_fillet", "shepherdsdelight:cured_pufferfish", "shepherdsdelight:cure_pufferfish_cut", "shepherdsdelight:sausage", "shepherdsdelight:strider_meat_roll"
+                    , "twilightdelight:raw_meef_slice", "twilightdelight:raw_venison_rib", "twilightdelight:experiment_113", "twilightdelight:experiment_110", "twilightdelight:hydra_piece");
+            optional(this.tag(ModItemTags.COOKED_MEAT)
+                    , "artifacts:eternal_steak", "upgrade_aquatic:cooked_perch", "upgrade_aquatic:cooked_pike", "turtlemancy:rabbit_stew", "twilightforest:cooked_meef", "twilightforest:cooked_venison"
+                    , "twilightforest:meef_stroganoff", "twilightforest:hydra_chop", "quark:cooked_frog_leg", "turtlemancy:cooked_oyster", "forbidden_arcanus:bat_soup", "farmersdelight:cooked_mutton_chops"
+                    , "farmersdelight:cooked_bacon", "farmersdelight:cooked_chicken_cuts", "farmersdelight:smoked_ham", "farmersdelight:barbeque_stick", "farmersdelight:roast_chicken", "farmersdelight:honey_glazed_ham"
+                    , "farmersdelight:shepherds_pie", "undergarden:dweller_steak", "undergarden:cooked_gwibling", "undergarden:gloomper_leg", "blue_skies:cooked_venison", "blue_skies:cooked_carabeef"
+                    , "blue_skies:cooked_monitor_tail", "farmersdelight:dog_food", "farmersdelight:beef_patty", "farmersdelight:fried_egg", "autumnity:cooked_turkey", "autumnity:cooked_turkey_piece"
+                    , "neapolitan:cooked_mint_chops", "biomemakeover:cooked_toad", "alexsmobs:cooked_moose_ribs", "alexsmobs:cooked_kangaroo_meat", "alexsdelight:cooked_kangaroo_shank", "alexsdelight:cooked_loose_moose_rib"
+                    , "alexsdelight:bison_patty", "alexsdelight:cooked_bison", "alexsdelight:cooked_bunfungus", "alexsdelight:cooked_bunfungus_drumstick", "alexsdelight:cooked_centipede_leg", "aquaculture:frog_legs_cooked"
+                    , "croptopia:cooked_anchovy", "croptopia:cooked_bacon", "croptopia:sunny_side_eggs", "croptopia:fried_frog_legs", "delightful:cooked_venison_chops", "delightful:cooked_goat"
+                    , "betteranimalsplus:turkey_leg_cooked", "betteranimalsplus:pheasant_cooked", "betteranimalsplus:venison_cooked", "betteranimalsplus:turkey_cooked", "betteranimalsplus:fried_egg", "nethersdelight:hoglin_ear"
+                    , "nethersdelight:grilled_strider", "shepherdsdelight:roast_charque", "shepherdsdelight:roast_charque_strips", "shepherdsdelight:equin_steak", "shepherdsdelight:equin_steak_chunk", "shepherdsdelight:cooked_meatloaf"
+                    , "shepherdsdelight:cooked_fugu", "shepherdsdelight:cooked_fugu_cut", "shepherdsdelight:smoked_sausage", "twilightdelight:cooked_meef_slice", "twilightdelight:cooked_venison_rib");
+            optional(this.tag(ModItemTags.RAW_FISH)
+                    , "upgrade_aquatic:perch", "upgrade_aquatic:pike", "upgrade_aquatic:lionfish", "abnormals_delight:perch_slice", "abnormals_delight:pike_slice", "blue_skies:grittle_flatfish"
+                    , "blue_skies:municipal_monkfish", "blue_skies:charscale_moki", "blue_skies:horizofin_tunid", "farmersdelight:salmon_slice", "farmersdelight:cod_slice", "forbidden_arcanus:tentacle"
+                    , "aquaculture:fish_fillet_raw", "croptopia:shrimp", "croptopia:calamari", "croptopia:glowing_calamari", "croptopia:tuna", "croptopia:crab"
+                    , "croptopia:clam", "croptopia:oyster", "alexsmobs:blobfish", "alexsmobs:lobster_tail", "alexsmobs:flying_fish", "alexsdelight:raw_catfish_slice"
+                    , "betteranimalsplus:calamari_raw", "betteranimalsplus:eel_meat_raw", "betteranimalsplus:crab_meat_raw", "culturaldelights:squid", "culturaldelights:glow_squid", "culturaldelights:raw_calamari");
+            optional(this.tag(ModItemTags.COOKED_FISH)
+                    , "upgrade_aquatic:cooked_lionfish", "abnormals_delight:cooked_perch_slice", "abnormals_delight:cooked_pike_slice", "quark:cooked_crab_leg", "forbidden_arcanus:cooked_tentacle", "farmersdelight:cooked_salmon_slice"
+                    , "farmersdelight:cooked_cod_slice", "blue_skies:cooked_grittle_flatfish", "blue_skies:cooked_municipal_monkfish", "blue_skies:cooked_charscale_moki", "blue_skies:cooked_horizofin_tunid", "biomemakeover:cooked_glowfish"
+                    , "alexsmobs:cooked_catfish", "alexsmobs:cooked_lobster_tail", "alexsdelight:cooked_catfish_slice", "aquaculture:fish_fillet_cooked", "croptopia:cooked_shrimp", "croptopia:cooked_calamari"
+                    , "croptopia:cooked_tuna", "croptopia:steamed_crab", "croptopia:crab_legs", "croptopia:steamed_clams", "croptopia:grilled_oysters", "culturaldelights:cooked_squid"
+                    , "culturaldelights:cooked_calamari", "delightful:crab_rangoon", "ecologics:crab_meat", "betteranimalsplus:calamari_cooked", "betteranimalsplus:eel_meat_cooked", "betteranimalsplus:crab_meat_cooked");
             this.tag(ModItemTags.WOLF_PELT_ARMOR_NORMAL).add(ModItems.PELT_HELMET.get(), ModItems.PELT_CHESTPLATE.get(), ModItems.PELT_LEGGINGS.get(), ModItems.PELT_BOOTS.get());
             this.tag(ModItemTags.WOLF_PELT_ARMOR_ENHANCED).add(ModItems.DARK_PELT_HELMET.get(), ModItems.DARK_PELT_CHESTPLATE.get(), ModItems.DARK_PELT_LEGGINGS.get(), ModItems.DARK_PELT_BOOTS.get());
             this.tag(ModItemTags.WOLF_PELT_ARMOR_ULTIMATE).add(ModItems.WHITE_PELT_HELMET.get(), ModItems.WHITE_PELT_CHESTPLATE.get(), ModItems.WHITE_PELT_LEGGINGS.get(), ModItems.WHITE_PELT_BOOTS.get());

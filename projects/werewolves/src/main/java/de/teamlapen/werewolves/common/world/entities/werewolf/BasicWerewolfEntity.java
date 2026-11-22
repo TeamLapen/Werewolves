@@ -73,7 +73,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable/*, IEntityActionUser*/, IVillageCaptureEntity, IEntityFollower, IFactionEntity, IAdjustableLevel {
+public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements WerewolfTransformable, IVillageCaptureEntity, IEntityFollower, IFactionEntity, IAdjustableLevel {
     protected static final EntityDataAccessor<Integer> SKINTYPE = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Integer> EYETYPE = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(BasicWerewolfEntity.class, EntityDataSerializers.INT);
@@ -175,9 +175,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
                     break;
             }
         }
-        //if (this.entityActionHandler != null) {
-        //    this.entityActionHandler.handle();
-        //}
     }
 
     @Override
@@ -217,9 +214,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
     public void addAdditionalSaveData(ValueOutput output) {
         super.addAdditionalSaveData(output);
         output.putInt("transformedDuration", this.transformedDuration);
-        //if (this.entityActionHandler != null) {
-        //    this.entityActionHandler.write(nbt);
-        //}
         if (this.transformType != null) {
             output.putString("transformType", this.transformType.name());
         }
@@ -431,7 +425,6 @@ public abstract class BasicWerewolfEntity extends WerewolfBaseEntity implements 
         this.goalSelector.addGoal(6, new FollowAlphaWerewolfGoal<>(this, 0.8));
         this.goalSelector.addGoal(9, new RandomStrollGoal(this, 0.7));
         this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, Player.class, 20F, 0.6F));
-//        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, HunterBaseEntity.class, 17F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
 
 

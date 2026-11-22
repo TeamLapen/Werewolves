@@ -260,12 +260,7 @@ public class LootTablesProvider {
                             .when(LootItemKilledByPlayerCondition.killedByPlayer())
                             .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.025f, 0.015f))
                             .add(LootItem.lootTableItem(ModItems.WHITE_PELT.get())))
-//                    .withPool(LootPool.lootPool()
-//                            .name("vampire_book")
-//                            .when(LootItemKilledByPlayerCondition.killedByPlayer())
-//                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.05f, 0.025f))
-//                            .add(LootItem.lootTableItem(ModItems.V.VAMPIRE_BOOK.get()).apply(AddBookNbtFunction.builder()).setWeight(1))
-//                    )
+                    // the vampire book is added by the Vampirism integration
             );
         }
 

@@ -80,24 +80,14 @@ public class ModHUDOverlay {
             color = 0xffff6e07;
         }
 
-//        if (percentages > 0 && VampirismConfig.CLIENT.renderScreenOverlay.get()) { TODO
-//            PoseStack stack = event.getGuiGraphics().pose();
-//            stack.pushPose();
-//            int w = (this.mc.getWindow().getGuiScaledWidth());
-//            int h = (this.mc.getWindow().getGuiScaledHeight());
-//
-//            int bh = Math.round(h / (float) 4 * percentages / 100);
-//            int bw = Math.round(w / (float) 8 * percentages / 100);
-//
-//            event.getGuiGraphics().fillGradient(0, 0, w, bh, color, 0x000);
-//            if (!OptifineHandler.isShaders()) {
-//                event.getGuiGraphics().fillGradient(0, h - bh, w, h, 0x00000000, color);
-//            }
-////            this.fillGradient2(stack, 0, 0, bw, h, 0x000000, color);
-////            this.fillGradient2(stack, w - bw, 0, w, h, color, 0x00);
-//
-//            stack.popPose();
-//        }
+        if (percentages > 0 && ModConfig.client().renderScreenOverlay.get()) {
+            GuiGraphicsExtractor graphics = event.getGuiGraphics();
+            int w = this.mc().getWindow().getGuiScaledWidth();
+            int h = this.mc().getWindow().getGuiScaledHeight();
+            int bh = Math.round(h / 4f * percentages / 100);
+            graphics.fillGradient(0, 0, w, bh, color, 0x00000000);
+            graphics.fillGradient(0, h - bh, w, h, 0x00000000, color);
+        }
     }
 
     public void attackTriggered(int entityId) {

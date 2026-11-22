@@ -40,10 +40,4 @@ public class ModDataProvider {
         generator.addProvider(true, new ModModelProvider(packOutput));
         generator.addProvider(true, new ModEquipmentAssetProvider(packOutput));
     }
-
-//    private static CompletableFuture<HolderLookup.Provider> addVampirismRegistries(CompletableFuture<HolderLookup.Provider> lookupProvider, PackOutput packOutput) {
-//        DatapackBuiltinEntriesProvider vampirism = new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, de.teamlapen.vampirism.core.ModRegistries.DATA_BUILDER, Set.of(de.teamlapen.vampirism.REFERENCE.MODID));
-//        //noinspection DataFlowIssue
-//        return ((RegistriesDatapackGeneratorAccessor) vampirism).getRegistries();
-//    }
 }

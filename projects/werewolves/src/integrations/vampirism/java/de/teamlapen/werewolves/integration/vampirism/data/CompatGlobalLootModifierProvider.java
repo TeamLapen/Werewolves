@@ -1,6 +1,7 @@
 package de.teamlapen.werewolves.integration.vampirism.data;
 
 import de.teamlapen.vampirism.common.tags.ModEntityTags;
+import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.core.ModLootTables;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.advancements.criterion.EntityPredicate;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.AddTableLootModifier;
+import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -28,5 +30,8 @@ public class CompatGlobalLootModifierProvider extends GlobalLootModifierProvider
         add("hunter_liver", new AddTableLootModifier(new LootItemCondition[]{
                 LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().entityType(EntityTypePredicate.of(entityTypes, ModEntityTags.HUNTER))).build()
         }, 0, ModLootTables.HUNTER_LIVER));
+        add("alpha_werewolf_vampire_book", new AddTableLootModifier(new LootItemCondition[]{
+                LootTableIdCondition.builder(WIdentifier.mod("entities/alpha_werewolf")).build()
+        }, 0, CompatLootTablesProvider.ALPHA_WEREWOLF_VAMPIRE_BOOK));
     }
 }

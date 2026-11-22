@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_table",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "werewolves:entities/alpha_werewolf"
+    }
+  ],
+  "priority": 0,
+  "table": "werewolves:alpha_werewolf_vampire_book"
+}

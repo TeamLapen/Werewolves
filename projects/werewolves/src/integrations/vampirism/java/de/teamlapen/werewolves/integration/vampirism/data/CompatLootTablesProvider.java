@@ -1,5 +1,17 @@
 package de.teamlapen.werewolves.integration.vampirism.data;
 
+import de.teamlapen.vampirism.common.core.ModItems;
+import de.teamlapen.vampirism.data.loot.functions.SetVampireBookFunction;
+import de.teamlapen.werewolves.api.WIdentifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithEnchantedBonusCondition;
+import java.util.function.BiConsumer;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatBlocks;
 import de.teamlapen.werewolves.misc.mixin.VanillaBlockLootAccessor;
 import net.minecraft.core.HolderLookup;
@@ -18,11 +30,30 @@ import java.util.stream.Collectors;
 
 public class CompatLootTablesProvider {
 
+    /**
+     * Added to the alpha werewolf loot by {@link CompatGlobalLootModifierProvider}
+     */
+    public static final ResourceKey<LootTable> ALPHA_WEREWOLF_VAMPIRE_BOOK = ResourceKey.create(Registries.LOOT_TABLE, WIdentifier.mod("alpha_werewolf_vampire_book"));
+
     public static LootTableProvider getProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         return new LootTableProvider(output, Set.of(),
                 List.of(
-                        new LootTableProvider.SubProviderEntry(CompatLootTablesProvider.CompatBlockLootTables::new, LootContextParamSets.BLOCK)
+                        new LootTableProvider.SubProviderEntry(CompatLootTablesProvider.CompatBlockLootTables::new, LootContextParamSets.BLOCK),
+                        new LootTableProvider.SubProviderEntry(CompatLootTablesProvider.CompatEntityLootTables::new, LootContextParamSets.ENTITY)
                 ), lookupProvider);
+    }
+
+    private record CompatEntityLootTables(HolderLookup.Provider registries) implements LootTableSubProvider {
+
+        @Override
+        public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
+            output.accept(ALPHA_WEREWOLF_VAMPIRE_BOOK, LootTable.lootTable()
+                    .withPool(LootPool.lootPool()
+                            .name("vampire_book")
+                            .when(LootItemKilledByPlayerCondition.killedByPlayer())
+                            .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.05f, 0.025f))
+                            .add(LootItem.lootTableItem(ModItems.VAMPIRE_BOOK.get()).apply(SetVampireBookFunction.special()))));
+        }
     }
 
     private static class CompatBlockLootTables extends BlockLootSubProvider {

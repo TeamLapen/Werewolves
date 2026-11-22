@@ -69,8 +69,6 @@ public class HumanWerewolfEntity extends PathfinderMob implements WerewolfTransf
 
         this.goalSelector.addGoal(9, new RandomStrollGoal(this, 0.7));
         this.goalSelector.addGoal(10, new LookAtClosestVisibleGoal(this, Player.class, 20F, 0.6F));
-//        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, HunterBaseEntity.class, 17F));
-//        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, VampireBaseEntity.class, 17F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
