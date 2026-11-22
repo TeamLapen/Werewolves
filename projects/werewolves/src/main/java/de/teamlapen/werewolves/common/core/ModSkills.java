@@ -244,8 +244,8 @@ public class ModSkills {
         }
 
         public static void createSkillTrees(BootstrapContext<ISkillTree> context) {
-            context.register(LEVEL, new SkillTree(ModFactions.WEREWOLF, EntityPredicate.Builder.entity().subPredicate(PlayerFactionSubPredicate.faction(ModFactions.WEREWOLF)).build(), new ItemStackTemplate(ModItems.LIVER.get()), Component.translatable("gui.vampirism.skills.level")));
-            context.register(LORD, new SkillTree(ModFactions.WEREWOLF, EntityPredicate.Builder.entity().subPredicate(PlayerFactionSubPredicate.lord(ModFactions.WEREWOLF)).build(), new ItemStackTemplate(ModItems.WEREWOLF_MINION_CHARM.get()), Component.translatable("gui.vampirism.skills.lord"), Optional.empty(), List.of(LEVEL)));
+            context.register(LEVEL, new SkillTree(ModFactions.WEREWOLF, EntityPredicate.Builder.entity().subPredicate(PlayerFactionSubPredicate.faction(ModFactions.WEREWOLF)).build(), new ItemStackTemplate(ModItems.LIVER.get()), Component.translatable("gui.werewolves.skills.level")));
+            context.register(LORD, new SkillTree(ModFactions.WEREWOLF, EntityPredicate.Builder.entity().subPredicate(PlayerFactionSubPredicate.lord(ModFactions.WEREWOLF)).build(), new ItemStackTemplate(ModItems.WEREWOLF_MINION_CHARM.get()), Component.translatable("gui.werewolves.skills.lord"), Optional.empty(), List.of(LEVEL)));
         }
     }
 }

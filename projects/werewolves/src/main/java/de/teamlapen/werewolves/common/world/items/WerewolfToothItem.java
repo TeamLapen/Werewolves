@@ -27,7 +27,7 @@ public class WerewolfToothItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
         if (!world.isClientSide()) {
             if (ModConfig.server().disableWerewolfToothInfection.get()) {
-                player.sendOverlayMessage(Component.translatable("text.vampirism.deactivated_by_serveradmin"));
+                player.sendOverlayMessage(Component.translatable("text.werewolves.deactivated_by_serveradmin"));
             } else {
                 if (Helper.canBecomeWerewolf(player)) {
                     LupusSanguinemEffect.addSanguinemEffect(player);
@@ -36,7 +36,7 @@ public class WerewolfToothItem extends Item {
                     if (Helper.isWerewolf(player)) {
                         player.sendOverlayMessage(Component.translatable("text.werewolves.already_werewolf"));
                     } else {
-                        player.sendOverlayMessage(Component.translatable("text.vampirism.immune_to").append(Component.translatable(ModEffects.LUPUS_SANGUINEM.get().getDescriptionId())));
+                        player.sendOverlayMessage(Component.translatable("text.werewolves.immune_to").append(Component.translatable(ModEffects.LUPUS_SANGUINEM.get().getDescriptionId())));
                     }
                 }
                 stack.shrink(1);

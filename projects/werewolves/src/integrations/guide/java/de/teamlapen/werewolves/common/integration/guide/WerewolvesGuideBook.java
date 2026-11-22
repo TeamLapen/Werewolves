@@ -105,7 +105,7 @@ public class WerewolvesGuideBook {
         String item = loc(ModItems.LIVER.get()) + ", " + loc(ModItems.CRACKED_BONE.get());
         levelingPages.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "leveling.stone.items", item)), WIdentifier.mod("guide.werewolves.items.liver"), WIdentifier.mod("guide.werewolves.items.cracked_bone"), WIdentifier.mod("guide.werewolves.werewolf.slayed_creatures")));
         PageTable.Builder requirementBuilder = new PageTable.Builder(4);
-        requirementBuilder.addLine(Component.translatable("text.vampirism.level_short"), loc(ModItems.LIVER.get()), loc(ModItems.CRACKED_BONE.get()), Component.translatable("text.werewolves.slayed_creatures"));
+        requirementBuilder.addLine(Component.translatable("gui.factionapi.level_short"), loc(ModItems.LIVER.get()), loc(ModItems.CRACKED_BONE.get()), Component.translatable("text.werewolves.slayed_creatures"));
         for (int i = 2; i <= 14; i++) {
             WerewolfLevelConf.StoneAltarRequirement req = WerewolfLevelConf.getInstance().getStoneRequirement(i);
             //noinspection ConstantConditions
@@ -128,7 +128,7 @@ public class WerewolvesGuideBook {
         List<IPage> werewolfLord = new ArrayList<>();
         werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "lord.text", ModEntities.TASK_MASTER_WEREWOLF.get().getDescription(), LORD_TITLES.getLordTitle(1, IPlayableFaction.TitleGender.UNKNOWN), LORD_TITLES.getLordTitle(ModFactions.WEREWOLF.value().getHighestLordLevel(), IPlayableFaction.TitleGender.UNKNOWN))), WIdentifier.mod("guide.vampirism.entity.taskmaster")));
         PageTable.Builder lordTitleBuilder = new PageTable.Builder(2).setHeadline(translateComponent(base + "lord.titles"));
-        lordTitleBuilder.addLine(Component.translatable("text.vampirism.level"), Component.translatable("text.vampirism.title"));
+        lordTitleBuilder.addLine(Component.translatable("gui.factionapi.level"), Component.translatable("gui.factionapi.title"));
         lordTitleBuilder.addLine(1, LORD_TITLES.getLordTitle(1, IPlayableFaction.TitleGender.UNKNOWN).getString());
         lordTitleBuilder.addLine(2, LORD_TITLES.getLordTitle(2, IPlayableFaction.TitleGender.UNKNOWN).getString());
         lordTitleBuilder.addLine(3, LORD_TITLES.getLordTitle(3, IPlayableFaction.TitleGender.UNKNOWN).getString());
@@ -136,7 +136,7 @@ public class WerewolvesGuideBook {
         lordTitleBuilder.addLine(5, LORD_TITLES.getLordTitle(5, IPlayableFaction.TitleGender.UNKNOWN).getString());
         werewolfLord.add(lordTitleBuilder.build());
         werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent(base + "lord.minion", loc(ModItems.WEREWOLF_MINION_CHARM.get()), loc(ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get()), loc(ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED.get()), loc(ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL.get()))), WIdentifier.mod("guide.werewolves.items.werewolf_minion_charm")));
-        werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent("guide.vampirism.common.minion_control", FactionKeys.MINION.getTranslatedKeyMessage(), translate("text.vampirism.minion.call_single"), translate("text.vampirism.minion.respawn")))));
+        werewolfLord.addAll(helper.addLinks(PageHelper.pagesForLongText(translateComponent("guide.vampirism.common.minion_control", FactionKeys.MINION.getTranslatedKeyMessage(), translate("minion_task.factionapi.call_single"), translate("minion_task.factionapi.respawn")))));
         entries.put(WIdentifier.mod(base + "lord"), new EntryText(werewolfLord, translateComponent(base + "lord")));
 
         List<IPage> unWerewolf = new ArrayList<>();

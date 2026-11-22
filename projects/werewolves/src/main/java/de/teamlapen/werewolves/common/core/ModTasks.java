@@ -12,7 +12,6 @@ import de.teamlapen.faction.common.factions.tasks.reward.RefinementItemReward;
 import de.teamlapen.faction.common.factions.tasks.unlock.LordLvlUnlocker;
 import de.teamlapen.faction.common.factions.tasks.unlock.LvlUnlocker;
 import de.teamlapen.werewolves.api.WIdentifier;
-import de.teamlapen.werewolves.common.tags.ModEntityTypeTags;
 import de.teamlapen.werewolves.common.tags.ModFactionsTags;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.core.component.DataComponentPatch;
@@ -20,6 +19,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -51,72 +52,72 @@ public class ModTasks {
         var factions = context.lookup(FactionRegistries.Keys.FACTION);
         TaskBuilder.builder()
                 .unlockedBy(new LordLvlUnlocker(1))
-                .addRequirement(ModEntityTypeTags.ADVANCED_HUNTER, 4)
-                .addRequirement(ModEntityTypeTags.ADVANCED_VAMPIRE, 6)
+                .addRequirement(EntityType.VINDICATOR, 4)
+                .addRequirement(EntityType.WITCH, 6)
                 .addRequirement(new ItemStackTemplate(Items.GOLD_INGOT, 32))
                 .setReward(new ItemStackTemplate(ModItems.WEREWOLF_MINION_CHARM))
                 .build(context::register, WEREWOLF_MINION_BINDING);
 
         TaskBuilder.builder().setReward(new ItemStackTemplate(ModItems.WEREWOLF_MINION_UPGRADE_SIMPLE.get()))
                 .unlockedBy(new LordLvlUnlocker(2))
-                .addRequirement(ModEntityTypeTags.ADVANCED_HUNTER, 6)
-                .addRequirement(ModEntityTypeTags.ADVANCED_VAMPIRE, 8)
+                .addRequirement(EntityType.VINDICATOR, 6)
+                .addRequirement(EntityType.WITCH, 8)
                 .addRequirement(new ItemStackTemplate(Items.GOLD_BLOCK, 16))
                 .build(context::register, WEREWOLF_MINION_UPGRADE_SIMPLE);
         TaskBuilder.builder().setReward(new ItemStackTemplate(ModItems.WEREWOLF_MINION_UPGRADE_ENHANCED.get()))
                 .unlockedBy(new LordLvlUnlocker(3))
-                .addRequirement(ModEntityTypeTags.ADVANCED_HUNTER, 8)
-                .addRequirement(ModEntityTypeTags.ADVANCED_VAMPIRE, 10)
+                .addRequirement(EntityType.VINDICATOR, 8)
+                .addRequirement(EntityType.WITCH, 10)
                 .addRequirement(new ItemStackTemplate(ModItems.LIVER.get(), 16))
                 .addRequirement(new ItemStackTemplate(ModItems.WEREWOLF_TOOTH.get()))
                 .addRequirement(new ItemStackTemplate(Items.DIAMOND_BLOCK, 3))
                 .build(context::register, WEREWOLF_MINION_UPGRADE_ENHANCED);
         TaskBuilder.builder().setReward(new ItemStackTemplate(ModItems.WEREWOLF_MINION_UPGRADE_SPECIAL.get()))
                 .unlockedBy(new LordLvlUnlocker(5))
-                .addRequirement(ModEntityTypeTags.ADVANCED_HUNTER, 10)
-                .addRequirement(ModEntityTypeTags.ADVANCED_VAMPIRE, 12)
+                .addRequirement(EntityType.EVOKER, 10)
+                .addRequirement(EntityType.WITCH, 12)
                 .addRequirement(new ItemStackTemplate(ModItems.LIVER.get(), 32))
                 .addRequirement(new ItemStackTemplate(ModItems.WEREWOLF_TOOTH.get(), 5))
                 .addRequirement(new ItemStackTemplate(Items.DIAMOND_BLOCK, 8))
                 .build(context::register, WEREWOLF_MINION_UPGRADE_SPECIAL);
         TaskBuilder.builder().setReward(new LordLevelReward(1))
                 .unlockedBy(new LvlUnlocker(REFERENCE.HIGHEST_WEREWOLF_LEVEL))
-                .addRequirement(ModEntityTypeTags.VAMPIRE, 10)
-                .addRequirement(ModEntityTypeTags.HUNTER, 10)
+                .addRequirement(EntityTypeTags.UNDEAD, 10)
+                .addRequirement(EntityTypeTags.ILLAGER, 10)
                 .addRequirement(new ItemStackTemplate(ModItems.WEREWOLF_TOOTH.get(), 2))
                 .addRequirement(new ItemStackTemplate(Items.GOLD_INGOT, 32))
                 .addRequirement(FactionStats.WIN_VILLAGE_CAPTURE.get(), 3)
                 .build(context::register, WEREWOLF_LORD_1);
         TaskBuilder.builder().setReward(new LordLevelReward(2))
                 .unlockedBy(new LordLvlUnlocker(1, true))
-                .addRequirement(ModEntityTypeTags.VAMPIRE, 20)
-                .addRequirement(ModEntityTypeTags.HUNTER, 20)
+                .addRequirement(EntityTypeTags.UNDEAD, 20)
+                .addRequirement(EntityTypeTags.ILLAGER, 20)
                 .addRequirement(new ItemStackTemplate(ModItems.WEREWOLF_TOOTH.get(), 2))
                 .addRequirement(new ItemStackTemplate(Items.GOLD_INGOT, 32))
                 .build(context::register, WEREWOLF_LORD_2);
         TaskBuilder.builder().setReward(new LordLevelReward(3))
                 .unlockedBy(new LordLvlUnlocker(2, true))
-                .addRequirement(ModEntityTypeTags.VAMPIRE, 20)
-                .addRequirement(ModEntityTypeTags.HUNTER, 20)
+                .addRequirement(EntityTypeTags.UNDEAD, 20)
+                .addRequirement(EntityTypeTags.ILLAGER, 20)
                 .addRequirement(new ItemStackTemplate(ModItems.WEREWOLF_TOOTH.get(), 3))
                 .addRequirement(new ItemStackTemplate(Items.GOLD_INGOT, 32))
                 .build(context::register, WEREWOLF_LORD_3);
         TaskBuilder.builder().setReward(new LordLevelReward(4))
                 .unlockedBy(new LordLvlUnlocker(3, true))
-                .addRequirement(ModEntityTypeTags.VAMPIRE, 35)
-                .addRequirement(ModEntityTypeTags.HUNTER, 35)
+                .addRequirement(EntityTypeTags.UNDEAD, 35)
+                .addRequirement(EntityTypeTags.ILLAGER, 35)
                 .addRequirement(new ItemStackTemplate(ModItems.WEREWOLF_TOOTH.get(), 3))
                 .addRequirement(new ItemStackTemplate(Items.GOLD_INGOT, 64))
                 .build(context::register, WEREWOLF_LORD_4);
         TaskBuilder.builder().setReward(new LordLevelReward(5))
                 .unlockedBy(new LordLvlUnlocker(4, true))
-                .addRequirement(ModEntityTypeTags.VAMPIRE, 50)
-                .addRequirement(ModEntityTypeTags.HUNTER, 50)
+                .addRequirement(EntityTypeTags.UNDEAD, 50)
+                .addRequirement(EntityTypeTags.ILLAGER, 50)
                 .addRequirement(new ItemStackTemplate(ModItems.WEREWOLF_TOOTH.get(), 4))
                 .addRequirement(new ItemStackTemplate(Items.GOLD_INGOT, 64))
                 .addRequirement(FactionStats.CAPTURE_VILLAGE.get(), 6)
                 .build(context::register,WEREWOLF_LORD_5 );
-        TaskBuilder.builder().addRequirement(ModEntityTypeTags.ADVANCED_HUNTER, 10)
+        TaskBuilder.builder().addRequirement(EntityTypeTags.ILLAGER, 10)
                 .addRequirement(new ItemStackTemplate(Items.GOLD_INGOT, 2))
                 .setReward(new RefinementItemReward(SafeCast.cast(factions.getOrThrow(ModFactionsTags.IS_WEREWOLF))))
                 .build(context::register, RANDOM_REFINEMENT_1);

@@ -15,19 +15,19 @@
       "type": "factionapi:entity_type",
       "amount": 35,
       "description": {
-        "translate": "task_tag.vampirism.hunter"
+        "translate": "task_tag.minecraft.illager"
       },
-      "entityType": "vampirism:hunter",
-      "id": "vampirism:hunter"
+      "entityType": "minecraft:illager",
+      "id": "minecraft:illager"
     },
     {
       "type": "factionapi:entity_type",
       "amount": 35,
       "description": {
-        "translate": "task_tag.vampirism.vampire"
+        "translate": "task_tag.minecraft.undead"
       },
-      "entityType": "vampirism:vampire",
-      "id": "vampirism:vampire"
+      "entityType": "minecraft:undead",
+      "id": "minecraft:undead"
     },
     {
       "type": "factionapi:item",

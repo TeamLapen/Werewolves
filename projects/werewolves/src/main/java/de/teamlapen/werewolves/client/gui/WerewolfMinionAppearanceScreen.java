@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 
 public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMinionEntity> {
 
-    private static final Component NAME = Component.translatable("gui.vampirism.minion_appearance");
+    private static final Component NAME = Component.translatable("gui.factionapi.minion.appearance");
 
     private int skinCount;
     private int skinType;
@@ -46,7 +46,7 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
         LinearLayout vertical = LinearLayout.vertical()
                 .spacing(4);
 
-        var name = new EditBox(this.font,  98, 12, Component.translatable("gui.vampirism.minion_appearance.name"));
+        var name = new EditBox(this.font,  98, 12, Component.translatable("gui.werewolves.minion_appearance.name"));
         name.setTextColorUneditable(-1);
         name.setTextColor(-1);
         name.insertText(this.minionName);
@@ -62,7 +62,7 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
                 .onSelect(this::skin)
                 .onHover(this::previewSkin)
                 .simpleItems(IntStream.range(0, this.skinCount)
-                        .mapToObj(type -> (Component) Component.translatable("gui.vampirism.minion_appearance.skin").append(" " + (type + 1)))
+                        .mapToObj(type -> (Component) Component.translatable("text.werewolves.appearance.skin").append(" " + (type + 1)))
                         .toList())
                 .build());
 
@@ -73,7 +73,7 @@ public class WerewolfMinionAppearanceScreen extends AppearanceScreen<WerewolfMin
     public void removed() {
         String name = minionName;
         if (name.isEmpty()) {
-            name = Component.translatable("gui.vampirism.minion_appearance.minion").getString() + entity.getMinionId().orElse(0);
+            name = Component.translatable("gui.werewolves.minion_appearance.minion").getString() + entity.getMinionId().orElse(0);
         }
         WerewolvesMod.proxy.sendToServer(new ServerboundCustomizationPacket(this.entity.getId(), CustomizationData
                 .with(MinionAppearance.NAME_TYPE, name)

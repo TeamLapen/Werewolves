@@ -14,6 +14,10 @@ public class REFERENCE {
     public static final Identifier WEREWOLF_PLAYER_KEY = WIdentifier.mod("werewolf");
     public static final Identifier EXTENDED_WEREWOLF_KEY = WIdentifier.mod("iextendedwerewolf");
     public static final int EYE_TYPE_COUNT = 9;
+    /**
+     * Interval in ticks in which a werewolf player checks whether it stands in a wolfsbane-affected chunk
+     */
+    public static final int REFRESH_WOLFSBANE_TICKS = 40;
     public static ArtifactVersion VERSION = new DefaultArtifactVersion("0.0.0");
 
 }

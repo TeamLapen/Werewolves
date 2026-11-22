@@ -26,6 +26,7 @@ import de.teamlapen.werewolves.api.items.IWerewolfArmor;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.effects.LupusSanguinemEffect;
+import de.teamlapen.werewolves.common.world.effects.WolfsbaneEffect;
 import de.teamlapen.werewolves.common.world.effects.inst.WerewolfNightVisionEffectInstance;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.actions.WerewolfFormAction;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.properties.*;
@@ -189,9 +190,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                     }
                 }
 
-//                if (this.player.tickCount % de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level(), true)) {
-//                    this.player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(this.player, de.teamlapen.vampirism.REFERENCE.REFRESH_GARLIC_TICKS + 10, this.wolfsbaneCache));
-//                } TODO
+                if (this.player.tickCount % REFERENCE.REFRESH_WOLFSBANE_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level(), true)) {
+                    this.player.addEffect(WolfsbaneEffect.createWolfsbaneEffect(this.player, REFERENCE.REFRESH_WOLFSBANE_TICKS + 10, this.wolfsbaneCache));
+                }
             } else {
 
                 this.actionHandler.updateActions();

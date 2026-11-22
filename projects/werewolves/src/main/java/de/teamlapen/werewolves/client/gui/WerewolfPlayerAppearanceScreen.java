@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 
 public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
 
-    private static final Component NAME = Component.translatable("gui.vampirism.appearance");
+    private static final Component NAME = Component.translatable("gui.werewolves.appearance");
 
     private final WerewolfPlayer werewolf;
     @Nullable
@@ -112,7 +112,7 @@ public class WerewolfPlayerAppearanceScreen extends AppearanceScreen<Player> {
                     .simpleItems(IntStream.range(0, REFERENCE.EYE_TYPE_COUNT).mapToObj(type -> (Component) Component.translatable("text.werewolves.appearance.eye").append(" " + (type + 1))).toList())
                     .build());
 
-            vertical.addChild(Checkbox.builder(Component.translatable("gui.vampirism.appearance.glowing_eye"), this.font).selected(this.glowingEyes).onValueChange((button, selected) -> {
+            vertical.addChild(Checkbox.builder(Component.translatable("gui.werewolves.appearance.glowing_eyes"), this.font).selected(this.glowingEyes).onValueChange((button, selected) -> {
                 this.glowingEyes = selected;
                 this.werewolf.setGlowingEyes(this.activeForm, selected);
             }).build());

@@ -7,7 +7,7 @@
 		"4": "block/barrel_bottom",
 		"7": "block/candle",
 		"8": "block/black_concrete",
-		"9": "vampirism:block/dark_steel",
+		"9": "werewolves:block/dark_steel",
 		"11": "werewolves:block/note",
 		"particle": "block/stone_bricks"
 	},

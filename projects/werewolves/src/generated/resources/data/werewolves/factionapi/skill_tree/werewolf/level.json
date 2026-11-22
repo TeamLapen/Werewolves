@@ -4,7 +4,7 @@
   },
   "faction": "werewolves:werewolf",
   "name": {
-    "translate": "gui.vampirism.skills.level"
+    "translate": "gui.werewolves.skills.level"
   },
   "unlock_predicate": {
     "type_specific": {

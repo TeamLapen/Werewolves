@@ -1,15 +1,6 @@
 {
   "requirements": [
     {
-      "type": "factionapi:entity_type",
-      "amount": 10,
-      "description": {
-        "translate": "task_tag.vampirism.advanced_hunter"
-      },
-      "entityType": "vampirism:advanced_hunter",
-      "id": "vampirism:advanced_hunter"
-    },
-    {
       "type": "factionapi:item",
       "description": {
         "translate": "item.minecraft.gold_ingot"
@@ -19,6 +10,15 @@
         "count": 2,
         "id": "minecraft:gold_ingot"
       }
+    },
+    {
+      "type": "factionapi:entity_type",
+      "amount": 10,
+      "description": {
+        "translate": "task_tag.minecraft.illager"
+      },
+      "entityType": "minecraft:illager",
+      "id": "minecraft:illager"
     }
   ],
   "reward": {

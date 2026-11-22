@@ -59,3 +59,10 @@ modId = "terrablender"
 type = "optional"
 versionRange = "[${terrablender_version},)"
 side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "${vampirism_mod_id}"
+type = "optional"
+versionRange = "[${vampirism_version},)"
+ordering = "AFTER"
+side = "BOTH"

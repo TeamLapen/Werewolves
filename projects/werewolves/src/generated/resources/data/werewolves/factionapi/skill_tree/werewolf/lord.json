@@ -4,7 +4,7 @@
   },
   "faction": "werewolves:werewolf",
   "name": {
-    "translate": "gui.vampirism.skills.lord"
+    "translate": "gui.werewolves.skills.lord"
   },
   "order_after": [
     "werewolves:werewolf/level"

@@ -32,8 +32,8 @@ public class WerewolfMinionUpgradeItem extends Item {
         super.appendHoverText(stack, context, tooltipDisplay, tooltip, flagIn);
         tooltip.accept(Component.translatable("item.werewolves.moon_charm.desc").withStyle(ChatFormatting.DARK_GRAY));
         tooltip.accept(Component.empty());
-        tooltip.accept(Component.translatable("item.vampirism.minion_upgrade_item.desc").withStyle(ChatFormatting.GRAY));
-        tooltip.accept(Component.translatable("text.vampirism.for_to_levels", minLevel + 1, maxLevel + 1).withStyle(ChatFormatting.GRAY));
+        tooltip.accept(Component.translatable("item.werewolves.werewolf_minion_upgrade.desc").withStyle(ChatFormatting.GRAY));
+        tooltip.accept(Component.translatable("text.werewolves.for_to_levels", minLevel + 1, maxLevel + 1).withStyle(ChatFormatting.GRAY));
     }
 
     public Holder<? extends IFaction<?>> getFaction() {

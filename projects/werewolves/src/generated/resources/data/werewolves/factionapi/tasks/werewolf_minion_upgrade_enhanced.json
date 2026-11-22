@@ -1,24 +1,6 @@
 {
   "requirements": [
     {
-      "type": "factionapi:entity_type",
-      "amount": 8,
-      "description": {
-        "translate": "task_tag.vampirism.advanced_hunter"
-      },
-      "entityType": "vampirism:advanced_hunter",
-      "id": "vampirism:advanced_hunter"
-    },
-    {
-      "type": "factionapi:entity_type",
-      "amount": 10,
-      "description": {
-        "translate": "task_tag.vampirism.advanced_vampire"
-      },
-      "entityType": "vampirism:advanced_vampire",
-      "id": "vampirism:advanced_vampire"
-    },
-    {
       "type": "factionapi:item",
       "description": {
         "translate": "item.minecraft.diamond_block"
@@ -41,6 +23,15 @@
       }
     },
     {
+      "type": "factionapi:entity",
+      "amount": 8,
+      "description": {
+        "translate": "entity.minecraft.vindicator"
+      },
+      "entityType": "minecraft:vindicator",
+      "id": "minecraft:vindicator"
+    },
+    {
       "type": "factionapi:item",
       "description": {
         "translate": "item.werewolves.werewolf_tooth"
@@ -49,6 +40,15 @@
       "item": {
         "id": "werewolves:werewolf_tooth"
       }
+    },
+    {
+      "type": "factionapi:entity",
+      "amount": 10,
+      "description": {
+        "translate": "entity.minecraft.witch"
+      },
+      "entityType": "minecraft:witch",
+      "id": "minecraft:witch"
     }
   ],
   "reward": {
