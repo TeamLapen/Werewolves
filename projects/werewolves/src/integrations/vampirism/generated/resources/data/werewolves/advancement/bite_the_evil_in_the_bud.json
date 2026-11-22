@@ -1,0 +1,42 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "vampirism"
+    }
+  ],
+  "parent": "werewolves:standing_here_i_realize",
+  "criteria": {
+    "faction": {
+      "conditions": {
+        "faction": "werewolves:werewolf",
+        "level": 1
+      },
+      "trigger": "factionapi:faction"
+    },
+    "killed": {
+      "trigger": "vampirism:mother_win"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.werewolves.bite_the_evil_in_the_bud.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "id": "vampirism:mother_core"
+    },
+    "title": {
+      "translate": "advancements.werewolves.bite_the_evil_in_the_bud"
+    }
+  },
+  "requirements": [
+    [
+      "killed"
+    ],
+    [
+      "faction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

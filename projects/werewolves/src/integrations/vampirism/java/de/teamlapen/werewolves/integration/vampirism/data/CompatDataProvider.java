@@ -33,5 +33,7 @@ public class CompatDataProvider {
         generator.addProvider(true, new CompatModelProvider(packOutput));
         generator.addProvider(true, CompatLootTablesProvider.getProvider(packOutput, lookupProviderFuture));
         generator.addProvider(true, new CompatDataMapProvider(packOutput, lookupProviderFuture));
+        generator.addProvider(true, new CompatAdvancementProvider(packOutput, lookupProviderFuture));
+        generator.addProvider(true, new CompatGlobalLootModifierProvider(packOutput, lookupProviderFuture));
     }
 }

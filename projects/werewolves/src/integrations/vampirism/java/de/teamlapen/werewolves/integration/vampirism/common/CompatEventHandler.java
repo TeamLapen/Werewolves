@@ -2,7 +2,11 @@ package de.teamlapen.werewolves.integration.vampirism.common;
 
 import de.teamlapen.werewolves.common.core.ModItems;
 import de.teamlapen.werewolves.integration.vampirism.common.core.CompatItems;
+import de.teamlapen.vampirism.api.world.entity.IExtendedCreatureVampirism;
+import de.teamlapen.vampirism.api.world.entity.vampire.IVampire;
+import de.teamlapen.vampirism.common.world.entity.ExtendedCreature;
 import de.teamlapen.werewolves.common.world.entities.werewolf.WerewolfBaseEntity;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -24,6 +28,13 @@ public class CompatEventHandler {
             event.insertAfter(CompatItems.WOLFSBANE_DIFFUSER_CORE.toStack(), CompatItems.WOLFSBANE_DIFFUSER_CORE_STRONG.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(CompatItems.WOLFSBANE_DIFFUSER_CORE_STRONG.toStack(), CompatItems.WOLFSBANE_DIFFUSER_CORE_LONG.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
+    }
+
+    /**
+     * Vampire villagers and villagers with poisonous blood can't be werewolves
+     */
+    public static boolean isVampireVillager(Villager villager) {
+        return villager instanceof IVampire || ExtendedCreature.getSafe(villager).map(IExtendedCreatureVampirism::hasPoisonousBlood).orElse(false);
     }
 
     /**

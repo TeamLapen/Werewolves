@@ -3,7 +3,9 @@ package de.teamlapen.werewolves.integration.vampirism.common;
 import de.teamlapen.faction.Services;
 import de.teamlapen.werewolves.integration.vampirism.common.core.*;
 import de.teamlapen.werewolves.integration.vampirism.data.CompatDataProvider;
+import de.teamlapen.werewolves.common.world.attachments.WerewolfVillagerAttachment;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class CompatServices extends Services {
 
@@ -17,6 +19,7 @@ public class CompatServices extends Services {
         bus.addListener(CompatEventHandler::appendCreativeTab);
         bus.addListener(CompatDataProvider::onGatherData);
         bus.addListener(CompatDataMaps::registerDataMaps);
+        bus.addListener(FMLCommonSetupEvent.class, event -> WerewolfVillagerAttachment.addPreventWerewolfCheck(CompatEventHandler::isVampireVillager));
     }
 
     @Override

@@ -9,6 +9,7 @@ import de.teamlapen.faction.api.tags.FactionRefinementSetTags;
 import de.teamlapen.faction.api.tags.FactionSkillTreeTags;
 import de.teamlapen.faction.common.tags.FactionEffectTags;
 import de.teamlapen.faction.common.tags.FactionPoiTypeTags;
+import de.teamlapen.faction.common.tags.FactionProfessionTags;
 import de.teamlapen.werewolves.common.core.*;
 import de.teamlapen.werewolves.common.tags.*;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -230,7 +231,7 @@ public class ModTagsProvider {
         @Override
         protected void addTags(HolderLookup.Provider holderProvider) {
             this.tag(ModProfessionTags.IS_WEREWOLF).add(ModVillage.WEREWOLF_EXPERT.getKey());
-//            this.tag(de.teamlapen.vampirism.core.ModTags.Professions.HAS_FACTION).addTag(ModTags.Professions.IS_WEREWOLF); TODO
+            this.tag(FactionProfessionTags.HAS_FACTION).addTag(ModProfessionTags.IS_WEREWOLF);
         }
     }
 

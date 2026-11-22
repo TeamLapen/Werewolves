@@ -10,7 +10,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.npc.villager.Villager;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Predicate;
 
 /**
  * Werewolf related data of villagers.
@@ -50,6 +53,22 @@ public class WerewolfVillagerAttachment {
 
     public static Optional<WerewolfVillagerAttachment> getOpt(@NotNull Villager villager) {
         return villager.getExistingData(ModAttachments.WEREWOLF_VILLAGER);
+    }
+
+    private static final List<Predicate<Villager>> PREVENT_WEREWOLF = new CopyOnWriteArrayList<>();
+
+    /**
+     * Adds a check that stops villagers from acting as werewolves, even if they are marked as one. Used by integrations, e.g. for vampire villagers.
+     */
+    public static void addPreventWerewolfCheck(@NotNull Predicate<Villager> check) {
+        PREVENT_WEREWOLF.add(check);
+    }
+
+    /**
+     * @return whether the villager is marked as werewolf and not prevented from being one
+     */
+    public static boolean isActiveWerewolf(@NotNull Villager villager) {
+        return getOpt(villager).map(WerewolfVillagerAttachment::isWerewolf).orElse(false) && PREVENT_WEREWOLF.stream().noneMatch(check -> check.test(villager));
     }
 
     /**

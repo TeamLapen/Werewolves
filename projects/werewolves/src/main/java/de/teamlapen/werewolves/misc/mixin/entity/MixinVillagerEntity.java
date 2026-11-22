@@ -56,8 +56,7 @@ public abstract class MixinVillagerEntity extends AbstractVillager implements IV
 
     @Unique
     private boolean werewolves$isWerewolf() {
-        //noinspection ConstantValue
-        return WerewolfVillagerAttachment.getOpt((Villager) (Object) this).map(WerewolfVillagerAttachment::isWerewolf).orElse(false); // TODO && !((Object) this instanceof IVampire || ExtendedCreature.getSafe(this).map(IExtendedCreatureVampirism::hasPoisonousBlood).orElse(false));
+        return WerewolfVillagerAttachment.isActiveWerewolf((Villager) (Object) this);
     }
 
     @Override
