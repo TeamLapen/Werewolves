@@ -85,16 +85,6 @@
   "has_precipitation": false,
   "spawn_costs": {},
   "spawners": {
-    "ambient": [],
-    "axolotls": [],
-    "creature": [],
-    "misc": [],
-    "monster": [],
-    "underground_water_creature": [],
-    "vampirism:hunter": [],
-    "vampirism:vampire": [],
-    "water_ambient": [],
-    "water_creature": [],
     "werewolves:werewolf": [
       {
         "type": "werewolves:alpha_werewolf",
