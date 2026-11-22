@@ -1,0 +1,10 @@
+{
+  "color": 5635925,
+  "name": {
+    "translate": "refinement_set.werewolves.health3_n_damage2"
+  },
+  "refinements": [
+    "factionapi:health3",
+    "factionapi:n_damage2"
+  ]
+}

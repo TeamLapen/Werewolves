@@ -79,6 +79,7 @@ public class ModFactions {
                 .defaultTargets(ModEntityTypeTags.WEREWOLF_DEFAULT_TARGETS)
                 .add(FactionRegistries.Keys.TASK, ModTaskTags.IS_WEREWOLF)
                 .add(FactionRegistries.Keys.FACTION, ModFactionsTags.IS_WEREWOLF)
+                .add(FactionRegistries.Keys.REFINEMENT_SET, ModRefinementSetTags.IS_WEREWOLF)
                 .add(Registries.DATA_COMPONENT_TYPE, ModDataComponentTags.WEREWOLF_FOOD)
                 .addCustom(FactionTagKeys.ACTION_DISABLES, ModEffectTags.DISABLES_ACTIONS_WEREWOLF)
         ;

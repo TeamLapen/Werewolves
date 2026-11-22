@@ -1,0 +1,7 @@
+{
+  "color": 9605778,
+  "name": {
+    "translate": "refinement_set.werewolves.more_wolves"
+  },
+  "refinements": "werewolves:more_wolves"
+}

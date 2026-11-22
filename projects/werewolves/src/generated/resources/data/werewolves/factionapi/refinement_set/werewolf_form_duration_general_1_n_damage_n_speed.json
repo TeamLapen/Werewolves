@@ -1,0 +1,11 @@
+{
+  "color": 13132386,
+  "name": {
+    "translate": "refinement_set.werewolves.werewolf_form_duration_general_1_n_damage_n_speed"
+  },
+  "refinements": [
+    "werewolves:werewolf_form_duration_general_1",
+    "factionapi:n_damage2",
+    "factionapi:n_speed2"
+  ]
+}

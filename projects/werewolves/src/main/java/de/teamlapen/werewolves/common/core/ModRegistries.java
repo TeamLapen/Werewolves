@@ -17,6 +17,8 @@ public class ModRegistries {
             .add(FactionRegistries.Keys.TASK, ModTasks::createTasks)
             .add(FactionRegistries.Keys.SKILL_SEGMENT, ModSkills.Segments::createSkillNodes)
             .add(FactionRegistries.Keys.SKILL_TREE, ModSkills.Trees::createSkillTrees)
+            .add(FactionRegistries.Keys.REFINEMENT, ModRefinements::createRefinements)
+            .add(FactionRegistries.Keys.REFINEMENT_SET, ModRefinementSets::createRefinementSets)
             .add(Registries.TRADE_SET, ModTrades::bootstrapTradeSets)
             .add(Registries.VILLAGER_TRADE, ModTrades::bootstrapTrades)
             ;

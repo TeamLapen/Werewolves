@@ -1,0 +1,10 @@
+{
+  "color": 5635925,
+  "name": {
+    "translate": "refinement_set.werewolves.speed3_n_damage2"
+  },
+  "refinements": [
+    "factionapi:speed3",
+    "factionapi:n_damage2"
+  ]
+}

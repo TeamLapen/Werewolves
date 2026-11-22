@@ -1,0 +1,7 @@
+{
+  "color": 16777215,
+  "name": {
+    "translate": "refinement_set.werewolves.speed1"
+  },
+  "refinements": "factionapi:speed1"
+}

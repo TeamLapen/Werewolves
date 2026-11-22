@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.common.core;
 
-import de.teamlapen.faction.api.world.items.IRefinementItem;
+import de.teamlapen.faction.api.world.items.AccessorySlotType;
 import de.teamlapen.faction.common.components.FactionRestriction;
 import de.teamlapen.faction.common.world.items.RefinementItem;
 import de.teamlapen.library.api.world.items.IItemWithTier;
@@ -73,9 +73,9 @@ public class ModItems {
     public static final DeferredItem<SpawnEggItem> HUMAN_WEREWOLF_SPAWN_EGG = ITEMS.registerItem("human_werewolf_spawn_egg",SpawnEggItem::new,(x) -> x.spawnEgg(ModEntities.HUMAN_WEREWOLF.get()));
     public static final DeferredItem<SpawnEggItem> ALPHA_WEREWOLF_SPAWN_EGG = ITEMS.registerItem("alpha_werewolf_spawn_egg", SpawnEggItem::new,(x) -> x.spawnEgg(ModEntities.ALPHA_WEREWOLF.get()));
 
-    public static final DeferredItem<RefinementItem> BONE_NECKLACE = ITEMS.registerItem("bone_necklace", (props) -> new RefinementItem(props, IRefinementItem.AccessorySlotType.AMULET), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
-    public static final DeferredItem<RefinementItem> CHARM_BRACELET = ITEMS.registerItem("charm_bracelet", (props) -> new RefinementItem(props, IRefinementItem.AccessorySlotType.RING), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
-    public static final DeferredItem<RefinementItem> DREAM_CATCHER = ITEMS.registerItem("dream_catcher", (props) -> new RefinementItem(props, IRefinementItem.AccessorySlotType.OBI_BELT), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
+    public static final DeferredItem<RefinementItem> BONE_NECKLACE = ITEMS.registerItem("bone_necklace", (props) -> new RefinementItem(props, AccessorySlotType.AMULET), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
+    public static final DeferredItem<RefinementItem> CHARM_BRACELET = ITEMS.registerItem("charm_bracelet", (props) -> new RefinementItem(props, AccessorySlotType.RING), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
+    public static final DeferredItem<RefinementItem> DREAM_CATCHER = ITEMS.registerItem("dream_catcher", (props) -> new RefinementItem(props, AccessorySlotType.OBI_BELT), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
 
     public static final DeferredItem<SilverArmorItem> SILVER_HELMET = ITEMS.registerItem("silver_helmet", (props) -> new SilverArmorItem(ArmorType.HELMET, props.durability(ArmorType.CHESTPLATE.getDurability(15))));
     public static final DeferredItem<SilverArmorItem> SILVER_CHESTPLATE = ITEMS.registerItem("silver_chestplate", (props) -> new SilverArmorItem(ArmorType.CHESTPLATE, props.durability(ArmorType.CHESTPLATE.getDurability(15))));

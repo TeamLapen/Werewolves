@@ -1,0 +1,7 @@
+{
+  "color": 1486592,
+  "name": {
+    "translate": "refinement_set.werewolves.health_after_kill"
+  },
+  "refinements": "werewolves:health_after_kill"
+}

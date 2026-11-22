@@ -1,0 +1,10 @@
+{
+  "color": 5635925,
+  "name": {
+    "translate": "refinement_set.werewolves.attack_speed2_n_armor1"
+  },
+  "refinements": [
+    "factionapi:attack_speed2",
+    "factionapi:n_armor1"
+  ]
+}

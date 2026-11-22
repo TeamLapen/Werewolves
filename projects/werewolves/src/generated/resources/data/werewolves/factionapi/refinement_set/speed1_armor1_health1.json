@@ -1,0 +1,11 @@
+{
+  "color": 5592575,
+  "name": {
+    "translate": "refinement_set.werewolves.speed1_armor1_health1"
+  },
+  "refinements": [
+    "factionapi:speed1",
+    "factionapi:armor1",
+    "factionapi:health1"
+  ]
+}

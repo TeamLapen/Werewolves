@@ -1,0 +1,7 @@
+{
+  "color": 15578401,
+  "name": {
+    "translate": "refinement_set.werewolves.stun_bite"
+  },
+  "refinements": "werewolves:stun_bite"
+}

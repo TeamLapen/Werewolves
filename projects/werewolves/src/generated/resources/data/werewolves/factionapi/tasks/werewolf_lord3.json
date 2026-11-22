@@ -2,9 +2,6 @@
   "requirements": [
     {
       "type": "factionapi:item",
-      "description": {
-        "translate": "item.minecraft.gold_ingot"
-      },
       "id": "minecraft:gold_ingot",
       "item": {
         "count": 32,
@@ -31,9 +28,6 @@
     },
     {
       "type": "factionapi:item",
-      "description": {
-        "translate": "item.werewolves.werewolf_tooth"
-      },
       "id": "werewolves:werewolf_tooth",
       "item": {
         "count": 3,

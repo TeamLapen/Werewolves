@@ -2,9 +2,6 @@
   "requirements": [
     {
       "type": "factionapi:item",
-      "description": {
-        "translate": "item.minecraft.diamond_block"
-      },
       "id": "minecraft:diamond_block",
       "item": {
         "count": 3,
@@ -13,9 +10,6 @@
     },
     {
       "type": "factionapi:item",
-      "description": {
-        "translate": "item.werewolves.liver"
-      },
       "id": "werewolves:liver",
       "item": {
         "count": 16,
@@ -33,9 +27,6 @@
     },
     {
       "type": "factionapi:item",
-      "description": {
-        "translate": "item.werewolves.werewolf_tooth"
-      },
       "id": "werewolves:werewolf_tooth",
       "item": {
         "id": "werewolves:werewolf_tooth"

@@ -1,0 +1,12 @@
+{
+  "values": [
+    "werewolves:armor1",
+    "werewolves:health1",
+    "werewolves:speed1",
+    "werewolves:attack_speed1",
+    "werewolves:damage1",
+    "werewolves:damage1_attack_speed1_n_armor2",
+    "werewolves:armor1_health1_n_attack_speed2",
+    "werewolves:health_after_kill"
+  ]
+}

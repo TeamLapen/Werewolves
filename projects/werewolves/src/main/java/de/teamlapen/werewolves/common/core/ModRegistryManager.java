@@ -18,8 +18,6 @@ public class ModRegistryManager extends Services {
         ModEffects.register(bus);
         ModEntities.register(bus);
         ModRecipes.register(bus);
-        ModRefinements.register(bus);
-        ModRefinementSets.register(bus);
         ModSounds.register(bus);
         ModBlockEntities.register(bus);
         ModVillage.register(bus);

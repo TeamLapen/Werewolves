@@ -2,8 +2,10 @@ package de.teamlapen.werewolves.data.provider;
 
 import de.teamlapen.faction.api.factions.IFaction;
 import de.teamlapen.faction.api.FactionRegistries;
+import de.teamlapen.faction.api.factions.refinements.IRefinementSet;
 import de.teamlapen.faction.api.factions.skills.ISkillTree;
 import de.teamlapen.faction.api.factions.tasks.Task;
+import de.teamlapen.faction.api.tags.FactionRefinementSetTags;
 import de.teamlapen.faction.api.tags.FactionSkillTreeTags;
 import de.teamlapen.faction.common.tags.FactionEffectTags;
 import de.teamlapen.faction.common.tags.FactionPoiTypeTags;
@@ -45,6 +47,7 @@ public class ModTagsProvider {
         gen.addProvider(true, new ModVillageProfessionProvider(output, future));
         gen.addProvider(true, new ModDamageTypeProvider(output, future));
         gen.addProvider(true, new ModTasksTagProvider(output, future));
+        gen.addProvider(true, new ModRefinementSetTagsProvider(output, future));
         gen.addProvider(true, new ModEntityTagProvider(output, future));
         gen.addProvider(true, new ModVillageTradesTagProvider(output, future));
         gen.addProvider(true, new ModSkillTreeTagsProvider(output, future));
@@ -258,6 +261,73 @@ public class ModTagsProvider {
             this.tag(ModTaskTags.AWARDS_LORD_LEVEL).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5);
             this.tag(ModTaskTags.HAS_FACTION).addTags(ModTaskTags.IS_WEREWOLF);
             this.tag(ModTaskTags.IS_WEREWOLF).add(ModTasks.WEREWOLF_LORD_1, ModTasks.WEREWOLF_LORD_2, ModTasks.WEREWOLF_LORD_3, ModTasks.WEREWOLF_LORD_4, ModTasks.WEREWOLF_LORD_5, ModTasks.WEREWOLF_MINION_BINDING, ModTasks.WEREWOLF_MINION_UPGRADE_SIMPLE, ModTasks.WEREWOLF_MINION_UPGRADE_ENHANCED, ModTasks.WEREWOLF_MINION_UPGRADE_SPECIAL, ModTasks.RANDOM_REFINEMENT_1, ModTasks.RANDOM_REFINEMENT_2, ModTasks.RANDOM_REFINEMENT_3, ModTasks.RANDOM_RARE_REFINEMENT);
+        }
+    }
+
+    private static class ModRefinementSetTagsProvider extends KeyTagProvider<IRefinementSet> {
+
+        public ModRefinementSetTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+            super(output, FactionRegistries.Keys.REFINEMENT_SET, lookupProvider, REFERENCE.MODID);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.Provider provider) {
+            rarity(FactionRefinementSetTags.COMMON,
+                    ModRefinementSets.ARMOR1,
+                    ModRefinementSets.HEALTH1,
+                    ModRefinementSets.SPEED1,
+                    ModRefinementSets.ATTACK_SPEED1,
+                    ModRefinementSets.DAMAGE1,
+                    ModRefinementSets.DAMAGE1_ATTACK_SPEED1_N_ARMOR2,
+                    ModRefinementSets.ARMOR1_HEALTH1_N_ATTACK_SPEED2,
+                    ModRefinementSets.HEALTH_AFTER_KILL
+            );
+            rarity(FactionRefinementSetTags.UNCOMMON,
+                    ModRefinementSets.ARMOR2_N_HEALTH2,
+                    ModRefinementSets.HEALTH2_N_DAMAGE1,
+                    ModRefinementSets.ATTACK_SPEED2_N_ARMOR1,
+                    ModRefinementSets.DAMAGE2_N_SPEED1,
+                    ModRefinementSets.SPEED2_N_DAMAGE1,
+                    ModRefinementSets.ARMOR3_N_HEALTH3,
+                    ModRefinementSets.HEALTH3_N_DAMAGE2,
+                    ModRefinementSets.ATTACK_SPEED3_N_ARMOR2,
+                    ModRefinementSets.DAMAGE3_N_SPEED2,
+                    ModRefinementSets.SPEED3_N_DAMAGE2,
+                    ModRefinementSets.WEREWOLF_FORM_DURATION_SURVIVAL_1,
+                    ModRefinementSets.WEREWOLF_FORM_DURATION_BEAST_1,
+                    ModRefinementSets.MORE_WOLVES,
+                    ModRefinementSets.GREATER_DOGE_CHANCE
+            );
+            rarity(FactionRefinementSetTags.RARE,
+                    ModRefinementSets.ARMOR3_N_HEALTH2,
+                    ModRefinementSets.HEALTH3_N_ARMOR1,
+                    ModRefinementSets.ATTACK_SPEED3_N_SPEED1,
+                    ModRefinementSets.SPEED1_ARMOR1_HEALTH1,
+                    ModRefinementSets.DAMAGE3_N_ARMOR1,
+                    ModRefinementSets.SPEED3_N_ATTACK_SPEED1,
+                    ModRefinementSets.DAMAGE1_ATTACK_SPEED1,
+                    ModRefinementSets.WEREWOLF_FORM_DURATION_GENERAL_1_N_DAMAGE_N_SPEED,
+                    ModRefinementSets.WEREWOLF_FORM_DURATION_SURVIVAL_2,
+                    ModRefinementSets.WEREWOLF_FORM_DURATION_BEAST_2,
+                    ModRefinementSets.HEALTH,
+                    ModRefinementSets.STUN_BITE
+            );
+            rarity(FactionRefinementSetTags.EPIC,
+                    ModRefinementSets.WEREWOLF_FORM_DURATION_GENERAL_2_N_DAMAGE_N_SPEED,
+                    ModRefinementSets.WEREWOLF_FORM_DURATION_GENERAL_1,
+                    ModRefinementSets.BLEEDING_BITE,
+                    ModRefinementSets.VARIABLE_BITE
+            );
+            rarity(FactionRefinementSetTags.LEGENDARY,
+                    ModRefinementSets.WEREWOLF_FORM_DURATION_GENERAL_2,
+                    ModRefinementSets.RAGE_FURY
+            );
+        }
+
+        @SafeVarargs
+        private void rarity(TagKey<IRefinementSet> rarity, ResourceKey<IRefinementSet>... sets) {
+            this.tag(rarity).add(sets);
+            this.tag(ModRefinementSetTags.IS_WEREWOLF).add(sets);
         }
     }
 

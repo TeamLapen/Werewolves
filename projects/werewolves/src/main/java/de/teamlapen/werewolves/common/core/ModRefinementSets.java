@@ -4,108 +4,138 @@ import de.teamlapen.faction.api.FactionRegistries;
 import de.teamlapen.faction.api.factions.refinements.IRefinement;
 import de.teamlapen.faction.api.factions.refinements.IRefinementSet;
 import de.teamlapen.faction.common.RefinementSet;
-import de.teamlapen.werewolves.common.world.entities.player.WerewolfRefinementSet;
-import de.teamlapen.werewolves.util.REFERENCE;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import de.teamlapen.faction.common.core.FactionRefinements;
+import de.teamlapen.werewolves.api.WIdentifier;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
 
-import net.minecraft.core.Holder;
+import java.util.Arrays;
 
+/**
+ * Rarity, faction and slot restrictions are defined through tags, see {@link de.teamlapen.werewolves.data.provider.ModTagsProvider}
+ */
 public class ModRefinementSets {
 
-    public static final DeferredRegister<IRefinementSet> REFINEMENT_SETS = DeferredRegister.create(FactionRegistries.Keys.REFINEMENT_SET, REFERENCE.MODID);
+    private static final int COMMON = 0xFFFFFF;
+    private static final int UNCOMMON = 0x55FF55;
+    private static final int RARE = 0x5555FF;
 
-    static void register(IEventBus bus) {
-        REFINEMENT_SETS.register(bus);
-    }
+    // Common refinement sets
+    public static final ResourceKey<IRefinementSet> ARMOR1 = key("armor1");
+    public static final ResourceKey<IRefinementSet> HEALTH1 = key("health1");
+    public static final ResourceKey<IRefinementSet> SPEED1 = key("speed1");
+    public static final ResourceKey<IRefinementSet> ATTACK_SPEED1 = key("attack_speed1");
+    public static final ResourceKey<IRefinementSet> DAMAGE1 = key("damage1");
+    public static final ResourceKey<IRefinementSet> DAMAGE1_ATTACK_SPEED1_N_ARMOR2 = key("damage1_attack_speed1_n_armor2");
+    public static final ResourceKey<IRefinementSet> ARMOR1_HEALTH1_N_ATTACK_SPEED2 = key("armor1_health1_n_attack_speed2");
 
-    static {
-        // Common refinement set
+    // Uncommon refinement sets
+    public static final ResourceKey<IRefinementSet> ARMOR2_N_HEALTH2 = key("armor2_n_health2");
+    public static final ResourceKey<IRefinementSet> HEALTH2_N_DAMAGE1 = key("health2_n_damage1");
+    public static final ResourceKey<IRefinementSet> ATTACK_SPEED2_N_ARMOR1 = key("attack_speed2_n_armor1");
+    public static final ResourceKey<IRefinementSet> DAMAGE2_N_SPEED1 = key("damage2_n_speed1");
+    public static final ResourceKey<IRefinementSet> SPEED2_N_DAMAGE1 = key("speed2_n_damage1");
+    public static final ResourceKey<IRefinementSet> ARMOR3_N_HEALTH3 = key("armor3_n_health3");
+    public static final ResourceKey<IRefinementSet> HEALTH3_N_DAMAGE2 = key("health3_n_damage2");
+    public static final ResourceKey<IRefinementSet> ATTACK_SPEED3_N_ARMOR2 = key("attack_speed3_n_armor2");
+    public static final ResourceKey<IRefinementSet> DAMAGE3_N_SPEED2 = key("damage3_n_speed2");
+    public static final ResourceKey<IRefinementSet> SPEED3_N_DAMAGE2 = key("speed3_n_damage2");
+
+    // Rare refinement sets
+    public static final ResourceKey<IRefinementSet> ARMOR3_N_HEALTH2 = key("armor3_n_health2");
+    public static final ResourceKey<IRefinementSet> HEALTH3_N_ARMOR1 = key("health3_n_armor1");
+    public static final ResourceKey<IRefinementSet> ATTACK_SPEED3_N_SPEED1 = key("attack_speed3_n_speed1");
+    public static final ResourceKey<IRefinementSet> SPEED1_ARMOR1_HEALTH1 = key("speed1_armor1_health1");
+    public static final ResourceKey<IRefinementSet> DAMAGE3_N_ARMOR1 = key("damage3_n_armor1");
+    public static final ResourceKey<IRefinementSet> SPEED3_N_ATTACK_SPEED1 = key("speed3_n_attack_speed1");
+    public static final ResourceKey<IRefinementSet> DAMAGE1_ATTACK_SPEED1 = key("damage1_attack_speed1");
+
+    // Werewolf refinement sets
+    public static final ResourceKey<IRefinementSet> WEREWOLF_FORM_DURATION_GENERAL_2 = key("werewolf_form_duration_general_2");
+    public static final ResourceKey<IRefinementSet> WEREWOLF_FORM_DURATION_GENERAL_2_N_DAMAGE_N_SPEED = key("werewolf_form_duration_general_2_n_damage_n_speed");
+    public static final ResourceKey<IRefinementSet> WEREWOLF_FORM_DURATION_GENERAL_1 = key("werewolf_form_duration_general_1");
+    public static final ResourceKey<IRefinementSet> WEREWOLF_FORM_DURATION_GENERAL_1_N_DAMAGE_N_SPEED = key("werewolf_form_duration_general_1_n_damage_n_speed");
+    public static final ResourceKey<IRefinementSet> WEREWOLF_FORM_DURATION_SURVIVAL_2 = key("werewolf_form_duration_survival_2");
+    public static final ResourceKey<IRefinementSet> WEREWOLF_FORM_DURATION_SURVIVAL_1 = key("werewolf_form_duration_survival_1");
+    public static final ResourceKey<IRefinementSet> WEREWOLF_FORM_DURATION_BEAST_2 = key("werewolf_form_duration_beast_2");
+    public static final ResourceKey<IRefinementSet> WEREWOLF_FORM_DURATION_BEAST_1 = key("werewolf_form_duration_beast_1");
+    public static final ResourceKey<IRefinementSet> RAGE_FURY = key("rage_fury");
+    public static final ResourceKey<IRefinementSet> HEALTH_AFTER_KILL = key("health_after_kill");
+    public static final ResourceKey<IRefinementSet> HEALTH = key("health");
+    public static final ResourceKey<IRefinementSet> STUN_BITE = key("stun_bite");
+    public static final ResourceKey<IRefinementSet> BLEEDING_BITE = key("bleeding_bite");
+    public static final ResourceKey<IRefinementSet> VARIABLE_BITE = key("variable_bite");
+    public static final ResourceKey<IRefinementSet> MORE_WOLVES = key("more_wolves");
+    public static final ResourceKey<IRefinementSet> GREATER_DOGE_CHANCE = key("greater_doge_chance");
+
+    static void createRefinementSets(BootstrapContext<IRefinementSet> context) {
+        // Common refinement sets
         {
             // attribute modifier
-            REFINEMENT_SETS.register("armor1", () -> commonW(ModRefinements.V.ARMOR_1));
-            REFINEMENT_SETS.register("health1", () -> commonW(ModRefinements.V.HEALTH_1));
-            REFINEMENT_SETS.register("speed1", () -> commonW(ModRefinements.V.SPEED_1));
-            REFINEMENT_SETS.register("attack_speed1", () -> commonW(ModRefinements.V.ATTACK_SPEED_1));
-            REFINEMENT_SETS.register("damage1", () -> commonW(ModRefinements.V.DAMAGE_1));
-            REFINEMENT_SETS.register("damage1_attack_speed1_n_armor2", () -> commonW(ModRefinements.V.DAMAGE_1, ModRefinements.V.ATTACK_SPEED_1, ModRefinements.V.N_ARMOR_2));
-            REFINEMENT_SETS.register("armor1_health1_n_attack_speed2", () -> commonW(ModRefinements.V.ARMOR_1, ModRefinements.V.HEALTH_1, ModRefinements.V.N_ATTACK_SPEED_2));
+            register(context, ARMOR1, COMMON, FactionRefinements.ARMOR1);
+            register(context, HEALTH1, COMMON, FactionRefinements.HEALTH1);
+            register(context, SPEED1, COMMON, FactionRefinements.SPEED1);
+            register(context, ATTACK_SPEED1, COMMON, FactionRefinements.ATTACK_SPEED1);
+            register(context, DAMAGE1, COMMON, FactionRefinements.DAMAGE1);
+            register(context, DAMAGE1_ATTACK_SPEED1_N_ARMOR2, COMMON, FactionRefinements.DAMAGE1, FactionRefinements.ATTACK_SPEED1, FactionRefinements.N_ARMOR2);
+            register(context, ARMOR1_HEALTH1_N_ATTACK_SPEED2, COMMON, FactionRefinements.ARMOR1, FactionRefinements.HEALTH1, FactionRefinements.N_ATTACK_SPEED2);
         }
-        //Uncommon refinement sets
+        // Uncommon refinement sets
         {
             // attribute modifier
-            REFINEMENT_SETS.register("armor2_n_health2", () -> uncommonW(ModRefinements.V.ARMOR_2, ModRefinements.V.N_HEALTH_2));
-            REFINEMENT_SETS.register("health2_n_damage1", () -> uncommonW(ModRefinements.V.HEALTH_2, ModRefinements.V.N_DAMAGE_1));
-            REFINEMENT_SETS.register("attack_speed2_n_armor1", () -> uncommonW(ModRefinements.V.ATTACK_SPEED_2, ModRefinements.V.N_ARMOR_1));
-            REFINEMENT_SETS.register("damage2_n_speed1", () -> uncommonW(ModRefinements.V.DAMAGE_2, ModRefinements.V.N_SPEED_1));
-            REFINEMENT_SETS.register("speed2_n_damage1", () -> uncommonW(ModRefinements.V.SPEED_2, ModRefinements.V.N_DAMAGE_1));
+            register(context, ARMOR2_N_HEALTH2, UNCOMMON, FactionRefinements.ARMOR2, FactionRefinements.N_HEALTH2);
+            register(context, HEALTH2_N_DAMAGE1, UNCOMMON, FactionRefinements.HEALTH2, FactionRefinements.N_DAMAGE1);
+            register(context, ATTACK_SPEED2_N_ARMOR1, UNCOMMON, FactionRefinements.ATTACK_SPEED2, FactionRefinements.N_ARMOR1);
+            register(context, DAMAGE2_N_SPEED1, UNCOMMON, FactionRefinements.DAMAGE2, FactionRefinements.N_SPEED1);
+            register(context, SPEED2_N_DAMAGE1, UNCOMMON, FactionRefinements.SPEED2, FactionRefinements.N_DAMAGE1);
 
             // better attribute modifier with de-buffs
-            REFINEMENT_SETS.register("armor3_n_health3", () -> uncommonW(ModRefinements.V.ARMOR_3, ModRefinements.V.N_HEALTH_3));
-            REFINEMENT_SETS.register("health3_n_damage2", () -> uncommonW(ModRefinements.V.HEALTH_3, ModRefinements.V.N_DAMAGE_2));
-            REFINEMENT_SETS.register("attack_speed3_n_armor2", () -> uncommonW(ModRefinements.V.ATTACK_SPEED_3, ModRefinements.V.N_ARMOR_2));
-            REFINEMENT_SETS.register("damage3_n_speed2", () -> uncommonW(ModRefinements.V.DAMAGE_3, ModRefinements.V.N_SPEED_3));
-            REFINEMENT_SETS.register("speed3_n_damage2", () -> uncommonW(ModRefinements.V.SPEED_3, ModRefinements.V.N_DAMAGE_2));
+            register(context, ARMOR3_N_HEALTH3, UNCOMMON, FactionRefinements.ARMOR3, FactionRefinements.N_HEALTH3);
+            register(context, HEALTH3_N_DAMAGE2, UNCOMMON, FactionRefinements.HEALTH3, FactionRefinements.N_DAMAGE2);
+            register(context, ATTACK_SPEED3_N_ARMOR2, UNCOMMON, FactionRefinements.ATTACK_SPEED3, FactionRefinements.N_ARMOR2);
+            register(context, DAMAGE3_N_SPEED2, UNCOMMON, FactionRefinements.DAMAGE3, FactionRefinements.N_SPEED3);
+            register(context, SPEED3_N_DAMAGE2, UNCOMMON, FactionRefinements.SPEED3, FactionRefinements.N_DAMAGE2);
         }
         // Rare refinement sets
         {
             // attribute modifier
-            REFINEMENT_SETS.register("armor3_n_health2", () -> rareW(ModRefinements.V.ARMOR_3, ModRefinements.V.N_HEALTH_2));
-            REFINEMENT_SETS.register("health3_n_armor1", () -> rareW(ModRefinements.V.HEALTH_3, ModRefinements.V.N_ARMOR_1));
-            REFINEMENT_SETS.register("attack_speed3_n_speed1", () -> rareW(ModRefinements.V.ATTACK_SPEED_3, ModRefinements.V.N_SPEED_1));
-            REFINEMENT_SETS.register("speed1_armor1_health1", () -> rareW(ModRefinements.V.SPEED_1, ModRefinements.V.ARMOR_1, ModRefinements.V.HEALTH_1));
-            REFINEMENT_SETS.register("damage3_n_armor1", () -> rareW(ModRefinements.V.DAMAGE_3, ModRefinements.V.N_ARMOR_2));
-            REFINEMENT_SETS.register("speed3_n_attack_speed1", () -> rareW(ModRefinements.V.SPEED_3, ModRefinements.V.N_ATTACK_SPEED_1));
-            REFINEMENT_SETS.register("damage1_attack_speed1", () -> rareW(ModRefinements.V.DAMAGE_1, ModRefinements.V.ATTACK_SPEED_1));
+            register(context, ARMOR3_N_HEALTH2, RARE, FactionRefinements.ARMOR3, FactionRefinements.N_HEALTH2);
+            register(context, HEALTH3_N_ARMOR1, RARE, FactionRefinements.HEALTH3, FactionRefinements.N_ARMOR1);
+            register(context, ATTACK_SPEED3_N_SPEED1, RARE, FactionRefinements.ATTACK_SPEED3, FactionRefinements.N_SPEED1);
+            register(context, SPEED1_ARMOR1_HEALTH1, RARE, FactionRefinements.SPEED1, FactionRefinements.ARMOR1, FactionRefinements.HEALTH1);
+            register(context, DAMAGE3_N_ARMOR1, RARE, FactionRefinements.DAMAGE3, FactionRefinements.N_ARMOR2);
+            register(context, SPEED3_N_ATTACK_SPEED1, RARE, FactionRefinements.SPEED3, FactionRefinements.N_ATTACK_SPEED1);
+            register(context, DAMAGE1_ATTACK_SPEED1, RARE, FactionRefinements.DAMAGE1, FactionRefinements.ATTACK_SPEED1);
         }
+        // Werewolf refinement sets
         {
-            REFINEMENT_SETS.register("werewolf_form_duration_general_2", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.LEGENDARY, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_2));
-            REFINEMENT_SETS.register("werewolf_form_duration_general_2_n_damage_n_speed", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.EPIC, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_2, ModRefinements.V.N_DAMAGE_2, ModRefinements.V.N_SPEED_2));
-            REFINEMENT_SETS.register("werewolf_form_duration_general_1", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.EPIC, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_1));
-            REFINEMENT_SETS.register("werewolf_form_duration_general_1_n_damage_n_speed", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.RARE, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_1, ModRefinements.V.N_DAMAGE_2, ModRefinements.V.N_SPEED_2));
-            REFINEMENT_SETS.register("werewolf_form_duration_survival_2", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.RARE, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_SURVIVAL_2));
-            REFINEMENT_SETS.register("werewolf_form_duration_survival_1", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.UNCOMMON, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_SURVIVAL_1));
-            REFINEMENT_SETS.register("werewolf_form_duration_beast_2", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.RARE, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_BEAST_2));
-            REFINEMENT_SETS.register("werewolf_form_duration_beast_1", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.UNCOMMON, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_BEAST_1));
-            REFINEMENT_SETS.register("rage_fury", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.LEGENDARY, 0xff0006, ModRefinements.RAGE_FURY));
-            REFINEMENT_SETS.register("health_after_kill", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.COMMON, 0x16af00, ModRefinements.HEALTH_AFTER_KILL));
-            REFINEMENT_SETS.register("health", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.RARE, 0x16af00, ModRefinements.HEALTH_AFTER_KILL, ModRefinements.V.HEALTH_2));
-            REFINEMENT_SETS.register("stun_bite", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.RARE, 0xedb521, ModRefinements.STUN_BITE));
-            REFINEMENT_SETS.register("bleeding_bite", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.EPIC, 0xcdc2639, ModRefinements.BLEEDING_BITE));
-            REFINEMENT_SETS.register("variable_bite", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.EPIC, 0xcdc2639, ModRefinements.BLEEDING_BITE, ModRefinements.STUN_BITE));
-            REFINEMENT_SETS.register("more_wolves", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.UNCOMMON, 0x929292, ModRefinements.MORE_WOLVES));
-            REFINEMENT_SETS.register("greater_doge_chance", () -> new WerewolfRefinementSet(IRefinementSet.Rarity.UNCOMMON, 0x4df1f3, ModRefinements.GREATER_DOGE_CHANCE));
+            register(context, WEREWOLF_FORM_DURATION_GENERAL_2, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_2);
+            register(context, WEREWOLF_FORM_DURATION_GENERAL_2_N_DAMAGE_N_SPEED, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_2, FactionRefinements.N_DAMAGE2, FactionRefinements.N_SPEED2);
+            register(context, WEREWOLF_FORM_DURATION_GENERAL_1, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_1);
+            register(context, WEREWOLF_FORM_DURATION_GENERAL_1_N_DAMAGE_N_SPEED, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_GENERAL_1, FactionRefinements.N_DAMAGE2, FactionRefinements.N_SPEED2);
+            register(context, WEREWOLF_FORM_DURATION_SURVIVAL_2, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_SURVIVAL_2);
+            register(context, WEREWOLF_FORM_DURATION_SURVIVAL_1, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_SURVIVAL_1);
+            register(context, WEREWOLF_FORM_DURATION_BEAST_2, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_BEAST_2);
+            register(context, WEREWOLF_FORM_DURATION_BEAST_1, 0xc86262, ModRefinements.WEREWOLF_FORM_DURATION_BEAST_1);
+            register(context, RAGE_FURY, 0xff0006, ModRefinements.RAGE_FURY);
+            register(context, HEALTH_AFTER_KILL, 0x16af00, ModRefinements.HEALTH_AFTER_KILL);
+            register(context, HEALTH, 0x16af00, ModRefinements.HEALTH_AFTER_KILL, FactionRefinements.HEALTH2);
+            register(context, STUN_BITE, 0xedb521, ModRefinements.STUN_BITE);
+            register(context, BLEEDING_BITE, 0xcdc2639, ModRefinements.BLEEDING_BITE);
+            register(context, VARIABLE_BITE, 0xcdc2639, ModRefinements.BLEEDING_BITE, ModRefinements.STUN_BITE);
+            register(context, MORE_WOLVES, 0x929292, ModRefinements.MORE_WOLVES);
+            register(context, GREATER_DOGE_CHANCE, 0x4df1f3, ModRefinements.GREATER_DOGE_CHANCE);
         }
     }
 
     @SafeVarargs
-    private static IRefinementSet commonW(Holder<IRefinement>... refinements) {
-        return werewolf(IRefinementSet.Rarity.COMMON, refinements);
+    private static void register(BootstrapContext<IRefinementSet> context, ResourceKey<IRefinementSet> key, int color, ResourceKey<IRefinement>... refinements) {
+        HolderGetter<IRefinement> lookup = context.lookup(FactionRegistries.Keys.REFINEMENT);
+        context.register(key, RefinementSet.of(key, color, Arrays.stream(refinements).map(lookup::getOrThrow).toList()));
     }
 
-    @SafeVarargs
-    private static IRefinementSet uncommonW(Holder<IRefinement>... refinements) {
-        return werewolf(IRefinementSet.Rarity.UNCOMMON, refinements);
-    }
-
-    @SafeVarargs
-    private static IRefinementSet rareW(Holder<IRefinement>... refinements) {
-        return werewolf(IRefinementSet.Rarity.RARE, refinements);
-    }
-
-    @SafeVarargs
-    private static IRefinementSet epicW(Holder<IRefinement>... refinements) {
-        return werewolf(IRefinementSet.Rarity.EPIC, refinements);
-    }
-
-    @SafeVarargs
-    private static IRefinementSet legendaryW(Holder<IRefinement>... refinements) {
-        return werewolf(IRefinementSet.Rarity.LEGENDARY, refinements);
-    }
-
-    @SafeVarargs
-    @SuppressWarnings("ConstantConditions")
-    private static RefinementSet werewolf(IRefinementSet.Rarity rarity, Holder<IRefinement>... refinements) {
-        return new WerewolfRefinementSet(rarity, rarity.color.getColor(), refinements);
+    private static ResourceKey<IRefinementSet> key(String path) {
+        return ResourceKey.create(FactionRegistries.Keys.REFINEMENT_SET, WIdentifier.mod(path));
     }
 }

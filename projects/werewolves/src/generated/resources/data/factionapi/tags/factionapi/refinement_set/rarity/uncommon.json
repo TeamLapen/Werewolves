@@ -1,0 +1,18 @@
+{
+  "values": [
+    "werewolves:armor2_n_health2",
+    "werewolves:health2_n_damage1",
+    "werewolves:attack_speed2_n_armor1",
+    "werewolves:damage2_n_speed1",
+    "werewolves:speed2_n_damage1",
+    "werewolves:armor3_n_health3",
+    "werewolves:health3_n_damage2",
+    "werewolves:attack_speed3_n_armor2",
+    "werewolves:damage3_n_speed2",
+    "werewolves:speed3_n_damage2",
+    "werewolves:werewolf_form_duration_survival_1",
+    "werewolves:werewolf_form_duration_beast_1",
+    "werewolves:more_wolves",
+    "werewolves:greater_doge_chance"
+  ]
+}

@@ -2,9 +2,6 @@
   "requirements": [
     {
       "type": "factionapi:item",
-      "description": {
-        "translate": "item.werewolves.liver"
-      },
       "id": "werewolves:liver",
       "item": {
         "id": "werewolves:liver"
@@ -12,9 +9,6 @@
     },
     {
       "type": "factionapi:item",
-      "description": {
-        "translate": "item.minecraft.potion"
-      },
       "id": "minecraft:potion",
       "item": {
         "components": {

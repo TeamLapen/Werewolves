@@ -1,0 +1,7 @@
+{
+  "color": 215754297,
+  "name": {
+    "translate": "refinement_set.werewolves.bleeding_bite"
+  },
+  "refinements": "werewolves:bleeding_bite"
+}

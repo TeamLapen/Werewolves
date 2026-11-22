@@ -1,0 +1,10 @@
+{
+  "color": 1486592,
+  "name": {
+    "translate": "refinement_set.werewolves.health"
+  },
+  "refinements": [
+    "werewolves:health_after_kill",
+    "factionapi:health2"
+  ]
+}

@@ -280,6 +280,7 @@
   "refinement.werewolves.greater_doge_chance.desc": "Increases the chance to doge for the Movement Tactics skill",
   "refinement.werewolves.health_after_kill.desc": "Regenerate more health after a kill",
   "refinement.werewolves.more_wolves.desc": "Summons more wolves",
+  "refinement.werewolves.no_leap_cooldown.desc": "Removes the cooldown of the Leap action",
   "refinement.werewolves.rage_fury.desc": "Increases Rage action duration and damage upon killing an entity",
   "refinement.werewolves.stun_bite.desc": "Stun Bite has a longer effect",
   "refinement.werewolves.werewolf_form_duration_beast_1.desc": "Allows you to be longer in beast werewolf form",

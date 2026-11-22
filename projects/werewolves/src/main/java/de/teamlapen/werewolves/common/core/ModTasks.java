@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.common.core;
 
 import de.teamlapen.faction.api.FactionRegistries;
-import de.teamlapen.faction.api.factions.refinements.IRefinementSet;
+import de.teamlapen.faction.api.factions.refinements.Rarity;
 import de.teamlapen.faction.api.factions.tasks.Task;
 import de.teamlapen.faction.api.util.SafeCast;
 import de.teamlapen.faction.common.core.FactionItems;
@@ -123,14 +123,14 @@ public class ModTasks {
                 .build(context::register, RANDOM_REFINEMENT_1);
         TaskBuilder.builder().addRequirement(ModEntities.ALPHA_WEREWOLF.get(), 3)
                 .addRequirement(new ItemStackTemplate(Items.GOLD_INGOT, 2))
-                .setReward(new RefinementItemReward(SafeCast.cast(factions.getOrThrow(ModFactionsTags.IS_WEREWOLF)), IRefinementSet.Rarity.EPIC))
+                .setReward(new RefinementItemReward(SafeCast.cast(factions.getOrThrow(ModFactionsTags.IS_WEREWOLF)), Rarity.EPIC))
                 .build(context::register,RANDOM_REFINEMENT_2);
         TaskBuilder.builder().addRequirement(Stats.TRADED_WITH_VILLAGER, 15)
                 .addRequirement(new ItemStackTemplate(Items.GOLD_INGOT, 2))
                 .setReward(new RefinementItemReward(SafeCast.cast(factions.getOrThrow(ModFactionsTags.IS_WEREWOLF))))
                 .build(context::register, RANDOM_REFINEMENT_3);
         TaskBuilder.builder().addRequirement(Stats.RAID_WIN, 1)
-                .setReward(new RefinementItemReward(SafeCast.cast(factions.getOrThrow(ModFactionsTags.IS_WEREWOLF)), IRefinementSet.Rarity.RARE))
+                .setReward(new RefinementItemReward(SafeCast.cast(factions.getOrThrow(ModFactionsTags.IS_WEREWOLF)), Rarity.RARE))
                 .build(context::register, RANDOM_RARE_REFINEMENT);
 
         TaskBuilder.builder().setReward(new ItemStackTemplate(FactionItems.OBLIVION_POTION.get()))
