@@ -103,6 +103,18 @@ jobs:
           elif [[ ${{ needs.prepare.outputs.registry }} == 'releases' ]]; then
             echo "MAVEN_URL=${{ secrets.MAVEN_URL_RELEASES }}" >> "$GITHUB_ENV"
           fi
+      - name: Debug Maven credentials (temporary)
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+        run: |
+          for v in MAVEN_URL MAVEN_USERNAME MAVEN_PASSWORD; do
+            val="${!v}"
+            ws=no; [[ "$val" =~ [[:space:]] ]] && ws=yes
+            echo "$v: length=${#val} contains_whitespace=$ws"
+          done
+          # print scheme/host/path without exposing credentials
+          echo "MAVEN_URL path: $(echo "$MAVEN_URL" | sed -E 's#^([a-z]+://)([^@/]*@)?#\1#' | sed 's#maven\.paube\.cloud#<host>#')"
       - name: Publish to Maven
         run: ./gradlew werewolves-api:publish werewolves:publish
         env:
