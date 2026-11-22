@@ -15,6 +15,8 @@ import de.teamlapen.werewolves.client.gui.ExpBar;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.core.ModActions;
+import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
@@ -23,6 +25,8 @@ import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.TriState;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.event.*;
@@ -59,15 +63,12 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void onRenderNamePlate(RenderNameTagEvent.CanRender event) {
-//        if (event.getEntity() instanceof Player) { TODO
-//            if (Helper.isWerewolf((Player) event.getEntity())) {
-//                WerewolfPlayer werewolf = WerewolfPlayer.get(((Player) event.getEntity()));
-//                IActionHandler<IWerewolfPlayer> d = werewolf.getActionHandler();
-//                if (d.isActionActive(ModActions.HIDE_NAME) && FormHelper.isFormActionActive(werewolf)) {
-//                    event.setCanRender(TriState.FALSE);
-//                }
-//            }
-//        }
+        if (event.getEntity() instanceof Player player && Helper.isWerewolf(player)) {
+            WerewolfPlayer werewolf = WerewolfPlayer.get(player);
+            if (werewolf.getActionHandler().isActionActive(ModActions.HIDE_NAME) && FormHelper.isFormActionActive(werewolf)) {
+                event.setCanRender(TriState.FALSE);
+            }
+        }
     }
 
     @SubscribeEvent

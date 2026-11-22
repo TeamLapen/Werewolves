@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +32,7 @@ public class WerewolfToothItem extends Item {
             } else {
                 if (Helper.canBecomeWerewolf(player)) {
                     LupusSanguinemEffect.addSanguinemEffect(player);
-//                    player.addEffect(new MobEffectInstance(ModEffects.V.POISON, 60)); TODO
+                    player.addEffect(new MobEffectInstance(MobEffects.POISON, 60));
                 } else {
                     if (Helper.isWerewolf(player)) {
                         player.sendOverlayMessage(Component.translatable("text.werewolves.already_werewolf"));

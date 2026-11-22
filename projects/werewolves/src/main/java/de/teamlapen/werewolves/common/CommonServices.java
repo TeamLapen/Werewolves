@@ -7,6 +7,7 @@ import de.teamlapen.werewolves.common.core.ModFactions;
 
 import de.teamlapen.faction.Services;
 import de.teamlapen.werewolves.api.IWerewolvesServices;
+import de.teamlapen.werewolves.common.core.ModBlockEntities;
 import de.teamlapen.werewolves.common.core.ModEntities;
 import de.teamlapen.werewolves.common.core.ModRegistryManager;
 import de.teamlapen.werewolves.common.network.ModPacketDispatcher;
@@ -53,5 +54,6 @@ public class CommonServices extends Services implements IWerewolvesServices {
         bus.addListener(ModEntities::onRegisterEntityTypeAttributes);
         bus.addListener(ModEntities::onModifyEntityTypeAttributes);
         bus.addListener(ModEntities::registerPlayerEventHandler);
+        bus.addListener(ModBlockEntities::registerCapabilities);
     }
 }

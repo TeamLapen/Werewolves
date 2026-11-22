@@ -38,9 +38,4 @@ public class WerewolvesMod {
     public static ModConfig config() {
         return CONFIG;
     }
-//
-//
-//    private void registerCapabilities(@NotNull RegisterCapabilitiesEvent event) {
-//        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModTiles.STONE_ALTAR.get(), (o, side) -> new InvWrapper(o));
-//    }
 }
