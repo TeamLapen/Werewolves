@@ -51,8 +51,7 @@ import java.util.Set;
  * <p>
  * The sensed entities are first drawn as flat colored silhouettes into a separate target ({@link #senseTarget}), using the nearest surface
  * of each entity so that overlapping model parts merge into one shape. The {@code werewolves:sense} post chain then composites them onto
- * the world: dimmed world with vignette, soft glow around each silhouette, bright rim, and a translucent fill that is stronger where the
- * entity is hidden behind blocks.
+ * the world: dimmed world with vignette, and the silhouettes heavily blurred into a colored fog.
  * <p>
  * Shader parameters that change every frame are passed through the 1x1 {@link #paramsTarget}, as post chain uniforms are static.
  */

@@ -29,7 +29,7 @@
                     {
                         "name": "Radius",
                         "type": "float",
-                        "value": 2.0
+                        "value": 12.0
                     }
                 ]
             }
@@ -58,7 +58,7 @@
                     {
                         "name": "Radius",
                         "type": "float",
-                        "value": 2.0
+                        "value": 12.0
                     }
                 ]
             }
@@ -87,7 +87,7 @@
                     {
                         "name": "Radius",
                         "type": "float",
-                        "value": 2.0
+                        "value": 12.0
                     }
                 ]
             }
@@ -116,7 +116,7 @@
                     {
                         "name": "Radius",
                         "type": "float",
-                        "value": 2.0
+                        "value": 12.0
                     }
                 ]
             }
@@ -130,21 +130,7 @@
                     "target": "minecraft:main"
                 },
                 {
-                    "sampler_name": "MainDepth",
-                    "target": "minecraft:main",
-                    "use_depth_buffer": true
-                },
-                {
-                    "sampler_name": "Sense",
-                    "target": "werewolves:sense"
-                },
-                {
-                    "sampler_name": "SenseDepth",
-                    "target": "werewolves:sense",
-                    "use_depth_buffer": true
-                },
-                {
-                    "sampler_name": "Glow",
+                    "sampler_name": "Fog",
                     "target": "glow",
                     "bilinear": true
                 },
