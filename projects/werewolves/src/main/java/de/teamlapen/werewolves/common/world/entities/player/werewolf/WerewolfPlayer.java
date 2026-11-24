@@ -103,6 +103,13 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
+    @Override
+    public void onRespawn() {
+        onLevelChanged(getLevel());
+    }
+
+
+
     public WerewolfInventory getInventory() {
         return inventory;
     }
@@ -223,11 +230,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         }
     }
 
-    @Override
-    public void onUpdatePlayer(PlayerTickEvent playerTickEvent) {
-
-    }
-
     private void tickFoodStats() {
         FoodData stats = this.player.getFoodData();
         ((FoodStatsAccessor) stats).setTickTimer(((FoodStatsAccessor) stats).getTickTimer() + 1);
@@ -255,7 +257,6 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
 
     @Override
     public void onDeath(DamageSource damageSource) {
-        super.onDeath(damageSource);
         this.actionHandler.deactivateAllActions();
     }
 
@@ -337,6 +338,16 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     public void levelChanged(FactionUpdate changes) {
         onLevelChanged(changes.getLevel());
+        tryUnlockingSkill();
+    }
+
+    private void tryUnlockingSkill() {
+        var unlockable = this.skillHandler.unlockableSkills();
+        if (unlockable.size() == 1) {
+            var skill = unlockable.getFirst();
+            this.skillHandler.enableSkill(skill.getValue(), skill.getKey());
+            tryUnlockingSkill();
+        }
     }
 
     @Override
