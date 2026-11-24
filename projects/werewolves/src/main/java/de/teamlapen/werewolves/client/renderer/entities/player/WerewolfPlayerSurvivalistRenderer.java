@@ -1,15 +1,14 @@
-package de.teamlapen.werewolves.client.render.player;
+package de.teamlapen.werewolves.client.renderer.entities.player;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
-import de.teamlapen.werewolves.client.render.layer.SurvivalItemInMouthLayer;
-import de.teamlapen.werewolves.client.render.layer.WerewolfFaceOverlayLayer;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
-import net.minecraft.client.model.geom.ModelPart;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfPlayerRenderer;
+import de.teamlapen.werewolves.client.renderer.entities.layer.SurvivalItemInMouthLayer;
+import de.teamlapen.werewolves.client.renderer.entities.layer.WerewolfFaceOverlayLayer;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfRenderState;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

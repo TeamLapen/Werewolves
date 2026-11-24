@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.client.render;
+package de.teamlapen.werewolves.client.renderer.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.faction.client.core.FactionEntitiesRenderer;
@@ -13,8 +13,6 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
 
-import javax.annotation.Nonnull;
-
 public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEntity, WerewolfTaskMasterRenderer.WerewolfTaskMasterRenderState, VillagerModel> {
     private final static Identifier texture = WIdentifier.mc("textures/entity/villager/villager.png");
     private final static Identifier overlay = WIdentifier.mod("textures/entity/werewolf_task_master_overlay.png");
@@ -24,25 +22,24 @@ public class WerewolfTaskMasterRenderer extends MobRenderer<WerewolfTaskMasterEn
         this.addLayer(new TaskMasterTypeLayer<>(this, overlay));
     }
 
-    @Nonnull
     @Override
-    public Identifier getTextureLocation(@Nonnull WerewolfTaskMasterRenderState state) {
+    public Identifier getTextureLocation(WerewolfTaskMasterRenderState state) {
         return texture;
     }
 
     @Override
-    public @Nonnull WerewolfTaskMasterRenderState createRenderState() {
+    public WerewolfTaskMasterRenderState createRenderState() {
         return new WerewolfTaskMasterRenderState();
     }
 
     @Override
-    public void extractRenderState(@Nonnull WerewolfTaskMasterEntity entity, @Nonnull WerewolfTaskMasterRenderState renderState, float partialTicks) {
+    public void extractRenderState(WerewolfTaskMasterEntity entity, WerewolfTaskMasterRenderState renderState, float partialTicks) {
         super.extractRenderState(entity, renderState, partialTicks);
         renderState.villagerData = entity.getVillageData();
     }
 
     @Override
-    protected void submitNameDisplay(@Nonnull WerewolfTaskMasterRenderState state, @Nonnull PoseStack poseStack, @Nonnull SubmitNodeCollector submitNodeCollector, @Nonnull CameraRenderState camera) {
+    protected void submitNameDisplay(WerewolfTaskMasterRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
         if (state.distanceToCameraSq <= 128) {
             super.submitNameDisplay(state, poseStack, submitNodeCollector, camera);
         }

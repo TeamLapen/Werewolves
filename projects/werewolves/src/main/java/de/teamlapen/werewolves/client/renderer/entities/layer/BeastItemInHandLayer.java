@@ -1,7 +1,7 @@
-package de.teamlapen.werewolves.client.render.layer;
+package de.teamlapen.werewolves.client.renderer.entities.layer;
 
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfRenderState;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 

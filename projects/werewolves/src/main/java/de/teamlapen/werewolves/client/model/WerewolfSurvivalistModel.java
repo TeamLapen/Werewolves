@@ -1,6 +1,6 @@
 package de.teamlapen.werewolves.client.model;
 
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfRenderState;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.WIdentifier;

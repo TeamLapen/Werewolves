@@ -1,12 +1,10 @@
-package de.teamlapen.werewolves.client.render;
+package de.teamlapen.werewolves.client.renderer.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
 import de.teamlapen.werewolves.common.world.entities.minion.WerewolfMinionEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import org.jetbrains.annotations.NotNull;
 
 public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionEntity> {
 
@@ -15,7 +13,7 @@ public class WerewolfMinionRenderer extends BaseWerewolfRenderer<WerewolfMinionE
     }
 
     @Override
-    protected void scale(@NotNull WerewolfRenderState state, @NotNull PoseStack matrixStack) {
+    protected void scale(WerewolfRenderState state, PoseStack matrixStack) {
         float s = state.scale;
         matrixStack.scale(s, s, s);
     }

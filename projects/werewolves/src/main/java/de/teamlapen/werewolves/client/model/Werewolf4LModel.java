@@ -1,8 +1,6 @@
 package de.teamlapen.werewolves.client.model;
 
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
-
-import com.mojang.blaze3d.vertex.PoseStack;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfRenderState;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;

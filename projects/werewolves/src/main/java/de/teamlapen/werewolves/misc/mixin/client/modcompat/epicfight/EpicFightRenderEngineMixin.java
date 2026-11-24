@@ -1,8 +1,6 @@
 package de.teamlapen.werewolves.misc.mixin.client.modcompat.epicfight;
 
-import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.world.entity.LivingEntity;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfPlayerRenderer;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;

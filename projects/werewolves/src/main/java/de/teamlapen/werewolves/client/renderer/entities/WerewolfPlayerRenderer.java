@@ -1,10 +1,9 @@
-package de.teamlapen.werewolves.client.render;
+package de.teamlapen.werewolves.client.renderer.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
-import de.teamlapen.werewolves.client.render.state.WerewolvesRenderStates;
+import de.teamlapen.werewolves.client.renderer.state.WerewolvesRenderStates;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import de.teamlapen.werewolves.util.REFERENCE;
@@ -17,7 +16,6 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.HumanoidArm;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -54,12 +52,12 @@ public abstract class WerewolfPlayerRenderer extends LivingEntityRenderer<Abstra
     }
 
     @Override
-    public @NotNull WerewolfRenderState createRenderState() {
+    public WerewolfRenderState createRenderState() {
         return new WerewolfRenderState();
     }
 
     @Override
-    public void extractRenderState(@NotNull AbstractClientPlayer player, @NotNull WerewolfRenderState state, float partialTicks) {
+    public void extractRenderState(AbstractClientPlayer player, WerewolfRenderState state, float partialTicks) {
         super.extractRenderState(player, state, partialTicks);
         WerewolfRenderState.extract(player, WerewolfPlayer.get(player), this.form, state, partialTicks, this.itemModelResolver);
         state.texture = getTexture(state.skinType);
@@ -70,7 +68,7 @@ public abstract class WerewolfPlayerRenderer extends LivingEntityRenderer<Abstra
     }
 
     @Override
-    public @NotNull Identifier getTextureLocation(@NotNull WerewolfRenderState state) {
+    public Identifier getTextureLocation(WerewolfRenderState state) {
         return state.texture;
     }
 
@@ -84,7 +82,7 @@ public abstract class WerewolfPlayerRenderer extends LivingEntityRenderer<Abstra
     }
 
     @Override
-    protected void setupRotations(@NotNull WerewolfRenderState state, @NotNull PoseStack poseStack, float bodyRot, float entityScale) {
+    protected void setupRotations(WerewolfRenderState state, PoseStack poseStack, float bodyRot, float entityScale) {
         super.setupRotations(state, poseStack, bodyRot, entityScale);
         if (!state.isFallFlying && state.swimAmount > 0) {
             setupSwimRotations(state, poseStack);

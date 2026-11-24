@@ -1,16 +1,13 @@
-package de.teamlapen.werewolves.client.render;
+package de.teamlapen.werewolves.client.renderer.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.Werewolf4LModel;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
 import de.teamlapen.werewolves.common.world.entities.werewolf.WerewolfAlphaEntity;
 import de.teamlapen.werewolves.util.REFERENCE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.Identifier;
-
-import javax.annotation.Nonnull;
 
 public class WerewolfAlphaRenderer extends WerewolfRenderer<WerewolfAlphaEntity> {
 
@@ -19,7 +16,7 @@ public class WerewolfAlphaRenderer extends WerewolfRenderer<WerewolfAlphaEntity>
     }
 
     @Override
-    protected void scale(@Nonnull WerewolfRenderState state, PoseStack stack) {
+    protected void scale(WerewolfRenderState state, PoseStack stack) {
         stack.scale(1.2f, 1.2f, 1.2f);
     }
 }

@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.client.render.state;
+package de.teamlapen.werewolves.client.renderer.entities;
 
 import de.teamlapen.werewolves.api.entities.werewolf.IWerewolfDataholder;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;

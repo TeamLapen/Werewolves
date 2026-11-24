@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.client.render.tiles;
+package de.teamlapen.werewolves.client.renderer.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -17,24 +17,23 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity, StoneAltarTESR.StoneAltarRenderState> {
+public class StoneAltarRenderer implements BlockEntityRenderer<StoneAltarBlockEntity, StoneAltarRenderer.StoneAltarRenderState> {
 
     private final ItemModelResolver itemModelResolver;
 
-    public StoneAltarTESR(BlockEntityRendererProvider.Context context) {
+    public StoneAltarRenderer(BlockEntityRendererProvider.Context context) {
         this.itemModelResolver = context.itemModelResolver();
     }
 
     @Override
-    public @NotNull StoneAltarRenderState createRenderState() {
+    public StoneAltarRenderState createRenderState() {
         return new StoneAltarRenderState();
     }
 
     @Override
-    public void extractRenderState(@NotNull StoneAltarBlockEntity blockEntity, @NotNull StoneAltarRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    public void extractRenderState(StoneAltarBlockEntity blockEntity, StoneAltarRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
         renderState.facing = blockEntity.getBlockState().getValue(StoneAltarBlock.HORIZONTAL_FACING);
         if (!blockEntity.getItem(0).isEmpty()) {
@@ -50,7 +49,7 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity
     }
 
     @Override
-    public void submit(@NotNull StoneAltarRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+    public void submit(StoneAltarRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
         if (!renderState.liver.isEmpty()) {
             prepareItem(renderState, poseStack);
             poseStack.translate(-0.5, 0, 0.5); // translate to final location
@@ -69,7 +68,7 @@ public class StoneAltarTESR implements BlockEntityRenderer<StoneAltarBlockEntity
         }
     }
 
-    private void prepareItem(@NotNull StoneAltarRenderState renderState, @NotNull PoseStack poseStack) {
+    private void prepareItem(StoneAltarRenderState renderState, PoseStack poseStack) {
         poseStack.pushPose();
         poseStack.translate(0.5, 0.64, 0.5); // translate to middle
         poseStack.scale(0.4f, 0.4f, 0.4f); // adjust item size

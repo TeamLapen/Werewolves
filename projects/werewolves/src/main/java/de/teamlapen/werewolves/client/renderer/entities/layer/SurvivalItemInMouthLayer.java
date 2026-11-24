@@ -1,10 +1,10 @@
-package de.teamlapen.werewolves.client.render.layer;
+package de.teamlapen.werewolves.client.renderer.entities.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;

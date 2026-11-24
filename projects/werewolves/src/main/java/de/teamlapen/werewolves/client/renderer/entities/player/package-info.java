@@ -3,6 +3,6 @@
  * All classes in this package are server-side only and should not be used on the client in any way.
  */
 @NullMarked
-package de.teamlapen.werewolves.client.render.tiles;
+package de.teamlapen.werewolves.client.renderer.entities.player;
 
 import org.jspecify.annotations.NullMarked;

@@ -1,14 +1,11 @@
-package de.teamlapen.werewolves.client.render;
+package de.teamlapen.werewolves.client.renderer.entities;
 
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
-import de.teamlapen.werewolves.client.render.layer.WerewolfEntityFaceOverlayLayer;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+import de.teamlapen.werewolves.client.renderer.entities.layer.WerewolfEntityFaceOverlayLayer;
 import de.teamlapen.werewolves.common.world.entities.werewolf.WerewolfBaseEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.Identifier;
-
-import javax.annotation.Nonnull;
 
 public class WerewolfRenderer<T extends WerewolfBaseEntity> extends MobRenderer<T, WerewolfRenderState, WerewolfBaseModel> {
 
@@ -25,20 +22,19 @@ public class WerewolfRenderer<T extends WerewolfBaseEntity> extends MobRenderer<
     }
 
     @Override
-    public @Nonnull WerewolfRenderState createRenderState() {
+    public WerewolfRenderState createRenderState() {
         return new WerewolfRenderState();
     }
 
     @Override
-    public void extractRenderState(@Nonnull T entity, @Nonnull WerewolfRenderState state, float partialTicks) {
+    public void extractRenderState(T entity, WerewolfRenderState state, float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
         WerewolfRenderState.extract(entity, entity, entity.getForm(), state, partialTicks, this.itemModelResolver);
         state.texture = getWerewolfTexture(state.skinType);
     }
 
-    @Nonnull
     @Override
-    public Identifier getTextureLocation(@Nonnull WerewolfRenderState state) {
+    public Identifier getTextureLocation(WerewolfRenderState state) {
         return state.texture;
     }
 }

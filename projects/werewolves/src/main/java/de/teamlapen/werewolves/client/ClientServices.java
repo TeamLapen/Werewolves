@@ -3,9 +3,8 @@ package de.teamlapen.werewolves.client;
 import de.teamlapen.faction.Services;
 import de.teamlapen.werewolves.client.core.*;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
-import de.teamlapen.werewolves.client.render.layer.HumanWerewolfLayer;
-import de.teamlapen.werewolves.client.render.state.WerewolvesRenderStates;
-import net.minecraft.client.Minecraft;
+import de.teamlapen.werewolves.client.renderer.entities.layer.HumanWerewolfLayer;
+import de.teamlapen.werewolves.client.renderer.state.WerewolvesRenderStates;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.world.entity.player.PlayerModelType;
@@ -13,7 +12,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NullUnmarked;
 
 public class ClientServices extends Services {
 

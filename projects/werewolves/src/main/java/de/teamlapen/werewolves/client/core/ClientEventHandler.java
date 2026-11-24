@@ -1,27 +1,20 @@
 package de.teamlapen.werewolves.client.core;
 
-import de.teamlapen.faction.client.gui.screens.ILastScreenProvider;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfRenderState;
 
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
-
-import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfPlayerRenderer;
 
 import de.teamlapen.werewolves.client.WerewolvesModClient;
 
 import de.teamlapen.faction.client.gui.screens.FactionMenuScreen;
-import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.client.gui.ScreenAccessor;
 import de.teamlapen.werewolves.client.gui.ExpBar;
-import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.common.core.ModActions;
 import de.teamlapen.werewolves.util.FormHelper;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.network.chat.ClickEvent;

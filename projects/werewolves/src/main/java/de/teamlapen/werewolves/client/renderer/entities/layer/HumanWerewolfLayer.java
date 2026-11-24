@@ -1,8 +1,8 @@
-package de.teamlapen.werewolves.client.render.layer;
+package de.teamlapen.werewolves.client.renderer.entities.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
-import de.teamlapen.werewolves.client.render.state.WerewolvesRenderStates;
+import de.teamlapen.werewolves.client.renderer.state.WerewolvesRenderStates;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;

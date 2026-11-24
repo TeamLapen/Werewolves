@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.client.render;
+package de.teamlapen.werewolves.client.renderer.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -9,8 +9,8 @@ import de.teamlapen.werewolves.client.model.Werewolf4LModel;
 import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
-import de.teamlapen.werewolves.client.render.layer.WerewolfFaceOverlayLayer;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+import de.teamlapen.werewolves.client.model.WerewolfModelWrapper;
+import de.teamlapen.werewolves.client.renderer.entities.layer.WerewolfFaceOverlayLayer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -19,9 +19,7 @@ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,12 +78,12 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity & IWerewolf> e
     }
 
     @Override
-    public @NotNull WerewolfRenderState createRenderState() {
+    public WerewolfRenderState createRenderState() {
         return new WerewolfRenderState();
     }
 
     @Override
-    public void extractRenderState(@NotNull T entity, @NotNull WerewolfRenderState state, float partialTicks) {
+    public void extractRenderState(T entity, WerewolfRenderState state, float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
         WerewolfForm form = entity.getForm();
         WerewolfRenderState.extract(entity, entity, form, state, partialTicks, this.itemModelResolver);
@@ -94,12 +92,12 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity & IWerewolf> e
     }
 
     @Override
-    protected float getShadowRadius(@NotNull WerewolfRenderState state) {
+    protected float getShadowRadius(WerewolfRenderState state) {
         return getWrapper(state.form).shadow();
     }
 
     @Override
-    public void submit(@NotNull WerewolfRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState camera) {
+    public void submit(WerewolfRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
         this.switchModel(state.form);
         //noinspection ConstantValue
         if (this.model == null) return;
@@ -107,7 +105,7 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity & IWerewolf> e
     }
 
     @Override
-    protected void setupRotations(@NotNull WerewolfRenderState state, @NotNull PoseStack poseStack, float bodyRot, float entityScale) {
+    protected void setupRotations(WerewolfRenderState state, PoseStack poseStack, float bodyRot, float entityScale) {
         super.setupRotations(state, poseStack, bodyRot, entityScale);
         if (state.swimAmount > 0.0F && state.form.isHumanLike()) {
             float f3 = state.isInWater ? -90.0F - state.xRot : -90.0F;
@@ -119,9 +117,8 @@ public abstract class BaseWerewolfRenderer<T extends LivingEntity & IWerewolf> e
         }
     }
 
-    @Nonnull
     @Override
-    public Identifier getTextureLocation(@Nonnull WerewolfRenderState state) {
+    public Identifier getTextureLocation(WerewolfRenderState state) {
         return state.texture;
     }
 }

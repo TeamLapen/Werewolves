@@ -1,17 +1,14 @@
-package de.teamlapen.werewolves.client.render;
+package de.teamlapen.werewolves.client.model;
 
-import de.teamlapen.werewolves.client.model.WerewolfBaseModel;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfRenderState;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 
 public record WerewolfModelWrapper(@Nullable WerewolfBaseModel model,
                                    Collection<? extends RenderLayer<WerewolfRenderState, WerewolfBaseModel>> layers,
@@ -28,12 +25,12 @@ public record WerewolfModelWrapper(@Nullable WerewolfBaseModel model,
             return this;
         }
 
-        public Builder layers(@Nonnull Collection<? extends RenderLayer<WerewolfRenderState, WerewolfBaseModel>> layers) {
+        public Builder layers(Collection<? extends RenderLayer<WerewolfRenderState, WerewolfBaseModel>> layers) {
             this.layers = layers;
             return this;
         }
 
-        public Builder textures(@Nonnull List<Identifier> textures) {
+        public Builder textures(List<Identifier> textures) {
             this.textures = textures;
             return this;
         }

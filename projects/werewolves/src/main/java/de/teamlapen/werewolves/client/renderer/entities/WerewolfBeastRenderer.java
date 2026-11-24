@@ -1,4 +1,4 @@
-package de.teamlapen.werewolves.client.render;
+package de.teamlapen.werewolves.client.renderer.entities;
 
 import de.teamlapen.werewolves.client.core.ModModelRender;
 import de.teamlapen.werewolves.client.model.WerewolfBeastModel;

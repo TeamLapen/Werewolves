@@ -2,11 +2,11 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
-import de.teamlapen.werewolves.client.render.WerewolfPlayerRenderer;
-import de.teamlapen.werewolves.client.render.player.WerewolfPlayerBeastRenderer;
-import de.teamlapen.werewolves.client.render.player.WerewolfPlayerSurvivalistRenderer;
-import de.teamlapen.werewolves.client.render.state.WerewolfRenderState;
-import de.teamlapen.werewolves.client.render.state.WerewolvesRenderStates;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfPlayerRenderer;
+import de.teamlapen.werewolves.client.renderer.entities.player.WerewolfPlayerBeastRenderer;
+import de.teamlapen.werewolves.client.renderer.entities.player.WerewolfPlayerSurvivalistRenderer;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfRenderState;
+import de.teamlapen.werewolves.client.renderer.state.WerewolvesRenderStates;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.SubmitNodeCollector;

@@ -6,7 +6,7 @@ import de.teamlapen.werewolves.client.model.WerewolfBeastModel;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
 import de.teamlapen.werewolves.client.model.WerewolfSurvivalistModel;
 import de.teamlapen.werewolves.client.model.armor.WolfHeadModel;
-import de.teamlapen.werewolves.client.render.*;
+import de.teamlapen.werewolves.client.renderer.entities.*;
 import de.teamlapen.werewolves.common.core.ModEntities;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;

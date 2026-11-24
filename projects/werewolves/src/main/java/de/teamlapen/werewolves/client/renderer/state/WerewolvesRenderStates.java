@@ -1,10 +1,11 @@
-package de.teamlapen.werewolves.client.render.state;
+package de.teamlapen.werewolves.client.renderer.state;
 
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.api.entities.werewolf.WerewolfForm;
 import de.teamlapen.werewolves.client.WerewolvesModClient;
 import de.teamlapen.werewolves.client.gui.WerewolfPlayerAppearanceScreen;
 import de.teamlapen.werewolves.client.model.WerewolfEarsModel;
+import de.teamlapen.werewolves.client.renderer.entities.WerewolfRenderState;
 import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
