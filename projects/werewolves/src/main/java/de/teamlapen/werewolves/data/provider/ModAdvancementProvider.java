@@ -50,7 +50,7 @@ public class ModAdvancementProvider extends AdvancementProvider {
             var items = registries.lookupOrThrow(Registries.ITEM);
 
             var teen_wolf = Advancement.Builder.advancement()
-                    .display(ModItems.DARK_PELT_HELMET.get(), Component.translatable("advancements.werewolves"), Component.translatable("advancements.werewolves.teen_wolf.desc"), WIdentifier.mod("textures/block/stripped_jacaranda_log.png"), AdvancementType.TASK, true, false, false)
+                    .display(ModItems.DARK_PELT_HELMET.get(), Component.translatable("advancements.werewolves"), Component.translatable("advancements.werewolves.teen_wolf.desc"), WIdentifier.mod("block/stripped_jacaranda_log"), AdvancementType.TASK, true, false, false)
                     .addCriterion("faction", FactionCriterionTrigger.TriggerInstance.level(ModFactions.WEREWOLF, 1))
                     .save(saver, WIdentifier.mod("teen_wolf"));
 

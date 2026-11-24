@@ -10,7 +10,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "werewolves:textures/block/stripped_jacaranda_log.png",
+    "background": "werewolves:block/stripped_jacaranda_log",
     "description": {
       "translate": "advancements.werewolves.teen_wolf.desc"
     },
