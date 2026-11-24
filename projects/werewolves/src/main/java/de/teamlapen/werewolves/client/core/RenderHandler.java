@@ -2,7 +2,6 @@ package de.teamlapen.werewolves.client.core;
 
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
-import de.teamlapen.faction.api.factions.IFactionEntity;
 import de.teamlapen.library.client.renderer.NoOpOutlineBufferSource;
 import de.teamlapen.werewolves.api.WIdentifier;
 import de.teamlapen.werewolves.common.config.ModConfig;
@@ -44,7 +43,7 @@ import java.util.List;
 import java.util.SequencedMap;
 
 /**
- * Renders the werewolf sense vision. Entities near the player are highlighted in the color of their faction.
+ * Renders the werewolf sense vision. Entities near the player are highlighted from red to white depending on their remaining health.
  * <p>
  * Based on the Vampirism blood vision renderer
  */
@@ -81,12 +80,10 @@ public class RenderHandler implements ResourceManagerReloadListener {
     }
 
     private static void extractSenseColor(LivingEntity entity, LivingEntityRenderState state) {
-        int color = 0xA0A0A0;
-        if (entity instanceof IFactionEntity factionEntity && factionEntity.getFaction() != null) {
-            color = factionEntity.getFaction().value().getColor();
-        } else if (!entity.isInvertedHealAndHarm()) {
-            color = 0xFF0000;
-        }
+        float maxHealth = entity.getMaxHealth();
+        float healthPercent = maxHealth > 0 ? Mth.clamp(entity.getHealth() / maxHealth, 0, 1) : 1;
+        int greenBlue = Mth.floor((1 - healthPercent) * 255);
+        int color = ARGB.color(255, greenBlue, greenBlue) & 0xFFFFFF;
         state.setRenderData(SENSE_COLOR, entity.isInWater() ? null : color);
     }
 
