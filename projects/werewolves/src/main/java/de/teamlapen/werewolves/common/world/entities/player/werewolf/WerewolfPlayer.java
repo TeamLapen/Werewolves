@@ -156,9 +156,19 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
         return specialAttributes;
     }
 
+    private void removeWerewolfNightVision() {
+        MobEffectInstance effect = this.player.getEffect(MobEffects.NIGHT_VISION);
+        if (effect != null && effect.factions$hasProperty(WReference.PERMANENT_INVISIBLE_MOB_EFFECT)) {
+            effect.factions$removeEffect();
+        }
+    }
+
     @Override
     public void onUpdate() {
         super.onUpdate();
+        if (getLevel() <= 0 && !isRemote()) {
+            removeWerewolfNightVision();
+        }
         if (getLevel() > 0) {
             this.actionHandler.updateActions();
             if (!isRemote()) {
@@ -193,9 +203,7 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
                         player.addEffect(new WerewolfNightVisionEffectInstance(effect));
                     }
                 } else {
-                    if (effect != null && effect.factions$hasProperty(WReference.PERMANENT_INVISIBLE_MOB_EFFECT)) {
-                        effect.factions$removeEffect();
-                    }
+                    removeWerewolfNightVision();
                 }
 
                 if (this.player.tickCount % REFERENCE.REFRESH_WOLFSBANE_TICKS == 0 && this.isAffectedByWolfsbane(this.player.level(), true)) {
@@ -354,6 +362,9 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     @Override
     public void leaveFaction() {
         onLevelChanged(0);
+        if (!isRemote()) {
+            removeWerewolfNightVision();
+        }
         this.actionHandler.resetTimers();
         this.skillHandler.disableAllSkills();
         sync();
