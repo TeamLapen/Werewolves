@@ -23,6 +23,7 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.TriState;
@@ -76,6 +77,13 @@ public class ClientEventHandler {
         WerewolfRenderState werewolfState = WerewolfPlayerRenderer.getState(event.getRenderState());
         ModPlayerRenderer renderer = WerewolvesModClient.services().playerRenderer();
         if (werewolfState != null && renderer != null) {
+            // The werewolf state is extracted directly from the entity, but screens like the inventory or appearance screen
+            // adjust the rotation/scale of the player render state afterward to face the cursor. Mirror those values.
+            AvatarRenderState playerState = event.getRenderState();
+            werewolfState.bodyRot = playerState.bodyRot;
+            werewolfState.yRot = playerState.yRot;
+            werewolfState.xRot = playerState.xRot;
+            werewolfState.scale = playerState.scale;
             if (renderer.submit(werewolfState, event.getPoseStack(), event.getSubmitNodeCollector())) {
                 event.setCanceled(true);
             }
