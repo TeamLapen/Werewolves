@@ -1,16 +1,15 @@
 package de.teamlapen.werewolves.common.world.entities.player.werewolf.actions;
 
 import de.teamlapen.faction.api.factions.actions.IActionResult;
-
 import de.teamlapen.werewolves.api.entities.player.IWerewolfPlayer;
 import de.teamlapen.werewolves.common.config.ModConfig;
-import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPlayer;
+import de.teamlapen.werewolves.common.core.ModEffects;
+import de.teamlapen.werewolves.common.core.ModSounds;
 import de.teamlapen.werewolves.util.Helper;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.pathfinder.Path;
-import net.minecraft.world.phys.AABB;
-
-import java.util.List;
+import net.minecraft.world.entity.player.Player;
 
 public class FearAction extends DefaultWerewolfAction {
     @Override
@@ -19,15 +18,15 @@ public class FearAction extends DefaultWerewolfAction {
     }
 
     @Override
-    protected IActionResult activateServer(IWerewolfPlayer iWerewolfPlayer, ActivationContext context) {
-        WerewolfPlayer player = ((WerewolfPlayer) iWerewolfPlayer);
-        List<Mob> entities = player.asEntity().level().getEntitiesOfClass(Mob.class, new AABB(player.asEntity().blockPosition()).inflate(10, 3, 10), (entity -> !(Helper.isWerewolf(entity))));
-        for (Mob entity : entities) {
-            entity.setTarget(null);
-            entity.getNavigation().stop();
-            Path path = entity.getNavigation().createPath(entity.blockPosition().offset(Helper.multiplyBlockPos(entity.blockPosition().subtract(player.asEntity().blockPosition()), 3)), 0);
-            entity.getNavigation().moveTo(path, 1.7);
-        }
+    protected IActionResult activateServer(IWerewolfPlayer werewolf, ActivationContext context) {
+        Player player = werewolf.asEntity();
+
+        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.ENTITY_WEREWOLF_GROWL.get(), SoundSource.PLAYERS, 1, 1);
+
+        int duration = ModConfig.balance().SKILLS.fear_action_duration.get() * 20;
+        int radius = ModConfig.balance().SKILLS.fear_action_radius.get();
+        player.level().getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(radius), mob -> mob.getTarget() == player || !Helper.isWerewolf(mob)).forEach(mob -> mob.addEffect(new MobEffectInstance(ModEffects.DISORIENTATION, duration), player));
+
         return IActionResult.SUCCESS;
     }
 
@@ -35,6 +34,4 @@ public class FearAction extends DefaultWerewolfAction {
     public int getCooldown(IWerewolfPlayer iWerewolfPlayer) {
         return ModConfig.balance().SKILLS.fear_action_cooldown.get() * 20;
     }
-
-
 }

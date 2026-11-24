@@ -290,6 +290,7 @@ public class ModTagsProvider {
             this.tag(DamageTypeTags.BYPASSES_ARMOR).add(ModDamageTypes.BLOOD_LOSS);
             this.tag(ModDamageTypeTags.WEREWOLF_ARMOR_REDUCTION).addTag(DamageTypeTags.IS_PLAYER_ATTACK).add(ModDamageTypes.BITE);
             this.tag(ModDamageTypeTags.BITE).add(ModDamageTypes.BITE);
+            this.tag(ModDamageTypeTags.KEEPS_DISORIENTATION).add(DamageTypes.FALL, DamageTypes.STALAGMITE, DamageTypes.CACTUS, DamageTypes.SWEET_BERRY_BUSH, DamageTypes.IN_WALL, DamageTypes.CRAMMING, DamageTypes.DRY_OUT, ModDamageTypes.BLOOD_LOSS);
         }
     }
 

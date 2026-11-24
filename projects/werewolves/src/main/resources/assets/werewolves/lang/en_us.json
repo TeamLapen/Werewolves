@@ -2,7 +2,7 @@
   "action.werewolves.beast_form": "Beast Form",
   "action.werewolves.beast_form.desc": "Unlocks the Beast Form, which focuses on improved attack power",
   "action.werewolves.fear": "Frightening",
-  "action.werewolves.fear.desc": "Nearby mobs are frightened of you and run away",
+  "action.werewolves.fear.desc": "Nearby mobs are frightened and lose track of their target",
   "action.werewolves.hide_name": "Hide Name",
   "action.werewolves.hide_name.desc": "Hide your name while in any werewolf form",
   "action.werewolves.howling": "Howling",
@@ -126,6 +126,7 @@
   "effect.werewolves.lupus_sanguinem": "Lupus Sanguinem",
   "effect.werewolves.silver": "Silver",
   "effect.werewolves.stun": "Stun",
+  "effect.werewolves.disorientation": "Disorientation",
   "effect.werewolves.un_werewolf": "?",
   "effect.werewolves.wolfsbane": "Wolfbane",
 

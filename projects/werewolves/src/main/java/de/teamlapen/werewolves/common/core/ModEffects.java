@@ -25,6 +25,7 @@ public class ModEffects {
     public static final DeferredHolder<MobEffect, MobEffect> BAD_OMEN_WEREWOLF = EFFECTS.register("bad_omen_werewolf", () -> new FactionBadOmenMobEffect(ModFactions.WEREWOLF));
     public static final DeferredHolder<MobEffect, MobEffect> STUN = EFFECTS.register("stun", StunEffect::new);
     public static final DeferredHolder<MobEffect, BleedingEffect> BLEEDING = EFFECTS.register("bleeding", BleedingEffect::new);
+    public static final DeferredHolder<MobEffect, DisorientationEffect> DISORIENTATION = EFFECTS.register("disorientation", DisorientationEffect::new);
 
     private static final ResourceKey<MobEffect> VAMPIRISM_BLEEDING = ResourceKey.create(Registries.MOB_EFFECT, WIdentifier.loc(REFERENCE.VMODID, "bleeding"));
 

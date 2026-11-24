@@ -9,6 +9,7 @@ public class ModDamageTypeTags {
     public static final TagKey<DamageType> WEREWOLF_FUR_IMMUNE = tag("werewolf_fur_immune");
     public static final TagKey<DamageType> WEREWOLF_ARMOR_REDUCTION = tag("werewolf_armor_reduction");
     public static final TagKey<DamageType> BITE = tag("bite");
+    public static final TagKey<DamageType> KEEPS_DISORIENTATION = tag("keeps_disorientation");
 
     private static TagKey<DamageType> tag(String name) {
         return TagKey.create(Registries.DAMAGE_TYPE, WIdentifier.mod(name));

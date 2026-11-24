@@ -176,6 +176,8 @@ public class BalanceConfig {
         //fear action
         public final ModConfigSpec.BooleanValue fear_action_enabled;
         public final ModConfigSpec.IntValue fear_action_cooldown;
+        public final ModConfigSpec.IntValue fear_action_duration;
+        public final ModConfigSpec.IntValue fear_action_radius;
 
         //hide name action
         public final ModConfigSpec.BooleanValue hide_name_enabled;
@@ -314,6 +316,8 @@ public class BalanceConfig {
             builder.push("fear_action");
             this.fear_action_enabled = builder.define("fear_action_enabled", true);
             this.fear_action_cooldown = builder.comment("In seconds").defineInRange("fear_action_cooldown", 25, 1, Integer.MAX_VALUE);
+            this.fear_action_duration = builder.comment("Duration of the disorientation applied to nearby mobs", "In seconds").defineInRange("fear_action_duration", 7, 1, 10000);
+            this.fear_action_radius = builder.comment("Radius in blocks within which mobs are disoriented").defineInRange("fear_action_radius", 10, 1, 50);
             builder.pop();
 
             builder.push("hide_name");

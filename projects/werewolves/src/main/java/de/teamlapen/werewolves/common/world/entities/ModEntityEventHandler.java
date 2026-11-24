@@ -19,6 +19,7 @@ import de.teamlapen.werewolves.api.entities.werewolf.WerewolfTransformable;
 import de.teamlapen.werewolves.api.items.ISilverItem;
 import de.teamlapen.werewolves.common.config.ModConfig;
 import de.teamlapen.werewolves.common.core.ModDamageTypes;
+import de.teamlapen.werewolves.common.core.ModEffects;
 import de.teamlapen.werewolves.common.core.ModSkills;
 import de.teamlapen.werewolves.common.world.effects.SilverEffect;
 import de.teamlapen.werewolves.common.world.effects.WerewolfWeakeningEffect;
@@ -85,6 +86,20 @@ public class ModEntityEventHandler {
             if (sum > 0) {
                 event.getEntity().addEffect(SilverEffect.createSilverEffect(event.getEntity(), ModConfig.balance().UTIL.silverArmorAttackEffectDuration.get() * sum, 0));
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onDisorientedTargetChange(LivingChangeTargetEvent event) {
+        if (event.getNewAboutToBeSetTarget() != null && event.getEntity().hasEffect(ModEffects.DISORIENTATION)) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onDisorientedDamage(LivingIncomingDamageEvent event) {
+        if (!event.getSource().is(ModDamageTypeTags.KEEPS_DISORIENTATION) && event.getEntity().hasEffect(ModEffects.DISORIENTATION)) {
+            event.getEntity().removeEffect(ModEffects.DISORIENTATION);
         }
     }
 
