@@ -71,7 +71,8 @@ public class ModItemModelGenerator extends ItemModelGenerators {
                 ModItems.WEREWOLF_BEAST_SPAWN_EGG,
                 ModItems.WEREWOLF_SURVIVALIST_SPAWN_EGG,
                 ModItems.HUMAN_WEREWOLF_SPAWN_EGG,
-                ModItems.ALPHA_WEREWOLF_SPAWN_EGG
+                ModItems.ALPHA_WEREWOLF_SPAWN_EGG,
+                ModItems.TASK_MASTER_WEREWOLF_SPAWN_EGG
         ).map(Supplier::get).forEach(item -> this.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
 
         Stream.<Supplier<? extends Item>>of(

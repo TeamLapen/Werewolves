@@ -71,6 +71,7 @@ public class ModItems {
     public static final DeferredItem<SpawnEggItem> WEREWOLF_SURVIVALIST_SPAWN_EGG = ITEMS.registerItem("werewolf_survivalist_spawn_egg", SpawnEggItem::new,(x) -> x.spawnEgg(ModEntities.WEREWOLF_SURVIVALIST.get()));
     public static final DeferredItem<SpawnEggItem> HUMAN_WEREWOLF_SPAWN_EGG = ITEMS.registerItem("human_werewolf_spawn_egg",SpawnEggItem::new,(x) -> x.spawnEgg(ModEntities.HUMAN_WEREWOLF.get()));
     public static final DeferredItem<SpawnEggItem> ALPHA_WEREWOLF_SPAWN_EGG = ITEMS.registerItem("alpha_werewolf_spawn_egg", SpawnEggItem::new,(x) -> x.spawnEgg(ModEntities.ALPHA_WEREWOLF.get()));
+    public static final DeferredItem<SpawnEggItem> TASK_MASTER_WEREWOLF_SPAWN_EGG = ITEMS.registerItem("task_master_werewolves_spawn_egg", SpawnEggItem::new,(x) -> x.spawnEgg(ModEntities.TASK_MASTER_WEREWOLF.get()));
 
     public static final DeferredItem<RefinementItem> BONE_NECKLACE = ITEMS.registerItem("bone_necklace", (props) -> new RefinementItem(props, AccessorySlotType.AMULET), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));
     public static final DeferredItem<RefinementItem> CHARM_BRACELET = ITEMS.registerItem("charm_bracelet", (props) -> new RefinementItem(props, AccessorySlotType.RING), p -> FactionRestriction.builder(ModFactionsTags.IS_WEREWOLF).apply(p));

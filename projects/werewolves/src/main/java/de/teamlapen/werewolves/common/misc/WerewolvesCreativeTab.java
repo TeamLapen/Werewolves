@@ -4,6 +4,8 @@ import de.teamlapen.library.common.world.items.BaseDisplayItemGenerator;
 import de.teamlapen.werewolves.common.core.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 import static de.teamlapen.werewolves.common.core.ModItems.*;
 
@@ -119,6 +121,16 @@ public class WerewolvesCreativeTab {
             add(WEREWOLF_MINION_UPGRADE_ENHANCED);
             add(WEREWOLF_MINION_UPGRADE_SPECIAL);
             add(WOLFSBANE_FINDER);
+        }
+    }
+
+    public static void addToExistingCreativeTab(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey().equals(CreativeModeTabs.SPAWN_EGGS)) {
+            event.accept(WEREWOLF_BEAST_SPAWN_EGG);
+            event.accept(WEREWOLF_SURVIVALIST_SPAWN_EGG);
+            event.accept(ALPHA_WEREWOLF_SPAWN_EGG);
+            event.accept(HUMAN_WEREWOLF_SPAWN_EGG);
+            event.accept(TASK_MASTER_WEREWOLF_SPAWN_EGG);
         }
     }
 }

@@ -1,7 +1,7 @@
 package de.teamlapen.werewolves.common;
 
 import de.teamlapen.faction.api.event.AddFactionTagEvent;
-
+import de.teamlapen.werewolves.common.misc.WerewolvesCreativeTab;
 import de.teamlapen.werewolves.common.world.features.OverworldModifications;
 import de.teamlapen.werewolves.common.core.ModFactions;
 
@@ -55,5 +55,6 @@ public class CommonServices extends Services implements IWerewolvesServices {
         bus.addListener(ModEntities::onModifyEntityTypeAttributes);
         bus.addListener(ModEntities::registerPlayerEventHandler);
         bus.addListener(ModBlockEntities::registerCapabilities);
+        bus.addListener(WerewolvesCreativeTab::addToExistingCreativeTab);
     }
 }
