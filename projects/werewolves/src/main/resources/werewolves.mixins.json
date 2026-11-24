@@ -32,6 +32,9 @@
     "client.LevelRendererAccessor",
     "client.LocalPlayerMixin",
     "client.ModelPartAccessor",
+    "client.RenderSetupAccessor",
+    "client.RenderSetupTextureBindingAccessor",
+    "client.RenderTypeAccessor",
     "client.ScreenMixin",
     "client.modcompat.epicfight.EpicFightRenderEngineMixin"
   ],
