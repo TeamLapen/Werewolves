@@ -29,19 +29,38 @@ public class WerewolfInventory extends PropertyParentSync {
         this.inventories = inventories;
     }
 
+    /**
+     * Stores the currently worn armor for {@code from} and equips the stored armor of {@code to}.
+     * <p>
+     * With the {@link ModSkills#WEAR_ARMOR} skill, armor is carried between {@link WerewolfForm#NONE} and the human-like
+     * transformed forms if the target form has no armor of its own:
+     * <ul>
+     *     <li>switching to a human-like transformed form takes the armor stored for {@link WerewolfForm#NONE}</li>
+     *     <li>switching from a human-like transformed form to {@link WerewolfForm#NONE} keeps the worn armor</li>
+     * </ul>
+     * The carried armor is moved, so it is never stored for two forms at once.
+     */
     public void swapArmorItems(WerewolfForm from, WerewolfForm to) {
-        var armor = werewolf.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR) && to != WerewolfForm.NONE && to.isHumanLike();
-        List<ItemStack> previousArmor = new ArmorView(werewolf.asEntity());
-        this.inventories.put(from, new ArrayList<>(previousArmor));
-        previousArmor.clear();
+        List<ItemStack> armor = new ArmorView(werewolf.asEntity());
+        this.inventories.put(from, new ArrayList<>(armor));
+        armor.clear();
         List<ItemStack> itemStacks = this.inventories.get(to);
-        if (armor && itemStacks.stream().allMatch(ItemStack::isEmpty)) {
-            itemStacks = this.inventories.get(to = WerewolfForm.NONE);
+        if (werewolf.getSkillHandler().isSkillEnabled(ModSkills.WEAR_ARMOR) && itemStacks.stream().allMatch(ItemStack::isEmpty)) {
+            WerewolfForm source = null;
+            if (to != WerewolfForm.NONE && to.isHumanLike()) {
+                source = WerewolfForm.NONE;
+            } else if (to == WerewolfForm.NONE && from.isHumanLike()) {
+                source = from;
+            }
+            if (source != null && werewolf.canWearArmor(to, this.inventories.get(source))) {
+                itemStacks = this.inventories.get(source);
+                this.inventories.put(source, NonNullList.withSize(4, ItemStack.EMPTY));
+            }
         }
         for (int i = 0; i < 4; i++) {
-            previousArmor.set(i, itemStacks.get(i));
+            armor.set(i, itemStacks.get(i));
         }
-        this.inventories.put(to, previousArmor);
+        this.inventories.put(to, armor);
     }
 
     public void dropEquipment() {
