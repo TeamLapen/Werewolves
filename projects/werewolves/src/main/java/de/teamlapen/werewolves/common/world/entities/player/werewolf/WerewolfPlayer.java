@@ -98,7 +98,8 @@ public class WerewolfPlayer extends FactionBasePlayer<IWerewolfPlayer> implement
     public void setForm(Holder<WerewolfFormAction> action, WerewolfForm form) {
         switchForm(form);
         this.lastFormAction = action;
-        if (!this.player.level().isClientSide()) {
+        //noinspection ConstantValue
+        if (this.player instanceof ServerPlayer serverPlayer && serverPlayer.connection != null) {
             this.sync();
         }
     }

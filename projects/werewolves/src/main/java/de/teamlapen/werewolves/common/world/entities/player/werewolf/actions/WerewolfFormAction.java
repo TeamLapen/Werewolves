@@ -148,7 +148,7 @@ public abstract class WerewolfFormAction extends DefaultWerewolfAction implement
 
     @Override
     public void onReActivatedServer(IWerewolfPlayer werewolf) {
-        ((WerewolfPlayer) werewolf).setForm(this.<WerewolfFormAction>holder(), this.form);
+        ((WerewolfPlayer) werewolf).setForm(this.holder(), this.form);
         werewolf.asEntity().refreshDisplayName();
     }
 

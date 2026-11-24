@@ -10,6 +10,7 @@ import de.teamlapen.werewolves.common.world.entities.player.werewolf.WerewolfPla
 import de.teamlapen.werewolves.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -138,7 +139,7 @@ public class ModHUDOverlay {
                 }
             }
         }
-        graphics.blit(ICONS, left, top, silver ? 30 : 15, 0, 15, 15, 256, 256);//other option is 18x18 - 307x307
+        graphics.blit(RenderPipelines.GUI_TEXTURED, ICONS, left, top, silver ? 30 : 15, 0, 15, 15, 256, 256);//other option is 18x18 - 307x307
     }
 
     private void renderCrosshair(RenderGuiLayerEvent.Pre event) {

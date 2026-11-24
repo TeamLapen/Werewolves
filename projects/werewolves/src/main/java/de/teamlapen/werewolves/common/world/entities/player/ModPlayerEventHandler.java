@@ -141,10 +141,8 @@ public class ModPlayerEventHandler {
     public void playerSize(EntityEvent.Size event) {
         // we check for the attribute map, then we are no longer in the entity constructor
         //noinspection ConstantValue
-        if (event.getEntity() instanceof Player player && player.getAttributes() != null && event.getEntity().isAlive()) {
-            WerewolfPlayer.get(((Player) event.getEntity())).getForm().getSize(event.getPose()).ifPresent(size -> {
-                event.setNewSize(size);
-            });
+        if (event.getEntity() instanceof Player player && player.getInventory() != null && event.getEntity().isAlive() && (!(player instanceof ServerPlayer serverPlayer) || serverPlayer.connection != null)) {
+            WerewolfPlayer.get(((Player) event.getEntity())).getForm().getSize(event.getPose()).ifPresent(event::setNewSize);
         }
     }
 
